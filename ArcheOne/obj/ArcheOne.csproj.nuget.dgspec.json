@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ArcheProjects\\ArcheOne\\ArcheOne\\ArcheOne\\ArcheOne.csproj": {}
+    "D:\\ArcheProjects\\Archeone\\archeone\\ArcheOne\\ArcheOne.csproj": {}
   },
   "projects": {
-    "D:\\ArcheProjects\\ArcheOne\\ArcheOne\\ArcheOne\\ArcheOne.csproj": {
+    "D:\\ArcheProjects\\Archeone\\archeone\\ArcheOne\\ArcheOne.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ArcheProjects\\ArcheOne\\ArcheOne\\ArcheOne\\ArcheOne.csproj",
+        "projectUniqueName": "D:\\ArcheProjects\\Archeone\\archeone\\ArcheOne\\ArcheOne.csproj",
         "projectName": "ArcheOne",
-        "projectPath": "D:\\ArcheProjects\\ArcheOne\\ArcheOne\\ArcheOne\\ArcheOne.csproj",
+        "projectPath": "D:\\ArcheProjects\\Archeone\\archeone\\ArcheOne\\ArcheOne.csproj",
         "packagesPath": "C:\\Users\\Reyna\\.nuget\\packages\\",
-        "outputPath": "D:\\ArcheProjects\\ArcheOne\\ArcheOne\\ArcheOne\\obj\\",
+        "outputPath": "D:\\ArcheProjects\\Archeone\\archeone\\ArcheOne\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\Reyna\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
