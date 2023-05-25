@@ -15,8 +15,6 @@ public partial class ArcheOneDbContext : DbContext
 
 	public virtual DbSet<CompanyMst> CompanyMsts { get; set; }
 
-	public virtual DbSet<UserDetailsMst> UserDetailsMsts { get; set; }
-
 	public virtual DbSet<UserMst> UserMsts { get; set; }
 
 	//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -45,30 +43,6 @@ public partial class ArcheOneDbContext : DbContext
 			entity.Property(e => e.Pincode).HasMaxLength(10);
 			entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
 			entity.Property(e => e.Website).HasMaxLength(100);
-		});
-
-		modelBuilder.Entity<UserDetailsMst>(entity =>
-		{
-			entity.HasKey(e => e.Id).HasName("PK__UserDeta__3214EC072CC579FB");
-
-			entity.ToTable("UserDetailsMst");
-
-			entity.Property(e => e.ConfirmPassword).HasMaxLength(250);
-			entity.Property(e => e.ContactNumber).HasMaxLength(250);
-			entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-			entity.Property(e => e.Dob)
-				.HasColumnType("datetime")
-				.HasColumnName("DOB");
-			entity.Property(e => e.Email).HasMaxLength(250);
-			entity.Property(e => e.EmergencyContact).HasMaxLength(250);
-			entity.Property(e => e.EmployeeCode).HasMaxLength(250);
-			entity.Property(e => e.FirstName).HasMaxLength(250);
-			entity.Property(e => e.Gender).HasMaxLength(250);
-			entity.Property(e => e.LastName).HasMaxLength(250);
-			entity.Property(e => e.MiddleName).HasMaxLength(250);
-			entity.Property(e => e.Password).HasMaxLength(250);
-			entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
-			entity.Property(e => e.UserName).HasMaxLength(250);
 		});
 
 		modelBuilder.Entity<UserMst>(entity =>
