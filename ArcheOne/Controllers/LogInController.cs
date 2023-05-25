@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ArcheOne.Models.Req;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ArcheOne.Controllers
 {
@@ -7,6 +8,12 @@ namespace ArcheOne.Controllers
 		public IActionResult Index()
 		{
 			return View();
+		}
+		[HttpPost]
+		public IActionResult LogIn(LoginModel loginModel)
+		{
+
+			return View("~/Dashboard/Index");
 		}
 	}
 }
