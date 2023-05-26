@@ -18,7 +18,6 @@
     <Folder Include="Database\Entities\" />
     <Folder Include="Database\DbScript\" />
     <Folder Include="Models\Res\" />
-    <Folder Include="Views\LogIn\" />
     <Folder Include="wwwroot\ArcheOne\Login\" />
   </ItemGroup>
 

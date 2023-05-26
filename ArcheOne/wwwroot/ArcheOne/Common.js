@@ -100,6 +100,7 @@ function ApplyEvents() {
     $('.txtCapitalize').blur(function () {
         var str = $(this).val();
         var spart = str.split(" ");
+
         for (var i = 0; i < spart.length; i++) {
             var j = spart[i].charAt(0).toUpperCase();
             spart[i] = j + spart[i].substr(1);
@@ -168,7 +169,8 @@ function applyRequiredValidation() {
 }
 
 function validateReqField(obj) {
-    if ($(obj).val() == $(obj).attr("defaultvalue")) {
+    debugger
+    if ($(obj).val() == $(obj).attr("defaultvalue") || $(obj).val() != '') {
         $("#" + $(obj).attr("errorspan")).removeClass('d-none');
         $("#" + $(obj).attr("divcontainer")).addClass('has-error');
         $("#" + $(obj).attr("id")).addClass('is-invalid');

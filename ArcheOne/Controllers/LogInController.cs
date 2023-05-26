@@ -34,5 +34,11 @@ namespace ArcheOne.Controllers
             }
             return Json(commonResponse);
         }
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
     }
 }
