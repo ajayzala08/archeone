@@ -1,0 +1,43 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ArcheOne | Log in</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/theme/plugins/fontawesome-free/css/all.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/theme/dist/css/adminlte.min.css">
+    <!-- Common CSS -->
+    <link href="~/archeone/common.css" rel="stylesheet" />
+
+</head>
+<body class="hold-transition login-page">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        @RenderBody()
+
+    </div>
+    <!-- ./wrapper -->
+    <!-- jQuery -->
+    <script src="~/theme/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/theme/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Sweetalert2 V11 -->
+     <script src="~/archeone/sweetalert2_v11.js"></script>
+    <!-- Common JS -->
+    <script src="~/archeone/Common.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/theme/dist/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    @*<script src="~/theme/dist/js/demo.js"></script>*@
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>
