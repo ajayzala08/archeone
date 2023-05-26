@@ -8,6 +8,8 @@ namespace ArcheOne
         {
             //Helpers
             services.AddScoped<DbRepo>();
+            services.AddScoped<CommonConstant>();
+            services.AddScoped<CommonHelper>();
         }
     }
 }
