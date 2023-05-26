@@ -20,7 +20,15 @@ namespace ArcheOne.Controllers
 		{
 			bool isUserExist = false;
 			isUserExist = _dbRepo.UserMstList().Where(x => x.UserName == loginModel.UserName && x.Password == loginModel.Password).ToList().Any();
-			return View("~/Dashboard/Index");
+			if (isUserExist)
+			{
+				return View("~/Dashboard/Index");
+			}
+			else
+			{
+				ViewBag.msg = "UserName Password Not Match!!";
+				return View();
+			}
 		}
 	}
 }

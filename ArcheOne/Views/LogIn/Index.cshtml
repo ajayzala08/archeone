@@ -1,5 +1,6 @@
 ﻿@{
     Layout = null;
+    @ViewBag.msg;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -59,6 +60,9 @@
                             <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                         </div>
                         <!-- /.col -->
+                    </div>
+                    <div>
+                        @ViewBag.msg
                     </div>
                 </form>
 
