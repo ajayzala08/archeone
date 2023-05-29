@@ -1,0 +1,533 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\ArcheOne.bundle.scp.css",
+      "PackagePath": "staticwebassets\\ArcheOne.bundle.scp.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\EmailTemplate\\EmailTemplate.html",
+      "PackagePath": "staticwebassets\\ArcheOne\\EmailTemplate\\EmailTemplate.html"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\Permission\\DefaultPermission.js",
+      "PackagePath": "staticwebassets\\ArcheOne\\Permission\\DefaultPermission.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\css\\Common.css",
+      "PackagePath": "staticwebassets\\ArcheOne\\css\\Common.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\css\\login\\login.css",
+      "PackagePath": "staticwebassets\\ArcheOne\\css\\login\\login.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\js\\Common.js",
+      "PackagePath": "staticwebassets\\ArcheOne\\js\\Common.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\js\\login\\Login.js",
+      "PackagePath": "staticwebassets\\ArcheOne\\js\\login\\Login.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\js\\sweetalert2_V11.js",
+      "PackagePath": "staticwebassets\\ArcheOne\\js\\sweetalert2_V11.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Images\\bossbabyimage.png",
+      "PackagePath": "staticwebassets\\Images\\bossbabyimage.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Images\\child_and_books_208362.jpg",
+      "PackagePath": "staticwebassets\\Images\\child_and_books_208362.jpg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Images\\image_2023.png",
+      "PackagePath": "staticwebassets\\Images\\image_2023.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Images\\images (2).jpg",
+      "PackagePath": "staticwebassets\\Images\\images (2).jpg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\Dashboard.html",
+      "PackagePath": "staticwebassets\\Theme\\Dashboard.html"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\Logo\\arche2017-1k.png",
+      "PackagePath": "staticwebassets\\Theme\\Logo\\arche2017-1k.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\Logo\\logo.png",
+      "PackagePath": "staticwebassets\\Theme\\Logo\\logo.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\adminlte.css",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\adminlte.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\adminlte.css.map",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\adminlte.css.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\adminlte.min.css",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\adminlte.min.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\adminlte.min.css.map",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\adminlte.min.css.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.components.css",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.components.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.components.css.map",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.components.css.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.components.min.css",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.components.min.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.components.min.css.map",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.components.min.css.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.core.css",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.core.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.core.css.map",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.core.css.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.core.min.css",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.core.min.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.core.min.css.map",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.core.min.css.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.extra-components.css",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.extra-components.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.extra-components.css.map",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.extra-components.css.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.extra-components.min.css",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.extra-components.min.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.extra-components.min.css.map",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.extra-components.min.css.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.light.css",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.light.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.light.css.map",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.light.css.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.light.min.css",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.light.min.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.light.min.css.map",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.light.min.css.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.pages.css",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.pages.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.pages.css.map",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.pages.css.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.pages.min.css",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.pages.min.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.pages.min.css.map",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.pages.min.css.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.plugins.css",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.plugins.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.plugins.css.map",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.plugins.css.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.plugins.min.css",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.plugins.min.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.plugins.min.css.map",
+      "PackagePath": "staticwebassets\\Theme\\dist\\css\\alt\\adminlte.plugins.min.css.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\AdminLTELogo.png",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\AdminLTELogo.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\avatar.png",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\avatar.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\avatar2.png",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\avatar2.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\avatar3.png",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\avatar3.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\avatar4.png",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\avatar4.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\avatar5.png",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\avatar5.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\boxed-bg.jpg",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\boxed-bg.jpg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\boxed-bg.png",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\boxed-bg.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\credit\\american-express.png",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\credit\\american-express.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\credit\\cirrus.png",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\credit\\cirrus.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\credit\\mastercard.png",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\credit\\mastercard.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\credit\\paypal.png",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\credit\\paypal.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\credit\\paypal2.png",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\credit\\paypal2.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\credit\\visa.png",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\credit\\visa.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\default-150x150.png",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\default-150x150.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\icons.png",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\icons.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\photo1.png",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\photo1.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\photo2.png",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\photo2.png"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\photo3.jpg",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\photo3.jpg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\photo4.jpg",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\photo4.jpg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\prod-1.jpg",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\prod-1.jpg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\prod-2.jpg",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\prod-2.jpg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\prod-3.jpg",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\prod-3.jpg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\prod-4.jpg",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\prod-4.jpg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\prod-5.jpg",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\prod-5.jpg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user1-128x128.jpg",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\user1-128x128.jpg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user2-160x160.jpg",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\user2-160x160.jpg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user3-128x128.jpg",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\user3-128x128.jpg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user4-128x128.jpg",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\user4-128x128.jpg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user5-128x128.jpg",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\user5-128x128.jpg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user6-128x128.jpg",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\user6-128x128.jpg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user7-128x128.jpg",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\user7-128x128.jpg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user8-128x128.jpg",
+      "PackagePath": "staticwebassets\\Theme\\dist\\img\\user8-128x128.jpg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\.eslintrc.json",
+      "PackagePath": "staticwebassets\\Theme\\dist\\js\\.eslintrc.json"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\adminlte.js",
+      "PackagePath": "staticwebassets\\Theme\\dist\\js\\adminlte.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\adminlte.js.map",
+      "PackagePath": "staticwebassets\\Theme\\dist\\js\\adminlte.js.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\adminlte.min.js",
+      "PackagePath": "staticwebassets\\Theme\\dist\\js\\adminlte.min.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\adminlte.min.js.map",
+      "PackagePath": "staticwebassets\\Theme\\dist\\js\\adminlte.min.js.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\demo.js",
+      "PackagePath": "staticwebassets\\Theme\\dist\\js\\demo.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\pages\\dashboard.js",
+      "PackagePath": "staticwebassets\\Theme\\dist\\js\\pages\\dashboard.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\pages\\dashboard2.js",
+      "PackagePath": "staticwebassets\\Theme\\dist\\js\\pages\\dashboard2.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\pages\\dashboard3.js",
+      "PackagePath": "staticwebassets\\Theme\\dist\\js\\pages\\dashboard3.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\bootstrap\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\bootstrap\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\bootstrap\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\bootstrap\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\bootstrap\\js\\bootstrap.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\bootstrap\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\bootstrap\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\bootstrap\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\all.css",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\css\\all.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\all.min.css",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\css\\all.min.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\brands.css",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\css\\brands.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\brands.min.css",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\css\\brands.min.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\fontawesome.css",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\css\\fontawesome.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\fontawesome.min.css",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\css\\fontawesome.min.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\regular.css",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\css\\regular.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\regular.min.css",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\css\\regular.min.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\solid.css",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\css\\solid.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\solid.min.css",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\css\\solid.min.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\svg-with-js.css",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\css\\svg-with-js.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\svg-with-js.min.css",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\css\\svg-with-js.min.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\v4-shims.css",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\css\\v4-shims.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\v4-shims.min.css",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\css\\v4-shims.min.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.eot",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.eot"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.svg",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.svg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.ttf",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.ttf"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.woff",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.woff"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.woff2",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.woff2"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.eot",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.eot"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.svg",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.svg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.ttf",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.ttf"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.woff",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.woff"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.woff2",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.woff2"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.eot",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.eot"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.svg",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.svg"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.ttf",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.ttf"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.woff",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.woff"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.woff2",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.woff2"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jquery\\jquery.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\jquery\\jquery.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jquery\\jquery.min.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\jquery\\jquery.min.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jquery\\jquery.min.map",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\jquery\\jquery.min.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jquery\\jquery.slim.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\jquery\\jquery.slim.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jquery\\jquery.slim.min.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\jquery\\jquery.slim.min.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jquery\\jquery.slim.min.map",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\jquery\\jquery.slim.min.map"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.ArcheOne.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.ArcheOne.props",
+      "PackagePath": "build\\ArcheOne.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.ArcheOne.props",
+      "PackagePath": "buildMultiTargeting\\ArcheOne.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildTransitive.ArcheOne.props",
+      "PackagePath": "buildTransitive\\ArcheOne.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
