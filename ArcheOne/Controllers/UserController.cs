@@ -1,7 +1,8 @@
 ﻿using System.Net;
 using System.Security.AccessControl;
 using ArcheOne.Database.Entities;
-using ArcheOne.Helper;
+using ArcheOne.Helper.CommonHelpers;
+using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models.Req;
 using Azure;
 using Microsoft.AspNetCore.Mvc;
@@ -32,14 +33,16 @@ namespace ArcheOne.Controllers
 		}
 
 		[HttpPost("User")]
-		public IActionResult User(UserModel userModel)
+		[Consumes("multipart/form-data")]
+		public IActionResult User([FromForm] UserModel userModel)
 		{
 			CommonResponse commonResponse = new CommonResponse();
 			try
 			{
+
 				UserMst userMst = new UserMst();
-				var user = _dbRepo.UserMstList().Where(x => (x.FirstName != userModel.FirstName || x.MiddleName != userModel.MiddleName) && x.UserName != userModel.UserName).FirstOrDefault();
-				if (user != null)
+				var user = _dbRepo.UserMstList().Where(x => x.Email == userModel.Email).FirstOrDefault();
+				if (user == null)
 				{
 					int LoggedInUserId = _commonHelper.GetLoggedInUserId();
 
@@ -66,6 +69,7 @@ namespace ArcheOne.Controllers
 						{
 							var pathBuilt1 = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Images\\", fileName);
 
+							userMst.CompanyId = userModel.CompanyId;
 							userMst.FirstName = userModel.FirstName;
 							userMst.MiddleName = userModel.MiddleName;
 							userMst.LastName = userModel.LastName;
@@ -90,7 +94,7 @@ namespace ArcheOne.Controllers
 							if (result != null)
 							{
 								commonResponse.Data = userMst;
-								commonResponse.Message = "Photo uploaded Succesfully";
+								commonResponse.Message = "Data uploaded Succesfully";
 								commonResponse.Status = true;
 							}
 
@@ -99,7 +103,6 @@ namespace ArcheOne.Controllers
 								userModel.PhotoUrl.CopyTo(fileSrteam);
 							}
 						}
-
 					}
 					else
 					{
@@ -110,8 +113,9 @@ namespace ArcheOne.Controllers
 				else
 				{
 					commonResponse.Status = false;
-					commonResponse.Message = "Book Already Exists...!!!";
+					commonResponse.Message = "User Already Exists...!!!";
 				}
+				ViewBag.Message = commonResponse.Message;
 			}
 			catch (Exception ex)
 			{

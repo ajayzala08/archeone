@@ -1,10 +1,10 @@
-﻿using ArcheOne.Helper;
+﻿using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Models.Req;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArcheOne.Controllers
 {
-	public class LogInController : Controller
+    public class LogInController : Controller
 	{
 		private readonly DbRepo _dbRepo;
 		public LogInController(DbRepo dbRepo)

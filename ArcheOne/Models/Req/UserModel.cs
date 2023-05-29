@@ -1,11 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace ArcheOne.Models.Req
 {
 	public class UserModel
 	{
+		[Required(ErrorMessage = "Please select company")]
 		public int CompanyId { get; set; }
-		[Required]
+		[Required(ErrorMessage = "Please enter FirstName")]
+		[StringLength(100)]
 		public string FirstName { get; set; } = null!;
 		[Required]
 		public string MiddleName { get; set; } = null!;

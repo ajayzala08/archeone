@@ -1,4 +1,4 @@
-﻿using ArcheOne.Helper;
+﻿using ArcheOne.Helper.CommonHelpers;
 
 namespace ArcheOne
 {
@@ -10,6 +10,7 @@ namespace ArcheOne
             services.AddScoped<DbRepo>();
             services.AddScoped<CommonConstant>();
             services.AddScoped<CommonHelper>();
-        }
-    }
+			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+		}
+	}
 }
