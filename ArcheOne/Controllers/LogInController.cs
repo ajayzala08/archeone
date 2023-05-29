@@ -1,4 +1,6 @@
 ﻿using ArcheOne.Helper;
+using ArcheOne.Helper.CommonHelpers;
+using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models.Req;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -33,6 +35,12 @@ namespace ArcheOne.Controllers
                 commonResponse.Message = "Login Fail";
             }
             return Json(commonResponse);
+        }
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
         }
     }
 }
