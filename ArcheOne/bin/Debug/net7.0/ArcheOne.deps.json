@@ -11,12 +11,8 @@
           "Microsoft.EntityFrameworkCore": "7.0.5",
           "Microsoft.EntityFrameworkCore.Design": "7.0.5",
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.5",
-<<<<<<< HEAD
-          "Microsoft.EntityFrameworkCore.Tools": "7.0.5"
-=======
           "Microsoft.EntityFrameworkCore.Tools": "7.0.5",
           "Newtonsoft.Json": "13.0.3"
->>>>>>> cd527d961c63f0609fca23c3d960641591127856
         },
         "runtime": {
           "ArcheOne.dll": {}
@@ -394,8 +390,6 @@
           }
         }
       },
-<<<<<<< HEAD
-=======
       "Newtonsoft.Json/13.0.3": {
         "runtime": {
           "lib/net6.0/Newtonsoft.Json.dll": {
@@ -404,7 +398,6 @@
           }
         }
       },
->>>>>>> cd527d961c63f0609fca23c3d960641591127856
       "System.Buffers/4.5.1": {},
       "System.CodeDom/4.4.0": {
         "runtime": {
@@ -904,8 +897,6 @@
       "path": "mono.texttemplating/2.2.1",
       "hashPath": "mono.texttemplating.2.2.1.nupkg.sha512"
     },
-<<<<<<< HEAD
-=======
     "Newtonsoft.Json/13.0.3": {
       "type": "package",
       "serviceable": true,
@@ -913,7 +904,6 @@
       "path": "newtonsoft.json/13.0.3",
       "hashPath": "newtonsoft.json.13.0.3.nupkg.sha512"
     },
->>>>>>> cd527d961c63f0609fca23c3d960641591127856
     "System.Buffers/4.5.1": {
       "type": "package",
       "serviceable": true,

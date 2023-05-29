@@ -1,9 +1,6 @@
 ﻿using ArcheOne.Helper;
-<<<<<<< HEAD
-=======
 using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
->>>>>>> cd527d961c63f0609fca23c3d960641591127856
 using ArcheOne.Models.Req;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
