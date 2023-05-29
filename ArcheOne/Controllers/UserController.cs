@@ -37,15 +37,15 @@ namespace ArcheOne.Controllers
 		public IActionResult User([FromForm] UserModel userModel)
 		{
 			CommonResponse commonResponse = new CommonResponse();
-			try
+			//try
+			//{
+			UserMst userMst = new UserMst();
+			if (ModelState.IsValid)
 			{
-
-				UserMst userMst = new UserMst();
-				var user = _dbRepo.UserMstList().Where(x => x.Email == userModel.Email).FirstOrDefault();
+				var user = _dbRepo.UserMstList().Where(x => x.Email.ToLower() == userModel.Email.ToLower() && x.Mobile1 == userModel.Mobile1 && x.Mobile2 == userModel.Mobile2).FirstOrDefault();
 				if (user == null)
 				{
 					int LoggedInUserId = _commonHelper.GetLoggedInUserId();
-
 					if (userModel.PhotoUrl.Length > 0)
 					{
 						var fileName = Path.GetFileName(userModel.PhotoUrl.FileName).ToLower();
@@ -113,14 +113,15 @@ namespace ArcheOne.Controllers
 				else
 				{
 					commonResponse.Status = false;
-					commonResponse.Message = "User Already Exists...!!!";
+					commonResponse.Message = "Email or MobileNumber Already Exists...!!!";
 				}
 				ViewBag.Message = commonResponse.Message;
 			}
-			catch (Exception ex)
-			{
-				commonResponse.Message = ex.Message;
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	commonResponse.Message = ex.Message;
+			//}
 			return View();
 		}
 
