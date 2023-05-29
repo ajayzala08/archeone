@@ -1,0 +1,13 @@
+﻿
+
+.required{
+    color: red;
+    font-size: 14px;
+}
+
+.has-error {
+    color: red;
+    font-size: 14px;
+    border-color: red;
+}
+
