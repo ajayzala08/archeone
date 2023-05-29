@@ -1,1 +1,4 @@
- Scaffold-DbContext "Server=192.168.1.199.1433;user=sa;password=sa@2022;Database=ArcheOneDB;Trusted_Connection=False;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Database/Entities
+
+ --Added by NP-------------------29-05-2023-----------START----------------------------
+Scaffold-DbContext "Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Database/Entities  -Tables CompanyMst,UserMst,RoleMst,PermissionMst,DefaultPermissions,UserPermissions,LinkMst -Force
+--Added by NP-------------------29-05-2023-----------END------------------------------
