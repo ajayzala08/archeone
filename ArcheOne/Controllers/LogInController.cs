@@ -100,8 +100,6 @@ namespace ArcheOne.Controllers
             return Json(commonResponse);
         }
 
-
-
         [HttpPost]
         public IActionResult Logout()
         {
@@ -112,14 +110,14 @@ namespace ArcheOne.Controllers
         private bool AddResetPasswordLink(string Id, string BaseUrl)
         {
             int id = Convert.ToInt32(Id);
-            //LinkMst linkMst = new LinkMst();
-            //linkMst.UserId = id;
-            //linkMst.IsClicked = false;
-            //linkMst.ResetPasswordLink = BaseUrl;
-            //linkMst.CreatedDate = _commonHelper.GetCurrentDateTime();
-            //linkMst.ExpiredDate = _commonHelper.GetCurrentDateTime().AddDays(1);
-            //_dbContext.LinkMsts.Add(linkMst);
-            //_dbContext.SaveChanges();
+            LinkMst linkMst = new LinkMst();
+            linkMst.UserId = id;
+            linkMst.IsClicked = false;
+            linkMst.ResetPasswordLink = BaseUrl;
+            linkMst.CreatedDate = _commonHelper.GetCurrentDateTime();
+            linkMst.ExpiredDate = _commonHelper.GetCurrentDateTime().AddDays(1);
+            _dbContext.LinkMsts.Add(linkMst);
+            _dbContext.SaveChanges();
 
             return true;
         }
