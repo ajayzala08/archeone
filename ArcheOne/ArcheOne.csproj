@@ -32,6 +32,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+<<<<<<< HEAD
+=======
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+>>>>>>> cd527d961c63f0609fca23c3d960641591127856
   </ItemGroup>
 
 </Project>
