@@ -1,5 +1,6 @@
 ﻿using ArcheOne.Database.Entities;
-using ArcheOne.Helper;
+using ArcheOne.Helper.CommonHelpers;
+using ArcheOne.Helper.CommonModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Text.Json.Serialization;
