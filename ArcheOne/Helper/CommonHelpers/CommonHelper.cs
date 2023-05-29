@@ -1,19 +1,18 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using ArcheOne.Helper.CommonModels;
+using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System.Data;
 using System.Dynamic;
 using System.Globalization;
-using System.Net.Mail;
-using System.Net;
-using System.Reflection;
-using System.Security.Cryptography;
-using System.Text.RegularExpressions;
-using System.Text;
-using System.Xml;
-using Newtonsoft.Json;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
-using ArcheOne.Helper.CommonModels;
+using System.Net;
+using System.Net.Mail;
+using System.Reflection;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace ArcheOne.Helper.CommonHelpers
 {
@@ -294,7 +293,7 @@ namespace ArcheOne.Helper.CommonHelpers
                     bool EmailEnable = Convert.ToBoolean(_configuration.GetSection("SiteEmailConfigration:EmailEnable").Value);
                     if (EmailEnable)
                     {
-                        mail.From = new MailAddress(FromEmail, "Reyna SoftWare");
+                        mail.From = new MailAddress(FromEmail, "Arche");
                         mail.To.Add(new MailAddress(model.ToEmail));
                         mail.Subject = model.Subject;
                         mail.Body = model.Body;
