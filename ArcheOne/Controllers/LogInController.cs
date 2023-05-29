@@ -1,6 +1,5 @@
 ﻿using ArcheOne.Database.Entities;
 using ArcheOne.Helper.CommonHelpers;
-using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models.Req;
 using Microsoft.AspNetCore.Authentication;
@@ -19,18 +18,20 @@ namespace ArcheOne.Controllers
         private readonly CommonHelper _commonHelper;
         private Microsoft.AspNetCore.Hosting.IHostingEnvironment _hostingEnvironment { get; }
 
-        public LogInController(DbRepo dbRepo, ArcheOneDbContext dbContext, IHttpContextAccessor httpContextAccessor, IConfiguration configuration, CommonHelper commonHelper)
+        public LogInController(DbRepo dbRepo, ArcheOneDbContext dbContext, IHttpContextAccessor httpContextAccessor, IConfiguration configuration, CommonHelper commonHelper, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
         {
             _dbRepo = dbRepo;
             _dbContext = dbContext;
             _httpContextAccessor = httpContextAccessor;
             _configuration = configuration;
             _commonHelper = commonHelper;
+            _hostingEnvironment = hostingEnvironment;
         }
         public IActionResult LogIn()
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult LogIn([FromBody] LoginReqModel loginModel)
         {
@@ -101,13 +102,14 @@ namespace ArcheOne.Controllers
             return Json(commonResponse);
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult Logout()
         {
             HttpContext.SignOutAsync(
             CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("LogIn", "LogIn");
         }
+
         private bool AddResetPasswordLink(string Id, string BaseUrl)
         {
             int id = Convert.ToInt32(Id);
@@ -122,6 +124,44 @@ namespace ArcheOne.Controllers
 
             return true;
         }
+
+        //public CommonResponse ResetPassword(ResetPasswordReqModel resetPasswordReqDTO)
+        //{
+        //    CommonResponse commonResponse = new();
+        //    try
+        //    {
+        //        var decrptId = _commonHelper.DecryptString(resetPasswordReqDTO.UserId);
+        //        int userId = Convert.ToInt32(decrptId);
+        //        var IsExistId = _commonRepo.getUserList_Login().Where(x => x.Id == userId).FirstOrDefault();
+        //        if (IsExistId != null)
+        //        {
+        //            IsExistId.Password = _commonHelper.EncryptString(resetPasswordReqDTO.NewPassword); // encrypted password
+
+
+        //            _dbContext.Entry(IsExistId).State = EntityState.Modified;
+        //            _dbContext.SaveChanges();
+
+        //            commonResponse.Status = true;
+        //            commonResponse.StatusCode = HttpStatusCode.OK;
+        //            commonResponse.Message = "Reset Password Sucessfully!";
+        //        }
+        //        else
+        //        {
+        //            commonResponse.Status = false;
+        //            commonResponse.StatusCode = HttpStatusCode.BadRequest;
+        //            commonResponse.Message = "Can Not Reset Your Password!";
+        //        }
+
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+
+        //    }
+        //    return commonResponse;
+        //}
+
+
     }
 }
 
