@@ -66,4 +66,26 @@ insert into dbo.usermst values(1,'Admin','','Super','S_Admin','12345','Vadodara'
 ----------------------------------------Added by NP on 25-05-23-----------------------------------End--------
 ---------------------------------------Executed on Local Server on 25-05-23------------------by NP-----------
 
+----------------------------------------Added by PP on 29-05-23-----------------------------------Start--------
+--------------------------------LinkMst-------------------------------------
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'LinkMst')
+BEGIN 
+	Create table dbo.LinkMst(
+			Id int identity(1,1) primary key,
+			UserId int not null,
+			ResetPasswordLink nvarchar(max) not null,
+			IsClicked bit not null,
+			CreatedDate datetime not null,
+			ExpiredDate datetime not null,
+			);
+	PRINT 'Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'Table Already Exist' 
+END
+GO
+----------------------------------------Added by PP on 29-05-23-----------------------------------End--------
+---------------------------------------Executed on Local Server on 29-05-23------------------by PP-----------
 
