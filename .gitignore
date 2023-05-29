@@ -361,3 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/.vs
+/ArcheOne/bin/Debug/net7.0/ArcheOne.staticwebassets.runtime.json
+/ArcheOne/bin/Debug/net7.0/ArcheOne.dll
+/ArcheOne/bin/Debug/net7.0/ArcheOne.pdb
+/.vs
