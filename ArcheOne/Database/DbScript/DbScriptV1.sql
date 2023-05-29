@@ -66,4 +66,113 @@ insert into dbo.usermst values(1,'Admin','','Super','S_Admin','12345','Vadodara'
 ----------------------------------------Added by NP on 25-05-23-----------------------------------End--------
 ---------------------------------------Executed on Local Server on 25-05-23------------------by NP-----------
 
+----------------------------------------Added by PP on 29-05-23-----------------------------------Start--------
+--------------------------------LinkMst-------------------------------------
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'LinkMst')
+BEGIN 
+	Create table dbo.LinkMst(
+			Id int identity(1,1) primary key,
+			UserId int not null,
+			ResetPasswordLink nvarchar(max) not null,
+			IsClicked bit not null,
+			CreatedDate datetime not null,
+			ExpiredDate datetime not null,
+			);
+	PRINT 'Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'Table Already Exist' 
+END
+GO
+----------------------------------------Added by PP on 29-05-23-----------------------------------End--------
+---------------------------------------Executed on Local Server on 29-05-23------------------by PP-----------
+
+----------------------------------------Added by NP on 29-05-23-----------------------------------Start--------
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'RoleMst')
+BEGIN 
+	Create table dbo.RoleMst(
+			Id int identity(1,1) primary key,
+			RoleName nvarchar(100) not null,
+			RoleCode nvarchar(100) not null,
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'RoleMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'RoleMst Table Already Exist' 
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'PermissionMst')
+BEGIN 
+	Create table dbo.PermissionMst(
+			Id int identity(1,1) primary key,
+			PermissionName nvarchar(100) not null,
+			PermissionCode nvarchar(100) not null,
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'PermissionMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'PermissionMst Table Already Exist' 
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'DefaultPermissions')
+BEGIN 
+	Create table dbo.DefaultPermissions(
+			Id int identity(1,1) primary key,
+			RoleId int not null,
+			PermissionId int not null,
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'DefaultPermissions Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'DefaultPermissions Table Already Exist' 
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'UserPermissions')
+BEGIN 
+	Create table dbo.UserPermissions(
+			Id int identity(1,1) primary key,
+			UserId int not null,
+			PermissionId int not null,
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'UserPermissions Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'UserPermissions Table Already Exist' 
+END
+----------------------------------------Added by NP on 29-05-23-----------------------------------End--------
+---------------------------------------Executed on Local Server on 29-05-23------------------by NP-----------
 

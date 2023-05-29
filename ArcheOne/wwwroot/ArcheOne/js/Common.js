@@ -169,8 +169,7 @@ function applyRequiredValidation() {
 }
 
 function validateReqField(obj) {
-    debugger
-    if ($(obj).val() == $(obj).attr("defaultvalue") || $(obj).val() != '') {
+    if ($(obj).val() == $(obj).attr("defaultvalue") || $(obj).val() == "") {
         $("#" + $(obj).attr("errorspan")).removeClass('d-none');
         $("#" + $(obj).attr("divcontainer")).addClass('has-error');
         $("#" + $(obj).attr("id")).addClass('is-invalid');
