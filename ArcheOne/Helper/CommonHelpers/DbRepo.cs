@@ -14,6 +14,9 @@ namespace ArcheOne.Helper.CommonHelpers
         {
             return _db.UserMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
-
+        public IQueryable<LinkMst> LinkMstList()
+        {
+            return _db.LinkMsts.AsQueryable();
+        }
     }
 }

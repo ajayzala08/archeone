@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@inject IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
+@{
+    var user = HttpContextAccessor.HttpContext.Session.GetString("User");
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -14,6 +19,7 @@
     <!-- common style -->
     @*<link href="~/archeone/common.css" rel="stylesheet" />*@
 </head>
+
 <body class="hold-transition sidebar-mini">
     <!-- Site wrapper -->
     <div class="wrapper">
@@ -24,11 +30,11 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
-               @* <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Home</a>
+                @* <li class="nav-item d-none d-sm-inline-block">
+                <a href="#" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
+                <a href="#" class="nav-link">Contact</a>
                 </li>*@
             </ul>
 
@@ -147,8 +153,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    @Html.ActionLink( user ,"UserProfile", "UserProfile", new { userid = user }, htmlAttributes: new { @class = "btn btn-light" })
+                </li>
+                <li class="nav-item">
                     <a href="/LogIn/Logout" class="nav-link">
                         <i class='fas fa-power-off'></i>
+                        LogOut
                     </a>
                 </li>
             </ul>
@@ -223,9 +233,10 @@
                                         <p>User Permission</p>
                                     </a>
                                 </li>
-                              
+
                             </ul>
                         </li>
+                    </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>
@@ -260,6 +271,17 @@
     <script src="~/theme/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/theme/dist/js/adminlte.min.js"></script>
+    <script type="text/javascript">
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+
+
+        window.history.forward();
+        function noBack() {
+            window.history.forward();
+        }
+    </script>
     <!-- common js -->
     @*<script src="~/archeone/common.js"></script>*@
     <!-- Sweetalert2 V11 -->

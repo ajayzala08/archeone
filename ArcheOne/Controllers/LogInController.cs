@@ -5,6 +5,7 @@ using ArcheOne.Models.Req;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace ArcheOne.Controllers
@@ -39,6 +40,7 @@ namespace ArcheOne.Controllers
             var UserDetail = _dbRepo.UserMstList().Where(x => x.UserName == loginModel.UserName && x.Password == loginModel.Password).FirstOrDefault();
             if (UserDetail != null && UserDetail.Id != 0)
             {
+                _httpContextAccessor.HttpContext.Session.SetString("User", UserDetail.UserName);
                 commonResponse.Status = true;
                 commonResponse.StatusCode = HttpStatusCode.OK;
                 commonResponse.Message = "Login SuccessFully!";
@@ -52,21 +54,30 @@ namespace ArcheOne.Controllers
         }
 
         [HttpGet]
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("LogIn", "LogIn");
+        }
+
+        [HttpGet]
         public IActionResult ForgotPassword()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult ForgotPassword(ForgotPasswordReqModel forgotPasswordreqModel)
+        public IActionResult ForgotPassword([FromBody] ForgotPasswordReqModel forgotPasswordreqModel)
         {
             CommonResponse commonResponse = new CommonResponse();
             var baseURL = _configuration.GetSection("SiteEmailConfigration:BaseURL").Value;
             var res = this._dbRepo.UserMstList().Where(x => x.Email == forgotPasswordreqModel.Email).FirstOrDefault();
+            var userid = 0;
             if (res != null)
             {
-                var userid = res.Id.ToString();
-                var datetimevalue = DateTime.Now.ToString("ddmmyyyyhhmmsstt");
+                userid = res.Id;
+                var datetimevalue = _commonHelper.GetCurrentDateTime().ToString("ddMMyyyyhhmmsstt");
                 baseURL += "?q=" + userid + "&d=" + datetimevalue;
 
                 // var ImagePath = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot", "EmailTemplate", "logo.png");
@@ -87,34 +98,20 @@ namespace ArcheOne.Controllers
                 var IsLinkSave = AddResetPasswordLink(userid, baseURL);
 
                 commonResponse.Status = true;
-                commonResponse.StatusCode = HttpStatusCode.OK;
                 commonResponse.Message = "Password Reset Link Has Been Sent To Your Email!";
+                commonResponse.Data = userid;
             }
             else
             {
-                commonResponse.Status = false;
-                commonResponse.StatusCode = HttpStatusCode.BadRequest;
                 commonResponse.Message = "Email Not Found!";
             }
-
-
-
             return Json(commonResponse);
         }
 
-        [HttpGet]
-        public IActionResult Logout()
+        private bool AddResetPasswordLink(int Id, string BaseUrl)
         {
-            HttpContext.SignOutAsync(
-            CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("LogIn", "LogIn");
-        }
-
-        private bool AddResetPasswordLink(string Id, string BaseUrl)
-        {
-            int id = Convert.ToInt32(Id);
             LinkMst linkMst = new LinkMst();
-            linkMst.UserId = id;
+            linkMst.UserId = Id;
             linkMst.IsClicked = false;
             linkMst.ResetPasswordLink = BaseUrl;
             linkMst.CreatedDate = _commonHelper.GetCurrentDateTime();
@@ -125,42 +122,120 @@ namespace ArcheOne.Controllers
             return true;
         }
 
-        //public CommonResponse ResetPassword(ResetPasswordReqModel resetPasswordReqDTO)
-        //{
-        //    CommonResponse commonResponse = new();
-        //    try
-        //    {
-        //        var decrptId = _commonHelper.DecryptString(resetPasswordReqDTO.UserId);
-        //        int userId = Convert.ToInt32(decrptId);
-        //        var IsExistId = _commonRepo.getUserList_Login().Where(x => x.Id == userId).FirstOrDefault();
-        //        if (IsExistId != null)
-        //        {
-        //            IsExistId.Password = _commonHelper.EncryptString(resetPasswordReqDTO.NewPassword); // encrypted password
+        [HttpGet]
+        public IActionResult ResetPassword(string q, string d)
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            var url = $"{Request.Scheme}://{Request.Host}{Request.Path}{Request.QueryString}";
+            CheckResetPasswordLinkReqModel model = new CheckResetPasswordLinkReqModel();
+            model.Id = q;
+            model.Link = url;
+            model.SecurityCode = d;
+            commonResponse = CheckResetPasswordLink(model);
+            if (commonResponse.Status)
+            {
+                ViewBag.data = q;
+                ViewBag.Status = commonResponse.Status;
+                return View();
+            }
+            else
+            {
+                ViewBag.Status = commonResponse.Status;
+                ViewBag.msg = commonResponse.Message;
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult ResetPassword([FromBody] ResetPasswordReqModel resetPasswordReqDTO)
+        {
+            CommonResponse commonResponse = new();
+            try
+            {
+                int userId = Convert.ToInt32(resetPasswordReqDTO.UserId);
+                var IsExistId = _dbRepo.UserMstList().Where(x => x.Id == userId).FirstOrDefault();
+                if (IsExistId != null)
+                {
+                    IsExistId.Password = resetPasswordReqDTO.NewPassword;
 
 
-        //            _dbContext.Entry(IsExistId).State = EntityState.Modified;
-        //            _dbContext.SaveChanges();
+                    _dbContext.Entry(IsExistId).State = EntityState.Modified;
+                    _dbContext.SaveChanges();
 
-        //            commonResponse.Status = true;
-        //            commonResponse.StatusCode = HttpStatusCode.OK;
-        //            commonResponse.Message = "Reset Password Sucessfully!";
-        //        }
-        //        else
-        //        {
-        //            commonResponse.Status = false;
-        //            commonResponse.StatusCode = HttpStatusCode.BadRequest;
-        //            commonResponse.Message = "Can Not Reset Your Password!";
-        //        }
+                    commonResponse.Status = true;
+                    commonResponse.StatusCode = HttpStatusCode.OK;
+                    commonResponse.Message = "Reset Password Sucessfully!";
+                }
+                else
+                {
+                    commonResponse.Status = false;
+                    commonResponse.StatusCode = HttpStatusCode.BadRequest;
+                    commonResponse.Message = "Can Not Reset Your Password!";
+                }
 
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
+            }
+            catch (Exception)
+            {
+                throw;
 
-        //    }
-        //    return commonResponse;
-        //}
+            }
+            return Json(commonResponse);
+        }
 
+        [HttpPost]
+        public CommonResponse CheckResetPasswordLink(CheckResetPasswordLinkReqModel checkResetPasswordLinkReqModel)
+        {
+            CommonResponse commonResponse = new();
+            try
+            {
+                if (!string.IsNullOrEmpty(checkResetPasswordLinkReqModel.Id) && !string.IsNullOrEmpty(checkResetPasswordLinkReqModel.Link) && !string.IsNullOrEmpty(checkResetPasswordLinkReqModel.SecurityCode))
+
+                {
+
+                    var IsExistLink = _dbRepo.LinkMstList().Where(x => x.UserId == Convert.ToInt32(checkResetPasswordLinkReqModel.Id) && x.ResetPasswordLink == checkResetPasswordLinkReqModel.Link && x.IsClicked == false).FirstOrDefault();
+
+                    if (IsExistLink != null)
+                    {
+                        if (IsExistLink.ExpiredDate <= _commonHelper.GetCurrentDateTime())
+                        {
+                            commonResponse.Message = "Link is Expries";
+                        }
+                        else
+                        {
+
+                            DateTime date = DateTime.ParseExact(checkResetPasswordLinkReqModel.SecurityCode, "ddMMyyyyhhmmsstt", null);
+                            date = date.AddDays(1);
+                            if (_commonHelper.GetCurrentDateTime() <= date)
+                            {
+                                IsExistLink.IsClicked = true;
+                                _dbContext.Entry(IsExistLink).State = EntityState.Modified;
+                                _dbContext.SaveChanges();
+                                commonResponse.Status = true;
+                                commonResponse.StatusCode = HttpStatusCode.OK;
+                                commonResponse.Message = "Link is Valid.";
+                            }
+                            else
+                            {
+                                commonResponse.Message = "Link is Expries";
+                            }
+                        }
+                    }
+                    else
+                    {
+                        commonResponse.Message = "Link is Expries";
+                    }
+                }
+                else
+                {
+                    commonResponse.Message = "Link Expries";
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return commonResponse;
+        }
 
     }
 }
