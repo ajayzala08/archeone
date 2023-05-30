@@ -3507,19 +3507,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Reyna\\.nuget\\packages\\": {}
+    "C:\\Users\\Reyna Solutions\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\ArcheOne.csproj",
+      "projectUniqueName": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\ArcheOne.csproj",
       "projectName": "ArcheOne",
-      "projectPath": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\ArcheOne.csproj",
-      "packagesPath": "C:\\Users\\Reyna\\.nuget\\packages\\",
-      "outputPath": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\obj\\",
+      "projectPath": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\ArcheOne.csproj",
+      "packagesPath": "C:\\Users\\Reyna Solutions\\.nuget\\packages\\",
+      "outputPath": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Reyna\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Reyna Solutions\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

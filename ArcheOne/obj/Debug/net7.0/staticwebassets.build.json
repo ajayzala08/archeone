@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "BfqmGxZ+2mMcRUOz7SI5YS0h1wkCSPOJ6SS1XZ+Szyw=",
+  "Hash": "mjHrbecW3SsGRw761B1dXScX5yt6KUC+1X2VJHXiNUw=",
   "Source": "ArcheOne",
   "BasePath": "_content/ArcheOne",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "ArcheOne\\wwwroot",
       "Source": "ArcheOne",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\obj\\Debug\\net7.0\\scopedcss\\bundle\\ArcheOne.styles.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\obj\\Debug\\net7.0\\scopedcss\\bundle\\ArcheOne.styles.css",
       "SourceId": "ArcheOne",
       "SourceType": "Computed",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\obj\\Debug\\net7.0\\scopedcss\\bundle\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\obj\\Debug\\net7.0\\scopedcss\\bundle\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "ArcheOne.styles.css",
       "AssetKind": "All",
@@ -31,13 +31,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\obj\\Debug\\net7.0\\scopedcss\\bundle\\ArcheOne.styles.css"
+      "OriginalItemSpec": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\obj\\Debug\\net7.0\\scopedcss\\bundle\\ArcheOne.styles.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\ArcheOne.bundle.scp.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\ArcheOne.bundle.scp.css",
       "SourceId": "ArcheOne",
       "SourceType": "Computed",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "ArcheOne.bundle.scp.css",
       "AssetKind": "All",
@@ -48,13 +48,13 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\ArcheOne.bundle.scp.css"
+      "OriginalItemSpec": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\ArcheOne.bundle.scp.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\css\\Common.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\css\\Common.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "ArcheOne/css/Common.css",
       "AssetKind": "All",
@@ -68,10 +68,10 @@
       "OriginalItemSpec": "wwwroot\\ArcheOne\\css\\Common.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\css\\login\\login.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\css\\login\\login.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "ArcheOne/css/login/login.css",
       "AssetKind": "All",
@@ -85,10 +85,10 @@
       "OriginalItemSpec": "wwwroot\\ArcheOne\\css\\login\\login.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\EmailTemplate\\EmailTemplate.html",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\EmailTemplate\\EmailTemplate.html",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "ArcheOne/EmailTemplate/EmailTemplate.html",
       "AssetKind": "All",
@@ -102,10 +102,10 @@
       "OriginalItemSpec": "wwwroot\\ArcheOne\\EmailTemplate\\EmailTemplate.html"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\js\\Common.js",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\js\\Common.js",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "ArcheOne/js/Common.js",
       "AssetKind": "All",
@@ -119,10 +119,10 @@
       "OriginalItemSpec": "wwwroot\\ArcheOne\\js\\Common.js"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\js\\login\\Login.js",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\js\\login\\Login.js",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "ArcheOne/js/login/Login.js",
       "AssetKind": "All",
@@ -136,10 +136,10 @@
       "OriginalItemSpec": "wwwroot\\ArcheOne\\js\\login\\Login.js"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\js\\sweetalert2_V11.js",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\js\\sweetalert2_V11.js",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "ArcheOne/js/sweetalert2_V11.js",
       "AssetKind": "All",
@@ -153,10 +153,10 @@
       "OriginalItemSpec": "wwwroot\\ArcheOne\\js\\sweetalert2_V11.js"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\Permission\\DefaultPermission.js",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\ArcheOne\\Permission\\DefaultPermission.js",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "ArcheOne/Permission/DefaultPermission.js",
       "AssetKind": "All",
@@ -170,10 +170,10 @@
       "OriginalItemSpec": "wwwroot\\ArcheOne\\Permission\\DefaultPermission.js"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Images\\bossbabyimage.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Images\\bossbabyimage.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Images/bossbabyimage.png",
       "AssetKind": "All",
@@ -187,10 +187,10 @@
       "OriginalItemSpec": "wwwroot\\Images\\bossbabyimage.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Images\\child_and_books_208362.jpg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Images\\child_and_books_208362.jpg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Images/child_and_books_208362.jpg",
       "AssetKind": "All",
@@ -204,10 +204,10 @@
       "OriginalItemSpec": "wwwroot\\Images\\child_and_books_208362.jpg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Images\\image_2023.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Images\\image_2023.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Images/image_2023.png",
       "AssetKind": "All",
@@ -221,10 +221,10 @@
       "OriginalItemSpec": "wwwroot\\Images\\image_2023.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Images\\images (2).jpg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Images\\images (2).jpg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Images/images (2).jpg",
       "AssetKind": "All",
@@ -238,10 +238,10 @@
       "OriginalItemSpec": "wwwroot\\Images\\images (2).jpg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\Dashboard.html",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\Dashboard.html",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/Dashboard.html",
       "AssetKind": "All",
@@ -255,10 +255,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\Dashboard.html"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\adminlte.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\adminlte.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/adminlte.css",
       "AssetKind": "All",
@@ -272,10 +272,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\adminlte.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\adminlte.css.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\adminlte.css.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/adminlte.css.map",
       "AssetKind": "All",
@@ -289,10 +289,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\adminlte.css.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\adminlte.min.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\adminlte.min.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/adminlte.min.css",
       "AssetKind": "All",
@@ -306,10 +306,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\adminlte.min.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\adminlte.min.css.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\adminlte.min.css.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/adminlte.min.css.map",
       "AssetKind": "All",
@@ -323,10 +323,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\adminlte.min.css.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.components.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.components.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.components.css",
       "AssetKind": "All",
@@ -340,10 +340,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.components.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.components.css.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.components.css.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.components.css.map",
       "AssetKind": "All",
@@ -357,10 +357,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.components.css.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.components.min.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.components.min.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.components.min.css",
       "AssetKind": "All",
@@ -374,10 +374,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.components.min.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.components.min.css.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.components.min.css.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.components.min.css.map",
       "AssetKind": "All",
@@ -391,10 +391,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.components.min.css.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.core.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.core.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.core.css",
       "AssetKind": "All",
@@ -408,10 +408,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.core.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.core.css.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.core.css.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.core.css.map",
       "AssetKind": "All",
@@ -425,10 +425,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.core.css.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.core.min.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.core.min.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.core.min.css",
       "AssetKind": "All",
@@ -442,10 +442,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.core.min.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.core.min.css.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.core.min.css.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.core.min.css.map",
       "AssetKind": "All",
@@ -459,10 +459,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.core.min.css.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.extra-components.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.extra-components.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.extra-components.css",
       "AssetKind": "All",
@@ -476,10 +476,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.extra-components.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.extra-components.css.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.extra-components.css.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.extra-components.css.map",
       "AssetKind": "All",
@@ -493,10 +493,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.extra-components.css.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.extra-components.min.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.extra-components.min.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.extra-components.min.css",
       "AssetKind": "All",
@@ -510,10 +510,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.extra-components.min.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.extra-components.min.css.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.extra-components.min.css.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.extra-components.min.css.map",
       "AssetKind": "All",
@@ -527,10 +527,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.extra-components.min.css.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.light.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.light.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.light.css",
       "AssetKind": "All",
@@ -544,10 +544,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.light.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.light.css.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.light.css.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.light.css.map",
       "AssetKind": "All",
@@ -561,10 +561,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.light.css.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.light.min.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.light.min.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.light.min.css",
       "AssetKind": "All",
@@ -578,10 +578,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.light.min.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.light.min.css.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.light.min.css.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.light.min.css.map",
       "AssetKind": "All",
@@ -595,10 +595,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.light.min.css.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.pages.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.pages.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.pages.css",
       "AssetKind": "All",
@@ -612,10 +612,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.pages.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.pages.css.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.pages.css.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.pages.css.map",
       "AssetKind": "All",
@@ -629,10 +629,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.pages.css.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.pages.min.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.pages.min.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.pages.min.css",
       "AssetKind": "All",
@@ -646,10 +646,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.pages.min.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.pages.min.css.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.pages.min.css.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.pages.min.css.map",
       "AssetKind": "All",
@@ -663,10 +663,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.pages.min.css.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.plugins.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.plugins.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.plugins.css",
       "AssetKind": "All",
@@ -680,10 +680,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.plugins.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.plugins.css.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.plugins.css.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.plugins.css.map",
       "AssetKind": "All",
@@ -697,10 +697,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.plugins.css.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.plugins.min.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.plugins.min.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.plugins.min.css",
       "AssetKind": "All",
@@ -714,10 +714,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.plugins.min.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.plugins.min.css.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\css\\alt\\adminlte.plugins.min.css.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/css/alt/adminlte.plugins.min.css.map",
       "AssetKind": "All",
@@ -731,10 +731,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\css\\alt\\adminlte.plugins.min.css.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\AdminLTELogo.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\AdminLTELogo.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/AdminLTELogo.png",
       "AssetKind": "All",
@@ -748,10 +748,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\AdminLTELogo.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\avatar.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\avatar.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/avatar.png",
       "AssetKind": "All",
@@ -765,10 +765,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\avatar.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\avatar2.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\avatar2.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/avatar2.png",
       "AssetKind": "All",
@@ -782,10 +782,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\avatar2.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\avatar3.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\avatar3.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/avatar3.png",
       "AssetKind": "All",
@@ -799,10 +799,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\avatar3.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\avatar4.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\avatar4.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/avatar4.png",
       "AssetKind": "All",
@@ -816,10 +816,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\avatar4.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\avatar5.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\avatar5.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/avatar5.png",
       "AssetKind": "All",
@@ -833,10 +833,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\avatar5.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\boxed-bg.jpg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\boxed-bg.jpg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/boxed-bg.jpg",
       "AssetKind": "All",
@@ -850,10 +850,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\boxed-bg.jpg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\boxed-bg.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\boxed-bg.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/boxed-bg.png",
       "AssetKind": "All",
@@ -867,10 +867,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\boxed-bg.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\credit\\american-express.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\credit\\american-express.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/credit/american-express.png",
       "AssetKind": "All",
@@ -884,10 +884,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\credit\\american-express.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\credit\\cirrus.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\credit\\cirrus.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/credit/cirrus.png",
       "AssetKind": "All",
@@ -901,10 +901,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\credit\\cirrus.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\credit\\mastercard.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\credit\\mastercard.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/credit/mastercard.png",
       "AssetKind": "All",
@@ -918,10 +918,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\credit\\mastercard.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\credit\\paypal.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\credit\\paypal.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/credit/paypal.png",
       "AssetKind": "All",
@@ -935,10 +935,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\credit\\paypal.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\credit\\paypal2.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\credit\\paypal2.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/credit/paypal2.png",
       "AssetKind": "All",
@@ -952,10 +952,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\credit\\paypal2.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\credit\\visa.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\credit\\visa.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/credit/visa.png",
       "AssetKind": "All",
@@ -969,10 +969,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\credit\\visa.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\default-150x150.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\default-150x150.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/default-150x150.png",
       "AssetKind": "All",
@@ -986,10 +986,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\default-150x150.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\icons.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\icons.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/icons.png",
       "AssetKind": "All",
@@ -1003,10 +1003,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\icons.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\photo1.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\photo1.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/photo1.png",
       "AssetKind": "All",
@@ -1020,10 +1020,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\photo1.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\photo2.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\photo2.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/photo2.png",
       "AssetKind": "All",
@@ -1037,10 +1037,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\photo2.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\photo3.jpg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\photo3.jpg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/photo3.jpg",
       "AssetKind": "All",
@@ -1054,10 +1054,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\photo3.jpg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\photo4.jpg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\photo4.jpg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/photo4.jpg",
       "AssetKind": "All",
@@ -1071,10 +1071,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\photo4.jpg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\prod-1.jpg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\prod-1.jpg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/prod-1.jpg",
       "AssetKind": "All",
@@ -1088,10 +1088,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\prod-1.jpg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\prod-2.jpg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\prod-2.jpg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/prod-2.jpg",
       "AssetKind": "All",
@@ -1105,10 +1105,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\prod-2.jpg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\prod-3.jpg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\prod-3.jpg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/prod-3.jpg",
       "AssetKind": "All",
@@ -1122,10 +1122,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\prod-3.jpg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\prod-4.jpg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\prod-4.jpg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/prod-4.jpg",
       "AssetKind": "All",
@@ -1139,10 +1139,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\prod-4.jpg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\prod-5.jpg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\prod-5.jpg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/prod-5.jpg",
       "AssetKind": "All",
@@ -1156,10 +1156,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\prod-5.jpg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user1-128x128.jpg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user1-128x128.jpg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/user1-128x128.jpg",
       "AssetKind": "All",
@@ -1173,10 +1173,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\user1-128x128.jpg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user2-160x160.jpg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user2-160x160.jpg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/user2-160x160.jpg",
       "AssetKind": "All",
@@ -1190,10 +1190,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\user2-160x160.jpg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user3-128x128.jpg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user3-128x128.jpg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/user3-128x128.jpg",
       "AssetKind": "All",
@@ -1207,10 +1207,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\user3-128x128.jpg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user4-128x128.jpg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user4-128x128.jpg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/user4-128x128.jpg",
       "AssetKind": "All",
@@ -1224,10 +1224,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\user4-128x128.jpg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user5-128x128.jpg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user5-128x128.jpg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/user5-128x128.jpg",
       "AssetKind": "All",
@@ -1241,10 +1241,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\user5-128x128.jpg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user6-128x128.jpg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user6-128x128.jpg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/user6-128x128.jpg",
       "AssetKind": "All",
@@ -1258,10 +1258,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\user6-128x128.jpg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user7-128x128.jpg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user7-128x128.jpg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/user7-128x128.jpg",
       "AssetKind": "All",
@@ -1275,10 +1275,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\user7-128x128.jpg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user8-128x128.jpg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\img\\user8-128x128.jpg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/img/user8-128x128.jpg",
       "AssetKind": "All",
@@ -1292,10 +1292,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\img\\user8-128x128.jpg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\.eslintrc.json",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\.eslintrc.json",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/js/.eslintrc.json",
       "AssetKind": "All",
@@ -1309,10 +1309,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\js\\.eslintrc.json"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\adminlte.js",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\adminlte.js",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/js/adminlte.js",
       "AssetKind": "All",
@@ -1326,10 +1326,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\js\\adminlte.js"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\adminlte.js.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\adminlte.js.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/js/adminlte.js.map",
       "AssetKind": "All",
@@ -1343,10 +1343,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\js\\adminlte.js.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\adminlte.min.js",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\adminlte.min.js",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/js/adminlte.min.js",
       "AssetKind": "All",
@@ -1360,10 +1360,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\js\\adminlte.min.js"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\adminlte.min.js.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\adminlte.min.js.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/js/adminlte.min.js.map",
       "AssetKind": "All",
@@ -1377,10 +1377,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\js\\adminlte.min.js.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\demo.js",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\demo.js",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/js/demo.js",
       "AssetKind": "All",
@@ -1394,10 +1394,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\js\\demo.js"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\pages\\dashboard.js",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\pages\\dashboard.js",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/js/pages/dashboard.js",
       "AssetKind": "All",
@@ -1411,10 +1411,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\js\\pages\\dashboard.js"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\pages\\dashboard2.js",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\pages\\dashboard2.js",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/js/pages/dashboard2.js",
       "AssetKind": "All",
@@ -1428,10 +1428,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\js\\pages\\dashboard2.js"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\pages\\dashboard3.js",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\dist\\js\\pages\\dashboard3.js",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/dist/js/pages/dashboard3.js",
       "AssetKind": "All",
@@ -1445,10 +1445,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\dist\\js\\pages\\dashboard3.js"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\Logo\\arche2017-1k.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\Logo\\arche2017-1k.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/Logo/arche2017-1k.png",
       "AssetKind": "All",
@@ -1462,10 +1462,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\Logo\\arche2017-1k.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\Logo\\logo.png",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\Logo\\logo.png",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/Logo/logo.png",
       "AssetKind": "All",
@@ -1479,10 +1479,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\Logo\\logo.png"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.bundle.js",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.bundle.js",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/bootstrap/js/bootstrap.bundle.js",
       "AssetKind": "All",
@@ -1496,10 +1496,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.bundle.js"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.bundle.js.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.bundle.js.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/bootstrap/js/bootstrap.bundle.js.map",
       "AssetKind": "All",
@@ -1513,10 +1513,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.bundle.js.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.bundle.min.js",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.bundle.min.js",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/bootstrap/js/bootstrap.bundle.min.js",
       "AssetKind": "All",
@@ -1530,10 +1530,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.bundle.min.js"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.bundle.min.js.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.bundle.min.js.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/bootstrap/js/bootstrap.bundle.min.js.map",
       "AssetKind": "All",
@@ -1547,10 +1547,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.bundle.min.js.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.js",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.js",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/bootstrap/js/bootstrap.js",
       "AssetKind": "All",
@@ -1564,10 +1564,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.js"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.js.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.js.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/bootstrap/js/bootstrap.js.map",
       "AssetKind": "All",
@@ -1581,10 +1581,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.js.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.min.js",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.min.js",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/bootstrap/js/bootstrap.min.js",
       "AssetKind": "All",
@@ -1598,10 +1598,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.min.js"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.min.js.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.min.js.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/bootstrap/js/bootstrap.min.js.map",
       "AssetKind": "All",
@@ -1615,10 +1615,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\bootstrap\\js\\bootstrap.min.js.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\all.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\all.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/css/all.css",
       "AssetKind": "All",
@@ -1632,10 +1632,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\css\\all.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\all.min.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\all.min.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/css/all.min.css",
       "AssetKind": "All",
@@ -1649,10 +1649,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\css\\all.min.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\brands.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\brands.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/css/brands.css",
       "AssetKind": "All",
@@ -1666,10 +1666,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\css\\brands.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\brands.min.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\brands.min.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/css/brands.min.css",
       "AssetKind": "All",
@@ -1683,10 +1683,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\css\\brands.min.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\fontawesome.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\fontawesome.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/css/fontawesome.css",
       "AssetKind": "All",
@@ -1700,10 +1700,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\css\\fontawesome.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\fontawesome.min.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\fontawesome.min.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/css/fontawesome.min.css",
       "AssetKind": "All",
@@ -1717,10 +1717,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\css\\fontawesome.min.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\regular.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\regular.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/css/regular.css",
       "AssetKind": "All",
@@ -1734,10 +1734,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\css\\regular.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\regular.min.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\regular.min.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/css/regular.min.css",
       "AssetKind": "All",
@@ -1751,10 +1751,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\css\\regular.min.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\solid.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\solid.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/css/solid.css",
       "AssetKind": "All",
@@ -1768,10 +1768,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\css\\solid.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\solid.min.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\solid.min.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/css/solid.min.css",
       "AssetKind": "All",
@@ -1785,10 +1785,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\css\\solid.min.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\svg-with-js.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\svg-with-js.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/css/svg-with-js.css",
       "AssetKind": "All",
@@ -1802,10 +1802,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\css\\svg-with-js.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\svg-with-js.min.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\svg-with-js.min.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/css/svg-with-js.min.css",
       "AssetKind": "All",
@@ -1819,10 +1819,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\css\\svg-with-js.min.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\v4-shims.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\v4-shims.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/css/v4-shims.css",
       "AssetKind": "All",
@@ -1836,10 +1836,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\css\\v4-shims.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\v4-shims.min.css",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\v4-shims.min.css",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/css/v4-shims.min.css",
       "AssetKind": "All",
@@ -1853,10 +1853,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\css\\v4-shims.min.css"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.eot",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.eot",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/webfonts/fa-brands-400.eot",
       "AssetKind": "All",
@@ -1870,10 +1870,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.eot"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.svg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.svg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/webfonts/fa-brands-400.svg",
       "AssetKind": "All",
@@ -1887,10 +1887,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.svg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.ttf",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.ttf",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/webfonts/fa-brands-400.ttf",
       "AssetKind": "All",
@@ -1904,10 +1904,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.ttf"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.woff",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.woff",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/webfonts/fa-brands-400.woff",
       "AssetKind": "All",
@@ -1921,10 +1921,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.woff"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.woff2",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.woff2",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/webfonts/fa-brands-400.woff2",
       "AssetKind": "All",
@@ -1938,10 +1938,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-brands-400.woff2"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.eot",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.eot",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/webfonts/fa-regular-400.eot",
       "AssetKind": "All",
@@ -1955,10 +1955,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.eot"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.svg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.svg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/webfonts/fa-regular-400.svg",
       "AssetKind": "All",
@@ -1972,10 +1972,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.svg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.ttf",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.ttf",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/webfonts/fa-regular-400.ttf",
       "AssetKind": "All",
@@ -1989,10 +1989,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.ttf"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.woff",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.woff",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/webfonts/fa-regular-400.woff",
       "AssetKind": "All",
@@ -2006,10 +2006,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.woff"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.woff2",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.woff2",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/webfonts/fa-regular-400.woff2",
       "AssetKind": "All",
@@ -2023,10 +2023,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-regular-400.woff2"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.eot",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.eot",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/webfonts/fa-solid-900.eot",
       "AssetKind": "All",
@@ -2040,10 +2040,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.eot"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.svg",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.svg",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/webfonts/fa-solid-900.svg",
       "AssetKind": "All",
@@ -2057,10 +2057,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.svg"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.ttf",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.ttf",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/webfonts/fa-solid-900.ttf",
       "AssetKind": "All",
@@ -2074,10 +2074,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.ttf"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.woff",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.woff",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/webfonts/fa-solid-900.woff",
       "AssetKind": "All",
@@ -2091,10 +2091,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.woff"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.woff2",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.woff2",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/fontawesome-free/webfonts/fa-solid-900.woff2",
       "AssetKind": "All",
@@ -2108,10 +2108,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\fontawesome-free\\webfonts\\fa-solid-900.woff2"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jquery\\jquery.js",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jquery\\jquery.js",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/jquery/jquery.js",
       "AssetKind": "All",
@@ -2125,10 +2125,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\jquery\\jquery.js"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jquery\\jquery.min.js",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jquery\\jquery.min.js",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/jquery/jquery.min.js",
       "AssetKind": "All",
@@ -2142,10 +2142,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\jquery\\jquery.min.js"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jquery\\jquery.min.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jquery\\jquery.min.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/jquery/jquery.min.map",
       "AssetKind": "All",
@@ -2159,10 +2159,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\jquery\\jquery.min.map"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jquery\\jquery.slim.js",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jquery\\jquery.slim.js",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/jquery/jquery.slim.js",
       "AssetKind": "All",
@@ -2176,10 +2176,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\jquery\\jquery.slim.js"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jquery\\jquery.slim.min.js",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jquery\\jquery.slim.min.js",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/jquery/jquery.slim.min.js",
       "AssetKind": "All",
@@ -2193,10 +2193,10 @@
       "OriginalItemSpec": "wwwroot\\Theme\\plugins\\jquery\\jquery.slim.min.js"
     },
     {
-      "Identity": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jquery\\jquery.slim.min.map",
+      "Identity": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jquery\\jquery.slim.min.map",
       "SourceId": "ArcheOne",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\Tanmay\\archeone\\ArcheOne\\wwwroot\\",
+      "ContentRoot": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\",
       "BasePath": "_content/ArcheOne",
       "RelativePath": "Theme/plugins/jquery/jquery.slim.min.map",
       "AssetKind": "All",
