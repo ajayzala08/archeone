@@ -373,6 +373,110 @@
       "PackagePath": "staticwebassets\\Theme\\plugins\\bootstrap\\js\\bootstrap.min.js.map"
     },
     {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-bs4\\css\\dataTables.bootstrap4.css",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-bs4\\css\\dataTables.bootstrap4.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-bs4\\css\\dataTables.bootstrap4.min.css",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-bs4\\css\\dataTables.bootstrap4.min.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-bs4\\js\\dataTables.bootstrap4.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-bs4\\js\\dataTables.bootstrap4.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-bs4\\js\\dataTables.bootstrap4.min.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-bs4\\js\\dataTables.bootstrap4.min.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-buttons\\css\\buttons.bootstrap4.css",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-buttons\\css\\buttons.bootstrap4.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-buttons\\css\\buttons.bootstrap4.min.css",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-buttons\\css\\buttons.bootstrap4.min.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-buttons\\js\\buttons.bootstrap4.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-buttons\\js\\buttons.bootstrap4.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-buttons\\js\\buttons.bootstrap4.min.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-buttons\\js\\buttons.bootstrap4.min.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-buttons\\js\\buttons.colVis.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-buttons\\js\\buttons.colVis.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-buttons\\js\\buttons.colVis.min.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-buttons\\js\\buttons.colVis.min.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-buttons\\js\\buttons.flash.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-buttons\\js\\buttons.flash.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-buttons\\js\\buttons.flash.min.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-buttons\\js\\buttons.flash.min.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-buttons\\js\\buttons.html5.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-buttons\\js\\buttons.html5.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-buttons\\js\\buttons.html5.min.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-buttons\\js\\buttons.html5.min.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-buttons\\js\\buttons.print.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-buttons\\js\\buttons.print.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-buttons\\js\\buttons.print.min.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-buttons\\js\\buttons.print.min.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-buttons\\js\\dataTables.buttons.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-buttons\\js\\dataTables.buttons.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-buttons\\js\\dataTables.buttons.min.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-buttons\\js\\dataTables.buttons.min.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-responsive\\css\\responsive.bootstrap4.css",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-responsive\\css\\responsive.bootstrap4.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-responsive\\css\\responsive.bootstrap4.min.css",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-responsive\\css\\responsive.bootstrap4.min.css"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-responsive\\js\\dataTables.responsive.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-responsive\\js\\dataTables.responsive.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-responsive\\js\\dataTables.responsive.min.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-responsive\\js\\dataTables.responsive.min.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-responsive\\js\\responsive.bootstrap4.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-responsive\\js\\responsive.bootstrap4.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables-responsive\\js\\responsive.bootstrap4.min.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables-responsive\\js\\responsive.bootstrap4.min.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables\\jquery.dataTables.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables\\jquery.dataTables.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\datatables\\jquery.dataTables.min.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\datatables\\jquery.dataTables.min.js"
+    },
+    {
       "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\fontawesome-free\\css\\all.css",
       "PackagePath": "staticwebassets\\Theme\\plugins\\fontawesome-free\\css\\all.css"
     },
@@ -511,6 +615,34 @@
     {
       "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jquery\\jquery.slim.min.map",
       "PackagePath": "staticwebassets\\Theme\\plugins\\jquery\\jquery.slim.min.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jszip\\jszip.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\jszip\\jszip.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\jszip\\jszip.min.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\jszip\\jszip.min.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\pdfmake\\pdfmake.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\pdfmake\\pdfmake.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\pdfmake\\pdfmake.js.map",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\pdfmake\\pdfmake.js.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\pdfmake\\pdfmake.min.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\pdfmake\\pdfmake.min.js"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\pdfmake\\pdfmake.min.js.map",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\pdfmake\\pdfmake.min.js.map"
+    },
+    {
+      "Id": "D:\\ArcheProjects\\ArcheOne\\DhrustiBranch\\archeone\\ArcheOne\\wwwroot\\Theme\\plugins\\pdfmake\\vfs_fonts.js",
+      "PackagePath": "staticwebassets\\Theme\\plugins\\pdfmake\\vfs_fonts.js"
     },
     {
       "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.ArcheOne.Microsoft.AspNetCore.StaticWebAssets.props",

@@ -13,6 +13,17 @@
     <link rel="stylesheet" href="~/theme/dist/css/adminlte.min.css">
     <!-- common style -->
     @*<link href="~/archeone/common.css" rel="stylesheet" />*@
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+	<link href="~/theme/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <!-- DataTables -->
+	<link href="~/theme/plugins/datatables-bs4/css/datatables.bootstrap4.min.css" rel="stylesheet" />
+	<link href="~/theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+	<link href="~/theme/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+    <!-- Theme style -->
+	<a href="~/theme/dist/css/adminlte.min.css.map"></a>
+	<link href="~/theme/dist/css/adminlte.min.css" rel="stylesheet" />
 </head>
 <body class="hold-transition sidebar-mini">
     <!-- Site wrapper -->
@@ -258,13 +269,48 @@
     <script src="~/theme/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="~/theme/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables  & Plugins -->
+	<script src="~/theme/plugins/datatables/jquery.datatables.min.js"></script>
+	<script src="~/theme/plugins/datatables-bs4/js/datatables.bootstrap4.min.js"></script>
+	<script src="~/theme/plugins/datatables-responsive/js/datatables.responsive.min.js"></script>
+	<script src="~/theme/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+	<script src="~/theme/plugins/datatables-buttons/js/datatables.buttons.min.js"></script>
+	<script src="~/theme/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+	<script src="~/theme/plugins/jszip/jszip.min.js"></script>
+	<a href="~/theme/plugins/pdfmake/pdfmake.min.js.map"></a>
+	<script src="~/theme/plugins/pdfmake/pdfmake.min.js"></script>
+	<script src="~/theme/plugins/pdfmake/vfs_fonts.js"></script>
+	<script src="~/theme/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+	<script src="~/theme/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+	<script src="~/theme/plugins/datatables-buttons/js/buttons.colvis.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/theme/dist/js/adminlte.min.js"></script>
+	<script src="~/theme/dist/js/demo.js"></script>
     <!-- common js -->
     @*<script src="~/archeone/common.js"></script>*@
     <!-- Sweetalert2 V11 -->
     @*<script src="~/archeone/sweetalert2_v11.js"></script>*@
     <!-- AdminLTE for demo purposes -->
     @*  <script src="~/theme/dist/js/demo.js"></script>*@
+
+
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+
 </body>
 </html>
