@@ -37,91 +37,91 @@ namespace ArcheOne.Controllers
 		public IActionResult User([FromForm] UserModel userModel)
 		{
 			CommonResponse commonResponse = new CommonResponse();
-			//try
-			//{
-			UserMst userMst = new UserMst();
-			if (ModelState.IsValid)
+			try
 			{
-				var user = _dbRepo.UserMstList().Where(x => x.Email.ToLower() == userModel.Email.ToLower() && x.Mobile1 == userModel.Mobile1 && x.Mobile2 == userModel.Mobile2).FirstOrDefault();
-				if (user == null)
+				UserMst userMst = new UserMst();
+				if (ModelState.IsValid)
 				{
-					int LoggedInUserId = _commonHelper.GetLoggedInUserId();
-					if (userModel.PhotoUrl.Length > 0)
+					var user = _dbRepo.UserMstList().Where(x => x.Email.ToLower() == userModel.Email.ToLower() && x.Mobile1 == userModel.Mobile1 && x.Mobile2 == userModel.Mobile2).FirstOrDefault();
+					if (user == null)
 					{
-						var fileName = Path.GetFileName(userModel.PhotoUrl.FileName).ToLower();
-						var fileExt = Path.GetExtension(userModel.PhotoUrl.FileName).ToLower();
-
-						Guid guid = Guid.NewGuid();
-						var file = guid + fileName; //Create a new Name for the file due to security reasons.
-
-						string path = Path.Combine(this._webHostEnvironment.WebRootPath, "Images");
-						if (!Directory.Exists(path))
+						int LoggedInUserId = _commonHelper.GetLoggedInUserId();
+						if (userModel.PhotoUrl.Length > 0)
 						{
-							Directory.CreateDirectory(path);
-						}
-						var pathBuilt = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Images\\", fileName);
-						if (fileExt != ".jpg" && fileExt != ".png")
-						{
-							commonResponse.Status = false;
-							commonResponse.Message = "Image does not support,Plz upload in jpg and png format..";
+							var fileName = Path.GetFileName(userModel.PhotoUrl.FileName).ToLower();
+							var fileExt = Path.GetExtension(userModel.PhotoUrl.FileName).ToLower();
+
+							Guid guid = Guid.NewGuid();
+							var file = guid + fileName; //Create a new Name for the file due to security reasons.
+
+							string path = Path.Combine(this._webHostEnvironment.WebRootPath, "Images");
+							if (!Directory.Exists(path))
+							{
+								Directory.CreateDirectory(path);
+							}
+							var pathBuilt = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Images\\", fileName);
+							if (fileExt != ".jpg" && fileExt != ".png")
+							{
+								commonResponse.Status = false;
+								commonResponse.Message = "Image does not support,Plz upload in jpg and png format..";
+							}
+							else
+							{
+								var pathBuilt1 = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Images\\", fileName);
+
+								userMst.CompanyId = userModel.CompanyId;
+								userMst.FirstName = userModel.FirstName;
+								userMst.MiddleName = userModel.MiddleName;
+								userMst.LastName = userModel.LastName;
+								userMst.UserName = userModel.UserName;
+								userMst.Password = userModel.Password;
+								userMst.Address = userModel.Address;
+								userMst.Pincode = userModel.Pincode;
+								userMst.Mobile1 = userModel.Mobile1;
+								userMst.Mobile2 = userModel.Mobile2;
+								userMst.Email = userModel.Email;
+								userMst.PhotoUrl = fileName;
+								userMst.IsActive = true;
+								userMst.IsDelete = false;
+								userMst.CreatedDate = DateTime.Now;
+								userMst.UpdatedDate = DateTime.Now;
+								userMst.CreatedBy = LoggedInUserId;
+								userMst.UpdatedBy = LoggedInUserId;
+
+								var result = _dbContext.UserMsts.Add(userMst);
+								_dbContext.SaveChanges();
+
+								if (result != null)
+								{
+									commonResponse.Data = userMst;
+									commonResponse.Message = "Data uploaded Succesfully";
+									commonResponse.Status = true;
+								}
+
+								using (var fileSrteam = new FileStream(pathBuilt1, FileMode.Create))
+								{
+									userModel.PhotoUrl.CopyTo(fileSrteam);
+								}
+							}
 						}
 						else
 						{
-							var pathBuilt1 = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Images\\", fileName);
-
-							userMst.CompanyId = userModel.CompanyId;
-							userMst.FirstName = userModel.FirstName;
-							userMst.MiddleName = userModel.MiddleName;
-							userMst.LastName = userModel.LastName;
-							userMst.UserName = userModel.UserName;
-							userMst.Password = userModel.Password;
-							userMst.Address = userModel.Address;
-							userMst.Pincode = userModel.Pincode;
-							userMst.Mobile1 = userModel.Mobile1;
-							userMst.Mobile2 = userModel.Mobile2;
-							userMst.Email = userModel.Email;
-							userMst.PhotoUrl = fileName;
-							userMst.IsActive = true;
-							userMst.IsDelete = false;
-							userMst.CreatedDate = DateTime.Now;
-							userMst.UpdatedDate = DateTime.Now;
-							userMst.CreatedBy = LoggedInUserId;
-							userMst.UpdatedBy = LoggedInUserId;
-
-							var result = _dbContext.UserMsts.Add(userMst);
-							_dbContext.SaveChanges();
-
-							if (result != null)
-							{
-								commonResponse.Data = userMst;
-								commonResponse.Message = "Data uploaded Succesfully";
-								commonResponse.Status = true;
-							}
-
-							using (var fileSrteam = new FileStream(pathBuilt1, FileMode.Create))
-							{
-								userModel.PhotoUrl.CopyTo(fileSrteam);
-							}
+							commonResponse.Status = false;
+							commonResponse.Message = "Photo does not exist !";
 						}
 					}
 					else
 					{
 						commonResponse.Status = false;
-						commonResponse.Message = "Photo does not exist !";
+						commonResponse.Message = "Email or MobileNumber Already Exists...!!!";
 					}
+					ViewBag.Message = commonResponse.Message;
 				}
-				else
-				{
-					commonResponse.Status = false;
-					commonResponse.Message = "Email or MobileNumber Already Exists...!!!";
-				}
-				ViewBag.Message = commonResponse.Message;
 			}
-			//}
-			//catch (Exception ex)
-			//{
-			//	commonResponse.Message = ex.Message;
-			//}
+			catch (Exception ex)
+			{
+				commonResponse.Message = ex.Message;
+			}
 			return View();
 		}
 
