@@ -1,9 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@inject IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
+@{
+    var user = HttpContextAccessor.HttpContext.Session.GetString("User");
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ArcheOne</title>
+    <link rel="shortcut icon" href="~/theme/logo/favicon.ico">
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -25,6 +31,7 @@
 	<a href="~/theme/dist/css/adminlte.min.css.map"></a>
 	<link href="~/theme/dist/css/adminlte.min.css" rel="stylesheet" />
 </head>
+
 <body class="hold-transition sidebar-mini">
     <!-- Site wrapper -->
     <div class="wrapper">
@@ -158,8 +165,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    @Html.ActionLink( user ,"UserProfile", "UserProfile", new { userid = user }, htmlAttributes: new { @class = "btn btn-light" })
+                </li>
+                <li class="nav-item">
                     <a href="/LogIn/Logout" class="nav-link">
                         <i class='fas fa-power-off'></i>
+                        LogOut
                     </a>
                 </li>
             </ul>
@@ -234,9 +245,10 @@
                                         <p>User Permission</p>
                                     </a>
                                 </li>
-                              
+
                             </ul>
                         </li>
+                    </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>
@@ -245,9 +257,12 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-
+            <section class="content-header"/>
+            <section class="content">
+                <div class="container-fluid">
             @RenderBody()
-
+        </div>
+            </section>
         </div>
         <!-- /.content-wrapper -->
 
@@ -255,7 +270,7 @@
             <div class="float-right d-none d-sm-block">
                 <b>Version</b> 3.2.0
             </div>
-            <strong>Copyright &copy; 2023 <a href="#">ArcheOne</a>.</strong> All rights reserved.
+            <strong>Copyright &copy; @DateTime.Now.Year <a href="#">ArcheOne</a>.</strong> All rights reserved.
         </footer>
 
         <!-- Control Sidebar -->
@@ -285,6 +300,17 @@
 	<script src="~/theme/plugins/datatables-buttons/js/buttons.colvis.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/theme/dist/js/adminlte.min.js"></script>
+    <script type="text/javascript">
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+
+
+        window.history.forward();
+        function noBack() {
+            window.history.forward();
+        }
+    </script>
 	<script src="~/theme/dist/js/demo.js"></script>
     <!-- common js -->
     @*<script src="~/archeone/common.js"></script>*@

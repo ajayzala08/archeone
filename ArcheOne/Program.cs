@@ -24,12 +24,15 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
      options.SlidingExpiration = true; // the cookie would be re-issued on any request half way through the ExpireTimeSpan
      //options.EventsType = typeof(CookieAuthEvent);
  });
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(10);//You can set Time   
+});
 
 
-//builder.Services.AddAuthentication()
-//        .AddCookie();
-
-
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddDistributedMemoryCache();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -41,11 +44,11 @@ app.UseCookiePolicy();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Login}/{action=Login}/{id?}");
+    pattern: "{controller=LogIn}/{action=LogIn}/{id?}");
 
 app.Run();
