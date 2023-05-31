@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ArcheOne.Models.Req.LoginReqModel
+@{
     Layout = "_BlankLayout";
 }
 
@@ -27,8 +28,8 @@
 
                     <!-- Password input -->
                     <div class="form-outline mb-4" id="dtxtPassword">
-                        <label class="form-label" >Password</label>
-                        <input id="txtPassword"  name="Password" type="password" class="form-control text-length" placeholder="UserName" isrequired="1" divcontainer="dtxtPassword" errorspan="stxtPassword" defaultvalue="" autocomplete="off" minlength="2">
+                        <label class="form-label">Password</label>
+                        <input id="txtPassword" name="Password" type="password" class="form-control text-length" placeholder="Password" isrequired="1" divcontainer="dtxtPassword" errorspan="stxtPassword" defaultvalue="" autocomplete="off" minlength="2">
                         <span class="help-block d-none has-error" id="stxtPassword">Please Enter Valid Password</span>
                     </div>
                     <div class="d-flex justify-content-around align-items-center mb-3">
