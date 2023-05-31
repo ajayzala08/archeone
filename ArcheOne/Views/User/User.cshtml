@@ -1,130 +1,145 @@
 ﻿@model ArcheOne.Models.Req.UserModel
-
-<div class="container">
-	<form id="contact-form" method="post" action="contact.php" role="form" enctype="multipart/form-data">
-		<div class="messages"></div>
-		<div class="controls">
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="form-group">
-						@*<div class="file-upload-wrapper">
-						<img id="photoUrl" style="width:75px!important" name="photoUrl" />
-						</div>
-						<input type="file" accept="image/*" onchange="loadFile(event)" name="photoUrl" value="photoUrl">
-						<div class="help-block with-errors"></div>*@
-						<div class="form-group">
-							<label for="form_name">Photo *</label>
-							<div class="file-upload-wrapper">
-								<img id="photoUrl" style="width:75px!important" name="photoUrl" />
+<style>
+	.txtValidation {
+		color: red
+	}
+</style>
+<section class="content-header"></section>
+<section class="content">
+	<div class="container-fluid">
+		<div class="card card-outline card-primary">
+			<div class="card-header">
+				Create Users
+				<h3 class="card-title"></h3>
+				<div class="card-tools">
+					<button type="button" class="btn btn-tool" data-card-widget="collapse">
+						<i class="fas fa-minus"></i>
+					</button>
+				</div>
+			</div>
+			<div class="card-body">
+				<form id="contact-form" method="post" role="form" enctype="multipart/form-data">
+					<div class="messages"></div>
+					<div class="controls">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label for="form_name">Photo *</label>
+								<div class="file-upload-wrapper">
+									<img id="photoUrl" style="width:75px!important" name="photoUrl" />
+								</div>
+								<input id="form_file" type="file" accept="image/*" onchange="loadFile(event)" name="photoUrl" name="photoUrl" asp-for="PhotoUrl" />
+								<span class="txtValidation" asp-validation-for="PhotoUrl"></span>
 							</div>
-							<input id="form_file" type="file" accept="image/*" onchange="loadFile(event)" name="photoUrl" name="photoUrl" required="requierd" />
+						</div>
+						<div class="row">
+							<div class="col-sm-4">
+								<input id="user_id" type="hidden" name="userId" class="form-control">
+								<div class="form-group">
+									<label for="form_name">Company *</label>
+									<select name="companyId" id="companyId" class="form-control" asp-for="CompanyId">
+										<option name="companyId" value="0">--Select Option--</option>
+										<option name="companyId" value="1">Arche Softronix</option>
+										<option name="companyId" value="2">Reyna Solutions</option>
+									</select>
+									<span class="txtValidation" asp-validation-for="CompanyId"></span>
+									<div class="help-block with-errors"></div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_name">FirstName *</label>
+									<input id="form_firstname" type="text" name="firstname" class="form-control" placeholder="Please enter your firstname *" asp-for="FirstName">
+									<span class="txtValidation" asp-validation-for="FirstName"></span>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_name">MiddleName *</label>
+									<input id="form_middlename" type="text" name="middlename" class="form-control" placeholder="Please enter your middlename *" asp-for="MiddleName">
+									<span class="txtValidation" asp-validation-for="MiddleName"></span>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_name">LastName *</label>
+									<input id="form_lastname" type="text" name="lastname" class="form-control" placeholder="Please enter your lastname *" asp-for="LastName">
+									<span class="txtValidation" asp-validation-for="LastName"></span>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_name">UserName *</label>
+									<input id="form_username" type="text" name="username" class="form-control" placeholder="Please enter your username *" asp-for="UserName">
+									<span class="txtValidation" asp-validation-for="UserName"></span>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_name">Password *</label>
+									<input id="form_password" type="password" name="password" class="form-control" placeholder="Please enter your password *" asp-for="Password">
+									<span class="txtValidation" asp-validation-for="Password"></span>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_name">Address *</label>
+									<input id="form_address" type="text" name="address" class="form-control" placeholder="Please enter your address *" asp-for="Address">
+									<span class="txtValidation" asp-validation-for="Address"></span>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_name">Pincode *</label>
+									<input id="form_pincode" type="text" name="pincode" class="form-control" placeholder="Please enter your pincode *" asp-for="Pincode">
+									<span class="txtValidation" asp-validation-for="Pincode"></span>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_mobile1">Mobile1 *</label>
+									<input id="form_mobile1" type="tel" name="mobile1" class="form-control" placeholder="Please enter your mobile number" asp-for="Mobile1">
+									<span class="txtValidation" asp-validation-for="Mobile1"></span>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_mobile1">Mobile2 *</label>
+									<input id="form_mobile2" type="tel" name="mobile2" class="form-control" placeholder="Please enter your mobile number" asp-for="Mobile2">
+									<span class="txtValidation" asp-validation-for="Mobile2"></span>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_email">Email *</label>
+									<input id="form_email" type="email" name="email" class="form-control" placeholder="Please enter your email *" asp-for="Email">
+									<span class="txtValidation" asp-validation-for="Email"></span>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-sm-4">
-					<input id="user_id" type="hidden" name="userId" class="form-control">
-					<div class="form-group">
-						<label for="form_name">Company *</label>
-						<select name="companyId" id="companyId" class="form-control" required="required">
-							<option>--Select Option--</option>
-							<option name="companyId" value="1">Arche Softronix</option>
-							<option name="companyId" value="2">Reyna Solutions</option>
-						</select>
-						<div class="help-block with-errors"></div>
+					<div class="clearfix"></div>
+					<div class="row">
+						<div class="col-md-1">
+							<input method="post" type="submit" class="btn btn-success btn-send" value="Submit" asp-action="User" asp-controller="User">
+						</div>
+						<div class="col-md-1">
+							<input type="submit" class="btn btn-danger btn-send" value="Cancel">
+						</div>
 					</div>
-				</div>
-				<div class="col-sm-4">
-					<div class="form-group">
-						<label for="form_name">FirstName *</label>
-						<input id="form_firstname" type="text" name="firstname" class="form-control" placeholder="Please enter your firstname *" >
-					</div>
-				</div>
-				<div class="col-sm-4">
-					<div class="form-group">
-						<label for="form_name">MiddleName *</label>
-						<input id="form_middlename" type="text" name="middlename" class="form-control" placeholder="Please enter your middlename *" required="required" data-error="middlename is required.">
-						<div class="help-block with-errors"></div>
-					</div>
-				</div>
-				<div class="col-sm-4">
-					<div class="form-group">
-						<label for="form_name">LastName *</label>
-						<input id="form_lastname" type="text" name="lastname" class="form-control" placeholder="Please enter your lastname *" required="required" data-error="lastname is required.">
-						<div class="help-block with-errors"></div>
-					</div>
-				</div>
-				<div class="col-sm-4">
-					<div class="form-group">
-						<label for="form_name">UserName *</label>
-						<input id="form_username" type="text" name="username" class="form-control" placeholder="Please enter your username *" required="required" data-error="username is required.">
-						<div class="help-block with-errors"></div>
-					</div>
-				</div>
-				<div class="col-sm-4">
-					<div class="form-group">
-						<label for="form_name">Password *</label>
-						<input id="form_password" type="password" name="password" class="form-control" placeholder="Please enter your password *" required="required" data-error="password is required.">
-						<div class="help-block with-errors"></div>
-					</div>
-				</div>
-				<div class="col-sm-4">
-					<div class="form-group">
-						<label for="form_name">Address *</label>
-						<input id="form_address" type="text" name="address" class="form-control" placeholder="Please enter your address *" required="required" data-error="address is required.">
-						<div class="help-block with-errors"></div>
-					</div>
-				</div>
-				<div class="col-sm-4">
-					<div class="form-group">
-						<label for="form_name">Pincode *</label>
-						<input id="form_pincode" type="text" name="pincode" class="form-control" placeholder="Please enter your pincode *" required="required" data-error="pincode is required.">
-						<div class="help-block with-errors"></div>
-					</div>
-				</div>
-				<div class="col-sm-4">
-					<div class="form-group">
-						<label for="form_mobile1">Mobile1 *</label>
-						<input id="form_mobile1" type="tel" name="mobile1" class="form-control" placeholder="Please enter your mobile number">
-						<div class="help-block with-errors"></div>
-					</div>
-				</div>
-				<div class="col-sm-4">
-					<div class="form-group">
-						<label for="form_mobile1">Mobile2 *</label>
-						<input id="form_mobile2" type="tel" name="mobile2" class="form-control" placeholder="Please enter your mobile number">
-						<div class="help-block with-errors"></div>
-					</div>
-				</div>
-				<div class="col-sm-4">
-					<div class="form-group">
-						<label for="form_email">Email *</label>
-						<input id="form_email" type="email" name="email" class="form-control" placeholder="Please enter your email *" required="required" data-error="Valid email is required.">
-						<div class="help-block with-errors"></div>
-					</div>
-				</div>
-
+					@*<h6 style="color:red">@ViewBag.Message</h6>*@
+					@if (ViewBag.Message != null)
+					{
+						<script type="text/javascript">
+							window.onload = function () {
+								alert("@ViewBag.Message");
+							};
+						</script>
+					}
+				</form>
 			</div>
 		</div>
-		<div class="clearfix"></div>
-		<div class="row">
-			<div class="col-md-1">
-				<input method="post" type="submit" class="btn btn-warning btn-send" value="Submit" asp-action="User" asp-controller="User">
-			</div>
-			<div class="col-md-1">
-				<input type="submit" class="btn btn-danger btn-send" value="Cancel">
-			</div>
-		</div>
-		@*<h6 style="color:red">@ViewBag.Message</h6>*@
-		@if (ViewBag.Message != null)
-		{
-			<script type="text/javascript">
-				window.onload = function () {
-					alert("@ViewBag.Message");
-				};
-			</script>
-		}
-	</form>
-</div>
+	</div>
+</section>
 
 <script type="text/javascript">
 	var loadFile = function (event) {
