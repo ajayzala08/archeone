@@ -125,5 +125,9 @@ namespace ArcheOne.Controllers
 			return View();
 		}
 
+		public IActionResult UserList()
+		{
+			return View(_dbRepo.UserMstList().ToList());
+		}
 	}
 }

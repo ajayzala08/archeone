@@ -366,3 +366,6 @@ obj
 .vs
 .vs
 /ArcheOne/bin
+bin
+obj
+.vs

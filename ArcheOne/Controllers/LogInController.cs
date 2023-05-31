@@ -37,10 +37,11 @@ namespace ArcheOne.Controllers
         public IActionResult LogIn([FromBody] LoginReqModel loginModel)
         {
             CommonResponse commonResponse = new CommonResponse();
-            var UserDetail = _dbRepo.UserMstList().Where(x => x.UserName == loginModel.UserName && x.Password == loginModel.Password).FirstOrDefault();
+            var UserDetail = _dbRepo.UserMstList().Where(x => x.UserName.ToLower() == loginModel.UserName.ToLower() && x.Password.ToLower() == loginModel.Password.ToLower()).FirstOrDefault();
             if (UserDetail != null && UserDetail.Id != 0)
             {
                 _httpContextAccessor.HttpContext.Session.SetString("User", UserDetail.UserName);
+                _httpContextAccessor.HttpContext.Session.SetString("UserId", UserDetail.Id.ToString());
                 commonResponse.Status = true;
                 commonResponse.StatusCode = HttpStatusCode.OK;
                 commonResponse.Message = "Login SuccessFully!";
@@ -235,6 +236,15 @@ namespace ArcheOne.Controllers
                 throw;
             }
             return commonResponse;
+        }
+
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+
+            var id = _httpContextAccessor.HttpContext.Session.GetString("UserId");
+            ViewBag.data = id;
+            return View();
         }
 
     }

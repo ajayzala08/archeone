@@ -1,142 +1,57 @@
 ﻿@{
     Layout = "_BlankLayout";
 }
-@{
-    Layout = "_BlankLayout";
-}
-@*<div class="login-box">
-    <div class="login-logo">
-        <a href="../../index2.html"><b>Admin</b>LTE</a>
-    </div>
-    <!-- /.login-logo -->
-    <div class="card">
-        <div class="card-body login-card-body">
-            <p class="login-box-msg">Sign in to start your session</p>
-            <div class="input-group mb-3" id="dtxtUserName">
-                <input id="txtUserName" name="txtUserName" type="text" class="form-control  txtCapitalize text-length" placeholder="User Name" isrequired="1" divcontainer="dtxtUserName" errorspan="stxtUserName" defaultvalue="" autocomplete="off" minlength="2">
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                        <span class="fas fa-user"></span>
+
+<link href="~/archeone/css/login/login.css" rel="stylesheet" />
+
+
+
+<section class="vh-100">
+    <div class="container py-5 h-100">
+        <div class="row d-flex  align-items-center  justify-content-center h-100">
+            <div class="col-md-6 col-lg-6 col-xl-5">
+                @* <div class="col-md-8 col-lg-7 col-xl-6">*@
+                @*  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
+                class="img-fluid" alt="Phone image">*@
+                <img src="~/theme/logo/reyanbluelogo.png" class="img-fluid" />
+            </div>
+            <div class="col-md-8 col-lg-5 col-xl-5 offset-xl-1">
+                @*<div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">*@
+                <form id="RegisterForm">
+                    <!-- Email input -->
+                    <div class="form-outline mb-4" id="dtxtUserName">
+                        <label class="form-label">UserName</label>
+                        <input id="txtUserName" name="UserName" type="text" class="form-control text-length" placeholder="UserName" isrequired="1" divcontainer="dtxtUserName" errorspan="stxtUserName" defaultvalue="" autocomplete="off" minlength="2">
+                        <span class="help-block d-none has-error" id="stxtUserName">Please Enter Valid UserName</span>
                     </div>
-                </div>
-            </div>
 
-            <div class="input-group mb-3" id="dtxtPassword">
-                <input id="txtPassword" name="txtPassword" type="password" class="form-control text-length" placeholder="Password" isrequired="1" divcontainer="dtxtPassword" errorspan="stxtPassword" defaultvalue="" autocomplete="off" minlength="2">
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                        <span class="fas fa-lock"></span>
+                    <!-- Password input -->
+                    <div class="form-outline mb-4" id="dtxtPassword">
+                        <label class="form-label" >Password</label>
+                        <input id="txtPassword"  name="Password" type="password" class="form-control text-length" placeholder="UserName" isrequired="1" divcontainer="dtxtPassword" errorspan="stxtPassword" defaultvalue="" autocomplete="off" minlength="2">
+                        <span class="help-block d-none has-error" id="stxtPassword">Please Enter Valid Password</span>
                     </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-8">
-                    <div class="icheck-primary">
-                        <input type="checkbox" id="remember">
-                        <label for="remember">
-                            Remember Me
-                        </label>
+                    <div class="d-flex justify-content-around align-items-center mb-3">
+                        <!-- Checkbox -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="form1Example3" checked />
+                            <label class="form-check-label" for="form1Example3"> Remember me </label>
+                        </div>
+                        <a href="LogIn/ForgotPassword">Forgot password?</a>
                     </div>
-                </div>
-                <!-- /.col -->
-                <div class="col-4">
-                    <button type="button" id="btnLogin" name="btnLogin" class="btn btn-primary btn-block">Sign In</button>
-                </div>
-                <!-- /.col -->
-            </div>
-            <br />
-            <div>
-                <h5 style="color:red;">@ViewBag.msg</h5>
-            </div>
 
-
-            <div class="social-auth-links text-center mb-3">
-                <p>- OR -</p>
-                <a href="#" class="btn btn-block btn-primary">
-                    <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-                </a>
-                <a href="#" class="btn btn-block btn-danger">
-                    <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-                </a>
-            </div>
-            <!-- /.social-auth-links -->
-
-            <p class="mb-1">
-                <a href="LogIn/ForgotPassword">I forgot my password</a>
-            </p>
-            <p class="mb-0">
-                <a href="register.html" class="text-center">Register a new membership</a>
-            </p>
-        </div>
-        <!-- /.login-card-body -->
-    </div>
-</div>
-*@
-
-
-<html>
-<body>
-
-    <section class="vh-100">
-        <div class="container py-5 h-100">
-            <div class="row d-flex align-items-center justify-content-center h-100">
-                <div class="col-md-8 col-lg-7 col-xl-6">
-                     <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
-                    class="img-fluid" alt="Phone image">
+                    <!-- Submit button -->
+                    <button type="button" id="btnLogin" name="btnLogin" class="btn btn-primary btn-lg btn-block">Sign In</button>
                     
-                  @*  <img src="~/theme/logo/logo.png" class="img-fluid" alt="Phone image" />*@
-                    @* <link href="@Url.Content("")" rel="stylesheet"  />*@
-                    <link href="~/theme/css/login.css" rel="stylesheet" type="text/css" />
-                </div>
-                <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
-                    <form>
-                        <!-- Email input -->
-                        <div class="form-outline mb-4">
-                            <input type="text" id="txtUserName" class="form-control form-control-lg" />
-                            <label class="form-label" for="form1Example13">Email address</label>
-                        </div>
-
-                        <!-- Password input -->
-                        <div class="form-outline mb-4">
-                            <input type="password" id="txtPassword" class="form-control form-control-lg" />
-                            <label class="form-label" for="form1Example23">Password</label>
-                        </div>
-
-                        <div class="d-flex justify-content-around align-items-center mb-4">
-                            <!-- Checkbox -->
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="form1Example3" checked />
-                                <label class="form-check-label" for="form1Example3"> Remember me </label>
-                            </div>
-                            <a href="LogIn/ForgotPassword">Forgot password?</a>
-                        </div>
-
-                        <!-- Submit button -->
-                        <button type="button" id="btnLogin" name="btnLogin" class="btn btn-primary btn-lg btn-block">Sign In</button>
-                      @*  <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>*@
-
-                        <div class="divider d-flex align-items-center my-4">
-                            <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
-                        </div>
-
-                        <a class="btn btn-primary btn-lg btn-block" style="background-color: #3b5998" href="#!"
-                           role="button">
-                            <i class="fab fa-facebook-f me-2"></i>Continue with Facebook
-                        </a>
-                        <a class="btn btn-primary btn-lg btn-block" style="background-color: #55acee" href="#!"
-                           role="button">
-                            <i class="fab fa-twitter me-2"></i>Continue with Twitter
-                        </a>
-
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
-    </section>
-</body>
-</html>
+    </div>
+</section>
+
+
 
 @section Scripts {
     <script src="~/Archeone/js/login/Login.js"></script>
-}
+    <script src="https://malsup.github.io/jquery.blockUI.js"></script>
+            }
