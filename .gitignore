@@ -364,3 +364,8 @@ FodyWeavers.xsd
 bin
 obj
 .vs
+.vs
+/ArcheOne/bin
+bin
+obj
+.vs

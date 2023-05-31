@@ -21,6 +21,36 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\Theme\plugins\datatables-bs4\js\dataTables.bootstrap4.js" />
+    <None Include="wwwroot\Theme\plugins\datatables-bs4\js\dataTables.bootstrap4.min.js" />
+    <None Include="wwwroot\Theme\plugins\datatables-buttons\js\buttons.bootstrap4.js" />
+    <None Include="wwwroot\Theme\plugins\datatables-buttons\js\buttons.bootstrap4.min.js" />
+    <None Include="wwwroot\Theme\plugins\datatables-buttons\js\buttons.colVis.js" />
+    <None Include="wwwroot\Theme\plugins\datatables-buttons\js\buttons.colVis.min.js" />
+    <None Include="wwwroot\Theme\plugins\datatables-buttons\js\buttons.flash.js" />
+    <None Include="wwwroot\Theme\plugins\datatables-buttons\js\buttons.flash.min.js" />
+    <None Include="wwwroot\Theme\plugins\datatables-buttons\js\buttons.html5.js" />
+    <None Include="wwwroot\Theme\plugins\datatables-buttons\js\buttons.html5.min.js" />
+    <None Include="wwwroot\Theme\plugins\datatables-buttons\js\buttons.print.js" />
+    <None Include="wwwroot\Theme\plugins\datatables-buttons\js\buttons.print.min.js" />
+    <None Include="wwwroot\Theme\plugins\datatables-buttons\js\dataTables.buttons.js" />
+    <None Include="wwwroot\Theme\plugins\datatables-buttons\js\dataTables.buttons.min.js" />
+    <None Include="wwwroot\Theme\plugins\datatables-responsive\js\dataTables.responsive.js" />
+    <None Include="wwwroot\Theme\plugins\datatables-responsive\js\dataTables.responsive.min.js" />
+    <None Include="wwwroot\Theme\plugins\datatables-responsive\js\responsive.bootstrap4.js" />
+    <None Include="wwwroot\Theme\plugins\datatables-responsive\js\responsive.bootstrap4.min.js" />
+    <None Include="wwwroot\Theme\plugins\datatables\jquery.dataTables.js" />
+    <None Include="wwwroot\Theme\plugins\datatables\jquery.dataTables.min.js" />
+    <None Include="wwwroot\Theme\plugins\jszip\jszip.js" />
+    <None Include="wwwroot\Theme\plugins\jszip\jszip.min.js" />
+    <None Include="wwwroot\Theme\plugins\pdfmake\pdfmake.js" />
+    <None Include="wwwroot\Theme\plugins\pdfmake\pdfmake.js.map" />
+    <None Include="wwwroot\Theme\plugins\pdfmake\pdfmake.min.js" />
+    <None Include="wwwroot\Theme\plugins\pdfmake\pdfmake.min.js.map" />
+    <None Include="wwwroot\Theme\plugins\pdfmake\vfs_fonts.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
       <PrivateAssets>all</PrivateAssets>
