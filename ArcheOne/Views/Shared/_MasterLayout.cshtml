@@ -22,14 +22,14 @@
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
-	<link href="~/theme/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link href="~/theme/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
     <!-- DataTables -->
-	<link href="~/theme/plugins/datatables-bs4/css/datatables.bootstrap4.min.css" rel="stylesheet" />
-	<link href="~/theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet" />
-	<link href="~/theme/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/theme/plugins/datatables-bs4/css/datatables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/theme/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
     <!-- Theme style -->
-	<a href="~/theme/dist/css/adminlte.min.css.map"></a>
-	<link href="~/theme/dist/css/adminlte.min.css" rel="stylesheet" />
+    <a href="~/theme/dist/css/adminlte.min.css.map"></a>
+    <link href="~/theme/dist/css/adminlte.min.css" rel="stylesheet" />
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -42,11 +42,11 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
-               @* <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Home</a>
+                @* <li class="nav-item d-none d-sm-inline-block">
+                <a href="#" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
+                <a href="#" class="nav-link">Contact</a>
                 </li>*@
             </ul>
 
@@ -165,8 +165,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    @Html.ActionLink( user ,"UserProfile", "UserProfile", new { userid = user }, htmlAttributes: new { @class = "btn btn-light" })
+                    <a href="#" class="nav-link">
+                        @HttpContextAccessor.HttpContext.Session.GetString("User")
+                    </a>
                 </li>
+
                 <li class="nav-item">
                     <a href="/LogIn/Logout" class="nav-link">
                         <i class='fas fa-power-off'></i>
@@ -257,11 +260,11 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <section class="content-header"/>
+            <section class="content-header" />
             <section class="content">
                 <div class="container-fluid">
-            @RenderBody()
-        </div>
+                    @RenderBody()
+                </div>
             </section>
         </div>
         <!-- /.content-wrapper -->
@@ -285,19 +288,19 @@
     <!-- Bootstrap 4 -->
     <script src="~/theme/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- DataTables  & Plugins -->
-	<script src="~/theme/plugins/datatables/jquery.datatables.min.js"></script>
-	<script src="~/theme/plugins/datatables-bs4/js/datatables.bootstrap4.min.js"></script>
-	<script src="~/theme/plugins/datatables-responsive/js/datatables.responsive.min.js"></script>
-	<script src="~/theme/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-	<script src="~/theme/plugins/datatables-buttons/js/datatables.buttons.min.js"></script>
-	<script src="~/theme/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-	<script src="~/theme/plugins/jszip/jszip.min.js"></script>
-	<a href="~/theme/plugins/pdfmake/pdfmake.min.js.map"></a>
-	<script src="~/theme/plugins/pdfmake/pdfmake.min.js"></script>
-	<script src="~/theme/plugins/pdfmake/vfs_fonts.js"></script>
-	<script src="~/theme/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-	<script src="~/theme/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-	<script src="~/theme/plugins/datatables-buttons/js/buttons.colvis.min.js"></script>
+    <script src="~/theme/plugins/datatables/jquery.datatables.min.js"></script>
+    <script src="~/theme/plugins/datatables-bs4/js/datatables.bootstrap4.min.js"></script>
+    <script src="~/theme/plugins/datatables-responsive/js/datatables.responsive.min.js"></script>
+    <script src="~/theme/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/theme/plugins/datatables-buttons/js/datatables.buttons.min.js"></script>
+    <script src="~/theme/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/theme/plugins/jszip/jszip.min.js"></script>
+    <a href="~/theme/plugins/pdfmake/pdfmake.min.js.map"></a>
+    <script src="~/theme/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/theme/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/theme/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/theme/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/theme/plugins/datatables-buttons/js/buttons.colvis.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/theme/dist/js/adminlte.min.js"></script>
     <script type="text/javascript">
@@ -311,7 +314,7 @@
             window.history.forward();
         }
     </script>
-	<script src="~/theme/dist/js/demo.js"></script>
+    <script src="~/theme/dist/js/demo.js"></script>
     <!-- common js -->
     @*<script src="~/archeone/common.js"></script>*@
     <!-- Sweetalert2 V11 -->
@@ -337,6 +340,7 @@
             });
         });
     </script>
-
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+    <script src="http://malsup.github.io/min/jquery.blockUI.min.js"></script>
 </body>
 </html>
