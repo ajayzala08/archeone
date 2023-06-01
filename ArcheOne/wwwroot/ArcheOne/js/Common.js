@@ -12,7 +12,6 @@ var Toast = Swal.mixin({
 
 $(document).ready(function () {
     ApplyEvents();
-
 });
 
 // General function for all ajax calls
@@ -170,7 +169,7 @@ function validateRequiredFields() {
 
 
     if ($('.has-error').length > 0) {
-        $($($('.has-error').first()).find("input[isrequired='1']").first()).focus();
+        $($($('.has-error').first()).find("input[isRequired='1']").first()).focus();
         return false
     }
     
@@ -190,7 +189,7 @@ function applyRequiredValidation() {
 
 function validateReqField(obj) {
 
-    if ($(obj).val() == $(obj).attr("defaultvalue")) {
+    if ($(obj).val().trim() == $(obj).attr("defaultvalue")) {
         $("#" + $(obj).attr("errorspan")).removeClass('d-none');
         $("#" + $(obj).attr("divcontainer")).addClass('has-error');
         $("#" + $(obj).attr("id")).addClass('is-invalid');

@@ -1,16 +1,14 @@
 $(document).ready(function () {
-    //applyRequiredValidation();
+    applyRequiredValidation();
     $("#btnLogin").click(function () {
         var dataModel = {
             "UserName": $('#txtUserName').val(),
             "Password": $('#txtPassword').val()
         }
         console.log(dataModel);
-      
-        if (validateRequiredFields(dataModel)) {
-            $.blockUI({
-                message: "<h2>Please wait</p>"
-            });
+
+        if (validateRequiredFields()) {
+            $.blockUI({message: "<h2>Please wait</p>"});
             setTimeout($.unblockUI, 5000);
             ajaxCall("Post", false, '/LogIn/LogIn', JSON.stringify(dataModel), function (result) {
 
@@ -28,7 +26,6 @@ $(document).ready(function () {
             });
         }
     });
-
     $("#btnForgotPassword").click(function () {
         var dataModel = {
             "Email": $('#txtEmail').val()
@@ -61,7 +58,7 @@ $(document).ready(function () {
             "NewPassword": $('#txtNewPassword').val()
         }
         console.log(dataModel);
-      
+
         if (validateRequiredFields()) {
             $.blockUI({
                 message: "<h2>Please wait</p>"
@@ -81,8 +78,8 @@ $(document).ready(function () {
                     Toast.fire({ icon: 'error', title: result.message });
                 }
             });
-            
-        } 
+
+        }
     });
 });
 
