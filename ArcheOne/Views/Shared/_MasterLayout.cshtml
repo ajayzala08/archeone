@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Http
 @{
     var user = HttpContextAccessor.HttpContext.Session.GetString("User");
+   
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +19,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="~/theme/dist/css/adminlte.min.css">
     <!-- common style -->
-    @*<link href="~/archeone/common.css" rel="stylesheet" />*@
+    <link href="~/archeone/css/common.css" rel="stylesheet" />
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
@@ -164,18 +165,30 @@
                         <i class="fas fa-expand-arrows-alt"></i>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        @HttpContextAccessor.HttpContext.Session.GetString("User")
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="fas fa-user-circle mr-2"></i> @user
                     </a>
+                    <div class="dropdown-menu dropdown-menu-sm">
+                        @*<span class="dropdown-item dropdown-header"></span>*@
+                        @*<div class="dropdown-divider"></div>*@
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-user mr-2"></i> Profile
+                        </a>
+                        <a href="/LogIn/ChangePassword" class="dropdown-item">
+                            <i class="fa fa-lock mr-2"></i>
+                            Change Password
+                        </a>
+                        <a href="/LogIn/Logout" class="dropdown-item">
+                            @*<a href="/LogIn/Logout" class="nav-link">*@
+                            <i class='fas fa-power-off mr-2'></i>
+                            LogOut
+                            @*</a>*@
+                        </a>
+                    </div>
                 </li>
 
-                <li class="nav-item">
-                    <a href="/LogIn/Logout" class="nav-link">
-                        <i class='fas fa-power-off'></i>
-                        LogOut
-                    </a>
-                </li>
             </ul>
         </nav>
         <!-- /.navbar -->
@@ -301,24 +314,17 @@
     <script src="~/theme/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="~/theme/plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="~/theme/plugins/datatables-buttons/js/buttons.colvis.min.js"></script>
+
+    <!-- Sweetalert2 V11 -->
+    <script src="~/archeone/sweetalert2_v11.js"></script>
+    @*<script src="~/theme/dist/js/demo.js"></script>*@
+    <!-- common js -->
+    <script src="~/archeone/js/Common.js"></script>
     <!-- AdminLTE App -->
     <script src="~/theme/dist/js/adminlte.min.js"></script>
-    <script type="text/javascript">
-        function preventBack() { window.history.forward(); }
-        setTimeout("preventBack()", 0);
-        window.onunload = function () { null };
+    <script src="https://malsup.github.io/jquery.blockUI.js"></script>
 
-
-        window.history.forward();
-        function noBack() {
-            window.history.forward();
-        }
-    </script>
-    <script src="~/theme/dist/js/demo.js"></script>
-    <!-- common js -->
-    @*<script src="~/archeone/common.js"></script>*@
-    <!-- Sweetalert2 V11 -->
-    @*<script src="~/archeone/sweetalert2_v11.js"></script>*@
+  
     <!-- AdminLTE for demo purposes -->
     @*  <script src="~/theme/dist/js/demo.js"></script>*@
 
@@ -340,7 +346,6 @@
             });
         });
     </script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
-    <script src="http://malsup.github.io/min/jquery.blockUI.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
