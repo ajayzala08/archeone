@@ -54,17 +54,17 @@ namespace ArcheOne.Controllers
                         }
                         else
                         {
-                            commonResponse.Message = "Login Fail";
+                            commonResponse.Message = "Please Enter Valid Username & Password!";
                         }
                     }
                     else
                     {
-                        commonResponse.Message = "Please Enter Valid Username & Password";
+                        commonResponse.Message = "Please Enter Valid Username & Password!";
                     }
                 }
                 else
                 {
-                    commonResponse.Message = "Please Enter Valid Username & Password";
+                    commonResponse.Message = "Please Enter Valid Username & Password!";
                 }
             }
             catch { throw; }
@@ -95,7 +95,7 @@ namespace ArcheOne.Controllers
                 if (!string.IsNullOrEmpty(forgotPasswordreqModel.Email))
                 {
                     var baseURL = _configuration.GetSection("SiteEmailConfigration:BaseURL").Value;
-                    var res = this._dbRepo.UserMstList().Where(x => x.Email == forgotPasswordreqModel.Email).FirstOrDefault();
+                    var res = this._dbRepo.UserMstList().FirstOrDefault(x => x.Email == forgotPasswordreqModel.Email);
                     var userid = 0;
                     if (res != null)
                     {
@@ -190,7 +190,7 @@ namespace ArcheOne.Controllers
                 if (!string.IsNullOrEmpty(resetPasswordReqDTO.UserId) && !string.IsNullOrEmpty(resetPasswordReqDTO.NewPassword))
                 {
                     int userId = Convert.ToInt32(resetPasswordReqDTO.UserId);
-                    var IsExistId = _dbRepo.UserMstList().Where(x => x.Id == userId).FirstOrDefault();
+                    var IsExistId = _dbRepo.UserMstList().FirstOrDefault(x => x.Id == userId);
                     if (IsExistId != null)
                     {
                         IsExistId.Password = resetPasswordReqDTO.NewPassword;
@@ -228,8 +228,7 @@ namespace ArcheOne.Controllers
             {
                 if (!string.IsNullOrEmpty(checkResetPasswordLinkReqModel.Id) && !string.IsNullOrEmpty(checkResetPasswordLinkReqModel.Link) && !string.IsNullOrEmpty(checkResetPasswordLinkReqModel.SecurityCode))
                 {
-                    var IsExistLink = _dbRepo.LinkMstList().Where(x => x.UserId == Convert.ToInt32(checkResetPasswordLinkReqModel.Id) && x.ResetPasswordLink == checkResetPasswordLinkReqModel.Link && x.IsClicked == false).FirstOrDefault();
-
+                    var IsExistLink = _dbRepo.LinkMstList().FirstOrDefault(x => x.UserId == Convert.ToInt32(checkResetPasswordLinkReqModel.Id) && x.ResetPasswordLink == checkResetPasswordLinkReqModel.Link && x.IsClicked == false);
                     if (IsExistLink != null)
                     {
                         if (IsExistLink.ExpiredDate <= _commonHelper.GetCurrentDateTime())
@@ -274,10 +273,57 @@ namespace ArcheOne.Controllers
         [HttpGet]
         public IActionResult ChangePassword()
         {
-
             var id = _httpContextAccessor.HttpContext.Session.GetString("UserId");
             ViewBag.data = id;
             return View();
+        }
+        [HttpPost]
+        public IActionResult ChangePassword([FromBody] ChangePasswordReqModel changePasswordReqModel)
+        {
+            CommonResponse commonResponse = new();
+            try
+            {
+                if (!string.IsNullOrEmpty(changePasswordReqModel.UserId) && !string.IsNullOrEmpty(changePasswordReqModel.OldPassword) && !string.IsNullOrEmpty(changePasswordReqModel.NewPassword))
+                {
+
+                    int userId = Convert.ToInt32(changePasswordReqModel.UserId);
+                    var IsExistId = _dbRepo.UserMstList().FirstOrDefault(x => x.Id == userId);
+                    if (IsExistId != null)
+                    {
+                        var isValidOldPassword = IsExistId.Password.Equals(changePasswordReqModel.OldPassword);
+                        if (isValidOldPassword)
+                        {
+                            IsExistId.Password = changePasswordReqModel.NewPassword;
+                            _dbContext.Entry(IsExistId).State = EntityState.Modified;
+                            _dbContext.SaveChanges();
+
+                            commonResponse.Status = true;
+                            commonResponse.Message = "Reset Password Sucessfully!";
+                        }
+                        else
+                        {
+                            commonResponse.Status = false;
+                            commonResponse.Message = "Can Not Match Your OldPassword!";
+                        }
+                    }
+                    else
+                    {
+                        commonResponse.Status = false;
+                        commonResponse.Message = "Can Not Change Your Password!";
+                    }
+                }
+                else
+                {
+                    commonResponse.Status = false;
+                    commonResponse.Message = "Please Enter Valid Password";
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+
+            }
+            return Json(commonResponse);
         }
 
     }
