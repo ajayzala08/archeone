@@ -256,12 +256,12 @@ namespace ArcheOne.Controllers
                     }
                     else
                     {
-                        commonResponse.Message = "Link is Expries";
+                        commonResponse.Message = "Link is expired";
                     }
                 }
                 else
                 {
-                    commonResponse.Message = "Link Expries";
+                    commonResponse.Message = "Link expired";
                 }
             }
             catch (Exception)
