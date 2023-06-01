@@ -8,7 +8,7 @@ function GetRoleList() {
     ajaxCall("Post", false, '/Role/RoleList', null, function (result) {
         if (result.status == true) {
             $.each(result.data, function (data, value) {
-                $("#slRoles").append($("<option></option>").val(data.id).html(value.roleName));
+                $("#slRoles").append($("<option></option>").val(value.id).html(value.roleName));
             })
         }
         else {
@@ -20,40 +20,41 @@ function GetRoleList() {
     });
 }
 
-function GetDefaultPermissions() {
-    $('#example1').DataTable(
-        {
-            "columnDefs": [
-                { "searchable": true, "orderable": true, targets: "_all" },
-                { "className": "text-center custom-middle-align", targets: "_all" }
-            ],
-            "processing": true,
-            "serverSide": true,
-            "ajax":
-            {
-                "url": "/Role/RoleList",
-                "type": "POST",
-                "dataType": "JSON",
-                "dataSrc": function (json) {
-                    // Settings.  
-                    jsonObj = $.parseJSON(json.data)
+function GetDefaultPermissions(RoleId) {
+    ajaxCall("Post", false, '/Permission/GetDefaultPermissionList?RoleId='+RoleId, null, function (result) {
+        if (result.status == true) {
 
-                    // Data  
-                    return jsonObj.data;
-                }
-            },
-            "columns": [
-                { "data": "Name", "autowidth": true },
-                { "data": "Surname", "autowidth": true },
-                { "data": "Office", "autowidth": true },
-                { "data": "Email", "autowidth": true },
-                { "data": "Telephone", "autowidth": true },
-                { "data": "Cellphone", "autowidth": true },
-                { "data": "CreatedDate", "autowidth": true },
-                { "data": "CreatedBy", "autowidth": true },
-                { "data": "UpdatedDate", "autowidth": true },
-                { "data": "UpdatedBy", "autowidth": true }
+            $("#btnUpdatePermission").removeAttr("disabled");
 
-            ]
-        });
+            columnNames = Object.keys(result.data[0]);
+
+            $('#tbDefaultPermissions').DataTable({
+                "responsive": true,
+                "lengthChange": true,
+                "processing": true, // for show progress bar
+                "filter": true, // this is for disable filter (search box)
+
+                "data": result.data,
+                "columns": [
+                    { data: "id", title: "Id" },
+                    { data: "permissionName", title: "Permissions" },
+                    {
+                        data: null,
+                        title: 'Action',
+                        render: function (data, type, row) {
+                            return '<input type="checkbox" value="' + row.id + '">';
+                        }
+                    }]
+            });
+        }
+        else {
+
+            $("#btnUpdatePermission").attr("disabled",true);
+
+            $.blockUI({
+                message: "<h2>" + result.message + "</p>"
+            });
+        }
+        $.unblockUI();
+    });
 }

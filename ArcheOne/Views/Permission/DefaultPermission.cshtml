@@ -31,7 +31,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label>Role</label>
-                        <select class="form-control" id="slRoles" onchange="GetDefaultPermissions()">
+                        <select class="form-control" id="slRoles" onchange="GetDefaultPermissions($(this).val())">
                             <option selected disabled value="0">Select Role</option>
                         </select>
                     </div>
@@ -39,28 +39,12 @@
             </div>
         </div>
 		<div class="card-body">
-			<table id="example1" class="table table-bordered table-striped">
-				@*<thead>
-					<tr>
-						<th>Id</th>
-						<th>Prmission Name</th>
-						<th>Permission Code</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach (var item in Model)
-					{
-						<tr>
-							<td>@item.Id</td>
-							<td>@item.PermissionName</td>
-							<td>@item.PermissionCode</td>
-							<td><input type="checkbox" id="@item.Id"/></td>
-						</tr>
-					}
-				</tbody>*@
+			<table id="tbDefaultPermissions" class="table table-bordered table-striped">
 			</table>
 		</div>
+        <div class="card-footer">
+            <button id="btnUpdatePermission" type="button" class="btn btn-warning" disabled>Update Permissions</button>
+        </div>
         <!-- /.card-body -->
     </div>
     <!-- /.card -->
