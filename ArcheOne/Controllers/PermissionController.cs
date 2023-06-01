@@ -2,6 +2,7 @@
 using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace ArcheOne.Controllers
@@ -16,26 +17,47 @@ namespace ArcheOne.Controllers
             _dbRepo = dbRepo;
         }
 
-        public IActionResult Index()
+        public IActionResult DefaultPermission()
         {
             return View();
         }
 
-        public IActionResult GetDefaultPermissionList()
+        public async Task<IActionResult> GetDefaultPermissionList(int RoleId)
         {
             CommonResponse response = new CommonResponse();
             try
             {
-                var UserList = _dbRepo.UserMstList().ToList();
-                response.Status = true;
-                response.StatusCode = HttpStatusCode.OK;
-                response.Data = UserList;
+                var data = await (from dpl in _dbRepo.DefaultPermissionList()
+                                  where dpl.RoleId == RoleId
+                                  join pm in _dbRepo.PermissionList() on dpl.PermissionId equals pm.Id into PM
+                                  from final in PM.DefaultIfEmpty()
+                                  select new
+                                  {
+                                      final.Id,
+                                      final.PermissionName,
+                                      final.PermissionCode
+                                  }).ToListAsync();
+
+
+                //var data = await _dbRepo.DefaultPermissionList().Where(x => x.RoleId == RoleId).ToListAsync();
+                if (data != null && data.Count > 0)
+                {
+                    response.Status = true;
+                    response.Message = "Data found successfully!";
+                    response.StatusCode = HttpStatusCode.OK;
+                    response.Data = data;
+                }
+                else
+                {
+                    response.StatusCode = HttpStatusCode.NotFound;
+                    response.Message = "Data not found!";
+                }
             }
             catch (Exception ex)
             {
                 response.Message = ex.Message;
             }
-            return Json(new { res = response });
+            return Json(response);
         }
     }
 }
