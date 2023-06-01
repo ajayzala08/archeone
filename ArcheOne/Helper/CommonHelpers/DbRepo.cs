@@ -25,6 +25,11 @@ namespace ArcheOne.Helper.CommonHelpers
 			return _db.LinkMsts.AsQueryable();
 		}
 
+		public IQueryable<CompanyMst> CompanyMstList(bool IsDeleted = false, bool IsActive = true)
+		{
+			return _db.CompanyMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+		}
+
 		public IQueryable<RoleMst> RoleMstList(bool IsDeleted = false, bool IsActive = true)
 		{
 			return _db.RoleMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive && x.Id != CommonConstant.SuperAdmin).AsQueryable();
