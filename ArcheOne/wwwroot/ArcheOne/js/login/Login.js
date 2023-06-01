@@ -99,15 +99,18 @@ $(document).ready(function () {
             ajaxCall("Post", false, '/LogIn/ChangePassword', JSON.stringify(dataModel), function (result) {
                 if (result.status == true) {
                     console.log(result);
-                    Toast.fire({ icon: 'success', title: result.message });
+                    Popup_Toast.fire({ icon: 'success', title: result.message });
                     RedirectToPage("/LogIn/LogIn");
                 }
                 else {
                     $.blockUI({
                         message: "<h2>Please wait</p>"
                     });
-                    setTimeout($.unblockUI, 5000);
-                    Toast.fire({ icon: 'error', title: result.message });
+                    setTimeout($.unblockUI, 2000);
+
+                    //Toast.fire({ position: false, icon: 'error', title: result.message });
+                    Popup_Toast.fire({ icon: 'error', title: result.message });
+                    //Popup_Toast.fire({ icon: 'error', title: result.message, showConfirmButton: true });
                 }
             });
 

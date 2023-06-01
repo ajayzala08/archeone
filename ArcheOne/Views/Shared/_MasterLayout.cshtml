@@ -2,7 +2,10 @@
 @using Microsoft.AspNetCore.Http
 @{
     var user = HttpContextAccessor.HttpContext.Session.GetString("User");
-   
+    @if (@user == null)
+    {
+
+    }
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -316,7 +319,7 @@
     <script src="~/theme/plugins/datatables-buttons/js/buttons.colvis.min.js"></script>
 
     <!-- Sweetalert2 V11 -->
-    <script src="~/archeone/sweetalert2_v11.js"></script>
+    <script src="~/archeone/js/sweetalert2_v11.js"></script>
     @*<script src="~/theme/dist/js/demo.js"></script>*@
     <!-- common js -->
     <script src="~/archeone/js/Common.js"></script>
