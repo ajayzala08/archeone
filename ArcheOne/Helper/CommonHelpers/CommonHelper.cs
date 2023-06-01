@@ -244,10 +244,10 @@ namespace ArcheOne.Helper.CommonHelpers
                 if (APILogSwitch)
                 {
                     string logText = apiUrl + " (" + methodType + ") - Request : ( " + requestResult + " ) - Response : ( " + request + " ).";
-                    AddLog(logText, CommonConstant.Activity_log);
+                    AddLog(logText, CommonConstant.ActivityLog);
                 }
             }
-            catch (Exception) { throw; }
+            catch { throw; }
         }
 
         public void AddExceptionLog(string exceptionText)
@@ -257,10 +257,10 @@ namespace ArcheOne.Helper.CommonHelpers
                 bool ExceptionLogSwitch = Convert.ToBoolean(_configuration["CommonSwitches:ExceptionLogSwitch"].ToString());
                 if (ExceptionLogSwitch)
                 {
-                    AddLog(exceptionText, CommonConstant.Exception_log);
+                    AddLog(exceptionText, CommonConstant.ExceptionLog);
                 }
             }
-            catch (Exception) { throw; }
+            catch { throw; }
         }
 
         public void AddLog(string text, string? logType = null)

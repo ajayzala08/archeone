@@ -3,8 +3,13 @@
     public class CommonConstant
     {
         #region LogType
-        public const string Activity_log = "ActivityLog";
-        public const string Exception_log = "ExceptionLog";
+        public const string ActivityLog = "ActivityLog";
+        public const string ExceptionLog = "ExceptionLog";
+        #endregion
+
+
+        #region Roles
+        public const int SuperAdmin = 1;
         #endregion
     }
 }

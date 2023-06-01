@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ArcheOne.Database.Entities;
+﻿namespace ArcheOne.Database.Entities;
 
 public partial class UserMst
 {
@@ -42,4 +39,6 @@ public partial class UserMst
     public DateTime CreatedDate { get; set; }
 
     public DateTime UpdatedDate { get; set; }
+
+    public int? RoleId { get; set; }
 }

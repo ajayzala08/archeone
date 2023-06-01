@@ -43,7 +43,7 @@ namespace ArcheOne.Controllers
                     if (string.IsNullOrEmpty(loginModel.UserName) && string.IsNullOrEmpty(loginModel.Password))
                     {
 
-                        var UserDetail = _dbRepo.UserMstList().Where(x => x.UserName.ToLower() == loginModel.UserName.ToLower() && x.Password.ToLower() == loginModel.Password.ToLower()).FirstOrDefault();
+                        var UserDetail = _dbRepo.AllUserMstList().Where(x => x.UserName.ToLower() == loginModel.UserName.ToLower() && x.Password.ToLower() == loginModel.Password.ToLower()).FirstOrDefault();
                         if (UserDetail != null)
                         {
                             _httpContextAccessor.HttpContext.Session.SetString("User", UserDetail.UserName);
