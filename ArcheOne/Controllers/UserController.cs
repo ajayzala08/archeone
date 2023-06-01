@@ -6,6 +6,8 @@ using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models.Req;
 using Azure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArcheOne.Controllers
 {
@@ -29,20 +31,28 @@ namespace ArcheOne.Controllers
 
 		public IActionResult User()
 		{
+			List<SelectListItem> list = new List<SelectListItem>().ToList();
+			List<CompanyReqModel> companyReqModel = new List<CompanyReqModel>();
+			var companies = _dbRepo.CompanyMstList().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.Id.ToString()}).ToList();
+			ViewBag.Company = companies;
+
+			List<RoleReqModel> roleReqModel = new List<RoleReqModel>();
+			var roles = _dbRepo.RoleMstList().Select(x => new SelectListItem { Text = x.RoleName, Value = x.Id.ToString() }).ToList();
+			 ViewBag.Role = roles;
 			return View();
 		}
 
-		[HttpPost("User")]
+		[HttpGet("User")]
 		[Consumes("multipart/form-data")]
-		public IActionResult User([FromForm] UserModel userModel)
+		public IActionResult User(UserModel userModel)
 		{
 			CommonResponse commonResponse = new CommonResponse();
 			try
 			{
-				UserMst userMst = new UserMst();
 				if (ModelState.IsValid)
 				{
-					var user = _dbRepo.UserMstList().Where(x => x.Email.ToLower() == userModel.Email.ToLower() && x.Mobile1 == userModel.Mobile1 && x.Mobile2 == userModel.Mobile2).FirstOrDefault();
+					UserMst userMst = new UserMst();
+					var user = _dbRepo.UserMstList().FirstOrDefault(x => x.Email.ToLower() == userModel.Email.ToLower() && x.Mobile1 == userModel.Mobile1 && x.Mobile2 == userModel.Mobile2);
 					if (user == null)
 					{
 						int LoggedInUserId = _commonHelper.GetLoggedInUserId();
@@ -83,8 +93,8 @@ namespace ArcheOne.Controllers
 								userMst.PhotoUrl = fileName;
 								userMst.IsActive = true;
 								userMst.IsDelete = false;
-								userMst.CreatedDate = DateTime.Now;
-								userMst.UpdatedDate = DateTime.Now;
+								userMst.CreatedDate = _commonHelper.GetCurrentDateTime();
+								userMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
 								userMst.CreatedBy = LoggedInUserId;
 								userMst.UpdatedBy = LoggedInUserId;
 
@@ -94,7 +104,7 @@ namespace ArcheOne.Controllers
 								if (result != null)
 								{
 									commonResponse.Data = userMst;
-									commonResponse.Message = "Data uploaded Succesfully";
+									commonResponse.Message = "Data Uploaded Successfully";
 									commonResponse.Status = true;
 								}
 
@@ -113,7 +123,7 @@ namespace ArcheOne.Controllers
 					else
 					{
 						commonResponse.Status = false;
-						commonResponse.Message = "Email or MobileNumber Already Exists...!!!";
+						commonResponse.Message = "Email or MobileNumber already exists !";
 					}
 					ViewBag.Message = commonResponse.Message;
 				}
@@ -129,5 +139,54 @@ namespace ArcheOne.Controllers
 		{
 			return View(_dbRepo.UserMstList().ToList());
 		}
+
+		public IActionResult DeleteUser(int id)
+		{
+			CommonResponse commonResponse = new CommonResponse();
+			try
+			{
+				var res = _dbRepo.UserMstList().FirstOrDefault(x => x.Id == id);
+				if (res != null)
+				{
+					UserModel user = new UserModel();
+					user.IsDelete = true;
+					user.UpdatedBy = _commonHelper.GetLoggedInUserId();
+					user.CreatedDate = _commonHelper.GetCurrentDateTime();
+					user.UpdatedDate = _commonHelper.GetCurrentDateTime();
+
+					_dbContext.Entry(user).State = EntityState.Modified;
+					_dbContext.SaveChanges();
+				}
+				else
+				{
+					commonResponse.Message = "Data not found !";
+					commonResponse.StatusCode = HttpStatusCode.BadRequest;
+				}
+			}
+			catch { throw; }
+			return RedirectToAction("UserList");
+		}
+
+		//#region Company 
+		//public IActionResult Company()
+		//{
+		//	CommonResponse commonResponse = new CommonResponse();
+		//	var companies = _dbRepo.CompanyMstList().ToList();
+		//	if (companies.Count > 0)
+		//	{
+		//		commonResponse.Data = companies;
+		//		commonResponse.Status = true;
+		//		commonResponse.StatusCode = HttpStatusCode.OK;
+		//		commonResponse.Message = "Data found successfully !";
+		//	}
+		//	else
+		//	{
+		//		commonResponse.Message = "Data not found !";
+		//		commonResponse.StatusCode = HttpStatusCode.NotFound;
+		//	}
+		//	ViewBag.Company = commonResponse.Data;
+		//	return Json(companies);
+		//}
+		//#endregion
 	}
 }

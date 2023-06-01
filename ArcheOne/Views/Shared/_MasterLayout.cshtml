@@ -165,7 +165,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    @Html.ActionLink( user ,"UserProfile", "UserProfile", new { userid = user }, htmlAttributes: new { @class = "btn btn-light" })
+                   @* @Html.ActionLink( user ,"UserProfile", "UserProfile", new { userid = user }, htmlAttributes: new { @class = "btn btn-light" })*@
                 </li>
                 <li class="nav-item">
                     <a href="/LogIn/Logout" class="nav-link">
@@ -248,6 +248,31 @@
 
                             </ul>
                         </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-solid fa-users"></i>
+                                <p>
+                                    User
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="~/User/User" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>User</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="~/User/UserList" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>UserList</p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -298,6 +323,10 @@
 	<script src="~/theme/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 	<script src="~/theme/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 	<script src="~/theme/plugins/datatables-buttons/js/buttons.colvis.min.js"></script>
+    
+    <!-- Sweetalert2 V11 -->
+	<script src="~/theme/dist/js/sweetalert2_v11.js"></script>
+
     <!-- AdminLTE App -->
     <script src="~/theme/dist/js/adminlte.min.js"></script>
     <script type="text/javascript">
@@ -311,14 +340,8 @@
             window.history.forward();
         }
     </script>
-	<script src="~/theme/dist/js/demo.js"></script>
     <!-- common js -->
-    @*<script src="~/archeone/common.js"></script>*@
-    <!-- Sweetalert2 V11 -->
-    @*<script src="~/archeone/sweetalert2_v11.js"></script>*@
-    <!-- AdminLTE for demo purposes -->
-    @*  <script src="~/theme/dist/js/demo.js"></script>*@
-
+    <script src="~/archeone/js/common.js"></script>
 
     <script>
         $(function () {
@@ -337,6 +360,7 @@
             });
         });
     </script>
+    @await RenderSectionAsync("Scripts", required: false)
 
 </body>
 </html>

@@ -15,5 +15,7 @@ namespace ArcheOne.Helper
 			return _db.UserMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
 		}
 
+		
+
 	}
 }
