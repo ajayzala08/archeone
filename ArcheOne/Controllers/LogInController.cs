@@ -40,7 +40,7 @@ namespace ArcheOne.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (string.IsNullOrEmpty(loginModel.UserName) && string.IsNullOrEmpty(loginModel.Password))
+                    if (!string.IsNullOrEmpty(loginModel.UserName) && !string.IsNullOrEmpty(loginModel.Password))
                     {
 
                         var UserDetail = _dbRepo.UserMstList().Where(x => x.UserName.ToLower() == loginModel.UserName.ToLower() && x.Password.ToLower() == loginModel.Password.ToLower()).FirstOrDefault();
@@ -92,7 +92,7 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
             try
             {
-                if (string.IsNullOrEmpty(forgotPasswordreqModel.Email))
+                if (!string.IsNullOrEmpty(forgotPasswordreqModel.Email))
                 {
                     var baseURL = _configuration.GetSection("SiteEmailConfigration:BaseURL").Value;
                     var res = this._dbRepo.UserMstList().Where(x => x.Email == forgotPasswordreqModel.Email).FirstOrDefault();
@@ -187,7 +187,7 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new();
             try
             {
-                if (string.IsNullOrEmpty(resetPasswordReqDTO.UserId) && string.IsNullOrEmpty(resetPasswordReqDTO.NewPassword))
+                if (!string.IsNullOrEmpty(resetPasswordReqDTO.UserId) && !string.IsNullOrEmpty(resetPasswordReqDTO.NewPassword))
                 {
                     int userId = Convert.ToInt32(resetPasswordReqDTO.UserId);
                     var IsExistId = _dbRepo.UserMstList().Where(x => x.Id == userId).FirstOrDefault();
@@ -226,7 +226,7 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new();
             try
             {
-                if (string.IsNullOrEmpty(checkResetPasswordLinkReqModel.Id) && string.IsNullOrEmpty(checkResetPasswordLinkReqModel.Link) && string.IsNullOrEmpty(checkResetPasswordLinkReqModel.SecurityCode))
+                if (!string.IsNullOrEmpty(checkResetPasswordLinkReqModel.Id) && !string.IsNullOrEmpty(checkResetPasswordLinkReqModel.Link) && !string.IsNullOrEmpty(checkResetPasswordLinkReqModel.SecurityCode))
                 {
                     var IsExistLink = _dbRepo.LinkMstList().Where(x => x.UserId == Convert.ToInt32(checkResetPasswordLinkReqModel.Id) && x.ResetPasswordLink == checkResetPasswordLinkReqModel.Link && x.IsClicked == false).FirstOrDefault();
 
