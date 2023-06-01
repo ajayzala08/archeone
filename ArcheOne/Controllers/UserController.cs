@@ -1,10 +1,8 @@
 ﻿using System.Net;
-using System.Security.AccessControl;
 using ArcheOne.Database.Entities;
 using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models.Req;
-using Azure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -159,8 +157,8 @@ namespace ArcheOne.Controllers
 				}
 				else
 				{
-					commonResponse.Message = "Data not found !";
-					commonResponse.StatusCode = HttpStatusCode.BadRequest;
+					commonResponse.Message = "Data not found!";
+					commonResponse.StatusCode = HttpStatusCode.NotFound;
 				}
 			}
 			catch { throw; }

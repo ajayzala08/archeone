@@ -1,51 +1,7 @@
-﻿@{
+﻿@model ArcheOne.Models.Req.LoginReqModel
+@{
     Layout = "_BlankLayout";
 }
-
-@*Nikunj Login Code*@
-
-@*
-<div class="container-fluid" style="margin-top:170px;">
-<div class="card"style="border:none">
-    <div class="card-body login-card-body">
-        <div class="row form-group">
-            <div class="col-md-6" >
-                <div style="margin-left:350px" >
-                    <img src="~/theme/logo/reyanbluelogo.png" class="img-fluid" alt="Phone image" />
-                    </div>
-            </div>
-            <div class="col-md-6" >
-                    <div style="margin-right:350px;margin-left:20px; align-content:center; vh-100">
-                    <div class="form-outline mb-4">
-                        <input type="text" id="txtUserName" class="form-control form-control-lg" />
-                        <label class="form-label" for="form1Example13">Email address</label>
-                    </div>
-
-                    <!-- Password input -->
-                    <div class="form-outline mb-4">
-                        <input type="password" id="txtPassword" class="form-control form-control-lg" />
-                        <label class="form-label" for="form1Example23">Password</label>
-                    </div>
-
-                    <div class="d-flex justify-content-around align-items-center mb-4">
-                        <!-- Checkbox -->
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="form1Example3" checked />
-                            <label class="form-check-label" for="form1Example3"> Remember me </label>
-                        </div>
-                        <a href="LogIn/ForgotPassword">Forgot password?</a>
-                    </div>
-
-                    <!-- Submit button -->
-                    <button type="button" id="btnLogin" name="btnLogin" class="btn btn-primary btn-lg btn-block">Sign In</button>
-                    </div>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-
-*@
 
 <section class="vh-100">
     <div class="container py-5 h-100">
@@ -58,20 +14,20 @@
             </div>
             <div class="col-md-8 col-lg-5 col-xl-5 offset-xl-1">
                 @*<div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">*@
-                <form>
+                <form id="RegisterForm">
                     <!-- Email input -->
-                    <div class="form-outline mb-4">
-                        <label class="form-label" for="form1Example13">Username</label>
-                        <input type="text" id="txtUserName" class="form-control form-control-lg" placeholder="Username" />
-
+                    <div class="form-outline mb-4" id="dtxtUserName">
+                        <label class="form-label">UserName</label>
+                        <input id="txtUserName" name="txtUserName" type="text" class="form-control text-length" placeholder="UserName" isRequired="1" divcontainer="dtxtUserName" errorspan="stxtUserName" defaultvalue="" autocomplete="off" minlength="1" />
+                        <span class="help-block d-none has-error" id="stxtUserName">Please Enter Valid UserName</span>
                     </div>
 
                     <!-- Password input -->
-                    <div class="form-outline mb-4">
-                        <label class="form-label" for="form1Example23">Password</label>
-                        <input type="password" id="txtPassword" class="form-control form-control-lg" placeholder="Password" />
+                    <div class="form-outline mb-4" id="dtxtPassword">
+                        <label class="form-label">Password</label>
+                        <input id="txtPassword" name="Password" type="password" class="form-control text-length" placeholder="Password" isRequired="1" divcontainer="dtxtPassword" errorspan="stxtPassword" defaultvalue="" autocomplete="off" minlength="3" maxlength="10">
+                        <span class="help-block d-none has-error" id="stxtPassword">Please Enter Valid Password</span>
                     </div>
-
                     <div class="d-flex justify-content-around align-items-center mb-3">
                         <!-- Checkbox -->
                         <div class="form-check">
@@ -83,14 +39,14 @@
 
                     <!-- Submit button -->
                     <button type="button" id="btnLogin" name="btnLogin" class="btn btn-primary btn-lg btn-block">Sign In</button>
+
                 </form>
             </div>
         </div>
     </div>
 </section>
 
-
-
 @section Scripts {
     <script src="~/Archeone/js/login/Login.js"></script>
+    @*<script src="https://malsup.github.io/jquery.blockUI.js"></script>*@
             }

@@ -10,10 +10,16 @@ namespace ArcheOne.Helper.CommonHelpers
             _db = db;
         }
 
-        public IQueryable<UserMst> UserMstList(bool IsDeleted = false, bool IsActive = true)
+        public IQueryable<UserMst> AllUserMstList(bool IsDeleted = false, bool IsActive = true)
         {
             return _db.UserMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
+
+        public IQueryable<UserMst> UserMstList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.UserMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive && x.RoleId != CommonConstant.SuperAdmin).AsQueryable();
+        }
+
         public IQueryable<LinkMst> LinkMstList()
         {
             return _db.LinkMsts.AsQueryable();
