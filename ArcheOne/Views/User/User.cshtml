@@ -1,7 +1,8 @@
 ﻿@model ArcheOne.Models.Req.UserModel
 @inject IHttpContextAccessor HttpContextAccessor
 @{
-
+	var CompanyList = ViewBag.Company;
+	var RoleList = ViewBag.Role;
 }
 <style>
 	.txtValidation {
@@ -43,18 +44,37 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-sm-4" id="ddlCompanyId">
+							<div class="col-sm-4" id="dddlCompany">
 								<div class="form-group">
-									@Html.Label("CompanyName")
-									@Html.DropDownList("ddlCompanyId", new SelectList(@ViewBag.Company, "Id", "CompanyName"), htmlAttributes: new { @class = "form-control", @id = "ddlCompanyId", @isrequired="1", @divcontainer="ddlCompanyId", @defaultvalue="0", @errorspan="sddlRole" } )
-									<span class="help-block d-none has-error" id="sddlCompanyId">Please select any company</span>
+									<label><span class="has-error required">* </span>Company</label>
+									<select id="ddlCompany" name="ddlCompany" class="form-control" isrequired="1" divcontainer="dddlCompany" errorspan="sddlCompany" defaultvalue="0" style="width: 100%;">
+										@*<option value="0">--- Select ---</option>*@
+										@foreach (var item in CompanyList)
+										{
+											<option value="@item.Id">@item.CompanyName</option>
+										}
+									</select>
+									<span class="help-block d-none has-error" id="sddlCompany">Please select any company</span>
 								</div>
 							</div>
+							@*<div class="col-sm-4" id="dddlRole">
+							<div class="form-group">
+							@Html.Label("Role")
+							@Html.DropDownList("ddlRole", new SelectList(@ViewBag.Role, "Id", "RoleName"), htmlAttributes: new { @class = "form-control", @id = "ddlRole", @isrequired="1", @divcontainer="dddlRole", @defaultvalue="0", @errorspan="sddlRole" })
+							<span class="help-block d-none has-error" id="sddlRole">Please Enter Valid Role</span>
+							</div>
+							</div>*@
 							<div class="col-sm-4" id="dddlRole">
 								<div class="form-group">
-									@Html.Label("Role")
-									@Html.DropDownList("ddlRole", new SelectList(@ViewBag.Role, "Id", "RoleName"), htmlAttributes: new { @class = "form-control", @id = "ddlRole", @isrequired="1", @divcontainer="dddlRole", @defaultvalue="0", @errorspan="sddlRole" })
-									<span class="help-block d-none has-error" id="sddlRole" >Please Enter Valid Role</span>
+									<label><span class="has-error required">* </span>Role</label>
+									<select id="ddlRole" name="ddlRole" class="form-control" isrequired="1" divcontainer="dddlRole" errorspan="sddlRole" defaultvalue="0" style="width: 100%;">
+										@*<option value="0">--- Select ---</option>*@
+										@foreach (var item in RoleList)
+										{
+											<option value="@item.Id">@item.RoleName</option>
+										}
+									</select>
+									<span class="help-block d-none has-error" id="sddlRole">Please select any role</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtFirstName">
@@ -113,11 +133,18 @@
 									<span class="help-block d-none has-error" id="stxtMobile1" asp-validation-for="Mobile1">Please Enter Valid Mobile1</span>
 								</div>
 							</div>
-							<div class="col-sm-4" id="dtxtMobile2">
+							@*<div class="col-sm-4" id="dtxtMobile2">
+							<div class="form-group">
+							<label for="form_mobile1">Mobile2 *</label>
+							<input id="txtMobile2" type="tel" name="Mobile2" class="form-control text-length" placeholder="Please enter your Mobile2 number" isrequired="1" divcontainer="dtxtMobile2" errorspan="stxtMobile2" defaultvalue="" autocomplete="off" minlength="2">
+							<span class="help-block d-none has-error" id="stxtMobile2" asp-validation-for="Mobile2">Please Enter Valid Mobile2</span>
+							</div>
+							</div>*@
+							<div class="col-sm-4">
 								<div class="form-group">
 									<label for="form_mobile1">Mobile2 *</label>
-									<input id="txtMobile2" type="tel" name="Mobile2" class="form-control text-length" placeholder="Please enter your Mobile2 number" isrequired="1" divcontainer="dtxtMobile2" errorspan="stxtMobile2" defaultvalue="" autocomplete="off" minlength="2">
-									<span class="help-block d-none has-error" id="stxtMobile2" asp-validation-for="Mobile2">Please Enter Valid Mobile2</span>
+									<input id="txtMobile2" type="tel" name="Mobile2" class="form-control text-length" placeholder="Please enter your Mobile2 number" isrequired="1" defaultvalue="" autocomplete="off" minlength="2">
+									<span class="help-block d-none has-error" asp-validation-for="Mobile2">Please Enter Valid Mobile2</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtEmail">
