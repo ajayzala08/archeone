@@ -10,22 +10,24 @@ $(document).ready(function () {
         console.log(dataModel);
 
         if (validateRequiredFields()) {
-            $.blockUI({message: "<h2>Please wait</p>"});
-            setTimeout($.unblockUI, 5000);
+            $.blockUI({ message: "<h2>Please wait</p>" });
+
             ajaxCall("Post", false, '/LogIn/LogIn', JSON.stringify(dataModel), function (result) {
 
                 if (result.status == true) {
                     Toast.fire({ icon: 'success', title: result.message });
                     RedirectToPage("/Dashboard/Index");
+
                 }
                 else {
                     $.blockUI({
                         message: "<h2>Please wait</p>"
                     });
-                    setTimeout($.unblockUI, 2000);
+                    // setTimeout($.unblockUI, 2000);
                     Toast.fire({ icon: 'error', title: result.message });
                 }
             });
+            $.unblockUI();
         }
     });
     $("#btnForgotPassword").click(function () {
@@ -37,7 +39,7 @@ $(document).ready(function () {
             $.blockUI({
                 message: "<h2>Please wait</p>"
             });
-            setTimeout($.unblockUI, 5000);
+           // setTimeout($.unblockUI, 5000);
             ajaxCall("Post", false, '/LogIn/ForgotPassword', JSON.stringify(dataModel), function (result) {
                 if (result.status == true) {
                     console.log(result);
@@ -48,10 +50,11 @@ $(document).ready(function () {
                     $.blockUI({
                         message: "<h2>Please wait</p>"
                     });
-                    setTimeout($.unblockUI, 5000);
+                    //setTimeout($.unblockUI, 5000);
                     Toast.fire({ icon: 'error', title: result.message });
                 }
             });
+            $.unblockUI();
         }
     });
     $("#btnResetPassword").click(function () {
@@ -61,11 +64,12 @@ $(document).ready(function () {
         }
         console.log(dataModel);
 
-        if (validateRequiredFields()) {
+        if (validateRequiredFields())
+        {
             $.blockUI({
                 message: "<h2>Please wait</p>"
             });
-            setTimeout($.unblockUI, 5000);
+            //setTimeout($.unblockUI, 5000);
             ajaxCall("Post", false, '/LogIn/ResetPassword', JSON.stringify(dataModel), function (result) {
                 if (result.status == true) {
                     console.log(result);
@@ -76,11 +80,11 @@ $(document).ready(function () {
                     $.blockUI({
                         message: "<h2>Please wait</p>"
                     });
-                    setTimeout($.unblockUI, 5000);
+                    //setTimeout($.unblockUI, 5000);
                     Toast.fire({ icon: 'error', title: result.message });
                 }
             });
-
+            $.unblockUI();
         }
     });
     $("#btnChangePassword").click(function () {
@@ -95,7 +99,7 @@ $(document).ready(function () {
             $.blockUI({
                 message: "<h2>Please wait</p>"
             });
-            setTimeout($.unblockUI, 5000);
+           // setTimeout($.unblockUI, 5000);
             ajaxCall("Post", false, '/LogIn/ChangePassword', JSON.stringify(dataModel), function (result) {
                 if (result.status == true) {
                     console.log(result);
@@ -106,17 +110,17 @@ $(document).ready(function () {
                     $.blockUI({
                         message: "<h2>Please wait</p>"
                     });
-                    setTimeout($.unblockUI, 2000);
+                   // setTimeout($.unblockUI, 2000);
 
                     //Toast.fire({ position: false, icon: 'error', title: result.message });
                     Popup_Toast.fire({ icon: 'error', title: result.message });
                     //Popup_Toast.fire({ icon: 'error', title: result.message, showConfirmButton: true });
                 }
             });
-
+            $.unblockUI();
         }
     });
- 
+
 });
 
 
