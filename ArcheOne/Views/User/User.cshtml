@@ -33,7 +33,7 @@
 										<img id="photoUrl" style="width:75px!important" name="photoUrl" />
 										<div class="input-group">
 											<div class="custom-file">
-												<input id="txtPhotoUrl" type="file" name="PhotoUrl" isrequired="1" divcontainer="dtxtPhotoUrl" errorspan="stxtCompanyId" defaultvalue="" autocomplete="off" minlength="2" class="custom-file-input text-length" onchange="loadFile(event)" accept="image/*" asp-for="PhotoUrl" />
+												<input id="txtPhotoUrl" type="file" name="PhotoUrl" isrequired="1" divcontainer="dtxtPhotoUrl" errorspan="stxtPhotoUrl" defaultvalue="" autocomplete="off" minlength="2" class="custom-file-input text-length" onchange="loadFile(event)" accept="image/*" />
 												<label class="custom-file-label" for="form_file">Choose file</label>
 											</div>
 										</div>
@@ -43,89 +43,87 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-sm-4" id="dtxtCompanyId">
-								<input id="txtCompanyId" type="hidden" name="CompanyId" class="form-control text-length" isrequired="1" divcontainer="dtxtCompanyId" errorspan="stxtCompanyId" defaultvalue="" autocomplete="off" minlength="2" asp-for="CompanyId">
+							<div class="col-sm-4" id="ddlCompanyId">
 								<div class="form-group">
 									@Html.Label("CompanyName")
-									@Html.DropDownList("Id", new SelectList(@ViewBag.Company, "Value", "Text"), "Select Company", htmlAttributes: new { @class = "form-control" } )
-									<span class="help-block d-none has-error" id="stxtCompanyId" asp-validation-for="CompanyId">Please select any company</span>
+									@Html.DropDownList("ddlCompanyId", new SelectList(@ViewBag.Company, "Id", "CompanyName"), htmlAttributes: new { @class = "form-control", @id = "ddlCompanyId", @isrequired="1", @divcontainer="ddlCompanyId", @defaultvalue="0", @errorspan="sddlRole" } )
+									<span class="help-block d-none has-error" id="sddlCompanyId">Please select any company</span>
 								</div>
 							</div>
-							<div class="col-sm-4" id="dtxtRoleId">
+							<div class="col-sm-4" id="dddlRole">
 								<div class="form-group">
-									<input id="txtRoleId" type="hidden" name="RoleId" class="form-control text-length" isrequired="1" divcontainer="dtxtRoleId" errorspan="stxtRoleId" defaultvalue="" autocomplete="off" minlength="2" asp-for="RoleId">
 									@Html.Label("Role")
-									@Html.DropDownList("Id", new SelectList(ViewBag.Role, "Value", "Text"), "Select Role", htmlAttributes: new { @class = "form-control" })
-									<span class="help-block d-none has-error" id="stxtRoleId" asp-validation-for="RoleId">Please Enter Valid Role</span>
+									@Html.DropDownList("ddlRole", new SelectList(@ViewBag.Role, "Id", "RoleName"), htmlAttributes: new { @class = "form-control", @id = "ddlRole", @isrequired="1", @divcontainer="dddlRole", @defaultvalue="0", @errorspan="sddlRole" })
+									<span class="help-block d-none has-error" id="sddlRole" >Please Enter Valid Role</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtFirstName">
 								<div class="form-group">
 									<label for="form_name">FirstName *</label>
-									<input id="txtFirstName" type="text" name="FirstName" class="form-control text-length" placeholder="Please enter your firstname" isrequired="1" divcontainer="dtxtFirstName" errorspan="stxtFirstName" defaultvalue="" autocomplete="off" minlength="2" asp-for="FirstName">
+									<input id="txtFirstName" type="text" name="FirstName" class="form-control text-length" placeholder="Please enter your firstname" isrequired="1" divcontainer="dtxtFirstName" errorspan="stxtFirstName" defaultvalue="" autocomplete="off" minlength="2">
 									<span class="help-block d-none has-error" id="stxtFirstName" asp-validation-for="FirstName">Please Enter Valid FirstName</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtMiddleName">
 								<div class="form-group">
 									<label for="form_name">MiddleName *</label>
-									<input id="txtMiddleName" type="text" name="MiddleName" class="form-control text-length" placeholder="Please enter your MiddleName *" isrequired="1" divcontainer="dtxtMiddleName" errorspan="stxtMiddleName" defaultvalue="" autocomplete="off" minlength="2" asp-for="MiddleName">
+									<input id="txtMiddleName" type="text" name="MiddleName" class="form-control text-length" placeholder="Please enter your MiddleName *" isrequired="1" divcontainer="dtxtMiddleName" errorspan="stxtMiddleName" defaultvalue="" autocomplete="off" minlength="2">
 									<span class="help-block d-none has-error" id="stxtMiddleName" asp-validation-for="MiddleName">Please Enter Valid MiddleName</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtLastName">
 								<div class="form-group">
 									<label for="form_name">LastName *</label>
-									<input id="txtLastName" type="text" name="LastName" class="form-control text-length" placeholder="Please enter your LastName *" isrequired="1" divcontainer="dtxtLastName" errorspan="stxtLastName" defaultvalue="" autocomplete="off" minlength="2" asp-for="LastName">
+									<input id="txtLastName" type="text" name="LastName" class="form-control text-length" placeholder="Please enter your LastName *" autocomplete="off" isrequired="1" divcontainer="dtxtLastName" errorspan="stxtLastName" defaultvalue="" minlength="2">
 									<span class="help-block d-none has-error" id="stxtLastName" asp-validation-for="LastName">Please Enter Valid LastName</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtUserName">
 								<div class="form-group">
 									<label for="form_name">UserName *</label>
-									<input id="txtUserName" type="text" name="UserName" class="form-control text-length" placeholder="Please enter your UserName *" isrequired="1" divcontainer="dtxtUserName" errorspan="stxtUserName" defaultvalue="" autocomplete="off" minlength="2" asp-for="UserName">
+									<input id="txtUserName" type="text" name="UserName" class="form-control text-length" placeholder="Please enter your UserName *" isrequired="1" divcontainer="dtxtUserName" errorspan="stxtUserName" defaultvalue="" autocomplete="off" minlength="2">
 									<span class="help-block d-none has-error" id="stxtUserName" asp-validation-for="UserName">Please Enter Valid UserName</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtPassword">
 								<div class="form-group">
 									<label for="form_name">Password *</label>
-									<input id="txtPassword" type="password" name="Password" class="form-control text-length" placeholder="Please enter your Password *" isrequired="1" divcontainer="dtxtPassword" errorspan="stxtPassword" defaultvalue="" autocomplete="off" minlength="2" asp-for="Password">
+									<input id="txtPassword" type="password" name="Password" class="form-control text-length" placeholder="Please enter your Password *" isrequired="1" divcontainer="dtxtPassword" errorspan="stxtPassword" defaultvalue="" autocomplete="off" minlength="2">
 									<span class="help-block d-none has-error" id="stxtPassword" asp-validation-for="Password">Please Enter Valid Password</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtAddress">
 								<div class="form-group">
 									<label for="form_name">Address *</label>
-									<input id="txtAddress" type="text" name="Address" class="form-control text-length" placeholder="Please enter your Address *" isrequired="1" divcontainer="dtxtAddress" errorspan="stxtAddress" defaultvalue="" autocomplete="off" minlength="2" asp-for="Address">
+									<input id="txtAddress" type="text" name="Address" class="form-control text-length" placeholder="Please enter your Address *" isrequired="1" divcontainer="dtxtAddress" errorspan="stxtAddress" defaultvalue="" autocomplete="off" minlength="2">
 									<span class="help-block d-none has-error" id="stxtAddress" asp-validation-for="Address">Please Enter Valid Address</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtPincode">
 								<div class="form-group">
 									<label for="form_name">Pincode *</label>
-									<input id="txtPincode" type="text" name="Pincode" class="form-control text-length" placeholder="Please enter your Pincode *" isrequired="1" divcontainer="dtxtPincode" errorspan="stxtPincode" defaultvalue="" autocomplete="off" minlength="2" asp-for="Pincode">
+									<input id="txtPincode" type="text" name="Pincode" class="form-control text-length" placeholder="Please enter your Pincode *" isrequired="1" divcontainer="dtxtPincode" errorspan="stxtPincode" defaultvalue="" autocomplete="off" minlength="2">
 									<span class="help-block d-none has-error" id="stxtPincode" asp-validation-for="Pincode">Please Enter Valid Pincode</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtMobile1">
 								<div class="form-group">
 									<label for="form_mobile1">Mobile1 *</label>
-									<input id="txtMobile1" type="tel" name="Mobile1" class="form-control text-length" placeholder="Please enter your Mobile1 number" isrequired="1" divcontainer="dtxtMobile1" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="2" asp-for="Mobile1">
+									<input id="txtMobile1" type="tel" name="Mobile1" class="form-control text-length" placeholder="Please enter your Mobile1 number" isrequired="1" divcontainer="dtxtMobile1" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="2">
 									<span class="help-block d-none has-error" id="stxtMobile1" asp-validation-for="Mobile1">Please Enter Valid Mobile1</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtMobile2">
 								<div class="form-group">
 									<label for="form_mobile1">Mobile2 *</label>
-									<input id="txtMobile2" type="tel" name="Mobile2" class="form-control text-length" placeholder="Please enter your Mobile2 number" isrequired="1" divcontainer="dtxtMobile2" errorspan="stxtMobile2" defaultvalue="" autocomplete="off" minlength="2" asp-for="Mobile2">
+									<input id="txtMobile2" type="tel" name="Mobile2" class="form-control text-length" placeholder="Please enter your Mobile2 number" isrequired="1" divcontainer="dtxtMobile2" errorspan="stxtMobile2" defaultvalue="" autocomplete="off" minlength="2">
 									<span class="help-block d-none has-error" id="stxtMobile2" asp-validation-for="Mobile2">Please Enter Valid Mobile2</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtEmail">
 								<div class="form-group">
 									<label for="form_email">Email *</label>
-									<input id="txtEmail" type="email" name="Email" class="form-control text-length" placeholder="Please enter your Email *" isrequired="1" divcontainer="dtxtEmail" errorspan="stxtEmail" defaultvalue="" autocomplete="off" minlength="2" asp-for="Email">
+									<input id="txtEmail" type="email" name="Email" class="form-control text-length" placeholder="Please enter your Email *" isrequired="1" divcontainer="dtxtEmail" errorspan="stxtEmail" defaultvalue="" autocomplete="off" minlength="2">
 									<span class="help-block d-none has-error" id="stxtEmail" asp-validation-for="Email">Please Enter Valid Email</span>
 								</div>
 							</div>

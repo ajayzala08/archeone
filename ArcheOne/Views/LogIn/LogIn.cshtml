@@ -17,14 +17,14 @@
                 <form id="RegisterForm">
                     <!-- Email input -->
                     <div class="form-outline mb-4" id="dtxtUserName">
-                        <label class="form-label">UserName</label>
-                        <input id="txtUserName" name="txtUserName" type="text" class="form-control text-length" placeholder="UserName" isRequired="1" divcontainer="dtxtUserName" errorspan="stxtUserName" defaultvalue="" autocomplete="off" minlength="1" />
+                        <label class="form-label">UserName <span class="has-error required">* </span></label>
+                        <input id="txtUserName" name="txtUserName" type="text" class="form-control text-length" placeholder="UserName" isRequired="1" divcontainer="dtxtUserName" errorspan="stxtUserName" defaultvalue="" autocomplete="off" minlength="1" maxlength="25" />
                         <span class="help-block d-none has-error" id="stxtUserName">Please Enter Valid UserName</span>
                     </div>
 
                     <!-- Password input -->
                     <div class="form-outline mb-4" id="dtxtPassword">
-                        <label class="form-label">Password</label>
+                        <label class="form-label">Password <span class="has-error required">* </span></label>
                         <input id="txtPassword" name="Password" type="password" class="form-control text-length" placeholder="Password" isRequired="1" divcontainer="dtxtPassword" errorspan="stxtPassword" defaultvalue="" autocomplete="off" minlength="3" maxlength="10">
                         <span class="help-block d-none has-error" id="stxtPassword">Please Enter Valid Password</span>
                     </div>
