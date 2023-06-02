@@ -191,12 +191,12 @@ Insert into dbo.RoleMst values ('SuperAdmin', 'SA001', 1, 0, 0, 0, GETDATE(), GE
 
 ----------------------------------------Added by SP on 01-06-23-----------------------------------Start--------
 
----------------------------------------------------RecruitmentMst------------------------------------------
+---------------------------------------------------RequirementMst------------------------------------------
 
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
-			TABLE_NAME = 'RecruitmentMst')
+			TABLE_NAME = 'RequirementMst')
 BEGIN 
-	Create table dbo.RecruitmentMst(
+	Create table dbo.RequirementMst(
 			Id int identity(1,1) primary key,
 			RecruitmentForId int not null,
 			ClientId int not null,
@@ -226,11 +226,11 @@ BEGIN
 			CreatedDate datetime not null,
 			UpdatedDate datetime not null,
 			);
-	PRINT 'RecruitmentMst Table Created' 
+	PRINT 'RequirementMst Table Created' 
 END
 ELSE
 BEGIN 
-	PRINT 'RecruitmentMst Table Already Exist' 
+	PRINT 'RequirementMst Table Already Exist' 
 END
 
 

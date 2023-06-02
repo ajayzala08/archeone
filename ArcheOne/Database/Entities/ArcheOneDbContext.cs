@@ -43,9 +43,9 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<PositionTypeMst> PositionTypeMsts { get; set; }
 
-    public virtual DbSet<RecruitmentMst> RecruitmentMsts { get; set; }
-
     public virtual DbSet<RequirementForMst> RequirementForMsts { get; set; }
+
+    public virtual DbSet<RequirementMst> RequirementMsts { get; set; }
 
     public virtual DbSet<RequirementTypeMst> RequirementTypeMsts { get; set; }
 
@@ -275,11 +275,22 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
-        modelBuilder.Entity<RecruitmentMst>(entity =>
+        modelBuilder.Entity<RequirementForMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Recruitm__3214EC07DBDF9816");
+            entity.HasKey(e => e.Id).HasName("PK__Requirem__3214EC070C211281");
 
-            entity.ToTable("RecruitmentMst");
+            entity.ToTable("RequirementForMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.RequirementForName).HasMaxLength(100);
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<RequirementMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Requirem__3214EC07CB9E09D2");
+
+            entity.ToTable("RequirementMst");
 
             entity.Property(e => e.BillRate).HasColumnType("decimal(18, 0)");
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -295,17 +306,6 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.Pocname)
                 .HasMaxLength(100)
                 .HasColumnName("POCName");
-            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
-        });
-
-        modelBuilder.Entity<RequirementForMst>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__Requirem__3214EC070C211281");
-
-            entity.ToTable("RequirementForMst");
-
-            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.RequirementForName).HasMaxLength(100);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 

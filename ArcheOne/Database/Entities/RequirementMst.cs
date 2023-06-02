@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ArcheOne.Database.Entities;
 
-public partial class RecruitmentMst
+public partial class RequirementMst
 {
     public int Id { get; set; }
 
