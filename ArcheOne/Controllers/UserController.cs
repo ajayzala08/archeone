@@ -35,7 +35,12 @@ namespace ArcheOne.Controllers
 			ViewBag.Company = companies;
 
 			List<RoleReqModel> roleReqModel = new List<RoleReqModel>();
-			var roles = _dbRepo.RoleMstList().Select(x => new SelectListItem { Text = x.RoleName, Value = x.Id.ToString() }).ToList();
+			List<RoleMst> roles = new List<RoleMst>();
+			roles.Add(new RoleMst { Id = 0, RoleName = "---Select---" });
+			var roleList = _dbRepo.RoleMstList().Select(x => new RoleMst { Id = x.Id, RoleName = x.RoleName }).ToList();
+			roles.AddRange(roleList);
+
+			//var roles = _dbRepo.RoleMstList().Select(x => new SelectListItem { Text = x.RoleName, Value = x.Id.ToString() }).ToList();
 			 ViewBag.Role = roles;
 			return View();
 		}
