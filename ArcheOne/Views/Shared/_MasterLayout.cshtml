@@ -2,7 +2,10 @@
 @using Microsoft.AspNetCore.Http
 @{
     var user = HttpContextAccessor.HttpContext.Session.GetString("User");
-   
+    @if (@user == null)
+    {
+
+    }
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -250,13 +253,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="~/Permission/index" class="nav-link">
+                                    <a href="~/Permission/DefaultPermission" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Default Permission</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="~/Permission/DefaultPermission" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>User Permission</p>
                                     </a>
@@ -323,8 +326,10 @@
     <!-- ./wrapper -->
     <!-- jQuery -->
     <script src="~/theme/plugins/jquery/jquery.min.js"></script>
+
     <!-- Bootstrap 4 -->
     <script src="~/theme/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
     <!-- DataTables  & Plugins -->
 	<script src="~/theme/plugins/datatables/jquery.datatables.min.js"></script>
 	<script src="~/theme/plugins/datatables-bs4/js/datatables.bootstrap4.min.js"></script>
@@ -341,17 +346,15 @@
 	<script src="~/theme/plugins/datatables-buttons/js/buttons.colvis.min.js"></script>
 
     <!-- Sweetalert2 V11 -->
-    <script src="~/archeone/sweetalert2_v11.js"></script>
+    <script src="~/archeone/js/sweetalert2_v11.js"></script>
     @*<script src="~/theme/dist/js/demo.js"></script>*@
     <!-- common js -->
     <script src="~/archeone/js/Common.js"></script>
+
     <!-- AdminLTE App -->
     <script src="~/theme/dist/js/adminlte.min.js"></script>
-    <script src="https://malsup.github.io/jquery.blockUI.js"></script>
 
-  
-    <!-- AdminLTE for demo purposes -->
-    @*  <script src="~/theme/dist/js/demo.js"></script>*@
+    <script src="https://malsup.github.io/jquery.blockUI.js"></script>
 
     <script>
         $(function () {
