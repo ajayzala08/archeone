@@ -10,6 +10,14 @@ var Toast = Swal.mixin({
     timer: 7000
 });
 
+var Popup_Toast = Swal.mixin({
+    position: 'center',
+    //icon: 'success',
+    //title: 'Your work has been saved',
+    showConfirmButton: false,
+    timer: 5000
+})
+
 $(document).ready(function () {
     ApplyEvents();
 });
