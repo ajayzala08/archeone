@@ -1,0 +1,53 @@
+﻿
+@{
+    Layout = "_BlankLayout";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Chat App</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                @*<input type="text" id="username" placeholder="Enter your username" />*@
+                <select id="ddlUsers" name="ddlUsers" class="form-control">
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div id="chatBox" style="min-height:200px;"></div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-md-11">
+                <input type="text" id="message" placeholder="Enter your message" class="form-control"/>
+            </div>
+            <div class="col-md-1">
+                <button id="sendButton" class="btn btn-success" style="width:110px;">Send</button>
+            </div>
+        </div>
+    </div>
+    <!-- /.card-footer-->
+</div>
+
+
+
+@section Scripts {
+    <script src="~/archeone/js/chatapp/cdnjs.cloudflare.com_ajax_libs_microsoft-signalr_5.0.13_signalr.min.js"></script>
+    <script src="~/archeone/js/chatapp/chatapp.js"></script>
+}

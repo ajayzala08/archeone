@@ -1,5 +1,6 @@
 using ArcheOne;
 using ArcheOne.Database.Entities;
+using ArcheOne.Hubs;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddSignalR();
 builder.Services.AddControllersWithViews();
 string connString = builder.Configuration["ConnectionStrings:EntitiesConnection"];
 builder.Services.AddDbContext<ArcheOneDbContext>(options =>
@@ -51,5 +53,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=LogIn}/{action=LogIn}/{id?}");
+
+app.MapHub<ChatHub>("/chatHub");
 
 app.Run();
