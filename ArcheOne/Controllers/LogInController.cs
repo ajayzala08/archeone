@@ -3,7 +3,6 @@ using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models.Req;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +15,11 @@ namespace ArcheOne.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _configuration;
         private readonly CommonHelper _commonHelper;
+        private const string RememberMeCookieName = "RememberMe";
+        private const string UsernameCookieName = "Username";
+        private const string PasswordCookieName = "Password";
+
+
         private Microsoft.AspNetCore.Hosting.IHostingEnvironment _hostingEnvironment { get; }
 
         public LogInController(DbRepo dbRepo, ArcheOneDbContext dbContext, IHttpContextAccessor httpContextAccessor, IConfiguration configuration, CommonHelper commonHelper, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
@@ -38,6 +42,8 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
             try
             {
+                //loginModel.RememberMe = true;
+                //Thread.Sleep(10000);
                 if (ModelState.IsValid)
                 {
                     if (!string.IsNullOrEmpty(loginModel.UserName) && !string.IsNullOrEmpty(loginModel.Password))
@@ -48,6 +54,91 @@ namespace ArcheOne.Controllers
                         {
                             _httpContextAccessor.HttpContext.Session.SetString("User", UserDetail.UserName);
                             _httpContextAccessor.HttpContext.Session.SetString("UserId", UserDetail.Id.ToString());
+
+
+
+                            #region rememberMe1
+                            //if (loginModel.RememberMe)
+                            //{
+                            //    // Set the cookies to persist for a longer duration
+                            //    var option = new CookieOptions
+                            //    {
+                            //        Expires = loginModel.RememberMe ? DateTimeOffset.UtcNow.AddDays(30) : DateTimeOffset.UtcNow.AddHours(1),
+                            //        IsEssential = true, // Make sure the cookies are available even for non-essential features
+                            //        HttpOnly = true // Ensure the cookies are only accessible through HTTP
+                            //    };
+
+                            //    // Set the username and password cookies
+                            //    Response.Cookies.Append(UsernameCookieName, loginModel.UserName, option);
+                            //    Response.Cookies.Append(PasswordCookieName, loginModel.Password, option);
+                            //}
+                            //else
+                            //{
+                            //    // Remove the username and password cookies if present
+                            //    if (Request.Cookies.ContainsKey(UsernameCookieName))
+                            //    {
+                            //        Response.Cookies.Delete(UsernameCookieName);
+                            //    }
+
+                            //    if (Request.Cookies.ContainsKey(PasswordCookieName))
+                            //    {
+                            //        Response.Cookies.Delete(PasswordCookieName);
+                            //    }
+                            //}
+                            #endregion
+
+                            #region rememberme 2
+                            //var claims = new List<Claim>
+                            // {
+                            //new Claim(ClaimTypes.Name, loginModel.UserName),
+                            //// Add any additional claims if needed
+                            //    };
+
+                            //var identity = new ClaimsIdentity(claims, "MyCookieDemo");
+
+                            //var authProperties = new AuthenticationProperties
+                            //{
+                            //    IsPersistent = loginModel.RememberMe
+                            //};
+
+                            //await HttpContext.SignInAsync(
+                            //    CookieAuthenticationDefaults.AuthenticationScheme,
+                            //    new ClaimsPrincipal(identity),
+                            //    authProperties);
+                            #endregion
+
+                            #region remeberme 3
+                            if (loginModel.RememberMe)
+                            {
+                                // Set the cookies to persist for a longer duration
+                                var option = new CookieOptions
+                                {
+                                    Expires = DateTime.UtcNow.AddDays(30),
+                                    IsEssential = true, // Make sure the cookies are available even for non-essential features
+                                    HttpOnly = true // Ensure the cookies are only accessible through HTTP
+                                };
+
+                                // Set the username and password cookies
+                                Response.Cookies.Append(UsernameCookieName, loginModel.UserName, option);
+                                Response.Cookies.Append(PasswordCookieName, loginModel.Password, option);
+                            }
+                            else
+                            {
+                                // Remove the username and password cookies if present
+                                Response.Cookies.Delete(UsernameCookieName);
+                                Response.Cookies.Delete(PasswordCookieName);
+                            }
+                            #endregion
+
+
+
+
+
+
+
+
+
+
                             commonResponse.Status = true;
                             commonResponse.Message = "Login SuccessFully!";
                             commonResponse.Data = UserDetail;
@@ -75,8 +166,7 @@ namespace ArcheOne.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            HttpContext.SignOutAsync(
-            CookieAuthenticationDefaults.AuthenticationScheme);
+            //HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("LogIn", "LogIn");
         }
 
@@ -326,6 +416,35 @@ namespace ArcheOne.Controllers
             return Json(commonResponse);
         }
 
+        //[HttpPost]
+        ////public IActionResult Login(string username, string password, bool rememberMe)
+        //public IActionResult Login([FromBody] LoginReqModel loginModel)
+        //{
+        //    // Your login logic here
+
+        //    if (loginModel.RememberMe)
+        //    {
+        //        // Set the "Remember Me" cookie to persist for a longer duration
+        //        var option = new CookieOptions
+        //        {
+        //            Expires = loginModel.RememberMe ? DateTimeOffset.UtcNow.AddDays(30) : DateTimeOffset.UtcNow.AddHours(1),
+        //            IsEssential = true, // Make sure the cookie is available even for non-essential features
+        //            HttpOnly = true // Ensure the cookie is only accessible through HTTP
+        //        };
+        //        Response.Cookies.Append(RememberMeCookieName, "true", option);
+        //    }
+        //    else
+        //    {
+        //        // Remove the "Remember Me" cookie if present
+        //        if (Request.Cookies.ContainsKey(RememberMeCookieName))
+        //        {
+        //            Response.Cookies.Delete(RememberMeCookieName);
+        //        }
+        //    }
+
+        //    // Redirect to the desired page after successful login
+        //    return RedirectToAction("Index", "Home");
+        //}
     }
 }
 

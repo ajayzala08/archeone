@@ -1,23 +1,33 @@
 $(document).ready(function () {
+    var usernameCookie = getCookie('Username');
+    var passwordCookie = getCookie('Password');
+
+    if (usernameCookie && passwordCookie) {
+        // Set the username and password fields with the cookie values
+        $('#txtUserName').val(usernameCookie);
+        $('#txtPassword').val(passwordCookie);
+    }
     applyRequiredValidation();
     $("#btnLogin").click(function () {
+        
         var dataModel = {
             "UserName": $('#txtUserName').val(),
-            "Password": $('#txtPassword').val()
+            "Password": $('#txtPassword').val(),
+           "RememberMe" : $('#rememberMeCheckbox').is(':checked')
         }
         console.log(dataModel);
         $.blockUI({message: "<h2>Please wait</p>"});
         if (validateRequiredFields()) {
             ajaxCall("Post", false, '/LogIn/LogIn', JSON.stringify(dataModel), function (result) {
+                console.log(result);
                 if (result.status == true) {
                     Toast.fire({ icon: 'success', title: result.message });
                     RedirectToPage("/Dashboard/Index");
-                    setTimeout($.unblockUI, 2000);
                 }
                 else {
                     Toast.fire({ icon: 'error', title: result.message });
-                    setTimeout($.unblockUI, 2000);
                 }
+                $.unblockUI();
             });
         }
     });
@@ -34,12 +44,11 @@ $(document).ready(function () {
                     console.log(result);
                     Toast.fire({ icon: 'success', title: result.message });
                     RedirectToPage("/LogIn/LogIn");
-                    setTimeout($.unblockUI, 2000);
                 }
                 else {
                     Toast.fire({ icon: 'error', title: result.message });
-                    setTimeout($.unblockUI, 2000);
                 }
+               $.unblockUI();
             });
         }
     });
@@ -57,12 +66,11 @@ $(document).ready(function () {
                     console.log(result);
                     Toast.fire({ icon: 'success', title: result.message });
                     RedirectToPage("/LogIn/LogIn");
-                    setTimeout($.unblockUI, 2000);
                 }
                 else {
                     Toast.fire({ icon: 'error', title: result.message });
-                    setTimeout($.unblockUI, 2000);
                 }
+                $.unblockUI();
             });
            
         }
@@ -82,13 +90,12 @@ $(document).ready(function () {
                     console.log(result);
                     Popup_Toast.fire({ icon: 'success', title: result.message });
                     RedirectToPage("/LogIn/LogIn");
-                    setTimeout($.unblockUI, 2000);
                 }
                 else {
                     Popup_Toast.fire({ icon: 'error', title: result.message });
                     //Popup_Toast.fire({ icon: 'error', title: result.message, showConfirmButton: true });
-                    setTimeout($.unblockUI, 2000);
                 }
+                $.unblockUI();
             });
         }
     });
@@ -121,6 +128,21 @@ function noBack() {
     window.history.forward();
 }
 
+function getCookie(name) {
+   // var cookieName = encodeURIComponent(name) + '=';
+    var cookieName = encodeURIComponent(name);
+    var cookieArray = document.cookie.split(';');
+    
+    for (var i = 0; i < cookieArray.length; i++) {
+        var cookie = cookieArray[i].trim(); // Trim any leading/trailing whitespace
+
+        if (cookie.indexOf(cookieName) === 0) {
+            return decodeURIComponent(cookie.substring(cookieName.length));
+        }
+    }
+
+    return null;
+}
 
 
 
