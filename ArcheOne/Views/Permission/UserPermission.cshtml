@@ -9,12 +9,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Default Permission</h1>
+                <h1>User Permission</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Permission</a></li>
-                    <li class="breadcrumb-item active">Default Permission</li>
+                    <li class="breadcrumb-item active">User Permission</li>
                 </ol>
             </div>
         </div>
@@ -31,19 +31,27 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label>Role</label>
-                        <select class="form-control" id="slRoles" onchange="GetDefaultPermissions($(this).val())">
+                        <select class="form-control" id="slRoles" onchange="GetUserList($(this).val())">
                             <option selected disabled value="0">Select Role</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>User</label>
+                        <select class="form-control" id="slUsers" onchange="GetUserPermissions($(this).val())">
+                            <option selected disabled value="0">Select User</option>
                         </select>
                     </div>
                 </div>
             </div>
         </div>
-		<div class="card-body">
-			<table id="tbDefaultPermissions" class="table table-bordered table-striped">
-			</table>
-		</div>
+        <div class="card-body">
+            <table id="tbUserPermissions" class="table table-bordered table-striped">
+            </table>
+        </div>
         <div class="card-footer">
-            <button id="btnUpdatePermission" type="button" class="btn btn-warning" disabled onclick="ShowPermissionAlert();">Update Permissions</button>
+            <button id="btnUpdatePermission" type="button" class="btn btn-warning" disabled onclick="UpdateUserPermission();">Update User Permissions</button>
         </div>
         <!-- /.card-body -->
     </div>
@@ -53,5 +61,5 @@
 <!-- /.content -->
 @section Scripts
     {
-    <script src="~/archeone/js/permission/defaultpermission.js"></script>
+    <script src="~/archeone/js/permission/userpermission.js"></script>
     }

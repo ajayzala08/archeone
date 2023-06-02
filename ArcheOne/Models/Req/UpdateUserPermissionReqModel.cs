@@ -1,10 +1,9 @@
 ﻿namespace ArcheOne.Models.Req
 {
-    public class UpdateDefaultPermissionReqModel
+    public class UpdateUserPermissionReqModel
     {
-        public int RoleId { get; set; }
+        public int UserId { get; set; }
         public List<int> PermissionIds { get; set; }
         public int CreatedBy { get; set; }
-        public bool UpdateRoleWithUsers { get; set; }
     }
 }
