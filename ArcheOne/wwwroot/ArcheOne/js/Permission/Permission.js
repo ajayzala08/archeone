@@ -12,25 +12,29 @@ function GetRoleList() {
             })
         }
         else {
-            $.blockUI({
-                message: "<h2>" + result.message + "</p>"
-            });
+            Toast.fire({ icon: 'error', title: result.message });
         }
         $.unblockUI();
     });
 }
 
+var dataTable = null;
+
 function GetDefaultPermissions(RoleId) {
-    ajaxCall("Post", false, '/Permission/GetDefaultPermissionList?RoleId='+RoleId, null, function (result) {
+    ajaxCall("Post", false, '/Permission/GetDefaultPermissionList?RoleId=' + RoleId, null, function (result) {
         if (result.status == true) {
 
             $("#btnUpdatePermission").removeAttr("disabled");
 
-            columnNames = Object.keys(result.data[0]);
+            if (dataTable !== null) {
+                dataTable.destroy();
+                dataTable = null;
+            }
 
-            $('#tbDefaultPermissions').DataTable({
+            dataTable = $('#tbDefaultPermissions').DataTable({
                 "responsive": true,
-                "lengthChange": true,
+                "lengthChange": false,
+                "paging": false,
                 "processing": true, // for show progress bar
                 "filter": true, // this is for disable filter (search box)
 
@@ -42,18 +46,47 @@ function GetDefaultPermissions(RoleId) {
                         data: null,
                         title: 'Action',
                         render: function (data, type, row) {
-                            return '<input type="checkbox" value="' + row.id + '">';
+                            if (row.isDefaultPermission) {
+                                return '<input type="checkbox" class="permissionBox" checked value="' + row.id + '">';
+                            } else {
+                                return '<input type="checkbox" class="permissionBox" value="' + row.id + '">';
+                            }
                         }
                     }]
             });
         }
         else {
 
-            $("#btnUpdatePermission").attr("disabled",true);
+            $("#btnUpdatePermission").attr("disabled", true);
 
             $.blockUI({
                 message: "<h2>" + result.message + "</p>"
             });
+        }
+        $.unblockUI();
+    });
+}
+
+function UpdateDefaultPermission() {
+    var Data = [];
+
+    $('.permissionBox:checked').each(function () {
+        Data.push(parseInt($(this).val()));
+    });
+
+    var updateDefaultPermissionReqModel = {
+        "RoleId": parseInt($("#slRoles").val()),
+        "CreatedBy": 1,
+        "PermissionIds": Data
+    }
+
+    $.blockUI({ message: "<h2>Please wait</p>" });
+    ajaxCall("Post", false, '/Permission/UpdateDefaultPermission', JSON.stringify(updateDefaultPermissionReqModel), function (result) {
+        if (result.status == true) {
+            Toast.fire({ icon: 'success', title: result.message });
+        }
+        else {
+            Toast.fire({ icon: 'error', title: result.message });
         }
         $.unblockUI();
     });
