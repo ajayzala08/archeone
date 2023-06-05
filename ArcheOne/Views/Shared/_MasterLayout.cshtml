@@ -4,7 +4,7 @@
     var user = HttpContextAccessor.HttpContext.Session.GetString("User");
     @if (@user == null)
     {
-
+        Context.Response.Redirect("/LogIn/Logout");
     }
 }
 <!DOCTYPE html>
@@ -259,7 +259,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="~/Permission/DefaultPermission" class="nav-link">
+                                    <a href="~/Permission/UserPermission" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>User Permission</p>
                                     </a>
