@@ -1,12 +1,5 @@
 $(document).ready(function () {
-    var usernameCookie = getCookie('Username');
-    var passwordCookie = getCookie('Password');
-
-    if (usernameCookie && passwordCookie) {
-        // Set the username and password fields with the cookie values
-        $('#txtUserName').val(usernameCookie);
-        $('#txtPassword').val(passwordCookie);
-    }
+ 
     applyRequiredValidation();
     $("#btnLogin").click(function () {
         

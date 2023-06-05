@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllersWithViews();
 string connString = builder.Configuration["ConnectionStrings:EntitiesConnection"];
 builder.Services.AddDbContext<ArcheOneDbContext>(options =>
@@ -20,23 +19,13 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromMinutes(10);//You can set Time   
 
 });
-//builder.Services.AddIdentityCore<IdentityUser>()
-//       .AddDefaultTokenProviders();
 
-//builder.Services.AddAuthentication();
-
-Microsoft.AspNetCore.Authentication.AuthenticationBuilder authenticationBuilder = builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-})
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 .AddCookie(options =>
 {
-    options.Cookie.Name = "MyCookieDemo";
-    options.Cookie.HttpOnly = true;
-    options.ExpireTimeSpan = TimeSpan.FromDays(30); // Set the desired expiration time
-    options.SlidingExpiration = true;
+    options.Cookie.Name = "RememberMecookie"; // cookie name
+    options.SlidingExpiration = true; // the cookie would be re-issued on any request half way through the ExpireTimeSpan
+
 });
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
