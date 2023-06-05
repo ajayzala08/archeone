@@ -18,7 +18,6 @@ namespace ArcheOne.Controllers
         private readonly IConfiguration _configuration;
         private readonly CommonHelper _commonHelper;
         private Microsoft.AspNetCore.Hosting.IHostingEnvironment _hostingEnvironment { get; }
-
         public LogInController(DbRepo dbRepo, ArcheOneDbContext dbContext, IHttpContextAccessor httpContextAccessor, IConfiguration configuration, CommonHelper commonHelper, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
         {
             _dbRepo = dbRepo;
@@ -27,8 +26,6 @@ namespace ArcheOne.Controllers
             _configuration = configuration;
             _commonHelper = commonHelper;
             _hostingEnvironment = hostingEnvironment;
-
-
         }
         public async Task<IActionResult> LogIn()
         {
