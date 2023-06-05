@@ -7,11 +7,11 @@ $(document).ready(function () {
 connection.on("ReceiveMessage", function (user, message) {
     var encodedUser = $("<div />").text(user).html();
     var encodedMsg = $("<div />").text(message).html();
-    $("#chatBox").append("<p><strong>" + encodedUser + "</strong>: " + encodedMsg + "</p>");
+    $("#chatBox").append("<p><strong>" + encodedUser + "</strong> : " + encodedMsg + "</p>");
 });
 
 $("#sendButton").click(function () {
-    var user = $("#ddlUsers").val();
+    var user = $("#ddlUsers :selected").text();
     var message = $("#message").val();
     connection.invoke("SendMessage", user, message);
     $("#message").val("").focus();

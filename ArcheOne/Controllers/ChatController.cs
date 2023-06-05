@@ -38,7 +38,7 @@ namespace ArcheOne.Controllers
                 commonResponse.Message = ex.Message;
                 commonResponse.Data = ex.StackTrace;
             }
-            return Json(new { result = commonResponse });
+            return Json(commonResponse);
         }
     }
 }
