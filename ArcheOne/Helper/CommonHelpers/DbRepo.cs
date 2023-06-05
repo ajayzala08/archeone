@@ -41,17 +41,17 @@ namespace ArcheOne.Helper.CommonHelpers
         }
 
 	
-<<<<<<< .mine
+
 		public IQueryable<PermissionMst> PermissionList(bool IsDeleted = false, bool IsActive = true)
 		{
 			return _db.PermissionMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
 		}
-=======
+
         public IQueryable<UserPermission> UserPermissionList(bool IsDeleted = false, bool IsActive = true)
         {
             return _db.UserPermissions.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
->>>>>>> .theirs
+
 		public IQueryable<ClientMst> ClientList(bool IsDeleted = false, bool IsActive = true)
 		{
 			return _db.ClientMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
@@ -77,9 +77,5 @@ namespace ArcheOne.Helper.CommonHelpers
 			return _db.EmploymentTypeMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
 
 		}
-<<<<<<< .mine
 	}
-=======
-
->>>>>>> .theirs
 }
