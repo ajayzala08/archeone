@@ -4,7 +4,7 @@
     var user = HttpContextAccessor.HttpContext.Session.GetString("User");
     @if (@user == null)
     {
-
+        Context.Response.Redirect("/LogIn/Logout");
     }
 }
 <!DOCTYPE html>
@@ -259,7 +259,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="~/Permission/DefaultPermission" class="nav-link">
+                                    <a href="~/Permission/UserPermission" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>User Permission</p>
                                     </a>
@@ -289,6 +289,30 @@
                                         <p>UserList</p>
                                     </a>
                                 </li>
+
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-solid fa-users"></i>
+                                <p>
+                                    Recruitment
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="~/Requirement/Requirement" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Requirement</p>
+                                    </a>
+                                </li>
+                             @*   <li class="nav-item">
+                                    <a href="~/Requirement/UserList" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>RequirementList</p>
+                                    </a>
+                                </li>*@
 
                             </ul>
                         </li>
