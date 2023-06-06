@@ -1,275 +1,117 @@
-﻿@inject IHttpContextAccessor HttpContextAccessor
-@using ArcheOne.Database.Entities;
-@model List<UserMst>;
+﻿@using ArcheOne.Database.Entities;
+@model List<UserMst>
 @{
-
+    Layout = "_BlankLayout";
 }
-<section class="content-header">
-	<div class="container-fluid">
-		<div class="row mb-2">
-			<div class="col-sm-6">
-				<h1>DataTables</h1>
-			</div>
-			<div class="col-sm-6">
-				<ol class="breadcrumb float-sm-right">
-					<li class="breadcrumb-item"><a href="#">Home</a></li>
-					<li class="breadcrumb-item active">DataTables</li>
-				</ol>
-			</div>
-		</div>
-	</div>
-</section>
-<section class="content">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-12">
-				<button class="form-control col-1 ml-auto mb-3 btn-info" id="addUser" name="addUser" >Add User</button>
-				<div class="card">
-					<div class="card-header">
-						<h3 class="card-title">User List</h3>
-					</div>
-					<div class="card-body">
-						<table id="example1" class="table table-bordered table-striped">
-							<thead>
-								<tr>
-									<th>CompanyId</th>
-									<th>FirstName</th>
-									<th>MiddleName</th>
-									<th>LastName</th>
-									<th>UserName</th>
-									<th>Password</th>
-									<th>Address</th>
-									<th>Pincode</th>
-									<th>Mobile1</th>
-									<th>Mobile2</th>
-									<th>Email</th>
-									<th>PhotoURL</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								@foreach (var item in Model)
-								{
-									<tr>
-										<td>@item.CompanyId</td>
-										<td>@item.FirstName</td>
-										<td>@item.MiddleName</td>
-										<td>@item.LastName</td>
-										<td>@item.UserName</td>
-										<td>@item.Password</td>
-										<td>@item.Address</td>
-										<td>@item.Pincode</td>
-										<td>@item.Mobile1</td>
-										<td>@item.Mobile2</td>
-										<td>@item.Email</td>
-										<td>@item.PhotoUrl</td>
-										<td>
-											<i class="fa fa-info fa-xs" style="color: #000000;" data-toggle="modal" data-target="#modal-sm"></i>
-											<button class="btn" id="btnDelete" onclick="deleteUser(@item.Id)"><i class="fa fa-trash fa-xs" style="color: #000000;"></i></button>
-											<i class="fa fa-edit fa-xs" style="color: #000000;" data-toggle="modal" data-target="#modal-lg"></i>
-										</td>
-									</tr>
-								}
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-<div class="modal fade" id="modal-lg">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title">User Details</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<form id="contact-form" method="post" role="form" enctype="multipart/form-data">
-					<div class="messages"></div>
-					<div class="controls">
-						<div class="col-sm-12">
-							<div class="form-group">
-								<div class="file-upload-wrapper">
-									<label for="form_name">Photo *</label>
-									<img id="photoUrl" style="width:75px!important" name="photoUrl" />
-								</div>
-								<input id="form_file" type="file" accept="image/*" onchange="loadFile(event)" name="photoUrl" />
-								<span class="txtValidation"></span>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-4">
-								<input id="user_id" type="hidden" name="userId" class="form-control">
-								<div class="form-group">
-									<label for="form_name">Company *</label>
-									<select name="companyId" id="companyId" class="form-control">
-										<option name="companyId" value="0">--Select Option--</option>
-										<option name="companyId" value="1">Arche Softronix</option>
-										<option name="companyId" value="2">Reyna Solutions</option>
-									</select>
-									<span class="txtValidation"></span>
-									<div class="help-block with-errors"></div>
-								</div>
-							</div>
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label for="form_name">FirstName *</label>
-									<input id="form_firstname" type="text" name="firstname" class="form-control" placeholder="Please enter your firstname *">
-									<span class="txtValidation"></span>
-								</div>
-							</div>
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label for="form_name">MiddleName *</label>
-									<input id="form_middlename" type="text" name="middlename" class="form-control" placeholder="Please enter your middlename *">
-									<span class="txtValidation"></span>
-								</div>
-							</div>
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label for="form_name">LastName *</label>
-									<input id="form_lastname" type="text" name="lastname" class="form-control" placeholder="Please enter your lastname *">
-									<span class="txtValidation"></span>
-								</div>
-							</div>
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label for="form_name">UserName *</label>
-									<input id="form_username" type="text" name="username" class="form-control" placeholder="Please enter your username *">
-									<span class="txtValidation"></span>
-								</div>
-							</div>
 
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label for="form_name">Address *</label>
-									<input id="form_address" type="text" name="address" class="form-control" placeholder="Please enter your address *">
-									<span class="txtValidation"></span>
-								</div>
-							</div>
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label for="form_name">Pincode *</label>
-									<input id="form_pincode" type="text" name="pincode" class="form-control" placeholder="Please enter your pincode *">
-									<span class="txtValidation"></span>
-								</div>
-							</div>
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label for="form_mobile1">Mobile1 *</label>
-									<input id="form_mobile1" type="tel" name="mobile1" class="form-control" placeholder="Please enter your mobile number">
-									<span class="txtValidation"></span>
-								</div>
-							</div>
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label for="form_mobile1">Mobile2 *</label>
-									<input id="form_mobile2" type="tel" name="mobile2" class="form-control" placeholder="Please enter your mobile number">
-									<span class="txtValidation"></span>
-								</div>
-							</div>
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label for="form_email">Email *</label>
-									<input id="form_email" type="email" name="email" class="form-control" placeholder="Please enter your email *">
-									<span class="txtValidation"></span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="clearfix"></div>
-				</form>
-			</div>
-			<div class="modal-footer justify-content-between">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
-			</div>
-		</div>
+<div class="row form-group">
+    <div class="col-md-12">
+        <table id="tblUser" class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <td>
+                        <b>Id</b>
+                    </td>
+                    <td>
+                        <b>Company</b>
+                    </td>
+                    <td>
+                        <b>Role</b>
+                    </td>
+                    <td>
+                        <b>FirstName</b>
+                    </td>
+                    <td>
+                        <b>MiddleName</b>
+                    </td>
+                    <td>
+                        <b>LastName</b>
+                    </td>
+                    <td>
+                        <b>UserName</b>
+                    </td>
+                    <td>
+                        <b>Password</b>
+                    </td>
+                    <td>
+                        <b>Address</b>
+                    </td>
+                    <td>
+                        <b>Pincode</b>
+                    </td>
+                    <td>
+                        <b>Mobile1</b>
+                    </td>
+                    <td>
+                        <b>Mobile2</b>
+                    </td>
+                    <td>
+                        <b>Email1</b>
+                    </td>
+                    <td>
+                        <b>PhotoUrl</b>
+                    </td>
+                    <td>
+                        <b>Edit</b>
+                    </td>
+                    <td>
+                        <b>Delete</b>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Id
+                        </td>
+                        <td>
+                            @item.CompanyId
+                        </td>
+                        <td>
+                            @item.FirstName
+                        </td>
+                        <td>
+                            @item.MiddleName
+                        </td>
+                        <td>
+                            @item.LastName
+                        </td>
+                        <td>
+                            @item.UserName
+                        </td>
+                        <td>
+                            @item.Password
+                        </td>
+                        <td>
+                            @item.Address
+                        </td>
+                        <td>
+                            @item.Pincode
+                        </td>
+                        <td>
+                            @item.Mobile1
+                        </td>
+                        <td>
+                            @item.Mobile2
+                        </td>
+                        <td>
+                            @item.Email
+                        </td>
+                        <td>
+                            @item.PhotoUrl
+                        </td>
+                        <td>
+                            <button class="btn btn-info btn-edit" Id="@item.Id">Edit</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger btn-delete" Id="@item.Id" onlclick="DeleteUser(@item.Id)">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-	</div>
-
+    </div>
 </div>
-
-<div class="modal fade" id="modal-sm">
-	<div class="modal-dialog modal-sm">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title">User Details</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<form id="info-form" method="post" role="form" enctype="multipart/form-data">
-					<div class="messages"></div>
-					<div class="controls">
-						<div class="form-group">
-							<div class="file-upload-wrapper">
-								<label for="form_name">Photo *</label>
-								<img id="photoUrl" style="width:75px!important" name="photoUrl" />
-							</div>
-							<input id="form_file" type="file" accept="image/*" onchange="loadFile(event)" name="photoUrl" />
-							<span class="txtValidation"></span>
-						</div>
-						<input id="user_id" type="hidden" name="userId" class="form-control">
-						<div class="form-group">
-							<label for="form_name">Company *</label>
-							<select name="companyId" id="companyId" class="form-control">
-								<option name="companyId" value="0">--Select Option--</option>
-								<option name="companyId" value="1">Arche Softronix</option>
-								<option name="companyId" value="2">Reyna Solutions</option>
-							</select>
-							<span class="txtValidation"></span>
-							<div class="help-block with-errors"></div>
-						</div>
-						<div class="form-group">
-							<label for="form_name">FirstName *</label>
-							<span class="txtValidation"></span>
-						</div>
-						<div class="form-group">
-							<label for="form_name">MiddleName *</label>
-							<span class="txtValidation"></span>
-						</div>
-						<div class="form-group">
-							<label for="form_name">LastName *</label>
-							<span class="txtValidation"></span>
-						</div>
-						<div class="form-group">
-							<label for="form_name">UserName *</label>
-							<span class="txtValidation"></span>
-						</div>
-						<div class="form-group">
-							<label for="form_name">Address *</label>
-							<span class="txtValidation"></span>
-						</div>
-						<div class="form-group">
-							<label for="form_name">Pincode *</label>
-							<span class="txtValidation"></span>
-						</div>
-						<div class="form-group">
-							<label for="form_mobile1">Mobile1 *</label>
-							<span class="txtValidation"></span>
-						</div>
-						<div class="form-group">
-							<label for="form_mobile1">Mobile2 *</label>
-							<span class="txtValidation"></span>
-						</div>
-						<div class="form-group">
-							<label for="form_email">Email *</label>
-							<span class="txtValidation"></span>
-						</div>
-					</div>
-					<div class="clearfix"></div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-
-@section Scripts {
-	<script src="~/archeone/js/user/user.js"></script>
-}

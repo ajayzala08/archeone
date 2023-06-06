@@ -1,168 +1,35 @@
-﻿@model ArcheOne.Models.Req.UserModel
-@inject IHttpContextAccessor HttpContextAccessor
-@{
+﻿@{
 
 }
-<style>
-	.txtValidation {
-		color: red
-	}
-</style>
-<section class="content-header"></section>
-<section class="content">
-	<div class="container-fluid">
-		<div class="card card-outline card-primary">
-			<div class="card-header">
-				Create Users
-				<h3 class="card-title"></h3>
-				<div class="card-tools">
-					<button type="button" class="btn btn-tool" data-card-widget="collapse">
-						<i class="fas fa-minus"></i>
-					</button>
-				</div>
-			</div>
-			<div class="card-body">
-				<form id="contact-form" method="post" role="form" enctype="multipart/form-data" asp-action="User" asp-controller="User">
-					<div class="messages"></div>
-					<div class="controls">
-						<div class="row">
-							<div class="col-sm-4" id="dtxtPhotoUrl">
-								<div class="form-group">
-									<div class="form-group">
-										<label for="form_name">Photo *</label>
-										<img id="photoUrl" style="width:75px!important" name="photoUrl" />
-										<div class="input-group">
-											<div class="custom-file">
-												<input id="txtPhotoUrl" type="file" name="PhotoUrl" isrequired="1" divcontainer="dtxtPhotoUrl" errorspan="stxtPhotoUrl" defaultvalue="" autocomplete="off" minlength="2" class="custom-file-input text-length" onchange="loadFile(event)" accept="image/*" />
-												<label class="custom-file-label" for="form_file">Choose file</label>
-											</div>
-										</div>
-									</div>
-									<span class="help-block d-none has-error" id="stxtPhotoUrl" asp-validation-for="PhotoUrl">Please select any file</span>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-4" id="ddlCompanyId">
-								<div class="form-group">
-									@Html.Label("CompanyName")
-									@Html.DropDownList("ddlCompanyId", new SelectList(@ViewBag.Company, "Id", "CompanyName"), htmlAttributes: new { @class = "form-control", @id = "ddlCompanyId", @isrequired="1", @divcontainer="ddlCompanyId", @defaultvalue="0", @errorspan="sddlRole" } )
-									<span class="help-block d-none has-error" id="sddlCompanyId">Please select any company</span>
-								</div>
-							</div>
-							<div class="col-sm-4" id="dddlRole">
-								<div class="form-group">
-									@Html.Label("Role")
-									@Html.DropDownList("ddlRole", new SelectList(@ViewBag.Role, "Id", "RoleName"), htmlAttributes: new { @class = "form-control", @id = "ddlRole", @isrequired="1", @divcontainer="dddlRole", @defaultvalue="0", @errorspan="sddlRole" })
-									<span class="help-block d-none has-error" id="sddlRole" >Please Enter Valid Role</span>
-								</div>
-							</div>
-							<div class="col-sm-4" id="dtxtFirstName">
-								<div class="form-group">
-									<label for="form_name">FirstName *</label>
-									<input id="txtFirstName" type="text" name="FirstName" class="form-control text-length" placeholder="Please enter your firstname" isrequired="1" divcontainer="dtxtFirstName" errorspan="stxtFirstName" defaultvalue="" autocomplete="off" minlength="2">
-									<span class="help-block d-none has-error" id="stxtFirstName" asp-validation-for="FirstName">Please Enter Valid FirstName</span>
-								</div>
-							</div>
-							<div class="col-sm-4" id="dtxtMiddleName">
-								<div class="form-group">
-									<label for="form_name">MiddleName *</label>
-									<input id="txtMiddleName" type="text" name="MiddleName" class="form-control text-length" placeholder="Please enter your MiddleName *" isrequired="1" divcontainer="dtxtMiddleName" errorspan="stxtMiddleName" defaultvalue="" autocomplete="off" minlength="2">
-									<span class="help-block d-none has-error" id="stxtMiddleName" asp-validation-for="MiddleName">Please Enter Valid MiddleName</span>
-								</div>
-							</div>
-							<div class="col-sm-4" id="dtxtLastName">
-								<div class="form-group">
-									<label for="form_name">LastName *</label>
-									<input id="txtLastName" type="text" name="LastName" class="form-control text-length" placeholder="Please enter your LastName *" autocomplete="off" isrequired="1" divcontainer="dtxtLastName" errorspan="stxtLastName" defaultvalue="" minlength="2">
-									<span class="help-block d-none has-error" id="stxtLastName" asp-validation-for="LastName">Please Enter Valid LastName</span>
-								</div>
-							</div>
-							<div class="col-sm-4" id="dtxtUserName">
-								<div class="form-group">
-									<label for="form_name">UserName *</label>
-									<input id="txtUserName" type="text" name="UserName" class="form-control text-length" placeholder="Please enter your UserName *" isrequired="1" divcontainer="dtxtUserName" errorspan="stxtUserName" defaultvalue="" autocomplete="off" minlength="2">
-									<span class="help-block d-none has-error" id="stxtUserName" asp-validation-for="UserName">Please Enter Valid UserName</span>
-								</div>
-							</div>
-							<div class="col-sm-4" id="dtxtPassword">
-								<div class="form-group">
-									<label for="form_name">Password *</label>
-									<input id="txtPassword" type="password" name="Password" class="form-control text-length" placeholder="Please enter your Password *" isrequired="1" divcontainer="dtxtPassword" errorspan="stxtPassword" defaultvalue="" autocomplete="off" minlength="2">
-									<span class="help-block d-none has-error" id="stxtPassword" asp-validation-for="Password">Please Enter Valid Password</span>
-								</div>
-							</div>
-							<div class="col-sm-4" id="dtxtAddress">
-								<div class="form-group">
-									<label for="form_name">Address *</label>
-									<input id="txtAddress" type="text" name="Address" class="form-control text-length" placeholder="Please enter your Address *" isrequired="1" divcontainer="dtxtAddress" errorspan="stxtAddress" defaultvalue="" autocomplete="off" minlength="2">
-									<span class="help-block d-none has-error" id="stxtAddress" asp-validation-for="Address">Please Enter Valid Address</span>
-								</div>
-							</div>
-							<div class="col-sm-4" id="dtxtPincode">
-								<div class="form-group">
-									<label for="form_name">Pincode *</label>
-									<input id="txtPincode" type="text" name="Pincode" class="form-control text-length" placeholder="Please enter your Pincode *" isrequired="1" divcontainer="dtxtPincode" errorspan="stxtPincode" defaultvalue="" autocomplete="off" minlength="2">
-									<span class="help-block d-none has-error" id="stxtPincode" asp-validation-for="Pincode">Please Enter Valid Pincode</span>
-								</div>
-							</div>
-							<div class="col-sm-4" id="dtxtMobile1">
-								<div class="form-group">
-									<label for="form_mobile1">Mobile1 *</label>
-									<input id="txtMobile1" type="tel" name="Mobile1" class="form-control text-length" placeholder="Please enter your Mobile1 number" isrequired="1" divcontainer="dtxtMobile1" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="2">
-									<span class="help-block d-none has-error" id="stxtMobile1" asp-validation-for="Mobile1">Please Enter Valid Mobile1</span>
-								</div>
-							</div>
-							<div class="col-sm-4" id="dtxtMobile2">
-								<div class="form-group">
-									<label for="form_mobile1">Mobile2 *</label>
-									<input id="txtMobile2" type="tel" name="Mobile2" class="form-control text-length" placeholder="Please enter your Mobile2 number" isrequired="1" divcontainer="dtxtMobile2" errorspan="stxtMobile2" defaultvalue="" autocomplete="off" minlength="2">
-									<span class="help-block d-none has-error" id="stxtMobile2" asp-validation-for="Mobile2">Please Enter Valid Mobile2</span>
-								</div>
-							</div>
-							<div class="col-sm-4" id="dtxtEmail">
-								<div class="form-group">
-									<label for="form_email">Email *</label>
-									<input id="txtEmail" type="email" name="Email" class="form-control text-length" placeholder="Please enter your Email *" isrequired="1" divcontainer="dtxtEmail" errorspan="stxtEmail" defaultvalue="" autocomplete="off" minlength="2">
-									<span class="help-block d-none has-error" id="stxtEmail" asp-validation-for="Email">Please Enter Valid Email</span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="clearfix"></div>
-					<div class="row">
-						<div class="col-md-1">
-							<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-success">Submit</button>
-						</div>
-						<div class="col-md-1">
-							<input type="submit" class="btn btn-danger btn-send" value="Cancel">
-						</div>
-					</div>
-					@if (ViewBag.Message != null)
-					{
-						<script type="text/javascript">
-							window.onload = function () {
-								alert("@ViewBag.Message");
-							};
-						</script>
-					}
-				</form>
-			</div>
-		</div>
-	</div>
-</section>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header d-flex p-0">
+                <h3 class="card-title p-3">User List</h3>
+                <div class="card-tools ml-auto mr-2 p-2">
+                    <button id="btnAddUser" type="button" class="btn btn-primary float-right">Add User</button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div id="divUserList"> </div>
+                <div id="AddUser" class="page fade" data-keyboard="false" data-backdrop="static">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div id="AddUserData">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
 
-@section Scripts {
-	<script type="text/javascript">
-		var loadFile = function (event) {
-			var reader = new FileReader();
-			reader.onload = function () {
-				var output = document.getElementById('photoUrl');
-				output.src = reader.result;
-			};
-			reader.readAsDataURL(event.target.files[0]);
-		};
-	</script>
+@section Scripts{
 	<script src="~/archeone/js/user/user.js"></script>
 }
+
 

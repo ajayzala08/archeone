@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace ArcheOne.Controllers
 {
@@ -17,7 +18,6 @@ namespace ArcheOne.Controllers
         private readonly IConfiguration _configuration;
         private readonly CommonHelper _commonHelper;
         private Microsoft.AspNetCore.Hosting.IHostingEnvironment _hostingEnvironment { get; }
-
         public LogInController(DbRepo dbRepo, ArcheOneDbContext dbContext, IHttpContextAccessor httpContextAccessor, IConfiguration configuration, CommonHelper commonHelper, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
         {
             _dbRepo = dbRepo;
@@ -38,6 +38,8 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
             try
             {
+                //loginModel.RememberMe = true;
+                //Thread.Sleep(10000);
                 if (ModelState.IsValid)
                 {
                     if (!string.IsNullOrEmpty(loginModel.UserName) && !string.IsNullOrEmpty(loginModel.Password))
@@ -48,6 +50,40 @@ namespace ArcheOne.Controllers
                         {
                             _httpContextAccessor.HttpContext.Session.SetString("User", UserDetail.UserName);
                             _httpContextAccessor.HttpContext.Session.SetString("UserId", UserDetail.Id.ToString());
+
+                            #region remeberme 
+                            if (loginModel.RememberMe)
+                            {
+                                var claims = new List<Claim>
+                            {
+                                new Claim("Username", loginModel.UserName),
+                                new Claim("Password", loginModel.Password)
+                            };
+
+                                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                                var authProperties = new AuthenticationProperties();
+
+                                if (loginModel.RememberMe)
+                                {
+                                    authProperties.IsPersistent = true;
+                                    authProperties.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7);
+                                }
+
+                                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+                            }
+                            else
+                            {
+                                var existingClaims = HttpContext.User.Claims.ToList();
+                                existingClaims.RemoveAll(c => c.Type == "Username" || c.Type == "Password");
+
+                                var claimsIdentity = new ClaimsIdentity(existingClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                                HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                            }
+                            #endregion
+
                             commonResponse.Status = true;
                             commonResponse.Message = "Login SuccessFully!";
                             commonResponse.Data = UserDetail;
@@ -75,8 +111,7 @@ namespace ArcheOne.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            HttpContext.SignOutAsync(
-            CookieAuthenticationDefaults.AuthenticationScheme);
+            //HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("LogIn", "LogIn");
         }
 
@@ -326,6 +361,35 @@ namespace ArcheOne.Controllers
             return Json(commonResponse);
         }
 
+        //[HttpPost]
+        ////public IActionResult Login(string username, string password, bool rememberMe)
+        //public IActionResult Login([FromBody] LoginReqModel loginModel)
+        //{
+        //    // Your login logic here
+
+        //    if (loginModel.RememberMe)
+        //    {
+        //        // Set the "Remember Me" cookie to persist for a longer duration
+        //        var option = new CookieOptions
+        //        {
+        //            Expires = loginModel.RememberMe ? DateTimeOffset.UtcNow.AddDays(30) : DateTimeOffset.UtcNow.AddHours(1),
+        //            IsEssential = true, // Make sure the cookie is available even for non-essential features
+        //            HttpOnly = true // Ensure the cookie is only accessible through HTTP
+        //        };
+        //        Response.Cookies.Append(RememberMeCookieName, "true", option);
+        //    }
+        //    else
+        //    {
+        //        // Remove the "Remember Me" cookie if present
+        //        if (Request.Cookies.ContainsKey(RememberMeCookieName))
+        //        {
+        //            Response.Cookies.Delete(RememberMeCookieName);
+        //        }
+        //    }
+
+        //    // Redirect to the desired page after successful login
+        //    return RedirectToAction("Index", "Home");
+        //}
     }
 }
 

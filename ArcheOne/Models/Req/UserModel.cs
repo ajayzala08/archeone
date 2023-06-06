@@ -30,17 +30,6 @@ namespace ArcheOne.Models.Req
 		public string Email { get; set; } = null!;
 		[Required(ErrorMessage = "Please enter PhotoUrl")]
 		public IFormFile PhotoUrl { get; set; } = null!;
-		public bool? IsActive { get; set; }
-
-		public bool IsDelete { get; set; }
-
-		public int CreatedBy { get; set; }
-
-		public int UpdatedBy { get; set; }
-
-		public DateTime CreatedDate { get; set; }
-
-		public DateTime UpdatedDate { get; set; }
 		public int? RoleId { get; set; }
 	}
 }
