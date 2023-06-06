@@ -9,6 +9,8 @@ public partial class EmploymentTypeMst
 
     public string EmploymentTypeName { get; set; } = null!;
 
+    public string EmploymentTypeCode { get; set; } = null!;
+
     public bool IsActive { get; set; }
 
     public bool IsDelete { get; set; }

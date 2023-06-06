@@ -3,13 +3,17 @@ using System.Collections.Generic;
 
 namespace ArcheOne.Database.Entities;
 
-public partial class RequirementTypeMst
+public partial class InterviewMst
 {
     public int Id { get; set; }
 
-    public string RequirementTypeName { get; set; } = null!;
+    public int ResumeFileUploadId { get; set; }
 
-    public string RequirementTypeCode { get; set; } = null!;
+    public int ResumeFileUploadDetailId { get; set; }
+
+    public int HireStatusId { get; set; }
+
+    public int OfferStatusId { get; set; }
 
     public bool IsActive { get; set; }
 

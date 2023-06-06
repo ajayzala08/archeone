@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace ArcheOne.Database.Entities;
 
-public partial class RequirementTypeMst
+public partial class TeamMst
 {
     public int Id { get; set; }
 
-    public string RequirementTypeName { get; set; } = null!;
+    public int TeamLeadId { get; set; }
 
-    public string RequirementTypeCode { get; set; } = null!;
+    public int TeamMemberId { get; set; }
 
     public bool IsActive { get; set; }
 

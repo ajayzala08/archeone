@@ -15,23 +15,23 @@ public partial class RequirementMst
 
     public string? MainSkill { get; set; }
 
-    public int NoofPosition { get; set; }
+    public int NoOfPosition { get; set; }
 
     public string Location { get; set; } = null!;
 
     public string EndClient { get; set; } = null!;
 
-    public int TotalMinExperience { get; set; }
+    public decimal TotalMinExperience { get; set; }
 
-    public int TotalMaxExperience { get; set; }
+    public decimal TotalMaxExperience { get; set; }
 
-    public int RelevantMinExperience { get; set; }
+    public decimal RelevantMinExperience { get; set; }
 
-    public int RelevantMaxExperience { get; set; }
+    public decimal RelevantMaxExperience { get; set; }
 
-    public decimal BillRate { get; set; }
+    public decimal ClientBillRate { get; set; }
 
-    public decimal PayRate { get; set; }
+    public decimal CandidatePayRate { get; set; }
 
     public int PositionTypeId { get; set; }
 
@@ -43,13 +43,15 @@ public partial class RequirementMst
 
     public string MandatorySkills { get; set; } = null!;
 
-    public string JobDescription { get; set; } = null!;
+    public string? JobDescription { get; set; }
 
-    public int? AssignToid { get; set; }
+    public int TeamLeadUserId { get; set; }
 
-    public int? Status { get; set; }
+    public int TeamMemberUserId { get; set; }
 
-    public bool? IsActive { get; set; }
+    public int RequirementStatusId { get; set; }
+
+    public bool IsActive { get; set; }
 
     public bool IsDelete { get; set; }
 

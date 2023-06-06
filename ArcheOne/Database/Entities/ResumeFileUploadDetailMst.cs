@@ -7,85 +7,77 @@ public partial class ResumeFileUploadDetailMst
 {
     public int Id { get; set; }
 
-    public int RecruitmentJobId { get; set; }
+    public int ResumeFileUploadId { get; set; }
 
-    public string ApplicantName { get; set; } = null!;
+    public string Mobile1 { get; set; } = null!;
 
-    public DateTime ApplicantDob { get; set; }
+    public string? Mobile2 { get; set; }
 
-    public string Address { get; set; } = null!;
+    public string? Mobile3 { get; set; }
 
-    public int? Count { get; set; }
+    public string Email1 { get; set; } = null!;
 
-    public int? AlterCount { get; set; }
+    public string? Email2 { get; set; }
 
-    public string Email { get; set; } = null!;
+    public decimal TotalExperienceAnnual { get; set; }
 
-    public int TotalExperience { get; set; }
+    public decimal RelevantExperienceYear { get; set; }
 
-    public int RelevantExperience { get; set; }
+    public string HighestQualification { get; set; } = null!;
 
-    public string CurrentCompany { get; set; } = null!;
+    public string? GapReason { get; set; }
 
-    public string CurrentDesignation { get; set; } = null!;
+    public string? CurrentEmployer { get; set; }
 
-    public int? NoticePeriod { get; set; }
+    public string? CurrentDesignation { get; set; }
 
-    public bool? CanJoin { get; set; }
+    public decimal CurrentCtcAnnual { get; set; }
 
-    public decimal Ctc { get; set; }
+    public decimal CurrentTakeHomeMonthly { get; set; }
 
-    public decimal Ectc { get; set; }
+    public bool CurrentPfdeduction { get; set; }
 
-    public string Reason { get; set; } = null!;
+    public decimal ExpectedCtcAnnual { get; set; }
 
-    public bool? AnyInterviewOffer { get; set; }
+    public decimal ExpectedTakeHomeMonthly { get; set; }
 
-    public string Education { get; set; } = null!;
+    public bool ExpectedPfdeduction { get; set; }
+
+    public string? LastSalaryHike { get; set; }
+
+    public string? SalaryHikeReason { get; set; }
+
+    public decimal NoticePeriodDays { get; set; }
+
+    public decimal ExpectedJoinInDays { get; set; }
+
+    public string? ReasonForEarlyJoin { get; set; }
+
+    public bool OfferInHand { get; set; }
+
+    public string? OfferInHandReason { get; set; }
+
+    public bool HasAllDocuments { get; set; }
 
     public string CurrentLocation { get; set; } = null!;
 
-    public string PrefferedLocation { get; set; } = null!;
+    public string WorkLocation { get; set; } = null!;
 
-    public string Native { get; set; } = null!;
+    public string? ReasonForRelocation { get; set; }
 
-    public string ResumeName { get; set; } = null!;
+    public string NativePlace { get; set; } = null!;
 
-    public int ResumeStatusId { get; set; }
+    public DateTime Dob { get; set; }
 
-    public string Skills { get; set; } = null!;
+    public string Pan { get; set; } = null!;
 
-    public int FamilyCount { get; set; }
+    public DateTime? TeleInterviewTime { get; set; }
 
-    public int FriendCount { get; set; }
+    public bool F2favailability { get; set; }
 
-    public string ReasonGap { get; set; } = null!;
+    public DateTime? F2finterviewTime { get; set; }
 
-    public decimal CurrentTakeHome { get; set; }
-
-    public decimal? CurrentDrawing { get; set; }
-
-    public DateTime LastSalaryHike { get; set; }
-
-    public decimal ExpectedTakeHome { get; set; }
-
-    public decimal? ExpectedDrawing { get; set; }
-
-    public string HikeReason { get; set; } = null!;
-
-    public string HowJoinEarlyReason { get; set; } = null!;
-
-    public string ReasonForJoin { get; set; } = null!;
-
-    public bool? HaveDocs { get; set; }
-
-    public string? ReasonOfRelocation { get; set; }
-
-    public string? PanNumber { get; set; }
-
-    public string? TeliPhonicInTime { get; set; }
-
-    public bool? F2favaillability { get; set; }
+    public string? Skills { get; set; }
 
     public bool IsActive { get; set; }
 

@@ -9,6 +9,8 @@ public partial class PositionTypeMst
 
     public string PositionTypeName { get; set; } = null!;
 
+    public string PositionTypeCode { get; set; } = null!;
+
     public bool IsActive { get; set; }
 
     public bool IsDelete { get; set; }
