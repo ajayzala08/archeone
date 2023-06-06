@@ -8,8 +8,8 @@ $(document).ready(function () {
 
 function AddEditUser(Id) {
     ajaxCall("Get", false, '/User/AddEditUser?Id=' + Id, null, function (result) {
-        $('#AddUserModelPopup').modal('show');
-        $("#AddUserModelData").html(result.responseText);
+        $('#AddUser').modal('show');
+        $("#AddUserData").html(result.responseText);
         if (Id > 0) {
             $(".preview img").attr('src');
             $(".preview img").show();
