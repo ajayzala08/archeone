@@ -9,6 +9,8 @@ public partial class OfferStatusMst
 
     public string OfferStatusName { get; set; } = null!;
 
+    public string OfferStatusCode { get; set; } = null!;
+
     public bool IsActive { get; set; }
 
     public bool IsDelete { get; set; }

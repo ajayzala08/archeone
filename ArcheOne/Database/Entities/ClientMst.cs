@@ -9,6 +9,10 @@ public partial class ClientMst
 
     public string ClientName { get; set; } = null!;
 
+    public string ClientCode { get; set; } = null!;
+
+    public int CompanyId { get; set; }
+
     public string EmailId { get; set; } = null!;
 
     public string MobileNo { get; set; } = null!;
@@ -17,13 +21,13 @@ public partial class ClientMst
 
     public string? PocnumberPrimary { get; set; }
 
-    public string? PocemailIdPrimary { get; set; }
+    public string? PocemailPrimary { get; set; }
 
     public string? PocnameSecondary { get; set; }
 
     public string? PocnumberSecondary { get; set; }
 
-    public string? PocemailIdSecondary { get; set; }
+    public string? PocemailSecondary { get; set; }
 
     public bool IsActive { get; set; }
 

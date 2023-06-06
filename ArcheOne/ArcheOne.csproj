@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <Folder Include="Database\Entities\" />
-    <Folder Include="Database\DbScript\" />
   </ItemGroup>
 
   <ItemGroup>

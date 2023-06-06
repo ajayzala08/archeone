@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace ArcheOne.Database.Entities;
 
-public partial class RequirementTypeMst
+public partial class InterviewRoundStatusMst
 {
     public int Id { get; set; }
 
-    public string RequirementTypeName { get; set; } = null!;
+    public string InterviewRoundStatusName { get; set; } = null!;
 
-    public string RequirementTypeCode { get; set; } = null!;
+    public string InterviewRoundStatusCode { get; set; } = null!;
 
     public bool IsActive { get; set; }
 

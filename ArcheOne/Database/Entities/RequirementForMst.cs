@@ -9,6 +9,8 @@ public partial class RequirementForMst
 
     public string RequirementForName { get; set; } = null!;
 
+    public string RequirementForCode { get; set; } = null!;
+
     public bool IsActive { get; set; }
 
     public bool IsDelete { get; set; }
