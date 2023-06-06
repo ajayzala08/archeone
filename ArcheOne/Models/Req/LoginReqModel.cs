@@ -8,5 +8,6 @@ namespace ArcheOne.Models.Req
         public string UserName { get; set; }
         [Required(ErrorMessage = "Please select Password")]
         public string Password { get; set; }
+        public bool RememberMe { get; set; }
     }
 }

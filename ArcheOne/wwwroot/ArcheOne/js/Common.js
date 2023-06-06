@@ -7,7 +7,7 @@ var Toast = Swal.mixin({
     //showCancelButton: true,
     position: 'top-end',
     showConfirmButton: false,
-    timer: 7000
+    timer: 5000
 });
 
 var Popup_Toast = Swal.mixin({

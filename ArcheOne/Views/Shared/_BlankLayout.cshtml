@@ -1,4 +1,7 @@
-﻿
+﻿@{
+    bool datatable = (!string.IsNullOrWhiteSpace(ViewBag.datatable) && (ViewBag.datatable == "true" || ViewBag.datatable == "True")) ? true : false;
+    bool select2 = (!string.IsNullOrWhiteSpace(ViewBag.select2) && (ViewBag.select2 == "true" || ViewBag.select2 == "True")) ? true : false;
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +14,22 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="~/theme/plugins/fontawesome-free/css/all.min.css">
+
+    @if (datatable)
+    {
+        <!-- DataTables -->
+        <link rel="stylesheet" href="~/theme/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="~/theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+        <link rel="stylesheet" href="~/theme/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    }
+
+    @if (select2)
+    {
+        <!-- Select2 -->
+        <link rel="stylesheet" href="~/theme/plugins/select2/css/select2.min.css">
+        <link rel="stylesheet" href="~/theme/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    }
+
     <!-- Theme style -->
     <link rel="stylesheet" href="~/theme/dist/css/adminlte.min.css">
     <!-- Common CSS -->
@@ -20,31 +39,51 @@
 <body>
     <!-- Site wrapper -->
     <div class="wrapper">
-        
-        @RenderBody()
-       
+        <section class="content">
+            <div class="container-fluid">
+                @RenderBody()
+            </div>
+        </section>
     </div>
     <!-- ./wrapper -->
     <!-- jQuery -->
-
     <script src="~/theme/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="~/theme/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Sweetalert2 V11 -->
-     <script src="~/archeone/js/sweetalert2_v11.js"></script>
+    <script src="~/archeone/js/sweetalert2_v11.js"></script>
+    @if (select2)
+    {
+        <!-- Select2 -->
+        <script src="~/theme/plugins/select2/js/select2.full.min.js"></script>
+    }
     <!-- Common JS -->
     <script src="~/archeone/js/Common.js"></script>
+    @if (datatable)
+    {
+        <!-- DataTables  & Plugins -->
+        <script src="~/theme/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/theme/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="~/theme/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="~/theme/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+        <script src="~/theme/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+        <script src="~/theme/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+        <script src="~/theme/plugins/jszip/jszip.min.js"></script>
+        <script src="~/theme/plugins/pdfmake/pdfmake.min.js"></script>
+        <script src="~/theme/plugins/pdfmake/vfs_fonts.js"></script>
+        <script src="~/theme/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+        <script src="~/theme/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+        <script src="~/theme/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    }
     <!-- AdminLTE App -->
     <script src="~/theme/dist/js/adminlte.min.js"></script>
+    <!-- blockUI -->
     <script src="https://malsup.github.io/jquery.blockUI.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    @*<script src="~/theme/dist/js/demo.js"></script>*@
+
     <script type="text/javascript">
         function preventBack() { window.history.forward(); }
         setTimeout("preventBack()", 0);
         window.onunload = function () { null };
-
-
         window.history.forward();
         function noBack() {
             window.history.forward();
