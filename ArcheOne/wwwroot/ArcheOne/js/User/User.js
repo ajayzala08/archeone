@@ -6,9 +6,13 @@ $(document).ready(function () {
     });
 });
 
+$('#AddUserPage').click(function () {
+    window.location.href = '/User/AddEditUser';
+});
+
 function AddEditUser(Id) {
     ajaxCall("Get", false, '/User/AddEditUser?Id=' + Id, null, function (result) {
-        $('#AddUser').modal('show');
+    
         $("#AddUserData").html(result.responseText);
         if (Id > 0) {
             $(".preview img").attr('src');
