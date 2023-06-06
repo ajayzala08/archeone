@@ -1,9 +1,11 @@
 ﻿using ArcheOne.Helper.CommonModels;
+using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Mail;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -333,6 +335,98 @@ namespace ArcheOne.Helper.CommonHelpers
             var UserId = claimsPrincipal.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault();
 
             return Convert.ToInt32(UserId);
+        }
+
+        public string GetUpdateQuery(string TableName, dynamic model)
+        {
+            string query = "Update " + TableName + " set ";
+            string whereClause = string.Empty;
+
+            int count = 0;
+            foreach (var item in model)
+            {
+                if (item.Key.ToLower() != "id")
+                {
+                    if (count > 0)
+                    {
+                        query += ",";
+                    }
+                    query += $"{item.Key} = '{item.Value}'";
+                    count++;
+                }
+                else
+                {
+                    whereClause = $" where {item.Key} = {item.Value}";
+                }
+            }
+            query += whereClause;
+            return query;
+        }
+
+        
+
+        public string GetInsertQuery(string TableName, dynamic model)
+        {
+            string query = "insert into " + TableName + " (";
+            Type ApplicantInfo = model.GetType();
+            PropertyInfo[] properties = ApplicantInfo.GetProperties();
+            var TotalParameters = properties.Count();
+            int count = 0;
+            bool IsInt = false;
+            bool IsBool = false;
+            bool IsDateTime = false;
+            DateTime dateTime;
+            foreach (PropertyInfo property in properties)
+            {
+                if (property.Name.ToString().ToLower() != "id")
+                {
+                    if (count > 0)
+                    {
+                        query += ", ";
+                    }
+                    query += property.Name.ToString();
+                    count++;
+                }
+            }
+            query += ") values (";
+            count = 0;
+            foreach (PropertyInfo property in properties)
+            {
+                if (property.Name.ToString().ToLower() != "id")
+                {
+                    IsInt = property.GetMethod.ReturnType.Name.ToLower().Contains("int");
+                    IsBool = property.GetMethod.ReturnType.Name.ToLower().Contains("bool");
+                    IsDateTime = property.GetMethod.ReturnType.Name.ToLower().Contains("datetime");
+                    if (count > 0)
+                    {
+                        query += ", ";
+                    }
+                    if (!IsInt && !IsBool)
+                    {
+                        query += "'";
+                    }
+                    if (IsBool)
+                    {
+                        query += (model.GetType().GetProperty(property.Name).GetValue(model, null)) == true ? "1" : "0";
+                    }
+                    else if (IsDateTime)
+                    {
+                        dateTime = model.GetType().GetProperty(property.Name).GetValue(model, null);
+                        query += dateTime.ToString(SQL_SYS_DATE_FORMAT);
+                    }
+                    else
+                    {
+                        query += model.GetType().GetProperty(property.Name).GetValue(model, null);
+                    }
+                    if (!IsInt && !IsBool)
+                    {
+                        query += "'";
+                    }
+                    count++;
+                }
+            }
+            query += ")";
+            return query;
         }
     }
 }

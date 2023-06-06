@@ -1,7 +1,7 @@
 $(document).ready(function () {
     preventBack();
     noBack();
-    applyRequiredValidation();
+    //applyRequiredValidation();
     $("#btnLogin").click(function () {
         var dataModel = {
             "UserName": $('#txtUserName').val(),
