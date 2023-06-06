@@ -38,7 +38,6 @@ namespace ArcheOne.Helper.CommonHelpers
                 subDirectory = subDirectory ?? string.Empty;
                 var target = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot", "Files", subDirectory);
 
-
                 Directory.CreateDirectory(target);
                 //savePath = Path.Combine("Files", subDirectory, fileName); 
                 savePath = Path.Combine("/", subDirectory, fileName);

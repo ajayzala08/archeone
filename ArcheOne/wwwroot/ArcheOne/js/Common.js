@@ -1,6 +1,7 @@
 ﻿var methodType = "Post";
 var baseURL = "http://localhost:802/";
 var DataType = "json";
+var isDataTypeJson = false;
 
 var Toast = Swal.mixin({
     toast: true,
@@ -24,6 +25,7 @@ $(document).ready(function () {
 
 // General function for all ajax calls
 function ajaxCall(methodType, applyBaseURL, apiURL, dataParams, callback) {
+    debugger
     //var Token = $("#txtToken").val();
     var URL;
     if (applyBaseURL == true) {
@@ -32,6 +34,7 @@ function ajaxCall(methodType, applyBaseURL, apiURL, dataParams, callback) {
     else {
         URL = apiURL;
     }
+    
     $.ajax({
         type: methodType,
         url: URL,
@@ -44,6 +47,41 @@ function ajaxCall(methodType, applyBaseURL, apiURL, dataParams, callback) {
         contentType: 'application/json; charset=utf-8',
         data: dataParams,
         dataType: DataType,
+        //cache: false,
+        success: function (response) {
+            callback(response);
+        },
+        error: function (response) {
+            callback(response);
+        }
+    });
+}
+
+
+// General function for all ajax calls
+function ajaxCallWithoutDataType(methodType, applyBaseURL, apiURL, dataParams, callback) {
+    debugger
+    //var Token = $("#txtToken").val();
+    var URL;
+    if (applyBaseURL == true) {
+        URL = baseURL + apiURL;
+    }
+    else {
+        URL = apiURL;
+    }
+
+    $.ajax({
+        type: methodType,
+        url: URL,
+        //quietMillis: 100,
+        headers: {
+            //'Authorization': Token,
+            //"Content-Type": "application/json"
+            /* 'Access-Control-Allow-Origin': '*'*/
+        },
+        contentType: 'application/json; charset=utf-8',
+        data: dataParams,
+       /* dataType: DataType,*/
         //cache: false,
         success: function (response) {
             callback(response);
