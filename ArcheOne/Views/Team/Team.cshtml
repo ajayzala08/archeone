@@ -1,0 +1,70 @@
+﻿@model ArcheOne.Models.Req.TeamReqModel
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+
+}
+<section class="content-header"></section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                Create Team
+                <h3 class="card-title"></h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <form id="contact-form" method="post" role="form" enctype="multipart/form-data" asp-action="Team" asp-controller="Team">
+                    <div class="messages"></div>
+                    <div class="controls">
+
+                        <div class="row">
+                         @*   <div class="col-sm-4" id="ddlTeamLeadId">
+                                <div class="form-group">
+                                    @Html.Label("TeamLead")
+                                    @Html.DropDownList("ddlTeamLeadId", new SelectList(@ViewBag.teamLead, "Id", "UserName"), htmlAttributes: new { @class = "form-control", @id = "ddlTeamLeadId", @isrequired="1", @divcontainer="ddlTeamLeadId", @defaultvalue="0", @errorspan="sddlTeamLeadId" } )
+                                    <span class="help-block d-none has-error" id="sddlTeamLeadId">Please select Team lead</span>
+                                </div>
+                            </div>*@
+                            <div class="col-sm-4" id="ddlTeamLeadId">
+                                <div class="form-group">
+                                    @Html.Label("Team Lead Name")
+                                    @Html.DropDownList("ddlTeamLeadId", new SelectList(@ViewBag.client, "Id", "UserName"), htmlAttributes: new { @class = "form-control", @id = "ddlTeamLeadId", @isrequired="1", @divcontainer="ddlTeamLeadId", @defaultvalue="0"} )
+                                    <span class="help-block d-none has-error" id="sddlTeamLeadId">Please select Team Lead</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4" id="dddlTeamMemberId">
+                                <div class="form-group">
+                                    @Html.Label("TeamMemberName")
+                                    @Html.DropDownList("ddlTeamMemberName", new SelectList(@ViewBag.Client, "Id", "TeamMember"), htmlAttributes: new { @class = "form-control", @id = "ddlTeamMemberId", @isrequired="1", @divcontainer="dddlTeamMemberId", @defaultvalue="0", @errorspan="sddlTeamMemberId" })
+                                    <span class="help-block d-none has-error" id="sddlTeamMemberId">Please Enter Team Member</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="row">
+                        <div class="col-md-1">
+                            <button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-success">Submit</button>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="submit" class="btn btn-danger btn-send" value="Cancel">
+                        </div>
+                    </div>
+                    @if (ViewBag.Message != null)
+                    {
+                        <script type="text/javascript">
+                            window.onload = function () {
+                                alert("@ViewBag.Message");
+                            };
+                        </script>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

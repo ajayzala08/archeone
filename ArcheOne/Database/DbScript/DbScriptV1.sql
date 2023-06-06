@@ -669,3 +669,32 @@ END
 
 
 ---------------------------------------Executed on Local Server on 01-06-23------------------by SP-----------
+
+
+----------------------------------------Added by SP on 05-06-23-----------------------------------Start--------
+
+---------------------------------------------------TeamMst------------------------------------------
+
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'TeamMst')
+BEGIN 
+	Create table dbo.TeamMst(
+			Id int identity(1,1) primary key,
+			TeamLeadId int not null,
+			TeamMemberId int not null,
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'TeamMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'TeamMst Table Already Exist' 
+END
+
+---------------------------------------Executed on Local Server on 05-06-23------------------by SP-----------

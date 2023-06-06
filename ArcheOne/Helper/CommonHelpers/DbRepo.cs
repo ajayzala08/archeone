@@ -77,5 +77,10 @@ namespace ArcheOne.Helper.CommonHelpers
 			return _db.EmploymentTypeMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
 
 		}
-	}
+        public IQueryable<TeamMst> TeamList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.TeamMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+
+        }
+    }
 }

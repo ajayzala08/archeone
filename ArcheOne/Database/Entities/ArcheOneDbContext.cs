@@ -55,6 +55,8 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<ScheduleInterviewMst> ScheduleInterviewMsts { get; set; }
 
+    public virtual DbSet<TeamMst> TeamMsts { get; set; }
+
     public virtual DbSet<UserMst> UserMsts { get; set; }
 
     public virtual DbSet<UserPermission> UserPermissions { get; set; }
@@ -385,6 +387,16 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.InterviewDate).HasColumnType("datetime");
             entity.Property(e => e.InterviewLocation).HasMaxLength(100);
             entity.Property(e => e.Note).HasMaxLength(50);
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<TeamMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__TeamMst__3214EC07D8D6A7F9");
+
+            entity.ToTable("TeamMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
