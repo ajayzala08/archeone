@@ -1,10 +1,7 @@
 ﻿@using ArcheOne.Models.Req;
-@inject IHttpContextAccessor HttpContextAccessor
 @model UserAddEditReqViewModel;
 @{
-	//Layout = "_BlankLayout";
-	//string PopupTitle1 = "";
-	//PopupTitle1 = Model.UserDetails.Id > 0 ? "Edit User" : "Add User";
+	Layout = "_MasterLayout";
 }
 
 <section class="content-header"></section>
@@ -29,9 +26,8 @@
 								<div class="form-group">
 									<div class="form-group">
 										<input id="txtUserId" name="txtUserId" type="hidden" class="form-control" value="@Model.UserDetails.Id" />
-
 										<label for="form_name">Photo *</label>
-										<input type="file" id="photoUpload" onchange="uploadFiles('photoUpload');" />
+										@*<input type="file" id="photoUpload" onchange="uploadFiles('photoUpload');" />*@
 										<img src="@Model.UserDetails.PhotoUrl" id="photoUrl" style="width:75px!important" name="photoUrl" />
 										<div class="input-group">
 											<div class="custom-file">
@@ -45,19 +41,18 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-sm-4" id="dddlCompany">
-								<div class="form-group">
-									<label><span class="has-error required">* </span>Company</label>
-									<select id="ddlCompany" name="ddlCompany" class="form-control" isrequired="1" divcontainer="dddlCompany" errorspan="sddlCompany" defaultvalue="0" style="width: 100%;">
-										@*<option value="0">--- Select ---</option>*@
-										@foreach (var item in Model.CompanyList)
-										{
-											<option value="@item.Id">@item.CompanyName</option>
-										}
-									</select>
-									<span class="help-block d-none has-error" id="sddlCompany">Please select any company</span>
-								</div>
+							@*<div class="col-sm-4" id="dddlCompany">
+							<div class="form-group">
+							<label><span class="has-error required">* </span>Company</label>
+							<select id="ddlCompany" name="ddlCompany" class="form-control" isrequired="1" divcontainer="dddlCompany" errorspan="sddlCompany" defaultvalue="0" style="width: 100%;">
+							@foreach (var item in Model.CompanyList)
+							{
+							<option value="@item.Id">@item.CompanyName</option>
+							}
+							</select>
+							<span class="help-block d-none has-error" id="sddlCompany">Please select any company</span>
 							</div>
+							</div>*@
 							@*<div class="col-sm-4" id="dddlRole">
 							<div class="form-group">
 							@Html.Label("Role")
@@ -160,10 +155,10 @@
 					<div class="clearfix"></div>
 					<div class="row">
 						<div class="col-md-1">
-							<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-success">Submit</button>
+							<input type="button" id="btnSaveUpdateUser" class="btn btn-success" value="Submit" />
 						</div>
 						<div class="col-md-1">
-							<input type="submit" class="btn btn-danger btn-send" value="Cancel">
+							<input type="button" class="btn btn-danger btn-send" value="Cancel" />
 						</div>
 					</div>
 					@if (ViewBag.Message != null)
@@ -181,5 +176,15 @@
 </section>
 
 @section Scripts {
-	<script src="~/archeone/js/user/user.js"></script>
+	<script src="~/archeone/js/user/addedituser.js"></script>
+	<script type="text/javascript">
+		var loadFile = function (event) {
+			var reader = new FileReader();
+			reader.onload = function () {
+				var output = document.getElementById('photoUrl');
+				output.src = reader.result;
+			};
+			reader.readAsDataURL(event.target.files[0]);
+		};
+	</script>
 }

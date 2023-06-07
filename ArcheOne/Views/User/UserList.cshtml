@@ -1,7 +1,9 @@
-﻿@using ArcheOne.Database.Entities;
-@model List<UserMst>
+﻿
+@using ArcheOne.Helper.CommonModels;
+@model CommonResponse
 @{
     Layout = "_BlankLayout";
+    ViewBag.datatable = "true";
 }
 
 <div class="row form-group">
@@ -60,7 +62,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in Model.Data)
                 {
                     <tr>
                         <td>
@@ -68,6 +70,9 @@
                         </td>
                         <td>
                             @item.CompanyId
+                        </td>
+                        <td>
+                            @item.RoleId
                         </td>
                         <td>
                             @item.FirstName
