@@ -3,7 +3,8 @@
 
 @{
     Layout = "_MainBlankLayout";
-     string PopupTitle1 = "";
+    string PopupTitle1 = "";
+    int id = 0;
     PopupTitle1 = Model.SalesLeadDetailes.Id > 0 ? "Edit SaleLead" : "Add SaleLead";
     var CountryId = Model.SalesLeadDetailes.CountryId;
     var stateId = Model.SalesLeadDetailes.StateId;
@@ -13,38 +14,38 @@
 
 
 
-
-<section class="content-header"></section>
-<section class="content">
-    <div class="container-fluid">
-        <div class="card card-outline card-primary">
-            <div class="card-header">
-                Create SalesLead
-                <h3 class="card-title"></h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
+@if (id > 0) {
+    <section class="content-header"></section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card card-outline card-primary">
+                <div class="card-header">
+                    Create SalesLead
+                    <h3 class="card-title"></h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <input id="txtSalesLeadId" name="txtSalesLeadId" type="hidden" class="form-control" value="@Model.SalesLeadDetailes.Id" />
+                <div class="card-body">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input id="txtSalesLeadId" name="txtSalesLeadId" type="hidden" class="form-control" value="@Model.SalesLeadDetailes.Id" />
 
-                            <div class="form-group" id="dtxtOrganizationName">
-                                <label><span class="has-error required">* </span>Organization Name</label>
-                                <input id="txtOrganizationName" name="txtOrganizationName" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Organization Name" value="@Model.SalesLeadDetailes.OrgName" isrequired="1" divcontainer="dtxtOrganizationName" errorspan="stxtOrganizationName" defaultvalue="" autocomplete="off" minlength="2">
-                                <span class="help-block d-none has-error" id="stxtOrganizationName">Please Enter Valid Organization Name</span>
-                            </div>
+                                <div class="form-group" id="dtxtOrganizationName">
+                                    <label><span class="has-error required">* </span>Organization Name</label>
+                                    <input id="txtOrganizationName" name="txtOrganizationName" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Organization Name" value="@Model.SalesLeadDetailes.OrgName" isrequired="1" divcontainer="dtxtOrganizationName" errorspan="stxtOrganizationName" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtOrganizationName">Please Enter Valid Organization Name</span>
+                                </div>
 
 
-                            <div class="form-group" id="dddlCountry">
-                                <label><span class="has-error required">* </span>Country</label>
-                                <select id="ddlCountry" name="ddlCountry" class="form-control" isrequired="1" divcontainer="dddlCountry" errorspan="sddlCountry" defaultvalue="0" style="width: 100%;">
-                                    <option value="0">--- Select ---</option>
-                                  @*  @foreach (var item in Model.CountryList)
+                                <div class="form-group" id="dddlCountry">
+                                    <label><span class="has-error required">* </span>Country</label>
+                                    <select id="ddlCountry" name="ddlCountry" class="form-control" isrequired="1" divcontainer="dddlCountry" errorspan="sddlCountry" defaultvalue="0" style="width: 100%;">
+                                        <option value="0">--- Select ---</option>
+                                        @*  @foreach (var item in Model.CountryList)
                                     {
                                         if (CountryId == item.CountryId)
                                         { 
@@ -56,80 +57,85 @@
                                         }
 
                                     }*@
-                                </select>
-                                <span class="help-block d-none has-error" id="sddlCountry">Please Enter Valid Country Name</span>
+                                    </select>
+                                    <span class="help-block d-none has-error" id="sddlCountry">Please Enter Valid Country Name</span>
+                                </div>
+
+                                <div class="form-group" id="dddlState">
+                                    <label>State</label>
+                                    <select id="ddlState" name="ddlState" class="form-control" isrequired="1" divcontainer="dddlState" errorspan="sddlState" defaultvalue="0">
+                                        <option value="0">Select</option>
+
+                                    </select>
+                                    <input id="txtSelectedStateId" name="txtSelectedStateId" type="hidden" class="form-control" value="@Model.SalesLeadDetailes.StateId" />
+                                    <span class="help-block d-none has-error" id="sddlState">Please Enter Valid State Name</span>
+                                </div>
+
+                                <div class="form-group" id="dddlCity">
+                                    <label><span class="has-error required">* </span>City</label>
+                                    <select id="ddlCity" name="ddlCity" class="form-control" isrequired="1" divcontainer="dddlCity" errorspan="sddlCity" defaultvalue="0">
+                                        <option value="0">Select</option>
+
+                                    </select>
+                                    <input id="txtSelectedCityId" name="txtSelectedCityId" type="hidden" class="form-control" value="@Model.SalesLeadDetailes.CityId" />
+                                    <span class="help-block d-none has-error" id="sddlCity">Please Enter Valid City Name</span>
+                                </div>
+
+                                <div class="form-group" id="dtxtSalesLeadAddress">
+                                    <label><span class="has-error required">* </span>SalesLeadAddress</label>
+                                    <input id="txtSalesLeadAddress" name="txtSalesLeadAddress" type="text" class="form-control  txtCapitalize text-length" placeholder="SalesLead Address" value="@Model.SalesLeadDetailes.Address" isrequired="1" divcontainer="dtxtSalesLeadAddress" errorspan="stxtSalesLeadAddress" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtSalesLeadAddress">Please Enter Valid SalesLead Address</span>
+                                </div>
+                                <div class="form-group" id="dtxtPhone1">
+                                    <label><span class="has-error required">* </span>Phone1</label>
+                                    <input id="txtPhone1" name="txtPhone1" type="text" class="form-control onlyNumeric text-length" placeholder="Phone1" value="@Model.SalesLeadDetailes.Phone1" isrequired="1" divcontainer="dtxtPhone1" errorspan="stxtPhone1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+                                    <span class="help-block d-none has-error" id="stxtPhone1">Please Enter Valid Phone1</span>
+                                </div>
+
+                                <div class="form-group" id="dtxtPhone2">
+                                    <label>Phone2</label>
+                                    <input id="txtPhone2" name="txtPhone2" type="text" class="form-control onlyNumeric" placeholder="Phone2" value="@Model.SalesLeadDetailes.Phone2" isrequired="0" divcontainer="dtxtPhone2" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+                                    <span class="help-block d-none has-error" id="stxtMobile1">Please Enter Valid Mobile</span>
+                                </div>
                             </div>
+                            <div class="col-md-6">
 
-                            <div class="form-group" id="dddlState">
-                                <label>State</label>
-                                <select id="ddlState" name="ddlState" class="form-control" isrequired="1" divcontainer="dddlState" errorspan="sddlState" defaultvalue="0">
-                                    <option value="0">Select</option>
+                                <div class="form-group" id="dtxtEmail1">
+                                    <label><span class="has-error required">* </span>Email1</label>
+                                    <input id="txtEmail1" name="txtEmail1" type="text" class="form-control text-length" placeholder="Email1" value="@Model.SalesLeadDetailes.Email1" isrequired="1" divcontainer="dtxtEmail1" errorspan="stxtEmail1" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtEmail1">Please Enter Valid Email</span>
+                                </div>
 
-                                </select>
-                                <input id="txtSelectedStateId" name="txtSelectedStateId" type="hidden" class="form-control" value="@Model.SalesLeadDetailes.StateId" />
-                                <span class="help-block d-none has-error" id="sddlState">Please Enter Valid State Name</span>
-                            </div>
+                                <div class="form-group" id="dtxtEmail2">
+                                    <label>Email2</label>
+                                    <input id="txtEmail2" name="txtEmail2" type="text" class="form-control" placeholder="Email2" value="@Model.SalesLeadDetailes.Email2" isrequired="0" divcontainer="dtxtEmail2" errorspan="stxtEmail2" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtEmail2">Please Enter Valid Email</span>
+                                </div>
 
-                            <div class="form-group" id="dddlCity">
-                                <label><span class="has-error required">* </span>City</label>
-                                <select id="ddlCity" name="ddlCity" class="form-control" isrequired="1" divcontainer="dddlCity" errorspan="sddlCity" defaultvalue="0">
-                                    <option value="0">Select</option>
+                                <div class="form-group" id="dtxtWebsite">
+                                    <label>Website</label>
+                                    <input id="txtWebsite" name="txtWebsite" type="text" class="form-control txtCapitalize" placeholder="Website" value="@Model.SalesLeadDetailes.WebsiteUrl" isrequired="0" divcontainer="dtxtWebsite" errorspan="stxtWebsite" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtWebsite">Please Enter Valid Website</span>
+                                </div>
 
-                                </select>
-                                <input id="txtSelectedCityId" name="txtSelectedCityId" type="hidden" class="form-control" value="@Model.SalesLeadDetailes.CityId" />
-                                <span class="help-block d-none has-error" id="sddlCity">Please Enter Valid City Name</span>
-                            </div>
 
-                            <div class="form-group" id="dtxtSalesLeadAddress">
-                                <label><span class="has-error required">* </span>SalesLeadAddress</label>
-                                <input id="txtSalesLeadAddress" name="txtSalesLeadAddress" type="text" class="form-control  txtCapitalize text-length" placeholder="SalesLead Address" value="@Model.SalesLeadDetailes.Address" isrequired="1" divcontainer="dtxtSalesLeadAddress" errorspan="stxtSalesLeadAddress" defaultvalue="" autocomplete="off" minlength="2">
-                                <span class="help-block d-none has-error" id="stxtSalesLeadAddress">Please Enter Valid SalesLead Address</span>
-                            </div>
-                            <div class="form-group" id="dtxtPhone1">
-                                <label><span class="has-error required">* </span>Phone1</label>
-                                <input id="txtPhone1" name="txtPhone1" type="text" class="form-control onlyNumeric text-length" placeholder="Phone1" value="@Model.SalesLeadDetailes.Phone1" isrequired="1" divcontainer="dtxtPhone1" errorspan="stxtPhone1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
-                                <span class="help-block d-none has-error" id="stxtPhone1">Please Enter Valid Phone1</span>
-                            </div>
-
-                            <div class="form-group" id="dtxtPhone2">
-                                <label>Phone2</label>
-                                <input id="txtPhone2" name="txtPhone2" type="text" class="form-control onlyNumeric" placeholder="Phone2" value="@Model.SalesLeadDetailes.Phone2" isrequired="0" divcontainer="dtxtPhone2" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
-                                <span class="help-block d-none has-error" id="stxtMobile1">Please Enter Valid Mobile</span>
                             </div>
                         </div>
-                        <div class="col-md-6">
 
-                            <div class="form-group" id="dtxtEmail1">
-                                <label><span class="has-error required">* </span>Email1</label>
-                                <input id="txtEmail1" name="txtEmail1" type="text" class="form-control text-length" placeholder="Email1" value="@Model.SalesLeadDetailes.Email1" isrequired="1" divcontainer="dtxtEmail1" errorspan="stxtEmail1" defaultvalue="" autocomplete="off" minlength="2">
-                                <span class="help-block d-none has-error" id="stxtEmail1">Please Enter Valid Email</span>
-                            </div>
-
-                            <div class="form-group" id="dtxtEmail2">
-                                <label>Email2</label>
-                                <input id="txtEmail2" name="txtEmail2" type="text" class="form-control" placeholder="Email2" value="@Model.SalesLeadDetailes.Email2" isrequired="0" divcontainer="dtxtEmail2" errorspan="stxtEmail2" defaultvalue="" autocomplete="off" minlength="2">
-                                <span class="help-block d-none has-error" id="stxtEmail2">Please Enter Valid Email</span>
-                            </div>
-
-                            <div class="form-group" id="dtxtWebsite">
-                                <label>Website</label>
-                                <input id="txtWebsite" name="txtWebsite" type="text" class="form-control txtCapitalize" placeholder="Website" value="@Model.SalesLeadDetailes.WebsiteUrl" isrequired="0" divcontainer="dtxtWebsite" errorspan="stxtWebsite" defaultvalue="" autocomplete="off" minlength="2">
-                                <span class="help-block d-none has-error" id="stxtWebsite">Please Enter Valid Website</span>
-                            </div>
-
-
-                        </div>
                     </div>
 
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="btnSaveAdd">Save</button>
+                        <button type="button" class="btn btn-secondary" id="btnClose" data-dismiss="modal">Close</button>
+                    </div>
+
+
                 </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="btnSaveAdd">Save</button>
-                    <button type="button" class="btn btn-secondary" id="btnClose" data-dismiss="modal">Close</button>
-                </div>
-
-
             </div>
         </div>
-    </div>
-</section>
+    </section>
+}
+else
+{
+    <p style="color:red">This page is in under progress</p>
+}
