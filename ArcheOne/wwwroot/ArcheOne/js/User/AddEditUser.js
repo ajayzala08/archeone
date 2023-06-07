@@ -33,7 +33,7 @@ function SaveUser() {
             ajaxCallWithoutDataType("Post", false, '/User/SaveUpdateUser', saveData, function (result) {
                 if (result.status == true) {
                     Toast.fire({ icon: 'success', title: result.message });
-                    RedirectToPage("/User/UserList");
+                    RedirectToPage("/User/User");
                 }
                 else {
                     Toast.fire({ icon: 'error', title: result.message });
@@ -43,6 +43,7 @@ function SaveUser() {
         }
         else {
             $.unblockUI();
+            Toast.fire({ icon: 'success', title: result.message });
         }
     }
     else {

@@ -3,6 +3,7 @@ using ArcheOne.Database.Entities;
 using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models.Req;
+using ArcheOne.Models.Res;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -161,98 +162,122 @@ namespace ArcheOne.Controllers
 			return View(commonResponse.Data);
 		}
 
-		public CommonResponse SaveUpdateUser(UserSaveUpdateReqModel user)
+		public CommonResponse SaveUpdateUser(UserSaveUpdateReqModel userSaveUpdateReq)
 		{
 			CommonResponse commonResponse = new CommonResponse();
 			try
 			{
 				UserMst userMst = new UserMst();
-				//bool IsDuplicate = false;
-				var duplicateCheck = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == user.Id && x.UserName == user.UserName);
-				//IsDuplicate = duplicateCheck != null;
-				if (duplicateCheck == null)
+				IFormFile file = userSaveUpdateReq.PhotoUrl;
+				string FileName = file.FileName;
+				FileInfo fileInfo = new FileInfo(FileName);
+				string FileExtension = fileInfo.Extension;
+				long fileSize = file.Length;
+				bool validateFileExtension = false;
+				bool validateFileSize = false;
+				string[] allowedFileExtensions = { (CommonConstant.jpg), (CommonConstant.png), (CommonConstant.jpeg) };
+				long allowedFileSize = 1 * 1024 * 1024 * 10; // 10MB
+				validateFileExtension = allowedFileExtensions.Contains(FileExtension) ? true : false;
+				validateFileSize = fileSize <= allowedFileSize ? true : false;
+				if (validateFileExtension && validateFileSize)
 				{
-					var UserDetail = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == user.Id);
-					if (UserDetail != null && UserDetail.Id > 0)
+					var duplicateCheck = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == userSaveUpdateReq.Id && x.UserName == userSaveUpdateReq.UserName);
+					if (duplicateCheck == null)
 					{
-						//Edit Mode
-						//userMst = user;
-						userMst.CreatedDate = UserDetail.CreatedDate;
-						userMst.CreatedBy = UserDetail.CreatedBy;
-						userMst.IsActive = UserDetail.IsActive;
-						userMst.IsDelete = UserDetail.IsDelete;
-
-						userMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
-						userMst.UpdatedBy = 1;
-
-						_dbContext.Entry(userMst).State = EntityState.Modified;
-						_dbContext.SaveChanges();
-
-						if (!string.IsNullOrEmpty(user.Email))
+						var imageFile = _commonHelper.UploadFile(userSaveUpdateReq.PhotoUrl, @"UserProfile", FileName, false, true, true);
+						string filePath = Path.Combine(_commonHelper.GetPhysicalRootPath(false), imageFile.Data);
+						var UserDetail = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == userSaveUpdateReq.Id);
+						if (UserDetail != null && UserDetail.Id > 0)
 						{
-							var ImagePath = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "Files", "UserImages", "logo.png");
-							var emailTemplatePath = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "Files", "Files.html");
-							StreamReader str = new StreamReader(emailTemplatePath);
-							string MailText = str.ReadToEnd();
-							str.Close();
-							var htmlBody = MailText;
-							htmlBody = htmlBody.Replace("logo.png", ImagePath);
-							SendEmailRequestModel sendEmailRequestModel = new SendEmailRequestModel();
-							sendEmailRequestModel.ToEmail = user.Email;
-							sendEmailRequestModel.Subject = "Welcome To Reyna";
-							sendEmailRequestModel.Body = htmlBody;
-							var sentMail = _commonHelper.SendEmail(sendEmailRequestModel);
+							//Edit Mode
+							userMst.RoleId = userSaveUpdateReq.RoleId;
+							userMst.FirstName = userSaveUpdateReq.FirstName;
+							userMst.MiddleName = userSaveUpdateReq.MiddleName;
+							userMst.LastName = userSaveUpdateReq.LastName;
+							userMst.UserName = userSaveUpdateReq.UserName;
+							userMst.Password = userSaveUpdateReq.Password;
+							userMst.Address = userSaveUpdateReq.Address;
+							userMst.Pincode = userSaveUpdateReq.Pincode;
+							userMst.Mobile1 = userSaveUpdateReq.Mobile1;
+							userMst.Mobile2 = userSaveUpdateReq.Mobile2;
+							userMst.Email = userSaveUpdateReq.Email;
+							userMst.PhotoUrl = imageFile.Data;
+							userMst.CreatedDate = UserDetail.CreatedDate;
+							userMst.CreatedBy = UserDetail.CreatedBy;
+							userMst.IsActive = UserDetail.IsActive;
+							userMst.IsDelete = UserDetail.IsDelete;
+							userMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+							userMst.UpdatedBy = 1;
 
-							if (sentMail.Status)
-							{
-								//userMst = user;
-								userMst.CreatedDate = UserDetail.CreatedDate;
-								userMst.CreatedBy = UserDetail.CreatedBy;
-								userMst.IsActive = UserDetail.IsActive;
-								userMst.IsDelete = UserDetail.IsDelete;
-								//userMst.WelcomeEmailSend = true;
-								userMst.IsActive = true;
+							_dbContext.Entry(userMst).State = EntityState.Modified;
+							_dbContext.SaveChanges();
 
-								_dbContext.Add(userMst);
-								_dbContext.SaveChanges();
-							}
+							commonResponse.Status = true;
+							commonResponse.StatusCode = HttpStatusCode.OK;
+							commonResponse.Message = "User Updated Successfully!";
 						}
+						else
+						{
+							//Add Mode
+							userMst.RoleId = userSaveUpdateReq.RoleId;
+							userMst.FirstName = userSaveUpdateReq.FirstName;
+							userMst.MiddleName = userSaveUpdateReq.MiddleName;
+							userMst.LastName = userSaveUpdateReq.LastName;
+							userMst.UserName = userSaveUpdateReq.UserName;
+							userMst.Password = userSaveUpdateReq.Password;
+							userMst.Address = userSaveUpdateReq.Address;
+							userMst.Pincode = userSaveUpdateReq.Pincode;
+							userMst.Mobile1 = userSaveUpdateReq.Mobile1;
+							userMst.Mobile2 = userSaveUpdateReq.Mobile2;
+							userMst.Email = userSaveUpdateReq.Email;
+							userMst.PhotoUrl = imageFile.Data;
+							userMst.CreatedDate = _commonHelper.GetCurrentDateTime();
+							userMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+							userMst.CreatedBy = 1;
+							userMst.UpdatedBy = 1;
+							userMst.IsActive = true;
+							userMst.IsDelete = false;
+							_dbContext.Add(userMst);
+							_dbContext.SaveChanges();
 
-						commonResponse.Status = true;
-						commonResponse.StatusCode = HttpStatusCode.OK;
-						commonResponse.Message = "User Updated Successfully!";
+							commonResponse.Status = true;
+							commonResponse.StatusCode = HttpStatusCode.OK;
+							commonResponse.Message = "User Added Successfully!";
+						}
 					}
 					else
 					{
-						//Add Mode
-						//userMst = user;
-						userMst.CreatedDate = _commonHelper.GetCurrentDateTime();
-						userMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
-						userMst.CreatedBy = 1;
-						userMst.UpdatedBy = 1;
-						userMst.IsActive = true;
-						userMst.IsDelete = false;
-						_dbContext.Add(userMst);
-						_dbContext.SaveChanges();
-
-						commonResponse.Status = true;
-						commonResponse.StatusCode = HttpStatusCode.OK;
-						commonResponse.Message = "User Added Successfully!";
+						commonResponse.Message = "User Name Already Exist";
 					}
+					commonResponse.Data = userMst;
 				}
 				else
 				{
-					commonResponse.Message = "User Name Already Exist";
+					commonResponse.Message = "Only jpg and png files are Allowed !";
 				}
-				commonResponse.Data = userMst;
+
 			}
 			catch { throw; }
-			return commonResponse;
+			return commonResponse; 
 		}
 
 		public IActionResult UserList()
 		{
-			return View(_dbRepo.UserMstList().ToList());
+			CommonResponse commonResponse = new CommonResponse();
+			var res = _dbRepo.UserMstList().ToList();
+			if (res.Count > 0)
+			{
+				commonResponse.Status = true;
+				commonResponse.StatusCode = HttpStatusCode.OK;
+				commonResponse.Message = "Data found successfully!";
+				commonResponse.Data = res;
+			}
+			else
+			{
+				commonResponse.StatusCode = HttpStatusCode.NotFound;
+				commonResponse.Message = "Data not found!";
+			}
+			return View(commonResponse);
 		}
 
 		public IActionResult DeleteUser(int id)

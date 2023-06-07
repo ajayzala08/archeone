@@ -1,5 +1,6 @@
-﻿@using ArcheOne.Database.Entities;
-@model List<UserMst>
+﻿
+@using ArcheOne.Helper.CommonModels;
+@model CommonResponse
 @{
     Layout = "_BlankLayout";
     ViewBag.datatable = "true";
@@ -61,7 +62,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in Model.Data)
                 {
                     <tr>
                         <td>

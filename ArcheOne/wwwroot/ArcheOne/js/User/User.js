@@ -30,9 +30,6 @@ function AddEditUser(Id) {
     });
 }
 
-
-
-
 function GetFilteredUserList() {
     ajaxCall("Get", false, '/User/UserList', null, function (result) {
         $("#divUserList").html(result.responseText);
