@@ -40,46 +40,51 @@ namespace ArcheOne.Helper.CommonHelpers
             return _db.DefaultPermissions.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
 
-	
 
-		public IQueryable<PermissionMst> PermissionList(bool IsDeleted = false, bool IsActive = true)
-		{
-			return _db.PermissionMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
-		}
+
+        public IQueryable<PermissionMst> PermissionList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.PermissionMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
 
         public IQueryable<UserPermission> UserPermissionList(bool IsDeleted = false, bool IsActive = true)
         {
             return _db.UserPermissions.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
 
-		public IQueryable<ClientMst> ClientList(bool IsDeleted = false, bool IsActive = true)
-		{
-			return _db.ClientMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        public IQueryable<ClientMst> ClientList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.ClientMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
 
-		}
-		public IQueryable<PositionTypeMst> positionTypeList(bool IsDeleted = false, bool IsActive = true)
-		{
-			return _db.PositionTypeMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+        public IQueryable<PositionTypeMst> positionTypeList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.PositionTypeMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
 
-		}
-		public IQueryable<RequirementTypeMst> RequirementTypeList(bool IsDeleted = false, bool IsActive = true)
-		{
-			return _db.RequirementTypeMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+        public IQueryable<RequirementTypeMst> RequirementTypeList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.RequirementTypeMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
 
-		}
-		public IQueryable<RequirementForMst> RequirementForList(bool IsDeleted = false, bool IsActive = true)
-		{
-			return _db.RequirementForMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+        public IQueryable<RequirementForMst> RequirementForList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.RequirementForMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
 
-		}
-		public IQueryable<EmploymentTypeMst> EmploymentTypeList(bool IsDeleted = false, bool IsActive = true)
-		{
-			return _db.EmploymentTypeMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+        public IQueryable<EmploymentTypeMst> EmploymentTypeList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.EmploymentTypeMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
 
-		}
+        }
         public IQueryable<TeamMst> TeamList(bool IsDeleted = false, bool IsActive = true)
         {
             return _db.TeamMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+
+        }
+        public IQueryable<SalesLeadMst> SalesLeadMst(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.SalesLeadMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
 
         }
     }

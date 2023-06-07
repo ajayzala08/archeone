@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace ArcheOne.Database.Entities;
 
@@ -57,15 +55,25 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<RoleMst> RoleMsts { get; set; }
 
+    public virtual DbSet<SalesContactPersonMst> SalesContactPersonMsts { get; set; }
+
+    public virtual DbSet<SalesLeadActionMst> SalesLeadActionMsts { get; set; }
+
+    public virtual DbSet<SalesLeadFollowUpMst> SalesLeadFollowUpMsts { get; set; }
+
+    public virtual DbSet<SalesLeadMst> SalesLeadMsts { get; set; }
+
+    public virtual DbSet<SalesLeadStatusMst> SalesLeadStatusMsts { get; set; }
+
     public virtual DbSet<TeamMst> TeamMsts { get; set; }
 
     public virtual DbSet<UserMst> UserMsts { get; set; }
 
     public virtual DbSet<UserPermission> UserPermissions { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseSqlServer("Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;");
+    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+    //        => optionsBuilder.UseSqlServer("Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -437,6 +445,76 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.RoleCode).HasMaxLength(100);
             entity.Property(e => e.RoleName).HasMaxLength(100);
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<SalesContactPersonMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__SalesCon__3214EC07A27E58D0");
+
+            entity.ToTable("SalesContactPersonMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.Designation).HasMaxLength(100);
+            entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.FirstName).HasMaxLength(50);
+            entity.Property(e => e.LastName).HasMaxLength(50);
+            entity.Property(e => e.Linkedinurl).HasMaxLength(500);
+            entity.Property(e => e.Mobile1).HasMaxLength(20);
+            entity.Property(e => e.Mobile2).HasMaxLength(20);
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<SalesLeadActionMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__SalesLea__3214EC072F502257");
+
+            entity.ToTable("SalesLeadActionMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.SalesLeadActionCode).HasMaxLength(50);
+            entity.Property(e => e.SalesLeadActionName).HasMaxLength(50);
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<SalesLeadFollowUpMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__SalesLea__3214EC0743D47331");
+
+            entity.ToTable("SalesLeadFollowUpMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.FollowUpDateTime).HasColumnType("datetime");
+            entity.Property(e => e.NextFollowUpDateTime).HasColumnType("datetime");
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<SalesLeadMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__SalesLea__3214EC0765DF9F38");
+
+            entity.ToTable("SalesLeadMst");
+
+            entity.Property(e => e.Address).HasMaxLength(500);
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.Email1).HasMaxLength(50);
+            entity.Property(e => e.Email2).HasMaxLength(50);
+            entity.Property(e => e.OrgName).HasMaxLength(100);
+            entity.Property(e => e.Phone1).HasMaxLength(20);
+            entity.Property(e => e.Phone2).HasMaxLength(20);
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            entity.Property(e => e.WebsiteUrl).HasMaxLength(500);
+        });
+
+        modelBuilder.Entity<SalesLeadStatusMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__SalesLea__3214EC072DDA280B");
+
+            entity.ToTable("SalesLeadStatusMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.SalesLeadStatusCode).HasMaxLength(50);
+            entity.Property(e => e.SalesLeadStatusName).HasMaxLength(50);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
