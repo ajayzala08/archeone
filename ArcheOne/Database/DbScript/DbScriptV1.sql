@@ -191,23 +191,23 @@ Insert into dbo.RoleMst values ('SuperAdmin', 'SA001', 1, 0, 0, 0, GETDATE(), GE
 
 ----------------------------------------Added by NP on 05-06-23-----------------------------------Start--------
 
-drop table dbo.RequirementMst
-drop table dbo.PositionTypeMst
-drop table dbo.RequirementTypeMst
-drop table dbo.RequirementForMst
-drop table dbo.EmploymentTypeMst
-drop table dbo.InterviewStatusMst
-drop table dbo.InterviewTypeStatusMst
-drop table dbo.HireStatusMst
-drop table dbo.OfferStatusMst
-drop table dbo.ClientMst
-drop table dbo.ResumeFileUploadDetailMst
-drop table dbo.ResumeFileUploadHistoryMst
-drop table dbo.ScheduleInterviewMst
-drop table dbo.CandidateMst
-drop table dbo.HireMst
-drop table dbo.OfferMst
-drop table dbo.TeamMst
+--drop table dbo.RequirementMst
+--drop table dbo.PositionTypeMst
+--drop table dbo.RequirementTypeMst
+--drop table dbo.RequirementForMst
+--drop table dbo.EmploymentTypeMst
+--drop table dbo.InterviewStatusMst
+--drop table dbo.InterviewTypeStatusMst
+--drop table dbo.HireStatusMst
+--drop table dbo.OfferStatusMst
+--drop table dbo.ClientMst
+--drop table dbo.ResumeFileUploadDetailMst
+--drop table dbo.ResumeFileUploadHistoryMst
+--drop table dbo.ScheduleInterviewMst
+--drop table dbo.CandidateMst
+--drop table dbo.HireMst
+--drop table dbo.OfferMst
+--drop table dbo.TeamMst
 
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
 			TABLE_NAME = 'RequirementForMst')
@@ -682,3 +682,130 @@ END
 
 ----------------------------------------Added by NP on 05-06-23-----------------------------------END--------
 ---------------------------------------Executed on Local Server on 06-06-23------------------by NP-----------
+
+----------------------------------------Added by PP on 06-06-23-----------------------------------START--------
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'SalesLeadMst')
+BEGIN 
+	Create table dbo.SalesLeadMst(
+			Id int identity(1,1) primary key,
+			OrgName nvarchar(100) not null,
+			CountryId int not null,
+			StateId int not null,
+			CityId  int not null,
+			Address nvarchar(500) not null,
+			Phone1 nvarchar(20) not null,
+			Phone2 nvarchar(20) not null,
+			Email1 nvarchar(50) not null,
+			Email2 nvarchar(50) not null,
+			WebsiteUrl nvarchar(500) not null,
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'SalesLeadMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'SalesLeadMst Table Already Exist' 
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'SalesContactPersonMst')
+BEGIN 
+	Create table dbo.SalesContactPersonMst(
+			Id int identity(1,1) primary key,
+			SalesLeadId int not null,
+			FirstName nvarchar(50) not null,
+			LastName nvarchar(50) not null,
+			Email nvarchar(50) not null,
+			Designation  nvarchar(100) null,
+			Mobile1 nvarchar(20) not null,
+			Mobile2 nvarchar(20) null,
+			Linkedinurl nvarchar(500) not null,
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'SalesContactPersonMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'SalesContactPersonMst Table Already Exist' 
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'SalesLeadStatusMst')
+BEGIN 
+	Create table dbo.SalesLeadStatusMst(
+			Id int identity(1,1) primary key,
+			SalesLeadStatusName nvarchar(50) not null,
+			SalesLeadStatusCode nvarchar(50) not null,
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'SalesLeadStatusMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'SalesLeadStatusMst Table Already Exist' 
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'SalesLeadActionMst')
+BEGIN 
+	Create table dbo.SalesLeadActionMst(
+			Id int identity(1,1) primary key,
+			SalesLeadActionName nvarchar(50) not null,
+			SalesLeadActionCode nvarchar(50) not null,
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'SalesLeadActionMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'SalesLeadActionMst Table Already Exist' 
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'SalesLeadFollowUpMst')
+BEGIN 
+	Create table dbo.SalesLeadFollowUpMst(
+			Id int identity(1,1) primary key,
+			SalesLeadId int not null,
+			SalesContactPersonId int not null,
+			FollowUpDateTime  datetime not null,
+			NextFollowUpDateTime datetime not null,
+			SalesLeadStatusId int not null,
+			SalesLeadActionId int not null,
+			Notes nvarchar(max) null,
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null
+			);
+	PRINT 'SalesLeadFollowUpMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'SalesLeadFollowUpMst Table Already Exist' 
+END
+----------------------------------------Added by PP on 06-06-23-----------------------------------END--------
+---------------------------------------Executed on Local Server on 06-06-23------------------by PP-----------

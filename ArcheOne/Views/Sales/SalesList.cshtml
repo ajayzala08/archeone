@@ -1,0 +1,53 @@
+﻿@{
+    Layout = "_MasterLayout";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Sale</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Sale</a></li>
+                    <li class="breadcrumb-item active">SaleList</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title p-3">Sale</h3>
+
+            <div class="card-tools ml-auto mr-2 p-2">
+                <button id="btnAddSaleLead" type="button" class="btn btn-primary float-right">Add SaleLead</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="divSalesLeadList"> </div>
+            <div id="AddSalesLeadModelPopup" class="modal fade" data-keyboard="false" data-backdrop="static">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div id="AddSalesLeadModelData">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+            Footer
+        </div>
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->
