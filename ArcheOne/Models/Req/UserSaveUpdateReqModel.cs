@@ -1,9 +1,8 @@
 ﻿namespace ArcheOne.Models.Req
 {
-	public class SaveUpdateUserReqModel
+	public class UserSaveUpdateReqModel
 	{
 		public int Id { get; set; }
-		public int CompanyId { get; set; }
 		public string FirstName { get; set; }
 		public string MiddleName { get; set; }
 		public string LastName { get; set; }

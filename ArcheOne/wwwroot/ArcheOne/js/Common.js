@@ -25,7 +25,6 @@ $(document).ready(function () {
 
 // General function for all ajax calls
 function ajaxCall(methodType, applyBaseURL, apiURL, dataParams, callback) {
-    debugger
     //var Token = $("#txtToken").val();
     var URL;
     if (applyBaseURL == true) {
@@ -57,10 +56,8 @@ function ajaxCall(methodType, applyBaseURL, apiURL, dataParams, callback) {
     });
 }
 
-
 // General function for all ajax calls
 function ajaxCallWithoutDataType(methodType, applyBaseURL, apiURL, dataParams, callback) {
-    debugger
     //var Token = $("#txtToken").val();
     var URL;
     if (applyBaseURL == true) {
@@ -79,7 +76,8 @@ function ajaxCallWithoutDataType(methodType, applyBaseURL, apiURL, dataParams, c
             //"Content-Type": "application/json"
             /* 'Access-Control-Allow-Origin': '*'*/
         },
-        contentType: 'application/json; charset=utf-8',
+        contentType: false, // Not to set any content header  
+        processData: false, // Not to process data  
         data: dataParams,
        /* dataType: DataType,*/
         //cache: false,
