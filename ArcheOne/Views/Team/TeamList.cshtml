@@ -18,6 +18,12 @@
                     <td>
                         <b>Team Member</b>
                     </td>
+                    <td>
+                        <b>Edit</b>
+                    </td>
+                    <td>
+                        <b>Delete</b>
+                    </td>
                 </tr>
             </thead>
             <tbody>
@@ -32,6 +38,12 @@
                         </td>
                         <td>
                             @item.TeamMemberId
+                        </td>
+                        <td>
+                            <button class="btn btn-info btn-edit"  Id="@item.Id" onlclick="AddEditUser(@item.Id)">Edit</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger btn-delete" Id="@item.Id" onlclick="DeleteUser(@item.Id)">Delete</button>
                         </td>
                     </tr>
                 }

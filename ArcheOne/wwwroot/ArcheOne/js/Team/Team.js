@@ -6,40 +6,27 @@ $(document).ready(function () {
     });
 });
 
+$('#AddTeamPage').click(function () { 
+    window.location.href = '../Team/AddEditTeam';
+});
+
+
 function AddEditTeam(Id) {
-    ajaxCall("Get", false, '/Team/AddEditTeam?Id=' + Id, null, function (result) {
-        $('#AddTeam').modal('show');
-        $("#AddTeamData").html(result.responseText);
-        
+    debugger
+    ajaxCall("Get", false, '/team/AddEditTeam?Id=' + Id, null, function (result) {
+        $("#AddData").html(result.responseText);
         $("#btnSubmit").click(function () {
             SaveTeam();
         });
-
-
-        //$("#ddlCountry").change(function () {
-
-        //    var CountryId = parseInt($(this).val());
-        //    var StateId = parseInt($("#txtSelectedStateId").val());
-
-        //    LoadStateByCountry(CountryId, StateId);
-        //});
-
-        //$("#ddlState").change(function () {
-        //    var StateId = parseInt($(this).val());
-        //    var CityId = parseInt($("#txtSelectedCityId").val());
-        //    LoadCityByState(StateId, CityId)
-        //});
-
-        //$("#ddlCountry").change();
 
     });
 }
 
 function SaveTeam() {
     var saveData = {
-       /* "Id": parseInt($("#txtUserId").val()),*/
-        "TeamLeadId": $("#ddlTeamLead").val(),
-        "TeamMemberId": $("#ddlTeamMember").val()
+        "Id": parseInt($("#txtTeamId").val()),
+        "TeamLeadId": $("#ddlTeamLeadID").val(),
+        "TeamMemberId": $("#ddlTeamMemberId").val()
     }
     console.log(saveData);
     debugger
@@ -75,14 +62,17 @@ function GetFilteredOrganization() {
 
         $(".btn-delete").click(function () {
             Id = $(this).attr('Id');
-            DeleteUser(Id);
+            DeleteTeam(Id);
         });
     });
 }
 
 function ClearAll() {
-    
-        $("#ddlTeamLeadId").val(''),
-        $("#ddlTeamMemberId").val(0)
+    $("#txtTeamId").val(''),
+        $("#ddlTeamLeadID").val(''),
+        $("#ddlTeamMemberId").val('')
 }
+
+
+
 

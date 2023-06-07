@@ -28,19 +28,19 @@ namespace ArcheOne.Controllers
         }
         public IActionResult Team()
         {
-            List<SelectListItem> list = new List<SelectListItem>().ToList();
-            var teamLeadList = _dbRepo.UserMstList().Select(x => new SelectListItem { Text = x.UserName, Value = x.Id.ToString() }).ToList();
-            ViewBag.TeamLead = teamLeadList;
+            //List<SelectListItem> list = new List<SelectListItem>().ToList();
+            //var teamLeadList = _dbRepo.UserMstList().Select(x => new SelectListItem { Text = x.UserName, Value = x.Id.ToString() }).ToList();
+            //ViewBag.TeamLead = teamLeadList;
 
 
 
-            List<SelectListItem> list1 = new List<SelectListItem>().ToList();
-            var teamMemberList = _dbRepo.UserMstList().Select(x => new SelectListItem { Text = x.UserName, Value = x.Id.ToString() }).ToList();
-            ViewBag.teamMember = teamMemberList;
+            //List<SelectListItem> list1 = new List<SelectListItem>().ToList();
+            //var teamMemberList = _dbRepo.UserMstList().Select(x => new SelectListItem { Text = x.UserName, Value = x.Id.ToString() }).ToList();
+            //ViewBag.teamMember = teamMemberList;
 
-            List<SelectListItem> list2 = new List<SelectListItem>().ToList();
-            var clientList = _dbRepo.ClientList().Select(x => new SelectListItem { Text = x.ClientName, Value = x.Id.ToString() }).ToList();
-            ViewBag.Client = clientList;
+            //List<SelectListItem> list2 = new List<SelectListItem>().ToList();
+            //var clientList = _dbRepo.ClientList().Select(x => new SelectListItem { Text = x.ClientName, Value = x.Id.ToString() }).ToList();
+            //ViewBag.Client = clientList;
 
 
             return View();
@@ -53,84 +53,31 @@ namespace ArcheOne.Controllers
         public IActionResult AddEditTeam(int? Id)
         {
             CommonResponse commonResponse = new CommonResponse();
-            TeamMst teamMst = new TeamMst();
-            var team = _dbRepo.TeamList().ToList();
-            AddEditTeamReqViewModel addEditTeamReqViewModel = new AddEditTeamReqViewModel();
-
-            List<SelectListItem> list = new List<SelectListItem>().ToList();
-            var teamLeadList = _dbRepo.UserMstList().Select(x => new SelectListItem { Text = x.UserName, Value = x.Id.ToString() }).ToList();
-            ViewBag.TeamLead = teamLeadList;
-
-
-
-            List<SelectListItem> list1 = new List<SelectListItem>().ToList();
-            var teamMemberList = _dbRepo.UserMstList().Select(x => new SelectListItem { Text = x.UserName, Value = x.Id.ToString() }).ToList();
-            ViewBag.teamMember = teamMemberList;
-
-            List<SelectListItem> list2 = new List<SelectListItem>().ToList();
-            var clientList = _dbRepo.ClientList().Select(x => new SelectListItem { Text = x.ClientName, Value = x.Id.ToString() }).ToList();
-            ViewBag.Client = clientList;
+            AddEditTeamReqViewModel addEditTeamReqViewModel= new AddEditTeamReqViewModel();
+            addEditTeamReqViewModel.TeamLeadList = _dbRepo.UserMstList().ToList();
+            addEditTeamReqViewModel.TeamMemberList = _dbRepo.UserMstList().ToList();
 
             try
             {
-                //addEditTeamReqViewModel.TeamLeadId = 1;
-                //addEditTeamReqViewModel.TeamMemberId = 1;
-
-                //addEditTeamReqViewModel.TeamLeadId = 
+                if (Id > 0)
+                {
+                    var UserDetails = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == Id);
+                    if (UserDetails != null)
+                    {
+                        addEditTeamReqViewModel.TeamDetails.TeamLeadId = UserDetails.Id;
+                        addEditTeamReqViewModel.TeamDetails.TeamMemberId = UserDetails.Id;
+                    }
+                }
                 commonResponse.Status = true;
                 commonResponse.StatusCode = HttpStatusCode.OK;
                 commonResponse.Data = addEditTeamReqViewModel;
                 commonResponse.Message = "Success";
 
-
-
             }
             catch { throw; }
-            return View();
 
+            return View(commonResponse.Data);
 
-
-
-            //var UserList = _dbRepo.AllUserMstList();
-            //TeamMst teamMst = new TeamMst();
-            //try
-            //{
-            //    TeamMst team = new TeamMst();
-            //    AddEditTeamReqViewModel addEditTeamReqViewModel = new AddEditTeamReqViewModel();
-
-            //    foreach (var item in addEditTeamReqViewModel.TeamMemberId)
-            //    {
-            //        teamMst.TeamLeadId = addEditTeamReqViewModel.TeamLeadId;
-            //        teamMst.TeamMemberId = item;
-            //    }
-            //    //_dbContext.TeamMsts.Add(teamMst);
-            //    //_dbContext.SaveChanges();
-            //    if (Id > 0)
-            //    {
-            //        var TeamDetails = _dbRepo.TeamList().FirstOrDefault(x => x.Id == Id);
-            //        if (TeamDetails != null)
-            //        {
-            //            foreach (var item in addEditTeamReqViewModel.TeamMemberId)
-            //            {
-            //                TeamDetails.TeamLeadId = addEditTeamReqViewModel.TeamLeadId;
-            //                TeamDetails.TeamMemberId = item;
-            //            }
-            //            //_dbContext.TeamMsts.Add(TeamDetails);
-            //            //_dbContext.SaveChanges();
-            //        }
-            //    }
-            //    commonResponse.Status = true;
-            //    commonResponse.StatusCode = HttpStatusCode.OK;
-            //    commonResponse.Message = "Success!";
-            //    commonResponse.Data = addEditTeamReqViewModel;
-
-            //}
-            //catch
-            //{
-            //    throw;
-            //}
-            //return View(commonResponse.Data);
-            return View();
         }
 
         public CommonResponse SaveUpdateTeam(TeamMst team)

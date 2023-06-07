@@ -1,5 +1,6 @@
-﻿@model ArcheOne.Models.Req.TeamReqModel
+﻿@using ArcheOne.Models.Req;
 @inject IHttpContextAccessor HttpContextAccessor
+@model AddEditTeamReqViewModel;
 @{
 
 }
@@ -17,23 +18,38 @@
                 </div>
             </div>
             <div class="card-body">
-                <form id="contact-form" method="post" role="form" enctype="multipart/form-data" asp-action="Team" asp-controller="Team">
+                <form id="AddTeamForm" method="post" role="form" enctype="multipart/form-data" asp-action="Team" asp-controller="Team">
                     <div class="messages"></div>
                     <div class="controls">
-
                         <div class="row">
-                            <div class="col-sm-4" id="ddlTeamLeadId">
+                            <div class="col-sm-4" id="dddlTeamLead">
                                 <div class="form-group">
-                                    @Html.Label("Team Lead Name")
-                                    @Html.DropDownList("ddlTeamLeadId", new SelectList(@ViewBag.client, "Id", "UserName"), htmlAttributes: new { @class = "form-control", @id = "ddlTeamLeadId", @isrequired="1", @divcontainer="ddlTeamLeadId", @defaultvalue="0"} )
-                                    <span class="help-block d-none has-error" id="sddlTeamLeadId">Please select Team Lead</span>
+                                    <label><span class="has-error required">* </span>Team Lead</label>
+                                    <select id="ddlTeamLead" name="ddlTeamLead" class="form-control" isrequired="1" divcontainer="dddlTeamLead" errorspan="sddlTeamLead" defaultvalue="0" style="width: 100%;">
+                                        @*<option value="0">--- Select ---</option>*@
+                                            @foreach (var item in Model.TeamLeadList)
+                                            {
+                                                <option value="@item.Id">@item.UserName</option>
+                                            }
+                                      
+                                    </select>
+                                    <span class="help-block d-none has-error" id="sddlTeamLead">Please select any Team Lead</span>
                                 </div>
                             </div>
                             <div class="col-sm-4" id="dddlTeamMemberId">
                                 <div class="form-group">
-                                    @Html.Label("TeamMemberName")
-                                    @Html.DropDownList("ddlTeamMemberName", new SelectList(@ViewBag.Client, "Id", "TeamMember"), htmlAttributes: new { @class = "form-control", @id = "ddlTeamMemberId", @isrequired="1", @divcontainer="dddlTeamMemberId", @defaultvalue="0", @errorspan="sddlTeamMemberId" })
-                                    <span class="help-block d-none has-error" id="sddlTeamMemberId">Please Enter Team Member</span>
+                                    <label><span class="has-error required">* </span>Team Member</label>
+                                    <select id="ddlTeamMember" name="ddlTeamMember" class="form-control" isrequired="1" divcontainer="dddlTeamMember" errorspan="sddlTeamMember" defaultvalue="0" style="width: 100%;">
+                                        @*<option value="0">--- Select ---</option>*@
+                                         @if (Model.TeamLeadList.Count >0)
+                                        {
+                                            @foreach (var item in Model.TeamMemberList)
+                                            {
+                                                <option value="@item.Id">@item.UserName</option>
+                                            }
+                                        }
+                                    </select>
+                                    <span class="help-block d-none has-error" id="sddlTeamMemberId">Please select any Team Member</span>
                                 </div>
                             </div>
                         </div>
@@ -42,7 +58,7 @@
                     <div class="clearfix"></div>
                     <div class="row">
                         <div class="col-md-1">
-                            <button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-success">Submit</button>
+                            <button type="button" id="AddEditTeam" name="AddEditTeam" class="btn btn-success">Submit</button>
                         </div>
                         <div class="col-md-1">
                             <input type="submit" class="btn btn-danger btn-send" value="Cancel">
@@ -61,3 +77,7 @@
         </div>
     </div>
 </section>
+
+@*@section Scripts {
+    <script src="~/archeone/js/team/team.js"></script>
+}*@
