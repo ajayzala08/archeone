@@ -1,6 +1,8 @@
 ﻿var EditMode = 1;
+//var saveData = new FormData();
 $(document).ready(function () {
-    GetFilteredOrganization();
+    GetFilteredUserList();
+
     $("#btnAddUser").click(function () {
         AddEditUser(0);
     });
@@ -12,75 +14,27 @@ $('#AddUserPage').click(function () {
 
 function AddEditUser(Id) {
     ajaxCall("Get", false, '/User/AddEditUser?Id=' + Id, null, function (result) {
-    
-        $("#AddUserData").html(result.responseText);
-        if (Id > 0) {
-            $(".preview img").attr('src');
-            $(".preview img").show();
-        }
-        $("#btnSubmit").click(function () {
-            SaveUser();
-        });
+        RedirectToPage("/User/AddEditUser")
 
-
-        $("#ddlCountry").change(function () {
-
-            var CountryId = parseInt($(this).val());
-            var StateId = parseInt($("#txtSelectedStateId").val());
-
-            LoadStateByCountry(CountryId, StateId);
-        });
-
-        $("#ddlState").change(function () {
-            var StateId = parseInt($(this).val());
-            var CityId = parseInt($("#txtSelectedCityId").val());
-            LoadCityByState(StateId, CityId)
-        });
-
-        $("#ddlCountry").change();
-
+        //if (result.status == true) {
+        //   RedirectToPage("/User/UserList");
+        //}
+        //else {
+        //    Toast.fire({ icon: 'error', title: result.message });
+        //    $.unblockUI();
+        //}
+        //if (Id > 0) {
+        //    $(".preview img").attr('src');
+        //    $(".preview img").show();
+        //}
     });
 }
 
-function SaveUser() {
-    var saveData = {
-        "Id": parseInt($("#txtUserId").val()),
-        "PhotoUrl": $("#txtPhotoUrl").val(),
-        "CompanyId": $("#ddlCompany").val(),
-        "RoleId": $("#ddlRole").val(),
-        "FirstName": $("#txtFirstName").val(),
-        "MiddleName": $("#txtMiddleName").val(),
-        "LastName": $("#txtLastName").val(),
-        "UserName": $("#txtUserName").val(),
-        "Password": $("#txtPassword").val(),
-        "Address": $("#txtAddress").val(),
-        "Pincode": $("#txtPincode").val(),
-        "Mobile1": $("#txtMobile1").val(),
-        "Mobile2": $("#txtMobile2").val(),
-        "Email": $("#txtEmail").val()
-    }
-    console.log(saveData);
-    debugger
-    if (validateRequiredFields()) {
-        ajaxCall("Post", false, '/User/SaveUpdateUser', JSON.stringify(saveData), function (result) {
 
-            if (result.status == true) {
-                Toast.fire({ icon: 'success', title: result.message });
-                $("#btnClose").click();
-                ClearAll();
-                GetFilteredOrganization();
-            }
-            else {
-                Toast.fire({ icon: 'error', title: result.message });
-            }
-        });
-    }
-}
 
-function GetFilteredOrganization() {
 
+function GetFilteredUserList() {
     ajaxCall("Get", false, '/User/UserList', null, function (result) {
-
         $("#divUserList").html(result.responseText);
         ApplyDatatableResponsive('tblUser');
 
@@ -114,4 +68,3 @@ function ClearAll() {
         $("#txtMobile2").val(''),
         $("#txtEmail").val('')
 }
-
