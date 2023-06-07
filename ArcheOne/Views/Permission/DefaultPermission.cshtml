@@ -1,6 +1,7 @@
 ﻿@using ArcheOne.Database.Entities;
 @{
     Layout = "_MasterLayout";
+    ViewBag.datatable = "true";
 }
 @model List<PermissionMst>
 
@@ -39,7 +40,7 @@
             </div>
         </div>
 		<div class="card-body">
-			<table id="tbDefaultPermissions" class="table table-bordered table-striped">
+            <table id="tbDefaultPermissions" class="table table-bordered table-striped" style="width:100%">
 			</table>
 		</div>
         <div class="card-footer">
