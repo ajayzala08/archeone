@@ -62,6 +62,7 @@ namespace ArcheOne.Controllers
             {
                 SalesLeadAddEditReqViewModel salesLeadAddEdit = new SalesLeadAddEditReqViewModel();
                 salesLeadAddEdit.SalesLeadDetailes = new SalesLeadDetailes();
+                salesLeadAddEdit.SalesLeadContactPersonDetailes = new SalesLeadContactPersonDetailes();
                 // salesLeadAddEdit.CountryList = await _dbRepo.GetCountryList();
                 if (Id > 0)
                 {
