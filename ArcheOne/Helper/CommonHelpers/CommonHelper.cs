@@ -262,7 +262,7 @@ namespace ArcheOne.Helper.CommonHelpers
         public int GetLoggedInUserId()
         {
             var SessionValue = _httpContextAccessor.HttpContext.Session.GetString("UserId");
-            int UserId = string.IsNullOrEmpty(SessionValue) ? Convert.ToInt32(SessionValue) : 1;
+            int UserId = !string.IsNullOrEmpty(SessionValue) ? Convert.ToInt32(SessionValue) : 0;
             return UserId;
         }
         public string GetUpdateQuery(string TableName, dynamic model)
