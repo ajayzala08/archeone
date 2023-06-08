@@ -62,6 +62,7 @@ namespace ArcheOne.Controllers
             {
                 SalesLeadAddEditReqViewModel salesLeadAddEdit = new SalesLeadAddEditReqViewModel();
                 salesLeadAddEdit.SalesLeadDetailes = new SalesLeadDetailes();
+                salesLeadAddEdit.SalesLeadContactPersonDetailes = new SalesLeadContactPersonDetailes();
                 // salesLeadAddEdit.CountryList = await _dbRepo.GetCountryList();
                 if (Id > 0)
                 {
@@ -120,12 +121,14 @@ namespace ArcheOne.Controllers
                     SalesLeadDetail.Email1 = saveUpdateSalesLead.Email1;
                     SalesLeadDetail.Email2 = saveUpdateSalesLead.Email2;
                     SalesLeadDetail.WebsiteUrl = @saveUpdateSalesLead.WebsiteUrl;
+
                     SalesLeadDetail.CreatedDate = Convert.ToDateTime(SalesLeadDetail.CreatedDate);
                     SalesLeadDetail.CreatedBy = SalesLeadDetail.CreatedBy;
                     SalesLeadDetail.IsActive = SalesLeadDetail.IsActive;
                     SalesLeadDetail.IsDelete = SalesLeadDetail.IsDelete;
+
                     SalesLeadDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                    SalesLeadDetail.UpdatedBy = 1;
+                    SalesLeadDetail.UpdatedBy = _commonHelper.GetLoggedInUserId();
 
                     _dbContext.Entry(SalesLeadDetail).State = EntityState.Modified;
                     _dbContext.SaveChanges();
@@ -149,8 +152,8 @@ namespace ArcheOne.Controllers
                     salesLeadMst.WebsiteUrl = saveUpdateSalesLead.WebsiteUrl;
                     salesLeadMst.CreatedDate = _commonHelper.GetCurrentDateTime();
                     salesLeadMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                    salesLeadMst.CreatedBy = 1;
-                    salesLeadMst.UpdatedBy = 1;
+                    salesLeadMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+                    salesLeadMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
                     salesLeadMst.IsActive = true;
                     salesLeadMst.IsDelete = false;
                     _dbContext.SalesLeadMsts.Add(salesLeadMst);

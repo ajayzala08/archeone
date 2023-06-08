@@ -75,15 +75,15 @@
     <!-- blockUI -->
     <script src="https://malsup.github.io/jquery.blockUI.js"></script>
 
-    <script type="text/javascript">
-        function preventBack() { window.history.forward(); }
-        setTimeout("preventBack()", 0);
-        window.onunload = function () { null };
-        window.history.forward();
-        function noBack() {
-            window.history.forward();
-        }
-    </script>
+    @*  <script type="text/javascript">
+    function preventBack() { window.history.forward(); }
+    setTimeout("preventBack()", 0);
+    window.onunload = function () { null };
+    window.history.forward();
+    function noBack() {
+    window.history.forward();
+    }
+    </script>*@
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>
