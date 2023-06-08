@@ -162,103 +162,112 @@ namespace ArcheOne.Controllers
 			return View(commonResponse.Data);
 		}
 
-		public CommonResponse SaveUpdateUser(UserSaveUpdateReqModel userSaveUpdateReq)
+		[HttpPost]
+		public IActionResult SaveUpdateUser(UserSaveUpdateReqModel userSaveUpdateReq)
 		{
 			CommonResponse commonResponse = new CommonResponse();
 			try
 			{
-				UserMst userMst = new UserMst();
-				IFormFile file = userSaveUpdateReq.PhotoUrl;
-				string FileName = file.FileName;
-				FileInfo fileInfo = new FileInfo(FileName);
-				string FileExtension = fileInfo.Extension;
-				long fileSize = file.Length;
-				bool validateFileExtension = false;
-				bool validateFileSize = false;
-				string[] allowedFileExtensions = { (CommonConstant.jpg), (CommonConstant.png), (CommonConstant.jpeg) };
-				long allowedFileSize = 1 * 1024 * 1024 * 10; // 10MB
-				validateFileExtension = allowedFileExtensions.Contains(FileExtension) ? true : false;
-				validateFileSize = fileSize <= allowedFileSize ? true : false;
-				if (validateFileExtension && validateFileSize)
+				if (ModelState.IsValid)
 				{
-					var duplicateCheck = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == userSaveUpdateReq.Id && x.UserName == userSaveUpdateReq.UserName);
-					if (duplicateCheck == null)
+					UserMst userMst = new UserMst();
+					IFormFile file = userSaveUpdateReq.PhotoUrl;
+					string FileName = file.FileName;
+					FileInfo fileInfo = new FileInfo(FileName);
+					string FileExtension = fileInfo.Extension;
+					long fileSize = file.Length;
+					bool validateFileExtension = false;
+					bool validateFileSize = false;
+					string[] allowedFileExtensions = { (CommonConstant.jpg), (CommonConstant.png), (CommonConstant.jpeg) };
+					long allowedFileSize = 1 * 1024 * 1024 * 10; // 10MB
+					validateFileExtension = allowedFileExtensions.Contains(FileExtension) ? true : false;
+					validateFileSize = fileSize <= allowedFileSize ? true : false;
+					if (validateFileExtension && validateFileSize)
 					{
-						var imageFile = _commonHelper.UploadFile(userSaveUpdateReq.PhotoUrl, @"UserProfile", FileName, false, true, true);
-						string filePath = Path.Combine(_commonHelper.GetPhysicalRootPath(false), imageFile.Data);
-						var UserDetail = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == userSaveUpdateReq.Id);
-						if (UserDetail != null && UserDetail.Id > 0)
+						var duplicateCheck = _dbRepo.AllUserMstList().Where(x => x.UserName == userSaveUpdateReq.UserName && x.Email == userSaveUpdateReq.Email && x.Mobile1 == userSaveUpdateReq.Mobile1).ToList();
+						if (duplicateCheck.Count == 0)
 						{
-							//Edit Mode
-							userMst.RoleId = userSaveUpdateReq.RoleId;
-							userMst.FirstName = userSaveUpdateReq.FirstName;
-							userMst.MiddleName = userSaveUpdateReq.MiddleName;
-							userMst.LastName = userSaveUpdateReq.LastName;
-							userMst.UserName = userSaveUpdateReq.UserName;
-							userMst.Password = userSaveUpdateReq.Password;
-							userMst.Address = userSaveUpdateReq.Address;
-							userMst.Pincode = userSaveUpdateReq.Pincode;
-							userMst.Mobile1 = userSaveUpdateReq.Mobile1;
-							userMst.Mobile2 = userSaveUpdateReq.Mobile2;
-							userMst.Email = userSaveUpdateReq.Email;
-							userMst.PhotoUrl = imageFile.Data;
-							userMst.CreatedDate = UserDetail.CreatedDate;
-							userMst.CreatedBy = UserDetail.CreatedBy;
-							userMst.IsActive = UserDetail.IsActive;
-							userMst.IsDelete = UserDetail.IsDelete;
-							userMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
-							userMst.UpdatedBy = 1;
+							var imageFile = _commonHelper.UploadFile(userSaveUpdateReq.PhotoUrl, @"UserProfile", FileName, false, true, true);
+							string filePath = Path.Combine(_commonHelper.GetPhysicalRootPath(false), imageFile.Data);
+							var UserDetail = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == userSaveUpdateReq.Id);
+							if (UserDetail != null && UserDetail.Id > 0)
+							{
+								//Edit Mode
+								userMst.RoleId = userSaveUpdateReq.RoleId;
+								userMst.FirstName = userSaveUpdateReq.FirstName;
+								userMst.MiddleName = userSaveUpdateReq.MiddleName;
+								userMst.LastName = userSaveUpdateReq.LastName;
+								userMst.UserName = userSaveUpdateReq.UserName;
+								userMst.Password = userSaveUpdateReq.Password;
+								userMst.Address = userSaveUpdateReq.Address;
+								userMst.Pincode = userSaveUpdateReq.Pincode;
+								userMst.Mobile1 = userSaveUpdateReq.Mobile1;
+								userMst.Mobile2 = userSaveUpdateReq.Mobile2;
+								userMst.Email = userSaveUpdateReq.Email;
+								userMst.PhotoUrl = imageFile.Data;
+								userMst.CreatedDate = UserDetail.CreatedDate;
+								userMst.CreatedBy = UserDetail.CreatedBy;
+								userMst.IsActive = UserDetail.IsActive;
+								userMst.IsDelete = UserDetail.IsDelete;
+								userMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+								userMst.UpdatedBy = 1;
 
-							_dbContext.Entry(userMst).State = EntityState.Modified;
-							_dbContext.SaveChanges();
+								_dbContext.Entry(userMst).State = EntityState.Modified;
+								_dbContext.SaveChanges();
 
-							commonResponse.Status = true;
-							commonResponse.StatusCode = HttpStatusCode.OK;
-							commonResponse.Message = "User Updated Successfully!";
+								commonResponse.Status = true;
+								commonResponse.StatusCode = HttpStatusCode.OK;
+								commonResponse.Message = "User Updated Successfully!";
+							}
+							else
+							{
+								//Add Mode
+								userMst.RoleId = userSaveUpdateReq.RoleId;
+								userMst.FirstName = userSaveUpdateReq.FirstName;
+								userMst.MiddleName = userSaveUpdateReq.MiddleName;
+								userMst.LastName = userSaveUpdateReq.LastName;
+								userMst.UserName = userSaveUpdateReq.UserName;
+								userMst.Password = userSaveUpdateReq.Password;
+								userMst.Address = userSaveUpdateReq.Address;
+								userMst.Pincode = userSaveUpdateReq.Pincode;
+								userMst.Mobile1 = userSaveUpdateReq.Mobile1;
+								userMst.Mobile2 = userSaveUpdateReq.Mobile2;
+								userMst.Email = userSaveUpdateReq.Email;
+								userMst.PhotoUrl = imageFile.Data;
+								userMst.CreatedDate = _commonHelper.GetCurrentDateTime();
+								userMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+								userMst.CreatedBy = 1;
+								userMst.UpdatedBy = 1;
+								userMst.IsActive = true;
+								userMst.IsDelete = false;
+								_dbContext.Add(userMst);
+								_dbContext.SaveChanges();
+
+								commonResponse.Status = true;
+								commonResponse.StatusCode = HttpStatusCode.OK;
+								commonResponse.Message = "User Added Successfully!";
+							}
 						}
 						else
 						{
-							//Add Mode
-							userMst.RoleId = userSaveUpdateReq.RoleId;
-							userMst.FirstName = userSaveUpdateReq.FirstName;
-							userMst.MiddleName = userSaveUpdateReq.MiddleName;
-							userMst.LastName = userSaveUpdateReq.LastName;
-							userMst.UserName = userSaveUpdateReq.UserName;
-							userMst.Password = userSaveUpdateReq.Password;
-							userMst.Address = userSaveUpdateReq.Address;
-							userMst.Pincode = userSaveUpdateReq.Pincode;
-							userMst.Mobile1 = userSaveUpdateReq.Mobile1;
-							userMst.Mobile2 = userSaveUpdateReq.Mobile2;
-							userMst.Email = userSaveUpdateReq.Email;
-							userMst.PhotoUrl = imageFile.Data;
-							userMst.CreatedDate = _commonHelper.GetCurrentDateTime();
-							userMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
-							userMst.CreatedBy = 1;
-							userMst.UpdatedBy = 1;
-							userMst.IsActive = true;
-							userMst.IsDelete = false;
-							_dbContext.Add(userMst);
-							_dbContext.SaveChanges();
-
-							commonResponse.Status = true;
-							commonResponse.StatusCode = HttpStatusCode.OK;
-							commonResponse.Message = "User Added Successfully!";
+							commonResponse.Message = "UserName, Email and Contact Already Exist";
 						}
+						commonResponse.Data = userMst;
 					}
 					else
 					{
-						commonResponse.Message = "User Name Already Exist";
+						commonResponse.Message = "Only jpg and png files are Allowed !";
 					}
-					commonResponse.Data = userMst;
-				}
-				else
-				{
-					commonResponse.Message = "Only jpg and png files are Allowed !";
+
 				}
 
 			}
-			catch { throw; }
-			return commonResponse; 
+			catch (Exception ex)
+			{
+				commonResponse.Message = ex.Message;
+				commonResponse.Data = ex.StackTrace;
+			}
+			return Json(commonResponse);
 		}
 
 		public IActionResult UserList()

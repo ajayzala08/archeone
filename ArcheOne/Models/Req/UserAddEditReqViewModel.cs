@@ -19,7 +19,7 @@ namespace ArcheOne.Models.Req
 		public string Password { get; set; }
 		public string Address { get; set; } 
 		public string Pincode { get; set; }
-		public string Mobile1 { get; set; } 
+		public string Mobile1 { get; set; }
 		public string Mobile2 { get; set; }
 		public string Email { get; set; }
 		public string PhotoUrl { get; set; } 
