@@ -1,4 +1,12 @@
-﻿@{
+﻿@inject IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
+@{
+    var user = HttpContextAccessor.HttpContext.Session.GetString("User");
+    bool IsValidate = string.IsNullOrWhiteSpace(user) ? false : true;
+    if (!IsValidate)
+    {
+        Context.Response.Redirect("/LogIn/Logout");
+    }
     bool datatable = (!string.IsNullOrWhiteSpace(ViewBag.datatable) && (ViewBag.datatable == "true" || ViewBag.datatable == "True")) ? true : false;
     bool select2 = (!string.IsNullOrWhiteSpace(ViewBag.select2) && (ViewBag.select2 == "true" || ViewBag.select2 == "True")) ? true : false;
 }
@@ -75,7 +83,7 @@
     <!-- blockUI -->
     <script src="https://malsup.github.io/jquery.blockUI.js"></script>
 
-    <script type="text/javascript">
+  @*  <script type="text/javascript">
         function preventBack() { window.history.forward(); }
         setTimeout("preventBack()", 0);
         window.onunload = function () { null };
@@ -83,7 +91,7 @@
         function noBack() {
             window.history.forward();
         }
-    </script>
+    </script>*@
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>

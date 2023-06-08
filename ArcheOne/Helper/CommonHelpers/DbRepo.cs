@@ -5,9 +5,11 @@ namespace ArcheOne.Helper.CommonHelpers
     public class DbRepo
     {
         private readonly ArcheOneDbContext _db;
-        public DbRepo(ArcheOneDbContext db)
+        private readonly CommonHelper _commonHelper;
+        public DbRepo(ArcheOneDbContext db, CommonHelper commonHelper)
         {
             _db = db;
+            _commonHelper = commonHelper;
         }
 
         public IQueryable<UserMst> AllUserMstList(bool IsDeleted = false, bool IsActive = true)
@@ -85,7 +87,13 @@ namespace ArcheOne.Helper.CommonHelpers
         public IQueryable<SalesLeadMst> SalesLeadList(bool IsDeleted = false, bool IsActive = true)
         {
             return _db.SalesLeadMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
-
+        }
+        public UserMst GetLoggedInUserDetails()
+        {
+            int UserId = _commonHelper.GetLoggedInUserId();
+            var UserDetail = _db.UserMsts.FirstOrDefault(x => x.Id == UserId && x.IsDelete == false && x.IsActive == true);
+            UserMst userMst = UserDetail != null ? UserDetail : new UserMst();
+            return userMst;
         }
     }
 }
