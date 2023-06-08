@@ -11,9 +11,9 @@
         <table id="tblUser" class="table table-bordered table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <td>
+                   @* <td>
                         <b>Id</b>
-                    </td>
+                    </td>*@
                     <td>
                         <b>Company</b>
                     </td>
@@ -65,9 +65,9 @@
                 @foreach (var item in Model.Data)
                 {
                     <tr>
-                        <td>
+                      @*  <td>
                             @item.Id
-                        </td>
+                        </td>*@
                         <td>
                             @item.CompanyId
                         </td>
@@ -108,7 +108,7 @@
                             <img src="/@item.PhotoUrl" height="100px" width="100px" alt="Profile Image" />
                         </td>
                         <td>
-                            <button class="btn btn-info btn-edit" Id="@item.Id">Edit</button>
+                            <button class="btn btn-info btn-edit" Id="@item.Id" onclick="AddEditUser(@item.Id)">Edit</button>
                         </td>
                         <td>
                             <button class="btn btn-danger btn-delete" Id="@item.Id" onlclick="DeleteUser(@item.Id)">Delete</button>

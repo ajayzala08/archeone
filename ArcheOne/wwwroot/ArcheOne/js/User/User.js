@@ -13,20 +13,16 @@ $('#AddUserPage').click(function () {
 });
 
 function AddEditUser(Id) {
+    debugger
     ajaxCall("Get", false, '/User/AddEditUser?Id=' + Id, null, function (result) {
-        RedirectToPage("/User/AddEditUser")
-
-        //if (result.status == true) {
-        //   RedirectToPage("/User/UserList");
-        //}
-        //else {
-        //    Toast.fire({ icon: 'error', title: result.message });
-        //    $.unblockUI();
-        //}
-        //if (Id > 0) {
-        //    $(".preview img").attr('src');
-        //    $(".preview img").show();
-        //}
+        if (Id > 0) {
+            RedirectToPage('/User/AddEditUser?Id=' + Id)
+            $(".preview img").attr('src');
+            $(".preview img").show();
+        }
+        else {
+            RedirectToPage("/User/AddEditUser")
+        }
     });
 }
 
@@ -36,7 +32,7 @@ function GetFilteredUserList() {
         ApplyDatatableResponsive('tblUser');
 
         $(".btn-edit").click(function () {
-
+            debugger
             EditMode = 1;
             Id = $(this).attr('Id');
             AddEditUser(Id);

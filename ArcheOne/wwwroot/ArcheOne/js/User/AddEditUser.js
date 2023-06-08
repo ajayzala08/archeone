@@ -11,7 +11,6 @@ function SaveUser() {
         $.blockUI();
         var saveData = new FormData();
         var file = $("#txtPhotoUrl").get(0).files[0];
-
         saveData.append("Id", parseInt($("#txtUserId").val()));
         saveData.append("PhotoUrl", file);
         saveData.append("CompanyId", $("#ddlCompany").val());

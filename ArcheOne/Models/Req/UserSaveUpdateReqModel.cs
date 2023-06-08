@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ArcheOne.Models.Req
+﻿namespace ArcheOne.Models.Req
 {
 	public class UserSaveUpdateReqModel
 	{
@@ -13,9 +11,7 @@ namespace ArcheOne.Models.Req
 		public string Address { get; set; } 
 		public string Pincode { get; set; }
 		public string Mobile1 { get; set; }
-		public string Mobile2 { get; set; }
-		[RegularExpression(@"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z",
-		ErrorMessage = "Please enter correct email address")]
+		public string Mobile2 { get; set; } 
 		public string Email { get; set; }
 		public IFormFile PhotoUrl { get; set; }
 		public bool IsActive { get; set; }

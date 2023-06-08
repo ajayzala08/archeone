@@ -188,12 +188,13 @@ namespace ArcheOne.Controllers
 						if (duplicateCheck.Count == 0)
 						{
 							var imageFile = _commonHelper.UploadFile(userSaveUpdateReq.PhotoUrl, @"UserProfile", FileName, false, true, true);
-							string filePath = Path.Combine(_commonHelper.GetPhysicalRootPath(false), imageFile.Data);
+							//string filePath = Path.Combine(_commonHelper.GetPhysicalRootPath(false), imageFile.Data);
 							var UserDetail = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == userSaveUpdateReq.Id);
 							if (UserDetail != null && UserDetail.Id > 0)
 							{
 								//Edit Mode
 								userMst.RoleId = userSaveUpdateReq.RoleId;
+								userMst.CompanyId = 1;
 								userMst.FirstName = userSaveUpdateReq.FirstName;
 								userMst.MiddleName = userSaveUpdateReq.MiddleName;
 								userMst.LastName = userSaveUpdateReq.LastName;
@@ -273,13 +274,43 @@ namespace ArcheOne.Controllers
 		public IActionResult UserList()
 		{
 			CommonResponse commonResponse = new CommonResponse();
-			var res = _dbRepo.UserMstList().ToList();
-			if (res.Count > 0)
+			//var res = _dbRepo.UserMstList().ToList();
+			//List<UserListModel> 
+
+			//var response = (from U in _dbRepo.AllUserMstList() join R in _dbRepo.RoleMstList() on U.RoleId equals R.Id join C in _dbRepo.CompanyMstList() on U.CompanyId equals C.Id select new {U, R, C}).ToList();
+
+			var userMst = (from U in _dbRepo.AllUserMstList().ToList()
+						   join C in _dbRepo.CompanyMstList()
+											  on U.CompanyId equals C.Id
+						   join R in _dbRepo.RoleMstList()
+						   on U.RoleId equals R.Id
+						   select new { U, C, R })
+							   .Select(x => new UserListModel
+							   {
+								   Id = x.U.Id,
+								   CompanyId = x.C.CompanyName,
+								   RoleId = x.R.RoleName,
+								   FirstName = x.U.FirstName,
+								   MiddleName = x.U.MiddleName,
+								   LastName = x.U.LastName,
+								   UserName = x.U.UserName,
+								   Password = x.U.Password,
+								   Address = x.U.Address,
+								   Pincode = x.U.Pincode,
+								   Mobile1 = x.U.Mobile1,
+								   Mobile2 = x.U.Mobile2,
+								   Email = x.U.Email,
+								   PhotoUrl = x.U.PhotoUrl,
+								   CreatedDate = x.C.UpdatedDate
+							   }).OrderByDescending(x => x.CreatedDate).ToList();
+
+
+			if (userMst.Count > 0)
 			{
 				commonResponse.Status = true;
 				commonResponse.StatusCode = HttpStatusCode.OK;
 				commonResponse.Message = "Data found successfully!";
-				commonResponse.Data = res;
+				commonResponse.Data = userMst;
 			}
 			else
 			{
