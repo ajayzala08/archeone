@@ -111,8 +111,8 @@
 							<div class="col-sm-4" id="dtxtAddress">
 								<div class="form-group">
 									<label for="form_name">Address *</label>
-									<input id="txtAddress" type="text" name="Address" class="form-control text-length" placeholder="Please enter your Address *" value="@Model.UserDetails.Address" isrequired="1" divcontainer="dtxtAddress" errorspan="stxtAddress" defaultvalue="" autocomplete="off" minlength="2">
-									<span class="help-block d-none has-error" id="stxtAddress">Please Enter Valid Address</span>
+									<input id="txtAddress" type="text" name="Address" class="form-control text-length" placeholder="Please enter your Address *" value="@Model.UserDetails.Address" isrequired="1" @*divcontainer="dtxtAddress" errorspan="stxtAddress"*@ defaultvalue="" autocomplete="off" minlength="2">
+									@*<span class="help-block d-none has-error" id="stxtAddress">Please Enter Valid Address</span>*@
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtPincode">
@@ -125,7 +125,7 @@
 							<div class="col-sm-4" id="dtxtMobile1">
 								<div class="form-group">
 									<label for="form_mobile1">Mobile1 *</label>
-									<input id="txtMobile1" type="tel" name="Mobile1" class="form-control text-length" placeholder="Please enter your Mobile1 number" value="@Model.UserDetails.Mobile1" isrequired="1" divcontainer="dtxtMobile1" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="2">
+									<input id="txtMobile1" type="tel" name="Mobile1" class="form-control text-length" placeholder="Please enter your Mobile1 number" value="@Model.UserDetails.Mobile1" isrequired="1" divcontainer="dtxtMobile1" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="2" >
 									<span class="help-block d-none has-error" id="stxtMobile1">Please Enter Valid Mobile1</span>
 								</div>
 							</div>
@@ -139,14 +139,14 @@
 							<div class="col-sm-4">
 								<div class="form-group">
 									<label for="form_mobile1">Mobile2 *</label>
-									<input id="txtMobile2" type="tel" name="Mobile2" class="form-control text-length" placeholder="Please enter your Mobile2 number" value="@Model.UserDetails.Mobile2" isrequired="1" defaultvalue="" autocomplete="off" minlength="2">
+									<input id="txtMobile2" type="tel" name="Mobile2" class="form-control text-length" placeholder="Please enter your Mobile2 number" value="@Model.UserDetails.Mobile2" isrequired="1" defaultvalue="" autocomplete="off" minlength="2" maxlength="12">
 									<span class="help-block d-none has-error">Please Enter Valid Mobile2</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtEmail">
 								<div class="form-group">
 									<label for="form_email">Email *</label>
-									<input id="txtEmail" type="email" name="Email" class="form-control text-length" placeholder="Please enter your Email *" value="@Model.UserDetails.Email" isrequired="1" divcontainer="dtxtEmail" errorspan="stxtEmail" defaultvalue="" autocomplete="off" minlength="2">
+									<input id="txtEmail" type="email" name="Email" class="form-control text-length" placeholder="Please enter your Email *" value="@Model.UserDetails.Email" isrequired="1" divcontainer="dtxtEmail" errorspan="stxtEmail" defaultvalue="" autocomplete="off" minlength="2" pattern="\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z" required>
 									<span class="help-block d-none has-error" id="stxtEmail">Please Enter Valid Email</span>
 								</div>
 							</div>

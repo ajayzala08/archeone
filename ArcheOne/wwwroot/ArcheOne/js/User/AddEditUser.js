@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    applyRequiredValidation();
     $("#btnSaveUpdateUser").click(function () {
         SaveUser();
     });
@@ -31,6 +32,7 @@ function SaveUser() {
         debugger
         if (validateRequiredFields()) {
             ajaxCallWithoutDataType("Post", false, '/User/SaveUpdateUser', saveData, function (result) {
+                console.log(result);
                 if (result.status == true) {
                     Toast.fire({ icon: 'success', title: result.message });
                     RedirectToPage("/User/User");
