@@ -2,10 +2,13 @@
 using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models.Req;
+using ArcheOne.Models.Res;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Net;
+using System.Text.RegularExpressions;
 
 namespace ArcheOne.Controllers
 {
@@ -47,13 +50,38 @@ namespace ArcheOne.Controllers
         }
         public IActionResult TeamList()
         {
-            return View(_dbRepo.TeamList().ToList());
+            CommonResponse commonResponse = new CommonResponse();
+            List<GetTeamListResModel> teamlists = new List<GetTeamListResModel>();
+
+            try
+            {
+                teamlists = (from z in _dbRepo.TeamList()
+                             join f in _dbRepo.AllUserMstList() on z.TeamLeadId equals f.Id
+                             join t in _dbRepo.AllUserMstList() on z.TeamMemberId equals t.Id
+                             select new
+                             {
+                                 TeamId = z.Id,
+                                 TeamLeadName = f.FirstName + " " + f.LastName,
+                                 TeamMemerName = t.FirstName + " " + t.LastName
+                             }).ToList().GroupBy(g => g.TeamLeadName).Select((x,Index) => new GetTeamListResModel
+                             {
+                                 Id = Index +1,
+                                 TeamLead = x.Key,
+                                 TeamName = string.Join(",", x.Select(x => x.TeamMemerName))
+                             }).ToList();
+            }
+            catch { throw; }
+
+            return View(teamlists);
         }
 
-        public IActionResult AddEditTeam(int? Id)
+        [HttpGet]
+        public async Task<IActionResult> AddEditTeam(int Id)
         {
             CommonResponse commonResponse = new CommonResponse();
-            AddEditTeamReqViewModel addEditTeamReqViewModel= new AddEditTeamReqViewModel();
+            AddEditTeamReqViewModel addEditTeamReqViewModel = new AddEditTeamReqViewModel();
+            addEditTeamReqViewModel.TeamId = Id;
+            TeamDetails teamDetails = new TeamDetails();
             addEditTeamReqViewModel.TeamLeadList = _dbRepo.UserMstList().ToList();
             addEditTeamReqViewModel.TeamMemberList = _dbRepo.UserMstList().ToList();
 
@@ -64,6 +92,7 @@ namespace ArcheOne.Controllers
                     var UserDetails = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == Id);
                     if (UserDetails != null)
                     {
+                        addEditTeamReqViewModel.TeamId = Id;
                         addEditTeamReqViewModel.TeamDetails.TeamLeadId = UserDetails.Id;
                         addEditTeamReqViewModel.TeamDetails.TeamMemberId = UserDetails.Id;
                     }
@@ -87,10 +116,10 @@ namespace ArcheOne.Controllers
             {
                 TeamMst teamMst = new TeamMst();
                 bool IsDuplicate = false;
-                var duplicateCheck = _dbRepo.TeamList().FirstOrDefault(x => x.Id != team.Id && x.TeamMemberId != team.TeamMemberId);
-                IsDuplicate = duplicateCheck != null;
-                if (!IsDuplicate)
-                {
+                //var duplicateCheck = _dbRepo.TeamList().FirstOrDefault(x => x.TeamMemberId != team.TeamMemberId);
+                //IsDuplicate = duplicateCheck != null;
+                //if (!IsDuplicate)
+                //{
                     var teamDetails = _dbRepo.TeamList().FirstOrDefault(x => x.Id == team.Id);
                     if (teamDetails != null && teamDetails.Id > 0)
                     {
@@ -126,13 +155,13 @@ namespace ArcheOne.Controllers
 
                         commonResponse.Status = true;
                         commonResponse.StatusCode = HttpStatusCode.OK;
-                        commonResponse.Message = "Team Added Successfully!";
+                        commonResponse.Message = "success";
                     }
-                }
-                else
-                {
-                    commonResponse.Message = "Team Member Is Already Exist ";
-                }
+                //}
+                //else
+                //{
+                //    commonResponse.Message = "Team Member Is Already Exist ";
+                //}
                 commonResponse.Data = teamMst;
             }
             catch { throw; }

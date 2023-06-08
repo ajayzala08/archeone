@@ -1,7 +1,8 @@
-﻿@using ArcheOne.Database.Entities;
-@model List<TeamMst>
+﻿@using ArcheOne.Models.Res;
+@model List<GetTeamListResModel>
 @{
     Layout = "_BlankLayout";
+    ViewBag.dataTable = "true";
 }
 
 <div class="row form-group">
@@ -34,16 +35,16 @@
                             @item.Id
                         </td>
                         <td>
-                            @item.TeamLeadId
+                            @item.TeamLead
                         </td>
                         <td>
-                            @item.TeamMemberId
+                            @item.TeamName
                         </td>
                         <td>
-                            <button class="btn btn-info btn-edit"  Id="@item.Id" onlclick="AddEditUser(@item.Id)">Edit</button>
+                            <button class="btn btn-info btn-edit"  Id="@item.Id" onlclick="AddEditTeam(@item.Id)">Edit</button>
                         </td>
                         <td>
-                            <button class="btn btn-danger btn-delete" Id="@item.Id" onlclick="DeleteUser(@item.Id)">Delete</button>
+                            <button class="btn btn-danger btn-delete" Id="@item.Id" onlclick="DeleteTeam(@item.Id)">Delete</button>
                         </td>
                     </tr>
                 }

@@ -1,9 +1,20 @@
 ﻿@using ArcheOne.Models.Req;
-@inject IHttpContextAccessor HttpContextAccessor
-@model AddEditTeamReqViewModel;
-@{
+@model AddEditTeamReqViewModel
 
+@{
+    Layout = "_MasterLayout";
+    string PopupTitle1 = "";
+    int id = 1;
+    PopupTitle1 = Model.TeamId > 0 ? "Edit Team" : "Add Team";
+    @if (PopupTitle1 == "Edit Team")
+    {
+        Layout = "_BlankLayout";
+    }
 }
+
+
+
+
 <section class="content-header"></section>
 <section class="content">
     <div class="container-fluid">
@@ -18,66 +29,68 @@
                 </div>
             </div>
             <div class="card-body">
-                <form id="AddTeamForm" method="post" role="form" enctype="multipart/form-data" asp-action="Team" asp-controller="Team">
-                    <div class="messages"></div>
-                    <div class="controls">
-                        <div class="row">
-                            <div class="col-sm-4" id="dddlTeamLead">
-                                <div class="form-group">
-                                    <label><span class="has-error required">* </span>Team Lead</label>
-                                    <select id="ddlTeamLead" name="ddlTeamLead" class="form-control" isrequired="1" divcontainer="dddlTeamLead" errorspan="sddlTeamLead" defaultvalue="0" style="width: 100%;">
-                                        @*<option value="0">--- Select ---</option>*@
-                                            @foreach (var item in Model.TeamLeadList)
-                                            {
-                                                <option value="@item.Id">@item.UserName</option>
-                                            }
-                                      
-                                    </select>
-                                    <span class="help-block d-none has-error" id="sddlTeamLead">Please select any Team Lead</span>
-                                </div>
-                            </div>
-                            <div class="col-sm-4" id="dddlTeamMemberId">
-                                <div class="form-group">
-                                    <label><span class="has-error required">* </span>Team Member</label>
-                                    <select id="ddlTeamMember" name="ddlTeamMember" class="form-control" isrequired="1" divcontainer="dddlTeamMember" errorspan="sddlTeamMember" defaultvalue="0" style="width: 100%;">
-                                        @*<option value="0">--- Select ---</option>*@
-                                         @if (Model.TeamLeadList.Count >0)
-                                        {
-                                            @foreach (var item in Model.TeamMemberList)
-                                            {
-                                                <option value="@item.Id">@item.UserName</option>
-                                            }
-                                        }
-                                    </select>
-                                    <span class="help-block d-none has-error" id="sddlTeamMemberId">Please select any Team Member</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="clearfix"></div>
+                @* <form id="AddTeamForm" method="post" role="form" enctype="multipart/form-data" asp-action="Team" asp-controller="Team">*@
+                <div class="messages"></div>
+                <div class="controls">
                     <div class="row">
-                        <div class="col-md-1">
-                            <button type="button" id="AddEditTeam" name="AddEditTeam" class="btn btn-success">Submit</button>
+                        <input id="txtTeamId" name="txtTeamId" type="hidden" class="form-control col-sm-4" value="@Model.TeamId" />
+                        <div class="col-sm-4" id="ddlTeamLeadId">
+                            <div class="form-group">
+                                <label><span class="has-error required">* </span>Team Lead</label>
+                                <select id="ddlTeamLeadId" name="ddlTeamLeadId" class="form-control" isrequired="1" divcontainer="ddlTeamLeadId" errorspan="sddlTeamLeadId" defaultvalue="0" style="width: 100%;">
+                                    @*<option value="0">--- Select ---</option>*@
+                                    @* <select id="ddlCountry" name="ddlCountry" class="form-control" isrequired="1" divcontainer="dddlCountry" errorspan="sddlCountry" defaultvalue="0" style="width: 100%;">*@
+                                    <option value="0">--- Select ---</option>
+                                    @foreach (var item in Model.TeamLeadList)
+                                    {
+                                        <option value="@item.Id">@item.UserName</option>
+                                    }
+
+                                </select>
+                                <span class="help-block d-none has-error" id="sddlTeamLead">Please select any Team Lead</span>
+                            </div>
                         </div>
-                        <div class="col-md-1">
-                            <input type="submit" class="btn btn-danger btn-send" value="Cancel">
+                        <div class="col-sm-4" id="ddlTeamMemberId">
+                            <div class="form-group">
+                                <label><span class="has-error required">* </span>Team Member</label>
+                                <select id="ddlTeamMemberId" name="ddlTeamMemberId" class="form-control" isrequired="1" divcontainer="ddlTeamMemberId" errorspan="sddlTeamMemberId" defaultvalue="0" style="width: 100%;">
+                                    @*  <option value="0">--- Select ---</option>*@
+                                    <option value="0">--- Select ---</option>
+                                    @foreach (var item in Model.TeamMemberList)
+                                    {
+                                        <option value="@item.Id">@item.UserName</option>
+                                    }
+                                </select>
+                                <span class="help-block d-none has-error" id="sddlTeamMemberId">Please select any Team Member</span>
+                            </div>
                         </div>
                     </div>
-                    @if (ViewBag.Message != null)
-                    {
-                        <script type="text/javascript">
-                            window.onload = function () {
-                                alert("@ViewBag.Message");
-                            };
-                        </script>
-                    }
-                </form>
+                </div>
+
+                @* <div class="clearfix"></div>*@
+                <div class="row">
+                    <div class="col-md-1">
+                        <button type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success">Submit</button>
+                    </div>
+                    <div class="col-md-1">
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-danger">Cancel</button>
+                    </div>
+                </div>
+
+                @if (ViewBag.Message != null)
+                {
+                    <script type="text/javascript">
+                        window.onload = function () {
+                            alert("@ViewBag.Message");
+                        };
+                    </script>
+                }
+                @*    </form>*@
             </div>
         </div>
     </div>
 </section>
 
-@*@section Scripts {
+@section Scripts {
     <script src="~/archeone/js/team/team.js"></script>
-}*@
+}
