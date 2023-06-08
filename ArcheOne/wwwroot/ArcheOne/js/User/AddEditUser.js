@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    applyRequiredValidation();
     $("#btnSaveUpdateUser").click(function () {
         SaveUser();
     });
@@ -10,7 +11,6 @@ function SaveUser() {
         $.blockUI();
         var saveData = new FormData();
         var file = $("#txtPhotoUrl").get(0).files[0];
-
         saveData.append("Id", parseInt($("#txtUserId").val()));
         saveData.append("PhotoUrl", file);
         saveData.append("CompanyId", $("#ddlCompany").val());
@@ -31,6 +31,7 @@ function SaveUser() {
         debugger
         if (validateRequiredFields()) {
             ajaxCallWithoutDataType("Post", false, '/User/SaveUpdateUser', saveData, function (result) {
+                console.log(result);
                 if (result.status == true) {
                     Toast.fire({ icon: 'success', title: result.message });
                     RedirectToPage("/User/User");

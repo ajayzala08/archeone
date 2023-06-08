@@ -90,6 +90,7 @@ function ajaxCallWithoutDataType(methodType, applyBaseURL, apiURL, dataParams, c
     });
 }
 
+
 function RedirectToPage(path) {
     window.setTimeout(function () {
         window.location = path;
@@ -143,7 +144,6 @@ function ApplyEvents() {
     $('.txtCapitalize').blur(function () {
         var str = $(this).val();
         var spart = str.split(" ");
-
         for (var i = 0; i < spart.length; i++) {
             var j = spart[i].charAt(0).toUpperCase();
             spart[i] = j + spart[i].substr(1);
@@ -181,42 +181,21 @@ function validateRequiredFields() {
         if (!$(itm).hasClass('d-none')) {
             $(itm).addClass('d-none');
         }
-        
     });
     $('.has-error').each(function (index, itm) {
         if ($(this).hasClass('has-error')) {
             $(this).removeClass('has-error');
         }
     });
-    $(".text-length").blur(function () {
-        
-        var obj = $(this);
-        var val = $(obj).val().trim();
-        if (val.length < $(obj).attr("minlength") || val.length > $(obj).attr("maxlength")) {
-            var min = parseInt($(obj).attr("minlength"));
-            var max = parseInt($(obj).attr("maxlength"));
-            $("#" + $(obj).attr("errorspan")).removeClass('d-none');
-            $("#" + $(obj).attr("divcontainer")).addClass('has-error');
-            $("#" + $(obj).attr("id")).addClass('is-invalid');
-        }
-        else {
-            $("#" + $(obj).attr("errorspan")).addClass('d-none');
-            $("#" + $(obj).attr("divcontainer")).removeClass('has-error');
-            $("#" + $(obj).attr("id")).removeClass('is-invalid');
-        }
-        
-    });
+
     $("[isRequired='1']").each(function (ind, item) {
         validateReqField($(this));
-       
     });
 
-
     if ($('.has-error').length > 0) {
-        $($($('.has-error').first()).find("input[isRequired='1']").first()).focus();
-        return false
+        $($($('.has-error').first()).find("input[isrequired='1']").first()).focus();
+        return false;
     }
-    
     return true;
 }
 
@@ -232,18 +211,16 @@ function applyRequiredValidation() {
 }
 
 function validateReqField(obj) {
-
-    if ($(obj).val().trim() == $(obj).attr("defaultvalue")) {
+    debugger
+    if ($(obj).val() == $(obj).attr("defaultvalue")) {
         $("#" + $(obj).attr("errorspan")).removeClass('d-none');
         $("#" + $(obj).attr("divcontainer")).addClass('has-error');
         $("#" + $(obj).attr("id")).addClass('is-invalid');
-        return false;
     }
     else {
         $("#" + $(obj).attr("errorspan")).addClass('d-none');
         $("#" + $(obj).attr("divcontainer")).removeClass('has-error');
         $("#" + $(obj).attr("id")).removeClass('is-invalid');
-        return true;
     }
     if ($(obj).val().length < $(obj).attr("minlength") || $(obj).val().length > $(obj).attr("maxlength")) {
         var min = parseInt($(obj).attr("minlength"));
@@ -255,7 +232,7 @@ function validateReqField(obj) {
         $("#" + $(obj).attr("errorspan")).removeClass('d-none');
         $("#" + $(obj).attr("divcontainer")).addClass('has-error');
         $("#" + $(obj).attr("id")).addClass('is-invalid');
-        return false;
+
         //if (min > 0 && max > 0 && min == max && min != $(obj).val().length) {
         //    $("#" + $(obj).attr("errorspan")).removeClass('d-none');
         //    $("#" + $(obj).attr("divcontainer")).addClass('has-error');
