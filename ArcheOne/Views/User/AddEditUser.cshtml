@@ -37,12 +37,11 @@
 								<div class="form-group">
 									<div class="form-group">
 										<input id="txtUserId" name="txtUserId" type="hidden" class="form-control" value="@Model.UserDetails.Id" />
-
 										@if (Model.UserDetails.Id > 0)
 										{
 											<label for="form_name">Photo *</label>
 											<img src="/@Model.UserDetails.PhotoUrl" id="photoUrl" style="width:75px!important" name="photoUrl" />
-										}	
+										}
 										else
 										{
 											<label for="form_name">Photo *</label>
@@ -145,7 +144,7 @@
 							<div class="col-sm-4" id="dtxtMobile1">
 								<div class="form-group">
 									<label for="form_mobile1">Mobile1 *</label>
-									<input id="txtMobile1" type="tel" name="Mobile1" class="form-control text-length" placeholder="Please enter your Mobile1 number" value="@Model.UserDetails.Mobile1" isrequired="1" divcontainer="dtxtMobile1" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" >
+									<input id="txtMobile1" type="tel" name="Mobile1" class="form-control text-length" placeholder="Please enter your Mobile1 number" value="@Model.UserDetails.Mobile1" isrequired="1" divcontainer="dtxtMobile1" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10">
 									<span class="help-block d-none has-error" id="stxtMobile1">Please Enter Valid Mobile1</span>
 								</div>
 							</div>
@@ -178,7 +177,7 @@
 							<input type="button" id="btnSaveUpdateUser" class="btn btn-success" value="Submit" />
 						</div>
 						<div class="col-md-1">
-							<input type="button" class="btn btn-danger btn-send" value="Cancel" />
+							<input type="button" class="btn btn-danger btn-send" value="Cancel" onclick="ClearAll()" />
 						</div>
 					</div>
 					@if (ViewBag.Message != null)

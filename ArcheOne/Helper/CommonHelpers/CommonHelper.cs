@@ -34,7 +34,7 @@ namespace ArcheOne.Helper.CommonHelpers
                 string CurrentDirectory = Directory.GetCurrentDirectory();
                 subDirectory = subDirectory ?? string.Empty;
                 subDirectory = IsTempFile != null && IsTempFile == true ? Path.Combine("Temp", subDirectory) : subDirectory;
-                subDirectory = IsSubDirectoryDateWise != null && IsSubDirectoryDateWise == true ? Path.Combine(subDirectory, CurrentDateTime.Year.ToString(), CurrentDateTime.Month.ToString(), CurrentDateTime.Day.ToString()) : subDirectory;
+                subDirectory = IsSubDirectoryDateWise != null && IsSubDirectoryDateWise == true ? Path.Combine(subDirectory) : subDirectory;
                 var target = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot", "Files", subDirectory);
                 Directory.CreateDirectory(target);
                 FileInfo fileInfo = new FileInfo(fileName);

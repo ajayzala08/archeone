@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Transactions;
 using ArcheOne.Database.Entities;
 using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
@@ -193,27 +194,23 @@ namespace ArcheOne.Controllers
 							if (UserDetail != null && UserDetail.Id > 0)
 							{
 								//Edit Mode
-								userMst.RoleId = userSaveUpdateReq.RoleId;
-								userMst.CompanyId = 1;
-								userMst.FirstName = userSaveUpdateReq.FirstName;
-								userMst.MiddleName = userSaveUpdateReq.MiddleName;
-								userMst.LastName = userSaveUpdateReq.LastName;
-								userMst.UserName = userSaveUpdateReq.UserName;
-								userMst.Password = userSaveUpdateReq.Password;
-								userMst.Address = userSaveUpdateReq.Address;
-								userMst.Pincode = userSaveUpdateReq.Pincode;
-								userMst.Mobile1 = userSaveUpdateReq.Mobile1;
-								userMst.Mobile2 = userSaveUpdateReq.Mobile2;
-								userMst.Email = userSaveUpdateReq.Email;
-								userMst.PhotoUrl = imageFile.Data;
-								userMst.CreatedDate = UserDetail.CreatedDate;
-								userMst.CreatedBy = UserDetail.CreatedBy;
-								userMst.IsActive = UserDetail.IsActive;
-								userMst.IsDelete = UserDetail.IsDelete;
-								userMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
-								userMst.UpdatedBy = 1;
+								UserDetail.RoleId = userSaveUpdateReq.RoleId;
+								UserDetail.CompanyId = 1;
+								UserDetail.FirstName = userSaveUpdateReq.FirstName;
+								UserDetail.MiddleName = userSaveUpdateReq.MiddleName;
+								UserDetail.LastName = userSaveUpdateReq.LastName;
+								UserDetail.UserName = userSaveUpdateReq.UserName;
+								UserDetail.Password = userSaveUpdateReq.Password;
+								UserDetail.Address = userSaveUpdateReq.Address;
+								UserDetail.Pincode = userSaveUpdateReq.Pincode;
+								UserDetail.Mobile1 = userSaveUpdateReq.Mobile1;
+								UserDetail.Mobile2 = userSaveUpdateReq.Mobile2;
+								UserDetail.Email = userSaveUpdateReq.Email;
+								UserDetail.PhotoUrl = imageFile.Data;
+								UserDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
+								UserDetail.UpdatedBy = 1;
 
-								_dbContext.Entry(userMst).State = EntityState.Modified;
+								_dbContext.Entry(UserDetail).State = EntityState.Modified;
 								_dbContext.SaveChanges();
 
 								commonResponse.Status = true;
@@ -224,6 +221,7 @@ namespace ArcheOne.Controllers
 							{
 								//Add Mode
 								userMst.RoleId = userSaveUpdateReq.RoleId;
+								userMst.CompanyId = 1;
 								userMst.FirstName = userSaveUpdateReq.FirstName;
 								userMst.MiddleName = userSaveUpdateReq.MiddleName;
 								userMst.LastName = userSaveUpdateReq.LastName;
@@ -241,6 +239,7 @@ namespace ArcheOne.Controllers
 								userMst.UpdatedBy = 1;
 								userMst.IsActive = true;
 								userMst.IsDelete = false;
+
 								_dbContext.Add(userMst);
 								_dbContext.SaveChanges();
 
@@ -274,11 +273,6 @@ namespace ArcheOne.Controllers
 		public IActionResult UserList()
 		{
 			CommonResponse commonResponse = new CommonResponse();
-			//var res = _dbRepo.UserMstList().ToList();
-			//List<UserListModel> 
-
-			//var response = (from U in _dbRepo.AllUserMstList() join R in _dbRepo.RoleMstList() on U.RoleId equals R.Id join C in _dbRepo.CompanyMstList() on U.CompanyId equals C.Id select new {U, R, C}).ToList();
-
 			var userMst = (from U in _dbRepo.AllUserMstList().ToList()
 						   join C in _dbRepo.CompanyMstList()
 											  on U.CompanyId equals C.Id
@@ -303,8 +297,6 @@ namespace ArcheOne.Controllers
 								   PhotoUrl = x.U.PhotoUrl,
 								   CreatedDate = x.C.UpdatedDate
 							   }).OrderByDescending(x => x.CreatedDate).ToList();
-
-
 			if (userMst.Count > 0)
 			{
 				commonResponse.Status = true;
@@ -325,76 +317,34 @@ namespace ArcheOne.Controllers
 			CommonResponse commonResponse = new CommonResponse();
 			try
 			{
-				//var res = _dbRepo.UserMstList().FirstOrDefault(x => x.Id == id);
-				//if (res != null)
-				//{
-				//	UserModel user = new UserModel();
-				//	//user.IsDelete = true;
-				//	//user.UpdatedBy = _commonHelper.GetLoggedInUserId();
-				//	//user.CreatedDate = _commonHelper.GetCurrentDateTime();
-				//	//user.UpdatedDate = _commonHelper.GetCurrentDateTime();
+				var res = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == id);
+				if (res != null)
+				{
+					res.IsDelete = true;
+					res.UpdatedBy = _commonHelper.GetLoggedInUserId();
+					res.CreatedDate = _commonHelper.GetCurrentDateTime();
+					res.UpdatedDate = _commonHelper.GetCurrentDateTime();
 
-				//	_dbContext.Entry(user).State = EntityState.Modified;
-				//	_dbContext.SaveChanges();
-				//}
-				//else
-				//{
-				//	commonResponse.Message = "Data not found!";
-				//	commonResponse.StatusCode = HttpStatusCode.NotFound;
-				//}
+					_dbContext.Entry(res).State = EntityState.Modified;
+					_dbContext.SaveChanges();
+
+					commonResponse.Status = true;
+					commonResponse.Message = "Data Deleted Successfully!";
+					commonResponse.StatusCode = HttpStatusCode.NotFound;
+				}
+				else
+				{
+					commonResponse.Message = "Data not found!";
+					commonResponse.StatusCode = HttpStatusCode.NotFound;
+				}
 			}
-			catch { throw; }
-			return RedirectToAction("UserList");
+			catch (Exception ex)
+			{
+				commonResponse.Message = ex.Message;
+				commonResponse.Data = ex;
+			}
+			return Json(commonResponse);
 		}
 
-		//[HttpPost]
-		//public CommonResponse UploadFile(IFormFile file, string subDirectory, string fileName, bool? IsTempFile = false, bool? IsSubDirectoryDateWise = false, bool? IsFileNameAutoGenerated = false)
-		//{
-		//	CommonResponse response = new CommonResponse();
-		//	try
-		//	{
-		//		DateTime CurrentDateTime = DateTime.Now;
-		//		string savePath = string.Empty;
-		//		string CurrentDirectory = Directory.GetCurrentDirectory();
-		//		subDirectory = subDirectory ?? string.Empty;
-		//		subDirectory = IsTempFile != null && IsTempFile == true ? Path.Combine("Temp", subDirectory) : subDirectory;
-		//		subDirectory = IsSubDirectoryDateWise != null && IsSubDirectoryDateWise == true ? Path.Combine(subDirectory, CurrentDateTime.Year.ToString(), CurrentDateTime.Month.ToString(), CurrentDateTime.Day.ToString()) : subDirectory;
-		//		var target = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "Files", subDirectory);
-		//		Directory.CreateDirectory(target);
-		//		FileInfo fileInfo = new FileInfo(fileName);
-		//		string fileExtension = fileInfo.Extension;
-		//		fileName = IsFileNameAutoGenerated != null && IsFileNameAutoGenerated == true ? Guid.NewGuid().ToString().ToLower() + fileExtension : fileName;
-		//		savePath = Path.Combine("Files", subDirectory, fileName);
-		//		var filePath = Path.Combine(target, fileName);
-		//		using (var stream = new FileStream(filePath, FileMode.Create))
-		//		{
-		//			file.CopyTo(stream);
-		//		}
-
-		//		response.Status = true;
-		//		response.Message = "File Uploaded";
-		//		response.Data = savePath;
-		//	}
-		//	catch { throw; }
-		//	return response;
-		//}
-
-		//[HttpPost]
-		//public IActionResult SaveFile(IFormFile file)
-		//{
-
-		//	//HttpFileCollectionBase fileCollection = Request.Files;
-		//	//HttpPostedFileBase file = fileCollection[0];
-		//	return Json("ok");
-		//}
-
-		//[HttpPost]
-		//public IActionResult SaveFile(UserProfilePhotoReqmodel userProfilePhotoReqmodel)
-		//{
-
-		//	//HttpFileCollectionBase fileCollection = Request.Files;
-		//	//HttpPostedFileBase file = fileCollection[0];
-		//	return Json("ok");
-		//}
 	}
 }
