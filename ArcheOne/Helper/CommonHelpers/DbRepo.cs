@@ -103,7 +103,7 @@ namespace ArcheOne.Helper.CommonHelpers
             {
                 int RoleId = UserDetail.RoleId.Value;
                 int UserId = UserDetail.Id;
-                if(RoleId != CommonConstant.Super_Admin)
+                if (RoleId != CommonConstant.Super_Admin)
                 {
                     var DefaultPermissionIdList = DefaultPermissionList().Where(x => x.RoleId == RoleId).Select(x => x.PermissionId).ToList();
                     var UserPermissionIdList = UserPermissionList().Where(x => x.UserId == UserId).Select(x => x.PermissionId).ToList();
@@ -118,6 +118,10 @@ namespace ArcheOne.Helper.CommonHelpers
                 }
             }
             return hasPermission;
+        }
+        public IQueryable<SalesContactPersonMst> SalesContactPersonList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.SalesContactPersonMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
     }
 }

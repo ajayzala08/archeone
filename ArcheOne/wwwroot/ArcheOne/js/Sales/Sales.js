@@ -8,11 +8,13 @@ $(document).ready(function () {
 
 $('#btnAddSaleLead').click(function () {
     window.location.href = '/Sales/AddEditSalesLead';
+    GetFilteredSalesConatactPersonList();
 });
 
 function AddEditSalesLead(Id) {
     ajaxCall("Get", false, '/Sales/AddEditSalesLead?id=' + Id, null, function (result) {
         $("#sectionData").html(result.responseText);
+        GetFilteredSalesConatactPersonList();
     });
 }
 
@@ -120,3 +122,27 @@ function DeleteSalesLead(Id) {
         }
     })
 };
+
+
+function GetFilteredSalesConatactPersonList() {
+
+    ajaxCall("Get", false, '/Sales/SalesConatactPersonList', null, function (result) {
+        console.log(result.responseText);
+        $("#divSalesConatactPersondata").html(result.responseText);
+        ApplyDatatableResponsive('tblSalesConatactLead');
+
+        //$(".btn-edit").click(function () {
+
+        //    EditMode = 1;
+        //    Id = $(this).attr('Id');
+        //    AddEditSalesLead(Id);
+        //});
+
+        //$(".btn-delete").click(function () {
+        //    Id = $(this).attr('Id');
+        //    DeleteSalesLead(Id);
+        //});
+
+    });
+}
+

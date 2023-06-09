@@ -3,20 +3,19 @@
 
 @{
     Layout = "_MasterLayout";
+    ViewBag.datatable = "true";
     string PopupTitle1 = "";
     int id = 1;
     PopupTitle1 = Model.SalesLeadDetailes.Id > 0 ? "Edit SaleLead" : "Add SaleLead";
     @if (PopupTitle1 == "Edit SaleLead")
     {
+        ViewBag.datatable = "true";
         Layout = "_BlankLayout";
     }
     var CountryId = Model.SalesLeadDetailes.CountryId;
     var stateId = Model.SalesLeadDetailes.StateId;
     var CityId = Model.SalesLeadDetailes.CityId;
 }
-
-
-
 
 @*@if (id > 0)
 {*@
@@ -144,15 +143,15 @@
                             <input id="txtLastName" name="txtLastName" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Last Name" value="@Model.SalesLeadContactPersonDetailes.LastName" isrequired="1" divcontainer="dtxtLastName" errorspan="stxtLastName" defaultvalue="" autocomplete="off" minlength="2">
                             <span class="help-block d-none has-error" id="stxtLastName">Please Enter Valid Last Name</span>
                         </div>
-                        <div class="form-group col-sm-3" id="dtxtEmail1">
+                        <div class="form-group col-sm-3" id="dtxtEmail">
                             <label><span class="has-error required">* </span>Email</label>
-                            <input id="txtEmail1" name="txtEmail1" type="text" class="form-control text-length" placeholder="Email1" value="@Model.SalesLeadContactPersonDetailes.Email" isrequired="1" divcontainer="dtxtEmail1" errorspan="stxtEmail1" defaultvalue="" autocomplete="off" minlength="2">
-                            <span class="help-block d-none has-error" id="stxtEmail1">Please Enter Valid Email</span>
+                            <input id="txtEmail" name="txtEmail" type="email" class="form-control text-length" placeholder="Email" value="@Model.SalesLeadContactPersonDetailes.Email" isrequired="1" divcontainer="dtxtEmail" errorspan="stxtEmail" defaultvalue="" autocomplete="off" minlength="2">
+                            <span class="help-block d-none has-error" id="stxtEmail">Please Enter Valid Email</span>
                         </div>
 
                         <div class="form-group col-sm-3" id="dtxtDesignation">
-                            <label>Designation</label>
-                            <input id="txtDesignation" name="txtDesignation" type="text" class="form-control" placeholder="Designation" value="@Model.SalesLeadContactPersonDetailes.Designation" isrequired="0" divcontainer="dtxtDesignation" errorspan="stxtDesignation" defaultvalue="" autocomplete="off" minlength="2">
+                        <label><span class="has-error required">* </span>Designation</label>
+                        <input id="txtDesignation" name="txtDesignation" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Designation" value="@Model.SalesLeadContactPersonDetailes.Designation" isrequired="1" divcontainer="dtxtDesignation" errorspan="stxtDesignation" defaultvalue="" autocomplete="off" minlength="2">
                             <span class="help-block d-none has-error" id="stxtDesignation">Please Enter Valid Designation</span>
                         </div>
 
@@ -184,9 +183,12 @@
                         <button type="button" id="btnReset" name="btnReset" class="btn btn-danger">Reset</button>
                     </div>
                 </div>
-
+               
+               <br />
+                <div id="divSalesConatactPersondata">
+              
             </div>
-
+            
         </div>
         <div class="row">
             <div class="col-sm-1">
@@ -198,6 +200,8 @@
         </div>
     </div>
 </section>
+
+
 @*}
 else
 {
