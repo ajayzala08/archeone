@@ -1,5 +1,5 @@
 ﻿@using ArcheOne.Models.Res;
-@model List<SalesLeadListResViewModel>
+@model List<SalesConatactPersonListResViewModel>
 
 
 @{
@@ -9,41 +9,36 @@
 }
 <div class="row form-group">
     <div class="col-md-12">
-        <table id="tblSalesLead" class="table table-bordered table-striped" style="width:100%">
+        <table id="tblSalesConatactLead" class="table table-bordered table-striped" style="width:100%">
             <thead>
                 <tr>
-                   @* <td>
-                        <b>Id</b>
+                    @* <td>
+                    <b>Id</b>
                     </td>*@
                     <td>
-                        <b>OrgName</b>
+                        <b>SalesLeadId</b>
                     </td>
                     <td>
-                        <b> Address </b>
+                        <b> FirstName </b>
                     </td>
                     <td>
-                        <b>Country</b>
+                        <b>LastName</b>
                     </td>
                     <td>
-                        <b>State</b>
+                        <b>Email</b>
                     </td>
                     <td>
-                        <b>City </b>
+                        <b>Mobile1</b>
                     </td>
                     <td>
-                        <b>Phone1</b>
+                        <b>Mobile2</b>
                     </td>
                     <td>
-                        <b>Phone2</b>
+                        <b>Designation</b>
                     </td>
+                   
                     <td>
-                        <b>Email1</b>
-                    </td>
-                    <td>
-                        <b>Email2</b>
-                    </td>
-                    <td>
-                        <b>WebsiteUrl</b>
+                        <b>Linkedinurl</b>
                     </td>
                     <td>
                         <b>Edit</b>
@@ -57,41 +52,36 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                       @* <td>
-                            @item.Id
-                        </td>*@
+                        @* <td>
+                    @item.Id
+                    </td>*@
                         <td>
-                            @item.OrgName
+                            @item.SalesLeadId
                         </td>
                         <td>
-                            @item.Address
+                            @item.FirstName
                         </td>
                         <td>
-                            @item.CountryId
+                            @item.LastName
                         </td>
                         <td>
-                            @item.StateId
+                            @item.Email
                         </td>
                         <td>
-                            @item.CityId
+                            @item.Mobile1
                         </td>
                         <td>
-                            @item.Phone1
+                            @item.Mobile2
                         </td>
                         <td>
-                            @item.Phone2
+                            @item.Designation
                         </td>
-                        
+
                         <td>
-                            @item.Email1
-                        </td>
-                        <td>
-                            @item.Email2
-                        </td>
-                        <td>
-                            @item.WebsiteUrl
+                            @item.Linkedinurl
                         </td>
                        
+
                         <td>
                             @*   <button class="btn btn-info btn-edit" OrganizationId="@item.Id" onlclick="AddEditOrganization(@item.Id);">Edit</button>*@
                             <button class="btn btn-info btn-edit" Id="@item.Id">Edit</button>
@@ -106,3 +96,4 @@
 
     </div>
 </div>
+

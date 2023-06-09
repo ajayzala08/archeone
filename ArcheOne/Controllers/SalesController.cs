@@ -204,5 +204,34 @@ namespace ArcheOne.Controllers
             catch { throw; }
             return commonResponse;
         }
+
+        public IActionResult SalesConatactPersonList()
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            try
+            {
+                List<SalesConatactPersonListResViewModel> salesConatactPersonListResViewModels = new List<SalesConatactPersonListResViewModel>();
+                salesConatactPersonListResViewModels = _dbRepo.SalesContactPersonList().Where(x => x.IsActive == true && x.IsDelete == false).Select(x => new SalesConatactPersonListResViewModel
+                {
+                    Id = x.Id,
+                    SalesLeadId = x.SalesLeadId,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    Email = x.Email,
+                    Designation = x.Designation,
+                    Mobile1 = x.Mobile1,
+                    Mobile2 = x.Mobile2,
+                    Linkedinurl = x.Linkedinurl,
+
+                }).ToList();
+                commonResponse.Data = salesConatactPersonListResViewModels;
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message;
+            }
+            return View(commonResponse.Data);
+        }
+
     }
 }

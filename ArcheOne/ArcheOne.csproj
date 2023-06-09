@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\Files\UserProfile\NoImage.png" />
     <None Include="wwwroot\Theme\plugins\datatables-bs4\js\dataTables.bootstrap4.js" />
     <None Include="wwwroot\Theme\plugins\datatables-bs4\js\dataTables.bootstrap4.min.js" />
     <None Include="wwwroot\Theme\plugins\datatables-buttons\js\buttons.bootstrap4.js" />
