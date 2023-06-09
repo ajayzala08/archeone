@@ -17,27 +17,25 @@ function AddEditTeam(Id) {
 }
 
 $("#btnSaveAdd").click(function () {
-    alert("save Add Button Click");
-    SaveAddEditTeam();
+    SaveUpdateTeam();
 });
 
 $("#btnCancel").click(function () {
-    alert("Cancel button Click");
     window.location.href = '/Team/Team';
 });
 
-function SaveAddEditTeam() {
+function SaveUpdateTeam() {
     debugger
-    var saveData = {
-        "Id": parseInt($("#txtTeamId").val()),
-        "TeamLeadId": $("#ddlTeamLeadId").val(),
-        "TeamMemberId": $("#ddlTeamMemberId").val()
+    var saveTeamData = {
+        "TeamId": parseInt($("#txtTeamId").val()),
+        "TeamLeadId": parseInt($("#ddlTeamLeadId").val()),
+        "TeamMemberId": parseInt($("#ddlTeamMemberId").val())
     }
-    console.log(saveData);
-    debugger
-    if (validateRequiredFields()) {
-        ajaxCall("Post", false, '/Team/SaveUpdateTeam', JSON.stringify(saveData), function (result) {
+    console.log(saveTeamData);
 
+    if (validateRequiredFields()) {
+        ajaxCall("Post", false, '/Team/SaveUpdateTeam', JSON.stringify(saveTeamData), function (result) {
+            debugger
             if (result.status == true) {
                 Popup_Toast.fire({ icon: 'success', title: result.message });
                 $("#btnCancel").click();
@@ -59,7 +57,7 @@ function ClearAll() {
 function GetFilteredTeamList() {
     ajaxCall("Get", false, '/Team/TeamList', null, function (result) {
         debugger
-        $("#divTeamList").html(result.responseText);
+        $("#AddTeamData").html(result.responseText);
         ApplyDatatableResponsive('tblTeam');
 
         $(".btn-edit").click(function () {
