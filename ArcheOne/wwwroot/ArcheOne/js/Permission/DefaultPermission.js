@@ -74,11 +74,11 @@ function ShowPermissionAlert() {
 
     swal.fire({
         title: "Update Permissions",
-        html: "Do you want to update this permissions to all the existing user(s) with this Role? <br><p4> Or </p4><br> Update the permissions to role only?<br>*(User(s) created in future will have updated permissions)",
+        html: "Do you want to update permissions for existing users with this Role?<br><b><p3> Or </p3></b><br>Or update permissions for future users with this Role?",
         icon: "question",
         showCancelButton: true,
-        confirmButtonText: 'Update for All Users',
-        cancelButtonText: 'Update for Role Only',
+        confirmButtonText: 'Update for Existing Users',
+        cancelButtonText: 'Update for Future Users',
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33'
     })

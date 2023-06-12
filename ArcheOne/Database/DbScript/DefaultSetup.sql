@@ -2,6 +2,10 @@
 truncate table dbo.CompanyMst
 truncate table dbo.RoleMst
 truncate table dbo.UserMst
+truncate table dbo.PermissionMst
+truncate table dbo.UserPermissions
+truncate table dbo.DefaultPermissions
+
 
 ------------------------------------SetUp Company----------------------------
 insert into dbo.CompanyMst values('Arche Softronix','Vadodara','390019','0265-446687','9878990654','7896546733',N'Arche@gmail.com',
@@ -28,4 +32,3 @@ insert into dbo.PermissionMst values('User Delete','User_Delete',1,0,0,0,getdate
 
 ------------------------------------SetUp SuperAdmin User----------------------------
 insert into dbo.UserMst values(1,'Admin','','Super','S_Admin','123456','Vadodara','390015','8878964532','9976536725','SuperAdmin@gmail.com','photoURL',1,0,0,0,getdate(),getdate(),1)
-
