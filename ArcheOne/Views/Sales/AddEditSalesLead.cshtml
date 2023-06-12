@@ -1,0 +1,213 @@
+﻿@using ArcheOne.Models.Req;
+@model SalesLeadAddEditReqViewModel
+
+@{
+    Layout = "_MasterLayout";
+    ViewBag.datatable = "true";
+    string PopupTitle1 = "";
+    int id = 1;
+    PopupTitle1 = Model.SalesLeadDetailes.Id > 0 ? "Edit SaleLead" : "Add SaleLead";
+    @if (PopupTitle1 == "Edit SaleLead")
+    {
+        ViewBag.datatable = "true";
+        Layout = "_BlankLayout";
+    }
+    var CountryId = Model.SalesLeadDetailes.CountryId;
+    var stateId = Model.SalesLeadDetailes.StateId;
+    var CityId = Model.SalesLeadDetailes.CityId;
+}
+
+@*@if (id > 0)
+{*@
+<section class="content-header"></section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                Create SalesLead
+                <h3 class="card-title"></h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <h3>SalesLead</h3>
+                <div class="row">
+                    @*<div class="col-md-6">*@
+                    <input id="txtSalesLeadId" name="txtSalesLeadId" type="hidden" class="form-control col-sm-4" value="@Model.SalesLeadDetailes.Id" />
+
+                    <div class="form-group col-sm-3" id="dtxtOrganizationName">
+                        <label><span class="has-error required">* </span>Organization Name</label>
+                        <input id="txtOrganizationName" name="txtOrganizationName" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Organization Name" value="@Model.SalesLeadDetailes.OrgName" isrequired="1" divcontainer="dtxtOrganizationName" errorspan="stxtOrganizationName" defaultvalue="" autocomplete="off" minlength="2">
+                        <span class="help-block d-none has-error" id="stxtOrganizationName">Please Enter Valid Organization Name</span>
+                    </div>
+
+                    <div class="form-group col-sm-3" id="dddlCountry">
+                        <label><span class="has-error required">* </span>Country</label>
+                        <select id="ddlCountry" name="ddlCountry" class="form-control" isrequired="1" divcontainer="dddlCountry" errorspan="sddlCountry" defaultvalue="0" style="width: 100%;">
+                            <option value="1">--- Select ---</option>
+                            @*  @foreach (var Model.SalesLeadContactPersonDetailes in Model.CountryList)
+                            {
+                            if (CountryId == Model.SalesLeadContactPersonDetailes.CountryId)
+                            {
+                            <option value="@Model.SalesLeadContactPersonDetailes.CountryId" selected>@Model.SalesLeadContactPersonDetailes.CountryName</option>
+                            }
+                            else
+                            {
+                            <option value="@Model.SalesLeadContactPersonDetailes.CountryId">@Model.SalesLeadContactPersonDetailes.CountryName</option>
+                            }
+
+                            }*@
+                        </select>
+                        <span class="help-block d-none has-error" id="sddlCountry">Please Enter Valid Country Name</span>
+                    </div>
+
+                    <div class="form-group col-sm-3" id="dddlState">
+                        <label><span class="has-error required">* </span>State</label>
+                        <select id="ddlState" name="ddlState" class="form-control" isrequired="1" divcontainer="dddlState" errorspan="sddlState" defaultvalue="0">
+                            <option value="1">--- Select ---</option>
+
+                        </select>
+                        <input id="txtSelectedStateId" name="txtSelectedStateId" type="hidden" class="form-control" value="@Model.SalesLeadDetailes.StateId" />
+                        <span class="help-block d-none has-error" id="sddlState">Please Enter Valid State Name</span>
+                    </div>
+
+                    <div class="form-group col-sm-3" id="dddlCity">
+                        <label><span class="has-error required">* </span>City</label>
+                        <select id="ddlCity" name="ddlCity" class="form-control" isrequired="1" divcontainer="dddlCity" errorspan="sddlCity" defaultvalue="0">
+                            <option value="1">--- Select ---</option>
+
+                        </select>
+                        <input id="txtSelectedCityId" name="txtSelectedCityId" type="hidden" class="form-control" value="@Model.SalesLeadDetailes.CityId" />
+                        <span class="help-block d-none has-error" id="sddlCity">Please Enter Valid City Name</span>
+                    </div>
+
+                    <div class="form-group col-sm-3" id="dtxtSalesLeadAddress">
+                        <label><span class="has-error required">* </span>SalesLeadAddress</label>
+                        <input id="txtSalesLeadAddress" name="txtSalesLeadAddress" type="text" class="form-control  txtCapitalize text-length" placeholder="SalesLead Address" value="@Model.SalesLeadDetailes.Address" isrequired="1" divcontainer="dtxtSalesLeadAddress" errorspan="stxtSalesLeadAddress" defaultvalue="" autocomplete="off" minlength="2">
+                        <span class="help-block d-none has-error" id="stxtSalesLeadAddress">Please Enter Valid SalesLead Address</span>
+                    </div>
+
+                    <div class="form-group col-sm-3" id="dtxtPhone1">
+                        <label><span class="has-error required">* </span>Phone1</label>
+                        <input id="txtPhone1" name="txtPhone1" type="text" class="form-control onlyNumeric text-length" placeholder="Phone1" value="@Model.SalesLeadDetailes.Phone1" isrequired="1" divcontainer="dtxtPhone1" errorspan="stxtPhone1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+                        <span class="help-block d-none has-error" id="stxtPhone1">Please Enter Valid Phone1</span>
+                    </div>
+
+                    <div class="form-group col-sm-3" id="dtxtPhone2">
+                        <label>Phone2</label>
+                        <input id="txtPhone2" name="txtPhone2" type="text" class="form-control onlyNumeric" placeholder="Phone2" value="@Model.SalesLeadDetailes.Phone2" isrequired="0" divcontainer="dtxtPhone2" errorspan="stxtPhone2" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+                        <span class="help-block d-none has-error" id="stxtPhone2">Please Enter Valid Phone2</span>
+                    </div>
+
+                    <div class="form-group col-sm-3" id="dtxtEmail1">
+                        <label><span class="has-error required">* </span>Email1</label>
+                        <input id="txtEmail1" name="txtEmail1" type="text" class="form-control text-length" placeholder="Email1" value="@Model.SalesLeadDetailes.Email1" isrequired="1" divcontainer="dtxtEmail1" errorspan="stxtEmail1" defaultvalue="" autocomplete="off" minlength="2">
+                        <span class="help-block d-none has-error" id="stxtEmail1">Please Enter Valid Email1</span>
+                    </div>
+
+                    <div class="form-group col-sm-3" id="dtxtEmail2">
+                        <label>Email2</label>
+                        <input id="txtEmail2" name="txtEmail2" type="text" class="form-control" placeholder="Email2" value="@Model.SalesLeadDetailes.Email2" isrequired="0" divcontainer="dtxtEmail2" errorspan="stxtEmail2" defaultvalue="" autocomplete="off" minlength="2">
+                        <span class="help-block d-none has-error" id="stxtEmail2">Please Enter Valid Email2</span>
+                    </div>
+
+                    <div class="form-group col-sm-3" id="dtxtWebsite">
+                        <label>Website</label>
+                        <input id="txtWebsite" name="txtWebsite" type="text" class="form-control txtCapitalize" placeholder="Website" value="@Model.SalesLeadDetailes.WebsiteUrl" isrequired="0" divcontainer="dtxtWebsite" errorspan="stxtWebsite" defaultvalue="" autocomplete="off" minlength="2">
+                        <span class="help-block d-none has-error" id="stxtWebsite">Please Enter Valid Website</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card-body">
+                <h3>SalesLeadContactPerson</h3>
+                <div class="row">
+                  
+                
+                    @*<div class="col-md-6">*@
+                    <input id="txtSalesLeadId" name="txtSalesLeadId" type="hidden" class="form-control col-sm-4" value="@Model.SalesLeadDetailes.Id" />
+
+                    <div class="form-group col-sm-3" id="dtxtFirstName">
+                        <label><span class="has-error required">* </span>First Name</label>
+                            <input id="txtFirstName" name="txtFirstName" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="First Name" value="@Model.SalesLeadContactPersonDetailes.FirstName" isrequired="1" divcontainer="dtxtFirstName" errorspan="stxtFirstName" defaultvalue="" autocomplete="off" minlength="2">
+                            <span class="help-block d-none has-error" id="stxtFirstName">Please Enter Valid First Name</span>
+                    </div>
+
+
+                        <div class="form-group col-sm-3" id="dtxtLastName">
+                            <label><span class="has-error required">* </span>Last Name</label>
+                            <input id="txtLastName" name="txtLastName" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Last Name" value="@Model.SalesLeadContactPersonDetailes.LastName" isrequired="1" divcontainer="dtxtLastName" errorspan="stxtLastName" defaultvalue="" autocomplete="off" minlength="2">
+                            <span class="help-block d-none has-error" id="stxtLastName">Please Enter Valid Last Name</span>
+                        </div>
+                        <div class="form-group col-sm-3" id="dtxtEmail">
+                            <label><span class="has-error required">* </span>Email</label>
+                            <input id="txtEmail" name="txtEmail" type="email" class="form-control text-length" placeholder="Email" value="@Model.SalesLeadContactPersonDetailes.Email" isrequired="1" divcontainer="dtxtEmail" errorspan="stxtEmail" defaultvalue="" autocomplete="off" minlength="2">
+                            <span class="help-block d-none has-error" id="stxtEmail">Please Enter Valid Email</span>
+                        </div>
+
+                        <div class="form-group col-sm-3" id="dtxtDesignation">
+                        <label><span class="has-error required">* </span>Designation</label>
+                        <input id="txtDesignation" name="txtDesignation" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Designation" value="@Model.SalesLeadContactPersonDetailes.Designation" isrequired="1" divcontainer="dtxtDesignation" errorspan="stxtDesignation" defaultvalue="" autocomplete="off" minlength="2">
+                            <span class="help-block d-none has-error" id="stxtDesignation">Please Enter Valid Designation</span>
+                        </div>
+
+                    <div class="form-group col-sm-3" id="dtxtMobile1">
+                        <label><span class="has-error required">* </span>Mobile1</label>
+                        <input id="txtMobile1" name="txtMobile1" type="text" class="form-control onlyNumeric text-length" placeholder="Mobile1" value="@Model.SalesLeadContactPersonDetailes.Mobile1" isrequired="1" divcontainer="dtxtMobile1" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+                        <span class="help-block d-none has-error" id="stxtMobile1">Please Enter Valid Mobile1</span>
+                    </div>
+
+                    <div class="form-group col-sm-3" id="dtxtMobile2">
+                        <label>Mobile2</label>
+                        <input id="txtMobile2" name="txtMobile2" type="text" class="form-control onlyNumeric" placeholder="Mobile2" value="@Model.SalesLeadContactPersonDetailes.Mobile2" isrequired="0" divcontainer="dtxtMobile2" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+                        <span class="help-block d-none has-error" id="stxtMobile2">Please Enter Valid Mobile2</span>
+                    </div>
+
+                    <div class="form-group col-sm-3" id="dtxtLinkedinurl">
+                        <label>Linkedinurl</label>
+                        <input id="txtLinkedinurl" name="txtLinkedinurl" type="text" class="form-control txtCapitalize" placeholder="Linkedinurl" value="@Model.SalesLeadContactPersonDetailes.Linkedinurl" isrequired="0" divcontainer="dtxtLinkedinurl" errorspan="stxtLinkedinurl" defaultvalue="" autocomplete="off" minlength="2">
+                        <span class="help-block d-none has-error" id="stxtLinkedinurl">Please Enter Valid Linkedinurl</span>
+                    </div>
+                    
+                </div>
+                
+                <div class="row justify-content-end">
+                    <div class="col-sm-1">
+                        <button type="button" id="btnAddCP" name="btnAddCP" class="btn btn-success">Add</button>
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="button" id="btnReset" name="btnReset" class="btn btn-danger">Reset</button>
+                    </div>
+                </div>
+               
+               <br />
+                <div id="divSalesConatactPersondata">
+              
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col-sm-1">
+                <button type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success">Save</button>
+            </div>
+            <div class="col-sm-1">
+                <button type="button" id="btnCancel" name="btnCancel" class="btn btn-danger">Cancel</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@*}
+else
+{
+    <H1 style="color:red; text-align: center"><b>This page is in under progress</b></H1>
+}*@
+
+@section Scripts{
+    <script src="~/archeone/js/sales/sales.js"></script>
+}

@@ -1,0 +1,108 @@
+﻿@using ArcheOne.Models.Res;
+@model List<SalesLeadListResViewModel>
+
+
+@{
+    ViewBag.datatable = "true";
+    Layout = "_BlankLayout";
+   
+}
+<div class="row form-group">
+    <div class="col-md-12">
+        <table id="tblSalesLead" class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                   @* <td>
+                        <b>Id</b>
+                    </td>*@
+                    <td>
+                        <b>OrgName</b>
+                    </td>
+                    <td>
+                        <b> Address </b>
+                    </td>
+                    <td>
+                        <b>Country</b>
+                    </td>
+                    <td>
+                        <b>State</b>
+                    </td>
+                    <td>
+                        <b>City </b>
+                    </td>
+                    <td>
+                        <b>Phone1</b>
+                    </td>
+                    <td>
+                        <b>Phone2</b>
+                    </td>
+                    <td>
+                        <b>Email1</b>
+                    </td>
+                    <td>
+                        <b>Email2</b>
+                    </td>
+                    <td>
+                        <b>WebsiteUrl</b>
+                    </td>
+                    <td>
+                        <b>Edit</b>
+                    </td>
+                    <td>
+                        <b>Delete</b>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                       @* <td>
+                            @item.Id
+                        </td>*@
+                        <td>
+                            @item.OrgName
+                        </td>
+                        <td>
+                            @item.Address
+                        </td>
+                        <td>
+                            @item.CountryId
+                        </td>
+                        <td>
+                            @item.StateId
+                        </td>
+                        <td>
+                            @item.CityId
+                        </td>
+                        <td>
+                            @item.Phone1
+                        </td>
+                        <td>
+                            @item.Phone2
+                        </td>
+                        
+                        <td>
+                            @item.Email1
+                        </td>
+                        <td>
+                            @item.Email2
+                        </td>
+                        <td>
+                            @item.WebsiteUrl
+                        </td>
+                       
+                        <td>
+                            @*   <button class="btn btn-info btn-edit" OrganizationId="@item.Id" onlclick="AddEditOrganization(@item.Id);">Edit</button>*@
+                            <button class="btn btn-info btn-edit" Id="@item.Id">Edit</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger btn-delete" Id="@item.Id" onlclick="DeleteOrganization(@item.Id)">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>

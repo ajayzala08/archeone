@@ -1,0 +1,88 @@
+﻿@using ArcheOne.Models.Req;
+@model AddEditTeamReqViewModel
+
+@{
+    Layout = "_MasterLayout";
+    string PopupTitle1 = "";
+    int id = 1;
+    PopupTitle1 = Model.TeamDetails.TeamId > 0 ? "Edit Team" : "Add Team";
+    @if (PopupTitle1 == "Edit Team")
+    {
+        Layout = "_BlankLayout";
+    }
+}
+
+<section class="content-header"></section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                Create Team
+                <h3 class="card-title"></h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                @* <form id="AddTeamForm" method="post" role="form" enctype="multipart/form-data" asp-action="Team" asp-controller="Team">*@
+                @* <div class="messages"></div>
+                <div class="controls">*@
+                <div class="row">
+                    <input id="txtTeamId" name="txtTeamId" type="hidden" class="form-control col-sm-4" value="@Model.TeamDetails.TeamId" />
+                    
+                    
+                    <div class="col-sm-4" id="dddlTeamLeadId">
+                        <div class="form-group">
+                            <label><span class="has-error required">* </span>Team Lead</label>
+                            <select id="ddlTeamLeadId" name="ddlTeamLeadId" class="form-control" isrequired="1" divcontainer="dddlTeamLeadId" errorspan="sddlTeamLeadId" defaultvalue="0" style="width: 100%;">
+                                <option value="0">--- Select ---</option>
+                                @foreach (var item in Model.TeamLeadList)
+                                {
+                                    <option value="@item.Id">@item.UserName</option>
+                                }
+
+                            </select>
+                            <span class="help-block d-none has-error" id="sddlTeamLead">Please select any Team Lead</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4" id="dddlTeamMemberId">
+                        <div class="form-group">
+                            <label><span class="has-error required">* </span>Team Member</label>
+                            <select id="ddlTeamMemberId" name="ddlTeamMemberId"  class="form-control" isrequired="1" divcontainer="ddlTeamMemberId" errorspan="sddlTeamMemberId" defaultvalue="0" style="width: 100%;">
+                                <option value="0">--- Select ---</option>
+                                @foreach (var item in Model.TeamMemberList)
+                                {
+                                    <option value="@item.Id">@item.UserName</option>
+                                }
+                            </select>
+                            <span class="help-block d-none has-error" id="sddlTeamMemberId">Please select any Team Member</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1">
+                        <button type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success">Submit</button>
+                    </div>
+                    <div class="col-md-1">
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-danger">Cancel</button>
+                    </div>
+                </div>
+
+                @if (ViewBag.Message != null)
+                {
+                    <script type="text/javascript">
+                        window.onload = function () {
+                            alert("@ViewBag.Message");
+                        };
+                    </script>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/archeone/js/team/team.js"></script>
+}

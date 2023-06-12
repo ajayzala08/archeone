@@ -2,3 +2,16 @@
  --Added by NP-------------------29-05-2023-----------START----------------------------
 Scaffold-DbContext "Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Database/Entities  -Tables CompanyMst,UserMst,RoleMst,PermissionMst,DefaultPermissions,UserPermissions,LinkMst -Force
 --Added by NP-------------------29-05-2023-----------END------------------------------
+
+ --Added by SP-------------------02-06-2023-----------START----------------------------
+Scaffold-DbContext "Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Database/Entities  -Tables CompanyMst,UserMst,RoleMst,PermissionMst,DefaultPermissions,UserPermissions,LinkMst,RequirementMst,PositionTypeMst,RequirementTypeMst,RequirementForMst,EmploymentTypeMst,InterviewStatusMst,InterviewTypeStatusMst,HireStatusMst,OfferStatusMst,ClientMst,ResumeFileUploadDetailMst,ScheduleInterviewMst,CandidateMst,HireMst,OfferMst -Force
+--Added by SP-------------------02-06-2023-----------END------------------------------
+
+ --Added by NP-------------------06-06-2023-----------START----------------------------
+Scaffold-DbContext "Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Database/Entities  -Tables CompanyMst,UserMst,RoleMst,PermissionMst,DefaultPermissions,UserPermissions,LinkMst,RequirementForMst,ClientMst,PositionTypeMst,RequirementTypeMst,EmploymentTypeMst,RequirementStatusMst,RequirementMst,ResumeFileUploadMst,ResumeFileUploadDetailMst,InterviewRoundStatusMst,InterviewRoundTypeMst,HireStatusMst,OfferStatusMst,InterviewMst,InterviewRoundMst,CandidateMst,TeamMst -Force
+--Added by NP-------------------06-06-2023-----------END------------------------------
+
+ --Added by PP-------------------06-06-2023-----------START----------------------------
+Scaffold-DbContext "Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Database/Entities  -Tables CompanyMst,UserMst,RoleMst,PermissionMst,DefaultPermissions,UserPermissions,LinkMst,RequirementForMst,ClientMst,PositionTypeMst,RequirementTypeMst,EmploymentTypeMst,RequirementStatusMst,RequirementMst,ResumeFileUploadMst,ResumeFileUploadDetailMst,InterviewRoundStatusMst,InterviewRoundTypeMst,HireStatusMst,OfferStatusMst,InterviewMst,InterviewRoundMst,CandidateMst,TeamMst,SalesLeadMst,SalesContactPersonMst,SalesLeadStatusMst,SalesLeadActionMst,SalesLeadFollowUpMst -Force
+--Added by PP-------------------06-06-2023-----------END------------------------------
+

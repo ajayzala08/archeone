@@ -1,41 +1,81 @@
-﻿$(document).ready(function () {
-    $("#btnSubmit").click(function () {
-        var dataModel = {
-            "PhotoUrl": $('#txtPhotoUrl').val(),
-            "CompanyId": $('#txtCompanyId').val(),
-            "RoleId": $('#txtRoleId').val(),
-            "FirstName": $('#txtFirstName').val(),
-            "MiddleName": $('#txtMiddleName').val(),
-            "LastName": $('#txtLastName').val(),
-            "UserName": $('#txtUserName').val(),
-            "Password": $('#txtPassword').val(),
-            "Address": $('#txtAddress').val(),
-            "Pincode": $('#txtPincode').val(),
-            "Mobile1": $('#txtMobile1').val(),
-            "Mobile2": $('#txtMobile2').val(),
-            "Email": $('#txtEmail').val()
+﻿var EditMode = 1;
+$(document).ready(function () {
+    GetFilteredUserList();
+    $("#btnAddUser").click(function () {
+        AddEditUser(0);
+    });
+});
+
+$('#AddUserPage').click(function () {
+    window.location.href = '/User/AddEditUser';
+});
+
+function AddEditUser(Id) {
+    ajaxCall("Get", false, '/User/AddEditUser?Id=' + Id, null, function (result) {
+        if (Id > 0) {
+            RedirectToPage('/User/AddEditUser?Id=' + Id)
+            $(".preview img").attr('src');
+            $(".preview img").show();
         }
-        console.log(dataModel);
+        else {
+            RedirectToPage("/User/AddEditUser")
+        }
+    });
+}
 
-        if (validateRequiredFields(dataModel)) {
-            $.blockUI({
-                message: "<h2>Please wait</p>"
-            });
-            setTimeout($.unblockUI, 5000);
-            ajaxCall("Post", false, '/User/User', JSON.stringify(dataModel), function (result) {
-
+function DeleteUser(Id) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            ajaxCall("Post", false, '/User/DeleteUser?Id=' + Id, null, function (result) {
                 if (result.status == true) {
                     Toast.fire({ icon: 'success', title: result.message });
-                    RedirectToPage("/User/UserList");
+                    RedirectToPage('/User/User');
                 }
                 else {
-                    $.blockUI({
-                        message: "<h2>Please wait</p>"
-                    });
-                    setTimeout($.unblockUI, 2000);
                     Toast.fire({ icon: 'error', title: result.message });
                 }
             });
         }
+    })
+};
+
+function GetFilteredUserList() {
+    ajaxCall("Get", false, '/User/UserList', null, function (result) {
+        $("#divUserList").html(result.responseText);
+        ApplyDatatableResponsive('tblUser');
+        $(".btn-edit").click(function () {
+            EditMode = 1;
+            Id = $(this).attr('Id');
+            AddEditUser(Id);
+        });
+        $(".btn-delete").click(function () {
+            Id = $(this).attr('Id');
+            DeleteUser(Id);
+        });
     });
-});
+}
+
+function ClearAll() {
+    $("#txtUserId").val(''),
+        $("#txtPhotoUrl").val(''),
+        $("#ddlCompany").val(''),
+        $("#ddlRole").val(0),
+        $("#txtFirstName").val(0),
+        $("#txtMiddleName").val(0),
+        $("#txtLastName").val(''),
+        $("#txtUserName").val(''),
+        $("#txtPassword").val(''),
+        $("#txtAddress").val(''),
+        $("#txtPincode").val(''),
+        $("#txtMobile1").val(''),
+        $("#txtMobile2").val(''),
+        $("#txtEmail").val('')
+}

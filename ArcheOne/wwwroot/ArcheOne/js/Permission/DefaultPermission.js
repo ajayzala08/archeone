@@ -22,8 +22,9 @@ var dataTable = null;
 
 function GetDefaultPermissions(RoleId) {
     ajaxCall("Post", false, '/Permission/GetDefaultPermissionList?RoleId=' + RoleId, null, function (result) {
+        debugger
         if (result.status == true) {
-
+        
             $("#btnUpdatePermission").removeAttr("disabled");
 
             if (dataTable !== null) {

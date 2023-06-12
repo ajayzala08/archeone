@@ -1,13 +1,14 @@
 ﻿var methodType = "Post";
 var baseURL = "http://localhost:802/";
 var DataType = "json";
+var isDataTypeJson = false;
 
 var Toast = Swal.mixin({
     toast: true,
     //showCancelButton: true,
     position: 'top-end',
     showConfirmButton: false,
-    timer: 7000
+    timer: 5000
 });
 
 var Popup_Toast = Swal.mixin({
@@ -32,6 +33,7 @@ function ajaxCall(methodType, applyBaseURL, apiURL, dataParams, callback) {
     else {
         URL = apiURL;
     }
+    
     $.ajax({
         type: methodType,
         url: URL,
@@ -53,6 +55,41 @@ function ajaxCall(methodType, applyBaseURL, apiURL, dataParams, callback) {
         }
     });
 }
+
+// General function for all ajax calls
+function ajaxCallWithoutDataType(methodType, applyBaseURL, apiURL, dataParams, callback) {
+    //var Token = $("#txtToken").val();
+    var URL;
+    if (applyBaseURL == true) {
+        URL = baseURL + apiURL;
+    }
+    else {
+        URL = apiURL;
+    }
+
+    $.ajax({
+        type: methodType,
+        url: URL,
+        //quietMillis: 100,
+        headers: {
+            //'Authorization': Token,
+            //"Content-Type": "application/json"
+            /* 'Access-Control-Allow-Origin': '*'*/
+        },
+        contentType: false, // Not to set any content header  
+        processData: false, // Not to process data  
+        data: dataParams,
+       /* dataType: DataType,*/
+        //cache: false,
+        success: function (response) {
+            callback(response);
+        },
+        error: function (response) {
+            callback(response);
+        }
+    });
+}
+
 
 function RedirectToPage(path) {
     window.setTimeout(function () {
@@ -107,7 +144,6 @@ function ApplyEvents() {
     $('.txtCapitalize').blur(function () {
         var str = $(this).val();
         var spart = str.split(" ");
-
         for (var i = 0; i < spart.length; i++) {
             var j = spart[i].charAt(0).toUpperCase();
             spart[i] = j + spart[i].substr(1);
@@ -145,42 +181,21 @@ function validateRequiredFields() {
         if (!$(itm).hasClass('d-none')) {
             $(itm).addClass('d-none');
         }
-        
     });
     $('.has-error').each(function (index, itm) {
         if ($(this).hasClass('has-error')) {
             $(this).removeClass('has-error');
         }
     });
-    $(".text-length").blur(function () {
-        
-        var obj = $(this);
-        var val = $(obj).val().trim();
-        if (val.length < $(obj).attr("minlength") || val.length > $(obj).attr("maxlength")) {
-            var min = parseInt($(obj).attr("minlength"));
-            var max = parseInt($(obj).attr("maxlength"));
-            $("#" + $(obj).attr("errorspan")).removeClass('d-none');
-            $("#" + $(obj).attr("divcontainer")).addClass('has-error');
-            $("#" + $(obj).attr("id")).addClass('is-invalid');
-        }
-        else {
-            $("#" + $(obj).attr("errorspan")).addClass('d-none');
-            $("#" + $(obj).attr("divcontainer")).removeClass('has-error');
-            $("#" + $(obj).attr("id")).removeClass('is-invalid');
-        }
-        
-    });
+
     $("[isRequired='1']").each(function (ind, item) {
         validateReqField($(this));
-       
     });
 
-
     if ($('.has-error').length > 0) {
-        $($($('.has-error').first()).find("input[isRequired='1']").first()).focus();
-        return false
+        $($($('.has-error').first()).find("input[isrequired='1']").first()).focus();
+        return false;
     }
-    
     return true;
 }
 
@@ -196,18 +211,16 @@ function applyRequiredValidation() {
 }
 
 function validateReqField(obj) {
-
-    if ($(obj).val().trim() == $(obj).attr("defaultvalue")) {
+    debugger
+    if ($(obj).val() == $(obj).attr("defaultvalue")) {
         $("#" + $(obj).attr("errorspan")).removeClass('d-none');
         $("#" + $(obj).attr("divcontainer")).addClass('has-error');
         $("#" + $(obj).attr("id")).addClass('is-invalid');
-        return false;
     }
     else {
         $("#" + $(obj).attr("errorspan")).addClass('d-none');
         $("#" + $(obj).attr("divcontainer")).removeClass('has-error');
         $("#" + $(obj).attr("id")).removeClass('is-invalid');
-        return true;
     }
     if ($(obj).val().length < $(obj).attr("minlength") || $(obj).val().length > $(obj).attr("maxlength")) {
         var min = parseInt($(obj).attr("minlength"));
@@ -219,7 +232,7 @@ function validateReqField(obj) {
         $("#" + $(obj).attr("errorspan")).removeClass('d-none');
         $("#" + $(obj).attr("divcontainer")).addClass('has-error');
         $("#" + $(obj).attr("id")).addClass('is-invalid');
-        return false;
+
         //if (min > 0 && max > 0 && min == max && min != $(obj).val().length) {
         //    $("#" + $(obj).attr("errorspan")).removeClass('d-none');
         //    $("#" + $(obj).attr("divcontainer")).addClass('has-error');
