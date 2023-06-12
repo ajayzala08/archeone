@@ -4,8 +4,6 @@
         SaveUser();
     });
 });
-
-
 function SaveUser() {
     if (window.FormData !== undefined) {
         $.blockUI();
@@ -45,9 +43,13 @@ function SaveUser() {
         else {
             $.unblockUI();
             Toast.fire({ icon: 'success', title: result.message });
+            $("#clearAll").click();
+            ClearAll();
         }
     }
     else {
         Toast.fire({ icon: 'error', title: "Please Select Profile Photo." });
     }
 }
+
+                                                                                            

@@ -8,9 +8,9 @@
         #endregion
 
         #region File Extensions
-        public const string json = "json";
-        public const string jpeg = "jpeg";
-        public const string jpg = "jpg";
+        public const string json = ".json";
+        public const string jpeg = ".jpeg";
+        public const string jpg = ".jpg";
         public const string xlsx = ".xlsx";
         public const string png = ".png";
         #endregion
