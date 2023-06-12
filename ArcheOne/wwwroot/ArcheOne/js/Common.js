@@ -33,7 +33,7 @@ function ajaxCall(methodType, applyBaseURL, apiURL, dataParams, callback) {
     else {
         URL = apiURL;
     }
-    
+
     $.ajax({
         type: methodType,
         url: URL,
@@ -79,7 +79,7 @@ function ajaxCallWithoutDataType(methodType, applyBaseURL, apiURL, dataParams, c
         contentType: false, // Not to set any content header  
         processData: false, // Not to process data  
         data: dataParams,
-       /* dataType: DataType,*/
+        /* dataType: DataType,*/
         //cache: false,
         success: function (response) {
             callback(response);
@@ -104,7 +104,7 @@ function ApplyDatatable(id) {
         "responsive": true,
         "lengthChange": false,
         "autoWidth": false,
-        /* "scrollX" : true,*/
+        /*"scrollX" : true,*/
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo(datatableWrapper + ' .col-md-6:eq(0)');
 }
@@ -273,9 +273,12 @@ function ApplyDatatableResponsive(id) {
     datatableWrapper = datatableId + "_wrapper";
     $(datatableId).DataTable({
         "responsive": false,
-        "lengthChange": false,
-        "autoWidth": false,
-        "scrollX": true,
+        //"lengthChange": true,
+        //"autoWidth": true,
+        //"scrollX": true,
+        "initComplete": function (settings, json) {
+            $(datatableId).wrap("<div style='overflow:auto; width:100%;position:relative;'></div>");
+        },
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo(datatableWrapper + ' .col-md-6:eq(0)');
 }
