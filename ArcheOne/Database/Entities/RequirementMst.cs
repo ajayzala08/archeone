@@ -7,7 +7,7 @@ public partial class RequirementMst
 {
     public int Id { get; set; }
 
-    public int RecruitmentForId { get; set; }
+    public int RequirementForId { get; set; }
 
     public int ClientId { get; set; }
 
@@ -35,7 +35,7 @@ public partial class RequirementMst
 
     public int PositionTypeId { get; set; }
 
-    public int RecruitmentTypeId { get; set; }
+    public int RequirementTypeId { get; set; }
 
     public int EmploymentTypeId { get; set; }
 
@@ -45,9 +45,7 @@ public partial class RequirementMst
 
     public string? JobDescription { get; set; }
 
-    public int TeamLeadUserId { get; set; }
-
-    public int TeamMemberUserId { get; set; }
+    public string? AssignedUserIds { get; set; }
 
     public int RequirementStatusId { get; set; }
 

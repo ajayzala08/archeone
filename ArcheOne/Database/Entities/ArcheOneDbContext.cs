@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArcheOne.Database.Entities;
 
@@ -71,9 +73,9 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<UserPermission> UserPermissions { get; set; }
 
-    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-    //        => optionsBuilder.UseSqlServer("Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;");
+//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+//        => optionsBuilder.UseSqlServer("Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -322,10 +324,11 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<RequirementMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Requirem__3214EC072C03B694");
+            entity.HasKey(e => e.Id).HasName("PK__Requirem__3214EC078F3066B5");
 
             entity.ToTable("RequirementMst");
 
+            entity.Property(e => e.AssignedUserIds).HasMaxLength(100);
             entity.Property(e => e.CandidatePayRate).HasColumnType("decimal(18, 0)");
             entity.Property(e => e.ClientBillRate).HasColumnType("decimal(18, 0)");
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -367,7 +370,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<ResumeFileUploadDetailMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ResumeFi__3214EC07F1DA3F03");
+            entity.HasKey(e => e.Id).HasName("PK__ResumeFi__3214EC07ED753303");
 
             entity.ToTable("ResumeFileUploadDetailMst");
 
@@ -400,6 +403,7 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.F2finterviewTime)
                 .HasColumnType("datetime")
                 .HasColumnName("F2FInterviewTime");
+            entity.Property(e => e.FullName).HasMaxLength(100);
             entity.Property(e => e.HighestQualification).HasMaxLength(100);
             entity.Property(e => e.LastSalaryHike).HasMaxLength(100);
             entity.Property(e => e.Mobile1).HasMaxLength(30);

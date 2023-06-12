@@ -10,7 +10,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Hr</a></li>
+                    <li class="breadcrumb-item"><a href="#">HR</a></li>
                     <li class="breadcrumb-item active">Requirements</li>
                 </ol>
             </div>
@@ -22,19 +22,59 @@
 <section class="content">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Requirement List</h3>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
-
-
+            @*<h3 class="card-title">Requirement List</h3>*@
+            <div class="row form-group">
+                <div class="col-md-3">
+                    <label>Requirement For</label>
+                    <select id="ddlRequirementFor" name="ddlRequirementFor" class="form-control">
+                        <option value="0"> --- Select All --- </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label>Clients</label>
+                    <select id="ddlClients" name="ddlClients" class="form-control">
+                        <option value="0"> --- Select All --- </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label>Position Type</label>
+                    <select id="ddlPositionType" name="ddlPositionType" class="form-control">
+                        <option value="0"> --- Select All --- </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label>Requirement Type</label>
+                    <select id="ddlRequirementType" name="ddlRequirementType" class="form-control">
+                        <option value="0"> --- Select All --- </option>
+                    </select>
                 </div>
             </div>
+            <div class="row form-group">
+                <div class="col-md-3">
+                    <label>Employment Type</label>
+                    <select id="ddlEmploymentType" name="ddlEmploymentType" class="form-control">
+                        <option value="0"> --- Select All --- </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label>Requirement Status</label>
+                    <select id="ddlRequirementStatus" name="ddlRequirementStatus" class="form-control">
+                        <option value="0"> --- Select All --- </option>
+                    </select>
+                </div>
+                <div class="col-md-2">
 
-
+                    <input type="button" id="btnSearch" class="btn btn-primary" value="Search" style="margin-top:32px;" />
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="divRequirementList">
+            </div>
         </div>
     </div>
-
-
 </section>
+
+@section Scripts{
+    <script src="~/archeone/js/requirement/index.js?_@DateTime.Now.Ticks"></script>
+}
