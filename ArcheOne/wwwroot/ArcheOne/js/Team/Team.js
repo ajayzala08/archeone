@@ -31,13 +31,13 @@ $("#btnCancel").click(function () {
 function SaveUpdateTeam() {
     debugger
     var saveTeamData = {
-        var arraSelected = [];
         "TeamId": parseInt($("#txtTeamId").val()),
         "TeamLeadId": parseInt($("#ddlTeamLeadId").val()),
-        "TeamMemberId": parseInt($("#ddlTeamMemberId option:selected").val()),
-        TeamMemberId.each(function () {
-            arraSelected.push($(this).val());
-        });
+        "TeamMemberId": parseInt($("#ddlTeamMemberId").val())
+    
+        //TeamMemberId.each(function () {
+        //    arraSelected.push($(this).val());
+        //});
             //$("#btnmyCountries").click(function () {
             //    var selected = $("#myCountries option:selected");    /*Current Selected Value*/
             //    var message = "";
