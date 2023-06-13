@@ -17,7 +17,7 @@ public partial class InterviewRoundMst
 
     public DateTime InterviewEndDateTime { get; set; }
 
-    public int InterviewByUserId { get; set; }
+    public string InterviewBy { get; set; } = null!;
 
     public string InterviewLocation { get; set; } = null!;
 
