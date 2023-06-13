@@ -581,7 +581,7 @@ BEGIN
 			InterviewRoundTypeId int not null,
 			InterviewStartDateTime datetime not null,
 			InterviewEndDateTime datetime not null,
-			InterviewByUserId int not null,
+			InterviewBy nvarchar(max) not null,
 			InterviewLocation nvarchar(100) not null,
 			Notes nvarchar(max) null,
 			IsActive bit not null,

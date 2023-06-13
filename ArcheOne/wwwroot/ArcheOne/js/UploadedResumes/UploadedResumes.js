@@ -8,6 +8,7 @@ $(document).ready(function () {
             $("#dWalkIn").show();
         }
         else if (this.value == 'RemoteLocation') {
+            GetInterviewRoundTypeList();
             $("#dRemoteLocation").show();
             $("#dWalkIn").hide();
         }
@@ -17,6 +18,8 @@ $(document).ready(function () {
 var dataTable = null;
 
 function GetUploadedResumes(RoleId) {
+
+    $.blockUI({ message: "<h2>Please wait</p>" });
     ajaxCall("Post", false, '/UploadedResume/GetUploadedResumeList?RoleId=' + RoleId, null, function (result) {
         if (result.status == true) {
 
@@ -59,7 +62,7 @@ function GetUploadedResumes(RoleId) {
                             if (row.isDefaultPermission) {
                                 return '<button type="button" class="btn btn-primary btn-block"><i class="fa fa-user-tie"></i> Schedule Interview</button>';
                             } else {
-                                return '<button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-default" onclick="ShowScheduleInterview('+row.id+','+row.fullName+')"><i class="fa fa-user-tie"></i> Schedule Interview</button>';
+                                return '<button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-default" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\')"><i class="fa fa-user-tie"></i> Schedule Interview</button>';
                                 //return '<button type="button" class="btn btn-primary btn-block" onclick="ShowScheduleInterview()"><i class="fa fa-user-tie"></i> Schedule Interview</button>';
                             }
                         }
@@ -75,7 +78,60 @@ function GetUploadedResumes(RoleId) {
     });
 }
 
+function GetInterviewRoundTypeList() {
+
+    $.blockUI({ message: "<h2>Please wait</p>" });
+
+    $("#ddlInterviewVia").empty();
+    $("#ddlInterviewVia").append($("<option selected disabled value='0'>Select Interview Via</option>"));
+
+    ajaxCall("Post", false, '/Common/GetInterviewRoundTypeList', null, function (result) {
+        if (result.status == true) {
+            $.each(result.data, function (data, value) {
+                $("#ddlInterviewVia").append($("<option></option>").val(value.id).html(value.interviewRoundTypeName));
+            })
+        } else {
+            $.blockUI({
+                message: "<h2>" + result.message + "</p>"
+            });
+        }
+        $.unblockUI();
+    });
+}
+
 function ShowScheduleInterview(candidateId, candidateName) {
     $("#txtCandidateId").val(candidateId);
     $("#txtCandidateName").val(candidateName);
+}
+
+function ScheduleInterview() {
+    $.blockUI({ message: "<h2>Please wait</p>" });
+
+
+    $("#btnScheduleInterview").attr("disabled", true);
+
+    var requestModel = {
+        "ResumeFileUploadId": 1,
+        "ResumeFileUploadDetailId": parseInt($("#txtCandidateId").val()),
+        "InterviewRoundTypeId": parseInt($("#ddlInterviewVia").val()) || 0,
+        "InterviewStartDateTime": $('#txtInterviewDateTime').val(),
+        "InterviewBy": $('#txtInterviewerName').val(),
+        "InterviewLocation": $('#txtLocation').val(),
+        "Note": $('#txtNote').val(),
+        "CreatedBy": 1,
+    }
+
+    ajaxCall("Post", false, '/UploadedResume/ScheduleInterview', JSON.stringify(requestModel), function (result) {
+        if (result.status == true) {
+            Toast.fire({ icon: 'success', title: result.message });
+            setInterval(function () {
+                window.location.reload();
+            }, 1500)
+        } else {
+            Toast.fire({ icon: 'error', title: result.message });
+        }
+        $.unblockUI();
+
+        $("#btnUpdatePermission").removeAttr("disabled");
+    });
 }

@@ -61,13 +61,10 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-sm-12" id="dddlInterviewer">
-                            <label><span class="has-error required">* </span>Interviewer</label>
-                            <select id="ddlInterviewer" name="ddlInterviewer" class="form-control" isrequired="1" divcontainer="dddlInterviewer" errorspan="sddlInterviewer" defaultvalue="0">
-                                <option value="0">Select Interviewer</option>
-                            </select>
-                            <input id="txtSelectedStateId" name="txtSelectedStateId" type="hidden" class="form-control" value="" />
-                            <span class="help-block d-none has-error" id="sddlInterviewer">Please Select Interviewer</span>
+                        <div class="form-group col-sm-12" id="dtxtInterviewerName">
+                            <label><span class="has-error required">* </span>Interviewer Name</label>
+                            <input id="txtInterviewerName" name="txtInterviewerName" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Interviewer Name" isrequired="1" divcontainer="dtxtInterviewerName" errorspan="stxtInterviewerName" defaultvalue="" autocomplete="off" minlength="2">
+                            <span class="help-block d-none has-error" id="stxtInterviewerName">Please Enter Valid Interviewer Name</span>
                         </div>
                     </div>
                     <div class="row">
@@ -100,16 +97,22 @@
                         <div class="form-group col-sm-12" id="dddlInterviewVia">
                             <label><span class="has-error required">* </span>Interview Via</label>
                             <select id="ddlInterviewVia" name="ddlInterviewVia" class="form-control" isrequired="1" divcontainer="dddlInterviewVia" errorspan="sddlInterviewVia" defaultvalue="0">
-                                <option value="0">Select Interview Via</option>
                             </select>
                             <input id="txtSelectedStateId" name="txtSelectedStateId" type="hidden" class="form-control" value="" />
                             <span class="help-block d-none has-error" id="sddlInterviewVia">Please Select Intervia</span>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12" id="dtxtNote">
+                            <label>Note</label>
+                            <input id="txtNote" name="txtNote" type="text" class="form-control" placeholder="Note" divcontainer="dtxtNote" errorspan="stxtNote" defaultvalue="" autocomplete="off">
+                            <span class="help-block d-none has-error" id="stxtNote">Please Enter Valid Note</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Schedule Interview</button>
+                    <button type="button" id="btnScheduleInterview" name="btnScheduleInterview" class="btn btn-primary" onclick="ScheduleInterview()">Schedule Interview</button>
                 </div>
             </div>
         </div>
