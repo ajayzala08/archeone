@@ -1,7 +1,6 @@
 ﻿var EditMode = 1;
 $(document).ready(function () {
     GetFilteredUserList();
-    clearAll();
     $("#btnAddUser").click(function () {
         AddEditUser(0);
     });

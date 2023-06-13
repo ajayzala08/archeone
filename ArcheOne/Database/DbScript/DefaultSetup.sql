@@ -63,12 +63,13 @@ Insert into dbo.RequirementStatusMst values ('On Hold', 'On_Hold', 1, 0, 0, 0, G
 Insert into dbo.RequirementStatusMst values ('In-Active', 'In_Active', 1, 0, 0, 0, GETDATE(), GETDATE())
 Insert into dbo.RequirementStatusMst values ('Closed', 'Closed', 1, 0, 0, 0, GETDATE(), GETDATE())
 			
-Insert into dbo.InterviewRoundStatusMst values ('Set', 'Set', 1, 0, 0, 0, GETDATE(), GETDATE())
-Insert into dbo.InterviewRoundStatusMst values ('Interview', 'Interview', 1, 0, 0, 0, GETDATE(), GETDATE())
+Insert into dbo.InterviewRoundStatusMst values ('Scheduled', 'Scheduled', 1, 0, 0, 0, GETDATE(), GETDATE())
 Insert into dbo.InterviewRoundStatusMst values ('Re-Schedule', 'Re_Schedule', 1, 0, 0, 0, GETDATE(), GETDATE())
-Insert into dbo.InterviewRoundStatusMst values ('No Show', 'No_Show', 1, 0, 0, 0, GETDATE(), GETDATE())
-Insert into dbo.InterviewRoundStatusMst values ('Offer', 'Offer', 1, 0, 0, 0, GETDATE(), GETDATE())
+Insert into dbo.InterviewRoundStatusMst values ('Attended', 'Attended', 1, 0, 0, 0, GETDATE(), GETDATE())
+Insert into dbo.InterviewRoundStatusMst values ('Cleared', 'Cleared', 1, 0, 0, 0, GETDATE(), GETDATE())
 Insert into dbo.InterviewRoundStatusMst values ('Rejected', 'Rejected', 1, 0, 0, 0, GETDATE(), GETDATE())
+Insert into dbo.InterviewRoundStatusMst values ('No Show', 'No_Show', 1, 0, 0, 0, GETDATE(), GETDATE())
+Insert into dbo.InterviewRoundStatusMst values ('Next Round', 'Next_Round', 1, 0, 0, 0, GETDATE(), GETDATE())
 			
 Insert into dbo.InterviewRoundTypeMst values ('Face To Face', 'FaceToFace', 1, 0, 0, 0, GETDATE(), GETDATE())
 Insert into dbo.InterviewRoundTypeMst values ('Skype', 'Skype', 1, 0, 0, 0, GETDATE(), GETDATE())

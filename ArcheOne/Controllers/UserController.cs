@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.IO;
+using System.Net;
 using System.Security.Cryptography;
 using System.Transactions;
 using ArcheOne.Database.Entities;
@@ -8,7 +9,6 @@ using ArcheOne.Models.Req;
 using ArcheOne.Models.Res;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
 
 namespace ArcheOne.Controllers
 {
@@ -203,9 +203,9 @@ namespace ArcheOne.Controllers
 		{
 			CommonResponse commonResponse = new CommonResponse();
 			var userList = (from U in await _dbRepo.AllUserMstList().ToListAsync()
-							join C in  _dbRepo.CompanyMstList()
+							join C in _dbRepo.CompanyMstList()
 											   on U.CompanyId equals C.Id
-							join R in  _dbRepo.RoleMstList()
+							join R in _dbRepo.RoleMstList()
 							on U.RoleId equals R.Id
 							select new { U, C, R })
 							   .Select(x => new UserListModel
@@ -224,7 +224,7 @@ namespace ArcheOne.Controllers
 								   Mobile1 = x.U.Mobile1,
 								   Mobile2 = x.U.Mobile2,
 								   Email = x.U.Email,
-								   PhotoUrl = x.U.PhotoUrl
+								   PhotoUrl = System.IO.File.Exists(Path.Combine(_commonHelper.GetRelativeRootPath(), x.U.PhotoUrl)) ? x.U.PhotoUrl : @"Theme\Logo\default_user_profile.png"
 							   }).ToList();
 			if (userList.Count > 0)
 			{
