@@ -3,6 +3,9 @@
 
     GetFilteredRequirementList();
 
+    $("#btnAddRequirement").click(function () {
+        
+    })
 });
 
 function GetFilteredRequirementList() {

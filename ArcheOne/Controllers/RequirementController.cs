@@ -27,7 +27,6 @@ namespace ArcheOne.Controllers
             return View();
         }
 
-
         public async Task<IActionResult> RequirementList(RequirementListReqModel getRequirementListReqModel)
         {
             CommonResponse commonResponse = new CommonResponse();
@@ -123,6 +122,33 @@ namespace ArcheOne.Controllers
                 commonResponse.Data = ex.StackTrace;
             }
             return View(commonResponse);
+        }
+
+        public async Task<IActionResult> AddEditRequirement(int RequirementId)
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            AddEditRequirementResModel addEditRequirementResModel = new AddEditRequirementResModel();
+            try
+            {
+                RequirementMst requirementMst = new RequirementMst();
+                var requirementDetail = await _dbRepo.GetRequirementList().FirstOrDefaultAsync(x => x.Id == RequirementId);
+                if (requirementDetail != null)
+                {
+                    //Edit Mode
+                    requirementMst = requirementDetail;
+                }
+                addEditRequirementResModel.RequirementDetail = requirementMst;
+                commonResponse.Data = addEditRequirementResModel;
+                commonResponse.Message = "Success!";
+                commonResponse.StatusCode = HttpStatusCode.OK;
+                commonResponse.Status = true;
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message;
+                commonResponse.Data = ex.StackTrace;
+            }
+            return Json(commonResponse);
         }
 
         public IActionResult Requirement()
