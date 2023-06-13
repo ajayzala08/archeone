@@ -9,6 +9,8 @@ public partial class ResumeFileUploadDetailMst
 
     public int ResumeFileUploadId { get; set; }
 
+    public string FullName { get; set; } = null!;
+
     public string Mobile1 { get; set; } = null!;
 
     public string? Mobile2 { get; set; }

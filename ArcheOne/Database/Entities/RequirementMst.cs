@@ -7,7 +7,7 @@ public partial class RequirementMst
 {
     public int Id { get; set; }
 
-    public int RecruitmentForId { get; set; }
+    public int RequirementForId { get; set; }
 
     public int ClientId { get; set; }
 
