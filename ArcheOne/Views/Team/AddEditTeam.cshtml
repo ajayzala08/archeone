@@ -26,35 +26,33 @@
                 </div>
             </div>
             <div class="card-body">
-                @* <form id="AddTeamForm" method="post" role="form" enctype="multipart/form-data" asp-action="Team" asp-controller="Team">*@
-                @* <div class="messages"></div>
-                <div class="controls">*@
                 <div class="row">
                     <input id="txtTeamId" name="txtTeamId" type="hidden" class="form-control col-sm-4" value="@Model.TeamDetails.TeamId" />
-                    
                     
                     <div class="col-sm-4" id="dddlTeamLeadId">
                         <div class="form-group">
                             <label><span class="has-error required">* </span>Team Lead</label>
                             <select id="ddlTeamLeadId" name="ddlTeamLeadId" class="form-control" isrequired="1" divcontainer="dddlTeamLeadId" errorspan="sddlTeamLeadId" defaultvalue="0" style="width: 100%;">
                                 <option value="0">--- Select ---</option>
+                                @*   @if (Model.TeamMemberList != null)*@
                                 @foreach (var item in Model.TeamLeadList)
                                 {
-                                    <option value="@item.Id">@item.UserName</option>
+                                    <option value="@item.Id">@item.FirstName @item.LastName</option>
                                 }
-
                             </select>
-                            <span class="help-block d-none has-error" id="sddlTeamLead">Please select any Team Lead</span>
+                            <span class="help-block d-none has-error" id="sddlTeamLeadId">Please select any Team Lead</span>
                         </div>
                     </div>
+
                     <div class="col-sm-4" id="dddlTeamMemberId">
                         <div class="form-group">
                             <label><span class="has-error required">* </span>Team Member</label>
-                            <select id="ddlTeamMemberId" name="ddlTeamMemberId"  class="form-control" isrequired="1" divcontainer="ddlTeamMemberId" errorspan="sddlTeamMemberId" defaultvalue="0" style="width: 100%;">
+                            <select id="ddlTeamMemberId" name="ddlTeamMemberId" multiple="multiple"  class="form-control" isrequired="1" divcontainer="dddlTeamMemberId" errorspan="sddlTeamMemberId" defaultvalue="0" style="width: 100%;">
                                 <option value="0">--- Select ---</option>
+                             @*   @if (Model.TeamMemberList != null)*@
                                 @foreach (var item in Model.TeamMemberList)
                                 {
-                                    <option value="@item.Id">@item.UserName</option>
+                                    <option value="@item.Id">@item.FirstName @item.LastName</option>
                                 }
                             </select>
                             <span class="help-block d-none has-error" id="sddlTeamMemberId">Please select any Team Member</span>
