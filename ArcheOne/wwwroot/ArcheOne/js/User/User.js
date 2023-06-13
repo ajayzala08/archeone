@@ -1,6 +1,7 @@
 ﻿var EditMode = 1;
 $(document).ready(function () {
     GetFilteredUserList();
+    clearAll();
     $("#btnAddUser").click(function () {
         AddEditUser(0);
     });
@@ -63,19 +64,3 @@ function GetFilteredUserList() {
     });
 }
 
-function ClearAll() {
-    $("#txtUserId").val(''),
-        $("#txtPhotoUrl").val(''),
-        $("#ddlCompany").val(''),
-        $("#ddlRole").val(0),
-        $("#txtFirstName").val(0),
-        $("#txtMiddleName").val(0),
-        $("#txtLastName").val(''),
-        $("#txtUserName").val(''),
-        $("#txtPassword").val(''),
-        $("#txtAddress").val(''),
-        $("#txtPincode").val(''),
-        $("#txtMobile1").val(''),
-        $("#txtMobile2").val(''),
-        $("#txtEmail").val('')
-}

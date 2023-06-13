@@ -414,6 +414,7 @@ BEGIN
 	Create table dbo.ResumeFileUploadDetailMst(
 			Id int identity(1,1) primary key,
 			ResumeFileUploadId int not null,
+			FullName nvarchar(100) not null,
 			Mobile1 nvarchar(30) not null,
 			Mobile2 nvarchar(30) null,
 			Mobile3 nvarchar(30) null,
