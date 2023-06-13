@@ -104,7 +104,7 @@ function ApplyDatatable(id) {
         "responsive": true,
         "lengthChange": false,
         "autoWidth": false,
-        "scrollX" : true,
+        //"scrollX" : true,
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo(datatableWrapper + ' .col-md-6:eq(0)');
 }
