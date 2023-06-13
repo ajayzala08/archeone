@@ -2,6 +2,7 @@
 $(document).ready(function () {
     GetFilteredTeamList();
     $("#AddTeamPage").click(function () {
+        debugger
         AddEditTeam(0);
     });
 });
@@ -11,12 +12,15 @@ $('#AddTeamPage').click(function () {
 });
 
 function AddEditTeam(Id) {
+    debugger
     ajaxCall("Get", false, '/Team/AddEditTeam?id=' + Id, null, function (result) {
+        debugger
         $("#sectionData").html(result.responseText);
     });
 }
 
 $("#btnSaveAdd").click(function () {
+    debugger
     SaveUpdateTeam();
 });
 
@@ -27,9 +31,26 @@ $("#btnCancel").click(function () {
 function SaveUpdateTeam() {
     debugger
     var saveTeamData = {
+        var arraSelected = [];
         "TeamId": parseInt($("#txtTeamId").val()),
         "TeamLeadId": parseInt($("#ddlTeamLeadId").val()),
-        "TeamMemberId": parseInt($("#ddlTeamMemberId").val())
+        "TeamMemberId": parseInt($("#ddlTeamMemberId option:selected").val()),
+        TeamMemberId.each(function () {
+            arraSelected.push($(this).val());
+        });
+            //$("#btnmyCountries").click(function () {
+            //    var selected = $("#myCountries option:selected");    /*Current Selected Value*/
+            //    var message = "";
+            //    var arrSelected = [];      /*Array to store multiple values in stack*/
+            //    selected.each(function () {
+            //        arrSelected.push($(this).val());    /*Stack the Value*/
+            //        message += $(this).text() + " " + $(this).val() + "\n";
+            //    });
+            //    alert(message);
+            //}); 
+
+
+
     }
     console.log(saveTeamData);
 
@@ -79,7 +100,7 @@ function DeleteTeam(Id) {
     if ($("#txtTeamId").value > 0) {
         Id = $("#txtTeamId").value;
     }
-
+    debugger
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -92,7 +113,7 @@ function DeleteTeam(Id) {
         if (result.isConfirmed) {
 
             ajaxCall("Post", false, '/Team/DeleteTeam?Id=' + Id, null, function (result) {
-
+                debugger
                 if (result.status == true) {
                     Popup_Toast.fire({ icon: 'success', title: result.message });
                     GetFilteredTeamList();

@@ -1,0 +1,68 @@
+﻿@using ArcheOne.Helper.CommonModels;
+@using ArcheOne.Models.Res;
+@model CommonResponse
+@{
+    Layout = "_BlankLayout";
+    ViewBag.dataTable = "true";
+}
+
+<div class="row form-group">
+    <div class="col-md-12">
+        @if (Model.Status)
+        {
+            List<RequirementListModel> list = Model.Data.RequirementList;
+            <table id="tblRequirement" class="table table-responsive table-bordered table-hover" style="width:100%; min-height:400px;">
+                <thead style="background-color:aliceblue;">
+                    <tr>
+                        <td>Id</td>
+                        <td>Job Code</td>
+                        <td>Main Skills</td>
+                        <td>Mandatory Skills</td>
+                        <td>Total Min Experience</td>
+                        <td>Total Max Experience</td>
+                        <td>Relevant Min Experience</td>
+                        <td>Relevant Max Experience</td>
+                        <td>No Of Position</td>
+                        <td>Location</td>
+                        <td>Job Description</td>
+                        <td>End Client</td>
+                        <td>POC Name</td>
+                        <td>Client Bill Rate</td>
+                        <td>Candidate Pay Rate</td>
+                        <td>Requirement Status</td>
+                        <td>Is Active</td>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in list)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.JobCode</td>
+                            <td>@item.MainSkill</td>
+                            <td>@item.MandatorySkills</td>
+                            <td>@item.TotalMinExperience</td>
+                            <td>@item.TotalMaxExperience</td>
+                            <td>@item.RelevantMinExperience</td>
+                            <td>@item.RelevantMaxExperience</td>
+                            <td>@item.NoOfPosition</td>
+                            <td>@item.Location</td>
+                            <td>@item.JobDescription</td>
+                            <td>@item.EndClient</td>
+                            <td>@item.Pocname</td>
+                            <td>@item.ClientBillRate</td>
+                            <td>@item.CandidatePayRate</td>
+                            <td>@item.RequirementStatusName</td>
+                            <td>@item.IsActive</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p style="color:red">@Model.Message</p>
+        }
+    </div>
+</div>

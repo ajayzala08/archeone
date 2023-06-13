@@ -7,14 +7,16 @@ $(document).ready(function () {
 });
 
 $('#btnAddSaleLead').click(function () {
-    window.location.href = '/Sales/AddEditSalesLead';
-    GetFilteredSalesConatactPersonList();
+    window.location.href = '/SalesLead/AddEditSalesLead';
+   // GetFilteredSalesConatactPersonList();
+    ApplyDatatableResponsive('tblSalesConatactLead');
 });
 
 function AddEditSalesLead(Id) {
-    ajaxCall("Get", false, '/Sales/AddEditSalesLead?id=' + Id, null, function (result) {
+    ajaxCall("Get", false, '/SalesLead/AddEditSalesLead?id=' + Id, null, function (result) {
         $("#sectionData").html(result.responseText);
-        GetFilteredSalesConatactPersonList();
+        ApplyDatatableResponsive('tblSalesConatactLead');
+       // GetFilteredSalesConatactPersonList();
     });
 }
 
@@ -23,7 +25,7 @@ $("#btnSaveAdd").click(function () {
 });
 
 $("#btnCancel").click(function () {
-    window.location.href = '/Sales/Sales';
+    window.location.href = '/SalesLead/Sales';
 });
 
 function SaveSalesLead() {
@@ -42,9 +44,9 @@ function SaveSalesLead() {
         "WebsiteUrl": $("#txtWebsite").val()
     }
     console.log(saveData);
-    debugger
+   debugger
     if (validateRequiredFields()) {
-        ajaxCall("Post", false, '/Sales/SaveUpdateSalesLead', JSON.stringify(saveData), function (result) {
+        ajaxCall("Post", false, '/SalesLead/SaveUpdateSalesLead', JSON.stringify(saveData), function (result) {
 
             if (result.status == true) {
                 Popup_Toast.fire({ icon: 'success', title: result.message });
@@ -73,7 +75,7 @@ function ClearAll() {
 }
 function GetFilteredSalesLeadList() {
 
-    ajaxCall("Get", false, '/Sales/SalesList', null, function (result) {
+    ajaxCall("Get", false, '/SalesLead/SalesList', null, function (result) {
 
         $("#AddSalesLeadData").html(result.responseText);
         ApplyDatatableResponsive('tblSalesLead');
@@ -109,7 +111,7 @@ function DeleteSalesLead(Id) {
     }).then((result) => {
         if (result.isConfirmed) {
 
-            ajaxCall("Post", false, '/Sales/DeleteSalesLead?Id=' + Id, null, function (result) {
+            ajaxCall("Post", false, '/SalesLead/DeleteSalesLead?Id=' + Id, null, function (result) {
 
                 if (result.status == true) {
                     Popup_Toast.fire({ icon: 'success', title: result.message });
@@ -126,7 +128,7 @@ function DeleteSalesLead(Id) {
 
 function GetFilteredSalesConatactPersonList() {
 
-    ajaxCall("Get", false, '/Sales/SalesConatactPersonList', null, function (result) {
+    ajaxCall("Get", false, '/SalesLead/SalesConatactPersonList', null, function (result) {
         console.log(result.responseText);
         $("#divSalesConatactPersondata").html(result.responseText);
         ApplyDatatableResponsive('tblSalesConatactLead');

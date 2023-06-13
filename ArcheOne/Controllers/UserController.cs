@@ -7,9 +7,8 @@ using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models.Req;
 using ArcheOne.Models.Res;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
+using System.Net;
 
 namespace ArcheOne.Controllers
 {
@@ -275,5 +274,31 @@ namespace ArcheOne.Controllers
 			return Json(commonResponse);
 		}
 
+        public async Task<IActionResult> UserListByRoleId(int RoleId)
+        {
+            CommonResponse response = new CommonResponse();
+            try
+            {
+                var data = await _dbRepo.UserMstList().Where(x => x.RoleId == RoleId).ToListAsync();
+                if (data != null && data.Count > 0)
+                {
+                    response.Data = data;
+                    response.Status = true;
+                    response.StatusCode = HttpStatusCode.OK;
+                    response.Message = "Data found successfully!";
 	}
+                else
+                {
+                    response.Message = "Data not found!";
+                    response.StatusCode = HttpStatusCode.NotFound;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return Json(response);
+        }
+    }
 }

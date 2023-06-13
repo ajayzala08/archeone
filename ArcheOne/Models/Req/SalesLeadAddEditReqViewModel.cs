@@ -2,11 +2,17 @@
 {
     public class SalesLeadAddEditReqViewModel
     {
-        public SalesLeadDetailes SalesLeadDetailes { get; set; }
-        public SalesLeadContactPersonDetailes SalesLeadContactPersonDetailes { get; set; }
+
+        public SalesLeadDetail salesLeadDetail { get; set; }
+        public SalesLeadContactPersonDetail SalesLeadContactPersonDetail { get; set; }
+        public List<SalesLeadContactPersonDetail> SalesLeadContactPersonList { get; set; }
+
+
+        //public SalesLeadDetailes SalesLeadDetailes { get; set; }
+        //public SalesLeadContactPersonDetailes SalesLeadContactPersonDetailes { get; set; }
     }
 
-    public class SalesLeadDetailes
+    public class SalesLeadDetail
     {
         public int Id { get; set; }
 
@@ -32,7 +38,7 @@
 
         public bool IsActive { get; set; }
     }
-    public class SalesLeadContactPersonDetailes
+    public class SalesLeadContactPersonDetail
     {
         public int Id { get; set; }
 
@@ -53,6 +59,9 @@
         public string Linkedinurl { get; set; } = null!;
 
         public bool IsActive { get; set; }
+
     }
+
+
 }
 

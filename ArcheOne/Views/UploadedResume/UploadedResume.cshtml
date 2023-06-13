@@ -1,0 +1,123 @@
+﻿@using ArcheOne.Database.Entities;
+@{
+    Layout = "_MasterLayout";
+    ViewBag.datatable = "true";
+}
+@model List<PermissionMst>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Uploaded Resume</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Requirements</a></li>
+                    <li class="breadcrumb-item active">Uploaded Resumes</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-body">
+            <table id="tbUploadedResumes" class="table table-bordered table-striped" style="width:100%">
+            </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+    <div class="modal fade" id="modal-default">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Schedule Interview</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input id="txtCandidateId" type="hidden"/>
+                    <div class="row">
+                        <div class="form-group col-sm-12" id="dtxtCandidateName">
+                            <label><span class="has-error required">* </span>Candidate Name</label>
+                            <input id="txtCandidateName" name="txtCandidateName" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Candidate Name" isrequired="1" divcontainer="dtxtCandidateName" errorspan="stxtCandidateName" defaultvalue="" autocomplete="off" minlength="2" readonly>
+                            <span class="help-block d-none has-error" id="stxtCandidateName">Please Enter Valid Candidate Name</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12" id="dtxtInterviewDateTime">
+                            <label><span class="has-error required">* </span>Interview Date & Time</label>
+                            <input id="txtInterviewDateTime" name="txtInterviewDateTime" type="datetime-local" class="form-control onlyletter txtCapitalize text-length" placeholder="Interview Date" isrequired="1" divcontainer="dtxtInterviewDateTime" errorspan="stxtInterviewDateTime" defaultvalue="" autocomplete="off" minlength="2">
+                            <span class="help-block d-none has-error" id="stxtInterviewDateTime">Please Select Interview Date & Time</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12" id="dddlInterviewer">
+                            <label><span class="has-error required">* </span>Interviewer</label>
+                            <select id="ddlInterviewer" name="ddlInterviewer" class="form-control" isrequired="1" divcontainer="dddlInterviewer" errorspan="sddlInterviewer" defaultvalue="0">
+                                <option value="0">Select Interviewer</option>
+                            </select>
+                            <input id="txtSelectedStateId" name="txtSelectedStateId" type="hidden" class="form-control" value="" />
+                            <span class="help-block d-none has-error" id="sddlInterviewer">Please Select Interviewer</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                            <label><span class="has-error required">* </span>Interview Medium</label>
+                            <div class="row">
+                                <div class="col-sm-5 ml-2 mr-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="rdInterviewMedium" checked="" value="WalkIn">
+                                        <label class="form-check-label">Walk-In</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5 ml-2 mr-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="rdInterviewMedium" value="RemoteLocation">
+                                        <label class="form-check-label">Remote Location</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="dWalkIn">
+                        <div class="form-group col-sm-12" id="dtxtLocation">
+                            <label><span class="has-error required">* </span>Location</label>
+                            <input id="txtLocation" name="txtLocation" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Location" isrequired="1" divcontainer="dtxtLocation" errorspan="stxtLocation" defaultvalue="" autocomplete="off" minlength="2">
+                            <span class="help-block d-none has-error" id="stxtLocation">Please Enter Interview Location</span>
+                        </div>
+                    </div>
+                    <div class="row" id="dRemoteLocation">
+                        <div class="form-group col-sm-12" id="dddlInterviewVia">
+                            <label><span class="has-error required">* </span>Interview Via</label>
+                            <select id="ddlInterviewVia" name="ddlInterviewVia" class="form-control" isrequired="1" divcontainer="dddlInterviewVia" errorspan="sddlInterviewVia" defaultvalue="0">
+                                <option value="0">Select Interview Via</option>
+                            </select>
+                            <input id="txtSelectedStateId" name="txtSelectedStateId" type="hidden" class="form-control" value="" />
+                            <span class="help-block d-none has-error" id="sddlInterviewVia">Please Select Intervia</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Schedule Interview</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<!-- /.content -->
+@section Scripts
+    {
+        <script src="~/archeone/js/uploadedresumes/uploadedresumes.js"></script>
+    }
