@@ -1,0 +1,54 @@
+﻿@using ArcheOne.Helper.CommonModels;
+@using ArcheOne.Models.Res;
+@model CommonResponse
+@{
+    Layout = "_MasterLayout";
+
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Add Requirement</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">HR</a></li>
+                    <li class="breadcrumb-item active">Add Requirements</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Add Requirement</h3>
+        </div>
+        <div class="card-body">
+            <div class="row form-group">
+                @if (Model.Status)
+                {
+                    AddEditRequirementResModel addEditRequirementResModel = Model.Data;
+                    <div class="col-md-2" id="dddlRequirement">
+                        <label class="form-label"><span class="has-error required">*</span>Requirement For</label>
+                        <select id="ddlRequirement" name="ddlRequirement" class="form-control" isRequired="1" divcontainer="dddlRequirement" errorspan="sddlRequirement" defaultvalue="0">
+                            <option value="0"> --- Select --- </option>
+                        </select>
+                        <span class="help-block d-none has-error" id="sddlRequirement">Please Select Requirement For</span>
+                    </div>
+                }
+                else
+                {
+                    <p style="color:red">@Model.Message</p>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="~/archeone/js/requirement/addeditrequirement.js?_@DateTime.Now.Ticks"></script>
+}
