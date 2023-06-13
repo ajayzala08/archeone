@@ -31,21 +31,6 @@ namespace ArcheOne.Controllers
         }
         public IActionResult Team()
         {
-            //List<SelectListItem> list = new List<SelectListItem>().ToList();
-            //var teamLeadList = _dbRepo.UserMstList().Select(x => new SelectListItem { Text = x.UserName, Value = x.Id.ToString() }).ToList();
-            //ViewBag.TeamLead = teamLeadList;
-
-
-
-            //List<SelectListItem> list1 = new List<SelectListItem>().ToList();
-            //var teamMemberList = _dbRepo.UserMstList().Select(x => new SelectListItem { Text = x.UserName, Value = x.Id.ToString() }).ToList();
-            //ViewBag.teamMember = teamMemberList;
-
-            //List<SelectListItem> list2 = new List<SelectListItem>().ToList();
-            //var clientList = _dbRepo.ClientList().Select(x => new SelectListItem { Text = x.ClientName, Value = x.Id.ToString() }).ToList();
-            //ViewBag.Client = clientList;
-
-
             return View();
         }
         public IActionResult TeamList()
@@ -58,6 +43,7 @@ namespace ArcheOne.Controllers
                 teamlists = (from z in _dbRepo.TeamList()
                              join f in _dbRepo.AllUserMstList() on z.TeamLeadId equals f.Id
                              join t in _dbRepo.AllUserMstList() on z.TeamMemberId equals t.Id
+                             //select new { z,f,t}).ToList().Select new
                              select new
                              {
                                  TeamId = z.TeamLeadId,
@@ -69,11 +55,17 @@ namespace ArcheOne.Controllers
                              {
                                  Id = Index + 1,
                                  TeamLead = x.Key,
-                                 TeamName = string.Join(",", x.Select(x => x.TeamMemerName))
+                                 TeamName = string.Join(",", x.Select(x => x.TeamMemerName)),
+                                 TeamLeadId = x.Select(x => x.TeamLeadId).FirstOrDefault(),
+                                 TeamMemberId = x.Select(x => x.TeamMemberId).FirstOrDefault()
+
                              }).ToList();
 
-                getTeamListResModel.TeamLeadId = teamlists[0].TeamLeadId;
-                getTeamListResModel.TeamMemberId = teamlists[0].TeamMemberId;
+                if (teamlists.Count > 0)
+                {
+                    getTeamListResModel.TeamLeadId = teamlists[0].TeamLeadId;
+                    getTeamListResModel.TeamMemberId = teamlists[0].TeamMemberId;
+                }
 
             }
             catch { throw; }
@@ -87,9 +79,13 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
             AddEditTeamReqViewModel addEditTeamReqViewModel = new AddEditTeamReqViewModel();
             List<TeamDetails> teamlists = new List<TeamDetails>();
+
             addEditTeamReqViewModel.TeamDetails = new TeamDetails();
-            addEditTeamReqViewModel.TeamLeadList = _dbRepo.UserMstList().ToList();
-            addEditTeamReqViewModel.TeamMemberList = _dbRepo.UserMstList().ToList();
+            var roleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Team_Lead")).ToList();
+            var roleIdList = roleList.Select(x => x.Id).ToList();
+            var userList = _dbRepo.UserMstList().Where(x => x.RoleId != null);
+            addEditTeamReqViewModel.TeamLeadList = userList.Where(x => roleIdList.Contains(x.RoleId.Value)).ToList();
+            addEditTeamReqViewModel.TeamMemberList = userList.Where(x => !roleIdList.Contains(x.RoleId.Value)).ToList();
 
             try
             {
@@ -98,10 +94,6 @@ namespace ArcheOne.Controllers
                     var UserDetails = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == Id);
                     if (UserDetails != null)
                     {
-                        //addEditTeamReqViewModel.TeamDetails.TeamId = Id;
-                        //addEditTeamReqViewModel.TeamDetails.TeamLeadId = UserDetails.Id;
-                        //addEditTeamReqViewModel.TeamDetails.TeamMemberId = UserDetails.Id;
-
                         teamlists = (from z in _dbRepo.TeamList()
                                      join f in _dbRepo.AllUserMstList() on z.TeamLeadId equals f.Id
                                      join t in _dbRepo.AllUserMstList() on z.TeamMemberId equals t.Id
@@ -114,8 +106,9 @@ namespace ArcheOne.Controllers
                                      {
                                          TeamId = Index + 1,
                                          TeamLeadId = x.Key,
-                                         TeamMemberId = string.Join(",", x.Select(x => x.TeamMemerName))
+                                         TeamMemberId = string.Join(" , ", x.Select(x => x.TeamMemerName))
                                      }).ToList();
+
                     }
                 }
                 commonResponse.Status = true;
@@ -125,8 +118,8 @@ namespace ArcheOne.Controllers
 
             }
             catch { throw; }
-
             return View(commonResponse.Data);
+
 
         }
 
@@ -142,41 +135,44 @@ namespace ArcheOne.Controllers
                     var teamDetails = _dbRepo.TeamList().FirstOrDefault(x => x.Id == team.TeamId);
                     if (teamDetails != null)
                     {
-                        //foreach (var teamMember in team.TeamMemberId)
-                        //{
-                        teamDetails.TeamLeadId = team.TeamLeadId;
-                        teamDetails.TeamMemberId = team.TeamMemberId;
-                        teamDetails.IsActive = true;
-                        teamDetails.IsDelete = false;
-                        teamDetails.CreatedDate = DateTime.Now;
-                        teamDetails.UpdatedDate = DateTime.Now;
-                        teamDetails.CreatedBy = _commonHelper.GetLoggedInUserId();
-                        teamDetails.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                        foreach (var teamMember in team.TeamMemberId)
+                        {
+                            teamDetails.TeamLeadId = team.TeamLeadId;
+                            teamDetails.TeamMemberId = teamMember;
+                            //teamDetails.TeamMemberId = team.TeamMemberId;
+                            teamDetails.IsActive = true;
+                            teamDetails.IsDelete = false;
+                            teamDetails.CreatedDate = DateTime.Now;
+                            teamDetails.UpdatedDate = DateTime.Now;
+                            teamDetails.CreatedBy = _commonHelper.GetLoggedInUserId();
+                            teamDetails.UpdatedBy = _commonHelper.GetLoggedInUserId();
 
-                        _dbContext.Entry(teamDetails).State = EntityState.Modified;
-                        _dbContext.SaveChanges();
+                            _dbContext.Entry(teamDetails).State = EntityState.Modified;
+                            _dbContext.SaveChanges();
 
-                        commonResponse.Status = true;
-                        commonResponse.StatusCode = HttpStatusCode.OK;
-                        commonResponse.Message = "Success";
-                        //}
+                            commonResponse.Status = true;
+                            commonResponse.StatusCode = HttpStatusCode.OK;
+                            commonResponse.Message = "Success";
+                        }
                     }
                     else
                     {
-                        //foreach (var teamMember in team.TeamMemberId)
-                        //{
-                        teamMst.TeamLeadId = team.TeamLeadId;
-                        teamMst.TeamMemberId = team.TeamMemberId;
-                        teamMst.IsActive = true;
-                        teamMst.IsDelete = false;
-                        teamMst.CreatedDate = DateTime.Now;
-                        teamMst.UpdatedDate = DateTime.Now;
-                        teamMst.CreatedBy = _commonHelper.GetLoggedInUserId();
-                        teamMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                        foreach (var teamMember in team.TeamMemberId)
+                        {
+                            teamMst.TeamLeadId = team.TeamLeadId;
+                            teamMst.TeamMemberId = teamMember;
+                            //teamMst.TeamMemberId = team.TeamMemberId;
+                            teamMst.IsActive = true;
+                            teamMst.IsDelete = false;
+                            teamMst.CreatedDate = DateTime.Now;
+                            teamMst.UpdatedDate = DateTime.Now;
+                            teamMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+                            teamMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
 
-                        _dbContext.TeamMsts.Add(teamMst);
-                        _dbContext.SaveChanges();
-                        //}
+                            _dbContext.TeamMsts.Add(teamMst);
+                            _dbContext.SaveChanges();
+                        }
+
 
                         commonResponse.Status = true;
                         commonResponse.StatusCode = HttpStatusCode.OK;
@@ -196,21 +192,29 @@ namespace ArcheOne.Controllers
 
         }
 
-        public IActionResult DeleteTeam(int id)
+        public async Task<IActionResult> DeleteTeam(int id)
         {
             CommonResponse commonResponse = new CommonResponse();
             try
             {
-                var res = _dbRepo.TeamList().FirstOrDefault(x => x.Id == id);
-                if (res != null)
+                if (id > 0)
                 {
-                    res.IsDelete = true;
-                    res.UpdatedBy = _commonHelper.GetLoggedInUserId();
-                    res.CreatedDate = _commonHelper.GetCurrentDateTime();
-                    res.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                    var teamList = await _dbRepo.TeamList().Where(x => x.TeamLeadId == id).ToListAsync();
+                    if (teamList != null)
+                    {
+                        _dbContext.Entry(teamList).State = EntityState.Deleted;
+                        _dbContext.SaveChanges();
 
-                    _dbContext.Entry(res).State = EntityState.Modified;
-                    _dbContext.SaveChanges();
+                        commonResponse.Status = true;
+                        commonResponse.StatusCode = HttpStatusCode.OK;
+                        commonResponse.Message = "Team Deleted Successfully";
+
+                    }
+                    else
+                    {
+                        commonResponse.Message = "Data not found!";
+                        commonResponse.StatusCode = HttpStatusCode.NotFound;
+                    }
                 }
                 else
                 {
@@ -219,7 +223,8 @@ namespace ArcheOne.Controllers
                 }
             }
             catch { throw; }
-            return RedirectToAction("TeamList");
+            return Json(commonResponse);
+            //return Json(commonResponse);
         }
     }
 }
