@@ -168,17 +168,28 @@ namespace ArcheOne.Controllers
                 {
                     foreach (var teamMember in saveUpdateTeamReqModel.TeamMemberId)
                     {
-                        TeamMst teamMst = new TeamMst();
-                        teamMst.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
-                        teamMst.TeamMemberId = teamMember;
-                        teamMst.IsActive = true;
-                        teamMst.IsDelete = false;
-                        teamMst.CreatedDate = DateTime.Now;
-                        teamMst.UpdatedDate = DateTime.Now;
-                        teamMst.CreatedBy = _commonHelper.GetLoggedInUserId();
-                        teamMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                        var teamList = _dbRepo.TeamList().Where(x => x.TeamLeadId == saveUpdateTeamReqModel.TeamLeadId && x.TeamMemberId == teamMember).ToList();
 
-                        addTeamReqModelList.Add(teamMst);
+                        if (teamList.Count == 0)
+                        {
+                            TeamMst teamMst = new TeamMst();
+                            teamMst.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
+                            teamMst.TeamMemberId = teamMember;
+                            teamMst.IsActive = true;
+                            teamMst.IsDelete = false;
+                            teamMst.CreatedDate = DateTime.Now;
+                            teamMst.UpdatedDate = DateTime.Now;
+                            teamMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+                            teamMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+
+                            addTeamReqModelList.Add(teamMst);
+                        }
+                        else
+                        {
+                            commonResponse.Status = false;
+                            commonResponse.StatusCode = HttpStatusCode.NotFound;
+                            commonResponse.Message = "TeamMember Is Already Exist";
+                        }
                     }
 
                     await _dbContext.TeamMsts.AddRangeAsync(addTeamReqModelList);
