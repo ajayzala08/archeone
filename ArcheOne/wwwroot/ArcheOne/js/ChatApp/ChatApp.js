@@ -26,7 +26,6 @@ connection.start().then(function () {
 function GetUserList() {
     ajaxCall("Get", false, '/Chat/GetUserList', null, function (result) {
         console.log(result);
-        debugger
         if (result.status == true) {
             $("#ddlUsers").html('');
             //$("#ddlUsers").append('<option value="0">--- Select ---</option>');

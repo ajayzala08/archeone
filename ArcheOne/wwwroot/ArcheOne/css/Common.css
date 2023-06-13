@@ -11,3 +11,10 @@
     border-color: red;
 }
 
+.pen {
+    color: forestgreen!important;
+}
+
+.trash {
+    color: #DE333B !important;
+}
