@@ -1,10 +1,8 @@
 ﻿$(document).ready(function () {
-
-
     GetFilteredRequirementList();
 
     $("#btnAddRequirement").click(function () {
-        
+        AddEditRequirement(0);
     })
 });
 
@@ -28,5 +26,14 @@ function GetFilteredRequirementList() {
     ajaxCall("Get", false, '/Requirement/RequirementList', reqData, function (result) {
         $("#divRequirementList").html(result.responseText);
         ApplyDatatableResponsive('tblRequirement');
+
+        $(".btn-Edit").click(function () {
+            var RequirementId = $(this).attr('RequirementId');
+            AddEditRequirement(RequirementId);
+        });
     });
+}
+
+function AddEditRequirement(RequirementId) {
+    window.location.href = '/Requirement/AddEditRequirement?RequirementId=' + RequirementId;
 }

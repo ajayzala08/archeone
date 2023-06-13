@@ -22,11 +22,13 @@ namespace ArcheOne.Controllers
             _commonHelper = commonHelper;
             _dbContext = dbContext;
         }
+
         public IActionResult Index()
         {
             return View();
         }
 
+        [HttpGet]
         public async Task<IActionResult> RequirementList(RequirementListReqModel getRequirementListReqModel)
         {
             CommonResponse commonResponse = new CommonResponse();
@@ -123,7 +125,8 @@ namespace ArcheOne.Controllers
             }
             return View(commonResponse);
         }
-
+       
+        [HttpGet]
         public async Task<IActionResult> AddEditRequirement(int RequirementId)
         {
             CommonResponse commonResponse = new CommonResponse();
@@ -148,40 +151,77 @@ namespace ArcheOne.Controllers
                 commonResponse.Message = ex.Message;
                 commonResponse.Data = ex.StackTrace;
             }
-            return Json(commonResponse);
+            return View(commonResponse);
         }
 
-        public IActionResult Requirement()
+        [HttpPost]
+        public async Task<IActionResult> SaveUpdateRequirement([FromBody] SaveUpdateRequirementReqModel saveUpdateRequirementReqModel)
         {
-            List<SelectListItem> list = new List<SelectListItem>().ToList();
-            //List<CompanyReqModel> companyReqModel = new List<CompanyReqModel>();
-            var clientList = _dbRepo.ClientList().Select(x => new SelectListItem { Text = x.ClientName, Value = x.Id.ToString() }).ToList();
-            ViewBag.Client = clientList;
+            CommonResponse commonResponse = new CommonResponse();
+            try
+            {
+                RequirementMst requirementMst = new RequirementMst();
+                int loggedInUserId = _commonHelper.GetLoggedInUserId();
+                DateTime currentDateTime = _commonHelper.GetCurrentDateTime();
+                var requirementDetail = await _dbRepo.GetRequirementList().FirstOrDefaultAsync(x => x.Id == saveUpdateRequirementReqModel.RequirementId);
 
-            var positionList = _dbRepo.positionTypeList().Select(x => new SelectListItem { Text = x.PositionTypeName, Value = x.Id.ToString() }).ToList();
-            ViewBag.Position = positionList;
+                requirementMst.RequirementForId = saveUpdateRequirementReqModel.RequirementForId;
+                requirementMst.ClientId = saveUpdateRequirementReqModel.ClientId;
+                requirementMst.JobCode = saveUpdateRequirementReqModel.JobCode;
+                requirementMst.MainSkill = saveUpdateRequirementReqModel.MainSkill;
+                requirementMst.NoOfPosition = saveUpdateRequirementReqModel.NoOfPosition;
+                requirementMst.Location = saveUpdateRequirementReqModel.Location;
+                requirementMst.EndClient = saveUpdateRequirementReqModel.EndClient;
+                requirementMst.TotalMinExperience = saveUpdateRequirementReqModel.TotalMinExperience;
+                requirementMst.TotalMaxExperience = saveUpdateRequirementReqModel.TotalMaxExperience;
+                requirementMst.RelevantMinExperience = saveUpdateRequirementReqModel.RelevantMinExperience;
+                requirementMst.RelevantMaxExperience = saveUpdateRequirementReqModel.RelevantMaxExperience;
+                requirementMst.ClientBillRate = saveUpdateRequirementReqModel.ClientBillRate;
+                requirementMst.CandidatePayRate = saveUpdateRequirementReqModel.CandidatePayRate;
+                requirementMst.PositionTypeId = saveUpdateRequirementReqModel.PositionTypeId;
+                requirementMst.RequirementTypeId = saveUpdateRequirementReqModel.RequirementTypeId;
+                requirementMst.EmploymentTypeId = saveUpdateRequirementReqModel.EmploymentTypeId;
+                requirementMst.Pocname = saveUpdateRequirementReqModel.Pocname;
+                requirementMst.MandatorySkills = saveUpdateRequirementReqModel.MandatorySkills;
+                requirementMst.JobDescription = saveUpdateRequirementReqModel.JobDescription;
+                requirementMst.AssignedUserIds = saveUpdateRequirementReqModel.AssignedUserIds;
+                requirementMst.RequirementStatusId = saveUpdateRequirementReqModel.RequirementStatusId;
+                requirementMst.IsActive = saveUpdateRequirementReqModel.IsActive;
 
-            var requirementTypeList = _dbRepo.RequirementTypeList().Select(x => new SelectListItem { Text = x.RequirementTypeName, Value = x.Id.ToString() }).ToList();
-            ViewBag.RequirementType = requirementTypeList;
+                if (requirementDetail != null)
+                {
+                    //Update Mode
+                    requirementMst = requirementDetail;
+                    requirementMst.UpdatedBy = loggedInUserId;
+                    requirementMst.UpdatedDate = currentDateTime;
 
-            var employmentTypeList = _dbRepo.EmploymentTypeList().Select(x => new SelectListItem { Text = x.EmploymentTypeName, Value = x.Id.ToString() }).ToList();
-            ViewBag.TypeOfEmployment = employmentTypeList;
+                    _dbContext.Entry(requirementMst).State = EntityState.Modified;
+                    commonResponse.Message = "Requirement Updated Successfully!";
+                }
+                else
+                {
+                    //Save Mode
+                    requirementMst.IsDelete = false;
+                    requirementMst.CreatedBy = loggedInUserId;
+                    requirementMst.UpdatedBy = loggedInUserId;
+                    requirementMst.CreatedDate = currentDateTime;
+                    requirementMst.UpdatedDate = currentDateTime;
 
+                    await _dbContext.AddAsync(requirementMst);
+                    commonResponse.Message = "Requirement Added Successfully!";
+                }
+                await _dbContext.SaveChangesAsync();
 
-
-            //List<CompanyReqModel> companyReqModel = new List<CompanyReqModel>();
-            //var clientList = _dbRepo.ClientList().Select(x => new SelectListItem { Text = x.ClientName, Value = x.Id.ToString() }).ToList();
-            //ViewBag.Client = clientList;
-
-            //List<RoleReqModel> roleReqModel = new List<RoleReqModel>();
-            //List<RoleMst> roles = new List<RoleMst>();
-            //roles.Add(new RoleMst { Id = 0, RoleName = "---Select---" });
-            //var roleList = _dbRepo.RoleMstList().Select(x => new RoleMst { Id = x.Id, RoleName = x.RoleName }).ToList();
-            //roles.AddRange(roleList);
-
-            ////var roles = _dbRepo.RoleMstList().Select(x => new SelectListItem { Text = x.RoleName, Value = x.Id.ToString() }).ToList();
-            //ViewBag.Role = roles;
-            return View();
+                commonResponse.Data = requirementMst.Id;
+                commonResponse.StatusCode = HttpStatusCode.OK;
+                commonResponse.Status = true;
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message;
+                commonResponse.Data = ex.StackTrace;
+            }
+            return Json(commonResponse);
         }
     }
 }
