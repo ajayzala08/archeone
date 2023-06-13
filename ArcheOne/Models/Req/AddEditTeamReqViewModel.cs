@@ -12,13 +12,12 @@ namespace ArcheOne.Models.Req
     }
     public class TeamDetails
     {
-        public int TeamId { get; set; } 
-        public string TeamLeadId { get; set; }
+   
+        public string TeamLead { get; set; }
+        public string TeamMemberName { get; set; }
 
-        public string TeamMemberId { get; set; }
-
-        public int TeamLeadId1 { get; set; }
-        public int TeamMemberId1 { get; set; }
+        public int TeamLeadId { get; set; }
+        public int TeamMemberId { get; set; }
 
     }
 }
