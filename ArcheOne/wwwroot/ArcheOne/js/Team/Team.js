@@ -1,43 +1,61 @@
-﻿var EditMode = 1;
-$(document).ready(function () {
+﻿$(document).ready(function () {
     GetFilteredTeamList();
-    $("#AddTeamPage").click(function () {
-        debugger
+    //debugger
+    $('#AddTeamPage').click(function () {
         AddEditTeam(0);
     });
+    //debugger
+    //$("#btnCancel").click(function () {
+    //    window.location.href = '/Team/Team';
+    //});
 });
 
-$('#AddTeamPage').click(function () {
-    window.location.href = '/Team/AddEditTeam';
-});
-
-function AddEditTeam(Id) {
-    debugger
-    ajaxCall("Get", false, '/Team/AddEditTeam?id=' + Id, null, function (result) {
+function GetFilteredTeamList() {
+    ajaxCall("Get", false, '/Team/TeamList', null, function (result) {
+        $("#divTeamList").html(result.responseText);
+        ApplyDatatableResponsive('tblTeam');
         debugger
-        $("#sectionData").html(result.responseText);
+        $(".btn-edit").click(function () {
+            var TeamLeadId = $(this).attr('TeamLeadId');
+            AddEditTeam(TeamLeadId);
+        });
+
+        $(".btn-delete").click(function () {
+            Id = $(this).attr('Id');
+            DeleteTeam(Id);
+        });
+
     });
 }
 
-$("#btnSaveAdd").click(function () {
+function AddEditTeam(id) {
     debugger
-    SaveUpdateTeam();
-});
+    window.location.href = '/Team/AddEditTeam?id=' + id;
+}
 
-$("#btnCancel").click(function () {
-    window.location.href = '/Team/Team';
-});
+
 
 function SaveUpdateTeam() {
     debugger
+    var selected = [];
+    $('#ddlTeamMemberId :selected').each(function () {
+        selected.push[$(this).val()] = $(this).text();
+    });
+    /*   var arraSelect =[]*/
+    debugger
     var saveTeamData = {
-        var arraSelected = [];
         "TeamId": parseInt($("#txtTeamId").val()),
         "TeamLeadId": parseInt($("#ddlTeamLeadId").val()),
-        "TeamMemberId": parseInt($("#ddlTeamMemberId option:selected").val()),
-        TeamMemberId.each(function () {
-            arraSelected.push($(this).val());
-        });
+        "TeamMemberId": parseInt($("#ddlTeamMemberId").multiselect())
+          
+
+//require(['bootstrap-multiselect'], function (purchase) {
+//    $('#mySelect').multiselect();
+//});
+
+        //TeamMemberId.each(function () {
+        //    arraSelect.push($(this).val());
+        //});
             //$("#btnmyCountries").click(function () {
             //    var selected = $("#myCountries option:selected");    /*Current Selected Value*/
             //    var message = "";
@@ -74,26 +92,6 @@ function ClearAll() {
         $("#ddlTeamLeadId").val(),
         $("#ddlTeamMemberId").val()
     
-}
-function GetFilteredTeamList() {
-    ajaxCall("Get", false, '/Team/TeamList', null, function (result) {
-        debugger
-        $("#AddTeamData").html(result.responseText);
-        ApplyDatatableResponsive('tblTeam');
-
-        $(".btn-edit").click(function () {
-
-            EditMode = 1;
-            Id = $(this).attr('Id');
-            AddEditTeam(Id);
-        });
-
-        $(".btn-delete").click(function () {
-            Id = $(this).attr('Id');
-            DeleteTeam(Id);
-        });
-
-    });
 }
 
 function DeleteTeam(Id) {
