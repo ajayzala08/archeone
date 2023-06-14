@@ -55,14 +55,11 @@
                             <div class="form-group">
                                 <label><span class="has-error required" typeof="checkbox">* </span>Team Member</label>
                                 <select id="ddlTeamMemberId" name="ddlTeamMemberId" multiple="multiple" class="form-control select2" isrequired="1" divcontainer="dddlTeamMemberId" errorspan="sddlTeamMemberId" defaultvalue="0" style="width: 100%;">
-                                    <option value="0">--- Select ---</option>
                                     @if (addEditTeamReqViewModel.TeamLeadDetails.TeamLeadId > 0)
                                     {
-                                        @foreach (var item1 in addEditTeamReqViewModel.TeamLeadDetails.TeamMemberDetails)
-                                        {
                                             @foreach (var item in addEditTeamReqViewModel.TeamMemberList)
                                             {
-                                                if (item.Id != item1.TeamMemberId)
+                                                if(!addEditTeamReqViewModel.TeamLeadDetails.TeamMemberDetails.Any(x => x.TeamMemberId == item.Id))
                                                 {
                                                     <option value="@item.Id">@item.FirstName @item.LastName</option>
                                                 }
@@ -70,15 +67,17 @@
                                                 {
                                                     <option value="@item.Id" selected>@item.FirstName @item.LastName</option>
                                                 }
-                                            }
                                         }
                                     }
                                     else
                                     {
-                                        @foreach (var item in addEditTeamReqViewModel.TeamMemberList)
-                                        {
-                                            <option value="@item.Id">@item.FirstName @item.LastName</option>
-                                        }
+                                            @foreach (var item in addEditTeamReqViewModel.TeamMemberList)
+                                            {
+                                                if (!addEditTeamReqViewModel.TeamLeadDetails.TeamMemberDetails.Any(x => x.TeamMemberId == item.Id))
+                                                {
+                                                    <option value="@item.Id">@item.FirstName @item.LastName</option>
+                                                }
+                                            }
                                     }
 
                                 </select>

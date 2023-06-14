@@ -86,26 +86,14 @@ namespace ArcheOne.Controllers
             var roleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Team_Lead")).ToList();
             var roleIdList = roleList.Select(x => x.Id).ToList();
             var userList = _dbRepo.UserMstList().Where(x => x.RoleId != null);
+            
             var teamList = _dbRepo.TeamList().ToList();
-
-            addEditTeamReqViewModel.TeamLeadList = userList.Where(x => roleIdList.Contains(x.RoleId.Value)).ToList();
-            //addEditTeamReqViewModel.TeamMemberList =  userList.Where(x => !roleIdList.Contains(x.RoleId.Value)).ToList();
-
-            var userList1 = userList.Where(x => !roleIdList.Contains(x.RoleId.Value)).ToList();
+            var teamLeadList = userList.Where(x => roleIdList.Contains(x.RoleId.Value)).ToList();
+            addEditTeamReqViewModel.TeamLeadList = teamLeadList;
+            addEditTeamReqViewModel.TeamMemberList = userList.Where(x => !roleIdList.Contains(x.RoleId.Value)).ToList();
 
             addEditTeamReqViewModel.TeamLeadDetails.TeamMemberDetails = null;
             addEditTeamReqViewModel.TeamLeadDetails.TeamLeadId = 0;
-            if (teamList.Count >0)
-            {
-                foreach (var item in teamList)
-                {
-                    addEditTeamReqViewModel.TeamMemberList = userList.Where(x => x.Id != item.TeamMemberId && !roleIdList.Contains(x.RoleId.Value)).ToList();
-                }
-            }
-            else
-            {
-                addEditTeamReqViewModel.TeamMemberList =  userList.Where(x => !roleIdList.Contains(x.RoleId.Value)).ToList();
-            }
 
 
             try
@@ -119,20 +107,30 @@ namespace ArcheOne.Controllers
                         teamLeadDetails.TeamLeadName = UserDetails.FirstName + " " + UserDetails.LastName;
 
                         teamMemberDetails = (from z in _dbRepo.TeamList()
-                                           join f in _dbRepo.AllUserMstList().Where(x => x.Id == Id) on z.TeamLeadId equals f.Id
-                                           join t in _dbRepo.AllUserMstList() on z.TeamMemberId equals t.Id
-                                           select new { z, f, t }).ToList().Select(x => new TeamMemberDetails
-                                           {
-                                               TeamMemberId = x.t.Id,
-                                               TeamMemberName = x.t.FirstName+" " + x.t.LastName,
-                                           }).ToList();
-                                           
+                                             join f in _dbRepo.AllUserMstList().Where(x => x.Id == Id) on z.TeamLeadId equals f.Id
+                                             join t in _dbRepo.AllUserMstList() on z.TeamMemberId equals t.Id
+                                             select new { z, f, t }).ToList().Select(x => new TeamMemberDetails
+                                             {
+                                                 TeamMemberId = x.t.Id,
+                                                 TeamMemberName = x.t.FirstName + " " + x.t.LastName,
+                                             }).ToList();
+
 
                         addEditTeamReqViewModel.TeamLeadDetails = teamLeadDetails;
                         addEditTeamReqViewModel.TeamLeadDetails.TeamMemberDetails = teamMemberDetails;
-
-
                     }
+                }
+                else
+                {
+                    teamMemberDetails = (from z in _dbRepo.TeamList()
+                                         join f in _dbRepo.AllUserMstList() on z.TeamLeadId equals f.Id
+                                         join t in _dbRepo.AllUserMstList() on z.TeamMemberId equals t.Id
+                                         select new { z, f, t }).ToList().Select(x => new TeamMemberDetails
+                                         {
+                                             TeamMemberId = x.t.Id,
+                                             TeamMemberName = x.t.FirstName + " " + x.t.LastName,
+                                         }).ToList();
+                    addEditTeamReqViewModel.TeamLeadDetails.TeamMemberDetails = teamMemberDetails;
                 }
                 commonResponse.Status = true;
                 commonResponse.StatusCode = HttpStatusCode.OK;
