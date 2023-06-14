@@ -93,7 +93,6 @@
 									<span class="help-block d-none has-error" id="stxtLastName">Please Enter Valid LastName</span>
 								</div>
 							</div>
-
 							@if (UserId == 0)
 							{
 								<div class="col-sm-4" id="dtxtUserName">
@@ -106,7 +105,7 @@
 								<div class="col-sm-4" id="dtxtPassword">
 									<div class="form-group">
 										<label for="form_name">Password *</label>
-										<input id="txtPassword" type="password" name="Password" class="form-control text-length" placeholder="Please enter your Password *" value="@Model.UserDetails.Password" isrequired="1" divcontainer="dtxtPassword" errorspan="stxtPassword" defaultvalue="" autocomplete="off" minlength="2">
+										<input id="txtPassword" type="password" name="Password" class="form-control text-length" placeholder="Please enter your Password *" value="@Model.UserDetails.Password" isrequired="1" divcontainer="dtxtPassword" errorspan="stxtPassword" defaultvalue="" autocomplete="off" minlength="3">
 										<span class="help-block d-none has-error" id="stxtPassword">Please Enter Valid Password</span>
 									</div>
 								</div>

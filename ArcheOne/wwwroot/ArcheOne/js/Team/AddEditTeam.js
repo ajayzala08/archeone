@@ -37,6 +37,9 @@ function SaveUpdateTeam() {
             }
             else {
                 Popup_Toast.fire({ icon: 'error', title: result.message });
+                $("#btnCancel").click();
+                ClearAll();
+                GetFilteredTeamList();
             }
         });
     }

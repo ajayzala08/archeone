@@ -337,7 +337,7 @@ namespace ArcheOne.Controllers
                             _dbContext.SaveChanges();
 
                             commonResponse.Status = true;
-                            commonResponse.Message = "Reset Password Successfully!";
+                            commonResponse.Message = "Change Password Successfully!";
                         }
                         else
                         {
