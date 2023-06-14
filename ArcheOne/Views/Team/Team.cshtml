@@ -1,29 +1,39 @@
 ﻿@{
-
+    Layout = "_MasterLayout";
+    int id = 0;
 }
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header d-flex p-0">
-                <h3 class="card-title p-3">Team List</h3>
-                <div class="card-tools ml-auto mr-2 p-2">
-                    <button id="AddTeamPage" type="button" class="btn btn-primary float-right">Add Team</button>
-                </div>
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Teams</h1>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-                <div id="divTeamList">
-                </div>
-                <div id="AddTeamData">
-                </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Masters</a></li>
+                    <li class="breadcrumb-item active">Teams</li>
+                </ol>
             </div>
-            <!-- /.card-body -->
         </div>
-        <!-- /.card -->
     </div>
-</div>
+</section>
+
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Team List</h3>
+            <input type="button" id="AddTeamPage" class="btn btn-primary float-right" value="Add Team" />
+        </div>
+        <div class="card-body">
+            <div id="divTeamList">
+
+            </div>
+        </div>
+    </div>
+</section>
 
 @section Scripts{
-    <script src="~/archeone/js/team/team.js"></script>
+    <script src="~/archeone/js/team/team.js?_@DateTime.Now.Ticks"></script>
 }
 
