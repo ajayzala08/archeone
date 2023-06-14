@@ -3,14 +3,18 @@ $(document).ready(function () {
     GetFilteredSalesLeadList();
     $("#btnAddSaleLead").click(function () {
         AddEditSalesLead(0);
+        ApplyDatatableResponsive('tblSalesConatactLead');
+    });
+    $('#btnAddSaleLead').click(function () {
+        window.location.href = '/SalesLead/AddEditSalesLead';
+        // GetFilteredSalesConatactPersonList();
+        ApplyDatatableResponsive('tblSalesConatactLead');
+    });
+    $('#btnAddCP').click(function () {
+        addRecord(); 
     });
 });
 
-$('#btnAddSaleLead').click(function () {
-    window.location.href = '/SalesLead/AddEditSalesLead';
-   // GetFilteredSalesConatactPersonList();
-    ApplyDatatableResponsive('tblSalesConatactLead');
-});
 
 function AddEditSalesLead(Id) {
     ajaxCall("Get", false, '/SalesLead/AddEditSalesLead?id=' + Id, null, function (result) {
@@ -60,6 +64,7 @@ function SaveSalesLead() {
         });
     }
 }
+
 function ClearAll() {
         $("#txtSalesLeadId").val(''),
         $("#txtOrganizationName").val(),
@@ -73,6 +78,7 @@ function ClearAll() {
         $("#txtEmail2").val(),
         $("#txtWebsite").val()
 }
+
 function GetFilteredSalesLeadList() {
 
     ajaxCall("Get", false, '/SalesLead/SalesList', null, function (result) {
@@ -125,7 +131,6 @@ function DeleteSalesLead(Id) {
     })
 };
 
-
 function GetFilteredSalesConatactPersonList() {
 
     ajaxCall("Get", false, '/SalesLead/SalesConatactPersonList', null, function (result) {
@@ -146,5 +151,16 @@ function GetFilteredSalesConatactPersonList() {
         //});
 
     });
+}
+
+function addRecord() {
+    debugger
+    var record = $('#txtFirstName').val();
+    addRow(record);
+    $('#txtFirstName').val('');
+}
+
+function addRow(value) {
+    $('#tblSalesConatactLead tbody').append('<tr><td>' + value + '</td></tr>');
 }
 
