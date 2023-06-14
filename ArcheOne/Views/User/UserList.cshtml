@@ -14,6 +14,12 @@
 					<b>Id</b>
 					</td>*@
 					<td>
+						<b>Action</b>
+					</td>
+					@*<td>
+						<b>Delete</b>
+					</td>*@
+					<td>
 						<b>Company</b>
 					</td>
 					<td>
@@ -23,13 +29,13 @@
 						<b>FullName</b>
 					</td>
 					@*<td>
-						<b>UserName</b>
+					<b>UserName</b>
 					</td>
 					<td>
-						<b>Password</b>
+					<b>Password</b>
 					</td>
 					<td>
-						<b>Address</b>
+					<b>Address</b>
 					</td>*@
 					<td>
 						<b>Pincode</b>
@@ -38,7 +44,7 @@
 						<b>Contact No.</b>
 					</td>
 					@*<td>
-						<b>Mobile2</b>
+					<b>Mobile2</b>
 					</td>*@
 					<td>
 						<b>Email Address</b>
@@ -46,12 +52,7 @@
 					<td>
 						<b>ProfileImage</b>
 					</td>
-					<td>
-						<b>Edit</b>
-					</td>
-					<td>
-						<b>Delete</b>
-					</td>
+					
 				</tr>
 			</thead>
 			<tbody>
@@ -62,6 +63,12 @@
 					@item.Id
 					</td>*@
 						<td>
+							@*<button class="btn btn-info btn-edit" Id="@item.Id" onclick="AddEditUser(@item.Id)"><i class="fa fa-pen"></i></button> |
+							<button class="btn btn-danger btn-delete" Id="@item.Id" onlclick="DeleteUser(@item.Id)"><i class="fa fa-trash"></i></button>*@
+							<i class="fa fa-pen pen" Id="@item.Id" onclick="AddEditUser(@item.Id)"></i> |
+							<i class="fa fa-trash trash" Id="@item.Id" onclick="DeleteUser(@item.Id)"></i>
+						</td>
+						<td>
 							@item.CompanyId
 						</td>
 						<td>
@@ -71,14 +78,14 @@
 							@item.FullName
 						</td>
 						@*<td>
-							@item.UserName
-						</td>
-						<td>
-							@item.Password
-						</td>
-						<td>
-							@item.Address
-						</td>*@
+					@item.UserName
+					</td>
+					<td>
+					@item.Password
+					</td>
+					<td>
+					@item.Address
+					</td>*@
 						<td>
 							@item.Pincode
 						</td>
@@ -86,8 +93,8 @@
 							@item.Mobile1
 						</td>
 						@*<td>
-							@item.Mobile2
-						</td>*@
+					@item.Mobile2
+					</td>*@
 						<td>
 							@item.Email
 						</td>
@@ -95,12 +102,7 @@
 							<img src="@item.PhotoUrl" height="60px" width="60px" alt="Profile Image" />
 							@*<img src="/Files/UserProfile/no-image-png-2.png" height="100px" width="100px" alt="Profile Image" />*@
 						</td>
-						<td>
-							<button class="btn btn-info btn-edit" Id="@item.Id" onclick="AddEditUser(@item.Id)">Edit</button>
-						</td>
-						<td>
-							<button class="btn btn-danger btn-delete" Id="@item.Id" onlclick="DeleteUser(@item.Id)">Delete</button>
-						</td>
+
 					</tr>
 				}
 			</tbody>

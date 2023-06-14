@@ -78,14 +78,35 @@ namespace ArcheOne.Controllers
         {
             CommonResponse commonResponse = new CommonResponse();
             AddEditTeamReqViewModel addEditTeamReqViewModel = new AddEditTeamReqViewModel();
-            List<TeamDetails> teamlists = new List<TeamDetails>();
-            addEditTeamReqViewModel.TeamDetails = new TeamDetails();
+            List<TeamLeadDetails> teamLeadLists = new List<TeamLeadDetails>();
+            TeamLeadDetails teamLeadDetails = new TeamLeadDetails();
+            List<TeamMemberDetails> teamMemberDetails = new List<TeamMemberDetails>();
+            addEditTeamReqViewModel.TeamLeadDetails = new TeamLeadDetails();
 
             var roleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Team_Lead")).ToList();
             var roleIdList = roleList.Select(x => x.Id).ToList();
             var userList = _dbRepo.UserMstList().Where(x => x.RoleId != null);
+            var teamList = _dbRepo.TeamList().ToList();
+
             addEditTeamReqViewModel.TeamLeadList = userList.Where(x => roleIdList.Contains(x.RoleId.Value)).ToList();
-            addEditTeamReqViewModel.TeamMemberList = userList.Where(x => !roleIdList.Contains(x.RoleId.Value)).ToList();
+            //addEditTeamReqViewModel.TeamMemberList =  userList.Where(x => !roleIdList.Contains(x.RoleId.Value)).ToList();
+
+            var userList1 = userList.Where(x => !roleIdList.Contains(x.RoleId.Value)).ToList();
+
+            addEditTeamReqViewModel.TeamLeadDetails.TeamMemberDetails = null;
+            addEditTeamReqViewModel.TeamLeadDetails.TeamLeadId = 0;
+            if (teamList.Count >0)
+            {
+                foreach (var item in teamList)
+                {
+                    addEditTeamReqViewModel.TeamMemberList = userList.Where(x => x.Id != item.TeamMemberId && !roleIdList.Contains(x.RoleId.Value)).ToList();
+                }
+            }
+            else
+            {
+                addEditTeamReqViewModel.TeamMemberList =  userList.Where(x => !roleIdList.Contains(x.RoleId.Value)).ToList();
+            }
+
 
             try
             {
@@ -94,25 +115,21 @@ namespace ArcheOne.Controllers
                     var UserDetails = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == Id);
                     if (UserDetails != null)
                     {
-                        teamlists = (from z in _dbRepo.TeamList()
-                                     join f in _dbRepo.AllUserMstList() on z.TeamLeadId equals f.Id
-                                     join t in _dbRepo.AllUserMstList() on z.TeamMemberId equals t.Id
-                                     select new
-                                     {
-                                         TeamId = z.Id,
-                                         TeamLeadName = f.FirstName + " " + f.LastName,
-                                         TeamMemerName = t.FirstName + " " + t.LastName,
-                                         TeamLeadId = z.TeamLeadId,
-                                         TeamMemberId = z.TeamMemberId
-                                     }).ToList().GroupBy(g => g.TeamLeadName).Select((x, Index) => new TeamDetails
-                                     {
-                                         TeamLeadId = x.Select(x => x.TeamLeadId).FirstOrDefault(),
-                                         TeamLead = x.Key,
-                                         TeamMemberName = string.Join(",", x.Select(x => x.TeamMemerName)),
-                                         TeamMemberId = x.Select(x => x.TeamMemberId).FirstOrDefault()
-                                     }).ToList();
+                        teamLeadDetails.TeamLeadId = UserDetails.Id;
+                        teamLeadDetails.TeamLeadName = UserDetails.FirstName + " " + UserDetails.LastName;
 
-                        addEditTeamReqViewModel.TeamDetails = teamlists.FirstOrDefault();
+                        teamMemberDetails = (from z in _dbRepo.TeamList()
+                                           join f in _dbRepo.AllUserMstList().Where(x => x.Id == Id) on z.TeamLeadId equals f.Id
+                                           join t in _dbRepo.AllUserMstList() on z.TeamMemberId equals t.Id
+                                           select new { z, f, t }).ToList().Select(x => new TeamMemberDetails
+                                           {
+                                               TeamMemberId = x.t.Id,
+                                               TeamMemberName = x.t.FirstName+" " + x.t.LastName,
+                                           }).ToList();
+                                           
+
+                        addEditTeamReqViewModel.TeamLeadDetails = teamLeadDetails;
+                        addEditTeamReqViewModel.TeamLeadDetails.TeamMemberDetails = teamMemberDetails;
 
 
                     }
@@ -168,9 +185,15 @@ namespace ArcheOne.Controllers
                 {
                     foreach (var teamMember in saveUpdateTeamReqModel.TeamMemberId)
                     {
-                        var teamList = _dbRepo.TeamList().Where(x => x.TeamLeadId == saveUpdateTeamReqModel.TeamLeadId && x.TeamMemberId == teamMember).ToList();
+                        var teamList = _dbRepo.TeamList().Where(x => x.TeamMemberId == teamMember).ToList();
 
-                        if (teamList.Count == 0)
+                        if (teamList.Count > 0)
+                        {
+                            commonResponse.Status = false;
+                            commonResponse.StatusCode = HttpStatusCode.NotFound;
+                            commonResponse.Message = "TeamMember Is Already Exist";
+                        }
+                        else
                         {
                             TeamMst teamMst = new TeamMst();
                             teamMst.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
@@ -181,14 +204,7 @@ namespace ArcheOne.Controllers
                             teamMst.UpdatedDate = DateTime.Now;
                             teamMst.CreatedBy = _commonHelper.GetLoggedInUserId();
                             teamMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
-
                             addTeamReqModelList.Add(teamMst);
-                        }
-                        else
-                        {
-                            commonResponse.Status = false;
-                            commonResponse.StatusCode = HttpStatusCode.NotFound;
-                            commonResponse.Message = "TeamMember Is Already Exist";
                         }
                     }
 
