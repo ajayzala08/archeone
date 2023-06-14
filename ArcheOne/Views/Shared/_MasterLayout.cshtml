@@ -3,6 +3,7 @@
 @{
     var user = HttpContextAccessor.HttpContext.Session.GetString("User");
     bool IsValidate = string.IsNullOrWhiteSpace(user) ? false : true;
+    IsValidate = HttpContextAccessor.HttpContext.Request.Host.Host == "localhost" && 1 == 0 ? true : IsValidate;
     if (!IsValidate)
     {
         Context.Response.Redirect("/LogIn/Logout");
@@ -398,7 +399,7 @@
     <!-- AdminLTE App -->
     <script src="~/theme/dist/js/adminlte.min.js"></script>
     <!-- blockUI -->
-    <script src="https://malsup.github.io/jquery.blockUI.js"></script>
+    <script src="~/theme/dist/js/jquery.blockui.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

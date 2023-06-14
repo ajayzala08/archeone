@@ -1,6 +1,7 @@
 ﻿using ArcheOne.Database.Entities;
 using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
+using ArcheOne.Models;
 using ArcheOne.Models.Req;
 using ArcheOne.Models.Res;
 using Microsoft.AspNetCore.Hosting;
@@ -35,13 +36,13 @@ namespace ArcheOne.Controllers
             RequirementListResModel requirementListResModel = new RequirementListResModel();
             try
             {
-                var requirementList = _dbRepo.GetRequirementList();
-                var requirementForList = _dbRepo.GetRequirementForList();
-                var clientList = _dbRepo.GetClientList();
-                var positionTypeList = _dbRepo.GetPositionTypeList();
-                var requirementTypeList = _dbRepo.GetRequirementTypeList();
-                var employmentTypeList = _dbRepo.GetEmploymentTypeList();
-                var requirementStatusList = _dbRepo.GetRequirementStatusList();
+                var requirementList = _dbRepo.RequirementList();
+                var requirementForList = _dbRepo.RequirementForList();
+                var clientList = _dbRepo.ClientList();
+                var positionTypeList = _dbRepo.PositionTypeList();
+                var requirementTypeList = _dbRepo.RequirementTypeList();
+                var employmentTypeList = _dbRepo.EmploymentTypeList();
+                var requirementStatusList = _dbRepo.RequirementStatusList();
 
                 if (getRequirementListReqModel.RequirementForId > 0)
                 {
@@ -125,7 +126,7 @@ namespace ArcheOne.Controllers
             }
             return View(commonResponse);
         }
-       
+
         [HttpGet]
         public async Task<IActionResult> AddEditRequirement(int RequirementId)
         {
@@ -134,13 +135,21 @@ namespace ArcheOne.Controllers
             try
             {
                 RequirementMst requirementMst = new RequirementMst();
-                var requirementDetail = await _dbRepo.GetRequirementList().FirstOrDefaultAsync(x => x.Id == RequirementId);
+                var requirementDetail = await _dbRepo.RequirementList().FirstOrDefaultAsync(x => x.Id == RequirementId);
                 if (requirementDetail != null)
                 {
                     //Edit Mode
                     requirementMst = requirementDetail;
                 }
                 addEditRequirementResModel.RequirementDetail = requirementMst;
+
+                addEditRequirementResModel.RequirementForList = await _dbRepo.RequirementForList().Select(x => new KeyValueModel { Id = x.Id, Name = x.RequirementForName }).ToListAsync();
+                addEditRequirementResModel.ClientList = await _dbRepo.ClientList().Select(x => new KeyValueModel { Id = x.Id, Name = x.ClientName }).ToListAsync();
+                addEditRequirementResModel.PositionTypeList = await _dbRepo.PositionTypeList().Select(x => new KeyValueModel { Id = x.Id, Name = x.PositionTypeName }).ToListAsync();
+                addEditRequirementResModel.RequirementTypeList = await _dbRepo.RequirementTypeList().Select(x => new KeyValueModel { Id = x.Id, Name = x.RequirementTypeName }).ToListAsync();
+                addEditRequirementResModel.EmploymentTypeList = await _dbRepo.EmploymentTypeList().Select(x => new KeyValueModel { Id = x.Id, Name = x.EmploymentTypeName }).ToListAsync();
+                addEditRequirementResModel.RequirementStatusList = await _dbRepo.RequirementStatusList().Select(x => new KeyValueModel { Id = x.Id, Name = x.RequirementStatusName }).ToListAsync();
+
                 commonResponse.Data = addEditRequirementResModel;
                 commonResponse.Message = "Success!";
                 commonResponse.StatusCode = HttpStatusCode.OK;
@@ -163,7 +172,7 @@ namespace ArcheOne.Controllers
                 RequirementMst requirementMst = new RequirementMst();
                 int loggedInUserId = _commonHelper.GetLoggedInUserId();
                 DateTime currentDateTime = _commonHelper.GetCurrentDateTime();
-                var requirementDetail = await _dbRepo.GetRequirementList().FirstOrDefaultAsync(x => x.Id == saveUpdateRequirementReqModel.RequirementId);
+                var requirementDetail = await _dbRepo.RequirementList().FirstOrDefaultAsync(x => x.Id == saveUpdateRequirementReqModel.RequirementId);
 
                 requirementMst.RequirementForId = saveUpdateRequirementReqModel.RequirementForId;
                 requirementMst.ClientId = saveUpdateRequirementReqModel.ClientId;

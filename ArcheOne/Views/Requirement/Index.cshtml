@@ -1,5 +1,6 @@
 ﻿@{
     Layout = "_MasterLayout";
+    //ViewBag.select2 = "true";
 }
 
 @if (1 == 1)
@@ -30,46 +31,37 @@ else
                 <div class="row form-group">
                     <div class="col-md-3">
                         <label>Requirement For</label>
-                        <select id="ddlRequirementFor" name="ddlRequirementFor" class="form-control">
-                            <option value="0"> --- Select All --- </option>
+                        <select id="ddlRequirementFor" name="ddlRequirementFor" class="form-control data-filter select2">
                         </select>
                     </div>
                     <div class="col-md-3">
                         <label>Clients</label>
-                        <select id="ddlClients" name="ddlClients" class="form-control">
-                            <option value="0"> --- Select All --- </option>
+                        <select id="ddlClients" name="ddlClients" class="form-control data-filter select2">
                         </select>
                     </div>
                     <div class="col-md-3">
                         <label>Position Type</label>
-                        <select id="ddlPositionType" name="ddlPositionType" class="form-control">
-                            <option value="0"> --- Select All --- </option>
+                        <select id="ddlPositionType" name="ddlPositionType" class="form-control data-filter select2">
                         </select>
                     </div>
                     <div class="col-md-3">
                         <label>Requirement Type</label>
-                        <select id="ddlRequirementType" name="ddlRequirementType" class="form-control">
-                            <option value="0"> --- Select All --- </option>
+                        <select id="ddlRequirementType" name="ddlRequirementType" class="form-control data-filter select2">
                         </select>
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-3">
                         <label>Employment Type</label>
-                        <select id="ddlEmploymentType" name="ddlEmploymentType" class="form-control">
-                            <option value="0"> --- Select All --- </option>
+                        <select id="ddlEmploymentType" name="ddlEmploymentType" class="form-control data-filter select2">
                         </select>
                     </div>
                     <div class="col-md-3">
                         <label>Requirement Status</label>
-                        <select id="ddlRequirementStatus" name="ddlRequirementStatus" class="form-control">
-                            <option value="0"> --- Select All --- </option>
+                        <select id="ddlRequirementStatus" name="ddlRequirementStatus" class="form-control data-filter select2">
                         </select>
                     </div>
-                    <div class="col-md-2">
-                        <input type="button" id="btnSearch" class="btn btn-primary" value="Search" style="margin-top:32px;" />
-                    </div>
-                    <div class="col-md-4" align="right">
+                    <div class="col-md-6" align="right">
                         <input type="button" id="btnAddRequirement" class="btn btn-success" value="Add Requirement" style="margin-top:32px;" />
                     </div>
                 </div>
@@ -82,7 +74,6 @@ else
     </section>
 }
 
-
 @section Scripts{
-    <script src="~/archeone/js/requirement/index.js?_@DateTime.Now.Ticks"></script>
+    <script src="~/archeone/js/requirement/index.js"></script>
 }
