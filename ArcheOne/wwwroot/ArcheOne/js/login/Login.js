@@ -87,11 +87,11 @@ $(document).ready(function () {
             ajaxCall("Post", false, '/LogIn/ChangePassword', JSON.stringify(dataModel), function (result) {
                 if (result.status == true) {
                     console.log(result);
-                    Popup_Toast.fire({ icon: 'success', title: result.message });
+                    Toast.fire({ icon: 'success', title: result.message });
                     RedirectToPage("/LogIn/LogIn");
                 }
                 else {
-                    Popup_Toast.fire({ icon: 'error', title: result.message });
+                    Toast.fire({ icon: 'error', title: result.message });
                     $.unblockUI();
                 }
             });
@@ -116,6 +116,10 @@ $(document).ready(function () {
         });
 
 
+    });
+
+    $("#btnCancelCP").click(function () {
+        window.location.href = '/Dashboard/Index';
     });
 });
 
