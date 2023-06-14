@@ -61,7 +61,7 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
             try
             {
-                SalesLeadAddEditReqViewModel salesLeadAddEdit = new SalesLeadAddEditReqViewModel();
+                SalesLeadAddEditReqModel salesLeadAddEdit = new SalesLeadAddEditReqModel();
                 salesLeadAddEdit.salesLeadDetail = new SalesLeadDetail();
                 salesLeadAddEdit.SalesLeadContactPersonDetail = new SalesLeadContactPersonDetail();
                 List<SalesLeadContactPersonDetail> salesLeadContactPersonList = new List<SalesLeadContactPersonDetail>();

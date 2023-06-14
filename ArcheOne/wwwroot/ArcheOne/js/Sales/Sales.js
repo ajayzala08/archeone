@@ -1,36 +1,22 @@
 ﻿var EditMode = 1;
 $(document).ready(function () {
     GetFilteredSalesLeadList();
+
     $("#btnAddSaleLead").click(function () {
         AddEditSalesLead(0);
         ApplyDatatableResponsive('tblSalesConatactLead');
+        window.location.href = '/SalesLead/AddEditSalesLead'
+        
     });
-    $('#btnAddSaleLead').click(function () {
-        window.location.href = '/SalesLead/AddEditSalesLead';
-        // GetFilteredSalesConatactPersonList();
-        ApplyDatatableResponsive('tblSalesConatactLead');
-    });
-    $('#btnAddCP').click(function () {
-        addRecord(); 
-    });
+
+    
 });
 
 
 function AddEditSalesLead(Id) {
-    ajaxCall("Get", false, '/SalesLead/AddEditSalesLead?id=' + Id, null, function (result) {
-        $("#sectionData").html(result.responseText);
-        ApplyDatatableResponsive('tblSalesConatactLead');
-       // GetFilteredSalesConatactPersonList();
-    });
+    window.location.href = '/SalesLead/AddEditSalesLead?id=' + Id;
+    ApplyDatatableResponsive('tblSalesConatactLead')
 }
-
-$("#btnSaveAdd").click(function () {
-    SaveSalesLead();
-});
-
-$("#btnCancel").click(function () {
-    window.location.href = '/SalesLead/Sales';
-});
 
 function SaveSalesLead() {
 
@@ -153,14 +139,4 @@ function GetFilteredSalesConatactPersonList() {
     });
 }
 
-function addRecord() {
-    debugger
-    var record = $('#txtFirstName').val();
-    addRow(record);
-    $('#txtFirstName').val('');
-}
-
-function addRow(value) {
-    $('#tblSalesConatactLead tbody').append('<tr><td>' + value + '</td></tr>');
-}
 

@@ -1,6 +1,6 @@
 ﻿namespace ArcheOne.Models.Req
 {
-    public class SalesLeadAddEditReqViewModel
+    public class SalesLeadAddEditReqModel
     {
 
         public SalesLeadDetail salesLeadDetail { get; set; }

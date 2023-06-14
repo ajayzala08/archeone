@@ -16,6 +16,9 @@
                         <b>Id</b>
                     </td>*@
                     <td>
+                        <b>Action</b>
+                    </td>
+                    <td>
                         <b>OrgName</b>
                     </td>
                     <td>
@@ -45,12 +48,7 @@
                     <td>
                         <b>WebsiteUrl</b>
                     </td>
-                    <td>
-                        <b>Edit</b>
-                    </td>
-                    <td>
-                        <b>Delete</b>
-                    </td>
+                   
                 </tr>
             </thead>
             <tbody>
@@ -60,6 +58,11 @@
                        @* <td>
                             @item.Id
                         </td>*@
+                        <td>
+                            <button class="btn btn-edit" Id="@item.Id"><i class="fas fa-edit"></i></button> |
+
+                            <button class="btn btn-delete" Id="@item.Id" onlclick="DeleteOrganization(@item.Id)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        </td>
                         <td>
                             @item.OrgName
                         </td>
@@ -92,13 +95,7 @@
                             @item.WebsiteUrl
                         </td>
                        
-                        <td>
-                            @*   <button class="btn btn-info btn-edit" OrganizationId="@item.Id" onlclick="AddEditOrganization(@item.Id);">Edit</button>*@
-                            <button class="btn btn-info btn-edit" Id="@item.Id">Edit</button>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger btn-delete" Id="@item.Id" onlclick="DeleteOrganization(@item.Id)">Delete</button>
-                        </td>
+                       
                     </tr>
                 }
             </tbody>

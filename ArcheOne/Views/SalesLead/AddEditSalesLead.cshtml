@@ -1,20 +1,13 @@
 ﻿@using ArcheOne.Models.Req;
-@model SalesLeadAddEditReqViewModel
+@model SalesLeadAddEditReqModel
 
 @{
     ViewBag.datatable = "true";
     string PopupTitle1 = "";
     int id = 1;
+    //Layout = null;
+    Layout = "_MasterLayout";
     PopupTitle1 = Model.salesLeadDetail.Id > 0 ? "Edit SaleLead" : "Add SaleLead";
-    @if (PopupTitle1 == "Edit SaleLead")
-    {
-        ViewBag.datatable = "true";
-        Layout = "_BlankLayout";
-    }
-    else
-    {
-        Layout = "_MasterLayout";
-    }
     var CountryId = Model.salesLeadDetail.CountryId;
     var stateId = Model.salesLeadDetail.StateId;
     var CityId = Model.salesLeadDetail.CityId;
@@ -196,9 +189,9 @@
                                 @* <td>
                                 <b>Id</b>
                                 </td>*@
-                                <td>
+                                @*<td>
                                     <b>SalesLeadId</b>
-                                </td>
+                                </td>*@
                                 <td>
                                     <b> FirstName </b>
                                 </td>
@@ -236,9 +229,9 @@
                                     @* <td>
                                 @item.Id
                                 </td>*@
-                                    <td>
+                                    @*<td>
                                         @item.SalesLeadId
-                                    </td>
+                                    </td>*@
                                     <td>
                                         @item.FirstName
                                     </td>
@@ -278,7 +271,7 @@
                 </div>
 
                 <br />
-                <div class="row justify-content-lg-start">
+                <div class="row justify-content-end">
                     <div class="col-sm-1">
                         <button type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success">Save</button>
                     </div>
@@ -300,5 +293,5 @@ else
 }*@
 
 @section Scripts{
-    <script src="~/archeone/js/sales/sales.js"></script>
+    <script src="~/archeone/js/sales/addeditsaleslead.js"></script>
 }
