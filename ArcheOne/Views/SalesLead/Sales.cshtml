@@ -1,6 +1,10 @@
 ﻿@{
     Layout = "_MasterLayout";
+    int id = 0;
 }
+
+@if (id > 0)
+{
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
@@ -40,6 +44,12 @@
         </div>
     </div>
 </section>
+
+}
+else
+{
+    <H1 style="color:red; text-align: center; margin-top:200px"><b>This page is in under progress</b></H1>
+}
 <!-- /.content -->
 @section Scripts{
     <script src="~/archeone/js/sales/sales.js"></script>
