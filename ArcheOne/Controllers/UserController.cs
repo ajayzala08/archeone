@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.IO;
+using System.Net;
 using System.Security.Cryptography;
 using System.Transactions;
 using ArcheOne.Database.Entities;
@@ -8,7 +9,6 @@ using ArcheOne.Models.Req;
 using ArcheOne.Models.Res;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
 
 namespace ArcheOne.Controllers
 {
@@ -97,99 +97,104 @@ namespace ArcheOne.Controllers
 			CommonResponse commonResponse = new CommonResponse();
 			try
 			{
-				if (ModelState.IsValid)
+				IFormFile file;
+				string fileName = string.Empty;
+				bool validateFileExtension = false;
+				bool validateFileSize = false;
+				string filePath = string.Empty;
+				UserMst userMst = new UserMst();
+				if (userSaveUpdateReq.PhotoUrl != null)
 				{
-					string file1 = string.Empty;
-					var file1Slice = file1.Split("\\");
-					UserMst userMst = new UserMst();
-					IFormFile file = userSaveUpdateReq.PhotoUrl;
-					string fileName = file.FileName;
+					file = userSaveUpdateReq.PhotoUrl;
+					fileName = file.FileName;
 					FileInfo fileInfo = new FileInfo(fileName);
 					string fileExtension = fileInfo.Extension;
 					long fileSize = file.Length;
-					bool validateFileExtension = false;
-					bool validateFileSize = false;
+					
 					string[] allowedFileExtensions = { CommonConstant.jpeg, CommonConstant.png, CommonConstant.jpg };
 					long allowedFileSize = 1 * 1024 * 1024 * 10; // 10MB
 					validateFileExtension = allowedFileExtensions.Contains(fileExtension) ? true : false;
 					validateFileSize = fileSize <= allowedFileSize ? true : false;
+					fileName = userSaveUpdateReq.UserName + userSaveUpdateReq.Id + fileExtension;
 					if (validateFileExtension && validateFileSize)
 					{
-						var duplicateCheck = await _dbRepo.AllUserMstList().Where(x => x.UserName == userSaveUpdateReq.UserName && x.Email == userSaveUpdateReq.Email && x.Mobile1 == userSaveUpdateReq.Mobile1).ToListAsync();
-						if (duplicateCheck.Count == 0)
-						{
-							var imageFile = _commonHelper.UploadFile(userSaveUpdateReq.PhotoUrl, @"UserProfile", fileName, false, true, true);
-							//string a = imageFile.Split();
-							//string filePath = Path.Combine(_commonHelper.GetPhysicalRootPath(false), imageFile.Data);
-							var userDetail = await _dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.Id == userSaveUpdateReq.Id);
-							if (userDetail != null && userDetail.Id > 0)
-							{
-								//Edit Mode
-								userDetail.RoleId = userSaveUpdateReq.RoleId;
-								userDetail.CompanyId = 1;
-								userDetail.FirstName = userSaveUpdateReq.FirstName;
-								userDetail.MiddleName = userSaveUpdateReq.MiddleName;
-								userDetail.LastName = userSaveUpdateReq.LastName;
-								userDetail.UserName = userSaveUpdateReq.UserName;
-								userDetail.Password = userSaveUpdateReq.Password;
-								userDetail.Address = userSaveUpdateReq.Address;
-								userDetail.Pincode = userSaveUpdateReq.Pincode;
-								userDetail.Mobile1 = userSaveUpdateReq.Mobile1;
-								userDetail.Mobile2 = userSaveUpdateReq.Mobile2;
-								userDetail.Email = userSaveUpdateReq.Email;
-								userDetail.PhotoUrl = imageFile.Data;
-								userDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
-								userDetail.UpdatedBy = 1;
-
-								_dbContext.Entry(userDetail).State = EntityState.Modified;
-								_dbContext.SaveChanges();
-
-								commonResponse.Status = true;
-								commonResponse.StatusCode = HttpStatusCode.OK;
-								commonResponse.Message = "User Updated Successfully!";
-							}
-							else
-							{
-								//Add Mode
-								userMst.RoleId = userSaveUpdateReq.RoleId;
-								userMst.CompanyId = 1;
-								userMst.FirstName = userSaveUpdateReq.FirstName;
-								userMst.MiddleName = userSaveUpdateReq.MiddleName;
-								userMst.LastName = userSaveUpdateReq.LastName;
-								userMst.UserName = userSaveUpdateReq.UserName;
-								userMst.Password = userSaveUpdateReq.Password;
-								userMst.Address = userSaveUpdateReq.Address;
-								userMst.Pincode = userSaveUpdateReq.Pincode;
-								userMst.Mobile1 = userSaveUpdateReq.Mobile1;
-								userMst.Mobile2 = userSaveUpdateReq.Mobile2;
-								userMst.Email = userSaveUpdateReq.Email;
-								userMst.PhotoUrl = imageFile.Data;
-								userMst.CreatedDate = _commonHelper.GetCurrentDateTime();
-								userMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
-								userMst.CreatedBy = 1;
-								userMst.UpdatedBy = 1;
-								userMst.IsActive = true;
-								userMst.IsDelete = false;
-
-								_dbContext.Add(userMst);
-								_dbContext.SaveChanges();
-
-								commonResponse.Status = true;
-								commonResponse.StatusCode = HttpStatusCode.OK;
-								commonResponse.Message = "User Added Successfully!";
-							}
-						}
-						else
-						{
-							commonResponse.Message = "UserName, Email and Contact Already Exist";
-						}
-						commonResponse.Data = userMst;
+						var imageFile = _commonHelper.UploadFile(userSaveUpdateReq.PhotoUrl, @"UserProfile", fileName, false, true, false);
+						filePath = imageFile.Data;
 					}
 					else
 					{
 						commonResponse.Message = "Only jpg and png files are Allowed !";
 					}
 				}
+
+				//var imageFile = _commonHelper.UploadFile(userSaveUpdateReq.PhotoUrl, @"UserProfile", fileName, false, true, false);
+				var userDetail = await _dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.Id == userSaveUpdateReq.Id && x.UserName == userSaveUpdateReq.UserName);
+				if (userDetail != null && userDetail.Id > 0)
+				{
+					//Edit Mode
+					userDetail.RoleId = userSaveUpdateReq.RoleId;
+					userDetail.CompanyId = _dbRepo.GetLoggedInUserDetails().CompanyId;
+					userDetail.FirstName = userSaveUpdateReq.FirstName;
+					userDetail.MiddleName = userSaveUpdateReq.MiddleName;
+					userDetail.LastName = userSaveUpdateReq.LastName;
+					userDetail.Address = userSaveUpdateReq.Address;
+					userDetail.Pincode = userSaveUpdateReq.Pincode;
+					userDetail.Mobile1 = userSaveUpdateReq.Mobile1;
+					userDetail.Mobile2 = userSaveUpdateReq.Mobile2;
+					userDetail.Email = userSaveUpdateReq.Email;
+					if (!string.IsNullOrEmpty(filePath))
+					{
+						userDetail.PhotoUrl = filePath;
+					}
+					userDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
+					userDetail.UpdatedBy = _commonHelper.GetLoggedInUserId(); ;
+
+					_dbContext.Entry(userDetail).State = EntityState.Modified;
+					_dbContext.SaveChanges();
+
+					commonResponse.Status = true;
+					commonResponse.StatusCode = HttpStatusCode.OK;
+					commonResponse.Message = "User Updated Successfully!";
+				}
+				else
+				{
+					//Add Mode
+					var duplicateCheck = await _dbRepo.AllUserMstList().Where(x => x.UserName == userSaveUpdateReq.UserName && x.Email == userSaveUpdateReq.Email && x.Mobile1 == userSaveUpdateReq.Mobile1).ToListAsync();
+					if (duplicateCheck.Count == 0)
+					{
+						userMst.RoleId = userSaveUpdateReq.RoleId;
+						userMst.CompanyId = 1;
+						userMst.FirstName = userSaveUpdateReq.FirstName;
+						userMst.MiddleName = userSaveUpdateReq.MiddleName;
+						userMst.LastName = userSaveUpdateReq.LastName;
+						userMst.UserName = userSaveUpdateReq.UserName;
+						userMst.Password = userSaveUpdateReq.Password;
+						userMst.Address = userSaveUpdateReq.Address;
+						userMst.Pincode = userSaveUpdateReq.Pincode;
+						userMst.Mobile1 = userSaveUpdateReq.Mobile1;
+						userMst.Mobile2 = userSaveUpdateReq.Mobile2;
+						userMst.Email = userSaveUpdateReq.Email;
+						userMst.PhotoUrl = filePath;
+						userMst.CreatedDate = _commonHelper.GetCurrentDateTime();
+						userMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+						userMst.CreatedBy = 1;
+						userMst.UpdatedBy = 1;
+						userMst.IsActive = true;
+						userMst.IsDelete = false;
+
+						_dbContext.Add(userMst);
+						_dbContext.SaveChanges();
+
+						commonResponse.Status = true;
+						commonResponse.StatusCode = HttpStatusCode.OK;
+						commonResponse.Message = "User Added Successfully!";
+					}
+					else
+					{
+						commonResponse.Message = "UserName, Email and Contact Already Exist";
+					}
+				}
+				commonResponse.Data = userMst;
 			}
 			catch (Exception ex)
 			{
@@ -203,9 +208,9 @@ namespace ArcheOne.Controllers
 		{
 			CommonResponse commonResponse = new CommonResponse();
 			var userList = (from U in await _dbRepo.AllUserMstList().ToListAsync()
-							join C in  _dbRepo.CompanyMstList()
+							join C in _dbRepo.CompanyMstList()
 											   on U.CompanyId equals C.Id
-							join R in  _dbRepo.RoleMstList()
+							join R in _dbRepo.RoleMstList()
 							on U.RoleId equals R.Id
 							select new { U, C, R })
 							   .Select(x => new UserListModel
@@ -224,7 +229,8 @@ namespace ArcheOne.Controllers
 								   Mobile1 = x.U.Mobile1,
 								   Mobile2 = x.U.Mobile2,
 								   Email = x.U.Email,
-								   PhotoUrl = x.U.PhotoUrl
+								   PhotoUrl = System.IO.File.Exists(Path.Combine(_commonHelper.GetPhysicalRootPath(false), x.U.PhotoUrl)) ? Path.Combine(@"\", x.U.PhotoUrl) :
+									@"\Theme\Logo\default_user_profile.png"
 							   }).ToList();
 			if (userList.Count > 0)
 			{
@@ -274,31 +280,30 @@ namespace ArcheOne.Controllers
 			return Json(commonResponse);
 		}
 
-        public async Task<IActionResult> UserListByRoleId(int RoleId)
-        {
-            CommonResponse response = new CommonResponse();
-            try
-            {
-                var data = await _dbRepo.UserMstList().Where(x => x.RoleId == RoleId).ToListAsync();
-                if (data != null && data.Count > 0)
-                {
-                    response.Data = data;
-                    response.Status = true;
-                    response.StatusCode = HttpStatusCode.OK;
-                    response.Message = "Data found successfully!";
+		public async Task<IActionResult> UserListByRoleId(int RoleId)
+		{
+			CommonResponse response = new CommonResponse();
+			try
+			{
+				var data = await _dbRepo.UserMstList().Where(x => x.RoleId == RoleId).ToListAsync();
+				if (data != null && data.Count > 0)
+				{
+					response.Data = data;
+					response.Status = true;
+					response.StatusCode = HttpStatusCode.OK;
+					response.Message = "Data found successfully!";
+				}
+				else
+				{
+					response.Message = "Data not found!";
+					response.StatusCode = HttpStatusCode.NotFound;
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Message = ex.Message;
+			}
+			return Json(response);
+		}
 	}
-                else
-                {
-                    response.Message = "Data not found!";
-                    response.StatusCode = HttpStatusCode.NotFound;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                response.Message = ex.Message;
-            }
-            return Json(response);
-        }
-    }
 }

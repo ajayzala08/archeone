@@ -46,12 +46,11 @@
 										else
 										{
 											<label for="form_name">Photo *</label>
-											@*<input type="file" id="photoUpload" onchange="uploadFiles('photoUpload');" />*@
 											<img src="@Model.UserDetails.PhotoUrl" id="photoUrl" style="width:75px!important" name="photoUrl" />
 										}
 										<div class="input-group">
 											<div class="custom-file">
-												<input id="txtPhotoUrl" type="file" name="txtPhotoUrl" value="@Model.UserDetails.PhotoUrl" isrequired="1" divcontainer="dtxtPhotoUrl" errorspan="stxtPhotoUrl" defaultvalue="" autocomplete="off" minlength="2" class="custom-file-input text-length" onchange="loadFile(event)" accept="image/*" />
+												<input id="txtPhotoUrl" type="file" name="txtPhotoUrl" value="@Model.UserDetails.PhotoUrl" isrequired="0" divcontainer="dtxtPhotoUrl" errorspan="stxtPhotoUrl" defaultvalue="" autocomplete="off" class="custom-file-input" onchange="loadFile(event)" accept="image/*" />
 												<label class="custom-file-label" for="form_file">Choose file</label>
 											</div>
 										</div>
@@ -94,7 +93,7 @@
 									<span class="help-block d-none has-error" id="stxtLastName">Please Enter Valid LastName</span>
 								</div>
 							</div>
-							
+
 							@if (UserId == 0)
 							{
 								<div class="col-sm-4" id="dtxtUserName">
