@@ -113,31 +113,31 @@ namespace ArcheOne.Controllers
         }
 
         [HttpPost]
-        public async Task<CommonResponse> SaveUpdateSalesLead([FromBody] SaveUpdateSalesLead saveUpdateSalesLead)
+        public async Task<CommonResponse> SaveUpdateSalesLead([FromBody] SaveUpdateSalesLeadReqModel saveUpdateSalesLeadReqModel)
         {
             CommonResponse commonResponse = new CommonResponse();
 
             SalesLeadMst salesLeadMst = new SalesLeadMst();
             var saleslist = await _dbRepo.SalesLeadList().ToListAsync();
-            var duplicateCheck = saleslist.Any(x => x.OrgName == saveUpdateSalesLead.OrgName && x.Id != saveUpdateSalesLead.Id);
+            var duplicateCheck = saleslist.Any(x => x.OrgName == saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.OrgName && x.Id != saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Id);
 
             if (!duplicateCheck)
             {
-                var salesLeadDetail = saleslist.FirstOrDefault(x => x.Id == saveUpdateSalesLead.Id);
+                var salesLeadDetail = saleslist.FirstOrDefault(x => x.Id == saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Id);
                 if (salesLeadDetail != null)
                 {
                     //Edit Mode
-                    //salesLeadMst.Id = saveUpdateSalesLead.Id;
-                    salesLeadDetail.Address = saveUpdateSalesLead.Address;
-                    salesLeadDetail.OrgName = saveUpdateSalesLead.OrgName;
-                    salesLeadDetail.CountryId = saveUpdateSalesLead.CountryId;
-                    salesLeadDetail.StateId = saveUpdateSalesLead.StateId;
-                    salesLeadDetail.CityId = saveUpdateSalesLead.CityId;
-                    salesLeadDetail.Phone1 = saveUpdateSalesLead.Phone1;
-                    salesLeadDetail.Phone2 = saveUpdateSalesLead.Phone2;
-                    salesLeadDetail.Email1 = saveUpdateSalesLead.Email1;
-                    salesLeadDetail.Email2 = saveUpdateSalesLead.Email2;
-                    salesLeadDetail.WebsiteUrl = @saveUpdateSalesLead.WebsiteUrl;
+                    //salesLeadMst.Id = saveUpdateSalesLeadReqModel.Id;
+                    salesLeadDetail.Address = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Address;
+                    salesLeadDetail.OrgName = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.OrgName;
+                    salesLeadDetail.CountryId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.CountryId;
+                    salesLeadDetail.StateId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.StateId;
+                    salesLeadDetail.CityId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.CityId;
+                    salesLeadDetail.Phone1 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Phone1;
+                    salesLeadDetail.Phone2 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Phone2;
+                    salesLeadDetail.Email1 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Email1;
+                    salesLeadDetail.Email2 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Email2;
+                    salesLeadDetail.WebsiteUrl = @saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.WebsiteUrl;
                     salesLeadDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
                     salesLeadDetail.UpdatedBy = _commonHelper.GetLoggedInUserId();
 
@@ -151,16 +151,16 @@ namespace ArcheOne.Controllers
                 else
                 {
                     //Add Mode
-                    salesLeadMst.Address = saveUpdateSalesLead.Address;
-                    salesLeadMst.OrgName = saveUpdateSalesLead.OrgName;
-                    salesLeadMst.CountryId = saveUpdateSalesLead.CountryId;
-                    salesLeadMst.StateId = saveUpdateSalesLead.StateId;
-                    salesLeadMst.CityId = saveUpdateSalesLead.CityId;
-                    salesLeadMst.Phone1 = saveUpdateSalesLead.Phone1;
-                    salesLeadMst.Phone2 = saveUpdateSalesLead.Phone2;
-                    salesLeadMst.Email1 = saveUpdateSalesLead.Email1;
-                    salesLeadMst.Email2 = saveUpdateSalesLead.Email2;
-                    salesLeadMst.WebsiteUrl = saveUpdateSalesLead.WebsiteUrl;
+                    salesLeadMst.Address = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Address;
+                    salesLeadMst.OrgName = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.OrgName;
+                    salesLeadMst.CountryId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.CountryId;
+                    salesLeadMst.StateId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.StateId;
+                    salesLeadMst.CityId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.CityId;
+                    salesLeadMst.Phone1 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Phone1;
+                    salesLeadMst.Phone2 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Phone2;
+                    salesLeadMst.Email1 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Email1;
+                    salesLeadMst.Email2 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Email2;
+                    salesLeadMst.WebsiteUrl = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.WebsiteUrl;
                     salesLeadMst.CreatedDate = _commonHelper.GetCurrentDateTime();
                     salesLeadMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
                     salesLeadMst.CreatedBy = _commonHelper.GetLoggedInUserId();
