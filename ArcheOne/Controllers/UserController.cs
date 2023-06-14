@@ -32,7 +32,7 @@ namespace ArcheOne.Controllers
 			return View();
 		}
 
-		public IActionResult User()
+		public async Task<IActionResult> User()
 		{
 			//List<CompanyMst> companies = new List<CompanyMst>();
 			//companies.Add(new CompanyMst { Id = 0, CompanyName = "---Select---" });
@@ -46,7 +46,12 @@ namespace ArcheOne.Controllers
 			//roles.AddRange(roleList);
 			//ViewBag.Role = roles;
 
-			return View();
+			//CommonResponse commonResponse = new CommonResponse();
+   //         UserAddEditReqViewModel userAddEditReqViewModel = new UserAddEditReqViewModel();
+   //         userAddEditReqViewModel.RoleList = _dbRepo.RoleMstList().ToList();
+
+			//commonResponse.Data = userAddEditReqViewModel;
+            return View();
 		}
 
 		public async Task<IActionResult> AddEditUser(int Id)
@@ -204,47 +209,52 @@ namespace ArcheOne.Controllers
 			return Json(commonResponse);
 		}
 
+		//public async Task<IActionResult> UserList()
+		//{
+		//	CommonResponse commonResponse = new CommonResponse();
+		//	var userList = (from U in await _dbRepo.AllUserMstList().ToListAsync()
+		//					join C in _dbRepo.CompanyMstList()
+		//									   on U.CompanyId equals C.Id
+		//					join R in _dbRepo.RoleMstList()
+		//					on U.RoleId equals R.Id
+		//					select new { U, C, R })
+		//				 .Select(x => new UserListModel
+		//				 {
+		//					 Id = x.U.Id,
+		//					 CompanyId = x.C.CompanyName,
+		//					 RoleId = x.R.RoleName,
+		//					 FullName = x.U.FirstName + ' ' + x.U.MiddleName + ' ' + x.U.LastName,
+		//					 //FirstName = x.U.FirstName,
+		//					 //MiddleName = x.U.MiddleName,
+		//					 //LastName = x.U.LastName,
+		//					 UserName = x.U.UserName,
+		//					 Password = x.U.Password,
+		//					 Address = x.U.Address,
+		//					 Pincode = x.U.Pincode,
+		//					 Mobile1 = x.U.Mobile1,
+		//					 Mobile2 = x.U.Mobile2,
+		//					 Email = x.U.Email,
+		//					 PhotoUrl = System.IO.File.Exists(Path.Combine(_commonHelper.GetPhysicalRootPath(false), x.U.PhotoUrl)) ? Path.Combine(@"\", x.U.PhotoUrl) :
+		//					  @"\Theme\Logo\default_user_profile.png"
+		//				 }).ToList();
+		//	if (userList.Count > 0)
+		//	{
+		//		commonResponse.Status = true;
+		//		commonResponse.StatusCode = HttpStatusCode.OK;
+		//		commonResponse.Message = "Users found successfully!";
+		//		commonResponse.Data = userList;
+		//	}
+		//	else
+		//	{
+		//		commonResponse.StatusCode = HttpStatusCode.NotFound;
+		//		commonResponse.Message = "User not found!";
+		//	}
+		//	return View(commonResponse);
+		//}
+
 		public async Task<IActionResult> UserList()
 		{
-			CommonResponse commonResponse = new CommonResponse();
-			var userList = (from U in await _dbRepo.AllUserMstList().ToListAsync()
-							join C in _dbRepo.CompanyMstList()
-											   on U.CompanyId equals C.Id
-							join R in _dbRepo.RoleMstList()
-							on U.RoleId equals R.Id
-							select new { U, C, R })
-							   .Select(x => new UserListModel
-							   {
-								   Id = x.U.Id,
-								   CompanyId = x.C.CompanyName,
-								   RoleId = x.R.RoleName,
-								   FullName = x.U.FirstName + ' ' + x.U.MiddleName + ' ' + x.U.LastName,
-								   //FirstName = x.U.FirstName,
-								   //MiddleName = x.U.MiddleName,
-								   //LastName = x.U.LastName,
-								   UserName = x.U.UserName,
-								   Password = x.U.Password,
-								   Address = x.U.Address,
-								   Pincode = x.U.Pincode,
-								   Mobile1 = x.U.Mobile1,
-								   Mobile2 = x.U.Mobile2,
-								   Email = x.U.Email,
-								   PhotoUrl = System.IO.File.Exists(Path.Combine(_commonHelper.GetPhysicalRootPath(false), x.U.PhotoUrl)) ? Path.Combine(@"\", x.U.PhotoUrl) :
-									@"\Theme\Logo\default_user_profile.png"
-							   }).ToList();
-			if (userList.Count > 0)
-			{
-				commonResponse.Status = true;
-				commonResponse.StatusCode = HttpStatusCode.OK;
-				commonResponse.Message = "Users found successfully!";
-				commonResponse.Data = userList;
-			}
-			else
-			{
-				commonResponse.StatusCode = HttpStatusCode.NotFound;
-				commonResponse.Message = "User not found!";
-			}
-			return View(commonResponse);
+			return View();
 		}
 
 		public async Task<IActionResult> DeleteUser(int id)
@@ -280,15 +290,25 @@ namespace ArcheOne.Controllers
 			return Json(commonResponse);
 		}
 
-		public async Task<IActionResult> UserListByRoleId(int RoleId)
+		public async Task<IActionResult> UserListByRoleId(int? RoleId)
 		{
 			CommonResponse response = new CommonResponse();
 			try
 			{
-				var data = await _dbRepo.UserMstList().Where(x => x.RoleId == RoleId).ToListAsync();
-				if (data != null && data.Count > 0)
+				dynamic userList;
+				if (RoleId == null)
 				{
-					response.Data = data;
+					userList = await _dbRepo.UserMstList().ToListAsync();
+				}
+				else
+				{
+					userList = await _dbRepo.UserMstList().Where(x => x.RoleId == RoleId).ToListAsync();
+				}
+
+				
+				if (userList != null && userList.Count > 0)
+				{
+					response.Data = userList;
 					response.Status = true;
 					response.StatusCode = HttpStatusCode.OK;
 					response.Message = "Data found successfully!";
