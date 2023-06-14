@@ -26,8 +26,9 @@
                 @if (Model.Status)
                 {
                     AddEditTeamReqViewModel addEditTeamReqViewModel = Model.Data;
+                    @*  TeamMemberDetails teamMemberDetails = Model.Data;*@
                     <div class="row">
-                        <input id="txtTeamId" name="txtTeamId" type="hidden" class="form-control col-sm-4" value="@addEditTeamReqViewModel.TeamDetails.TeamLeadId" />
+                        <input id="txtTeamId" name="txtTeamId" type="hidden" class="form-control col-sm-4" value="@addEditTeamReqViewModel.TeamLeadDetails.TeamLeadId" />
 
                         <div class="col-sm-4" id="dddlTeamLeadId">
                             <div class="form-group">
@@ -36,7 +37,7 @@
                                     <option value="0">--- Select ---</option>
                                     @foreach (var item in addEditTeamReqViewModel.TeamLeadList)
                                     {
-                                        if (item.Id == addEditTeamReqViewModel.TeamDetails.TeamLeadId)
+                                        if (item.Id == addEditTeamReqViewModel.TeamLeadDetails.TeamLeadId)
                                         {
                                             <option value="@item.Id" selected>@item.FirstName @item.LastName</option>
                                         }
@@ -55,18 +56,31 @@
                                 <label><span class="has-error required" typeof="checkbox">* </span>Team Member</label>
                                 <select id="ddlTeamMemberId" name="ddlTeamMemberId" multiple="multiple" class="form-control select2" isrequired="1" divcontainer="dddlTeamMemberId" errorspan="sddlTeamMemberId" defaultvalue="0" style="width: 100%;">
                                     <option value="0">--- Select ---</option>
-                                    @*   @if (Model.TeamMemberList != null)*@
-                                    @foreach (var item in addEditTeamReqViewModel.TeamMemberList)
+                                    @if (addEditTeamReqViewModel.TeamLeadDetails.TeamLeadId > 0)
                                     {
-                                        if (item.Id == addEditTeamReqViewModel.TeamDetails.TeamMemberId)
+                                        @foreach (var item1 in addEditTeamReqViewModel.TeamLeadDetails.TeamMemberDetails)
                                         {
-                                            <option value="@item.Id" selected>@item.FirstName @item.LastName</option>
+                                            @foreach (var item in addEditTeamReqViewModel.TeamMemberList)
+                                            {
+                                                if (item.Id != item1.TeamMemberId)
+                                                {
+                                                    <option value="@item.Id">@item.FirstName @item.LastName</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Id" selected>@item.FirstName @item.LastName</option>
+                                                }
+                                            }
                                         }
-                                        else
+                                    }
+                                    else
+                                    {
+                                        @foreach (var item in addEditTeamReqViewModel.TeamMemberList)
                                         {
                                             <option value="@item.Id">@item.FirstName @item.LastName</option>
                                         }
                                     }
+
                                 </select>
                                 <span class="help-block d-none has-error" id="sddlTeamMemberId">Please select any Team Member</span>
                             </div>
