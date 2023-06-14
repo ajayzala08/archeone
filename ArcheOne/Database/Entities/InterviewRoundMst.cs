@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ArcheOne.Database.Entities;
+﻿namespace ArcheOne.Database.Entities;
 
 public partial class InterviewRoundMst
 {

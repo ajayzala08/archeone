@@ -5,12 +5,24 @@
         public enum InterviewRoundStatusMst
         {
             Scheduled = 1,
-            Re_Schedule,
-            Attended,
             Cleared,
             Rejected,
             No_Show,
-            Next_Round
+        }
+
+        public enum OfferStatusMst
+        {
+            Offer = 1,
+            Hire
+        }
+
+        public enum UploadedResumeTableFlowStatus
+        {
+            Interview_Info = 1,
+            Offer,
+            To_Be_Join,
+            Join,
+            No_Show
         }
     }
 }

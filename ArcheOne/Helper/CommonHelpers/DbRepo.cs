@@ -173,5 +173,25 @@ namespace ArcheOne.Helper.CommonHelpers
         {
             return _db.InterviewRoundTypeMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
+
+        public IQueryable<InterviewMst> GetInterviewList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.InterviewMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+
+        public IQueryable<InterviewRoundMst> GetInterviewRoundList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.InterviewRoundMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+
+        public IQueryable<InterviewRoundStatusMst> GetInterviewRoundStatusList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.InterviewRoundStatusMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+
+        public IQueryable<HireStatusMst> GetHireStatusList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.HireStatusMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
     }
 }
