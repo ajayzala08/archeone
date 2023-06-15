@@ -27,6 +27,8 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<HireStatusMst> HireStatusMsts { get; set; }
 
+    public virtual DbSet<HolidayMst> HolidayMsts { get; set; }
+
     public virtual DbSet<InterviewMst> InterviewMsts { get; set; }
 
     public virtual DbSet<InterviewRoundMst> InterviewRoundMsts { get; set; }
@@ -214,6 +216,18 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.HireStatusCode).HasMaxLength(100);
             entity.Property(e => e.HireStatusName).HasMaxLength(100);
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<HolidayMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__HolidayM__3214EC0744F1A126");
+
+            entity.ToTable("HolidayMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.HolidayDate).HasColumnType("datetime");
+            entity.Property(e => e.HolidayName).HasMaxLength(100);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 

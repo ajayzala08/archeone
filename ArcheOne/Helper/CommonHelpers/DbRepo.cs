@@ -193,5 +193,9 @@ namespace ArcheOne.Helper.CommonHelpers
         {
             return _db.HireStatusMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
+        public IQueryable<HolidayMst> HolidayDayList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.HolidayMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
     }
 }
