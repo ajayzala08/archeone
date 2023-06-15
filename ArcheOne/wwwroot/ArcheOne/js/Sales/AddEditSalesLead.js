@@ -27,28 +27,62 @@ function SaveSalesLead() {
         "Email2": $("#txtEmail2").val(),
         "WebsiteUrl": $("#txtWebsite").val()
     }
+    var contactperson = {
+        "FirstName": $('#txtFirstName').val(),
+        "LastName": $('#txtLastName').val(),
+        "Email": $('#txtEmail').val(),
+        "Designation": $('#txtDesignation').val(),
+        "Mobile1": $('#txtMobile1').val(),
+        "Mobile2": $('#txtMobile2').val(),
+        "Linkedinurl": $('#txtLinkedinurl').val()
+    }
+    dataList.push(contactperson);
+   var contactperson1 = {
+        "FirstName": $('#txtFirstName1').val(),
+        "LastName": $('#txtLastName1').val(),
+       "Email": $('#txtSalesLeadContactPersonEmail1').val(),
+        "Designation": $('#txtDesignation1').val(),
+        "Mobile1": $('#txtMobile11').val(),
+        "Mobile2": $('#txtMobile21').val(),
+        "Linkedinurl": $('#txtLinkedinurl1').val()
+    }
+
+    dataList.push(contactperson1);
+    var contactperson2 = {
+        "FirstName": $('#txtFirstName2').val(),
+        "LastName": $('#txtLastName2').val(),
+        "Email": $('#txtSalesLeadContactPersonEmail2').val(),
+        "Designation": $('#txtDesignation2').val(),
+        "Mobile1": $('#txtMobile12').val(),
+        "Mobile2": $('#txtMobile22').val(),
+        "Linkedinurl": $('#txtLinkedinurl2').val()
+    }
+
+    dataList.push(contactperson2);
+
+
 
     var dataSaveModel = {
-        "SaveUpdateSalesLeadContactPersonDetail": dataList,
-        "SaveUpdateSalesLeadDetail": saveData
+        "SaveUpdateSalesLeadContactPersonList": dataList,
+        "SaveUpdateSalesLeadDetails": saveData
     }
 
     console.log(dataSaveModel);
-    //debugger
-    //if (validateRequiredFields()) {
-    //    ajaxCall("Post", false, '/SalesLead/SaveUpdateSalesLead', JSON.stringify(saveData), function (result) {
 
-    //        if (result.status == true) {
-    //            Popup_Toast.fire({ icon: 'success', title: result.message });
-    //            $("#btnCancel").click();
-    //            ClearAll();
-    //            GetFilteredSalesLeadList();
-    //        }
-    //        else {
-    //            Popup_Toast.fire({ icon: 'error', title: result.message });
-    //        }
-    //    });
-    //}
+    if (validateRequiredFields() && validateReqField('DivSalesLeadContactPerson2')) {
+        ajaxCall("Post", false, '/SalesLead/SaveUpdateSalesLead', JSON.stringify(dataSaveModel), function (result) {
+
+            if (result.status == true) {
+                Popup_Toast.fire({ icon: 'success', title: result.message });
+                $("#btnCancel").click();
+                ClearAll();
+                GetFilteredSalesLeadList();
+            }
+            else {
+                Popup_Toast.fire({ icon: 'error', title: result.message });
+            }
+        });
+    }
 }
 function addRecord() {
     var savelist = [];

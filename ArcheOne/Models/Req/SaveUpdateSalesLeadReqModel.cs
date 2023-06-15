@@ -3,7 +3,7 @@
     public class SaveUpdateSalesLeadReqModel
     {
         public SaveUpdateSalesLeadDetail SaveUpdateSalesLeadDetails { get; set; }
-        public List<SaveUpdateSalesLeadContactPersonDetail> SaveUpdateSalesLeadContactPerson { get; set; }
+        public List<SaveUpdateSalesLeadContactPersonDetail> SaveUpdateSalesLeadContactPersonList { get; set; }
 
     }
     public class SaveUpdateSalesLeadDetail
@@ -33,7 +33,7 @@
     }
     public class SaveUpdateSalesLeadContactPersonDetail
     {
-        public int Id { get; set; }
+        public int SalesLeadContactPersonId { get; set; }
 
         public int SalesLeadId { get; set; }
 
