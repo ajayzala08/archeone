@@ -1,5 +1,4 @@
-﻿using ArcheOne.Database.Entities;
-using ArcheOne.Helper.CommonHelpers;
+﻿using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +19,7 @@ namespace ArcheOne.Controllers
             CommonResponse response = new CommonResponse();
             try
             {
-                var data = await _dbRepo.GetInterviewRoundTypeList().Select(x => new { x.Id, x.InterviewRoundTypeName, x.InterviewRoundTypeCode }).ToListAsync();
+                var data = await _dbRepo.InterviewRoundTypeList().Select(x => new { x.Id, x.InterviewRoundTypeName, x.InterviewRoundTypeCode }).ToListAsync();
                 if (data != null && data.Count > 0)
                 {
                     response.Data = data;
@@ -43,10 +42,10 @@ namespace ArcheOne.Controllers
 
         public async Task<IActionResult> GetRequirementForList()
         {
-            CommonResponse commonResponse=new CommonResponse();
+            CommonResponse commonResponse = new CommonResponse();
             try
             {
-                var requirementList = await _dbRepo.RequirementForList().Select(x=>new {x.Id,x.RequirementForName}).ToListAsync();
+                var requirementList = await _dbRepo.RequirementForList().Select(x => new { x.Id, x.RequirementForName }).ToListAsync();
                 if (requirementList.Count > 0)
                 {
                     commonResponse.Data = requirementList;
@@ -57,7 +56,7 @@ namespace ArcheOne.Controllers
                 else
                 {
                     commonResponse.Message = "Data not found!";
-                    commonResponse.StatusCode= HttpStatusCode.NotFound;
+                    commonResponse.StatusCode = HttpStatusCode.NotFound;
                 }
             }
             catch (Exception ex)

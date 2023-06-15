@@ -105,8 +105,7 @@
                                                 <label><span class="has-error required">* </span>Interview Via</label>
                                                 <select id="ddlInterviewVia" name="ddlInterviewVia" class="form-control" isrequired="1" divcontainer="dddlInterviewVia" errorspan="sddlInterviewVia" defaultvalue="0">
                                                 </select>
-                                                <input id="txtSelectedStateId" name="txtSelectedStateId" type="hidden" class="form-control" value="" />
-                                                <span class="help-block d-none has-error" id="sddlInterviewVia">Please Select Intervia</span>
+                                                <span class="help-block d-none has-error" id="sddlInterviewVia">Please Select Interwiew via</span>
                                             </div>
                                         </div>
                                     </div>
@@ -139,12 +138,14 @@
                             <br />
                             <hr />
                         </div>
-                        <h4 class="modal-title">Scheduled Interview(s)</h4>
-                        <br />
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <table id="tbScheduleInterviews" class="table table-bordered table-striped" style="width:100%">
-                                </table>
+                        <div id="dScheduledInterviewList">
+                            <h4 class="modal-title">Scheduled Interview(s)</h4>
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="tbScheduleInterviews" class="table table-bordered table-striped" style="width:100%">
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

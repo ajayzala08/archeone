@@ -809,3 +809,29 @@ BEGIN
 END
 ----------------------------------------Added by PP on 06-06-23-----------------------------------END--------
 ---------------------------------------Executed on Local Server on 06-06-23------------------by PP-----------
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'HolidayMst')
+BEGIN 
+	Create table dbo.HolidayMst(
+			Id int identity(1,1) primary key,
+			HolidayName nvarchar(100) not null,
+			HolidayDate DateTime not null,
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'HolidayMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'HolidayMst Table Already Exist' 
+END
+
+
+
+----------------------------------------Added by PP on 15-06-23-----------------------------------END--------
+---------------------------------------Executed on Local Server on 15-06-23------------------by SP-----------
