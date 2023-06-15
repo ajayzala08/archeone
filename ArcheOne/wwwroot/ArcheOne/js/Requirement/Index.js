@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-    
     LoadRequirementForDDL();
     LoadClientDDL();
     LoadPositionTypeDDL();
@@ -7,7 +6,7 @@
     LoadEmploymentTypeDDL();
     LoadRequirementStatusDDL();
 
-  
+
     GetFilteredRequirementList();
 
     $("#btnAddRequirement").click(function () {
@@ -32,10 +31,26 @@ function GetFilteredRequirementList() {
     ajaxCall("Get", false, '/Requirement/RequirementList', reqData, function (result) {
         $("#divRequirementList").html(result.responseText);
         ApplyDatatableResponsive('tblRequirement');
-        
-        $(".btn-Edit").click(function () {
-            var RequirementId = $(this).attr('RequirementId');
-            AddEditRequirement(RequirementId);
+
+        $(".btn-edit").click(function () {
+            AddEditRequirement($(this).attr('RequirementId'));
+        });
+
+        $(".btn-delete").click(function () {
+            $.blockUI();
+            var requirementId = parseInt($(this).attr('RequirementId'));
+            ajaxCall("Post", false, '/Requirement/DeleteRequirement?RequirementId=' + requirementId, null, function (result) {
+                console.log(result)
+                debugger
+                if (result.status == true) {
+                    Toast.fire({ icon: 'success', title: result.message });
+                    RedirectToPage("/Requirement/Index");
+                }
+                else {
+                    Toast.fire({ icon: 'error', title: result.message });
+                    $.unblockUI();
+                }
+            });
         });
     });
 }
@@ -53,7 +68,7 @@ function LoadRequirementForDDL() {
                 $("#ddlRequirementFor").append('<option  value="' + value.id + '">' + value.requirementForName + '</option>');
             });
         }
-        //$('#ddlRequirementFor').select2();
+        $('#ddlRequirementFor').select2();
     });
 }
 
@@ -66,6 +81,7 @@ function LoadClientDDL() {
                 $("#ddlClients").append('<option  value="' + value.id + '">' + value.clientName + '</option>');
             });
         }
+        $('#ddlClients').select2();
     });
 }
 
@@ -78,6 +94,7 @@ function LoadPositionTypeDDL() {
                 $("#ddlPositionType").append('<option  value="' + value.id + '">' + value.positionTypeName + '</option>');
             });
         }
+        $('#ddlPositionType').select2();
     });
 }
 
@@ -90,6 +107,7 @@ function LoadRequirementTypeDDL() {
                 $("#ddlRequirementType").append('<option  value="' + value.id + '">' + value.requirementTypeName + '</option>');
             });
         }
+        $('#ddlRequirementType').select2();
     });
 }
 
@@ -102,6 +120,7 @@ function LoadEmploymentTypeDDL() {
                 $("#ddlEmploymentType").append('<option  value="' + value.id + '">' + value.employmentTypeName + '</option>');
             });
         }
+        $('#ddlEmploymentType').select2();
     });
 }
 
@@ -114,5 +133,6 @@ function LoadRequirementStatusDDL() {
                 $("#ddlRequirementStatus").append('<option  value="' + value.id + '">' + value.requirementStatusName + '</option>');
             });
         }
+        $('#ddlRequirementStatus').select2();
     });
 }

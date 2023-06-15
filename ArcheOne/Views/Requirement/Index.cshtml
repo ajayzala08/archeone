@@ -1,9 +1,9 @@
 ﻿@{
     Layout = "_MasterLayout";
-    //ViewBag.select2 = "true";
+    ViewBag.select2 = "true";
 }
 
-@if (1 == 1)
+@if (1 == 0)
 {
     <h3 style="color:red;">This Page Is In Under Development!</h3>
 }
@@ -75,5 +75,5 @@ else
 }
 
 @section Scripts{
-    <script src="~/archeone/js/requirement/index.js"></script>
+    <script src="~/archeone/js/requirement/index.js?_@DateTime.Now.Ticks"></script>
 }

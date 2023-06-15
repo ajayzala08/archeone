@@ -4,6 +4,7 @@
 @{
     Layout = "_MasterLayout";
     ViewBag.select2 = "true";
+    ViewBag.ckeditor = "true";
 }
 
 <section class="content-header">
@@ -31,11 +32,18 @@
                 <h3 class="card-title"><b>Add Requirement</b></h3>
                 <div class="float-right">
                     <label class="form-label">Is Active</label> &nbsp;
-                    <input type="checkbox" id="chkIsActive" name="chkIsActive" />
+                    @if (addEditRequirementResModel.RequirementDetail.IsActive || addEditRequirementResModel.RequirementDetail.RequirementId == 0)
+                    {
+                        <input type="checkbox" id="chkIsActive" name="chkIsActive" checked />
+                    }
+                    else
+                    {
+                        <input type="checkbox" id="chkIsActive" name="chkIsActive" />
+                    }
                 </div>
             </div>
             <div class="card-body">
-                <input type="hidden" id="txtRequirementId" name="txtRequirementId" value="@addEditRequirementResModel.RequirementDetail.Id" />
+                <input type="hidden" id="txtRequirementId" name="txtRequirementId" value="@addEditRequirementResModel.RequirementDetail.RequirementId" />
 
                 <div class="row">
                     <div class="col-md-3">
@@ -226,15 +234,19 @@
                             </div>
                             <div class="col-md-6" id="dddlAssignedUsers">
                                 <label class="form-label"><span class="has-error required">* </span>Assign Users</label>
-                                <select id="ddlAssignedUsers" name="ddlAssignedUsers" class="form-control select2" isRequired="1" divcontainer="dddlAssignedUsers" errorspan="sddlAssignedUsers" defaultvalue="0" >
+                                <select id="ddlAssignedUsers" name="ddlAssignedUsers" class="form-control select2" isRequired="1" divcontainer="dddlAssignedUsers" errorspan="sddlAssignedUsers" defaultvalue="0" multiple="multiple">
                                     <option value="0">Select</option>
-                                   @* @foreach (var item in addEditRequirementResModel.RequirementStatusList)
+                                    @foreach (var item in addEditRequirementResModel.UserList)
                                     {
-                                        if (item.Id == addEditRequirementResModel.RequirementDetail.AssignedUserIds)
+                                        if (addEditRequirementResModel.RequirementDetail.AssignedUserIds.Contains(item.Id))
                                         {
-                                            
+                                            <option value="@item.Id" selected>@item.Name</option>
                                         }
-                                    }*@
+                                        else
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                    }
                                 </select>
                                 <span class="help-block d-none has-error" id="sddlAssignedUsers">Please Select Users</span>
                             </div>
@@ -251,7 +263,6 @@
                                 <input type="text" id="txtPOCName" name="txtPOCName" class="form-control" isRequired="0" divcontainer="dtxtPOCName" errorspan="stxtPOCName" defaultvalue="" value="@addEditRequirementResModel.RequirementDetail.Pocname" />
                                 <span class="help-block d-none has-error" id="stxtPOCName">Please Enter POC Name</span>
                             </div>
-
                             <div class="col-md-3" id="dtxtClientBillRate">
                                 <label class="form-label"><span class="has-error required">* </span>Client Bill Rate</label>
                                 <input type="text" id="txtClientBillRate" name="txtClientBillRate" class="form-control" isRequired="0" divcontainer="dtxtClientBillRate" errorspan="stxtClientBillRate" defaultvalue="" value="@addEditRequirementResModel.RequirementDetail.ClientBillRate" />
@@ -269,7 +280,14 @@
 
             </div>
             <div class="card-footer">
-                <input type="button" id="btnSaveUpdateRequirement" name="btnSaveUpdateRequirement" class="btn btn-success float-right ml-1" value="Add Requirement" />
+                @if (addEditRequirementResModel.RequirementDetail.RequirementId == 0)
+                {
+                    <input type="button" id="btnSaveUpdateRequirement" name="btnSaveUpdateRequirement" class="btn btn-success float-right ml-1" value="Save" />
+                }
+                else
+                {
+                    <input type="button" id="btnSaveUpdateRequirement" name="btnSaveUpdateRequirement" class="btn btn-success float-right ml-1" value="Update" />
+                }
                 <input type="button" id="btnCancelRequirement" name="btnCancelRequirement" class="btn btn-danger float-right" value="Cancel" />
             </div>
         }

@@ -10,6 +10,7 @@
     }
     bool datatable = (!string.IsNullOrWhiteSpace(ViewBag.datatable) && (ViewBag.datatable == "true" || ViewBag.datatable == "True")) ? true : false;
     bool select2 = (!string.IsNullOrWhiteSpace(ViewBag.select2) && (ViewBag.select2 == "true" || ViewBag.select2 == "True")) ? true : false;
+    bool ckeditor = (!string.IsNullOrWhiteSpace(ViewBag.ckeditor) && (ViewBag.ckeditor == "true" || ViewBag.ckeditor == "True")) ? true : false;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -395,6 +396,10 @@
         <script src="~/theme/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
         <script src="~/theme/plugins/datatables-buttons/js/buttons.print.min.js"></script>
         <script src="~/theme/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    }
+    @if (ckeditor)
+    {
+        <script src="~/theme/dist/js/ckeditor5_38.0.1_classic_ckeditor.js"></script>
     }
     <!-- AdminLTE App -->
     <script src="~/theme/dist/js/adminlte.min.js"></script>
