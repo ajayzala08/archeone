@@ -13,7 +13,6 @@ $('#AddUserPage').click(function () {
 });
 
 function AddEditUser(Id) {
-    alert('Hi');
     ajaxCall("Get", false, '/User/AddEditUser?Id=' + Id, null, function (result) {
         if (Id > 0) {
             RedirectToPage('/User/AddEditUser?Id=' + Id)
@@ -51,7 +50,6 @@ function DeleteUser(Id) {
 };
 
 function GetFilteredUserList() {
-    alert("Hii...");
     ajaxCall("Get", false, '/User/UserList', null, function (result) {
         $("#divUserList").html(result.responseText);
         ApplyDatatableResponsive('tblUser');
@@ -66,7 +64,6 @@ function GetFilteredUserList() {
         });
     });
 }
-
 
 function GetRoleList() {
     $.blockUI({ message: "<h2>Please wait</p>" });
@@ -86,58 +83,61 @@ function GetRoleList() {
 var dataTable = null;
 
 function GetUserList(RoleId) {
-    //debugger
     ajaxCall("Post", false, '/User/UserListByRoleId?RoleId=' + RoleId, null, function (result) {
         if (result.status == true) {
-            //debugger
             if (dataTable !== null) {
                 dataTable.destroy();
                 dataTable = null;
             }
-
             dataTable = $('#tblUser').DataTable({
                 "responsive": true,
                 "lengthChange": false,
-                "paging": false,
-                "searching": false,
+                "paging": true,
+                "searching": true,
                 "processing": true, // for show progress bar
+                "dom": 'Blfrtip',
                 "filter": true, // this is for disable filter (search box)
-
                 "data": result.data,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
                 "columns": [
-                    //{
-                    //    data: null,
-                    //    title: 'Action',
-                    //    render: function (data, type, row) {
-                    //        if (row.isDefaultPermission) {
-                    //            return '<input type="checkbox" class="permissionBox" checked value="' + row.id + '">';
-                    //        } else {
-                    //            return '<input type="checkbox" class="permissionBox" value="' + row.id + '">';
-                    //        }
-                    //    }
-                    //},
-
-                    /*{ data: "id", title: "Id" },*/
+                    {
+                        data: null,
+                        title: 'Action',
+                        render: function (data, type, row) {
+                            if (data) {
+                                var fullName = ' + data.fullName + '
+                                return '<i class="fa fa-pen pen" value="' + data.id + '" onclick="AddEditUser(' + row.id + ')"></i> | <i class="fa fa-trash trash" value="' + data.id + '" onclick="DeleteUser(' + row.id + ')"></i>';
+                                /*return '<img src="' + data.photoUrl + '" height="60px" width="60px" alt="Profile Image">';*/
+                            } else {
+                                //return '<i class="fa fa-trash trash" value="' + data.id + '" onclick="DeleteUser(@item.Id)"></i>';
+                            }
+                        }
+                    },
                     { data: "companyId", title: "Company" },
                     { data: "roleId", title: "Role" },
-                    //{ data: "firstName" + "MiddleName" + "LastName", title: "FullName" },
+                    { data: "fullName", title: "FullName" },
                     { data: "pincode", title: "Pincode" },
                     { data: "mobile1", title: "Contact No." },
                     { data: "email", title: "Email Address" },
-                    { data: "photoUrl", title: "ProfileImage" }
-
+                    {
+                        data: null,
+                        title: 'ProfileImage',
+                        render: function (data, type, row) {
+                            if (data) {
+                                return '<img src="' + data.photoUrl + '" height="60px" width="60px" alt="Profile Image">';
+                            } else {
+                                //return '<i class="fa fa-trash trash" value="' + data.id + '" onclick="DeleteUser(@item.Id)"></i>';
+                            }
+                        }
+                    }
                 ]
             });
         }
-        //else {
-
-        //    $("#btnUpdatePermission").attr("disabled", true);
-
-        //    $.blockUI({
-        //        message: "<h2>" + result.message + "</p>"
-        //    });
-        //}
-        ///*$.unblockUI();*/
+        else {
+            Toast.fire({ icon: 'error', title: result.message });
+        }
     });
 }
+
+
 

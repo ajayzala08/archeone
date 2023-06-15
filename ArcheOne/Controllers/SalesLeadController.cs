@@ -6,6 +6,7 @@ using ArcheOne.Models.Res;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using System.Transactions;
 
 namespace ArcheOne.Controllers
 {
@@ -89,7 +90,7 @@ namespace ArcheOne.Controllers
                 }
                 salesLeadContactPersonList = _dbRepo.SalesContactPersonList().Where(x => x.IsActive == true && x.IsDelete == false).Select(x => new SalesLeadContactPersonDetail
                 {
-                    Id = x.Id,
+                    SalesLeadContactPersonId = x.Id,
                     SalesLeadId = x.SalesLeadId,
                     FirstName = x.FirstName,
                     LastName = x.LastName,
@@ -116,71 +117,115 @@ namespace ArcheOne.Controllers
         public async Task<CommonResponse> SaveUpdateSalesLead([FromBody] SaveUpdateSalesLeadReqModel saveUpdateSalesLeadReqModel)
         {
             CommonResponse commonResponse = new CommonResponse();
-
-            SalesLeadMst salesLeadMst = new SalesLeadMst();
-            var saleslist = await _dbRepo.SalesLeadList().ToListAsync();
-            var duplicateCheck = saleslist.Any(x => x.OrgName == saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.OrgName && x.Id != saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Id);
-
-            if (!duplicateCheck)
+            try
             {
-                var salesLeadDetail = saleslist.FirstOrDefault(x => x.Id == saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Id);
-                if (salesLeadDetail != null)
+                DateTime date = _commonHelper.GetCurrentDateTime();
+                int LoggedInUserId = _commonHelper.GetLoggedInUserId();
+                SalesLeadMst salesLeadMst = new SalesLeadMst();
+                SalesContactPersonMst salesContactPersonMst = new SalesContactPersonMst();
+                var saleslist = await _dbRepo.SalesLeadList().ToListAsync();
+                var duplicateCheck = saleslist.Any(x => x.OrgName == saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.OrgName && x.Id != saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Id);
+                using (TransactionScope transactionScope1 = new TransactionScope())
                 {
-                    //Edit Mode
-                    //salesLeadMst.Id = saveUpdateSalesLeadReqModel.Id;
-                    salesLeadDetail.Address = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Address;
-                    salesLeadDetail.OrgName = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.OrgName;
-                    salesLeadDetail.CountryId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.CountryId;
-                    salesLeadDetail.StateId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.StateId;
-                    salesLeadDetail.CityId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.CityId;
-                    salesLeadDetail.Phone1 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Phone1;
-                    salesLeadDetail.Phone2 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Phone2;
-                    salesLeadDetail.Email1 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Email1;
-                    salesLeadDetail.Email2 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Email2;
-                    salesLeadDetail.WebsiteUrl = @saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.WebsiteUrl;
-                    salesLeadDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                    salesLeadDetail.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                    if (!duplicateCheck)
+                    {
+                        var salesLeadDetail = saleslist.FirstOrDefault(x => x.Id == saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Id);
+                        if (salesLeadDetail != null)
+                        {
+                            //Edit Mode
+                            //salesLeadMst.Id = saveUpdateSalesLeadReqModel.Id;
+                            salesLeadDetail.Address = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Address;
+                            salesLeadDetail.OrgName = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.OrgName;
+                            salesLeadDetail.CountryId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.CountryId;
+                            salesLeadDetail.StateId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.StateId;
+                            salesLeadDetail.CityId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.CityId;
+                            salesLeadDetail.Phone1 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Phone1;
+                            salesLeadDetail.Phone2 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Phone2;
+                            salesLeadDetail.Email1 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Email1;
+                            salesLeadDetail.Email2 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Email2;
+                            salesLeadDetail.WebsiteUrl = @saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.WebsiteUrl;
+                            salesLeadDetail.UpdatedDate = date;
+                            salesLeadDetail.UpdatedBy = LoggedInUserId;
 
-                    _dbContext.Entry(salesLeadDetail).State = EntityState.Modified;
-                    _dbContext.SaveChanges();
+                            _dbContext.Entry(salesLeadDetail).State = EntityState.Modified;
+                            _dbContext.SaveChanges();
 
-                    commonResponse.Status = true;
-                    commonResponse.StatusCode = HttpStatusCode.OK;
-                    commonResponse.Message = "SalesLead Updated Successfully!";
+                            transactionScope1.Complete();
+                            commonResponse.Status = true;
+                            commonResponse.StatusCode = HttpStatusCode.OK;
+                            commonResponse.Message = "SalesLead Updated Successfully!";
+                        }
+                        else
+                        {
+                            //Add Mode
+                            salesLeadMst.Address = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Address;
+                            salesLeadMst.OrgName = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.OrgName;
+                            salesLeadMst.CountryId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.CountryId;
+                            salesLeadMst.StateId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.StateId;
+                            salesLeadMst.CityId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.CityId;
+                            salesLeadMst.Phone1 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Phone1;
+                            salesLeadMst.Phone2 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Phone2;
+                            salesLeadMst.Email1 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Email1;
+                            salesLeadMst.Email2 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Email2;
+                            salesLeadMst.WebsiteUrl = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.WebsiteUrl;
+                            salesLeadMst.CreatedDate = date;
+                            salesLeadMst.UpdatedDate = date;
+                            salesLeadMst.CreatedBy = LoggedInUserId;
+                            salesLeadMst.UpdatedBy = LoggedInUserId;
+                            salesLeadMst.IsActive = true;
+                            salesLeadMst.IsDelete = false;
+                            _dbContext.SalesLeadMsts.Add(salesLeadMst);
+                            _dbContext.SaveChanges();
+
+                            #region contactperson 
+
+                            var SalesLeadContactPersonList = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadContactPersonList;
+
+                            foreach (var item in SalesLeadContactPersonList)
+                            {
+                                if (!string.IsNullOrWhiteSpace(item.FirstName))
+                                {
+
+                                    salesContactPersonMst.SalesLeadId = salesLeadMst.Id;
+                                    salesContactPersonMst.FirstName = item.FirstName;
+                                    salesContactPersonMst.LastName = item.LastName;
+                                    salesContactPersonMst.Email = item.Email;
+                                    salesContactPersonMst.Designation = item.Designation;
+                                    salesContactPersonMst.Mobile1 = item.Mobile1;
+                                    salesContactPersonMst.Mobile2 = item.Mobile2;
+                                    salesContactPersonMst.Linkedinurl = item.Linkedinurl;
+                                    salesContactPersonMst.CreatedDate = _commonHelper.GetCurrentDateTime();
+                                    salesContactPersonMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                                    salesContactPersonMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+                                    salesContactPersonMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                                    salesContactPersonMst.IsActive = true;
+                                    salesContactPersonMst.IsDelete = false;
+
+                                }
+                            }
+                            _dbContext.SalesContactPersonMsts.Add(salesContactPersonMst);
+                            _dbContext.SaveChanges();
+                            #endregion
+
+
+                            transactionScope1.Complete();
+                            commonResponse.Status = true;
+                            commonResponse.StatusCode = HttpStatusCode.OK;
+                            commonResponse.Message = "SalesLead Added Successfully!";
+                        }
+                    }
+                    else
+                    {
+                        transactionScope1.Dispose();
+                        commonResponse.Message = "Organization Name Already Exist";
+                    }
                 }
-                else
-                {
-                    //Add Mode
-                    salesLeadMst.Address = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Address;
-                    salesLeadMst.OrgName = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.OrgName;
-                    salesLeadMst.CountryId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.CountryId;
-                    salesLeadMst.StateId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.StateId;
-                    salesLeadMst.CityId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.CityId;
-                    salesLeadMst.Phone1 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Phone1;
-                    salesLeadMst.Phone2 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Phone2;
-                    salesLeadMst.Email1 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Email1;
-                    salesLeadMst.Email2 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Email2;
-                    salesLeadMst.WebsiteUrl = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.WebsiteUrl;
-                    salesLeadMst.CreatedDate = _commonHelper.GetCurrentDateTime();
-                    salesLeadMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                    salesLeadMst.CreatedBy = _commonHelper.GetLoggedInUserId();
-                    salesLeadMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
-                    salesLeadMst.IsActive = true;
-                    salesLeadMst.IsDelete = false;
-                    _dbContext.SalesLeadMsts.Add(salesLeadMst);
-                    _dbContext.SaveChanges();
-
-
-                    commonResponse.Status = true;
-                    commonResponse.StatusCode = HttpStatusCode.OK;
-                    commonResponse.Message = "SalesLead Added Successfully!";
-                }
+                commonResponse.Data = salesLeadMst;
             }
-            else
+            catch (Exception e)
             {
-                commonResponse.Message = "Organization Name Already Exist";
+                commonResponse.Message = e.Message;
             }
-            commonResponse.Data = salesLeadMst;
 
             return commonResponse;
         }
