@@ -32,9 +32,9 @@ namespace ArcheOne.Controllers
             {
                 var data = await (from resumeFileUploadDetail in _dbRepo.ResumeFileUploadDetailList()
                                   where resumeFileUploadDetail.ResumeFileUploadId == ResumeFileUploadId
-                                  join interview in _dbRepo.GetInterviewList() on resumeFileUploadDetail.Id equals interview.ResumeFileUploadDetailId into interviewGroup
+                                  join interview in _dbRepo.InterviewList() on resumeFileUploadDetail.Id equals interview.ResumeFileUploadDetailId into interviewGroup
                                   from interviewItem in interviewGroup.DefaultIfEmpty()
-                                  join hireStatus in _dbRepo.GetHireStatusList() on interviewItem.HireStatusId equals hireStatus.Id into hireStatusGroup
+                                  join hireStatus in _dbRepo.HireStatusList() on interviewItem.HireStatusId equals hireStatus.Id into hireStatusGroup
                                   from hireStatusItem in hireStatusGroup.DefaultIfEmpty()
                                   select new
                                   {
@@ -87,7 +87,7 @@ namespace ArcheOne.Controllers
                         {
                             bool existInterviewRound = true;
 
-                            var existInterviewId = await _dbRepo.GetInterviewList().Where(x => x.ResumeFileUploadDetailId == request.ResumeFileUploadDetailId).Select(x => x.Id).FirstOrDefaultAsync();
+                            var existInterviewId = await _dbRepo.InterviewList().Where(x => x.ResumeFileUploadDetailId == request.ResumeFileUploadDetailId).Select(x => x.Id).FirstOrDefaultAsync();
 
                             if (existInterviewId == 0)
                             {
@@ -114,7 +114,7 @@ namespace ArcheOne.Controllers
                             }
                             else
                             {
-                                existInterviewRound = await _dbRepo.GetInterviewRoundList().AnyAsync(x => x.InterviewId == existInterviewId && (x.InterviewStartDateTime <= request.InterviewStartDateTime && x.InterviewEndDateTime >= request.InterviewStartDateTime));
+                                existInterviewRound = await _dbRepo.InterviewRoundList().AnyAsync(x => x.InterviewId == existInterviewId && (x.InterviewStartDateTime <= request.InterviewStartDateTime && x.InterviewEndDateTime >= request.InterviewStartDateTime));
                             }
 
                             if (!existInterviewRound)
@@ -154,12 +154,12 @@ namespace ArcheOne.Controllers
                     }
                     else // Update old interview
                     {
-                        var existInterviewId = await _dbRepo.GetInterviewList().Where(x => x.ResumeFileUploadDetailId == request.ResumeFileUploadDetailId).Select(x => x.Id).FirstOrDefaultAsync();
-                        var existInterviewRound = await _dbRepo.GetInterviewRoundList().AnyAsync(x => x.InterviewId == existInterviewId && x.Id != request.InterviewRoundId && (x.InterviewStartDateTime <= request.InterviewStartDateTime && x.InterviewEndDateTime >= request.InterviewStartDateTime));
+                        var existInterviewId = await _dbRepo.InterviewList().Where(x => x.ResumeFileUploadDetailId == request.ResumeFileUploadDetailId).Select(x => x.Id).FirstOrDefaultAsync();
+                        var existInterviewRound = await _dbRepo.InterviewRoundList().AnyAsync(x => x.InterviewId == existInterviewId && x.Id != request.InterviewRoundId && (x.InterviewStartDateTime <= request.InterviewStartDateTime && x.InterviewEndDateTime >= request.InterviewStartDateTime));
 
                         if (!existInterviewRound)
                         {
-                            var interviewRound = await _dbRepo.GetInterviewRoundList().FirstOrDefaultAsync(x => x.Id == request.InterviewRoundId);
+                            var interviewRound = await _dbRepo.InterviewRoundList().FirstOrDefaultAsync(x => x.Id == request.InterviewRoundId);
                             if (interviewRound != null)
                             {
                                 interviewRound.InterviewRoundTypeId = request.InterviewRoundTypeId;
@@ -203,11 +203,11 @@ namespace ArcheOne.Controllers
             CommonResponse response = new CommonResponse();
             try
             {
-                var data = (from interview in await _dbRepo.GetInterviewList().ToListAsync()
+                var data = (from interview in await _dbRepo.InterviewList().ToListAsync()
                             where interview.ResumeFileUploadDetailId == ResumeId
-                            join interviewRound in _dbRepo.GetInterviewRoundList() on interview.Id equals interviewRound.InterviewId
-                            join interviewRoundType in _dbRepo.GetInterviewRoundTypeList() on interviewRound.InterviewRoundTypeId equals interviewRoundType.Id into interviewRoundTypeGroup
-                            join interviewRoundStatus in _dbRepo.GetInterviewRoundStatusList() on interviewRound.InterviewRoundStatusId equals interviewRoundStatus.Id into interviewRoundStatusGroup
+                            join interviewRound in _dbRepo.InterviewRoundList() on interview.Id equals interviewRound.InterviewId
+                            join interviewRoundType in _dbRepo.InterviewRoundTypeList() on interviewRound.InterviewRoundTypeId equals interviewRoundType.Id into interviewRoundTypeGroup
+                            join interviewRoundStatus in _dbRepo.InterviewRoundStatusList() on interviewRound.InterviewRoundStatusId equals interviewRoundStatus.Id into interviewRoundStatusGroup
                             from interviewRoundTypeItem in interviewRoundTypeGroup.DefaultIfEmpty()
                             from interviewRoundStatusItem in interviewRoundStatusGroup.DefaultIfEmpty()
                             select new
@@ -252,11 +252,11 @@ namespace ArcheOne.Controllers
                 {
                     int userId = _commonHelper.GetLoggedInUserId();
 
-                    var interviewRoundMst = await _dbRepo.GetInterviewRoundList().FirstOrDefaultAsync(x => x.Id == request.InterviewRoundId);
+                    var interviewRoundMst = await _dbRepo.InterviewRoundList().FirstOrDefaultAsync(x => x.Id == request.InterviewRoundId);
                     if (interviewRoundMst != null)
                     {
                         string responseMessage = "Interview status changed successfully!";
-                        var interviewRoundMstList = await _dbRepo.GetInterviewRoundList().Where(x => x.InterviewId == interviewRoundMst.InterviewId).ToListAsync();
+                        var interviewRoundMstList = await _dbRepo.InterviewRoundList().Where(x => x.InterviewId == interviewRoundMst.InterviewId).ToListAsync();
 
                         using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                         {
@@ -275,7 +275,7 @@ namespace ArcheOne.Controllers
 
                                 if (clearedInterviewCount == interviewRoundMstList.Count || (lastInterviewRoundDetail != null && lastInterviewRoundDetail.Id == request.InterviewRoundId))
                                 {
-                                    var interviewMst = await _dbRepo.GetInterviewList().FirstOrDefaultAsync(x => x.Id == interviewRoundMst.InterviewId);
+                                    var interviewMst = await _dbRepo.InterviewList().FirstOrDefaultAsync(x => x.Id == interviewRoundMst.InterviewId);
                                     if (interviewMst != null)
                                     {
                                         interviewMst.OfferStatusId = Convert.ToInt32(CommonEnums.OfferStatusMst.Offer);
@@ -291,7 +291,7 @@ namespace ArcheOne.Controllers
                             }
                             else
                             {
-                                var interviewMst = await _dbRepo.GetInterviewList().FirstOrDefaultAsync(x => x.Id == interviewRoundMst.InterviewId);
+                                var interviewMst = await _dbRepo.InterviewList().FirstOrDefaultAsync(x => x.Id == interviewRoundMst.InterviewId);
                                 if (interviewMst != null)
                                 {
                                     interviewMst.OfferStatusId = 0;
@@ -309,6 +309,42 @@ namespace ArcheOne.Controllers
                             response.StatusCode = System.Net.HttpStatusCode.OK;
                             response.Message = responseMessage;
                         }
+                    }
+                    else
+                    {
+                        response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                        response.Message = "Interview details not found! Please try refreshing the page!";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
+        public async Task<CommonResponse> UpdateInterviewHireStatus([FromBody] UpdateInterviewHireStatusReqModel request)
+        {
+            CommonResponse response = new CommonResponse();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var interviewMst = await _dbRepo.InterviewList().FirstOrDefaultAsync(x => x.ResumeFileUploadDetailId == request.UploadedResumeId);
+                    if (interviewMst != null)
+                    {
+                        interviewMst.OfferStatusId = Convert.ToInt32(CommonEnums.OfferStatusMst.Hire);
+                        interviewMst.HireStatusId = request.HireStatusId;
+                        interviewMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                        interviewMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+
+                        _dbContext.Entry(interviewMst).State = EntityState.Modified;
+                        await _dbContext.SaveChangesAsync();
+
+                        response.Status = true;
+                        response.StatusCode = System.Net.HttpStatusCode.OK;
+                        response.Message = $"Interview status updated successfully!";
                     }
                     else
                     {
