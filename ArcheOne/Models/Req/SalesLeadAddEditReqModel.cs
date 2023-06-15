@@ -40,7 +40,7 @@
     }
     public class SalesLeadContactPersonDetail
     {
-        public int Id { get; set; }
+        public int SalesLeadContactPersonId { get; set; }
 
         public int SalesLeadId { get; set; }
 
