@@ -1,21 +1,14 @@
 ﻿namespace ArcheOne.Models.Req
 {
-    public class SalesLeadAddEditReqViewModel
+    public class SaveUpdateSalesLeadReqModel
     {
+        public SaveUpdateSalesLeadDetail SaveUpdateSalesLeadDetails { get; set; }
+        public List<SaveUpdateSalesLeadContactPersonDetail> SaveUpdateSalesLeadContactPerson { get; set; }
 
-        public SalesLeadDetail salesLeadDetail { get; set; }
-        public SalesLeadContactPersonDetail SalesLeadContactPersonDetail { get; set; }
-        public List<SalesLeadContactPersonDetail> SalesLeadContactPersonList { get; set; }
-
-
-        //public SalesLeadDetailes SalesLeadDetailes { get; set; }
-        //public SalesLeadContactPersonDetailes SalesLeadContactPersonDetailes { get; set; }
     }
-
-    public class SalesLeadDetail
+    public class SaveUpdateSalesLeadDetail
     {
         public int Id { get; set; }
-
         public string OrgName { get; set; } = null!;
 
         public int CountryId { get; set; }
@@ -38,7 +31,7 @@
 
         public bool IsActive { get; set; }
     }
-    public class SalesLeadContactPersonDetail
+    public class SaveUpdateSalesLeadContactPersonDetail
     {
         public int Id { get; set; }
 
@@ -61,7 +54,4 @@
         public bool IsActive { get; set; }
 
     }
-
-
 }
-

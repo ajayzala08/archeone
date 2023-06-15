@@ -16,7 +16,6 @@ builder.Services.AddDbContext<ArcheOneDbContext>(options =>
     options.UseSqlServer(connString);
 });
 
-builder.Services.DIScopes();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(10);//You can set Time   
@@ -33,9 +32,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
      //options.EventsType = typeof(CookieAuthEvent);
  });
 
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddHttpContextAccessor();
+//builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+//builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();
+
+builder.Services.DIScopes();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

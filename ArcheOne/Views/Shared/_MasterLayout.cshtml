@@ -3,6 +3,7 @@
 @{
     var user = HttpContextAccessor.HttpContext.Session.GetString("User");
     bool IsValidate = string.IsNullOrWhiteSpace(user) ? false : true;
+    IsValidate = HttpContextAccessor.HttpContext.Request.Host.Host == "localhost" && 1 == 0 ? true : IsValidate;
     if (!IsValidate)
     {
         Context.Response.Redirect("/LogIn/Logout");
@@ -286,7 +287,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="~/Team/Team" class="nav-link">
-                                        <i class="nav-icon fa-screen-users"></i>
+                                        <i class="nav-icon fas fa-users"></i>
                                         <p>Teams</p>
                                     </a>
                                 </li>
@@ -304,7 +305,7 @@
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="~/Requirement/Index" class="nav-link">
-                                        <i class="nav-icon fa fa-people-pulling"></i>
+                                        <i class="nav-icon fas fa-book"></i>
                                         <p>Requirements</p>
                                     </a>
                                 </li>
@@ -398,7 +399,7 @@
     <!-- AdminLTE App -->
     <script src="~/theme/dist/js/adminlte.min.js"></script>
     <!-- blockUI -->
-    <script src="https://malsup.github.io/jquery.blockUI.js"></script>
+    <script src="~/theme/dist/js/jquery.blockui.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
