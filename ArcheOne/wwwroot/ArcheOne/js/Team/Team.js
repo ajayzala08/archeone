@@ -14,7 +14,6 @@ function GetFilteredTeamList() {
     ajaxCall("Get", false, '/Team/TeamList', null, function (result) {
         $("#divTeamList").html(result.responseText);
         ApplyDatatableResponsive('tblTeam');
-        debugger
         $(".btn-edit").click(function () {
             var TeamLeadId = $(this).attr('TeamLeadId');
             AddEditTeam(TeamLeadId);
@@ -36,13 +35,11 @@ function AddEditTeam(id) {
 
 
 function SaveUpdateTeam() {
-    debugger
     var selected = [];
     $('#ddlTeamMemberId :selected').each(function () {
         selected.push[$(this).val()] = $(this).text();
     });
     /*   var arraSelect =[]*/
-    debugger
     var saveTeamData = {
         "TeamId": parseInt($("#txtTeamId").val()),
         "TeamLeadId": parseInt($("#ddlTeamLeadId").val()),

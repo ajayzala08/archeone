@@ -2,7 +2,6 @@
 @model UserAddEditReqViewModel;
 @{
     ViewBag.datatable = "true";
-    
 }
 <div class="row">
     <div class="col-md-12">
@@ -15,20 +14,13 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+                <div class="md-12">
                 <div class="col-md-3">
-                    @*<label for="roles">Role :</label>
-                    <select id="ddlRole" name="ddlRole" class="form-control">
-                        @foreach (var item in roles)
-                        {
-                        <option value="@item.Id">@item.RoleName</option>
-                        }
-                    </select>*@
-
                     <label>Role</label>
                     <select class="form-control" id="slRoles" onchange="GetUserList($(this).val())">
                         <option selected disabled value="0">Select Role</option>
                     </select>
-
+                </div>
                 </div>
                 <table id="tblUser" class="table table-bordered table-striped"></table>
                 <div id="divUserList"> </div>
