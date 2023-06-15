@@ -49,7 +49,7 @@ namespace ArcheOne.Controllers
                                       resumeFileUploadDetail.RelevantExperienceYear,
                                       resumeFileUploadDetail.CurrentDesignation,
                                       resumeFileUploadDetail.Skills,
-                                      FlowStatus = interviewItem.OfferStatusId == 0 ? CommonEnums.UploadedResumeTableFlowStatus.Interview_Info.ToString() : interviewItem.OfferStatusId == 1 ? CommonEnums.UploadedResumeTableFlowStatus.Offer.ToString() : hireStatusItem.HireStatusCode
+                                      FlowStatus = interviewItem == null || interviewItem.OfferStatusId == 0 ? CommonEnums.UploadedResumeTableFlowStatus.Interview_Info.ToString() : interviewItem.OfferStatusId == 1 ? CommonEnums.UploadedResumeTableFlowStatus.Offer.ToString() : hireStatusItem.HireStatusCode
                                   }).ToListAsync();
                 if (data != null && data.Count > 0)
                 {

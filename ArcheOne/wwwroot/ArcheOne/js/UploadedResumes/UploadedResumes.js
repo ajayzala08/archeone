@@ -129,41 +129,42 @@ function ShowScheduleInterview(candidateId, candidateName, showAddBlock) {
 }
 
 function ScheduleInterview() {
-    $.blockUI({ message: "<h2>Please wait</p>" });
+    if (validateRequiredFields()) {
+        $.blockUI({ message: "<h2>Please wait</p>" });
 
+        $("#btnScheduleInterview").attr("disabled", true);
 
-    $("#btnScheduleInterview").attr("disabled", true);
+        var isWalkIn = false;
 
-    var isWalkIn = false;
-
-    if ($('input[name="rdInterviewMedium"]:checked').val() == "WalkIn") {
-        isWalkIn = true;
-    }
-
-    var requestModel = {
-        "ResumeFileUploadId": 1,
-        "InterviewRoundId": parseInt($("#txtInterviewRoundId").val()) || 0,
-        "ResumeFileUploadDetailId": parseInt($("#txtCandidateId").val()),
-        "InterviewRoundTypeId": isWalkIn ? 0 : parseInt($("#ddlInterviewVia").val()),
-        "InterviewStartDateTime": $('#txtInterviewDateTime').val(),
-        "InterviewBy": $('#txtInterviewerName').val(),
-        "InterviewLocation": isWalkIn ? $('#txtLocation').val() : "",
-        "Note": $('#txtNote').val(),
-    }
-
-    ajaxCall("Post", false, '/UploadedResume/ScheduleInterview', JSON.stringify(requestModel), function (result) {
-        if (result.status == true) {
-            Toast.fire({ icon: 'success', title: result.message });
-            setInterval(function () {
-                window.location.reload();
-            }, 1500)
-        } else {
-            Toast.fire({ icon: 'error', title: result.message });
+        if ($('input[name="rdInterviewMedium"]:checked').val() == "WalkIn") {
+            isWalkIn = true;
         }
-        $.unblockUI();
 
-        $("#btnScheduleInterview").removeAttr("disabled");
-    });
+        var requestModel = {
+            "ResumeFileUploadId": 1,
+            "InterviewRoundId": parseInt($("#txtInterviewRoundId").val()) || 0,
+            "ResumeFileUploadDetailId": parseInt($("#txtCandidateId").val()),
+            "InterviewRoundTypeId": isWalkIn ? 0 : parseInt($("#ddlInterviewVia").val()),
+            "InterviewStartDateTime": $('#txtInterviewDateTime').val(),
+            "InterviewBy": $('#txtInterviewerName').val(),
+            "InterviewLocation": isWalkIn ? $('#txtLocation').val() : "",
+            "Note": $('#txtNote').val(),
+        }
+
+        ajaxCall("Post", false, '/UploadedResume/ScheduleInterview', JSON.stringify(requestModel), function (result) {
+            if (result.status == true) {
+                Toast.fire({ icon: 'success', title: result.message });
+                setInterval(function () {
+                    window.location.reload();
+                }, 1500)
+            } else {
+                Toast.fire({ icon: 'error', title: result.message });
+            }
+            $.unblockUI();
+
+            $("#btnScheduleInterview").removeAttr("disabled");
+        });
+    }
 }
 
 function GetScheduleInterviews(CandidateId) {
@@ -223,6 +224,11 @@ function GetScheduleInterviews(CandidateId) {
             }).buttons().container().appendTo('#tbScheduleInterviews_wrapper .col-md-6:eq(0)');;
         }
         else {
+
+            if (result.data == null || result.data.length == 0) {
+                $("#dScheduledInterviewList").hide();
+            }
+
             $.blockUI({
                 message: "<h2>" + result.message + "</p>"
             });
