@@ -6,10 +6,10 @@ $(document).ready(function () {
         AddEditSalesLead(0);
         ApplyDatatableResponsive('tblSalesConatactLead');
         window.location.href = '/SalesLead/AddEditSalesLead'
-        
+
     });
 
-    
+
 });
 
 
@@ -34,35 +34,56 @@ function SaveSalesLead() {
         "WebsiteUrl": $("#txtWebsite").val()
     }
     console.log(saveData);
-   debugger
+    debugger
     if (validateRequiredFields()) {
         ajaxCall("Post", false, '/SalesLead/SaveUpdateSalesLead', JSON.stringify(saveData), function (result) {
 
             if (result.status == true) {
-                Popup_Toast.fire({ icon: 'success', title: result.message });
+                Toast.fire({ icon: 'success', title: result.message });
                 $("#btnCancel").click();
                 ClearAll();
                 GetFilteredSalesLeadList();
             }
             else {
-                Popup_Toast.fire({ icon: 'error', title: result.message });
+                Toast.fire({ icon: 'error', title: result.message });
             }
         });
     }
 }
 
 function ClearAll() {
-        $("#txtSalesLeadId").val(''),
-        $("#txtOrganizationName").val(),
-        $("#txtSalesLeadAddress").val(),
-        $("#ddlCountry").val(0),
-        $("#ddlState").val(0),
-        $("#ddlCity").val(0),
-        $("#txtPhone1").val(),
-        $("#txtPhone2").val(),
-        $("#txtEmail1").val(),
-        $("#txtEmail2").val(),
-        $("#txtWebsite").val()
+    $("#txtSalesLeadId").val('');
+    $("#txtOrganizationName").val('');
+    $("#txtSalesLeadAddress").val();
+    $("#ddlCountry").val(0);
+    $("#ddlState").val(0);
+    $("#ddlCity").val(0);
+    $("#txtPhone1").val();
+    $("#txtPhone2").val();
+    $("#txtEmail1").val();
+    $("#txtEmail2").val();
+    $("#txtWebsite").val();
+    $('#txtFirstName').val();
+    $('#txtLastName').val();
+    $('#txtEmail').val();
+    $('#txtDesignation').val();
+    $('#txtMobile1').val();
+    $('#txtMobile2').val();
+    $('#txtLinkedinurl').val();
+    $('#txtFirstName1').val();
+    $('#txtLastName1').val();
+    $('#txtSalesLeadContactPersonEmail1').val();
+    $('#txtDesignation1').val();
+    $('#txtMobile11').val();
+    $('#txtMobile21').val();
+    $('#txtLinkedinurl1').val();
+    $('#txtFirstName2').val();
+    $('#txtLastName2').val();
+    $('#txtSalesLeadContactPersonEmail2').val();
+    $('#txtDesignation2').val();
+    $('#txtMobile12').val();
+    $('#txtMobile22').val();
+    $('#txtLinkedinurl2').val()
 }
 
 function GetFilteredSalesLeadList() {
@@ -106,11 +127,11 @@ function DeleteSalesLead(Id) {
             ajaxCall("Post", false, '/SalesLead/DeleteSalesLead?Id=' + Id, null, function (result) {
 
                 if (result.status == true) {
-                    Popup_Toast.fire({ icon: 'success', title: result.message });
+                    Toast.fire({ icon: 'success', title: result.message });
                     GetFilteredSalesLeadList();
                 }
                 else {
-                    Popup_Toast.fire({ icon: 'error', title: result.message });
+                    Toast.fire({ icon: 'error', title: result.message });
                 }
             });
         }

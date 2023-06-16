@@ -283,3 +283,22 @@ function ApplyDatatableResponsive(id) {
     }).buttons().container().appendTo(datatableWrapper + ' .col-md-6:eq(0)');
 }
 
+function validateRequiredFieldsByGroup(groupId) {
+    $('[id="' + groupId + '"] .error').each(function (index, itm) {
+        if (!$(itm).hasClass('d-none')) {
+            $(itm).addClass('d-none');
+        }
+    });
+    $('[id="' + groupId + '"] .has-error').each(function (index, itm) {
+        if ($(this).hasClass('has-error')) {
+            $(this).removeClass('has-error');
+        }
+    });
+    $("[id='" + groupId + "'] [isRequired='1']").each(function (ind, item) {
+        validateReqField($(this));
+    });
+    if ($('[id="' + groupId + '"] .has-error').length > 0) {
+        return false;
+    }
+    return true;
+}
