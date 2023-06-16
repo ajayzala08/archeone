@@ -10,8 +10,9 @@ function GetFilteredHolidayList() {
     ajaxCall("Get", false, '/Holiday/HolidayList', null, function (result) {
         $("#divHolidayList").html(result.responseText);
         ApplyDatatableResponsive('tblHoliday');
-        debugger
+        
         $(".btn-edit").click(function () {
+            debugger
             var Id = $(this).attr('Id');
             AddEditHoliday(Id);
         });
@@ -27,38 +28,6 @@ function GetFilteredHolidayList() {
 function AddEditHoliday(Id) {
     debugger
     window.location.href = '/Holiday/AddEditHoliday?Id=' + Id;
-}
-
-
-
-function SaveUpdateHoliday() {
-    var saveHolidayData = {
-        "HolidayId": parseInt($("#txtId").val()),
-        "HolidayName": $("#txtHolidayName").val(),
-        "Date":  $("#txtDate").val(),
-    }
-    console.log(saveHolidayData);
-
-    if (validateRequiredFields()) {
-        ajaxCall("Post", false, '/Holiday/SaveUpdateHoliday', JSON.stringify(saveHolidayData), function (result) {
-            debugger
-            if (result.status == true) {
-                Popup_Toast.fire({ icon: 'success', title: result.message });
-                $("#btnCancel").click();
-                ClearAll();
-                GetFilteredHolidayList();
-            }
-            else {
-                Popup_Toast.fire({ icon: 'error', title: result.message });
-            }
-        });
-    }
-}
-function ClearAll() {
-        $("#txtHolidayName").val(),
-        $("#txtDate").val(),
-        $("#txtDay").val()
-
 }
 
 function DeleteHoliday(Id) {
@@ -90,8 +59,6 @@ function DeleteHoliday(Id) {
         }
     })
 };
-
-
 
 
 

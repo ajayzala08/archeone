@@ -1,27 +1,20 @@
 ﻿$(document).ready(function () {
 
     $("#btnSaveAdd").click(function () {
-        debugger
         SaveUpdateHoliday();
     });
-    debugger
+
     $("#btnCancel").click(function () {
         window.location.href = '/Holiday/Holiday';
     });
-
-    $(".btn-edit").click(function () {
-        EditMode = 1;
-        Id = $(this).attr('Id');
-        AddEditHoliday(Id);
-    });
-
 });
 
 function SaveUpdateHoliday() {
+    debugger
     var saveHolidayData = {
-       
+        "Id": parseInt($("#txtHolidayId").val()),
         "HolidayName": $("#txtHolidayName").val(),
-        "HolidayDate": $("#txtHolidayDate").val()
+        "HolidayDate": $("#txtHolidayDate").val(),
     }
     console.log(saveHolidayData);
     debugger

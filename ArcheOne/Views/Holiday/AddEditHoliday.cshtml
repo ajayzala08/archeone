@@ -31,11 +31,11 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="row">
                                 <div class="form-group col-sm-12" id="dtxtHolidayDate">
                                     <label><span class="has-error required">* </span>Holiday Date</label>
-                                    <input id="txtHolidayDate" name="txtHolidayDate" type="datetime-local" class="form-control onlyletter txtCapitalize text-length" placeholder="Holiday Date" isrequired="1" divcontainer="dtxtHolidayDate" errorspan="stxtHolidayDate" defaultvalue="" autocomplete="off" minlength="2">
+                                <input id="txtHolidayDate" name="txtHolidayDate" type="datetime-local" class="form-control onlyletter txtCapitalize text-length" placeholder="Holiday Date" value="@Model.HolidayDate" isrequired="1" divcontainer="dtxtHolidayDate" errorspan="stxtHolidayDate" defaultvalue="" autocomplete="off" minlength="2">
                                     <span class="help-block d-none has-error" id="stxtHolidayDate">Please Select Holiday Date</span>
                                 </div>
                             </div>
