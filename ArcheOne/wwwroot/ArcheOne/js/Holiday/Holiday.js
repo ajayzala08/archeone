@@ -12,7 +12,7 @@ function GetFilteredHolidayList() {
         ApplyDatatableResponsive('tblHoliday');
         
         $(".btn-edit").click(function () {
-            debugger
+           
             var Id = $(this).attr('Id');
             AddEditHoliday(Id);
         });
@@ -26,7 +26,6 @@ function GetFilteredHolidayList() {
 }
 
 function AddEditHoliday(Id) {
-    debugger
     window.location.href = '/Holiday/AddEditHoliday?Id=' + Id;
 }
 

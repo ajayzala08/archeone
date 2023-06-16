@@ -4,6 +4,7 @@
 
 @{
     Layout = "_MasterLayout";
+    //ViewBag.datepicker = "true";
 }
 
 <section class="content-header"></section>
@@ -20,36 +21,36 @@
                 </div>
             </div>
             <div class="card-body">
-                    <div class="row">
-                        <input id="txtHolidayId" name="txtHolidayId" type="hidden" class="form-control col-sm-4" value="@Model.Id" />
+                <div class="row">
+                    <input id="txtHolidayId" name="txtHolidayId" type="hidden" class="form-control col-sm-4" value="@Model.Id" />
 
-                        <div class="col-sm-4" id="dtxtHolidayName">
-                            <div class="form-group">
-                                <label for="form_name">Holiday Name *</label>
-                                <input id="txtHolidayName" type="text" name="HolidayName" class="form-control text-length" placeholder="Please enter your HolidayName" value="@Model.HolidayName" isrequired="1" divcontainer="dtxtHolidayName" errorspan="stxtHolidayName" defaultvalue="" autocomplete="off" minlength="2">
-                                <span class="help-block d-none has-error" id="stxtHolidayName">Please Enter Valid HolidayName</span>
-                            </div>
+                    <div class="col-sm-4" id="dtxtHolidayName">
+                        <div class="form-group">
+                            <label for="form_name">Holiday Name *</label>
+                            <input id="txtHolidayName" type="text" name="HolidayName" class="form-control text-length datepicker" placeholder="Please enter your HolidayName" value="@Model.HolidayName" isrequired="1" divcontainer="dtxtHolidayName" errorspan="stxtHolidayName" defaultvalue="" autocomplete="off" minlength="2">
+                            <span class="help-block d-none has-error" id="stxtHolidayName">Please Enter Valid HolidayName</span>
                         </div>
-
-                        <div class="col-sm-4">
-                            <div class="row">
-                                <div class="form-group col-sm-12" id="dtxtHolidayDate">
-                                    <label><span class="has-error required">* </span>Holiday Date</label>
-                                <input id="txtHolidayDate" name="txtHolidayDate" type="datetime-local" class="form-control onlyletter txtCapitalize text-length" placeholder="Holiday Date" value="@Model.HolidayDate" isrequired="1" divcontainer="dtxtHolidayDate" errorspan="stxtHolidayDate" defaultvalue="" autocomplete="off" minlength="2">
-                                    <span class="help-block d-none has-error" id="stxtHolidayDate">Please Select Holiday Date</span>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
-                    <div class="row">
-                        <div class="col-md-1">
-                            <button type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success">Submit</button>
+
+                    <div class="col-sm-4">
+                        <div class="row">
+                            <div class="form-group col-sm-12" id="dtxtHolidayDate">
+                                <label><span class="has-error required">* </span>Holiday Date</label>
+                                <input id="txtHolidayDate" name="txtHolidayDate" type="text" class="form-control datepicker" value="@Model.HolidayDate" isrequired="1" divcontainer="dtxtHolidayDate" errorspan="stxtHolidayDate" defaultvalue="">
+                                <span class="help-block d-none has-error" id="stxtHolidayDate">Please Select Holiday Date</span>
+                            </div>
                         </div>
-                        <div class="col-md-1">
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-1">
+                        <button type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success">Submit</button>
+                    </div>
+                    <div class="col-md-1">
                         <button type="button" id="btnCancel" name="btnCancel" class="btn btn-danger">Cancel</button>
-                        </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>

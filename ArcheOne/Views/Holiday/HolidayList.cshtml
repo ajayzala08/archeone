@@ -1,16 +1,28 @@
 ﻿@using ArcheOne.Helper.CommonModels;
 @using ArcheOne.Models.Res;
-@model   List<GetHolidayListResModel> 
+@model List<GetHolidayListResModel>
 @{
     Layout = "_BlankLayout";
     ViewBag.dataTable = "true";
 }
+<style>
+    td {
+        text-align: center;
+    }
+
+    thead {
+        font-weight: bold;
+    }
+</style>
 
 <div class="row form-group">
     <div class="col-md-12">
         <table id="tblHoliday" class="table table-bordered table-striped" style="width:100%">
             <thead>
                 <tr>
+                    <td>
+                        <b>Action</b>
+                    </td>
                     <td>
                         <b>Holiday Name</b>
                     </td>
@@ -20,18 +32,16 @@
                     <td>
                         <b>Day</b>
                     </td>
-                    <td>
-                        <b>Edit</b>
-                    </td>
-                    <td>
-                        <b>Delete</b>
-                    </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
+                        <td>
+                            <i class="fa fa-pen pen btn-edit" Id="@item.Id" style="cursor: pointer;"></i> &nbsp; | &nbsp;
+                            <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"></i>
+                        </td>
                         <td>
                             @item.HolidayName
                         </td>
@@ -40,12 +50,6 @@
                         </td>
                         <td>
                             @item.Day
-                        </td>
-                        <td>
-                            <button class="btn btn-info btn-edit" id="@item.Id" >Edit</button>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger btn-delete" Id="@item.Id" onlclick="DeleteHoliday(@item.Id)">Delete</button>
                         </td>
                     </tr>
                 }
