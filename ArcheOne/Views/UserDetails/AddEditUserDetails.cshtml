@@ -1,0 +1,259 @@
+﻿@using ArcheOne.Models.Req;
+@model UserAddEditReqViewModel;
+@{
+	Layout = "_MasterLayout";
+	string Title1 = "";
+	Title1 = Model.UserDetails > 0 ? "Edit User" : "Add User";
+	var UserId = Model.UserDetails.Id;
+	//var CompanyId = Model.UserDetails.CompanyId;
+	//var RoleId = Model.UserDetails.RoleId;
+}
+<style>
+	.preview img {
+		display: none;
+	}
+</style>
+<div class="modal-header">
+	<h5 class="modal-title">@Title1</h5>
+</div>
+<section class="content-header"></section>
+<section class="content">
+	<div class="container-fluid">
+		<div class="card card-outline card-primary">
+			<div class="card-header">
+				User Details
+				<h3 class="card-title"></h3>
+				<div class="card-tools">
+					<button type="button" class="btn btn-tool" data-card-widget="collapse">
+						<i class="fas fa-minus"></i>
+					</button>
+				</div>
+			</div>
+			<div class="card-body">
+				<form id="AddUserDetailsForm" method="post" role="form" enctype="multipart/form-data">
+					<div class="messages"></div>
+					<div class="controls">
+						<div class="row">
+							<input id="txtId" type="hidden" name="txtId" value="">
+							<input id="txtUserId" type="hidden" name="txtUserId" value="">
+							<div class="col-sm-4" id="dtxtEmployeeCode">
+								<div class="form-group">
+									<label for="form_name">EmployeeCode</label>
+									<input id="txtEmployeeCode" type="text" name="txtEmployeeCode" class="form-control text-length" placeholder="Please enter employeecode" value="" isrequired="1" divcontainer="dtxtEmployeeCode" errorspan="stxtEmployeeCode" defaultvalue="" autocomplete="off" minlength="1">
+									<span class="help-block d-none has-error" id="stxtEmployeeCode">Please Enter Valid EmployeeCode</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dddlGender">
+								<div class="form-group">
+									<label><span class="has-error required"></span>Gender</label>
+									<select id="ddlGender" name="ddlGender" class="form-control" isrequired="1" divcontainer="dddlGender" errorspan="sddlGender" defaultvalue="0" style="width: 100%;">
+										@*@foreach (var item in Model.RoleList)
+										{
+											<option value="@item.Id">@item.RoleName</option>
+										}*@
+									</select>
+									<span class="help-block d-none has-error" id="sddlGender">Please select any gender</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dtxtEmergencyContact">
+								<div class="form-group">
+									<label for="form_name">EmergencyContact</label>
+									<input id="txtEmergencyContact" type="tel" name="txtEmergencyContact" class="form-control text-length" placeholder="Please enter your EmergencyContact" autocomplete="off" value="" isrequired="1" divcontainer="dtxtEmergencyContact" errorspan="stxtEmergencyContact" defaultvalue="" minlength="10" maxlength="10">
+									<span class="help-block d-none has-error" id="stxtEmergencyContact">Please Enter Valid EmergencyContact</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dtxtDob">
+								<div class="form-group">
+									<label for="form_name">Dob</label>
+									<input id="txtDob" type="date" name="txtDob" class="form-control text-length" placeholder="Please enter your Dob" autocomplete="off" value="" isrequired="1" divcontainer="dtxtDob" errorspan="stxtDob" defaultvalue="">
+									<span class="help-block d-none has-error" id="stxtDob">Please Enter Valid Dob</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dtxtPostCode">
+								<div class="form-group">
+									<label for="form_name">PostCode</label>
+									<input id="txtPostCode" type="tel" name="txtPostCode" class="form-control text-length" placeholder="Please enter your PostCode" autocomplete="off" value="" isrequired="1" divcontainer="dtxtPostCode" errorspan="stxtPostCode" defaultvalue="" minlength="6" maxlength="7">
+									<span class="help-block d-none has-error" id="stxtPostCode">Please Enter Valid PostCode</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dddlEmploymentType">
+								<div class="form-group">
+									<label><span class="has-error required"></span>EmploymentType</label>
+									<select id="ddlEmploymentType" name="ddlEmploymentType" class="form-control" isrequired="1" divcontainer="dddlEmploymentType" errorspan="sddlGender" defaultvalue="0" style="width: 100%;">
+										@*@foreach (var item in Model.RoleList)
+										{
+										<option value="@item.Id">@item.RoleName</option>
+										}*@
+									</select>
+									<span class="help-block d-none has-error" id="sddlEmploymentType">Please select any employmentType</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dddlDepartment">
+								<div class="form-group">
+									<label><span class="has-error required"></span>Department</label>
+									<select id="ddlDepartment" name="ddlDepartment" class="form-control" isrequired="1" divcontainer="dddlDepartment" errorspan="sddlGender" defaultvalue="0" style="width: 100%;">
+										@*@foreach (var item in Model.RoleList)
+										{
+										<option value="@item.Id">@item.RoleName</option>
+										}*@
+									</select>
+									<span class="help-block d-none has-error" id="sddlDepartment">Please select any Department</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dddlDesignation">
+								<div class="form-group">
+									<label><span class="has-error required"></span>Designation</label>
+									<select id="ddlDesignation" name="ddlDesignation" class="form-control" isrequired="1" divcontainer="dddlDesignation" errorspan="sddlGender" defaultvalue="0" style="width: 100%;">
+										@*@foreach (var item in Model.RoleList)
+										{
+										<option value="@item.Id">@item.RoleName</option>
+										}*@
+									</select>
+									<span class="help-block d-none has-error" id="sddlDesignation">Please select any Designation</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dtxtLocation">
+								<div class="form-group">
+									<label for="form_name">Location</label>
+									<input id="txtLocation" type="text" name="txtLocation" class="form-control text-length" placeholder="Please enter your Location" autocomplete="off" value="" isrequired="1" divcontainer="dtxtLocation" errorspan="stxtLocation" defaultvalue="" minlength="2">
+									<span class="help-block d-none has-error" id="stxtLocation">Please Enter Valid Location</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dtxtBloodGroup">
+								<div class="form-group">
+									<label for="form_name">BloodGroup</label>
+									<input id="txtBloodGroup" type="text" name="txtBloodGroup" class="form-control text-length" placeholder="Please enter your BloodGroup" autocomplete="off" value="" isrequired="1" divcontainer="dtxtBloodGroup" errorspan="stxtBloodGroup" defaultvalue="" minlength="2" maxlength="3">
+									<span class="help-block d-none has-error" id="stxtBloodGroup">Please Enter Valid BloodGroup</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dtxtOfferDate">
+								<div class="form-group">
+									<label for="form_name">OfferDate</label>
+									<input id="txtOfferDate" type="date" name="txtOfferDate" class="form-control text-length" placeholder="Please enter your OfferDate" autocomplete="off" value="" isrequired="1" divcontainer="dtxtOfferDate" errorspan="stxtOfferDate" defaultvalue="">
+									<span class="help-block d-none has-error" id="stxtOfferDate">Please Enter Valid OfferDate</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dtxtJoinDate">
+								<div class="form-group">
+									<label for="form_name">JoinDate</label>
+									<input id="txtJoinDate" type="date" name="txtJoinDate" class="form-control text-length" placeholder="Please enter your JoinDate" autocomplete="off" value="" isrequired="1" divcontainer="dtxtJoinDate" errorspan="stxtJoinDate" defaultvalue="">
+									<span class="help-block d-none has-error" id="stxtJoinDate">Please Enter Valid JoinDate</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dtxtBankName">
+								<div class="form-group">
+									<label for="form_name">BankName</label>
+									<input id="txtBankName" type="text" name="txtBankName" class="form-control text-length" placeholder="Please enter your BankName" autocomplete="off" value="" isrequired="1" divcontainer="dtxtBankName" errorspan="stxtBankName" defaultvalue="" minlength="2">
+									<span class="help-block d-none has-error" id="stxtBankName">Please Enter Valid BankName</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dtxtAccountNumber">
+								<div class="form-group">
+									<label for="form_name">AccountNumber</label>
+									<input id="txtAccountNumber" type="tel" name="txtAccountNumber" class="form-control text-length" placeholder="Please enter your AccountNumber" autocomplete="off" value="" isrequired="1" divcontainer="dtxtAccountNumber" errorspan="stxtAccountNumber" defaultvalue="" minlength="11" maxlength="15">
+									<span class="help-block d-none has-error" id="stxtAccountNumber">Please Enter Valid AccountNumber</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dtxtBranch">
+								<div class="form-group">
+									<label for="form_name">Branch</label>
+									<input id="txtBranch" type="text" name="txtBranch" class="form-control text-length" placeholder="Please enter your Branch" autocomplete="off" value="" isrequired="1" divcontainer="dtxtBranch" errorspan="stxtBranch" defaultvalue="" minlength="2">
+									<span class="help-block d-none has-error" id="stxtBranch">Please Enter Valid Branch</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dtxtIfscCode">
+								<div class="form-group">
+									<label for="form_name">IfscCode</label>
+									<input id="txtIfscCode" type="text" name="txtIfscCode" class="form-control text-length" placeholder="Please enter your IfscCode" autocomplete="off" value="" isrequired="1" divcontainer="dtxtIfscCode" errorspan="stxtIfscCode" defaultvalue="" minlength="11" maxlength="15">
+									<span class="help-block d-none has-error" id="stxtIfscCode">Please Enter Valid IfscCode</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dtxtPfaccountNumber">
+								<div class="form-group">
+									<label for="form_name">PfaccountNumber</label>
+									<input id="txtPfaccountNumber" type="tel" name="txtPfaccountNumber" class="form-control text-length" placeholder="Please enter your PfaccountNumber" autocomplete="off" value="" isrequired="1" divcontainer="dtxtPfaccountNumber" errorspan="stxtPfaccountNumber" defaultvalue="" minlength="22" maxlength="25">
+									<span class="help-block d-none has-error" id="stxtPfaccountNumber">Please Enter Valid PfaccountNumber</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dtxtPancardNumber">
+								<div class="form-group">
+									<label for="form_name">PancardNumber</label>
+									<input id="txtPancardNumber" type="tel" name="txtPancardNumber" class="form-control text-length" placeholder="Please enter your PancardNumber" autocomplete="off" value="" isrequired="1" divcontainer="dtxtPancardNumber" errorspan="stxtPancardNumber" defaultvalue="" minlength="10" maxlength="15">
+									<span class="help-block d-none has-error" id="stxtPancardNumber">Please Enter Valid PancardNumber</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dtxtAdharCardNumber">
+								<div class="form-group">
+									<label for="form_name">AdharCardNumber</label>
+									<input id="txtAdharCardNumber" type="tel" name="txtAdharCardNumber" class="form-control text-length" placeholder="Please enter your AdharCardNumber" autocomplete="off" value="" isrequired="1" divcontainer="dtxtAdharCardNumber" errorspan="stxtAdharCardNumber" defaultvalue="" minlength="12" maxlength="15">
+									<span class="help-block d-none has-error" id="stxtAdharCardNumber">Please Enter Valid AdharCardNumber</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dtxtSalary">
+								<div class="form-group">
+									<label for="form_name">Salary</label>
+									<input id="txtSalary" type="tel" name="txtSalary" class="form-control text-length" placeholder="Please enter your Salary" autocomplete="off" value="" isrequired="1" divcontainer="dtxtSalary" errorspan="stxtSalary" defaultvalue="" minlength="3">
+									<span class="help-block d-none has-error" id="stxtSalary">Please Enter Valid Salary</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dddlReportingManager">
+								<div class="form-group">
+									<label><span class="has-error required"></span>ReportingManager</label>
+									<select id="ddlReportingManager" name="ddlReportingManager" class="form-control" isrequired="1" divcontainer="dddlReportingManager" errorspan="sddlGender" defaultvalue="0" style="width: 100%;">
+										@*@foreach (var item in Model.RoleList)
+										{
+										<option value="@item.Id">@item.RoleName</option>
+										}*@
+									</select>
+									<span class="help-block d-none has-error" id="sddlReportingManager">Please select any ReportingManager</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dtxtReason">
+								<div class="form-group">
+									<label for="form_name">Reason</label>
+									<input id="txtReason" type="text" name="txtReason" class="form-control text-length" placeholder="Please enter your Reason" autocomplete="off" value="" isrequired="1" divcontainer="dtxtReason" errorspan="stxtReason" defaultvalue="" minlength="5">
+									<span class="help-block d-none has-error" id="stxtReason">Please Enter Valid Reason</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dtxtEmployeePersonalEmailId">
+								<div class="form-group">
+									<label for="form_name">EmployeePersonalEmailId</label>
+									<input id="txtEmployeePersonalEmailId" type="email" name="txtEmployeePersonalEmailId" class="form-control text-length" placeholder="Please enter your EmployeePersonalEmailId" autocomplete="off" value="" isrequired="1" divcontainer="dtxtEmployeePersonalEmailId" errorspan="stxtEmployeePersonalEmailId" defaultvalue="" minlength="3">
+									<span class="help-block d-none has-error" id="stxtEmployeePersonalEmailId">Please Enter Valid EmployeePersonalEmailId</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dtxtProbationPeriod">
+								<div class="form-group">
+									<label for="form_name">ProbationPeriod[In-Month]</label>
+									<input id="txtProbationPeriod" type="tel" name="txtProbationPeriod" class="form-control text-length" placeholder="Please enter your ProbationPeriod" autocomplete="off" value="" isrequired="1" divcontainer="dtxtProbationPeriod" errorspan="stxtProbationPeriod" defaultvalue="" minlength="1" maxlength="2">
+									<span class="help-block d-none has-error" id="stxtProbationPeriod">Please Enter Valid ProbationPeriod</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div class="row">
+						<div class="col-md-1">
+							<input type="button" id="btnSaveUpdateUserDetails" class="btn btn-success" value="Submit" />
+						</div>
+						<div class="col-md-1">
+							<button id="btnClose" class="btn btn-danger btn-send" asp-action="User" asp-controller="User">Close</button>
+						</div>
+					</div>
+					@if (ViewBag.Message != null)
+					{
+						<script type="text/javascript">
+							window.onload = function () {
+								alert("@ViewBag.Message");
+							};
+						</script>
+					}
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+
+@section Scripts {
+	<script src="~/archeone/js/user/addedituser.js"></script>
+}
