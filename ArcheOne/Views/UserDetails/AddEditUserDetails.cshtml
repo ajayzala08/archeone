@@ -1,10 +1,10 @@
 ﻿@using ArcheOne.Models.Req;
 @model UserAddEditReqViewModel;
 @{
-	Layout = "_MasterLayout";
-	string Title1 = "";
-	Title1 = Model.UserDetails > 0 ? "Edit User" : "Add User";
-	var UserId = Model.UserDetails.Id;
+	//Layout = "_MasterLayout";
+	//string Title1 = "";
+	//Title1 = Model.UserDetails > 0 ? "Edit User" : "Add User";
+	//var UserId = Model.UserDetails.Id;
 	//var CompanyId = Model.UserDetails.CompanyId;
 	//var RoleId = Model.UserDetails.RoleId;
 }
@@ -14,7 +14,7 @@
 	}
 </style>
 <div class="modal-header">
-	<h5 class="modal-title">@Title1</h5>
+	@*<h5 class="modal-title">@Title1</h5>*@
 </div>
 <section class="content-header"></section>
 <section class="content">
