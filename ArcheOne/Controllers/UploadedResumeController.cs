@@ -49,7 +49,7 @@ namespace ArcheOne.Controllers
                                       resumeFileUploadDetail.RelevantExperienceYear,
                                       resumeFileUploadDetail.CurrentDesignation,
                                       resumeFileUploadDetail.Skills,
-                                      FlowStatus = interviewItem == null || interviewItem.OfferStatusId == 0 ? CommonEnums.UploadedResumeTableFlowStatus.Interview_Info.ToString() : interviewItem.OfferStatusId == 1 ? CommonEnums.UploadedResumeTableFlowStatus.Offer.ToString() : hireStatusItem.HireStatusCode
+                                      FlowStatus = interviewItem == null || interviewItem.OfferStatusId == 0 ? CommonEnums.UploadedResumeTableFlowStatus.Interview_Info.ToString() : interviewItem.OfferStatusId == 1 ? CommonEnums.UploadedResumeTableFlowStatus.Cleared.ToString() : interviewItem.OfferStatusId == 2 ? CommonEnums.UploadedResumeTableFlowStatus.Offer.ToString() : hireStatusItem.HireStatusCode
                                   }).ToListAsync();
                 if (data != null && data.Count > 0)
                 {
@@ -278,7 +278,7 @@ namespace ArcheOne.Controllers
                                     var interviewMst = await _dbRepo.InterviewList().FirstOrDefaultAsync(x => x.Id == interviewRoundMst.InterviewId);
                                     if (interviewMst != null)
                                     {
-                                        interviewMst.OfferStatusId = Convert.ToInt32(CommonEnums.OfferStatusMst.Offer);
+                                        interviewMst.OfferStatusId = Convert.ToInt32(CommonEnums.OfferStatusMst.Cleared);
                                         interviewMst.UpdatedBy = userId;
                                         interviewMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
 
@@ -334,23 +334,94 @@ namespace ArcheOne.Controllers
                     var interviewMst = await _dbRepo.InterviewList().FirstOrDefaultAsync(x => x.ResumeFileUploadDetailId == request.UploadedResumeId);
                     if (interviewMst != null)
                     {
-                        interviewMst.OfferStatusId = Convert.ToInt32(CommonEnums.OfferStatusMst.Hire);
-                        interviewMst.HireStatusId = request.HireStatusId;
-                        interviewMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
-                        interviewMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                        using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                        {
+                            int userId = _commonHelper.GetLoggedInUserId();
+                            bool executionSuccess = false;
 
-                        _dbContext.Entry(interviewMst).State = EntityState.Modified;
-                        await _dbContext.SaveChangesAsync();
+                            if (request.OfferStatusId == Convert.ToInt32(CommonEnums.OfferStatusMst.Offer)
+                                || request.OfferStatusId == Convert.ToInt32(CommonEnums.OfferStatusMst.Hire))
+                            {
+                                var resumeFileUploadDetailMst = await _dbRepo.ResumeFileUploadDetailList().FirstOrDefaultAsync(x => x.Id == interviewMst.ResumeFileUploadDetailId);
 
-                        response.Status = true;
-                        response.StatusCode = System.Net.HttpStatusCode.OK;
-                        response.Message = $"Interview status updated successfully!";
+                                if (resumeFileUploadDetailMst != null)
+                                {
+                                    resumeFileUploadDetailMst.JoinInDate = request.JoinInDate;
+                                    resumeFileUploadDetailMst.OfferedPackageInLac = request.OfferedPackage;
+                                    resumeFileUploadDetailMst.JoinInNote = request.Note;
+                                    resumeFileUploadDetailMst.UpdatedBy = userId;
+                                    resumeFileUploadDetailMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+
+                                    _dbContext.Entry(resumeFileUploadDetailMst).State = EntityState.Modified;
+                                    await _dbContext.SaveChangesAsync();
+
+                                    interviewMst.OfferStatusId = request.OfferStatusId;
+
+                                    interviewMst.HireStatusId = request.OfferStatusId == Convert.ToInt32(CommonEnums.OfferStatusMst.Hire) ? Convert.ToInt32(CommonEnums.HireStatusMst.To_Be_Join) : 0;
+
+                                    executionSuccess = true;
+                                }
+                            }
+                            else
+                            {
+                                interviewMst.HireStatusId = request.HireStatusId;
+                                executionSuccess = true;
+                            }
+
+                            interviewMst.UpdatedBy = userId;
+                            interviewMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+
+                            _dbContext.Entry(interviewMst).State = EntityState.Modified;
+                            await _dbContext.SaveChangesAsync();
+
+
+                            if (executionSuccess)
+                            {
+                                scope.Complete();
+
+                                response.Status = true;
+                                response.StatusCode = System.Net.HttpStatusCode.OK;
+                                response.Message = "Candidate status updated successfully!";
+                            }
+                            else
+                            {
+                                scope.Dispose();
+                                response.Message = "Resume Details not found! Please try refreshing the page!";
+                            }
+                        }
                     }
                     else
                     {
                         response.StatusCode = System.Net.HttpStatusCode.NotFound;
                         response.Message = "Interview details not found! Please try refreshing the page!";
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
+        public async Task<CommonResponse> GetOfferedDetails(int ResumeId)
+        {
+            CommonResponse response = new CommonResponse();
+            try
+            {
+                var data = await _dbRepo.ResumeFileUploadDetailList().Where(x => x.Id == ResumeId).Select(x => new { x.Id, x.JoinInDate, x.JoinInNote, x.OfferedPackageInLac }).FirstOrDefaultAsync();
+
+                if (data != null)
+                {
+                    response.Data = data;
+                    response.Status = true;
+                    response.StatusCode = System.Net.HttpStatusCode.OK;
+                    response.Message = "Data found successfully!";
+                }
+                else
+                {
+                    response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                    response.Message = "Data not found!";
                 }
             }
             catch (Exception ex)

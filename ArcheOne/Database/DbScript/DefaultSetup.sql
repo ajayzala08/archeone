@@ -68,16 +68,17 @@ Insert into dbo.InterviewRoundStatusMst values ('Cleared', 'Cleared', 1, 0, 0, 0
 Insert into dbo.InterviewRoundStatusMst values ('Rejected', 'Rejected', 1, 0, 0, 0, GETDATE(), GETDATE())
 Insert into dbo.InterviewRoundStatusMst values ('No Show', 'No_Show', 1, 0, 0, 0, GETDATE(), GETDATE())
 			
-Insert into dbo.InterviewRoundTypeMst values ('Face To Face', 'FaceToFace', 1, 0, 0, 0, GETDATE(), GETDATE())
 Insert into dbo.InterviewRoundTypeMst values ('Skype', 'Skype', 1, 0, 0, 0, GETDATE(), GETDATE())
 Insert into dbo.InterviewRoundTypeMst values ('Microsoft Teams', 'Microsoft_Teams', 1, 0, 0, 0, GETDATE(), GETDATE())
 Insert into dbo.InterviewRoundTypeMst values ('Zoom', 'Zoom', 1, 0, 0, 0, GETDATE(), GETDATE())
 Insert into dbo.InterviewRoundTypeMst values ('Google Meet', 'Google_Meet', 1, 0, 0, 0, GETDATE(), GETDATE())
 Insert into dbo.InterviewRoundTypeMst values ('Call', 'Call', 1, 0, 0, 0, GETDATE(), GETDATE())	
 			
-Insert into dbo.HireStatusMst values ('To Be Join', 'To_Be_Join', 1, 0, 0, 0, GETDATE(), GETDATE())	
-Insert into dbo.HireStatusMst values ('Join', 'Join', 1, 0, 0, 0, GETDATE(), GETDATE())	
-Insert into dbo.HireStatusMst values ('No Show[BD]', 'No_Show', 1, 0, 0, 0, GETDATE(), GETDATE())	
+Insert into dbo.HireStatusMst values ('To Be Join', 'To_Be_Join', 1, 0, 0, 0, GETDATE(), GETDATE())
+Insert into dbo.HireStatusMst values ('Join', 'Join', 1, 0, 0, 0, GETDATE(), GETDATE())
+Insert into dbo.HireStatusMst values ('No Show', 'No_Show', 1, 0, 0, 0, GETDATE(), GETDATE())
+Insert into dbo.HireStatusMst values ('Bad Delivery', 'Bad_Delivery', 1, 0, 0, 0, GETDATE(), GETDATE())
 			
+Insert into dbo.OfferStatusMst values ('Cleared', 'Cleared', 1, 0, 0, 0, GETDATE(), GETDATE())
 Insert into dbo.OfferStatusMst values ('Offer', 'Offer', 1, 0, 0, 0, GETDATE(), GETDATE())
 Insert into dbo.OfferStatusMst values ('Hire', 'Hire', 1, 0, 0, 0, GETDATE(), GETDATE())
