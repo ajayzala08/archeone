@@ -8,7 +8,7 @@
         window.location.href = '/SalesLead/Sales';
     });
 
-   
+
 });
 
 
@@ -28,6 +28,8 @@ function SaveSalesLead() {
         "WebsiteUrl": $("#txtWebsite").val()
     }
     var contactperson = {
+        "SalesLeadContactPersonId": parseInt($("#txtSalesLeadContactPersonId").val()),
+        "SalesLeadId": parseInt($("#txtSalesLeadId").val()),
         "FirstName": $('#txtFirstName').val(),
         "LastName": $('#txtLastName').val(),
         "Email": $('#txtEmail').val(),
@@ -37,10 +39,12 @@ function SaveSalesLead() {
         "Linkedinurl": $('#txtLinkedinurl').val()
     }
     dataList.push(contactperson);
-   var contactperson1 = {
+    var contactperson1 = {
+        "SalesLeadContactPersonId": parseInt($("#txtSalesLeadContactPersonId1").val()),
+        SalesLeadId: parseInt($("#txtSalesLeadId1").val()),
         "FirstName": $('#txtFirstName1').val(),
         "LastName": $('#txtLastName1').val(),
-       "Email": $('#txtSalesLeadContactPersonEmail1').val(),
+        "Email": $('#txtSalesLeadContactPersonEmail1').val(),
         "Designation": $('#txtDesignation1').val(),
         "Mobile1": $('#txtMobile11').val(),
         "Mobile2": $('#txtMobile21').val(),
@@ -49,6 +53,8 @@ function SaveSalesLead() {
 
     dataList.push(contactperson1);
     var contactperson2 = {
+        "SalesLeadContactPersonId": parseInt($("#txtSalesLeadContactPersonId2").val()),
+        "SalesLeadId": parseInt($("#txtSalesLeadId2").val()),
         "FirstName": $('#txtFirstName2').val(),
         "LastName": $('#txtLastName2').val(),
         "Email": $('#txtSalesLeadContactPersonEmail2').val(),
@@ -60,30 +66,47 @@ function SaveSalesLead() {
 
     dataList.push(contactperson2);
 
-
-
     var dataSaveModel = {
         "SaveUpdateSalesLeadContactPersonList": dataList,
         "SaveUpdateSalesLeadDetails": saveData
     }
 
-    console.log(dataSaveModel);
 
-    if (validateRequiredFields() && validateReqField('DivSalesLeadContactPerson2')) {
-        ajaxCall("Post", false, '/SalesLead/SaveUpdateSalesLead', JSON.stringify(dataSaveModel), function (result) {
+    //if (validateRequiredFieldsByGroup('divSalesLeadContactPerson2')) {
 
-            if (result.status == true) {
-                Popup_Toast.fire({ icon: 'success', title: result.message });
-                $("#btnCancel").click();
-                ClearAll();
-                GetFilteredSalesLeadList();
-            }
-            else {
-                Popup_Toast.fire({ icon: 'error', title: result.message });
-            }
-        });
+    if (validateRequiredFieldsByGroup('divSalesLead') && validateRequiredFieldsByGroup('divSalesLeadContactPerson1')) {
+
+
+        if ($('#txtFirstName1').val() != '' || $('#txtLastName1').val() != '' || $('#txtSalesLeadContactPersonEmail1').val() != '' | $('#txtDesignation1').val() != '' || $('#txtMobile11').val() != '') {
+            validateRequiredFieldsByGroup('divSalesLeadContactPerson2')
+
+            //if ($('#txtFirstName1').val() == null && $('#txtFirstName1').val() == '' && $('#txtLastName1').val() == null && $('#txtLastName1').val() == '' && $('#txtSalesLeadContactPersonEmail1').val() == null && $('#txtSalesLeadContactPersonEmail1').val() == '' && $('#txtDesignation1').val() == null && $('#txtDesignation1').val() == '' && $('#txtMobile11').val() == null && $('#txtMobile11').val() == '') {
+            //    validateRequiredFieldsByGroup('divSalesLeadContactPerson2')
+            //    []
+            alert('success')
+            //ajaxCall("Post", false, '/SalesLead/SaveUpdateSalesLead', JSON.stringify(dataSaveModel), function (result) {
+
+            //    if (result.status == true) {
+            //        Toast.fire({ icon: 'success', title: result.message });
+            //        $("#btnCancel").click();
+            //        ClearAll();
+            //        GetFilteredSalesLeadList();
+            //    }
+            //    else {
+            //        Toast.fire({ icon: 'error', title: result.message });
+            //    }
+            //});
+        } else {
+            alert('tnamay')
+        }
     }
+    //}
+    else {
+        alert('error')
+    }
+
 }
+
 function addRecord() {
     var savelist = [];
     var savedata = {

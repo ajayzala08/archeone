@@ -12,6 +12,28 @@
     var stateId = Model.salesLeadDetail.StateId;
     var CityId = Model.salesLeadDetail.CityId;
     var salesLeadContactPersonDetailList = Model.SalesLeadContactPersonList;
+    SalesLeadContactPersonDetail salesLeadContactPersonDetail = new SalesLeadContactPersonDetail();
+    var firstSalesLeadContactPersonDetailList = salesLeadContactPersonDetail;
+    var secondSalesLeadContactPersonDetailList = salesLeadContactPersonDetail;
+    var thirdSalesLeadContactPersonDetailList = salesLeadContactPersonDetail;
+    if (salesLeadContactPersonDetailList.Count > 0)
+    {
+        if (salesLeadContactPersonDetailList.Count == 1)
+        {
+            firstSalesLeadContactPersonDetailList = salesLeadContactPersonDetailList[0];
+        }
+        else if (salesLeadContactPersonDetailList.Count == 2)
+        {
+            firstSalesLeadContactPersonDetailList = salesLeadContactPersonDetailList[0];
+            secondSalesLeadContactPersonDetailList = salesLeadContactPersonDetailList[1];
+        }
+        else if (salesLeadContactPersonDetailList.Count == 3)
+        {
+            firstSalesLeadContactPersonDetailList = salesLeadContactPersonDetailList[0];
+            secondSalesLeadContactPersonDetailList = salesLeadContactPersonDetailList[1];
+            thirdSalesLeadContactPersonDetailList = salesLeadContactPersonDetailList[2];
+        }
+    }
 }
 
 @*@if (id > 0)
@@ -30,8 +52,9 @@
                 </div>
             </div>
             <div class="card-body">
-                <h3>SalesLead</h3>
-                <div class="row">
+                <h4>SalesLead</h4>
+                <br />
+                <div class="row" id="divSalesLead">
                     @*<div class="col-md-6">*@
                     <input id="txtSalesLeadId" name="txtSalesLeadId" type="hidden" class="form-control col-sm-4" value="@Model.salesLeadDetail.Id" />
 
@@ -121,58 +144,60 @@
             </div>
 
             <div class="card-body">
-                <h3>SalesLeadContactPerson</h3>
+                <h4>SalesLeadContactPerson</h4>
+                <br />
+
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-4" id="divSalesLeadContactPerson1">
                         <div class="card card-widget widget-user-2 card-outline card-primary">
                             <div class="card-header">
                                 <h5 class="card-title"><b>Contact Person Details 1</b></h5>
                             </div>
-                            <br/>
+                            <br />
                             <div class="mx-auto">
-                                <input id="txtSalesLeadContactPersonId" name="txtSalesLeadContactPersonId" type="hidden" class="form-control col-sm-4" value="@Model.SalesLeadContactPersonDetail.SalesLeadContactPersonId" />
+                                <input id="txtSalesLeadContactPersonId" name="txtSalesLeadContactPersonId" type="hidden" class="form-control col-sm-4" value="@firstSalesLeadContactPersonDetailList.SalesLeadContactPersonId" />
 
                                 <input id="txtSalesLeadId" name="txtSalesLeadId" type="hidden" class="form-control col-sm-4" value="@Model.salesLeadDetail.Id" />
 
                                 <div class="form-group" id="dtxtFirstName">
                                     <label><span class="has-error required">* </span>First Name</label>
-                                    <input id="txtFirstName" name="txtFirstName" type="text" class="form-control onlyletter txtCapitalize text-length col-lg-12" placeholder="First Name" value="@Model.SalesLeadContactPersonDetail.FirstName" isrequired="1" divcontainer="dtxtFirstName" errorspan="stxtFirstName" defaultvalue="" autocomplete="off" minlength="2">
+                                    <input id="txtFirstName" name="txtFirstName" type="text" class="form-control onlyletter txtCapitalize text-length col-lg-12" placeholder="First Name" value="@firstSalesLeadContactPersonDetailList.FirstName" isrequired="1" divcontainer="dtxtFirstName" errorspan="stxtFirstName" defaultvalue="" autocomplete="off" minlength="2">
                                     <span class="help-block d-none has-error" id="stxtFirstName">Please Enter Valid First Name</span>
                                 </div>
 
 
                                 <div class="form-group" id="dtxtLastName">
                                     <label><span class="has-error required">* </span>Last Name</label>
-                                    <input id="txtLastName" name="txtLastName" type="text" class="form-control onlyletter txtCapitalize text-length col-lg-12" placeholder="Last Name" value="@Model.SalesLeadContactPersonDetail.LastName" isrequired="1" divcontainer="dtxtLastName" errorspan="stxtLastName" defaultvalue="" autocomplete="off" minlength="2">
+                                    <input id="txtLastName" name="txtLastName" type="text" class="form-control onlyletter txtCapitalize text-length col-lg-12" placeholder="Last Name" value="@firstSalesLeadContactPersonDetailList.LastName" isrequired="1" divcontainer="dtxtLastName" errorspan="stxtLastName" defaultvalue="" autocomplete="off" minlength="2">
                                     <span class="help-block d-none has-error" id="stxtLastName">Please Enter Valid Last Name</span>
                                 </div>
                                 <div class="form-group" id="dtxtEmail">
                                     <label><span class="has-error required">* </span>Email</label>
-                                    <input id="txtEmail" name="txtEmail" type="email" class="form-control text-length col-lg-12" placeholder="Email" value="@Model.SalesLeadContactPersonDetail.Email" isrequired="1" divcontainer="dtxtEmail" errorspan="stxtEmail" defaultvalue="" autocomplete="off" minlength="2">
+                                    <input id="txtEmail" name="txtEmail" type="email" class="form-control text-length col-lg-12" placeholder="Email" value="@firstSalesLeadContactPersonDetailList.Email" isrequired="1" divcontainer="dtxtEmail" errorspan="stxtEmail" defaultvalue="" autocomplete="off" minlength="2">
                                     <span class="help-block d-none has-error" id="stxtEmail">Please Enter Valid Email</span>
                                 </div>
 
                                 <div class="form-group" id="dtxtDesignation">
                                     <label><span class="has-error required">* </span>Designation</label>
-                                    <input id="txtDesignation" name="txtDesignation" type="text" class="form-control onlyletter txtCapitalize text-length col-lg-12" placeholder="Designation" value="@Model.SalesLeadContactPersonDetail.Designation" isrequired="1" divcontainer="dtxtDesignation" errorspan="stxtDesignation" defaultvalue="" autocomplete="off" minlength="2">
+                                    <input id="txtDesignation" name="txtDesignation" type="text" class="form-control onlyletter txtCapitalize text-length col-lg-12" placeholder="Designation" value="@firstSalesLeadContactPersonDetailList.Designation" isrequired="1" divcontainer="dtxtDesignation" errorspan="stxtDesignation" defaultvalue="" autocomplete="off" minlength="2">
                                     <span class="help-block d-none has-error" id="stxtDesignation">Please Enter Valid Designation</span>
                                 </div>
 
                                 <div class="form-group" id="dtxtMobile1">
                                     <label><span class="has-error required">* </span>Mobile1</label>
-                                    <input id="txtMobile1" name="txtMobile1" type="text" class="form-control onlyNumeric text-length col-lg-12" placeholder="Mobile1" value="@Model.SalesLeadContactPersonDetail.Mobile1" isrequired="1" divcontainer="dtxtMobile1" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+                                    <input id="txtMobile1" name="txtMobile1" type="text" class="form-control onlyNumeric text-length col-lg-12" placeholder="Mobile1" value="@firstSalesLeadContactPersonDetailList.Mobile1" isrequired="1" divcontainer="dtxtMobile1" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
                                     <span class="help-block d-none has-error" id="stxtMobile1">Please Enter Valid Mobile1</span>
                                 </div>
 
                                 <div class="form-group" id="dtxtMobile2">
                                     <label>Mobile2</label>
-                                    <input id="txtMobile2" name="txtMobile2" type="text" class="form-control onlyNumeric col-lg-12" placeholder="Mobile2" value="@Model.SalesLeadContactPersonDetail.Mobile2" isrequired="0" divcontainer="dtxtMobile2" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+                                    <input id="txtMobile2" name="txtMobile2" type="text" class="form-control onlyNumeric col-lg-12" placeholder="Mobile2" value="@firstSalesLeadContactPersonDetailList.Mobile2" isrequired="0" divcontainer="dtxtMobile2" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
                                     <span class="help-block d-none has-error" id="stxtMobile2">Please Enter Valid Mobile2</span>
                                 </div>
 
                                 <div class="form-group" id="dtxtLinkedinurl">
                                     <label>Linkedinurl</label>
-                                    <input id="txtLinkedinurl" name="txtLinkedinurl" type="text" class="form-control txtCapitalize col-lg-12" placeholder="Linkedinurl" value="@Model.SalesLeadContactPersonDetail.Linkedinurl" isrequired="0" divcontainer="dtxtLinkedinurl" errorspan="stxtLinkedinurl" defaultvalue="" autocomplete="off" minlength="2">
+                                    <input id="txtLinkedinurl" name="txtLinkedinurl" type="text" class="form-control txtCapitalize col-lg-12" placeholder="Linkedinurl" value="@firstSalesLeadContactPersonDetailList.Linkedinurl" isrequired="0" divcontainer="dtxtLinkedinurl" errorspan="stxtLinkedinurl" defaultvalue="" autocomplete="off" minlength="2">
                                     <span class="help-block d-none has-error" id="stxtLinkedinurl">Please Enter Valid Linkedinurl</span>
                                 </div>
 
@@ -181,8 +206,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-4" id="DivSalesLeadContactPerson2">
-                       
+                    <div class="col-4" id="divSalesLeadContactPerson2">
+
                         <div class="card card-widget widget-user-2  card-outline card-primary">
                             <div class="card-header">
                                 <h5 class="card-title"> <b>Contact Person Details 2</b></h5>
@@ -191,114 +216,115 @@
                             <br />
                             <div class="mx-auto">
 
-                                <input id="txtSalesLeadContactPersonId" name="txtSalesLeadContactPersonId" type="hidden" class="form-control col-sm-4" value="@Model.SalesLeadContactPersonDetail.SalesLeadContactPersonId" />
+                                <input id="txtSalesLeadContactPersonId1" name="txtSalesLeadContactPersonId1" type="hidden" class="form-control col-sm-4" value="@secondSalesLeadContactPersonDetailList.SalesLeadContactPersonId" />
 
-                                <input id="txtSalesLeadId" name="txtSalesLeadId" type="hidden" class="form-control col-sm-4" value="@Model.salesLeadDetail.Id" />
+                                <input id="txtSalesLeadId1" name="txtSalesLeadId1" type="hidden" class="form-control col-sm-4" value="@Model.salesLeadDetail.Id" />
 
-                                <div class="form-group" id="dtxtFirstName">
+                                <div class="form-group" id="dtxtFirstName1">
                                     <label><span class="has-error required">* </span>First Name</label>
-                                    <input id="txtFirstName1" name="txtFirstName" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="First Name" value="@Model.SalesLeadContactPersonDetail.FirstName" isrequired="0" divcontainer="dtxtFirstName" errorspan="stxtFirstName" defaultvalue="" autocomplete="off" minlength="2">
-                                    <span class="help-block d-none has-error" id="stxtFirstName">Please Enter Valid First Name</span>
+                                    <input id="txtFirstName1" name="txtFirstName1" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="First Name" value="@secondSalesLeadContactPersonDetailList.FirstName" isrequired="1" divcontainer="dtxtFirstName1" errorspan="stxtFirstName1" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtFirstName1">Please Enter Valid First Name</span>
                                 </div>
 
 
-                                <div class="form-group" id="dtxtLastName">
+                                <div class="form-group" id="dtxtLastName1">
                                     <label><span class="has-error required">* </span>Last Name</label>
-                                    <input id="txtLastName1" name="txtLastName" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Last Name" value="@Model.SalesLeadContactPersonDetail.LastName" isrequired="0" divcontainer="dtxtLastName" errorspan="stxtLastName" defaultvalue="" autocomplete="off" minlength="2">
-                                    <span class="help-block d-none has-error" id="stxtLastName">Please Enter Valid Last Name</span>
+                                    <input id="txtLastName1" name="txtLastName1" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Last Name" value="@secondSalesLeadContactPersonDetailList.LastName" isrequired="1" divcontainer="dtxtLastName1" errorspan="stxtLastName1" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtLastName1">Please Enter Valid Last Name</span>
                                 </div>
-                                <div class="form-group" id="dtxtEmail">
+                                <div class="form-group" id="dtxtSalesLeadContactPersonEmail1">
                                     <label><span class="has-error required">* </span>Email</label>
-                                    <input id="txtSalesLeadContactPersonEmail1" name="txtEmail" type="email" class="form-control text-length" placeholder="Email" value="@Model.SalesLeadContactPersonDetail.Email" isrequired="0" divcontainer="dtxtEmail" errorspan="stxtEmail" defaultvalue="" autocomplete="off" minlength="2">
-                                    <span class="help-block d-none has-error" id="stxtEmail">Please Enter Valid Email</span>
+                                    <input id="txtSalesLeadContactPersonEmail1" name="txtSalesLeadContactPersonEmail1" type="email" class="form-control text-length" placeholder="Email" value="@secondSalesLeadContactPersonDetailList.Email" isrequired="1" divcontainer="dtxtSalesLeadContactPersonEmail1" errorspan="stxtSalesLeadContactPersonEmail1" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtSalesLeadContactPersonEmail1">Please Enter Valid Email</span>
                                 </div>
 
-                                <div class="form-group" id="dtxtDesignation">
+                                <div class="form-group" id="dtxtDesignation1">
                                     <label><span class="has-error required">* </span>Designation</label>
-                                    <input id="txtDesignation1" name="txtDesignation" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Designation" value="@Model.SalesLeadContactPersonDetail.Designation" isrequired="0" divcontainer="dtxtDesignation" errorspan="stxtDesignation" defaultvalue="" autocomplete="off" minlength="2">
-                                    <span class="help-block d-none has-error" id="stxtDesignation">Please Enter Valid Designation</span>
+                                    <input id="txtDesignation1" name="txtDesignation1" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Designation" value="@secondSalesLeadContactPersonDetailList.Designation" isrequired="1" divcontainer="dtxtDesignation1" errorspan="stxtDesignation1" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtDesignation1">Please Enter Valid Designation</span>
                                 </div>
 
-                                <div class="form-group" id="dtxtMobile1">
+                                <div class="form-group" id="dtxtMobile11">
                                     <label><span class="has-error required">* </span>Mobile1</label>
-                                    <input id="txtMobile11" name="txtMobile1" type="text" class="form-control onlyNumeric text-length" placeholder="Mobile1" value="@Model.SalesLeadContactPersonDetail.Mobile1" isrequired="0" divcontainer="dtxtMobile1" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
-                                    <span class="help-block d-none has-error" id="stxtMobile1">Please Enter Valid Mobile1</span>
+                                    <input id="txtMobile11" name="txtMobile11" type="text" class="form-control onlyNumeric text-length" placeholder="Mobile11" value="@secondSalesLeadContactPersonDetailList.Mobile1" isrequired="1" divcontainer="dtxtMobile11" errorspan="stxtMobile11" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+                                    <span class="help-block d-none has-error" id="stxtMobile11">Please Enter Valid Mobile1</span>
                                 </div>
 
-                                <div class="form-group" id="dtxtMobile2">
+                                <div class="form-group" id="dtxtMobile21">
                                     <label>Mobile2</label>
-                                    <input id="txtMobile21" name="txtMobile2" type="text" class="form-control onlyNumeric" placeholder="Mobile2" value="@Model.SalesLeadContactPersonDetail.Mobile2" isrequired="0" divcontainer="dtxtMobile2" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
-                                    <span class="help-block d-none has-error" id="stxtMobile2">Please Enter Valid Mobile2</span>
+                                    <input id="txtMobile21" name="txtMobile21" type="text" class="form-control onlyNumeric" placeholder="Mobile2" value="@secondSalesLeadContactPersonDetailList.Mobile2" isrequired="0" divcontainer="dtxtMobile21" errorspan="stxtMobile11" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+                                    <span class="help-block d-none has-error" id="stxtMobile21">Please Enter Valid Mobile2</span>
                                 </div>
 
-                                <div class="form-group" id="dtxtLinkedinurl">
+                                <div class="form-group" id="dtxtLinkedinurl1">
                                     <label>Linkedinurl</label>
-                                    <input id="txtLinkedinurl1" name="txtLinkedinurl" type="text" class="form-control txtCapitalize" placeholder="Linkedinurl" value="@Model.SalesLeadContactPersonDetail.Linkedinurl" isrequired="0" divcontainer="dtxtLinkedinurl" errorspan="stxtLinkedinurl" defaultvalue="" autocomplete="off" minlength="2">
-                                    <span class="help-block d-none has-error" id="stxtLinkedinurl">Please Enter Valid Linkedinurl</span>
+                                    <input id="txtLinkedinurl1" name="txtLinkedinurl1" type="text" class="form-control txtCapitalize" placeholder="Linkedinurl" value="@secondSalesLeadContactPersonDetailList.Linkedinurl" isrequired="0" divcontainer="dtxtLinkedinurl1" errorspan="stxtLinkedinurl1" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtLinkedinurl1">Please Enter Valid Linkedinurl</span>
                                 </div>
 
                             </div>
                         </div>
                     </div>
-                    <div class="col-4">
-                        
+                    <div class="col-4"  id="divSalesLeadContactPerson3">
+
                         <div class="card card-widget widget-user-2  card-outline card-primary">
                             <div class="card-header">
                                 <h5 class="card-title"><b>Contact Person Details 3</b></h5>
                             </div>
-                            <br/>
+                            <br />
                             <div class="mx-auto">
 
-                                <input id="txtSalesLeadContactPersonId" name="txtSalesLeadContactPersonId" type="hidden" class="form-control col-sm-4" value="@Model.SalesLeadContactPersonDetail.SalesLeadContactPersonId" />
+                                <input id="txtSalesLeadContactPersonId2" name="txtSalesLeadContactPersonId" type="hidden" class="form-control col-sm-4" value="@thirdSalesLeadContactPersonDetailList.SalesLeadContactPersonId" />
 
-                                <input id="txtSalesLeadId" name="txtSalesLeadId" type="hidden" class="form-control col-sm-4" value="@Model.salesLeadDetail.Id" />
+                                <input id="txtSalesLeadId2" name="txtSalesLeadId" type="hidden" class="form-control col-sm-4" value="@Model.salesLeadDetail.Id" />
 
-                                <div class="form-group" id="dtxtFirstName">
+                                <div class="form-group" id="dtxtFirstName2">
                                     <label><span class="has-error required">* </span>First Name</label>
-                                    <input id="txtFirstName2" name="txtFirstName" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="First Name" value="@Model.SalesLeadContactPersonDetail.FirstName" isrequired="0" divcontainer="dtxtFirstName" errorspan="stxtFirstName" defaultvalue="" autocomplete="off" minlength="2">
-                                    <span class="help-block d-none has-error" id="stxtFirstName">Please Enter Valid First Name</span>
+                                    <input id="txtFirstName2" name="txtFirstName2" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="First Name" value="@thirdSalesLeadContactPersonDetailList.FirstName" isrequired="1" divcontainer="dtxtFirstName2" errorspan="stxtFirstName2" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtFirstName2">Please Enter Valid First Name</span>
                                 </div>
 
 
-                                <div class="form-group" id="dtxtLastName">
+                                <div class="form-group" id="dtxtLastName2">
                                     <label><span class="has-error required">* </span>Last Name</label>
-                                    <input id="txtLastName2" name="txtLastName" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Last Name" value="@Model.SalesLeadContactPersonDetail.LastName" isrequired="0" divcontainer="dtxtLastName" errorspan="stxtLastName" defaultvalue="" autocomplete="off" minlength="2">
-                                    <span class="help-block d-none has-error" id="stxtLastName">Please Enter Valid Last Name</span>
+                                    <input id="txtLastName2" name="txtLastName2" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Last Name" value="@thirdSalesLeadContactPersonDetailList.LastName" isrequired="1" divcontainer="dtxtLastName2" errorspan="stxtLastName2" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtLastName2">Please Enter Valid Last Name</span>
                                 </div>
-                                <div class="form-group" id="dtxtEmail">
+                                <div class="form-group" id="dtxtSalesLeadContactPersonEmail2">
                                     <label><span class="has-error required">* </span>Email</label>
-                                    <input id="txtSalesLeadContactPersonEmail2" name="txtEmail" type="email" class="form-control text-length" placeholder="Email" value="@Model.SalesLeadContactPersonDetail.Email" isrequired="0" divcontainer="dtxtEmail" errorspan="stxtEmail" defaultvalue="" autocomplete="off" minlength="2">
-                                    <span class="help-block d-none has-error" id="stxtEmail">Please Enter Valid Email</span>
+                                    <input id="txtSalesLeadContactPersonEmail2" name="txtSalesLeadContactPersonEmail2" type="email" class="form-control text-length" placeholder="Email" value="@thirdSalesLeadContactPersonDetailList.Email" isrequired="1" divcontainer="dtxtSalesLeadContactPersonEmail2" errorspan="stxtSalesLeadContactPersonEmail2" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtSalesLeadContactPersonEmail2">Please Enter Valid Email</span>
                                 </div>
 
-                                <div class="form-group" id="dtxtDesignation">
+                                <div class="form-group" id="dtxtDesignation2">
                                     <label><span class="has-error required">* </span>Designation</label>
-                                    <input id="txtDesignation2" name="txtDesignation" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Designation" value="@Model.SalesLeadContactPersonDetail.Designation" isrequired="0" divcontainer="dtxtDesignation" errorspan="stxtDesignation" defaultvalue="" autocomplete="off" minlength="2">
-                                    <span class="help-block d-none has-error" id="stxtDesignation">Please Enter Valid Designation</span>
+                                    <input id="txtDesignation2" name="txtDesignation2" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Designation" value="@thirdSalesLeadContactPersonDetailList.Designation" isrequired="1" divcontainer="dtxtDesignation2" errorspan="stxtDesignation2" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtDesignation2">Please Enter Valid Designation</span>
                                 </div>
 
-                                <div class="form-group" id="dtxtMobile1">
+                                <div class="form-group" id="dtxtMobile12">
                                     <label><span class="has-error required">* </span>Mobile1</label>
-                                    <input id="txtMobile12" name="txtMobile1" type="text" class="form-control onlyNumeric text-length" placeholder="Mobile1" value="@Model.SalesLeadContactPersonDetail.Mobile1" isrequired="0" divcontainer="dtxtMobile1" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
-                                    <span class="help-block d-none has-error" id="stxtMobile1">Please Enter Valid Mobile1</span>
+                                    <input id="txtMobile12" name="txtMobile12" type="text" class="form-control onlyNumeric text-length" placeholder="Mobile12" value="@thirdSalesLeadContactPersonDetailList.Mobile1" isrequired="1" divcontainer="dtxtMobile12" errorspan="stxtMobile12" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+                                    <span class="help-block d-none has-error" id="stxtMobile12">Please Enter Valid Mobile1</span>
                                 </div>
 
-                                <div class="form-group" id="dtxtMobile2">
+                                <div class="form-group" id="dtxtMobile22">
                                     <label>Mobile2</label>
-                                    <input id="txtMobile22" name="txtMobile2" type="text" class="form-control onlyNumeric" placeholder="Mobile2" value="@Model.SalesLeadContactPersonDetail.Mobile2" isrequired="0" divcontainer="dtxtMobile2" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
-                                    <span class="help-block d-none has-error" id="stxtMobile2">Please Enter Valid Mobile2</span>
+                                    <input id="txtMobile22" name="txtMobile22" type="text" class="form-control onlyNumeric" placeholder="Mobile2" value="@thirdSalesLeadContactPersonDetailList.Mobile2" isrequired="0" divcontainer="dtxtMobile22" errorspan="stxtMobile12" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+                                    <span class="help-block d-none has-error" id="stxtMobile22">Please Enter Valid Mobile2</span>
                                 </div>
 
-                                <div class="form-group" id="dtxtLinkedinurl">
+                                <div class="form-group" id="dtxtLinkedinurl2">
                                     <label>Linkedinurl</label>
-                                    <input id="txtLinkedinurl2" name="txtLinkedinurl" type="text" class="form-control txtCapitalize" placeholder="Linkedinurl" value="@Model.SalesLeadContactPersonDetail.Linkedinurl" isrequired="0" divcontainer="dtxtLinkedinurl" errorspan="stxtLinkedinurl" defaultvalue="" autocomplete="off" minlength="2">
-                                    <span class="help-block d-none has-error" id="stxtLinkedinurl">Please Enter Valid Linkedinurl</span>
+                                    <input id="txtLinkedinurl2" name="txtLinkedinurl2" type="text" class="form-control txtCapitalize" placeholder="Linkedinurl" value="@thirdSalesLeadContactPersonDetailList.Linkedinurl" isrequired="0" divcontainer="dtxtLinkedinurl2" errorspan="stxtLinkedinurl2" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtLinkedinurl2">Please Enter Valid Linkedinurl</span>
                                 </div>
 
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
             <div class="card-footer">
                 <div class="row justify-content-end">
