@@ -134,9 +134,9 @@ namespace ArcheOne.Helper.CommonHelpers
             return _db.ResumeFileUploadDetailMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
 
-        public IQueryable<RequirementMst> RequirementList(bool IsDeleted = false, bool IsActive = true)
+        public IQueryable<RequirementMst> RequirementList(bool? IsDeleted = false, bool? IsActive = null)
         {
-            return _db.RequirementMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+            return _db.RequirementMsts.Where(x => x.IsDelete == IsDeleted && (x.IsActive == IsActive || IsActive == null)).AsQueryable();
         }
 
         public IQueryable<RequirementForMst> RequirementForList(bool IsDeleted = false, bool IsActive = true)
@@ -192,6 +192,14 @@ namespace ArcheOne.Helper.CommonHelpers
         public IQueryable<HireStatusMst> HireStatusList(bool IsDeleted = false, bool IsActive = true)
         {
             return _db.HireStatusMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+        public IQueryable<HolidayMst> HolidayDayList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.HolidayMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+        public IQueryable<UserDetailsMst> UserDetailList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.UserDetailsMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
     }
 }

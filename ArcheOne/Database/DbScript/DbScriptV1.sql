@@ -812,3 +812,79 @@ BEGIN
 END
 ----------------------------------------Added by PP on 06-06-23-----------------------------------END--------
 ---------------------------------------Executed on Local Server on 06-06-23------------------by PP-----------
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'HolidayMst')
+BEGIN 
+	Create table dbo.HolidayMst(
+			Id int identity(1,1) primary key,
+			HolidayName nvarchar(100) not null,
+			HolidayDate DateTime not null,
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'HolidayMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'HolidayMst Table Already Exist' 
+END
+
+
+
+----------------------------------------Added by PP on 15-06-23-----------------------------------END--------
+---------------------------------------Executed on Local Server on 15-06-23------------------by SP-----------
+
+
+----------------------------------------Added by DS on 16-06-23-----------------------------------Start--------
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'UserDetailsMst')
+BEGIN 
+	Create table dbo.UserDetailsMst(
+			Id int identity(1,1) primary key,
+			UserId int not null,
+			EmployeeCode nvarchar(100) not null,
+			Gender nvarchar(100) not null,
+			EmergencyContact nvarchar(100) not null,
+			Dob DateTime not null,
+			PostCode nvarchar(100) not null,
+			EmploymentType nvarchar(100) not null,
+			Department nvarchar(100) not null,
+			Designation nvarchar(100) not null,
+			Location nvarchar(100) not null,
+			BloodGroup nvarchar(100) not null,
+			OfferDate DateTime not null,
+			JoinDate DateTime not null,
+			BankName nvarchar(500) not null,
+			AccountNumber nvarchar(500) not null,
+			Branch nvarchar(100) not null,
+			IfscCode nvarchar(20) not null,
+			PfaccountNumber nvarchar(30) not null,
+			PancardNumber nvarchar(10) not null,
+			AdharCardNumber nvarchar(12) not null,
+			Salary decimal(38,18) not null,
+			ReportingManager nvarchar(100) not null,
+			Reason nvarchar(Max) not null,
+			EmployeePersonalEmailId nvarchar(100) not null,
+			ProbationPeriod nvarchar(20) not null,
+			IsActive bit default(1) not null,
+			IsDelete bit default(0) not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'UserDetailsMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'UserDetailsMst Table Already Exist' 
+END
+
+
+----------------------------------------Added by DS on 16-06-23-----------------------------------End--------
+---------------------------------------Executed on Local Server on 16-06-23------------------by DS-----------

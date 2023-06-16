@@ -22,7 +22,7 @@
         public string Pocname { get; set; }
         public string MandatorySkills { get; set; } 
         public string? JobDescription { get; set; }
-        public string? AssignedUserIds { get; set; }
+        public List<string> AssignedUserIds { get; set; }
         public int RequirementStatusId { get; set; }
         public bool IsActive { get; set; }
        

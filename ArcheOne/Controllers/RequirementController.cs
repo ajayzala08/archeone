@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System.Net;
 
 namespace ArcheOne.Controllers
@@ -69,8 +70,9 @@ namespace ArcheOne.Controllers
                     requirementList = requirementList.Where(x => x.RequirementStatusId == getRequirementListReqModel.RequirementStatusId);
                 }
 
+                var list = await requirementList.ToListAsync();
                 requirementListResModel.RequirementList = new List<RequirementListModel>();
-                foreach (var item in requirementList)
+                foreach (var item in list)
                 {
                     var requirementForDetail = await requirementForList.FirstOrDefaultAsync(x => x.Id == item.RequirementForId);
                     var clientDetail = await clientList.FirstOrDefaultAsync(x => x.Id == item.ClientId);
@@ -80,7 +82,7 @@ namespace ArcheOne.Controllers
                     var requirementStatusDetail = await requirementStatusList.FirstOrDefaultAsync(x => x.Id == item.RequirementStatusId);
 
                     RequirementListModel requirementListModel = new RequirementListModel();
-                    requirementListModel.Id = item.Id;
+                    requirementListModel.RequirementId = item.Id;
                     requirementListModel.JobCode = item.JobCode;
                     requirementListModel.RequirementForId = requirementForDetail != null ? requirementForDetail.Id : 0;
                     requirementListModel.RequirementForName = requirementForDetail != null ? requirementForDetail.RequirementForName : "";
@@ -134,14 +136,36 @@ namespace ArcheOne.Controllers
             AddEditRequirementResModel addEditRequirementResModel = new AddEditRequirementResModel();
             try
             {
-                RequirementMst requirementMst = new RequirementMst();
+                AddEditRequirementDetail addEditRequirementDetail = new AddEditRequirementDetail();
                 var requirementDetail = await _dbRepo.RequirementList().FirstOrDefaultAsync(x => x.Id == RequirementId);
                 if (requirementDetail != null)
                 {
                     //Edit Mode
-                    requirementMst = requirementDetail;
+                    addEditRequirementDetail.RequirementId = requirementDetail.Id;
+                    addEditRequirementDetail.RequirementForId = requirementDetail.RequirementForId;
+                    addEditRequirementDetail.ClientId = requirementDetail.ClientId;
+                    addEditRequirementDetail.JobCode = requirementDetail.JobCode;
+                    addEditRequirementDetail.MainSkill = requirementDetail.MainSkill;
+                    addEditRequirementDetail.NoOfPosition = requirementDetail.NoOfPosition;
+                    addEditRequirementDetail.Location = requirementDetail.Location;
+                    addEditRequirementDetail.EndClient = requirementDetail.EndClient;
+                    addEditRequirementDetail.TotalMinExperience = requirementDetail.TotalMinExperience;
+                    addEditRequirementDetail.TotalMaxExperience = requirementDetail.TotalMaxExperience;
+                    addEditRequirementDetail.RelevantMinExperience = requirementDetail.RelevantMinExperience;
+                    addEditRequirementDetail.RelevantMaxExperience = requirementDetail.RelevantMaxExperience;
+                    addEditRequirementDetail.ClientBillRate = requirementDetail.ClientBillRate;
+                    addEditRequirementDetail.CandidatePayRate = requirementDetail.CandidatePayRate;
+                    addEditRequirementDetail.PositionTypeId = requirementDetail.PositionTypeId;
+                    addEditRequirementDetail.RequirementTypeId = requirementDetail.RequirementTypeId;
+                    addEditRequirementDetail.EmploymentTypeId = requirementDetail.EmploymentTypeId;
+                    addEditRequirementDetail.Pocname = requirementDetail.Pocname;
+                    addEditRequirementDetail.MandatorySkills = requirementDetail.MandatorySkills;
+                    addEditRequirementDetail.JobDescription = requirementDetail.JobDescription;
+                    addEditRequirementDetail.AssignedUserIds = !string.IsNullOrWhiteSpace(requirementDetail.AssignedUserIds) ? requirementDetail.AssignedUserIds.Split(',').Select(int.Parse).ToList() : new List<int>();
+                    addEditRequirementDetail.RequirementStatusId = requirementDetail.RequirementStatusId;
+                    addEditRequirementDetail.IsActive = requirementDetail.IsActive;
                 }
-                addEditRequirementResModel.RequirementDetail = requirementMst;
+                addEditRequirementResModel.RequirementDetail = addEditRequirementDetail;
 
                 addEditRequirementResModel.RequirementForList = await _dbRepo.RequirementForList().Select(x => new KeyValueModel { Id = x.Id, Name = x.RequirementForName }).ToListAsync();
                 addEditRequirementResModel.ClientList = await _dbRepo.ClientList().Select(x => new KeyValueModel { Id = x.Id, Name = x.ClientName }).ToListAsync();
@@ -149,6 +173,7 @@ namespace ArcheOne.Controllers
                 addEditRequirementResModel.RequirementTypeList = await _dbRepo.RequirementTypeList().Select(x => new KeyValueModel { Id = x.Id, Name = x.RequirementTypeName }).ToListAsync();
                 addEditRequirementResModel.EmploymentTypeList = await _dbRepo.EmploymentTypeList().Select(x => new KeyValueModel { Id = x.Id, Name = x.EmploymentTypeName }).ToListAsync();
                 addEditRequirementResModel.RequirementStatusList = await _dbRepo.RequirementStatusList().Select(x => new KeyValueModel { Id = x.Id, Name = x.RequirementStatusName }).ToListAsync();
+                addEditRequirementResModel.UserList = await _dbRepo.UserMstList().Select(x => new KeyValueModel { Id = x.Id, Name = x.FirstName + x.LastName }).ToListAsync();
 
                 commonResponse.Data = addEditRequirementResModel;
                 commonResponse.Message = "Success!";
@@ -193,7 +218,7 @@ namespace ArcheOne.Controllers
                 requirementMst.Pocname = saveUpdateRequirementReqModel.Pocname;
                 requirementMst.MandatorySkills = saveUpdateRequirementReqModel.MandatorySkills;
                 requirementMst.JobDescription = saveUpdateRequirementReqModel.JobDescription;
-                requirementMst.AssignedUserIds = saveUpdateRequirementReqModel.AssignedUserIds;
+                requirementMst.AssignedUserIds = string.Join(",", saveUpdateRequirementReqModel.AssignedUserIds);
                 requirementMst.RequirementStatusId = saveUpdateRequirementReqModel.RequirementStatusId;
                 requirementMst.IsActive = saveUpdateRequirementReqModel.IsActive;
 
@@ -229,6 +254,40 @@ namespace ArcheOne.Controllers
             {
                 commonResponse.Message = ex.Message;
                 commonResponse.Data = ex.StackTrace;
+            }
+            return Json(commonResponse);
+        }
+
+        public async Task<IActionResult> DeleteRequirement(int RequirementId)
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            try
+            {
+                var requirementDetail = await _dbRepo.RequirementList().FirstOrDefaultAsync(x => x.Id == RequirementId);
+                if (requirementDetail != null)
+                {
+                    RequirementMst requirementMst = new RequirementMst();
+                    requirementMst = requirementDetail;
+                    requirementMst.IsDelete = true;
+                    requirementMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                    requirementMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                    _dbContext.Entry(requirementMst).State = EntityState.Modified;
+                    await _dbContext.SaveChangesAsync();
+
+                    commonResponse.Status = true;
+                    commonResponse.StatusCode = HttpStatusCode.OK;
+                    commonResponse.Message = "Requirement deleted successfully!";
+                    commonResponse.Data = requirementMst.Id;
+                }
+                else
+                {
+                    commonResponse.Message = "Data not found!";
+                    commonResponse.StatusCode = HttpStatusCode.NotFound;
+                }
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message;
             }
             return Json(commonResponse);
         }

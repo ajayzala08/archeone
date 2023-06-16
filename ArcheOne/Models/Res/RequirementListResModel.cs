@@ -9,7 +9,7 @@ namespace ArcheOne.Models.Res
 
     public class RequirementListModel
     {
-        public int Id { get; set; }
+        public int RequirementId { get; set; }
         public string JobCode { get; set; }
         public int RequirementForId { get; set; }
         public string RequirementForName { get; set; }

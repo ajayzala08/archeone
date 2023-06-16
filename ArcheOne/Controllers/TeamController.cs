@@ -44,7 +44,6 @@ namespace ArcheOne.Controllers
                 teamlists = (from z in _dbRepo.TeamList()
                              join f in _dbRepo.AllUserMstList() on z.TeamLeadId equals f.Id
                              join t in _dbRepo.AllUserMstList() on z.TeamMemberId equals t.Id
-                             //select new { z,f,t}).ToList().Select new
                              select new
                              {
                                  TeamId = z.TeamLeadId,
@@ -163,7 +162,6 @@ namespace ArcheOne.Controllers
                     {
                         teamDetails.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
                         teamDetails.TeamMemberId = teamMember;
-                        //teamDetails.TeamMemberId = team.TeamMemberId;
                         teamDetails.IsActive = true;
                         teamDetails.IsDelete = false;
                         teamDetails.CreatedDate = DateTime.Now;
