@@ -43,6 +43,8 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<PermissionMst> PermissionMsts { get; set; }
 
+    public virtual DbSet<PolicyMst> PolicyMsts { get; set; }
+
     public virtual DbSet<PositionTypeMst> PositionTypeMsts { get; set; }
 
     public virtual DbSet<RequirementForMst> RequirementForMsts { get; set; }
@@ -78,11 +80,8 @@ public partial class ArcheOneDbContext : DbContext
     public virtual DbSet<UserPermission> UserPermissions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-
-    }
-    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-    //        => optionsBuilder.UseSqlServer("Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -317,6 +316,18 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
+        modelBuilder.Entity<PolicyMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__PolicyMs__3214EC077BBDF40E");
+
+            entity.ToTable("PolicyMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.PolicyDocumentName).HasMaxLength(100);
+            entity.Property(e => e.PolicyName).HasMaxLength(100);
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
         modelBuilder.Entity<PositionTypeMst>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Position__3214EC078B131D10");
@@ -433,7 +444,7 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.NoticePeriodDays)
                 .HasColumnType("decimal(18, 0)")
                 .HasColumnName("NoticePeriod_Days");
-            entity.Property(e => e.OfferedPackageInLac).HasColumnType("decimal(18, 0)");
+            entity.Property(e => e.OfferedPackageInLac).HasColumnType("decimal(38, 17)");
             entity.Property(e => e.Pan)
                 .HasMaxLength(20)
                 .HasColumnName("PAN");

@@ -1,0 +1,56 @@
+﻿@using ArcheOne.Helper.CommonModels;
+@using ArcheOne.Models.Res;
+@model List<GetPolicyListResModel>
+@{
+    Layout = "_BlankLayout";
+    ViewBag.dataTable = "true";
+}
+<style>
+    td {
+        text-align: center;
+    }
+
+    thead {
+        font-weight: bold;
+    }
+</style>
+
+<div class="row form-group">
+    <div class="col-md-12">
+        <table id="tblPolicy" class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <td>
+                        <b>Action</b>
+                    </td>
+                    <td>
+                        <b>Policy Name</b>
+                    </td>
+                    <td>
+                        <b>Policy Document</b>
+                    </td>
+                   
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <i class="fa fa-pen pen btn-edit" Id="@item.Id" style="cursor: pointer;"></i> &nbsp; | &nbsp;
+                            <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"></i>
+                        </td>
+                        <td>
+                            @item.PolicyName
+                        </td>
+                        <td>
+                          @*  @item.PolicyDocument*@
+                            <link src="@item.PolicyDocument" height="60px" width="60px" alt="Policy Document" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
