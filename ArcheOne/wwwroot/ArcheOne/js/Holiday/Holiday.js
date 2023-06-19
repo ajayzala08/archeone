@@ -10,7 +10,9 @@ function GetFilteredHolidayList() {
     ajaxCall("Get", false, '/Holiday/HolidayList', null, function (result) {
         $("#divHolidayList").html(result.responseText);
         ApplyDatatableResponsive('tblHoliday');
+        
         $(".btn-edit").click(function () {
+           
             var Id = $(this).attr('Id');
             AddEditHoliday(Id);
         });
@@ -27,42 +29,11 @@ function AddEditHoliday(Id) {
     window.location.href = '/Holiday/AddEditHoliday?Id=' + Id;
 }
 
-
-
-function SaveUpdateHoliday() {
-    var saveHolidayData = {
-        "HolidayId": parseInt($("#txtId").val()),
-        "HolidayName": $("#txtHolidayName").val(),
-        "Date":  $("#txtDate").val(),
-    }
-    console.log(saveHolidayData);
-
-    if (validateRequiredFields()) {
-        ajaxCall("Post", false, '/Holiday/SaveUpdateHoliday', JSON.stringify(saveHolidayData), function (result) {
-            debugger
-            if (result.status == true) {
-                Popup_Toast.fire({ icon: 'success', title: result.message });
-                $("#btnCancel").click();
-                ClearAll();
-                GetFilteredHolidayList();
-            }
-            else {
-                Popup_Toast.fire({ icon: 'error', title: result.message });
-            }
-        });
-    }
-}
-function ClearAll() {
-        $("#txtHolidayName").val(),
-        $("#txtDate").val(),
-        $("#txtDay").val()
-
-}
-
 function DeleteHoliday(Id) {
     if ($("#txtId").value > 0) {
         Id = $("#txtId").value;
     }
+    debugger
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -75,6 +46,7 @@ function DeleteHoliday(Id) {
         if (result.isConfirmed) {
 
             ajaxCall("Post", false, '/Holiday/DeleteHoliday?Id=' + Id, null, function (result) {
+                debugger
                 if (result.status == true) {
                     Popup_Toast.fire({ icon: 'success', title: result.message });
                     GetFilteredHolidayList();
@@ -86,8 +58,6 @@ function DeleteHoliday(Id) {
         }
     })
 };
-
-
 
 
 
