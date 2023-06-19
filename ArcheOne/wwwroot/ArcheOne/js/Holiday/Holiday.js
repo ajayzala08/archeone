@@ -10,7 +10,6 @@ function GetFilteredHolidayList() {
     ajaxCall("Get", false, '/Holiday/HolidayList', null, function (result) {
         $("#divHolidayList").html(result.responseText);
         ApplyDatatableResponsive('tblHoliday');
-        debugger
         $(".btn-edit").click(function () {
             var Id = $(this).attr('Id');
             AddEditHoliday(Id);
@@ -25,7 +24,6 @@ function GetFilteredHolidayList() {
 }
 
 function AddEditHoliday(Id) {
-    debugger
     window.location.href = '/Holiday/AddEditHoliday?Id=' + Id;
 }
 
@@ -65,7 +63,6 @@ function DeleteHoliday(Id) {
     if ($("#txtId").value > 0) {
         Id = $("#txtId").value;
     }
-    debugger
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -78,7 +75,6 @@ function DeleteHoliday(Id) {
         if (result.isConfirmed) {
 
             ajaxCall("Post", false, '/Holiday/DeleteHoliday?Id=' + Id, null, function (result) {
-                debugger
                 if (result.status == true) {
                     Popup_Toast.fire({ icon: 'success', title: result.message });
                     GetFilteredHolidayList();

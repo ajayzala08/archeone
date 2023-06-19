@@ -1,10 +1,8 @@
 ﻿$(document).ready(function () {
 
     $("#btnSaveAdd").click(function () {
-        debugger
         SaveUpdateHoliday();
     });
-    debugger
     $("#btnCancel").click(function () {
         window.location.href = '/Holiday/Holiday';
     });
@@ -24,10 +22,8 @@ function SaveUpdateHoliday() {
         "HolidayDate": $("#txtHolidayDate").val()
     }
     console.log(saveHolidayData);
-    debugger
     if (validateRequiredFields()) {
         ajaxCall("Post", false, '/Holiday/SaveUpdateHoliday', JSON.stringify(saveHolidayData), function (result) {
-            debugger
             if (result.status == true) {
                 Popup_Toast.fire({ icon: 'success', title: result.message });
                 $("#btnCancel").click();
