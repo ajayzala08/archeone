@@ -146,7 +146,6 @@
                         <div class="form-group" id="dddlRequirementStatus">
                             <label class="form-label"><span class="has-error required">* </span>Requirement Status</label>
                             <select id="ddlRequirementStatus" name="ddlRequirementStatus" class="form-control select2" isRequired="1" divcontainer="dddlRequirementStatus" errorspan="sddlRequirementStatus" defaultvalue="0">
-                                <option value="0">Select</option>
                                 @foreach (var item in addEditRequirementResModel.RequirementStatusList)
                                 {
                                     if (item.Id == addEditRequirementResModel.RequirementDetail.RequirementStatusId)

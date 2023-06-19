@@ -72,6 +72,7 @@ namespace ArcheOne.Controllers
 
                 var list = await requirementList.ToListAsync();
                 requirementListResModel.RequirementList = new List<RequirementListModel>();
+                requirementListResModel.RequirementStatusList = await _dbRepo.RequirementStatusList().Select(x => new KeyValueModel { Id = x.Id, Name = x.RequirementStatusName }).ToListAsync();
                 foreach (var item in list)
                 {
                     var requirementForDetail = await requirementForList.FirstOrDefaultAsync(x => x.Id == item.RequirementForId);
