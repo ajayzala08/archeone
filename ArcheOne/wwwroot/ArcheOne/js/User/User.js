@@ -25,6 +25,18 @@ function AddEditUser(Id) {
     });
 }
 
+function manageUserDetails(Id) {
+    ajaxCall("Post", false, '/UserDetails/AddEditUserDetails?userId=' + Id, null, function (result) {
+        if (Id > 0) {
+            RedirectToPage('/UserDetails/AddEditUserDetails?userId=' + Id)
+        }
+        else {
+            RedirectToPage("/UserDetails/AddEditUserDetails")
+        }
+    });
+}
+
+
 function DeleteUser(Id) {
     Swal.fire({
         title: 'Are you sure?',
@@ -91,11 +103,11 @@ function GetUserList(RoleId) {
             }
             dataTable = $('#tblUser').DataTable({
                 "responsive": true,
-                "lengthChange": false,
+                "lengthChange": true,
                 "paging": true,
                 "searching": true,
                 "processing": true, // for show progress bar
-                "dom": 'Blfrtip',
+                /*"dom": 'Blfrtip',*/
                 "filter": true, // this is for disable filter (search box)
                 "data": result.data,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
@@ -106,8 +118,7 @@ function GetUserList(RoleId) {
                         render: function (data, type, row) {
                             if (data) {
                                 var fullName = ' + data.fullName + '
-                                return '<i class="fa fa-pen pen" value="' + data.id + '" onclick="AddEditUser(' + row.id + ')"></i> | <i class="fa fa-trash trash" value="' + data.id + '" onclick="DeleteUser(' + row.id + ')"></i>';
-                                /*return '<img src="' + data.photoUrl + '" height="60px" width="60px" alt="Profile Image">';*/
+                                return '<i class="fa fa-pen pen" value="' + data.id + '" onclick="AddEditUser(' + row.id + ')"></i> | <i class="fa fa-trash trash" value="' + data.id + '" onclick="DeleteUser(' + row.id + ')"></i> | <i class="fa fa-info-circle circle" value="' + data.id + '" onclick="manageUserDetails(' + row.id + ')"></i>';
                             } else {
                                 //return '<i class="fa fa-trash trash" value="' + data.id + '" onclick="DeleteUser(@item.Id)"></i>';
                             }
@@ -131,7 +142,7 @@ function GetUserList(RoleId) {
                         }
                     }
                 ]
-            });
+            }).buttons().container().appendTo('#tblUser_wrapper .col-md-6:eq(0)');
         }
         else {
             Toast.fire({ icon: 'error', title: result.message });

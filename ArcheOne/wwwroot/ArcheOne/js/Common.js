@@ -282,4 +282,67 @@ function ApplyDatatableResponsive(id) {
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo(datatableWrapper + ' .col-md-6:eq(0)');
 }
+function getDateFromFields(fieldId) {
+    var dtParts = $("#" + fieldId).val().split('/');
+    var monthName = "";
+    switch (dtParts[1]) {
+        case "02":
+            monthName = "FEB";
+            break;
+        case "03":
+            monthName = "MAR";
+            break;
+        case "04":
+            monthName = "APR";
+            break;
+        case "05":
+            monthName = "MAY";
+            break;
+        case "06":
+            monthName = "JUN";
+            break;
+        case "07":
+            monthName = "JUL";
+            break;
+        case "08":
+            monthName = "AUG";
+            break;
+        case "09":
+            monthName = "SEP";
+            break;
+        case "10":
+            monthName = "OCT";
+            break;
+        case "11":
+            monthName = "NOV";
+            break;
+        case "12":
+            monthName = "DEC";
+            break;
+        default:
+            monthName = "JAN";
+            break;
+    }
 
+    return dtParts[0] + "/" + monthName + "/" + dtParts[2];
+}
+
+function validateRequiredFieldsByGroup(groupId) {
+    $('[id="' + groupId + '"] .error').each(function (index, itm) {
+        if (!$(itm).hasClass('d-none')) {
+            $(itm).addClass('d-none');
+        }
+    });
+    $('[id="' + groupId + '"] .has-error').each(function (index, itm) {
+        if ($(this).hasClass('has-error')) {
+            $(this).removeClass('has-error');
+        }
+    });
+    $("[id='" + groupId + "'] [isRequired='1']").each(function (ind, item) {
+        validateReqField($(this));
+    });
+    if ($('[id="' + groupId + '"] .has-error').length > 0) {
+        return false;
+    }
+    return true;
+}

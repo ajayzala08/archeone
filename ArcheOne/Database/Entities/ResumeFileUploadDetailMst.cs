@@ -92,4 +92,10 @@ public partial class ResumeFileUploadDetailMst
     public DateTime CreatedDate { get; set; }
 
     public DateTime UpdatedDate { get; set; }
+
+    public DateTime? JoinInDate { get; set; }
+
+    public decimal? OfferedPackageInLac { get; set; }
+
+    public string? JoinInNote { get; set; }
 }

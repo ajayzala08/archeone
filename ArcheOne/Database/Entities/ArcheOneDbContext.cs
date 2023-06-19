@@ -71,13 +71,18 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<TeamMst> TeamMsts { get; set; }
 
+    public virtual DbSet<UserDetailsMst> UserDetailsMsts { get; set; }
+
     public virtual DbSet<UserMst> UserMsts { get; set; }
 
     public virtual DbSet<UserPermission> UserPermissions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;");
+    {
+
+    }
+    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+    //        => optionsBuilder.UseSqlServer("Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -419,6 +424,7 @@ public partial class ArcheOneDbContext : DbContext
                 .HasColumnName("F2FInterviewTime");
             entity.Property(e => e.FullName).HasMaxLength(100);
             entity.Property(e => e.HighestQualification).HasMaxLength(100);
+            entity.Property(e => e.JoinInDate).HasColumnType("date");
             entity.Property(e => e.LastSalaryHike).HasMaxLength(100);
             entity.Property(e => e.Mobile1).HasMaxLength(30);
             entity.Property(e => e.Mobile2).HasMaxLength(30);
@@ -427,6 +433,7 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.NoticePeriodDays)
                 .HasColumnType("decimal(18, 0)")
                 .HasColumnName("NoticePeriod_Days");
+            entity.Property(e => e.OfferedPackageInLac).HasColumnType("decimal(18, 0)");
             entity.Property(e => e.Pan)
                 .HasMaxLength(20)
                 .HasColumnName("PAN");
@@ -543,6 +550,42 @@ public partial class ArcheOneDbContext : DbContext
             entity.ToTable("TeamMst");
 
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<UserDetailsMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__UserDeta__3214EC0701FA4FE6");
+
+            entity.ToTable("UserDetailsMst");
+
+            entity.Property(e => e.AccountNumber).HasMaxLength(500);
+            entity.Property(e => e.AdharCardNumber).HasMaxLength(12);
+            entity.Property(e => e.BankName).HasMaxLength(500);
+            entity.Property(e => e.BloodGroup).HasMaxLength(100);
+            entity.Property(e => e.Branch).HasMaxLength(100);
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.Department).HasMaxLength(100);
+            entity.Property(e => e.Designation).HasMaxLength(100);
+            entity.Property(e => e.Dob).HasColumnType("datetime");
+            entity.Property(e => e.EmergencyContact).HasMaxLength(100);
+            entity.Property(e => e.EmployeeCode).HasMaxLength(100);
+            entity.Property(e => e.EmployeePersonalEmailId).HasMaxLength(100);
+            entity.Property(e => e.EmploymentType).HasMaxLength(100);
+            entity.Property(e => e.Gender).HasMaxLength(100);
+            entity.Property(e => e.IfscCode).HasMaxLength(20);
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.JoinDate).HasColumnType("datetime");
+            entity.Property(e => e.Location).HasMaxLength(100);
+            entity.Property(e => e.OfferDate).HasColumnType("datetime");
+            entity.Property(e => e.PancardNumber).HasMaxLength(10);
+            entity.Property(e => e.PfaccountNumber).HasMaxLength(30);
+            entity.Property(e => e.PostCode).HasMaxLength(100);
+            entity.Property(e => e.ProbationPeriod).HasMaxLength(20);
+            entity.Property(e => e.ReportingManager).HasMaxLength(100);
+            entity.Property(e => e.Salary).HasColumnType("decimal(38, 18)");
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
