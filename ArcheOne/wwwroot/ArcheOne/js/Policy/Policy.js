@@ -1,38 +1,40 @@
 ﻿$(document).ready(function () {
-    GetFilteredHolidayList();
-    $('#AddHoliday').click(function () {
-        AddEditHoliday(0);
+    GetPolicyList();
+    $('#AddPolicy').click(function () {
+        AddEditPolicy(0);
     });
- 
+
 });
 
-function GetFilteredHolidayList() {
-    ajaxCall("Get", false, '/Holiday/HolidayList', null, function (result) {
-        $("#divHolidayList").html(result.responseText);
-        ApplyDatatableResponsive('tblHoliday');
-        
+function GetPolicyList() {
+   
+    ajaxCall("Get", false, '/Policy/PolicyList', null, function (result) {
+        $("#divPolicyList").html(result.responseText);
+        ApplyDatatableResponsive('tblPolicy');
+
         $(".btn-edit").click(function () {
-           
+
             var Id = $(this).attr('Id');
-            AddEditHoliday(Id);
+            AddEditPolicy(Id);
         });
 
         $(".btn-delete").click(function () {
             Id = $(this).attr('Id');
-            DeleteHoliday(Id);
+            DeletePolicy(Id);
         });
 
     });
 }
 
-function AddEditHoliday(Id) {
-    window.location.href = '/Holiday/AddEditHoliday?Id=' + Id;
+function AddEditPolicy(Id) {
+    window.location.href = '/Policy/AddEditPolicy?Id=' + Id;
 }
 
-function DeleteHoliday(Id) {
+function DeletePolicy(Id) {
     if ($("#txtId").value > 0) {
         Id = $("#txtId").value;
     }
+ 
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -44,11 +46,11 @@ function DeleteHoliday(Id) {
     }).then((result) => {
         if (result.isConfirmed) {
 
-            ajaxCall("Post", false, '/Holiday/DeleteHoliday?Id=' + Id, null, function (result) {
-                debugger
+            ajaxCall("Post", false, '/Policy/DeletePolicy?Id=' + Id, null, function (result) {
+                
                 if (result.status == true) {
                     Popup_Toast.fire({ icon: 'success', title: result.message });
-                    GetFilteredHolidayList();
+                    GetPolicyList();
                 }
                 else {
                     Popup_Toast.fire({ icon: 'error', title: result.message });

@@ -1,33 +1,31 @@
 ﻿$(document).ready(function () {
+    $('#txtHolidayDate').datepicker({
+        dateFormat: 'dd-mm-yy'
+    });
 
     $("#btnSaveAdd").click(function () {
-        debugger
         SaveUpdateHoliday();
     });
-    debugger
+
+
     $("#btnCancel").click(function () {
         window.location.href = '/Holiday/Holiday';
     });
-
-    $(".btn-edit").click(function () {
-        EditMode = 1;
-        Id = $(this).attr('Id');
-        AddEditHoliday(Id);
-    });
-
 });
 
 function SaveUpdateHoliday() {
+ 
     var saveHolidayData = {
-       
+        "Id": parseInt($("#txtHolidayId").val()),
         "HolidayName": $("#txtHolidayName").val(),
-        "HolidayDate": $("#txtHolidayDate").val()
+        "HolidayDate": $.datepicker.formatDate("yy-mm-dd", $('#txtHolidayDate').datepicker('getDate')),
     }
     console.log(saveHolidayData);
-    debugger
+    
+
     if (validateRequiredFields()) {
         ajaxCall("Post", false, '/Holiday/SaveUpdateHoliday', JSON.stringify(saveHolidayData), function (result) {
-            debugger
+
             if (result.status == true) {
                 Popup_Toast.fire({ icon: 'success', title: result.message });
                 $("#btnCancel").click();

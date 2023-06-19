@@ -888,3 +888,28 @@ END
 
 ----------------------------------------Added by DS on 16-06-23-----------------------------------End--------
 ---------------------------------------Executed on Local Server on 16-06-23------------------by DS-----------
+
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'PolicyMst')
+BEGIN 
+	Create table dbo.PolicyMst(
+			Id int identity(1,1) primary key,
+			PolicyName nvarchar(100) not null,
+			PolicyDocumentName nvarchar(100) not null,
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'PolicyMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'PolicyMst Table Already Exist' 
+END
+
+----------------------------------------Added by SP on 19-06-23-----------------------------------End--------
+---------------------------------------Executed on Local Server on 19-06-23------------------by SP-----------

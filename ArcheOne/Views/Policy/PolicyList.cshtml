@@ -1,6 +1,6 @@
 ﻿@using ArcheOne.Helper.CommonModels;
 @using ArcheOne.Models.Res;
-@model List<GetHolidayListResModel>
+@model List<GetPolicyListResModel>
 @{
     Layout = "_BlankLayout";
     ViewBag.dataTable = "true";
@@ -17,21 +17,19 @@
 
 <div class="row form-group">
     <div class="col-md-12">
-        <table id="tblHoliday" class="table table-bordered table-striped" style="width:100%">
+        <table id="tblPolicy" class="table table-bordered table-striped" style="width:100%">
             <thead>
                 <tr>
                     <td>
                         <b>Action</b>
                     </td>
                     <td>
-                        <b>Holiday Name</b>
+                        <b>Policy Name</b>
                     </td>
                     <td>
-                        <b>Date</b>
+                        <b>Policy Document</b>
                     </td>
-                    <td>
-                        <b>Day</b>
-                    </td>
+                   
                 </tr>
             </thead>
             <tbody>
@@ -43,13 +41,11 @@
                             <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"></i>
                         </td>
                         <td>
-                            @item.HolidayName
+                            @item.PolicyName
                         </td>
                         <td>
-                            @item.Date
-                        </td>
-                        <td>
-                            @item.Day
+                          @*  @item.PolicyDocument*@
+                            <link src="@item.PolicyDocument" height="60px" width="60px" alt="Policy Document" />
                         </td>
                     </tr>
                 }

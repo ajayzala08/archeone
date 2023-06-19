@@ -23,11 +23,14 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link href="~/theme/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <!-- JQuery UI -->
+    <link href="~/theme/dist/css/jquery.ui_1.13.2_themes_base_jquery-ui.css" rel="stylesheet" />
     @if (datatable)
     {
         <!-- DataTables -->
         <link rel="stylesheet" href="~/theme/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
         <link rel="stylesheet" href="~/theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+        <link rel="stylesheet" href="~/theme/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
         <link rel="stylesheet" href="~/theme/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     }
     @if (select2)
@@ -36,6 +39,7 @@
         <link rel="stylesheet" href="~/theme/plugins/select2/css/select2.min.css">
         <link rel="stylesheet" href="~/theme/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     }
+  
     <!-- Theme style -->
     <link rel="stylesheet" href="~/theme/dist/css/adminlte.min.css">
     <!-- Common CSS -->
@@ -298,6 +302,12 @@
                                         <p>Holiday</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="~/Policy/Policy" class="nav-link">
+                                        <i class="nav-icon fas fa-users"></i>
+                                        <p>Policy</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
 
@@ -376,6 +386,8 @@
     <!-- ./wrapper -->
     <!-- jQuery -->
     <script src="~/theme/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI -->
+    <script src="~/theme/dist/js/jquery.ui_1.13.2_jquery-ui.js"></script>
     <!-- Bootstrap 4 -->
     <script src="~/theme/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Sweetalert2 V11 -->
