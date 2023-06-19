@@ -4,6 +4,7 @@ $(document).ready(function () {
     //GetFilteredUserList();
     $("#btnAddUser").click(function () {
         AddEditUser(0);
+        /*manageUserDetails(0);*/
     });
     GetRoleList();
 });
@@ -26,9 +27,24 @@ function AddEditUser(Id) {
 }
 
 function manageUserDetails(Id) {
+    debugger
     ajaxCall("Post", false, '/UserDetails/AddEditUserDetails?userId=' + Id, null, function (result) {
         if (Id > 0) {
             RedirectToPage('/UserDetails/AddEditUserDetails?userId=' + Id)
+        }
+        else {
+            RedirectToPage("/UserDetails/AddEditUserDetails")
+        }
+    });
+}
+
+function AddEditUserDetails(Id) {
+    debugger
+    ajaxCall("Get", false, '/UserDetails/AddEditUserDetails?Id=' + Id, null, function (result) {
+        if (Id > 0) {
+            RedirectToPage('/UserDetails/AddEditUserDetails?Id=' + Id)
+            $(".preview img").attr('src');
+            $(".preview img").show();
         }
         else {
             RedirectToPage("/UserDetails/AddEditUserDetails")
@@ -102,7 +118,7 @@ function GetUserList(RoleId) {
                 dataTable = null;
             }
             dataTable = $('#tblUser').DataTable({
-                "responsive": true,
+                "responsive": false,
                 "lengthChange": true,
                 "paging": true,
                 "searching": true,
@@ -113,6 +129,7 @@ function GetUserList(RoleId) {
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
                 "columns": [
                     {
+                        class: 'clsWrap',
                         data: null,
                         title: 'Action',
                         render: function (data, type, row) {

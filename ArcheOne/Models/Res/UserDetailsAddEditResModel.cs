@@ -1,7 +1,21 @@
-﻿namespace ArcheOne.Models.Req
+﻿using ArcheOne.Database.Entities;
+using ArcheOne.Models.Req;
+
+namespace ArcheOne.Models.Res
 {
-	public class AddEditUserDetailsReqModel
+	public class UserDetailsAddEditResModel
 	{
+		public List<DepartmentMst> DepartmentList { get; set; }
+		public List<EmploymentTypeMst> EmploymentTypeList { get; set; }
+		public List<DesignationMst> DesignationList { get; set; }
+		public List<ReportingManagerMst> ReportingManagerList { get; set; }
+		public UserDetails UserDetail { get; set; }
+	}
+
+	public class UserDetails
+	{
+		public int Id { get; set; }
+
 		public int UserId { get; set; }
 
 		public string EmployeeCode { get; set; } = null!;
@@ -51,5 +65,7 @@
 		public string EmployeePersonalEmailId { get; set; } = null!;
 
 		public string ProbationPeriod { get; set; } = null!;
+
+		public bool? IsActive { get; set; }
 	}
 }
