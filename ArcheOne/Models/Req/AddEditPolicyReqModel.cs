@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
         public string PolicyName { get; set; }
-        public string PolicyDocumentName { get; set; }
+        public byte[] PolicyDocumentName { get; set; }
     }
 }

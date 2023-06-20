@@ -3,6 +3,7 @@ using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models.Req;
 using ArcheOne.Models.Res;
+using DocumentFormat.OpenXml.Office2016.Presentation.Command;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -81,7 +82,9 @@ namespace ArcheOne.Controllers
 
                     addEditPolicyReqModel.Id = policyList.Id;
                     addEditPolicyReqModel.PolicyName = policyList.PolicyName;
-                    addEditPolicyReqModel.PolicyDocumentName = policyList.PolicyDocumentName;
+                    //addEditPolicyReqModel.PolicyDocumentName = policyList.PolicyDocumentName;
+                    addEditPolicyReqModel.PolicyDocumentName = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), policyList.PolicyDocumentName));
+                    //       byte[] FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), policyList.PolicyDocumentName));
 
                     commonResponse.Status = true;
                     commonResponse.StatusCode = System.Net.HttpStatusCode.OK;
@@ -237,6 +240,16 @@ namespace ArcheOne.Controllers
 
             return Json(commonResponse);
 
+        }
+
+        public FileResult GetPolicyReport(int Id)
+        {
+            var policyList = _dbRepo.PolicyList().FirstOrDefault(x => x.Id == Id);
+            string ReportURL = policyList.PolicyDocumentName;
+            byte[] FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), policyList.PolicyDocumentName));
+
+            return File(FileBytes, "application/pdf");
+            
         }
 
     }

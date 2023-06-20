@@ -23,8 +23,18 @@ function GetPolicyList() {
             DeletePolicy(Id);
         });
 
+        $(".btn-download").click(function () {
+            Id = $(this).attr('Id');
+            GetPolicyReport(Id);
+        });
+
+
     });
 }
+function GetPolicyReport(Id) {
+    window.open('/Policy/GetPolicyReport?Id=' + Id, "_blank");  
+ 
+}; 
 
 function AddEditPolicy(Id) {
     window.location.href = '/Policy/AddEditPolicy?Id=' + Id;
