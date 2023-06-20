@@ -132,7 +132,7 @@ namespace ArcheOne.Controllers
                     if (validateFileExtension && validateFileSize)
                     {
                         var policyFile = _commonHelper.UploadFile(policySaveUpdateReqModel.PolicyDocumentName, @"PolicyDocument", fileName, false, true, false);
-                        filePath = policyFile.Data;
+                        filePath = policyFile.Data.RelativePath;
 
                     }
                     else

@@ -413,7 +413,9 @@ IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo
 BEGIN 
 	Create table dbo.ResumeFileUploadDetailMst(
 			Id int identity(1,1) primary key,
-			ResumeFileUploadId int not null,
+			RequirementId int not null,
+			FileName nvarchar(100) not null,
+			FilePath nvarchar(MAX) not null,
 			FullName nvarchar(100) not null,
 			Mobile1 nvarchar(30) not null,
 			Mobile2 nvarchar(30) null,
@@ -913,3 +915,8 @@ END
 
 ----------------------------------------Added by SP on 19-06-23-----------------------------------End--------
 ---------------------------------------Executed on Local Server on 19-06-23------------------by SP-----------
+
+Drop table dbo.ResumeFileUploadMst;
+
+----------------------------------------Added by TS on 20-06-23-----------------------------------End--------
+---------------------------------------Executed on Local Server on 20-06-23------------------by TS-----------
