@@ -50,7 +50,7 @@
 
                         <div class="form-group" id="dddlClients">
                             <label class="form-label"><span class="has-error required">* </span>Client</label>
-                            <select id="ddlClients" name="ddlClients" class="form-control select2" isRequired="0" divcontainer="dddlClients" errorspan="sddlClients" defaultvalue="0">
+                            <select id="ddlClients" name="ddlClients" class="form-control" isRequired="1" divcontainer="dddlClients" errorspan="sddlClients" defaultvalue="0">
                                 <option value="0">Select</option>
                                 @foreach (var item in addEditRequirementResModel.ClientList)
                                 {
@@ -144,9 +144,8 @@
                         </div>
 
                         <div class="form-group" id="dddlRequirementStatus">
-                            <label class="form-label"><span class="has-error required">* </span>Requirement Status</label>
+                            <label class="form-label"><span class="has-error required d-none">* </span>Requirement Status</label>
                             <select id="ddlRequirementStatus" name="ddlRequirementStatus" class="form-control select2" isRequired="1" divcontainer="dddlRequirementStatus" errorspan="sddlRequirementStatus" defaultvalue="0">
-                                <option value="0">Select</option>
                                 @foreach (var item in addEditRequirementResModel.RequirementStatusList)
                                 {
                                     if (item.Id == addEditRequirementResModel.RequirementDetail.RequirementStatusId)
@@ -173,7 +172,7 @@
                         <div class="row form-group">
                             <div class="col-md-2" id="dtxtJobCode">
                                 <label class="form-label"><span class="has-error required">* </span>Job Code</label>
-                                <input type="text" id="txtJobCode" name="txtJobCode" class="form-control" isRequired="1" divcontainer="dtxtJobCode" errorspan="stxtJobCode" defaultvalue="" value="@addEditRequirementResModel.RequirementDetail.JobCode" />
+                                <input type="text" id="txtJobCode" name="txtJobCode" class="form-control" isRequired="1" divcontainer="dtxtJobCode" errorspan="stxtJobCode" defaultvalue="" value="@addEditRequirementResModel.RequirementDetail.JobCode" readonly/>
                                 <span class="help-block d-none has-error" id="stxtJobCode">Please Enter Job Code</span>
                             </div>
 
@@ -192,8 +191,8 @@
 
                         <div class="row form-group">
                             <div class="col-md-12" id="dtxtJobDescription">
-                                <label class="form-label"><span class="has-error required">* </span>Job Description</label>
-                                <textarea id="txtJobDescription" name="txtJobDescription" class="form-control" isRequired="1" divcontainer="dtxtJobDescription" errorspan="stxtJobDescription" defaultvalue="" style="height: 123px;">@addEditRequirementResModel.RequirementDetail.JobDescription </textarea>
+                                <label class="form-label"><span class="has-error required d-none">* </span>Job Description</label>
+                                <textarea id="txtJobDescription" name="txtJobDescription" class="form-control" isRequired="0" divcontainer="dtxtJobDescription" errorspan="stxtJobDescription" defaultvalue="" style="height: 123px;">@addEditRequirementResModel.RequirementDetail.JobDescription </textarea>
                                 <span class="help-block d-none has-error" id="stxtJobDescription">Please Enter Job Description</span>
                             </div>
                         </div>
@@ -233,9 +232,8 @@
                                 <span class="help-block d-none has-error" id="stxtLocation">Please Enter Location</span>
                             </div>
                             <div class="col-md-6" id="dddlAssignedUsers">
-                                <label class="form-label"><span class="has-error required">* </span>Assign Users</label>
-                                <select id="ddlAssignedUsers" name="ddlAssignedUsers" class="form-control select2" isRequired="1" divcontainer="dddlAssignedUsers" errorspan="sddlAssignedUsers" defaultvalue="0" multiple="multiple">
-                                    <option value="0">Select</option>
+                                <label class="form-label"><span class="has-error required d-none">* </span>Assign Users</label>
+                                <select id="ddlAssignedUsers" name="ddlAssignedUsers" class="form-control select2" isRequired="0" divcontainer="dddlAssignedUsers" errorspan="sddlAssignedUsers" defaultvalue="0" multiple="multiple">
                                     @foreach (var item in addEditRequirementResModel.UserList)
                                     {
                                         if (addEditRequirementResModel.RequirementDetail.AssignedUserIds.Contains(item.Id))
@@ -254,22 +252,22 @@
 
                         <div class="row form-group">
                             <div class="col-md-3" id="dtxtEndClient">
-                                <label class="form-label"><span class="has-error required">* </span>End Client</label>
+                                <label class="form-label"><span class="has-error required d-none">* </span>End Client</label>
                                 <input type="text" id="txtEndClient" name="txtEndClient" class="form-control" isRequired="0" divcontainer="dtxtEndClient" errorspan="stxtEndClient" defaultvalue="" value="@addEditRequirementResModel.RequirementDetail.EndClient" />
                                 <span class="help-block d-none has-error" id="stxtEndClient">Please Enter End Client</span>
                             </div>
                             <div class="col-md-3" id="dtxtPOCName">
-                                <label class="form-label"><span class="has-error required">* </span>POC Name</label>
+                                <label class="form-label"><span class="has-error required d-none">* </span>POC Name</label>
                                 <input type="text" id="txtPOCName" name="txtPOCName" class="form-control" isRequired="0" divcontainer="dtxtPOCName" errorspan="stxtPOCName" defaultvalue="" value="@addEditRequirementResModel.RequirementDetail.Pocname" />
                                 <span class="help-block d-none has-error" id="stxtPOCName">Please Enter POC Name</span>
                             </div>
                             <div class="col-md-3" id="dtxtClientBillRate">
-                                <label class="form-label"><span class="has-error required">* </span>Client Bill Rate</label>
+                                <label class="form-label"><span class="has-error required d-none">* </span>Client Bill Rate</label>
                                 <input type="text" id="txtClientBillRate" name="txtClientBillRate" class="form-control" isRequired="0" divcontainer="dtxtClientBillRate" errorspan="stxtClientBillRate" defaultvalue="" value="@addEditRequirementResModel.RequirementDetail.ClientBillRate" />
                                 <span class="help-block d-none has-error" id="stxtClientBillRate">Please Enter Client Bill Rate</span>
                             </div>
                             <div class="col-md-3" id="dtxtCandidatePayRate">
-                                <label class="form-label"><span class="has-error required">* </span>Candidate Pay Rate</label>
+                                <label class="form-label"><span class="has-error required d-none">* </span>Candidate Pay Rate</label>
                                 <input type="text" id="txtCandidatePayRate" name="txtCandidatePayRate" class="form-control" isRequired="0" divcontainer="dtxtCandidatePayRate" errorspan="stxtCandidatePayRate" defaultvalue="" value="@addEditRequirementResModel.RequirementDetail.CandidatePayRate" />
                                 <span class="help-block d-none has-error" id="stxtCandidatePayRate">Please Enter Candidate Pay Rate</span>
                             </div>
