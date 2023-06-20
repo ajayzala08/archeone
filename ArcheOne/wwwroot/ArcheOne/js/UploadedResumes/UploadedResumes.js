@@ -434,8 +434,18 @@ function UploadNewResume() {
 
         ajaxCallWithoutDataType("Post", false, '/UploadedResume/UploadNewResume', formData, function (result) {
             if (result.status == true) {
+
+                $('#resumeValidationMessage').html();
                 Toast.fire({ icon: 'success', title: result.message });
+                setInterval(function () {
+                    window.location.reload();
+                }, 1500);
             } else {
+                var data = result.data;
+                if (data != null) {
+                    data = data.replaceAll('\n', "</br>");
+                }
+                $('#resumeValidationMessage').html(data);
                 Toast.fire({ icon: 'error', title: result.message });
             }
             $.unblockUI();

@@ -23,6 +23,10 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<DefaultPermission> DefaultPermissions { get; set; }
 
+    public virtual DbSet<DepartmentMst> DepartmentMsts { get; set; }
+
+    public virtual DbSet<DesignationMst> DesignationMsts { get; set; }
+
     public virtual DbSet<EmploymentTypeMst> EmploymentTypeMsts { get; set; }
 
     public virtual DbSet<HireStatusMst> HireStatusMsts { get; set; }
@@ -46,6 +50,8 @@ public partial class ArcheOneDbContext : DbContext
     public virtual DbSet<PolicyMst> PolicyMsts { get; set; }
 
     public virtual DbSet<PositionTypeMst> PositionTypeMsts { get; set; }
+
+    public virtual DbSet<ReportingManagerMst> ReportingManagerMsts { get; set; }
 
     public virtual DbSet<RequirementForMst> RequirementForMsts { get; set; }
 
@@ -199,6 +205,35 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
+        modelBuilder.Entity<DepartmentMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Departme__3214EC073453B577");
+
+            entity.ToTable("DepartmentMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.DepartmentCode).HasMaxLength(100);
+            entity.Property(e => e.DepartmentName).HasMaxLength(100);
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<DesignationMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Designat__3214EC075FB2E8AD");
+
+            entity.ToTable("DesignationMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.Designation).HasMaxLength(100);
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
         modelBuilder.Entity<EmploymentTypeMst>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Employme__3214EC07835A6743");
@@ -340,6 +375,20 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
+        modelBuilder.Entity<ReportingManagerMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Reportin__3214EC07A9AB32E0");
+
+            entity.ToTable("ReportingManagerMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.ReportingManager).HasMaxLength(100);
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
         modelBuilder.Entity<RequirementForMst>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Requirem__3214EC0797DE3239");
@@ -433,6 +482,7 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.F2finterviewTime)
                 .HasColumnType("datetime")
                 .HasColumnName("F2FInterviewTime");
+            entity.Property(e => e.FileName).HasMaxLength(100);
             entity.Property(e => e.FullName).HasMaxLength(100);
             entity.Property(e => e.HighestQualification).HasMaxLength(100);
             entity.Property(e => e.JoinInDate).HasColumnType("date");

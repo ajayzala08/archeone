@@ -1,14 +1,11 @@
-﻿using System.IO;
-using System.Net;
-using System.Security.Cryptography;
-using System.Transactions;
-using ArcheOne.Database.Entities;
+﻿using ArcheOne.Database.Entities;
 using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models.Req;
 using ArcheOne.Models.Res;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace ArcheOne.Controllers
 {
@@ -124,7 +121,7 @@ namespace ArcheOne.Controllers
                     if (validateFileExtension && validateFileSize)
                     {
                         var imageFile = _commonHelper.UploadFile(userSaveUpdateReq.PhotoUrl, @"UserProfile", fileName, false, true, false);
-                        filePath = imageFile.Data;
+                        filePath = imageFile.Data.RelativePath;
                     }
                     else
                     {
