@@ -71,15 +71,15 @@ function GetUploadedResumes(ResumeFileUploadId) {
                         title: 'Action',
                         render: function (data, type, row) {
                             if (row.flowStatus == "Interview_Info") {
-                                return '<button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#modalInterviewInfo" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\',true)"><i class="fa fa-user-tie"></i> Interview Info</button>';
+                                return '<button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#modalInterviewInfo" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\',true, false)"><i class="fa fa-user-tie"></i> Interview Info</button>';
                             } else if (row.flowStatus == "Cleared") {
-                                return '<div class="btn-group"><button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalInterviewInfo" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\',false)"><i class="fa fa-check-circle"></i> Interview(s) Cleared</button><button type="button" class="btn btn-success dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu" role="menu" style=""><a id="2" class="dropdown-item text-info" data-toggle="modal" data-target="#modalOfferGive" onclick="ShowOfferGivenModel(' + row.id + ', false)">Offer Given</a></div></div>';
+                                return '<div class="btn-group"><button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalInterviewInfo" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\',false, false)"><i class="fa fa-check-circle"></i> Interview(s) Cleared</button><button type="button" class="btn btn-success dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu" role="menu" style=""><a id="2" class="dropdown-item text-info" data-toggle="modal" data-target="#modalOfferGive" onclick="ShowOfferGivenModel(' + row.id + ', false)">Offer Given</a></div></div>';
                             } else if (row.flowStatus == "Offer") {
-                                return '<div class="btn-group"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalInterviewInfo" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\',false)"><i class="fa fa-box-open"></i> Offer Given</button><button type="button" class="btn btn-primary dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu" role="menu" style=""><a id="1" class="dropdown-item text-info" data-toggle="modal" data-target="#modalOfferGive" onclick="ShowOfferGivenModel(' + row.id + ',true)">To Be Join</a></div></div>';
+                                return '<div class="btn-group"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalInterviewInfo" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\',false, true)"><i class="fa fa-box-open"></i> Offer Given</button><button type="button" class="btn btn-primary dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu" role="menu" style=""><a id="1" class="dropdown-item text-info" data-toggle="modal" data-target="#modalOfferGive" onclick="ShowOfferGivenModel(' + row.id + ',true)">To Be Join</a></div></div>';
                             } else if (row.flowStatus == "To_Be_Join") {
-                                return '<div class="btn-group"><button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modalInterviewInfo" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\',false)"><i class="fa fa-clock"></i> To Be Join</button><button type="button" class="btn btn-secondary dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu" role="menu" style=""><a id="2" class="dropdown-item text-success" onclick="ShowUpdateHireStatusAlert(this, ' + row.id + ')">Join</a><a id="3" class="dropdown-item text-danger" onclick="ShowUpdateHireStatusAlert(this, ' + row.id + ')">No Show</a><a id="4" class="dropdown-item text-danger" onclick="ShowUpdateHireStatusAlert(this, ' + row.id + ')">Bad Delivery</a></div></div>';
+                                return '<div class="btn-group"><button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modalInterviewInfo" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\',false, true)"><i class="fa fa-clock"></i> To Be Join</button><button type="button" class="btn btn-secondary dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu" role="menu" style=""><a id="2" class="dropdown-item text-success" onclick="ShowUpdateHireStatusAlert(this, ' + row.id + ')">Join</a><a id="3" class="dropdown-item text-danger" onclick="ShowUpdateHireStatusAlert(this, ' + row.id + ')">No Show</a><a id="4" class="dropdown-item text-danger" onclick="ShowUpdateHireStatusAlert(this, ' + row.id + ')">Bad Delivery</a></div></div>';
                             } else if (row.flowStatus == "No_Show") {
-                                return '<button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#modalInterviewInfo" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\',false)"><i class="fa fa-user-slash"></i> No Show</button>';
+                                return '<button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#modalInterviewInfo" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\',false, true)"><i class="fa fa-user-slash"></i> No Show</button>';
                             } else if (row.flowStatus == "Join") {
                                 var userProfile = '';
                                 if (row.flowStatus == "Join") {
@@ -87,9 +87,9 @@ function GetUploadedResumes(ResumeFileUploadId) {
                                 } else {
                                     userProfile = '<button class="btn btn-outline-primary btn-block" onclick="RedirectToPage(\'/User/AddEditUser\')"><i class="fa fa-cogs"></i> Update Profile</button>';
                                 }
-                                    return '<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modalInterviewInfo" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\',false)"><i class="fa fa-briefcase"></i> Joined</button>' + userProfile;
+                                return '<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modalInterviewInfo" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\',false, true)"><i class="fa fa-briefcase"></i> Joined</button>' + userProfile;
                             } else if (row.flowStatus == "Bad_Delivery") {
-                                return '<button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#modalInterviewInfo" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\',false)"><i class="fa fa-user-times"></i> Bad Delivery</button>';
+                                return '<button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#modalInterviewInfo" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\',false, true)"><i class="fa fa-user-times"></i> Bad Delivery</button>';
                             }
                         }
                     }]
@@ -109,7 +109,7 @@ function GetInterviewRoundTypeList() {
     $.blockUI({ message: "<h2>Please wait</p>" });
 
     $("#ddlInterviewVia").empty();
-    $("#ddlInterviewVia").append($("<option selected disabled value='0'>Select Interview Via</option>"));
+    $("#ddlInterviewVia").append($("<option selected value='0'>Select Interview Via</option>"));
 
     ajaxCall("Post", false, '/Common/GetInterviewRoundTypeList', null, function (result) {
         if (result.status == true) {
@@ -125,7 +125,7 @@ function GetInterviewRoundTypeList() {
     });
 }
 
-function ShowScheduleInterview(candidateId, candidateName, showAddBlock) {
+function ShowScheduleInterview(candidateId, candidateName, showAddBlock, disableInterviewStatusChange) {
     $("#txtCandidateId").val(candidateId);
     $("#txtCandidateName").val(candidateName);
 
@@ -135,21 +135,28 @@ function ShowScheduleInterview(candidateId, candidateName, showAddBlock) {
         $("#dScheduleInterview").hide();
     }
 
-    GetScheduleInterviews(candidateId);
+    GetScheduleInterviews(candidateId, disableInterviewStatusChange);
 }
 
 function ScheduleInterview() {
-
-
-    $("#btnScheduleInterview").attr("disabled", true);
 
     var isWalkIn = false;
 
     if ($('input[name="rdInterviewMedium"]:checked').val() == "WalkIn") {
         isWalkIn = true;
+        $("#ddlInterviewVia").removeAttr('isrequired');
+        $("#txtLocation").attr('isrequired', 1);
+        $("#txtLocation").removeAttr('minlength', '2');
+    } else {
+        $("#ddlInterviewVia").attr('isrequired', 1);
+
+        $("#txtLocation").removeAttr('isrequired');
+        $("#txtLocation").removeAttr('minlength');
     }
 
     if (validateRequiredFieldsByGroup('modalScheduleInterview')) {
+        $("#btnScheduleInterview").attr("disabled", true);
+
         $.blockUI({ message: "<h2>Please wait</p>" });
 
 
@@ -180,7 +187,7 @@ function ScheduleInterview() {
     }
 }
 
-function GetScheduleInterviews(CandidateId) {
+function GetScheduleInterviews(CandidateId, DisableInterviewStatusChange) {
     $.blockUI({ message: "<h2>Please wait</p>" });
     ajaxCall("Post", false, '/UploadedResume/GetScheduledInterviewListByResumeId?ResumeId=' + CandidateId, null, function (result) {
         if (result.status == true) {
@@ -220,6 +227,14 @@ function GetScheduleInterviews(CandidateId) {
                         render: function (data, type, row) {
                             if (row.isEditable) {
                                 return '<button type="button" class="btn btn-outline-primary" onclick="RescheduleInterview(' + row.id + ',\'' + row.interviewBy + '\',\'' + row.interviewRoundTypeId + '\',\'' + row.interviewOn + '\',\'' + row.interviewStartDateTime + '\',\'' + row.notes + '\')"><i class="fa fa-pen"></i> Re-Schedule</button>';
+                            } else if (DisableInterviewStatusChange) {
+                                if (row.interviewRoundStatusName == "Cleared") {
+                                    return '<button class="disabled form-control text-success">' + row.interviewRoundStatusName + '</button>';
+                                } else if (row.interviewRoundStatusName == "Rejected") {
+                                    return '<button class="disabled form-control text-danger">' + row.interviewRoundStatusName + '</button>';
+                                } else if (row.interviewRoundStatusName == "No Show") {
+                                    return '<button class="disabled form-control text-warning">' + row.interviewRoundStatusName + '</button>';
+                                }
                             } else {
                                 if (row.interviewRoundStatusName == "Scheduled") {
                                     return '<select class="form-control" onchange="UpdateInterviewStatus(' + row.id + ', this)"><option selected disabled value="1">Scheduled</option><option class="text-success" value="2">Cleared</option><option class="text-danger" value="3">Rejected</option><option class="text-warning" value="4">No Show</option></select>';
@@ -405,4 +420,29 @@ function CancelOffer() {
 
     $("#btnSaveOfferDetails").html("Save");
     $("#btnSaveOfferDetails").removeClass("btn-warning").addClass("btn-success");
+}
+
+function UploadNewResume() {
+    if (validateRequiredFieldsByGroup('modalNewResumeUpload')) {
+        $.blockUI({ message: "<h2>Please wait</p>" });
+
+        var file = $("#txtResumeUpload").get(0).files[0];
+        var formData = new FormData();
+
+        formData.append('requirementId', 1);
+        formData.append('resumeFile', file);
+
+        ajaxCallWithoutDataType("Post", false, '/UploadedResume/UploadNewResume', formData, function (result) {
+            if (result.status == true) {
+                Toast.fire({ icon: 'success', title: result.message });
+            } else {
+                Toast.fire({ icon: 'error', title: result.message });
+            }
+            $.unblockUI();
+        });
+    }
+}
+
+function loadFile(event) {
+    $('#lblResumeUpload').html(event.target.files[0].name);
 }

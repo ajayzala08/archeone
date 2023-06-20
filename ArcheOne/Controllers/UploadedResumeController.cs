@@ -2,9 +2,12 @@
 using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models.Req;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 using System.Transactions;
+using Xceed.Words.NET;
 
 namespace ArcheOne.Controllers
 {
@@ -428,6 +431,160 @@ namespace ArcheOne.Controllers
             {
                 response.Message = ex.Message;
             }
+            return response;
+        }
+
+        private string ExtractTextFromDocument(Body body)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var paragraph in body.Elements<Paragraph>())
+            {
+                foreach (var run in paragraph.Elements<Run>())
+                {
+                    string runText = run.InnerText;
+
+                    if (!string.IsNullOrWhiteSpace(runText))
+                    {
+                        sb.AppendLine(runText.Trim());
+                    }
+                }
+
+                sb.AppendLine(); // Add a line break between paragraphs
+            }
+
+            return sb.ToString().Trim();
+        }
+
+        [HttpPost]
+        public async Task<CommonResponse> UploadNewResume(UploadResumeReqModel request)
+        {
+            CommonResponse response = new CommonResponse();
+            try
+            {
+                var filePath = @"D:\ArcheProjects\ArcheOne\TanmayBranch\archeone\ArcheOne\wwwroot\Theme\Files\ResumeFormat_V1.docx";
+
+                using (var doc = DocX.Load(filePath))
+                {
+                    var tables = doc.Tables;
+                    var text = string.Empty;
+
+                    if (tables.Count > 0)
+                    {
+                        var validateResumeData = ValidateResumeData(tables[0]);
+                        if (validateResumeData.Status)
+                        {
+                            var resumeFileUploadDetailMst = validateResumeData.Data;
+                            int userId = _commonHelper.GetLoggedInUserId();
+
+                            resumeFileUploadDetailMst.IsActive = true;
+                            resumeFileUploadDetailMst.IsDelete = false;
+                            resumeFileUploadDetailMst.CreatedBy = userId;
+                            resumeFileUploadDetailMst.UpdatedBy = userId;
+                            resumeFileUploadDetailMst.CreatedDate = _commonHelper.GetCurrentDateTime();
+                            resumeFileUploadDetailMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+
+                            await _dbContext.AddAsync(resumeFileUploadDetailMst);
+                            await _dbContext.SaveChangesAsync();
+
+                            response.Status = true;
+                            response.StatusCode = System.Net.HttpStatusCode.OK;
+                            response.Message = "Resume uploaded successfully!";
+                        }
+                        else
+                        {
+                            return validateResumeData;
+                        }
+                    }
+                    else
+                    {
+                        response.Message = "Please upload resume in given format only!";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
+        private CommonResponse ValidateResumeData(Xceed.Document.NET.Table table)
+        {
+            CommonResponse response = new CommonResponse();
+            string errorMessage = string.Empty;
+            Dictionary<int, string> keyValuePairs = new Dictionary<int, string>();
+
+            for (int i = 1; i <= table.RowCount; i++)
+            {
+                keyValuePairs.Add(i, table.Rows[i].Cells[1].Paragraphs.Last().Text);
+            }
+
+            if (keyValuePairs[1] == "")
+            {
+                errorMessage += "- Full Name can not be empty!";
+            }
+            if (keyValuePairs[2] == "")
+            {
+                errorMessage += "- Self Mobile No. can not be empty!";
+            }
+            if (keyValuePairs[5] == "")
+            {
+                errorMessage += "- Email can not be empty!";
+            }
+            if (keyValuePairs[6] == "")
+            {
+                errorMessage += "- Total experience can not be empty!";
+            }
+
+            if (errorMessage == string.Empty)
+            {
+                ResumeFileUploadDetailMst resumeFileUploadDetailMst = new ResumeFileUploadDetailMst();
+                resumeFileUploadDetailMst.FullName = table.Rows[1].Cells[1].Paragraphs.Last().Text;
+                resumeFileUploadDetailMst.Mobile1 = table.Rows[2].Cells[1].Paragraphs.Last().Text;
+                resumeFileUploadDetailMst.Mobile2 = table.Rows[3].Cells[1].Paragraphs.Last().Text;
+                resumeFileUploadDetailMst.Mobile3 = table.Rows[4].Cells[1].Paragraphs.Last().Text;
+                resumeFileUploadDetailMst.Email1 = table.Rows[5].Cells[1].Paragraphs.Last().Text;
+                resumeFileUploadDetailMst.TotalExperienceAnnual = Convert.ToDecimal(table.Rows[6].Cells[1].Paragraphs.Last().Text);
+                resumeFileUploadDetailMst.RelevantExperienceYear = Convert.ToDecimal(table.Rows[7].Cells[1].Paragraphs.Last().Text);
+                resumeFileUploadDetailMst.HighestQualification = table.Rows[8].Cells[1].Paragraphs.Last().Text;
+                resumeFileUploadDetailMst.GapReason = table.Rows[9].Cells[1].Paragraphs.Last().Text;
+                resumeFileUploadDetailMst.CurrentEmployer = table.Rows[10].Cells[1].Paragraphs.Last().Text;
+                resumeFileUploadDetailMst.CurrentDesignation = table.Rows[11].Cells[1].Paragraphs.Last().Text;
+                resumeFileUploadDetailMst.CurrentCtcAnnual = Convert.ToDecimal(table.Rows[12].Cells[1].Paragraphs.Last().Text);
+                resumeFileUploadDetailMst.CurrentTakeHomeMonthly = Convert.ToDecimal(table.Rows[13].Cells[1].Paragraphs.Last().Text);
+                resumeFileUploadDetailMst.CurrentPfdeduction = Convert.ToString(table.Rows[14].Cells[1].Paragraphs.Last().Text).ToLower() == "yes" ? true : false;
+                resumeFileUploadDetailMst.LastSalaryHike = table.Rows[15].Cells[1].Paragraphs.Last().Text;
+                resumeFileUploadDetailMst.ExpectedCtcAnnual = Convert.ToDecimal(table.Rows[16].Cells[1].Paragraphs.Last().Text);
+                resumeFileUploadDetailMst.ExpectedTakeHomeMonthly = Convert.ToDecimal(table.Rows[17].Cells[1].Paragraphs.Last().Text);
+                resumeFileUploadDetailMst.ExpectedPfdeduction = Convert.ToString(table.Rows[18].Cells[1].Paragraphs.Last().Text).ToLower() == "yes" ? true : false;
+                resumeFileUploadDetailMst.SalaryHikeReason = table.Rows[19].Cells[1].Paragraphs.Last().Text;
+                resumeFileUploadDetailMst.NoticePeriodDays = Convert.ToDecimal(table.Rows[20].Cells[1].Paragraphs.Last().Text);
+                resumeFileUploadDetailMst.ExpectedJoinInDays = Convert.ToDecimal(table.Rows[21].Cells[1].Paragraphs.Last().Text);
+                resumeFileUploadDetailMst.ReasonForEarlyJoin = table.Rows[22].Cells[1].Paragraphs.Last().Text;
+                resumeFileUploadDetailMst.OfferInHand = Convert.ToString(table.Rows[23].Cells[1].Paragraphs.Last().Text).ToLower() == "yes" ? true : false;
+                resumeFileUploadDetailMst.HasAllDocuments = Convert.ToString(table.Rows[24].Cells[1].Paragraphs.Last().Text).ToLower() == "yes" ? true : false;
+                resumeFileUploadDetailMst.CurrentLocation = table.Rows[25].Cells[1].Paragraphs.Last().Text;
+                resumeFileUploadDetailMst.WorkLocation = table.Rows[26].Cells[1].Paragraphs.Last().Text;
+                resumeFileUploadDetailMst.ReasonForRelocation = table.Rows[27].Cells[1].Paragraphs.Last().Text;
+                resumeFileUploadDetailMst.NativePlace = table.Rows[28].Cells[1].Paragraphs.Last().Text;
+                resumeFileUploadDetailMst.Dob = Convert.ToDateTime(table.Rows[29].Cells[1].Paragraphs.Last().Text);
+                resumeFileUploadDetailMst.Pan = table.Rows[30].Cells[1].Paragraphs.Last().Text;
+                resumeFileUploadDetailMst.TeleInterviewTime = Convert.ToDateTime(table.Rows[31].Cells[1].Paragraphs.Last().Text);
+                resumeFileUploadDetailMst.F2favailability = Convert.ToString(table.Rows[31].Cells[1].Paragraphs.Last().Text).ToLower() != "" ? true : false;
+                resumeFileUploadDetailMst.F2finterviewTime = resumeFileUploadDetailMst.F2favailability ? Convert.ToDateTime(table.Rows[32].Cells[1].Paragraphs.Last().Text) : null;
+                resumeFileUploadDetailMst.Skills = table.Rows[33].Cells[1].Paragraphs.Last().Text;
+
+                response.Status = true;
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+                response.Data = resumeFileUploadDetailMst;
+                response.Message = "Validation success!";
+            }
+            else
+            {
+                response.Data = errorMessage;
+            }
+
             return response;
         }
     }

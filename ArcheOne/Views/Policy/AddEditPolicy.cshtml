@@ -1,0 +1,90 @@
+﻿@using ArcheOne.Helper.CommonModels;
+@using ArcheOne.Models.Req;
+@model AddEditPolicyReqModel
+
+@{
+    Layout = "_MasterLayout";
+}
+
+<section class="content-header"></section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                Create Policy
+                <h3 class="card-title"></h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <input id="txtPolicyId" name="txtPolicyId" type="hidden" class="form-control col-sm-4" value="@Model.Id" />
+
+                    <div class="col-sm-4" id="dtxtPolicyName">
+                        <div class="form-group">
+                            <label for="form_name">Policy Name *</label>
+                            <input id="txtPolicyName" type="text" name="PolicyName" class="form-control text-length datepicker" placeholder="Please enter your PolicyName" value="@Model.PolicyName" isrequired="1" divcontainer="dtxtPolicyName" errorspan="stxtPolicyName" defaultvalue="" autocomplete="off" minlength="2">
+                            <span class="help-block d-none has-error" id="stxtPolicyName">Please Enter Valid PolicyName</span>
+                        </div>
+                    </div>
+
+                    @*  <div class="col-sm-4" id="dtxtPolicyFile">
+                    <div class="form-group">
+                    <div class="form-group">
+                    <label for="form_name">Policy File *</label>
+                    <img src="@Model.PolicyDocumentName" id="policyfile" style="width:75px!important" name="policyfile" />
+                    <div class="input-group">
+                    <div class="custom-file">
+                    <input id="txtPolicyFile" type="file" name="txtPolicyFile" value="@Model.PolicyDocumentName" isrequired="0" divcontainer="dtxtPolicyFile" errorspan="stxtPolicyFile" defaultvalue="" autocomplete="off" class="custom-file-input" onchange="loadFile(event)" accept="document/*" />
+                    <label class="custom-file-label" for="form_file">Choose file</label>
+                    </div>
+                    </div>
+                    </div>
+                    <span class="help-block d-none has-error" id="stxtPolicyFile">Please select any file</span>
+                    </div>
+                    </div>
+                    *@
+
+                    <div class="col-sm-4" id="dtxtPolicyFile">
+                        <div class="form-group">
+                            <input id="txtPolicyId" name="txtPolicyId" type="hidden" class="form-control" value="@Model.Id" />
+                            @if (Model.Id > 0)
+                            {
+                                <label for="form_name">Policy File *</label>
+                                <link src="/@Model.PolicyDocumentName" id="policyFile" style="width:75px!important" name="policyFile" />
+                            }
+                            else
+                            {
+                                <label for="form_name">Policy File *</label>
+                                <link src="@Model.PolicyDocumentName" id="policyFile" style="width:75px!important" name="policyFile" />
+                            }
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input id="txtPolicyFile" type="file" name="txtPhotoUrl" value="@Model.PolicyDocumentName" isrequired="0" divcontainer="dtxtPolicyFile" errorspan="stxtPolicyFile" defaultvalue="" autocomplete="off" class="custom-file-input" onchange="loadFile(event)" accept="file/*" />
+                                    <label class="custom-file-label" for="form_file">Choose file</label>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="help-block d-none has-error" id="stxtPolicyFile">Please select any file</span>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-1">
+                        <button type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success">Submit</button>
+                    </div>
+                    <div class="col-md-1">
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-danger">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/archeone/js/policy/addeditpolicy.js?_@DateTime.Now.Ticks"></script>
+}
