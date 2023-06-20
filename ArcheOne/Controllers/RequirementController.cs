@@ -199,6 +199,10 @@ namespace ArcheOne.Controllers
                 int loggedInUserId = _commonHelper.GetLoggedInUserId();
                 DateTime currentDateTime = _commonHelper.GetCurrentDateTime();
                 var requirementDetail = await _dbRepo.RequirementList().FirstOrDefaultAsync(x => x.Id == saveUpdateRequirementReqModel.RequirementId);
+                if (requirementDetail != null)
+                {
+                    requirementMst = requirementDetail;
+                }
 
                 requirementMst.RequirementForId = saveUpdateRequirementReqModel.RequirementForId;
                 requirementMst.ClientId = saveUpdateRequirementReqModel.ClientId;
@@ -226,7 +230,6 @@ namespace ArcheOne.Controllers
                 if (requirementDetail != null)
                 {
                     //Update Mode
-                    requirementMst = requirementDetail;
                     requirementMst.UpdatedBy = loggedInUserId;
                     requirementMst.UpdatedDate = currentDateTime;
 
@@ -303,13 +306,47 @@ namespace ArcheOne.Controllers
                 int requirementCount = await _dbRepo.RequirementList().CountAsync() + 1;
                 if (clientDetail != null)
                 {
-                    jobCode = jobCode + clientDetail.ClientName.ToUpper().Substring(0, 2) +"-"+ requirementCount;
+                    jobCode = jobCode + clientDetail.ClientName.ToUpper().Substring(0, 2) + "-" + requirementCount;
                 }
 
                 commonResponse.Status = true;
                 commonResponse.StatusCode = HttpStatusCode.OK;
                 commonResponse.Message = "Success!";
                 commonResponse.Data = jobCode;
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message;
+            }
+            return Json(commonResponse);
+        }
+
+        public async Task<IActionResult> ChangeStatus(int RequirementId, int RequirementStatusId)
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            try
+            {
+                var requirementDetail = await _dbRepo.RequirementList().FirstOrDefaultAsync(x => x.Id == RequirementId);
+                if (requirementDetail != null)
+                {
+                    RequirementMst requirementMst = new RequirementMst();
+                    requirementMst = requirementDetail;
+                    requirementMst.RequirementStatusId = RequirementStatusId;
+                    requirementMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                    requirementMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                    _dbContext.Entry(requirementMst).State = EntityState.Modified;
+                    await _dbContext.SaveChangesAsync();
+
+                    commonResponse.Status = true;
+                    commonResponse.StatusCode = HttpStatusCode.OK;
+                    commonResponse.Message = "Requirement status updated successfully!";
+                    commonResponse.Data = requirementMst.Id;
+                }
+                else
+                {
+                    commonResponse.Message = "Data not found!";
+                    commonResponse.StatusCode = HttpStatusCode.NotFound;
+                }
             }
             catch (Exception ex)
             {

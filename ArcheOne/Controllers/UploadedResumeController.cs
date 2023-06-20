@@ -23,7 +23,7 @@ namespace ArcheOne.Controllers
             _dbContext = dbContext;
         }
 
-        public IActionResult UploadedResume()
+        public IActionResult UploadedResume(int RequirementId)
         {
             return View();
         }
