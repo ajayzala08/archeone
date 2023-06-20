@@ -292,5 +292,30 @@ namespace ArcheOne.Controllers
             }
             return Json(commonResponse);
         }
+
+        public async Task<IActionResult> GetJobCode(int ClientId)
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            try
+            {
+                string jobCode = "";
+                var clientDetail = await _dbRepo.ClientList().FirstOrDefaultAsync(x => x.Id == ClientId);
+                int requirementCount = await _dbRepo.RequirementList().CountAsync() + 1;
+                if (clientDetail != null)
+                {
+                    jobCode = jobCode + clientDetail.ClientName.ToUpper().Substring(0, 2) +"-"+ requirementCount;
+                }
+
+                commonResponse.Status = true;
+                commonResponse.StatusCode = HttpStatusCode.OK;
+                commonResponse.Message = "Success!";
+                commonResponse.Data = jobCode;
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message;
+            }
+            return Json(commonResponse);
+        }
     }
 }

@@ -6,7 +6,6 @@
     LoadEmploymentTypeDDL();
     LoadRequirementStatusDDL();
 
-
     GetFilteredRequirementList();
 
     $("#btnAddRequirement").click(function () {
@@ -17,6 +16,7 @@
         GetFilteredRequirementList();
     });
 
+   
 });
 
 function GetFilteredRequirementList() {
@@ -37,20 +37,33 @@ function GetFilteredRequirementList() {
         });
 
         $(".btn-delete").click(function () {
-            $.blockUI();
-            var requirementId = parseInt($(this).attr('RequirementId'));
-            ajaxCall("Post", false, '/Requirement/DeleteRequirement?RequirementId=' + requirementId, null, function (result) {
-                console.log(result)
-                debugger
-                if (result.status == true) {
-                    Toast.fire({ icon: 'success', title: result.message });
-                    RedirectToPage("/Requirement/Index");
-                }
-                else {
-                    Toast.fire({ icon: 'error', title: result.message });
-                    $.unblockUI();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.blockUI();
+                    var requirementId = parseInt($(this).attr('RequirementId'));
+                    ajaxCall("Post", false, '/Requirement/DeleteRequirement?RequirementId=' + requirementId, null, function (result) {
+                        console.log(result)
+                        debugger
+                        if (result.status == true) {
+                            Toast.fire({ icon: 'success', title: result.message });
+                            RedirectToPage("/Requirement/Index");
+                        }
+                        else {
+                            Toast.fire({ icon: 'error', title: result.message });
+                            $.unblockUI();
+                        }
+                    });
                 }
             });
+
         });
     });
 }
