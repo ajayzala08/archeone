@@ -327,6 +327,7 @@ function getDateFromFields(fieldId) {
 }
 
 function validateRequiredFieldsByGroup(groupId) {
+    debugger
     $('[id="' + groupId + '"] .error').each(function (index, itm) {
         if (!$(itm).hasClass('d-none')) {
             $(itm).addClass('d-none');

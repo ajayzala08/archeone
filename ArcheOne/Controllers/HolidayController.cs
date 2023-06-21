@@ -47,11 +47,11 @@ namespace ArcheOne.Controllers
                     getHolidayListResModel = _dbRepo.HolidayDayList().Where(x => x.IsActive == true && x.IsDelete == false).Select(x => new GetHolidayListResModel
                     {
                         Id = x.Id,
-                        HolidayName =  x.HolidayName,
+                        HolidayName = x.HolidayName,
                         Date = x.HolidayDate.Date.ToString("dd-MM-yyyy"),
                         Day = x.HolidayDate.DayOfWeek.ToString()
 
-                    }).ToList();
+                    }).ToList().OrderBy(x => Convert.ToDateTime(x.Date)).ToList();
                     commonResponse.Data = getHolidayListResModel;
 
                     commonResponse.Status = true;
