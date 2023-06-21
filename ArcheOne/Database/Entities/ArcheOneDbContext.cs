@@ -63,8 +63,6 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<ResumeFileUploadDetailMst> ResumeFileUploadDetailMsts { get; set; }
 
-    public virtual DbSet<ResumeFileUploadMst> ResumeFileUploadMsts { get; set; }
-
     public virtual DbSet<RoleMst> RoleMsts { get; set; }
 
     public virtual DbSet<SalesContactPersonMst> SalesContactPersonMsts { get; set; }
@@ -449,19 +447,19 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<ResumeFileUploadDetailMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ResumeFi__3214EC07ED753303");
+            entity.HasKey(e => e.Id).HasName("PK__ResumeFi__3214EC070FB9A8A2");
 
             entity.ToTable("ResumeFileUploadDetailMst");
 
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.CurrentCtcAnnual)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(38, 17)")
                 .HasColumnName("CurrentCTC_Annual");
             entity.Property(e => e.CurrentEmployer).HasMaxLength(100);
             entity.Property(e => e.CurrentLocation).HasMaxLength(100);
             entity.Property(e => e.CurrentPfdeduction).HasColumnName("CurrentPFDeduction");
             entity.Property(e => e.CurrentTakeHomeMonthly)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(38, 17)")
                 .HasColumnName("CurrentTakeHome_Monthly");
             entity.Property(e => e.Dob)
                 .HasColumnType("datetime")
@@ -469,14 +467,14 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.Email1).HasMaxLength(50);
             entity.Property(e => e.Email2).HasMaxLength(50);
             entity.Property(e => e.ExpectedCtcAnnual)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(38, 17)")
                 .HasColumnName("ExpectedCTC_Annual");
             entity.Property(e => e.ExpectedJoinInDays)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(38, 17)")
                 .HasColumnName("ExpectedJoinIn_Days");
             entity.Property(e => e.ExpectedPfdeduction).HasColumnName("ExpectedPFDeduction");
             entity.Property(e => e.ExpectedTakeHomeMonthly)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(38, 17)")
                 .HasColumnName("ExpectedTakeHome_Monthly");
             entity.Property(e => e.F2favailability).HasColumnName("F2FAvailability");
             entity.Property(e => e.F2finterviewTime)
@@ -492,34 +490,21 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.Mobile3).HasMaxLength(30);
             entity.Property(e => e.NativePlace).HasMaxLength(100);
             entity.Property(e => e.NoticePeriodDays)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(38, 17)")
                 .HasColumnName("NoticePeriod_Days");
             entity.Property(e => e.OfferedPackageInLac).HasColumnType("decimal(38, 17)");
             entity.Property(e => e.Pan)
                 .HasMaxLength(20)
                 .HasColumnName("PAN");
             entity.Property(e => e.RelevantExperienceYear)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(38, 17)")
                 .HasColumnName("RelevantExperience_Year");
             entity.Property(e => e.TeleInterviewTime).HasColumnType("datetime");
             entity.Property(e => e.TotalExperienceAnnual)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(38, 17)")
                 .HasColumnName("TotalExperience_Annual");
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             entity.Property(e => e.WorkLocation).HasMaxLength(100);
-        });
-
-        modelBuilder.Entity<ResumeFileUploadMst>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__ResumeFi__3214EC0797C4FFCA");
-
-            entity.ToTable("ResumeFileUploadMst");
-
-            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.FileExtension).HasMaxLength(20);
-            entity.Property(e => e.FileName).HasMaxLength(500);
-            entity.Property(e => e.FileSize).HasMaxLength(50);
-            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<RoleMst>(entity =>

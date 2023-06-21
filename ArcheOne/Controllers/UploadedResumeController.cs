@@ -23,7 +23,7 @@ namespace ArcheOne.Controllers
 
         public IActionResult UploadedResume(int RequirementId)
         {
-            return View();
+            return View(RequirementId);
         }
 
         public async Task<CommonResponse> GetUploadedResumeList(int ResumeFileUploadId)
