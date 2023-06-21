@@ -24,23 +24,23 @@ namespace ArcheOne.Models.Res
 
 		public string EmergencyContact { get; set; } = null!;
 
-		public DateTime Dob { get; set; }
+		public string Dob { get; set; } = null!;
 
 		public string PostCode { get; set; } = null!;
 
-		public string EmploymentType { get; set; } = null!;
+		public int EmploymentType { get; set; }
 
-		public string Department { get; set; } = null!;
+		public int Department { get; set; }
 
-		public string Designation { get; set; } = null!;
+		public int Designation { get; set; }
 
 		public string Location { get; set; } = null!;
 
 		public string BloodGroup { get; set; } = null!;
 
-		public DateTime OfferDate { get; set; }
+		public string OfferDate { get; set; } = null!;
 
-		public DateTime JoinDate { get; set; }
+		public string JoinDate { get; set; } = null!;
 
 		public string BankName { get; set; } = null!;
 
@@ -58,7 +58,7 @@ namespace ArcheOne.Models.Res
 
 		public decimal Salary { get; set; }
 
-		public string ReportingManager { get; set; } = null!;
+		public int ReportingManager { get; set; }
 
 		public string Reason { get; set; } = null!;
 

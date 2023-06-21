@@ -35,13 +35,11 @@ function SaveUpdateHoliday() {
                 Popup_Toast.fire({ icon: 'success', title: result.message });
                 $("#btnCancel").click();
                 ClearAll();
-                GetFilteredHolidayList();
             }
             else {
                 Popup_Toast.fire({ icon: 'error', title: result.message });
                 $("#btnCancel").click();
                 ClearAll();
-                GetFilteredHolidayList();
             }
         });
     }

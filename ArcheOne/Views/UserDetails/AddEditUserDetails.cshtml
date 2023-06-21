@@ -4,11 +4,11 @@
 	Layout = "_MasterLayout";
 	string Title1 = "";
 	Title1 = Model.UserDetail.Id > 0 ? "Edit UserDetails" : "Add UserDetails";
-	var UserDetailsId = Model.UserDetail.Id;
+	var Id = Model.UserDetail.Id;
 	var userid = Model.UserDetail.UserId;
 	var Department = Model.UserDetail.Department;
 	var Designation = Model.UserDetail.Designation;
-	var EmployMentType = Model.UserDetail.EmploymentType;
+	int Employee = Model.UserDetail.EmploymentType;
 	var ReportingManager = Model.UserDetail.ReportingManager;
 }
 <style>
@@ -37,7 +37,7 @@
 					<div class="messages"></div>
 					<div class="controls">
 						<div class="row">
-							<input id="txtId" value="@Model.UserDetail.Id" type="hidden" name="txtId">
+							<input id="txtId" value="@Id" type="hidden" name="txtId">
 							<input id="txtUserId" type="hidden" name="txtUserId" value="@userid">
 							<div class="col-sm-4" id="dtxtEmployeeCode">
 								<div class="form-group">
@@ -49,11 +49,10 @@
 							<div class="col-sm-4" id="dddlGender">
 								<div class="form-group">
 									<label><span class="has-error required"></span>Gender</label>
-									<select id="ddlGender" name="ddlGender" class="form-control" isrequired="1" divcontainer="dddlGender" errorspan="sddlGender" defaultvalue="0" style="width: 100%;">
-										@*@foreach (var item in Model.RoleList)
-										{
-											<option value="@item.Id">@item.RoleName</option>
-										}*@
+									<select id="ddlGender" name="ddlGender" class="form-control" isrequired="1" divcontainer="dddlGender" errorspan="sddlGender" defaultvalue="0" style="width: 100%;" value="@Model.UserDetail.Gender">
+										<option value="male">Male</option>
+										<option value="female">Female</option>
+										<option value="other">Other</option>
 									</select>
 									<span class="help-block d-none has-error" id="sddlGender">Please select any gender</span>
 								</div>
@@ -68,7 +67,7 @@
 							<div class="col-sm-4" id="dtxtDob">
 								<div class="form-group">
 									<label for="form_name">Dob</label>
-									<input id="txtDob" type="date" name="txtDob" class="form-control text-length" placeholder="Please enter your Dob" autocomplete="off" value="@Model.UserDetail.Dob" isrequired="1" divcontainer="dtxtDob" errorspan="stxtDob" defaultvalue="">
+									<input id="txtDob" type="text" name="txtDob" class="form-control text-length" placeholder="Please enter your Dob" autocomplete="off" value="@Model.UserDetail.Dob" isrequired="1" divcontainer="dtxtDob" errorspan="stxtDob" defaultvalue="">
 									<span class="help-block d-none has-error" id="stxtDob">Please Enter Valid Dob</span>
 								</div>
 							</div>
@@ -85,7 +84,14 @@
 									<select id="ddlEmploymentType" name="ddlEmploymentType" class="form-control" isrequired="1" divcontainer="dddlEmploymentType" errorspan="sddlGender" defaultvalue="0" style="width: 100%;">
 										@foreach (var item in Model.EmploymentTypeList)
 										{
-										<option value="@item.Id">@item.EmploymentTypeName</option>
+											if (item.Id == Employee)
+											{
+												<option value="@item.Id" selected>@item.EmploymentTypeName</option>
+											}
+											else
+											{
+												<option value="@item.Id">@item.EmploymentTypeName</option>
+											}
 										}
 									</select>
 									<span class="help-block d-none has-error" id="sddlEmploymentType">Please select any employmentType</span>
@@ -97,7 +103,7 @@
 									<select id="ddlDepartment" name="ddlDepartment" class="form-control" isrequired="1" divcontainer="dddlDepartment" errorspan="sddlGender" defaultvalue="0" style="width: 100%;">
 										@foreach (var item in Model.DepartmentList)
 										{
-										<option value="@item.Id">@item.DepartmentName</option>
+											<option value="@item.Id">@item.DepartmentName</option>
 										}
 									</select>
 									<span class="help-block d-none has-error" id="sddlDepartment">Please select any Department</span>
@@ -109,7 +115,7 @@
 									<select id="ddlDesignation" name="ddlDesignation" class="form-control" isrequired="1" divcontainer="dddlDesignation" errorspan="sddlGender" defaultvalue="0" style="width: 100%;">
 										@foreach (var item in Model.DesignationList)
 										{
-										<option value="@item.Id">@item.Designation</option>
+											<option value="@item.Id">@item.Designation</option>
 										}
 									</select>
 									<span class="help-block d-none has-error" id="sddlDesignation">Please select any Designation</span>
@@ -132,14 +138,14 @@
 							<div class="col-sm-4" id="dtxtOfferDate">
 								<div class="form-group">
 									<label for="form_name">OfferDate</label>
-									<input id="txtOfferDate" type="date" name="txtOfferDate" class="form-control text-length" placeholder="Please enter your OfferDate" autocomplete="off" value="@Model.UserDetail.OfferDate" isrequired="1" divcontainer="dtxtOfferDate" errorspan="stxtOfferDate" defaultvalue="">
+									<input id="txtOfferDate" type="text" name="txtOfferDate" class="form-control text-length" placeholder="Please enter your OfferDate" autocomplete="off" value="@Model.UserDetail.OfferDate" isrequired="1" divcontainer="dtxtOfferDate" errorspan="stxtOfferDate" defaultvalue="">
 									<span class="help-block d-none has-error" id="stxtOfferDate">Please Enter Valid OfferDate</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtJoinDate">
 								<div class="form-group">
 									<label for="form_name">JoinDate</label>
-									<input id="txtJoinDate" type="date" name="txtJoinDate" class="form-control text-length" placeholder="Please enter your JoinDate" autocomplete="off" value="@Model.UserDetail.JoinDate" isrequired="1" divcontainer="dtxtJoinDate" errorspan="stxtJoinDate" defaultvalue="">
+									<input id="txtJoinDate" type="text" name="txtJoinDate" class="form-control text-length" placeholder="Please enter your JoinDate" autocomplete="off" value="@Model.UserDetail.JoinDate" isrequired="1" divcontainer="dtxtJoinDate" errorspan="stxtJoinDate" defaultvalue="">
 									<span class="help-block d-none has-error" id="stxtJoinDate">Please Enter Valid JoinDate</span>
 								</div>
 							</div>
@@ -181,14 +187,14 @@
 							<div class="col-sm-4" id="dtxtPancardNumber">
 								<div class="form-group">
 									<label for="form_name">PancardNumber</label>
-									<input id="txtPancardNumber" type="tel" name="txtPancardNumber" class="form-control text-length" placeholder="Please enter your PancardNumber" autocomplete="off" value="@Model.UserDetail.PancardNumber" isrequired="1" divcontainer="dtxtPancardNumber" errorspan="stxtPancardNumber" defaultvalue="" minlength="10" maxlength="15">
+									<input id="txtPancardNumber" type="tel" name="txtPancardNumber" class="form-control text-length" placeholder="Please enter your PancardNumber" autocomplete="off" value="@Model.UserDetail.PancardNumber" isrequired="1" divcontainer="dtxtPancardNumber" errorspan="stxtPancardNumber" defaultvalue="" minlength="10" maxlength="10">
 									<span class="help-block d-none has-error" id="stxtPancardNumber">Please Enter Valid PancardNumber</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtAdharCardNumber">
 								<div class="form-group">
 									<label for="form_name">AdharCardNumber</label>
-									<input id="txtAdharCardNumber" type="tel" name="txtAdharCardNumber" class="form-control text-length" placeholder="Please enter your AdharCardNumber" autocomplete="off" value="@Model.UserDetail.AdharCardNumber" isrequired="1" divcontainer="dtxtAdharCardNumber" errorspan="stxtAdharCardNumber" defaultvalue="" minlength="12" maxlength="15">
+									<input id="txtAdharCardNumber" type="tel" name="txtAdharCardNumber" class="form-control text-length" placeholder="Please enter your AdharCardNumber" autocomplete="off" value="@Model.UserDetail.AdharCardNumber" isrequired="1" divcontainer="dtxtAdharCardNumber" errorspan="stxtAdharCardNumber" defaultvalue="" minlength="12" maxlength="12">
 									<span class="help-block d-none has-error" id="stxtAdharCardNumber">Please Enter Valid AdharCardNumber</span>
 								</div>
 							</div>
@@ -205,7 +211,7 @@
 									<select id="ddlReportingManager" name="ddlReportingManager" class="form-control" isrequired="1" divcontainer="dddlReportingManager" errorspan="sddlGender" defaultvalue="0" style="width: 100%;">
 										@foreach (var item in Model.ReportingManagerList)
 										{
-										<option value="@item.Id">@item.ReportingManager</option>
+											<option value="@item.Id">@item.ReportingManager</option>
 										}
 									</select>
 									<span class="help-block d-none has-error" id="sddlReportingManager">Please select any ReportingManager</span>
@@ -259,5 +265,5 @@
 
 @section Scripts {
 	<script src="~/archeone/js/user/addedituser.js"></script>
-
+	<script src="~/archeone/js/userdetails/addedituserdetails.js"></script>
 }

@@ -27,7 +27,6 @@ function AddEditUser(Id) {
 }
 
 function manageUserDetails(Id) {
-    debugger
     ajaxCall("Post", false, '/UserDetails/AddEditUserDetails?userId=' + Id, null, function (result) {
         if (Id > 0) {
             RedirectToPage('/UserDetails/AddEditUserDetails?userId=' + Id)

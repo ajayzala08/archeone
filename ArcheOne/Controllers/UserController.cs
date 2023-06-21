@@ -209,49 +209,6 @@ namespace ArcheOne.Controllers
             return Json(commonResponse);
         }
 
-        //public async Task<IActionResult> UserList()
-        //{
-        //	CommonResponse commonResponse = new CommonResponse();
-        //	var userList = (from U in await _dbRepo.AllUserMstList().ToListAsync()
-        //					join C in _dbRepo.CompanyMstList()
-        //									   on U.CompanyId equals C.Id
-        //					join R in _dbRepo.RoleMstList()
-        //					on U.RoleId equals R.Id
-        //					select new { U, C, R })
-        //				 .Select(x => new UserListModel
-        //				 {
-        //					 Id = x.U.Id,
-        //					 CompanyId = x.C.CompanyName,
-        //					 RoleId = x.R.RoleName,
-        //					 FullName = x.U.FirstName + ' ' + x.U.MiddleName + ' ' + x.U.LastName,
-        //					 //FirstName = x.U.FirstName,
-        //					 //MiddleName = x.U.MiddleName,
-        //					 //LastName = x.U.LastName,
-        //					 UserName = x.U.UserName,
-        //					 Password = x.U.Password,
-        //					 Address = x.U.Address,
-        //					 Pincode = x.U.Pincode,
-        //					 Mobile1 = x.U.Mobile1,
-        //					 Mobile2 = x.U.Mobile2,
-        //					 Email = x.U.Email,
-        //					 PhotoUrl = System.IO.File.Exists(Path.Combine(_commonHelper.GetPhysicalRootPath(false), x.U.PhotoUrl)) ? Path.Combine(@"\", x.U.PhotoUrl) :
-        //					  @"\Theme\Logo\default_user_profile.png"
-        //				 }).ToList();
-        //	if (userList.Count > 0)
-        //	{
-        //		commonResponse.Status = true;
-        //		commonResponse.StatusCode = HttpStatusCode.OK;
-        //		commonResponse.Message = "Users found successfully!";
-        //		commonResponse.Data = userList;
-        //	}
-        //	else
-        //	{
-        //		commonResponse.StatusCode = HttpStatusCode.NotFound;
-        //		commonResponse.Message = "User not found!";
-        //	}
-        //	return View(commonResponse);
-        //}
-
         public async Task<IActionResult> UserList()
         {
             return View();

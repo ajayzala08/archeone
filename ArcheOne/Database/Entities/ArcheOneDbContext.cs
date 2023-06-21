@@ -61,8 +61,6 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<ResumeFileUploadDetailMst> ResumeFileUploadDetailMsts { get; set; }
 
-    public virtual DbSet<ResumeFileUploadMst> ResumeFileUploadMsts { get; set; }
-
     public virtual DbSet<RoleMst> RoleMsts { get; set; }
 
     public virtual DbSet<SalesContactPersonMst> SalesContactPersonMsts { get; set; }
@@ -84,8 +82,9 @@ public partial class ArcheOneDbContext : DbContext
     public virtual DbSet<UserPermission> UserPermissions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;");
+    { }
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+//        => optionsBuilder.UseSqlServer("Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -435,19 +434,19 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<ResumeFileUploadDetailMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ResumeFi__3214EC07ED753303");
+            entity.HasKey(e => e.Id).HasName("PK__ResumeFi__3214EC070FB9A8A2");
 
             entity.ToTable("ResumeFileUploadDetailMst");
 
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.CurrentCtcAnnual)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(38, 17)")
                 .HasColumnName("CurrentCTC_Annual");
             entity.Property(e => e.CurrentEmployer).HasMaxLength(100);
             entity.Property(e => e.CurrentLocation).HasMaxLength(100);
             entity.Property(e => e.CurrentPfdeduction).HasColumnName("CurrentPFDeduction");
             entity.Property(e => e.CurrentTakeHomeMonthly)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(38, 17)")
                 .HasColumnName("CurrentTakeHome_Monthly");
             entity.Property(e => e.Dob)
                 .HasColumnType("datetime")
@@ -455,19 +454,20 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.Email1).HasMaxLength(50);
             entity.Property(e => e.Email2).HasMaxLength(50);
             entity.Property(e => e.ExpectedCtcAnnual)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(38, 17)")
                 .HasColumnName("ExpectedCTC_Annual");
             entity.Property(e => e.ExpectedJoinInDays)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(38, 17)")
                 .HasColumnName("ExpectedJoinIn_Days");
             entity.Property(e => e.ExpectedPfdeduction).HasColumnName("ExpectedPFDeduction");
             entity.Property(e => e.ExpectedTakeHomeMonthly)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(38, 17)")
                 .HasColumnName("ExpectedTakeHome_Monthly");
             entity.Property(e => e.F2favailability).HasColumnName("F2FAvailability");
             entity.Property(e => e.F2finterviewTime)
                 .HasColumnType("datetime")
                 .HasColumnName("F2FInterviewTime");
+            entity.Property(e => e.FileName).HasMaxLength(100);
             entity.Property(e => e.FullName).HasMaxLength(100);
             entity.Property(e => e.HighestQualification).HasMaxLength(100);
             entity.Property(e => e.JoinInDate).HasColumnType("date");
@@ -477,34 +477,21 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.Mobile3).HasMaxLength(30);
             entity.Property(e => e.NativePlace).HasMaxLength(100);
             entity.Property(e => e.NoticePeriodDays)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(38, 17)")
                 .HasColumnName("NoticePeriod_Days");
             entity.Property(e => e.OfferedPackageInLac).HasColumnType("decimal(38, 17)");
             entity.Property(e => e.Pan)
                 .HasMaxLength(20)
                 .HasColumnName("PAN");
             entity.Property(e => e.RelevantExperienceYear)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(38, 17)")
                 .HasColumnName("RelevantExperience_Year");
             entity.Property(e => e.TeleInterviewTime).HasColumnType("datetime");
             entity.Property(e => e.TotalExperienceAnnual)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(38, 17)")
                 .HasColumnName("TotalExperience_Annual");
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             entity.Property(e => e.WorkLocation).HasMaxLength(100);
-        });
-
-        modelBuilder.Entity<ResumeFileUploadMst>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__ResumeFi__3214EC0797C4FFCA");
-
-            entity.ToTable("ResumeFileUploadMst");
-
-            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.FileExtension).HasMaxLength(20);
-            entity.Property(e => e.FileName).HasMaxLength(500);
-            entity.Property(e => e.FileSize).HasMaxLength(50);
-            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<RoleMst>(entity =>
@@ -611,13 +598,10 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.BloodGroup).HasMaxLength(100);
             entity.Property(e => e.Branch).HasMaxLength(100);
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.Department).HasMaxLength(100);
-            entity.Property(e => e.Designation).HasMaxLength(100);
             entity.Property(e => e.Dob).HasColumnType("datetime");
             entity.Property(e => e.EmergencyContact).HasMaxLength(100);
             entity.Property(e => e.EmployeeCode).HasMaxLength(100);
             entity.Property(e => e.EmployeePersonalEmailId).HasMaxLength(100);
-            entity.Property(e => e.EmploymentType).HasMaxLength(100);
             entity.Property(e => e.Gender).HasMaxLength(100);
             entity.Property(e => e.IfscCode).HasMaxLength(20);
             entity.Property(e => e.IsActive)
@@ -630,7 +614,6 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.PfaccountNumber).HasMaxLength(30);
             entity.Property(e => e.PostCode).HasMaxLength(100);
             entity.Property(e => e.ProbationPeriod).HasMaxLength(20);
-            entity.Property(e => e.ReportingManager).HasMaxLength(100);
             entity.Property(e => e.Salary).HasColumnType("decimal(38, 18)");
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });

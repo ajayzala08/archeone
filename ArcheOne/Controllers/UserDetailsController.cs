@@ -25,23 +25,7 @@ namespace ArcheOne.Controllers
 			return View();
 		}
 
-		//[HttpPost]
-		//public async Task<IActionResult> AddEditUserDetails(int userId)
-		//{
-		//	CommonResponse commonResponse = new CommonResponse();
-		//	try
-		//	{
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		commonResponse.Message = ex.Message;
-		//		commonResponse.Data = ex;
-		//	}
-		//	return View(userId);
-		//}
-
 		[HttpGet]
-		//public async Task<IActionResult> AddEditUserDetails(int userId, int id)
 		public async Task<IActionResult> AddEditUserDetails(int userId)
 		{
 			CommonResponse commonResponse = new CommonResponse();
@@ -62,15 +46,15 @@ namespace ArcheOne.Controllers
 					userDetailsAddEditResModel.UserDetail.EmployeeCode = isUserDetailsExist.EmployeeCode;
 					userDetailsAddEditResModel.UserDetail.Gender = isUserDetailsExist.Gender;
 					userDetailsAddEditResModel.UserDetail.EmergencyContact = isUserDetailsExist.EmergencyContact;
-					userDetailsAddEditResModel.UserDetail.Dob = isUserDetailsExist.Dob;
+					userDetailsAddEditResModel.UserDetail.Dob = isUserDetailsExist.Dob.ToString("dd-MM-yyyy");
 					userDetailsAddEditResModel.UserDetail.PostCode = isUserDetailsExist.PostCode;
 					userDetailsAddEditResModel.UserDetail.EmploymentType = isUserDetailsExist.EmploymentType;
 					userDetailsAddEditResModel.UserDetail.Department = isUserDetailsExist.Department;
 					userDetailsAddEditResModel.UserDetail.Designation = isUserDetailsExist.Designation;
 					userDetailsAddEditResModel.UserDetail.Location = isUserDetailsExist.Location;
 					userDetailsAddEditResModel.UserDetail.BloodGroup = isUserDetailsExist.BloodGroup;
-					userDetailsAddEditResModel.UserDetail.OfferDate = isUserDetailsExist.OfferDate;
-					userDetailsAddEditResModel.UserDetail.JoinDate = isUserDetailsExist.JoinDate;
+					userDetailsAddEditResModel.UserDetail.OfferDate = isUserDetailsExist.OfferDate.ToString("dd-MM-yyyy");
+					userDetailsAddEditResModel.UserDetail.JoinDate = isUserDetailsExist.JoinDate.ToString("dd-MM-yyyy");
 					userDetailsAddEditResModel.UserDetail.BankName = isUserDetailsExist.BankName;
 					userDetailsAddEditResModel.UserDetail.AccountNumber = isUserDetailsExist.AccountNumber;
 					userDetailsAddEditResModel.UserDetail.Branch = isUserDetailsExist.Branch;
@@ -98,7 +82,7 @@ namespace ArcheOne.Controllers
 			return View(commonResponse.Data);
 		}
 
-
+		[HttpPost]
 		public async Task<IActionResult> SaveUpdateUserDetails(AddEditUserDetailsReqModel addEditUserDetailsReqModel)
 		{
 			CommonResponse commonResponse = new CommonResponse();
@@ -109,7 +93,8 @@ namespace ArcheOne.Controllers
 				if (isUserExist != null)
 				{
 					// Edit Mode
-					var editUserDetails = _dbRepo.UserDetailList().FirstOrDefault(x => x.EmployeeCode != addEditUserDetailsReqModel.EmployeeCode && x.EmployeePersonalEmailId != addEditUserDetailsReqModel.EmployeePersonalEmailId);
+					//var editUserDetails = _dbRepo.UserDetailList().FirstOrDefault(x => x.Id == addEditUserDetailsReqModel.Id && x.EmployeeCode != addEditUserDetailsReqModel.EmployeeCode && x.EmployeePersonalEmailId != addEditUserDetailsReqModel.EmployeePersonalEmailId);
+					var editUserDetails = _dbRepo.UserDetailList().FirstOrDefault(x => x.Id == addEditUserDetailsReqModel.Id);
 					if (editUserDetails != null)
 					{
 						editUserDetails.EmployeeCode = addEditUserDetailsReqModel.EmployeeCode;
@@ -138,14 +123,22 @@ namespace ArcheOne.Controllers
 						editUserDetails.ProbationPeriod = addEditUserDetailsReqModel.ProbationPeriod;
 						editUserDetails.UpdatedBy = _commonHelper.GetLoggedInUserId();
 						editUserDetails.UpdatedDate = _commonHelper.GetCurrentDateTime();
+
+						_dbContext.Entry(userDetailsMst).State = EntityState.Modified;
+						_dbContext.SaveChanges();
+
+						commonResponse.Message = "UserDetails updated successfully!";
+						commonResponse.Status = true;
+						commonResponse.StatusCode = HttpStatusCode.OK;
 					}
 				}
 				else
 				{
 					//Add Mode
 					var userDetails = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.EmployeeCode == addEditUserDetailsReqModel.EmployeeCode && x.EmployeePersonalEmailId.ToLower() == addEditUserDetailsReqModel.EmployeePersonalEmailId.ToLower());
-					if (userDetails != null)
+					if (userDetails == null)
 					{
+						userDetailsMst.UserId = addEditUserDetailsReqModel.UserId;
 						userDetailsMst.EmployeeCode = addEditUserDetailsReqModel.EmployeeCode;
 						userDetailsMst.Gender = addEditUserDetailsReqModel.Gender;
 						userDetailsMst.EmergencyContact = addEditUserDetailsReqModel.EmergencyContact;

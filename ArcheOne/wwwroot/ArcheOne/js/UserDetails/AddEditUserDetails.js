@@ -4,7 +4,14 @@
         SaveUserDetails();
     });
 });
+
+$('#txtDob').datepicker({
+    dateFormat: 'dd-mm-yy'
+
+});
+
 function SaveUserDetails() {
+    var saveData = new FormData();
     saveData.append("Id", parseInt($("#txtId").val()));
     saveData.append("UserId", parseInt($("#txtUserId").val()));
     saveData.append("EmployeeCode", $("#txtEmployeeCode").val());
@@ -31,9 +38,7 @@ function SaveUserDetails() {
     saveData.append("Reason", $("#txtReason").val());
     saveData.append("EmployeePersonalEmailId", $("#txtEmployeePersonalEmailId").val());
     saveData.append("ProbationPeriod", $("#txtProbationPeriod").val());
-
     console.log(saveData);
-    debugger
     if (validateRequiredFields()) {
         ajaxCallWithoutDataType("Post", false, '/UserDetails/SaveUpdateUserDetails', saveData, function (result) {
             console.log(result);
@@ -53,5 +58,56 @@ function SaveUserDetails() {
         $("#clearAll").click();
         ClearAll();
     }
-
 }
+
+
+//function SaveUserDetails() {
+//    var saveUserDetailsData = {
+//        "Id": parseInt($("#txtId").val()),
+//        "UserId": parseInt($("#txtUserId").val()),
+//        "EmployeeCode": $("#txtEmployeeCode").val(),
+//        "Gender": $("#ddlGender").val(),
+//        "EmergencyContact": $("#txtEmergencyContact").val(),
+//        "Dob": $("#txtDob").val(),
+//        "PostCode": $("#txtPostCode").val(),
+//        "EmploymentType": $("#ddlEmploymentType").val(),
+//        "Department": $("#ddlDepartment").val(),
+//        "Designation": $("#ddlDesignation").val(),
+//        "Location": $("#txtLocation").val(),
+//        "BloodGroup": $("#txtBloodGroup").val(),
+//        "OfferDate": $("#txtOfferDate").val(),
+//        "JoinDate": $("#txtJoinDate").val(),
+//        "BankName": $("#txtBankName").val(),
+//        "AccountNumber": $("#txtAccountNumber").val(),
+//        "Branch": $("#txtBranch").val(),
+//        "IfscCode": $("#txtIfscCode").val(),
+//        "PfaccountNumber": $("#txtPfaccountNumber").val(),
+//        "PancardNumber": $("#txtPancardNumber").val(),
+//        "AdharCardNumber": $("#txtAdharCardNumber").val(),
+//        "Salary": $("#txtSalary").val(),
+//        "ReportingManager": $("#ddlReportingManager").val(),
+//        "Reason": $("#txtReason").val(),
+//        "EmployeePersonalEmailId": $("#txtEmployeePersonalEmailId").val(),
+//        "ProbationPeriod": $("#txtProbationPeriod").val(),
+//    }
+//    console.log(saveUserDetailsData);
+//    if (validateRequiredFields()) {
+//        ajaxCallWithoutDataType("Post", false, '/UserDetails/SaveUpdateUserDetails',saveUserDetailsData, function (result) {
+//            console.log(result);
+//            if (result.status == true) {
+//                Toast.fire({ icon: 'success', title: result.message });
+//                RedirectToPage("/User/User");
+//            }
+//            else {
+//                Toast.fire({ icon: 'error', title: result.message });
+//                $.unblockUI();
+//            }
+//        });
+//    }
+//    else {
+//        $.unblockUI();
+//        Toast.fire({ icon: 'success', title: result.message });
+//        $("#clearAll").click();
+//        ClearAll();
+//    }
+//}

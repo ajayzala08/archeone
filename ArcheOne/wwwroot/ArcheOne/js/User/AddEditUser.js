@@ -26,7 +26,6 @@ function SaveUser() {
         saveData.append("IsActive", false);
 
         console.log(saveData);
-        debugger
         if (validateRequiredFields()) {
             ajaxCallWithoutDataType("Post", false, '/User/SaveUpdateUser', saveData, function (result) {
                 console.log(result);

@@ -31,7 +31,7 @@ namespace ArcheOne.Controllers
             try
             {
                 var data = await (from resumeFileUploadDetail in _dbRepo.ResumeFileUploadDetailList()
-                                  where resumeFileUploadDetail.ResumeFileUploadId == ResumeFileUploadId
+                                  where resumeFileUploadDetail.RequirementId == ResumeFileUploadId
                                   join interview in _dbRepo.InterviewList() on resumeFileUploadDetail.Id equals interview.ResumeFileUploadDetailId into interviewGroup
                                   from interviewItem in interviewGroup.DefaultIfEmpty()
                                   join hireStatus in _dbRepo.HireStatusList() on interviewItem.HireStatusId equals hireStatus.Id into hireStatusGroup
