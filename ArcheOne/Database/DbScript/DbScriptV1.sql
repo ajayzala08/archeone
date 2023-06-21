@@ -920,3 +920,26 @@ Drop table dbo.ResumeFileUploadMst;
 
 ----------------------------------------Added by TS on 20-06-23-----------------------------------End--------
 ---------------------------------------Executed on Local Server on 20-06-23------------------by TS-----------
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'AppraisalMst')
+BEGIN 
+	Create table dbo.AppraisalMst(
+			Id int identity(1,1) primary key,
+			EmployeeId int not null,
+			ReportingManagerId int not null,
+			year nvarchar(100) not null,
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'AppraisalMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'AppraisalMst Table Already Exist' 
+END
+----------------------------------------Added by SP on 21-06-23-----------------------------------End--------
+---------------------------------------Executed on Local Server on 21-06-23------------------by SP-----------

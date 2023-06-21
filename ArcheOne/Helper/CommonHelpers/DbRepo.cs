@@ -205,5 +205,9 @@ namespace ArcheOne.Helper.CommonHelpers
         {
             return _db.PolicyMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
+        public IQueryable<AppraisalMst> AppraisalList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.AppraisalMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
     }
 }

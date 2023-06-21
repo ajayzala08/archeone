@@ -38,11 +38,12 @@ namespace ArcheOne.Controllers
             GetHolidayListResModel getHolidayListResModelList = new GetHolidayListResModel();
             HolidayMst holidayMst = new HolidayMst();
             var holidayList = _dbRepo.HolidayDayList().ToList();
+            List<GetHolidayListResModel> getHolidayListResModel = new List<GetHolidayListResModel>();
             try
             {
                 if (holidayList.Count > 0)
                 {
-                    List<GetHolidayListResModel> getHolidayListResModel = new List<GetHolidayListResModel>();
+                    //List<GetHolidayListResModel> getHolidayListResModel = new List<GetHolidayListResModel>();
                     getHolidayListResModel = _dbRepo.HolidayDayList().Where(x => x.IsActive == true && x.IsDelete == false).Select(x => new GetHolidayListResModel
                     {
                         Id = x.Id,
@@ -71,7 +72,7 @@ namespace ArcheOne.Controllers
                 commonResponse.Data = ex.Message;
                 commonResponse.Status = false;
             }
-            return View(commonResponse.Data);
+            return View(getHolidayListResModel);
         }
 
         public IActionResult AddEditHoliday(int Id)
