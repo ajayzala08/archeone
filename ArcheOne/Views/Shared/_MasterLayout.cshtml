@@ -3,7 +3,7 @@
 @{
     var user = HttpContextAccessor.HttpContext.Session.GetString("User");
     bool IsValidate = string.IsNullOrWhiteSpace(user) ? false : true;
-    IsValidate = HttpContextAccessor.HttpContext.Request.Host.Host == "localhost" && 1 == 0 ? true : IsValidate;
+    IsValidate = HttpContextAccessor.HttpContext.Request.Host.Host == "localhost" && 1 == 1 ? true : IsValidate;
     if (!IsValidate)
     {
         Context.Response.Redirect("/LogIn/Logout");
@@ -341,7 +341,7 @@
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="~/SalesLead/Sales" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-binoculars nav-icon"></i>
                                         <p>Leads</p>
                                     </a>
                                 </li>

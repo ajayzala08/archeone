@@ -4,18 +4,18 @@ $(document).ready(function () {
 
     $("#btnAddSaleLead").click(function () {
         AddEditSalesLead(0);
-        ApplyDatatableResponsive('tblSalesConatactLead');
-        window.location.href = '/SalesLead/AddEditSalesLead'
-
+        //ApplyDatatableResponsive('tblSalesConatactLead');
+        //window.location.href = '/SalesLead/AddEditSalesLead'
     });
 
 
 });
 
 
-function AddEditSalesLead(Id) {
-    window.location.href = '/SalesLead/AddEditSalesLead?id=' + Id;
-    ApplyDatatableResponsive('tblSalesConatactLead')
+function AddEditSalesLead(salesLeadId) {
+    RedirectToPage('/SalesLead/AddEditSalesLead?SalesLeadId=' + salesLeadId);
+    //window.location.href = '/SalesLead/AddEditSalesLead?id=' + Id;
+    //ApplyDatatableResponsive('tblSalesConatactLead')
 }
 
 function SaveSalesLead() {

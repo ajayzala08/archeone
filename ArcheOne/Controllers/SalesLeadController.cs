@@ -21,11 +21,13 @@ namespace ArcheOne.Controllers
             _dbContext = dbContext;
             _commonHelper = commonHelper;
         }
+
         [HttpGet]
-        public async Task<IActionResult> Sales()
+        public IActionResult Sales()
         {
             return View();
         }
+
         [HttpGet]
         public async Task<IActionResult> SalesList()
         {
@@ -57,60 +59,68 @@ namespace ArcheOne.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddEditSalesLead(int Id)
+        public async Task<IActionResult> AddEditSalesLead(int SalesLeadId)
         {
             CommonResponse commonResponse = new CommonResponse();
             try
             {
-                SalesLeadAddEditReqModel salesLeadAddEdit = new SalesLeadAddEditReqModel();
+                SalesLeadAddEditResModel salesLeadAddEdit = new SalesLeadAddEditResModel();
                 salesLeadAddEdit.salesLeadDetail = new SalesLeadDetail();
-                salesLeadAddEdit.SalesLeadContactPersonDetail = new SalesLeadContactPersonDetail();
-                List<SalesLeadContactPersonDetail> salesLeadContactPersonList = new List<SalesLeadContactPersonDetail>();
-                // salesLeadAddEdit.CountryList = await _dbRepo.GetCountryList();
-                if (Id > 0)
-                {
-                    var SalesLeadDetails = await _dbRepo.SalesLeadList().FirstOrDefaultAsync(x => x.Id == Id);
-                    if (SalesLeadDetails != null)
-                    {
-                        salesLeadAddEdit.salesLeadDetail = new SalesLeadDetail();
-                        salesLeadAddEdit.salesLeadDetail.Id = SalesLeadDetails.Id;
-                        salesLeadAddEdit.salesLeadDetail.OrgName = SalesLeadDetails.OrgName;
-                        salesLeadAddEdit.salesLeadDetail.CountryId = SalesLeadDetails.CountryId;
-                        salesLeadAddEdit.salesLeadDetail.StateId = SalesLeadDetails.StateId;
-                        salesLeadAddEdit.salesLeadDetail.CityId = SalesLeadDetails.CityId;
-                        salesLeadAddEdit.salesLeadDetail.Address = SalesLeadDetails.Address;
-                        salesLeadAddEdit.salesLeadDetail.Phone1 = SalesLeadDetails.Phone1;
-                        salesLeadAddEdit.salesLeadDetail.Phone2 = SalesLeadDetails.Phone2;
-                        salesLeadAddEdit.salesLeadDetail.Email1 = SalesLeadDetails.Email1;
-                        salesLeadAddEdit.salesLeadDetail.Email2 = SalesLeadDetails.Email2;
-                        salesLeadAddEdit.salesLeadDetail.WebsiteUrl = SalesLeadDetails.WebsiteUrl;
-                        salesLeadAddEdit.salesLeadDetail.IsActive = SalesLeadDetails.IsActive;
+                salesLeadAddEdit.ContactPersonDetailList = new List<SalesLeadContactPersonDetail>();
+                var SalesLeadDetails = await _dbRepo.SalesLeadList().FirstOrDefaultAsync(x => x.Id == SalesLeadId);
 
+                if (SalesLeadDetails != null)
+                {
+                    salesLeadAddEdit.salesLeadDetail.SalesLeadId = SalesLeadDetails.Id;
+                    salesLeadAddEdit.salesLeadDetail.OrgName = SalesLeadDetails.OrgName;
+                    salesLeadAddEdit.salesLeadDetail.CountryId = SalesLeadDetails.CountryId;
+                    salesLeadAddEdit.salesLeadDetail.StateId = SalesLeadDetails.StateId;
+                    salesLeadAddEdit.salesLeadDetail.CityId = SalesLeadDetails.CityId;
+                    salesLeadAddEdit.salesLeadDetail.Address = SalesLeadDetails.Address;
+                    salesLeadAddEdit.salesLeadDetail.Phone1 = SalesLeadDetails.Phone1;
+                    salesLeadAddEdit.salesLeadDetail.Phone2 = SalesLeadDetails.Phone2;
+                    salesLeadAddEdit.salesLeadDetail.Email1 = SalesLeadDetails.Email1;
+                    salesLeadAddEdit.salesLeadDetail.Email2 = SalesLeadDetails.Email2;
+                    salesLeadAddEdit.salesLeadDetail.WebsiteUrl = SalesLeadDetails.WebsiteUrl;
+                    salesLeadAddEdit.salesLeadDetail.IsActive = SalesLeadDetails.IsActive;
+
+                    var ContactPersonList = await _dbRepo.SalesContactPersonList().Where(x => x.SalesLeadId == SalesLeadDetails.Id).Take(3).ToListAsync();
+
+                    foreach (var item in ContactPersonList)
+                    {
+                        SalesLeadContactPersonDetail salesLeadContactPersonDetail = new SalesLeadContactPersonDetail();
+                        salesLeadContactPersonDetail.SalesLeadContactPersonId = item.Id;
+                        salesLeadContactPersonDetail.SalesLeadId = item.SalesLeadId;
+                        salesLeadContactPersonDetail.FirstName = item.FirstName;
+                        salesLeadContactPersonDetail.LastName = item.LastName;
+                        salesLeadContactPersonDetail.Email = item.Email;
+                        salesLeadContactPersonDetail.Designation = item.Designation;
+                        salesLeadContactPersonDetail.Mobile1 = item.Mobile1;
+                        salesLeadContactPersonDetail.Mobile2 = item.Mobile2;
+                        salesLeadContactPersonDetail.Linkedinurl = item.Linkedinurl;
+                        salesLeadContactPersonDetail.IsActive = item.IsActive;
+
+                        salesLeadAddEdit.ContactPersonDetailList.Add(salesLeadContactPersonDetail);
                     }
                 }
-                salesLeadContactPersonList = _dbRepo.SalesContactPersonList().Where(x => x.SalesLeadId == Id && x.IsActive == true && x.IsDelete == false).Select(x => new SalesLeadContactPersonDetail
+                else
                 {
-                    SalesLeadContactPersonId = x.Id,
-                    SalesLeadId = x.SalesLeadId,
-                    FirstName = x.FirstName,
-                    LastName = x.LastName,
-                    Email = x.Email,
-                    Designation = x.Designation,
-                    Mobile1 = x.Mobile1,
-                    Mobile2 = x.Mobile2,
-                    Linkedinurl = x.Linkedinurl,
-
-                }).ToList();
-
-                salesLeadAddEdit.SalesLeadContactPersonList = salesLeadContactPersonList;
-
+                    for (int i = 1; i <= 3; i++)
+                    {
+                        SalesLeadContactPersonDetail salesLeadContactPersonDetail = new SalesLeadContactPersonDetail();
+                        salesLeadAddEdit.ContactPersonDetailList.Add(salesLeadContactPersonDetail);
+                    }
+                }
                 commonResponse.Status = true;
                 commonResponse.StatusCode = HttpStatusCode.OK;
                 commonResponse.Message = "Success!";
                 commonResponse.Data = salesLeadAddEdit;
             }
-            catch { throw; }
-            return View(commonResponse.Data);
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message;
+            }
+            return View(commonResponse);
         }
 
         [HttpPost]

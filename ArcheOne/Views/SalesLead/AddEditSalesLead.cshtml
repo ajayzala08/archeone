@@ -1,43 +1,43 @@
-﻿@using ArcheOne.Models.Req;
-@model SalesLeadAddEditReqModel
-
+﻿@using ArcheOne.Helper.CommonModels;
+@using ArcheOne.Models.Res;
+@model CommonResponse
 @{
+    Layout = "_MasterLayout";
     ViewBag.datatable = "true";
+    SalesLeadAddEditResModel salesLeadAddEditResModel = Model.Data;
+    int ContactPersonCount = 1;
     string PopupTitle1 = "";
     int id = 1;
-    //Layout = null;
-    Layout = "_MasterLayout";
-    PopupTitle1 = Model.salesLeadDetail.Id > 0 ? "Edit SaleLead" : "Add SaleLead";
-    var CountryId = Model.salesLeadDetail.CountryId;
-    var stateId = Model.salesLeadDetail.StateId;
-    var CityId = Model.salesLeadDetail.CityId;
-    var salesLeadContactPersonDetailList = Model.SalesLeadContactPersonList;
-    SalesLeadContactPersonDetail salesLeadContactPersonDetail = new SalesLeadContactPersonDetail();
-    var firstSalesLeadContactPersonDetailList = salesLeadContactPersonDetail;
-    var secondSalesLeadContactPersonDetailList = salesLeadContactPersonDetail;
-    var thirdSalesLeadContactPersonDetailList = salesLeadContactPersonDetail;
-    if (salesLeadContactPersonDetailList.Count > 0)
-    {
-        if (salesLeadContactPersonDetailList.Count == 1)
-        {
-            firstSalesLeadContactPersonDetailList = salesLeadContactPersonDetailList[0];
-        }
-        else if (salesLeadContactPersonDetailList.Count == 2)
-        {
-            firstSalesLeadContactPersonDetailList = salesLeadContactPersonDetailList[0];
-            secondSalesLeadContactPersonDetailList = salesLeadContactPersonDetailList[1];
-        }
-        else if (salesLeadContactPersonDetailList.Count == 3)
-        {
-            firstSalesLeadContactPersonDetailList = salesLeadContactPersonDetailList[0];
-            secondSalesLeadContactPersonDetailList = salesLeadContactPersonDetailList[1];
-            thirdSalesLeadContactPersonDetailList = salesLeadContactPersonDetailList[2];
-        }
-    }
+            //Layout = null;
+    //PopupTitle1 = Model.salesLeadDetail.Id > 0 ? "Edit SaleLead" : "Add SaleLead";
+    //var CountryId = Model.salesLeadDetail.CountryId;
+    //var stateId = Model.salesLeadDetail.StateId;
+    //var CityId = Model.salesLeadDetail.CityId;
+    //var salesLeadContactPersonDetailList = Model.SalesLeadContactPersonList;
+    //SalesLeadContactPersonDetail salesLeadContactPersonDetail = new SalesLeadContactPersonDetail();
+    //var firstSalesLeadContactPersonDetailList = salesLeadContactPersonDetail;
+    //var secondSalesLeadContactPersonDetailList = salesLeadContactPersonDetail;
+    //var thirdSalesLeadContactPersonDetailList = salesLeadContactPersonDetail;
+    //if (salesLeadContactPersonDetailList.Count > 0)
+    //{
+    //    if (salesLeadContactPersonDetailList.Count == 1)
+    //    {
+    //        firstSalesLeadContactPersonDetailList = salesLeadContactPersonDetailList[0];
+    //    }
+    //    else if (salesLeadContactPersonDetailList.Count == 2)
+    //    {
+    //        firstSalesLeadContactPersonDetailList = salesLeadContactPersonDetailList[0];
+    //        secondSalesLeadContactPersonDetailList = salesLeadContactPersonDetailList[1];
+    //    }
+    //    else if (salesLeadContactPersonDetailList.Count == 3)
+    //    {
+    //        firstSalesLeadContactPersonDetailList = salesLeadContactPersonDetailList[0];
+    //        secondSalesLeadContactPersonDetailList = salesLeadContactPersonDetailList[1];
+    //        thirdSalesLeadContactPersonDetailList = salesLeadContactPersonDetailList[2];
+    //    }
+    //}
 }
 
-@*@if (id > 0)
-{*@
 <section class="content-header"></section>
 <section class="content">
     <div class="container-fluid">
@@ -56,11 +56,11 @@
                 <br />
                 <div class="row" id="divSalesLead">
                     @*<div class="col-md-6">*@
-                    <input id="txtSalesLeadId" name="txtSalesLeadId" type="hidden" class="form-control col-sm-4" value="@Model.salesLeadDetail.Id" />
+                    <input id="txtSalesLeadId" name="txtSalesLeadId" type="hidden" class="form-control col-sm-4" value="@salesLeadAddEditResModel.salesLeadDetail.SalesLeadId" />
 
                     <div class="form-group col-sm-3" id="dtxtOrganizationName">
                         <label><span class="has-error required">* </span>Organization Name</label>
-                        <input id="txtOrganizationName" name="txtOrganizationName" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Organization Name" value="@Model.salesLeadDetail.OrgName" isrequired="1" divcontainer="dtxtOrganizationName" errorspan="stxtOrganizationName" defaultvalue="" autocomplete="off" minlength="2">
+                        <input id="txtOrganizationName" name="txtOrganizationName" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Organization Name" value="@salesLeadAddEditResModel.salesLeadDetail.OrgName" isrequired="1" divcontainer="dtxtOrganizationName" errorspan="stxtOrganizationName" defaultvalue="" autocomplete="off" minlength="2">
                         <span class="help-block d-none has-error" id="stxtOrganizationName">Please Enter Valid Organization Name</span>
                     </div>
 
@@ -90,7 +90,7 @@
                             <option value="1">--- Select ---</option>
 
                         </select>
-                        <input id="txtSelectedStateId" name="txtSelectedStateId" type="hidden" class="form-control" value="@Model.salesLeadDetail.StateId" />
+                        <input id="txtSelectedStateId" name="txtSelectedStateId" type="hidden" class="form-control" value="@salesLeadAddEditResModel.salesLeadDetail.StateId" />
                         <span class="help-block d-none has-error" id="sddlState">Please Enter Valid State Name</span>
                     </div>
 
@@ -100,43 +100,43 @@
                             <option value="1">--- Select ---</option>
 
                         </select>
-                        <input id="txtSelectedCityId" name="txtSelectedCityId" type="hidden" class="form-control" value="@Model.salesLeadDetail.CityId" />
+                        <input id="txtSelectedCityId" name="txtSelectedCityId" type="hidden" class="form-control" value="@salesLeadAddEditResModel.salesLeadDetail.CityId" />
                         <span class="help-block d-none has-error" id="sddlCity">Please Enter Valid City Name</span>
                     </div>
 
                     <div class="form-group col-sm-3" id="dtxtSalesLeadAddress">
                         <label><span class="has-error required">* </span>SalesLeadAddress</label>
-                        <input id="txtSalesLeadAddress" name="txtSalesLeadAddress" type="text" class="form-control  txtCapitalize text-length" placeholder="SalesLead Address" value="@Model.salesLeadDetail.Address" isrequired="1" divcontainer="dtxtSalesLeadAddress" errorspan="stxtSalesLeadAddress" defaultvalue="" autocomplete="off" minlength="2">
+                        <input id="txtSalesLeadAddress" name="txtSalesLeadAddress" type="text" class="form-control  txtCapitalize text-length" placeholder="SalesLead Address" value="@salesLeadAddEditResModel.salesLeadDetail.Address" isrequired="1" divcontainer="dtxtSalesLeadAddress" errorspan="stxtSalesLeadAddress" defaultvalue="" autocomplete="off" minlength="2">
                         <span class="help-block d-none has-error" id="stxtSalesLeadAddress">Please Enter Valid SalesLead Address</span>
                     </div>
 
                     <div class="form-group col-sm-3" id="dtxtPhone1">
                         <label><span class="has-error required">* </span>Phone1</label>
-                        <input id="txtPhone1" name="txtPhone1" type="text" class="form-control onlyNumeric text-length" placeholder="Phone1" value="@Model.salesLeadDetail.Phone1" isrequired="1" divcontainer="dtxtPhone1" errorspan="stxtPhone1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+                        <input id="txtPhone1" name="txtPhone1" type="text" class="form-control onlyNumeric text-length" placeholder="Phone1" value="@salesLeadAddEditResModel.salesLeadDetail.Phone1" isrequired="1" divcontainer="dtxtPhone1" errorspan="stxtPhone1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
                         <span class="help-block d-none has-error" id="stxtPhone1">Please Enter Valid Phone1</span>
                     </div>
 
                     <div class="form-group col-sm-3" id="dtxtPhone2">
                         <label>Phone2</label>
-                        <input id="txtPhone2" name="txtPhone2" type="text" class="form-control onlyNumeric" placeholder="Phone2" value="@Model.salesLeadDetail.Phone2" isrequired="0" divcontainer="dtxtPhone2" errorspan="stxtPhone2" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+                        <input id="txtPhone2" name="txtPhone2" type="text" class="form-control onlyNumeric" placeholder="Phone2" value="@salesLeadAddEditResModel.salesLeadDetail.Phone2" isrequired="0" divcontainer="dtxtPhone2" errorspan="stxtPhone2" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
                         <span class="help-block d-none has-error" id="stxtPhone2">Please Enter Valid Phone2</span>
                     </div>
 
                     <div class="form-group col-sm-3" id="dtxtEmail1">
                         <label><span class="has-error required">* </span>Email1</label>
-                        <input id="txtEmail1" name="txtEmail1" type="text" class="form-control text-length" placeholder="Email1" value="@Model.salesLeadDetail.Email1" isrequired="1" divcontainer="dtxtEmail1" errorspan="stxtEmail1" defaultvalue="" autocomplete="off" minlength="2">
+                        <input id="txtEmail1" name="txtEmail1" type="text" class="form-control text-length" placeholder="Email1" value="@salesLeadAddEditResModel.salesLeadDetail.Email1" isrequired="1" divcontainer="dtxtEmail1" errorspan="stxtEmail1" defaultvalue="" autocomplete="off" minlength="2">
                         <span class="help-block d-none has-error" id="stxtEmail1">Please Enter Valid Email1</span>
                     </div>
 
                     <div class="form-group col-sm-3" id="dtxtEmail2">
                         <label>Email2</label>
-                        <input id="txtEmail2" name="txtEmail2" type="text" class="form-control" placeholder="Email2" value="@Model.salesLeadDetail.Email2" isrequired="0" divcontainer="dtxtEmail2" errorspan="stxtEmail2" defaultvalue="" autocomplete="off" minlength="2">
+                        <input id="txtEmail2" name="txtEmail2" type="text" class="form-control" placeholder="Email2" value="@salesLeadAddEditResModel.salesLeadDetail.Email2" isrequired="0" divcontainer="dtxtEmail2" errorspan="stxtEmail2" defaultvalue="" autocomplete="off" minlength="2">
                         <span class="help-block d-none has-error" id="stxtEmail2">Please Enter Valid Email2</span>
                     </div>
 
                     <div class="form-group col-sm-3" id="dtxtWebsite">
                         <label>Website</label>
-                        <input id="txtWebsite" name="txtWebsite" type="text" class="form-control txtCapitalize" placeholder="Website" value="@Model.salesLeadDetail.WebsiteUrl" isrequired="0" divcontainer="dtxtWebsite" errorspan="stxtWebsite" defaultvalue="" autocomplete="off" minlength="2">
+                        <input id="txtWebsite" name="txtWebsite" type="text" class="form-control txtCapitalize" placeholder="Website" value="@salesLeadAddEditResModel.salesLeadDetail.WebsiteUrl" isrequired="0" divcontainer="dtxtWebsite" errorspan="stxtWebsite" defaultvalue="" autocomplete="off" minlength="2">
                         <span class="help-block d-none has-error" id="stxtWebsite">Please Enter Valid Website</span>
                     </div>
                 </div>
@@ -147,8 +147,71 @@
                 <h4>SalesLeadContactPerson</h4>
                 <br />
 
-                <div class="row">
-                    <div class="col-4" id="divSalesLeadContactPerson1">
+                <div class="row form-group">
+                    @foreach (var item in salesLeadAddEditResModel.ContactPersonDetailList)
+                    {
+                        <div class="col-md-4">
+                            <div class="card card-widget widget-user-2 card-outline card-primary">
+                                <div class="card-header">
+                                    <h5 class="card-title"><b>Contact Person Details @ContactPersonCount</b></h5>
+                                    @{
+                                        ContactPersonCount++;
+                                    }
+                                </div>
+                                <br />
+                                <div class="mx-auto">
+                                    <input id="txtSalesLeadContactPersonId" name="txtSalesLeadContactPersonId" type="hidden" class="form-control col-sm-4" value="@item.SalesLeadContactPersonId" />
+
+                                    <input id="txtSalesLeadId" name="txtSalesLeadId" type="hidden" class="form-control col-sm-4" value="@item.SalesLeadId" />
+
+                                    <div class="form-group" id="dtxtFirstName">
+                                        <label><span class="has-error required">* </span>First Name</label>
+                                        <input id="txtFirstName" name="txtFirstName" type="text" class="form-control onlyletter txtCapitalize text-length col-lg-12" placeholder="First Name" value="@item.FirstName" isrequired="1" divcontainer="dtxtFirstName" errorspan="stxtFirstName" defaultvalue="" autocomplete="off" minlength="2">
+                                        <span class="help-block d-none has-error" id="stxtFirstName">Please Enter Valid First Name</span>
+                                    </div>
+
+
+                                    <div class="form-group" id="dtxtLastName">
+                                        <label><span class="has-error required">* </span>Last Name</label>
+                                        <input id="txtLastName" name="txtLastName" type="text" class="form-control onlyletter txtCapitalize text-length col-lg-12" placeholder="Last Name" value="@item.LastName" isrequired="1" divcontainer="dtxtLastName" errorspan="stxtLastName" defaultvalue="" autocomplete="off" minlength="2">
+                                        <span class="help-block d-none has-error" id="stxtLastName">Please Enter Valid Last Name</span>
+                                    </div>
+                                    <div class="form-group" id="dtxtEmail">
+                                        <label><span class="has-error required">* </span>Email</label>
+                                        <input id="txtEmail" name="txtEmail" type="email" class="form-control text-length col-lg-12" placeholder="Email" value="@item.Email" isrequired="1" divcontainer="dtxtEmail" errorspan="stxtEmail" defaultvalue="" autocomplete="off" minlength="2">
+                                        <span class="help-block d-none has-error" id="stxtEmail">Please Enter Valid Email</span>
+                                    </div>
+
+                                    <div class="form-group" id="dtxtDesignation">
+                                        <label><span class="has-error required">* </span>Designation</label>
+                                        <input id="txtDesignation" name="txtDesignation" type="text" class="form-control onlyletter txtCapitalize text-length col-lg-12" placeholder="Designation" value="@item.Designation" isrequired="1" divcontainer="dtxtDesignation" errorspan="stxtDesignation" defaultvalue="" autocomplete="off" minlength="2">
+                                        <span class="help-block d-none has-error" id="stxtDesignation">Please Enter Valid Designation</span>
+                                    </div>
+
+                                    <div class="form-group" id="dtxtMobile1">
+                                        <label><span class="has-error required">* </span>Mobile1</label>
+                                        <input id="txtMobile1" name="txtMobile1" type="text" class="form-control onlyNumeric text-length col-lg-12" placeholder="Mobile1" value="@item.Mobile1" isrequired="1" divcontainer="dtxtMobile1" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+                                        <span class="help-block d-none has-error" id="stxtMobile1">Please Enter Valid Mobile1</span>
+                                    </div>
+
+                                    <div class="form-group" id="dtxtMobile2">
+                                        <label>Mobile2</label>
+                                        <input id="txtMobile2" name="txtMobile2" type="text" class="form-control onlyNumeric col-lg-12" placeholder="Mobile2" value="@item.Mobile2" isrequired="0" divcontainer="dtxtMobile2" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+                                        <span class="help-block d-none has-error" id="stxtMobile2">Please Enter Valid Mobile2</span>
+                                    </div>
+
+                                    <div class="form-group" id="dtxtLinkedinurl">
+                                        <label>Linkedinurl</label>
+                                        <input id="txtLinkedinurl" name="txtLinkedinurl" type="text" class="form-control txtCapitalize col-lg-12" placeholder="Linkedinurl" value="@item.Linkedinurl" isrequired="0" divcontainer="dtxtLinkedinurl" errorspan="stxtLinkedinurl" defaultvalue="" autocomplete="off" minlength="2">
+                                        <span class="help-block d-none has-error" id="stxtLinkedinurl">Please Enter Valid Linkedinurl</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                   @* <div class="col-4" id="divSalesLeadContactPerson1">
                         <div class="card card-widget widget-user-2 card-outline card-primary">
                             <div class="card-header">
                                 <h5 class="card-title"><b>Contact Person Details 1</b></h5>
@@ -265,7 +328,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-4"  id="divSalesLeadContactPerson3">
+                    <div class="col-4" id="divSalesLeadContactPerson3">
 
                         <div class="card card-widget widget-user-2  card-outline card-primary">
                             <div class="card-header">
@@ -322,7 +385,7 @@
 
                             </div>
                         </div>
-                    </div>
+                    </div>*@
                 </div>
 
             </div>
@@ -342,13 +405,6 @@
 
 </section>
 
-
-@*}
-else
-{
-    <H1 style="color:red; text-align: center"><b>This page is in under progress</b></H1>
-}*@
-
 @section Scripts{
-    <script src="~/archeone/js/sales/addeditsaleslead.js"></script>
+    <script src="~/archeone/js/sales/addeditsaleslead.js?_@DateTime.Now.Ticks"></script>
 }

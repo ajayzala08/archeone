@@ -52,8 +52,6 @@ $(document).ready(function () {
                     "IsActive": $("#chkIsActive").is(':checked'),
                 }
                 ajaxCall("Post", false, '/Requirement/SaveUpdateRequirement', JSON.stringify(reqData), function (result) {
-                    console.log(result)
-                    debugger
                     if (result.status == true) {
                         Toast.fire({ icon: 'success', title: result.message });
                         RedirectToPage("/Requirement/Index");
@@ -67,17 +65,17 @@ $(document).ready(function () {
             else {
                 Toast.fire({ icon: 'error', title: "Please enter Job Description!" });
             }
-           
+
         }
 
     });
 
     $("#btnCancelRequirement").click(function () {
+        $.blockUI();
         RedirectToPage("/Requirement/Index");
     });
 
     $("#ddlClients").change(function () {
-        debugger
         ajaxCall("Get", false, '/Requirement/GetJobCode?ClientId=' + $(this).val(), null, function (result) {
             if (result.status == true) {
                 $("#txtJobCode").val(result.data);
