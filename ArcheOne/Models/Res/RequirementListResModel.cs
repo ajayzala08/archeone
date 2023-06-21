@@ -5,6 +5,7 @@ namespace ArcheOne.Models.Res
     public class RequirementListResModel
     {
         public List<RequirementListModel> RequirementList { get; set; }
+        public List<KeyValueModel> RequirementStatusList { get; set; }
     }
 
     public class RequirementListModel

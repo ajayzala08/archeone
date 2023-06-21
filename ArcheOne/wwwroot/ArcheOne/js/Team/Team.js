@@ -1,13 +1,9 @@
 ﻿$(document).ready(function () {
     GetFilteredTeamList();
-    //debugger
     $('#AddTeamPage').click(function () {
         AddEditTeam(0);
     });
-    //debugger
-    //$("#btnCancel").click(function () {
-    //    window.location.href = '/Team/Team';
-    //});
+    
 });
 
 function GetFilteredTeamList() {
@@ -15,8 +11,8 @@ function GetFilteredTeamList() {
         $("#divTeamList").html(result.responseText);
         ApplyDatatableResponsive('tblTeam');
         $(".btn-edit").click(function () {
-            var TeamLeadId = $(this).attr('TeamLeadId');
-            AddEditTeam(TeamLeadId);
+            var Id = $(this).attr('Id');
+            AddEditTeam(Id);
         });
 
         $(".btn-delete").click(function () {
@@ -26,10 +22,17 @@ function GetFilteredTeamList() {
 
     });
 }
-
-function AddEditTeam(id) {
-    debugger
-    window.location.href = '/Team/AddEditTeam?id=' + id;
+function AddEditTeam(Id) {
+    ajaxCall("Get", false, '/Team/AddEditTeam?id=' + Id, null, function (result) {
+        if (Id > 0) {
+            RedirectToPage('/Team/AddEditTeam?id=' + Id)
+            $(".preview img").attr('src');
+            $(".preview img").show();
+        }
+        else {
+            RedirectToPage("/Team/AddEditTeam?id=")
+        }
+    });
 }
 
 
@@ -44,27 +47,6 @@ function SaveUpdateTeam() {
         "TeamId": parseInt($("#txtTeamId").val()),
         "TeamLeadId": parseInt($("#ddlTeamLeadId").val()),
         "TeamMemberId": parseInt($("#ddlTeamMemberId").multiselect())
-          
-
-//require(['bootstrap-multiselect'], function (purchase) {
-//    $('#mySelect').multiselect();
-//});
-
-        //TeamMemberId.each(function () {
-        //    arraSelect.push($(this).val());
-        //});
-            //$("#btnmyCountries").click(function () {
-            //    var selected = $("#myCountries option:selected");    /*Current Selected Value*/
-            //    var message = "";
-            //    var arrSelected = [];      /*Array to store multiple values in stack*/
-            //    selected.each(function () {
-            //        arrSelected.push($(this).val());    /*Stack the Value*/
-            //        message += $(this).text() + " " + $(this).val() + "\n";
-            //    });
-            //    alert(message);
-            //}); 
-
-
 
     }
     console.log(saveTeamData);
@@ -95,7 +77,7 @@ function DeleteTeam(Id) {
     if ($("#txtTeamId").value > 0) {
         Id = $("#txtTeamId").value;
     }
-    debugger
+ 
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -108,7 +90,6 @@ function DeleteTeam(Id) {
         if (result.isConfirmed) {
 
             ajaxCall("Post", false, '/Team/DeleteTeam?Id=' + Id, null, function (result) {
-                debugger
                 if (result.status == true) {
                     Popup_Toast.fire({ icon: 'success', title: result.message });
                     GetFilteredTeamList();

@@ -126,11 +126,13 @@ function GetUserList(RoleId) {
                 "filter": true, // this is for disable filter (search box)
                 "data": result.data,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+          
                 "columns": [
                     {
                         class: 'clsWrap',
                         data: null,
                         title: 'Action',
+                        
                         render: function (data, type, row) {
                             if (data) {
                                 var fullName = ' + data.fullName + '

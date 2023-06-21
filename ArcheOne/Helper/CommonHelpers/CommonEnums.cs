@@ -34,5 +34,12 @@
             Join,
             No_Show
         }
+
+        public enum ValidationTypes
+        {
+            NotNullOrEmpty,
+            OnlyDecimal,
+            OnlyDateTime
+        }
     }
 }

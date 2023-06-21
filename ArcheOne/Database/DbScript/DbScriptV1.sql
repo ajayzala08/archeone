@@ -413,29 +413,31 @@ IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo
 BEGIN 
 	Create table dbo.ResumeFileUploadDetailMst(
 			Id int identity(1,1) primary key,
-			ResumeFileUploadId int not null,
+			RequirementId int not null,
+			FileName nvarchar(100) not null,
+			FilePath nvarchar(MAX) not null,
 			FullName nvarchar(100) not null,
 			Mobile1 nvarchar(30) not null,
 			Mobile2 nvarchar(30) null,
 			Mobile3 nvarchar(30) null,
 			Email1 nvarchar(50) not null,
 			Email2 nvarchar(50) null,
-			TotalExperience_Annual decimal(18,0) not null,
-			RelevantExperience_Year decimal(18,0) not null,
+			TotalExperience_Annual decimal(38,17) not null,
+			RelevantExperience_Year decimal(38,17) not null,
 			HighestQualification nvarchar(100) not null,
 			GapReason nvarchar(max) null,
 			CurrentEmployer nvarchar(100) null,
 			CurrentDesignation nvarchar(max) null,
-			CurrentCTC_Annual decimal(18,0) not null,
-			CurrentTakeHome_Monthly decimal(18,0) not null,
+			CurrentCTC_Annual decimal(38,17) not null,
+			CurrentTakeHome_Monthly decimal(38,17) not null,
 			CurrentPFDeduction bit not null,
-			ExpectedCTC_Annual decimal(18,0) not null,
-			ExpectedTakeHome_Monthly decimal(18,0) not null,
+			ExpectedCTC_Annual decimal(38,17) not null,
+			ExpectedTakeHome_Monthly decimal(38,17) not null,
 			ExpectedPFDeduction bit not null,
 			LastSalaryHike nvarchar(100) null,
 			SalaryHikeReason nvarchar(max) null,
-			NoticePeriod_Days decimal(18,0) not null,
-			ExpectedJoinIn_Days decimal(18,0) not null,
+			NoticePeriod_Days decimal(38,17) not null,
+			ExpectedJoinIn_Days decimal(38,17) not null,
 			ReasonForEarlyJoin nvarchar(max) null,
 			OfferInHand bit not null,
 			OfferInHandReason nvarchar(max) null,
@@ -451,7 +453,7 @@ BEGIN
 			F2FInterviewTime datetime null,
 			Skills nvarchar(max) null,
 			JoinInDate date null,
-			OfferedPackageInLac decimal(18,0) null,
+			OfferedPackageInLac decimal(38,17) null,
 			JoinInNote nvarchar(max) null,
 			IsActive bit not null,
 			IsDelete bit not null,
@@ -988,4 +990,57 @@ END
 
 
 ----------------------------------------Added by DS on 19-06-23-----------------------------------End--------
----------------------------------------Executed on Local Server on 19-06-23------------------by DS-----------
+---------------------------------------Executed on Local Server on 19-06-23------------------by DS--------------------------------------------------Executed on Local Server on 16-06-23------------------by DS-----------
+
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'PolicyMst')
+BEGIN 
+	Create table dbo.PolicyMst(
+			Id int identity(1,1) primary key,
+			PolicyName nvarchar(100) not null,
+			PolicyDocumentName nvarchar(100) not null,
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'PolicyMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'PolicyMst Table Already Exist' 
+END
+
+----------------------------------------Added by SP on 19-06-23-----------------------------------End--------
+---------------------------------------Executed on Local Server on 19-06-23------------------by SP-----------
+
+Drop table dbo.ResumeFileUploadMst;
+
+----------------------------------------Added by TS on 20-06-23-----------------------------------End--------
+---------------------------------------Executed on Local Server on 20-06-23------------------by TS-----------
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'AppraisalMst')
+BEGIN 
+	Create table dbo.AppraisalMst(
+			Id int identity(1,1) primary key,
+			EmployeeId int not null,
+			ReportingManagerId int not null,
+			year nvarchar(100) not null,
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'AppraisalMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'AppraisalMst Table Already Exist' 
+END
+----------------------------------------Added by SP on 21-06-23-----------------------------------End--------
+---------------------------------------Executed on Local Server on 21-06-23------------------by SP-----------

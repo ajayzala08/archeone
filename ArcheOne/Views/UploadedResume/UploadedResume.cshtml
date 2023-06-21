@@ -3,7 +3,7 @@
     Layout = "_MasterLayout";
     ViewBag.datatable = "true";
 }
-@model List<PermissionMst>
+@model int
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -27,6 +27,7 @@
 
     <!-- Default box -->
     <div class="card">
+        <input type="hidden" id="requirementId" value="@Model"/>
         <div class="card-header d-flex p-0">
             <h3 class="card-title p-3">Uploaded Resumes</h3>
             <div class="card-tools ml-auto mr-2 p-2">
@@ -118,7 +119,7 @@
                                     <div class="row">
                                         <div class="form-group col-sm-12" id="dtxtInterviewDateTime">
                                             <label><span class="has-error required">* </span>Interview Date & Time</label>
-                                            <input id="txtInterviewDateTime" name="txtInterviewDateTime" type="datetime-local" class="form-control onlyletter txtCapitalize text-length" placeholder="Interview Date" isrequired="1" divcontainer="dtxtInterviewDateTime" errorspan="stxtInterviewDateTime" defaultvalue="" autocomplete="off" minlength="2">
+                                            <input id="txtInterviewDateTime" name="txtInterviewDateTime" type="datetime-local" class="form-control text-length" placeholder="Interview Date" isrequired="1" divcontainer="dtxtInterviewDateTime" errorspan="stxtInterviewDateTime" defaultvalue="" autocomplete="off" minlength="2">
                                             <span class="help-block d-none has-error" id="stxtInterviewDateTime">Please Select Interview Date & Time</span>
                                         </div>
                                     </div>
@@ -167,20 +168,28 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="modalNewResumeUpload">
+                        <div class="col-sm-12 mb-3">
+                        <i class="fas fa-download text-primary"></i><a href="~/theme/files/resumeformat_v1.docx"> Download Sample</a>
+                        </div>
                     <div class="col-sm-12" id="dtxtResumeUpload">
                         <div class="form-group">
-                            <div class="form-group">
-                                <label for="form_name">Photo *</label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input id="txtResumeUpload" type="file" name="txtResumeUpload" isrequired="0" divcontainer="dtxtResumeUpload" errorspan="stxtResumeUpload" defaultvalue="" autocomplete="off" class="custom-file-input" onchange="loadFile(event)" accept=".doc, .docx" />
-                                        <label class="custom-file-label" for="form_file">Choose file</label>
-                                    </div>
+                            <label for="form_name">Resume (.Doc Or .Docx only) *</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input id="txtResumeUpload" type="file" name="txtResumeUpload" isrequired="1" divcontainer="dtxtResumeUpload" errorspan="stxtResumeUpload" defaultvalue="" autocomplete="off" class="custom-file-input" onchange="loadFile(event)" accept=".doc, .docx" />
+                                    <label id="lblResumeUpload" class="custom-file-label" for="txtResumeUpload">Choose file</label>
                                 </div>
                             </div>
-                            <span class="help-block d-none has-error" id="stxtResumeUpload">Please select any file</span>
+                            <span class="help-block d-none has-error" id="stxtResumeUpload">Please select .Doc or .Docx file</span>
+                            <span class="text-danger" id="resumeValidationMessage"></span>
                         </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <button type="button" id="btnUploadResume" class="btn btn-success mr-2" onclick="UploadNewResume()">Upload</button>
+                        <button type="button" id="btnCancelUpload" data-dismiss="modal" class="btn btn-danger" onclick="CancelOffer()">Cancel</button>
                     </div>
                 </div>
             </div>

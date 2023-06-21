@@ -6,7 +6,6 @@
     LoadEmploymentTypeDDL();
     LoadRequirementStatusDDL();
 
-
     GetFilteredRequirementList();
 
     $("#btnAddRequirement").click(function () {
@@ -32,23 +31,73 @@ function GetFilteredRequirementList() {
         $("#divRequirementList").html(result.responseText);
         ApplyDatatableResponsive('tblRequirement');
 
+        $(".btn-resumes").click(function () {
+            RedirectToPage('/UploadedResume/UploadedResume?RequirementId=' + $(this).attr('RequirementId'));
+        });
+
         $(".btn-edit").click(function () {
             AddEditRequirement($(this).attr('RequirementId'));
         });
 
         $(".btn-delete").click(function () {
-            $.blockUI();
-            var requirementId = parseInt($(this).attr('RequirementId'));
-            ajaxCall("Post", false, '/Requirement/DeleteRequirement?RequirementId=' + requirementId, null, function (result) {
-                console.log(result)
-                debugger
-                if (result.status == true) {
-                    Toast.fire({ icon: 'success', title: result.message });
-                    RedirectToPage("/Requirement/Index");
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.blockUI();
+                    var requirementId = parseInt($(this).attr('RequirementId'));
+                    ajaxCall("Post", false, '/Requirement/DeleteRequirement?RequirementId=' + requirementId, null, function (result) {
+                        console.log(result)
+                        debugger
+                        if (result.status == true) {
+                            Toast.fire({ icon: 'success', title: result.message });
+                            RedirectToPage("/Requirement/Index");
+                        }
+                        else {
+                            Toast.fire({ icon: 'error', title: result.message });
+                            $.unblockUI();
+                        }
+                    });
                 }
-                else {
-                    Toast.fire({ icon: 'error', title: result.message });
-                    $.unblockUI();
+            });
+
+        });
+
+        $(".ddl-status").select2();
+
+        $(".ddl-status").change(function () {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't to change status!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, change it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.blockUI();
+                    var requirementId = parseInt($(this).attr('requirementId'));
+                    var requirementStatusId = parseInt($(this).val());
+                    debugger
+                    ajaxCall("Post", false, '/Requirement/ChangeStatus?RequirementId=' + requirementId + "&RequirementStatusId=" + requirementStatusId, null, function (result) {
+                        console.log(result)
+                        debugger
+                        if (result.status == true) {
+                            Toast.fire({ icon: 'success', title: result.message });
+                            RedirectToPage("/Requirement/Index");
+                        }
+                        else {
+                            Toast.fire({ icon: 'error', title: result.message });
+                            $.unblockUI();
+                        }
+                    });
                 }
             });
         });

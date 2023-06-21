@@ -1,0 +1,94 @@
+﻿@using ArcheOne.Helper.CommonModels;
+@using ArcheOne.Models.Res;
+@model AddEditAppraisalResModel
+
+@{
+    Layout = "_MasterLayout";
+}
+
+<section class="content-header"></section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                Create Policy
+                <h3 class="card-title"></h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <input id="txtAppraisalId" name="txtAppraisalId" type="hidden" class="form-control col-sm-4" value="@Model.Id" />
+                    <div class="col-sm-4" id="dddlEmployeeId">
+                        <div class="form-group">
+                            <label><span class="has-error required">* </span>Employee Name</label>
+                            <select id="ddlEmployeeId" name="ddlEmployeeId" class="form-control" isrequired="1" divcontainer="dddlEmployeeId" errorspan="sddlEmployeeId" defaultvalue="0" style="width: 100%;">
+                                <option value="0">--- Select ---</option>
+                                @foreach (var item in Model.EmployeeId)
+                                {
+                                    if (item.Id >0)
+                                    {
+                                        <option value="@item.Id" selected>@item.FirstName @item.LastName</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Id">@item.FirstName @item.LastName</option>
+                                    }
+                                }
+                               
+                            </select>
+                            <span class="help-block d-none has-error" id="sddlEmployeeId">Please select any Employee</span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4" id="dddlReportingManagerId">
+                        <div class="form-group">
+                            <label><span class="has-error required">* </span>Reporting Manager</label>
+                            <select id="ddlReportingManagerId" name="ddlReportingManagerId" class="form-control" isrequired="1" divcontainer="dddlReportingManagerId" errorspan="sddlReportingManagerId" defaultvalue="0" style="width: 100%;">
+                                <option value="0">--- Select ---</option>
+                                @foreach (var item in Model.ReportingManagerId)
+                                {
+                                    if (item.Id > 0)
+                                    {
+                                        <option value="@item.Id" selected>@item.FirstName @item.LastName</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Id">@item.FirstName @item.LastName</option>
+                                    }
+                                }
+
+                            </select>
+                            <span class="help-block d-none has-error" id="sddlReportingManagerId">Please select any Reporting Manager</span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4" id="dtxtYear">
+                        <div class="form-group">
+                            <label class="form-label"><span class="has-error required">* </span>Year</label>
+                            <input id="txtYear" type="text" name="Year" class="form-control text-length datepicker" placeholder="Please enter your Year" value="@Model.Year" isrequired="1" divcontainer="dtxtYear" errorspan="stxtYear" defaultvalue="" autocomplete="off" minlength="2">
+                            <span class="help-block d-none has-error" id="stxtYear">Please Enter Valid Year</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-1">
+                        <button type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success">Submit</button>
+                    </div>
+                    <div class="col-md-1">
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-danger">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+@*    <script src="~/archeone/js/policy/addeditpolicy.js?_@DateTime.Now.Ticks"></script>*@
+    <script src="~/archeone/js/appraisal/addeditappraisal.js?_@DateTime.Now.Ticks"></script>
+}

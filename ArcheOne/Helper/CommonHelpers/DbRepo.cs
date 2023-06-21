@@ -201,25 +201,13 @@ namespace ArcheOne.Helper.CommonHelpers
         {
             return _db.UserDetailsMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
-
-		public IQueryable<DepartmentMst> DepartmentList(bool IsDeleted = false, bool IsActive = true)
-		{
-			return _db.DepartmentMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
-		}
-
-		public IQueryable<DesignationMst> DesignationList(bool IsDeleted = false, bool IsActive = true)
-		{
-			return _db.DesignationMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
-		}
-
-		//public IQueryable<EmploymentTypeMst> EmploymentTypeList(bool IsDeleted = false, bool IsActive = true)
-		//{
-		//	return _db.EmploymentTypeMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
-		//}
-
-		public IQueryable<ReportingManagerMst> ReportingManagerList(bool IsDeleted = false, bool IsActive = true)
-		{
-			return _db.ReportingManagerMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
-		}
-	}
+        public IQueryable<PolicyMst> PolicyList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.PolicyMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+        public IQueryable<AppraisalMst> AppraisalList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.AppraisalMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+    }
 }

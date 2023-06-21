@@ -5,6 +5,7 @@ using ArcheOne.Models.Req;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Transactions;
+using Xceed.Words.NET;
 
 namespace ArcheOne.Controllers
 {
@@ -20,9 +21,9 @@ namespace ArcheOne.Controllers
             _dbContext = dbContext;
         }
 
-        public IActionResult UploadedResume()
+        public IActionResult UploadedResume(int RequirementId)
         {
-            return View();
+            return View(RequirementId);
         }
 
         public async Task<CommonResponse> GetUploadedResumeList(int ResumeFileUploadId)
@@ -429,6 +430,176 @@ namespace ArcheOne.Controllers
                 response.Message = ex.Message;
             }
             return response;
+        }
+
+        public async Task<CommonResponse> UploadNewResume(UploadResumeReqModel request)
+        {
+            CommonResponse response = new CommonResponse();
+            try
+            {
+                var fileUpload = _commonHelper.UploadFile(request.ResumeFile, @"Temp", string.Empty, false, true, true);
+                string filePath = fileUpload.Data.PhysicalPath;
+
+                using (var doc = DocX.Load(filePath))
+                {
+                    var tables = doc.Tables;
+                    var text = string.Empty;
+
+                    if (tables.Count > 0)
+                    {
+                        var validateResumeData = ValidateResumeData(tables[0]);
+                        if (validateResumeData.Status)
+                        {
+                            System.IO.File.Delete(filePath);
+
+                            fileUpload = _commonHelper.UploadFile(request.ResumeFile, @"Resumes", string.Empty, false, true, true);
+                            filePath = fileUpload.Data.RelativePath;
+
+                            int userId = _commonHelper.GetLoggedInUserId();
+
+                            ResumeFileUploadDetailMst resumeFileUploadDetailMst = validateResumeData.Data;
+                            resumeFileUploadDetailMst.RequirementId = request.RequirementId;
+                            resumeFileUploadDetailMst.FilePath = filePath;
+                            resumeFileUploadDetailMst.FileName = filePath.Split("\\").Last();
+
+                            resumeFileUploadDetailMst.IsActive = true;
+                            resumeFileUploadDetailMst.IsDelete = false;
+                            resumeFileUploadDetailMst.CreatedBy = userId;
+                            resumeFileUploadDetailMst.UpdatedBy = userId;
+                            resumeFileUploadDetailMst.CreatedDate = _commonHelper.GetCurrentDateTime();
+                            resumeFileUploadDetailMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+
+                            await _dbContext.AddAsync(resumeFileUploadDetailMst);
+                            await _dbContext.SaveChangesAsync();
+
+                            response.Status = true;
+                            response.StatusCode = System.Net.HttpStatusCode.OK;
+                            response.Message = "Resume uploaded successfully!";
+                        }
+                        else
+                        {
+                            return validateResumeData;
+                        }
+                    }
+                    else
+                    {
+                        response.Message = "Please upload resume in given format only!";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
+        private CommonResponse ValidateResumeData(Xceed.Document.NET.Table table)
+        {
+            CommonResponse response = new CommonResponse();
+            string errorMessage = string.Empty;
+            Dictionary<int, string> keyValuePairs = new Dictionary<int, string>();
+
+            for (int i = 1; i < table.RowCount; i++)
+            {
+                keyValuePairs.Add(i, table.Rows[i].Cells[1].Paragraphs.Last().Text);
+            }
+
+            string NotNull = CommonEnums.ValidationTypes.NotNullOrEmpty.ToString();
+            string OnlyDecimal = CommonEnums.ValidationTypes.OnlyDecimal.ToString();
+            string OnlyDateTime = CommonEnums.ValidationTypes.OnlyDateTime.ToString();
+
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[1]) ? "" : "- Full Name can not be empty!\n";
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[2]) ? "" : "- Self Mobile No. can not be empty!\n";
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[5]) ? "" : "- Email can not be empty!\n";
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[6]) ? CheckFieldValidation(OnlyDecimal, keyValuePairs[6]) ? "" : "- Only Decimal value is allowed in Total experience!\n" : "- Total experience can not be empty!\n";
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[7]) ? CheckFieldValidation(OnlyDecimal, keyValuePairs[7]) ? "" : "- Only Decimal value is allowed in Relevant experience!\n" : "- Relevant experience can not be empty!\n";
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[8]) ? "" : "- Highest qualification can not be empty!\n";
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[12]) ? CheckFieldValidation(OnlyDecimal, keyValuePairs[12]) ? "" : "- Only Decimal value is allowed in Current CTC (Annual)!\n" : "- Current CTC (Annual) can not be empty!\n";
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[13]) ? CheckFieldValidation(OnlyDecimal, keyValuePairs[13]) ? "" : "- Only Decimal value is allowed in Current take home (Monthly)!\n" : "- Current take home (Monthly) can not be empty!\n";
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[16]) ? CheckFieldValidation(OnlyDecimal, keyValuePairs[16]) ? "" : "- Only Decimal value is allowed in Expected CTC (Annual)!\n" : "- Expected CTC (Annual) can not be empty!\n";
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[17]) ? CheckFieldValidation(OnlyDecimal, keyValuePairs[17]) ? "" : "- Only Decimal value is allowed in Expected take home (Monthly)!\n" : "- Expected take home (Monthly) can not be empty!\n";
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[21]) ? CheckFieldValidation(OnlyDecimal, keyValuePairs[20]) ? "" : "- Only Decimal value is allowed in Official notice period (Days)!\n" : "- Official notice period (Days) can not be empty!\n";
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[21]) ? CheckFieldValidation(OnlyDecimal, keyValuePairs[21]) ? "" : "- Only Decimal value is allowed in Can join in (Days)!\n" : "- Can join in (Days) can not be empty!\n";
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[24]) ? "" : "- Does candidate have documents can not be empty!\n";
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[25]) ? "" : "- Current location can not be empty!\n";
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[26]) ? "" : "- Work location can not be empty!\n";
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[28]) ? "" : "- Native place can not be empty!\n";
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[29]) ? CheckFieldValidation(OnlyDateTime, keyValuePairs[29]) ? "" : "- Only dd/MM/yyyy format is allowed in Date of birth!\n" : "- Date of birth can not be empty!\n";
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[30]) ? "" : "- PAN Card No. can not be empty!\n";
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[31]) ? "" : CheckFieldValidation(OnlyDateTime, keyValuePairs[31], "dd/MM/yyyy hh:mm tt") ? "- Only dd/MM/yyyy hh:mm tt (31/12/2000 01:59 PM) format is allowed in Telephonic interview timing!\n" : "";
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[32]) ? "" : CheckFieldValidation(OnlyDateTime, keyValuePairs[32], "dd/MM/yyyy hh:mm tt") ? "- Only dd/MM/yyyy hh:mm tt (31/12/2000 01:59 PM) format is allowed in F2F interview availability!\n" : "";
+            errorMessage += CheckFieldValidation(NotNull, keyValuePairs[33]) ? "" : "- Skills can not be empty!\n";
+
+            if (errorMessage == string.Empty)
+            {
+                ResumeFileUploadDetailMst resumeFileUploadDetailMst = new ResumeFileUploadDetailMst();
+                resumeFileUploadDetailMst.FullName = keyValuePairs[1];
+                resumeFileUploadDetailMst.Mobile1 = keyValuePairs[2];
+                resumeFileUploadDetailMst.Mobile2 = keyValuePairs[3];
+                resumeFileUploadDetailMst.Mobile3 = keyValuePairs[4];
+                resumeFileUploadDetailMst.Email1 = keyValuePairs[5];
+                resumeFileUploadDetailMst.TotalExperienceAnnual = Convert.ToDecimal(keyValuePairs[6]);
+                resumeFileUploadDetailMst.RelevantExperienceYear = Convert.ToDecimal(keyValuePairs[7]);
+                resumeFileUploadDetailMst.HighestQualification = keyValuePairs[8];
+                resumeFileUploadDetailMst.GapReason = keyValuePairs[9];
+                resumeFileUploadDetailMst.CurrentEmployer = keyValuePairs[10];
+                resumeFileUploadDetailMst.CurrentDesignation = keyValuePairs[11];
+                resumeFileUploadDetailMst.CurrentCtcAnnual = Convert.ToDecimal(keyValuePairs[12]);
+                resumeFileUploadDetailMst.CurrentTakeHomeMonthly = Convert.ToDecimal(keyValuePairs[13]);
+                resumeFileUploadDetailMst.CurrentPfdeduction = Convert.ToString(keyValuePairs[14]).ToLower() == "yes" ? true : false;
+                resumeFileUploadDetailMst.LastSalaryHike = keyValuePairs[15];
+                resumeFileUploadDetailMst.ExpectedCtcAnnual = Convert.ToDecimal(keyValuePairs[16]);
+                resumeFileUploadDetailMst.ExpectedTakeHomeMonthly = Convert.ToDecimal(keyValuePairs[17]);
+                resumeFileUploadDetailMst.ExpectedPfdeduction = Convert.ToString(keyValuePairs[18]).ToLower() == "yes" ? true : false;
+                resumeFileUploadDetailMst.SalaryHikeReason = keyValuePairs[19];
+                resumeFileUploadDetailMst.NoticePeriodDays = Convert.ToDecimal(keyValuePairs[20]);
+                resumeFileUploadDetailMst.ExpectedJoinInDays = Convert.ToDecimal(keyValuePairs[21]);
+                resumeFileUploadDetailMst.ReasonForEarlyJoin = keyValuePairs[22];
+                resumeFileUploadDetailMst.OfferInHand = Convert.ToString(keyValuePairs[23]).ToLower() == "yes" ? true : false;
+                resumeFileUploadDetailMst.HasAllDocuments = Convert.ToString(keyValuePairs[24]).ToLower() == "yes" ? true : false;
+                resumeFileUploadDetailMst.CurrentLocation = keyValuePairs[25];
+                resumeFileUploadDetailMst.WorkLocation = keyValuePairs[26];
+                resumeFileUploadDetailMst.ReasonForRelocation = keyValuePairs[27];
+                resumeFileUploadDetailMst.NativePlace = keyValuePairs[28];
+                resumeFileUploadDetailMst.Dob = Convert.ToDateTime(keyValuePairs[29]);
+                resumeFileUploadDetailMst.Pan = keyValuePairs[30];
+
+                DateTime interviewTime;
+                resumeFileUploadDetailMst.TeleInterviewTime = _commonHelper.IsValidDateTime(keyValuePairs[31], "dd/MM/yyyy hh:mm tt", out interviewTime) ? interviewTime : null;
+                resumeFileUploadDetailMst.F2favailability = resumeFileUploadDetailMst.TeleInterviewTime != null ? true : false;
+                resumeFileUploadDetailMst.F2finterviewTime = _commonHelper.IsValidDateTime(keyValuePairs[32], "dd/MM/yyyy hh:mm tt", out interviewTime) ? interviewTime : null;
+                resumeFileUploadDetailMst.Skills = keyValuePairs[33];
+
+                response.Status = true;
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+                response.Data = resumeFileUploadDetailMst;
+                response.Message = "Validation success!";
+            }
+            else
+            {
+                response.Data = errorMessage;
+                response.Message = "Please verify and correct all the errors and validation from the uploaded resume!";
+            }
+
+            return response;
+        }
+
+        private bool CheckFieldValidation(string fieldValidationType, string value, string? dateTimeFormat = "dd/MM/yyyy")
+        {
+            if (fieldValidationType.Contains(CommonEnums.ValidationTypes.NotNullOrEmpty.ToString()))
+            {
+                return !string.IsNullOrEmpty(value);
+            }
+            else if (fieldValidationType.Contains(CommonEnums.ValidationTypes.OnlyDecimal.ToString()))
+            {
+                return _commonHelper.IsValidDecimal(value);
+            }
+            else if (fieldValidationType.Contains(CommonEnums.ValidationTypes.OnlyDateTime.ToString()))
+            {
+                return _commonHelper.IsValidDateTime(value, dateTimeFormat, out _);
+            }
+            else { return false; }
         }
     }
 }

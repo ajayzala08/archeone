@@ -1,0 +1,166 @@
+﻿@using ArcheOne.Models.Res;
+@model ProfileResModel;
+@{
+    Layout = "_MasterLayout";
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>View Profile</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">User</a></li>
+                    <li class="breadcrumb-item active">User Profile</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title"><b>View Profile</b></h3>
+        </div>
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group mx-auto" id="divUserImage">
+                        <img src="..\@Model.ProfileImage" class="img-fluid d-block mx-auto w-100 h-100 img-thumbnail border border-secondary my-pointer" data-toggle="modal" data-target="#modalProfileImageUpload" />
+                    </div>
+                    <div class="form-group mx-auto text-center" id="divUserName">
+
+                        <label class="label label-default">@Model.FullName</label>
+                        <p class="label label-warning">Project Manager</p>
+                        <p class="label label-warning">@Model.Address</p>
+                    </div>
+
+                </div>
+                <div class="col-md-1">
+                    <center>
+                        <div class="vr" style="height: 500px; outline-style: solid; color: gray; width:0px;">
+                        </div>
+                    </center>
+                </div>
+                <div class="col-md-8 ">
+
+                    <div class="row form-group border-bottom border-light">
+                        <div class="col-md-2">
+                            <label class="form-label">Employee Code</label>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="label label-warning">001</span>
+                        </div>
+                    </div>
+                    <div class="row form-group border-bottom border-light">
+                        <div class="col-md-2">
+                            <label class="form-label">Full Name</label>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="label label-warning">@Model.FullName</span>
+                        </div>
+                    </div>
+                    <div class="row form-group border-bottom border-light">
+                        <div class="col-md-2">
+                            <label class="form-label">Designation</label>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="label label-warning">@Model.Designation</span>
+                        </div>
+                    </div>
+                    <div class="row form-group border-bottom border-light">
+                        <div class="col-md-2">
+                            <label class="form-label">Contact No.</label>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="label label-warning">@Model.Mobile</span>
+                        </div>
+                    </div>
+                    <div class="row form-group border-bottom border-light">
+                        <div class="col-md-2">
+                            <label class="form-label">Email</label>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="label label-warning">@Model.Email</span>
+                        </div>
+                    </div>
+                    <div class="row form-group border-bottom border-light">
+                        <div class="col-md-2">
+                            <label class="form-label">Address</label>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="label label-warning">@Model.Address</span>
+                        </div>
+                    </div>
+                    <div class="row form-group border-bottom border-light">
+                        <div class="col-md-2">
+                            <label class="form-label">Date of Birth</label>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="label label-warning">@Model.DOB</span>
+                        </div>
+                    </div>
+                    <div class="row form-group border-bottom border-light">
+                        <div class="col-md-2">
+                            <label class="form-label">Blood Group</label>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="label label-warning">@Model.BloodGroup</span>
+                        </div>
+                    </div>
+                    <div class="row form-group border-bottom border-light">
+                        <div class="col-md-2">
+                            <label class="form-label">Joining Date</label>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="label label-warning">@Model.DOJ</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="card-footer">
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="modalProfileImageUpload">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Change Profile Image</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-sm-12" id="modal">
+                        <div class="form-group" id="dfileProfileImage">
+                            <label for="form_name">Image (Jpg,Jpeg or Png only) *</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input id="fileProfileImage" type="file" name="fileProfileImage" isrequired="1" divcontainer="dfileProfileImage" errorspan="sfileProfileImage" defaultvalue="" autocomplete="off" class="custom-file-input" onchange="loadFile(event)" accept=".jpg, .jpeg, .png" />
+                                    <label id="lblProfileImage" class="custom-file-label">Choose file</label>
+                                </div>
+                            </div>
+                            <span class="help-block d-none has-error" id="sfileProfileImage">Please select Jpg,Jpeg or Png</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" id="btnChangeProfileImage" name="btnChangeProfileImage" class="btn btn-primary float-right" value="Change" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts
+    {
+    <script src="~/archeone/js/profile/changeprofile.js?_@DateTime.Now.Ticks"></script>
+    }

@@ -13,6 +13,7 @@
         public const string jpg = ".jpg";
         public const string xlsx = ".xlsx";
         public const string png = ".png";
+        public const string pdf = ".pdf";
         #endregion
 
         #region Roles

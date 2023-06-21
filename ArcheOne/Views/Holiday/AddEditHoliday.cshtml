@@ -26,7 +26,7 @@
 
                     <div class="col-sm-4" id="dtxtHolidayName">
                         <div class="form-group">
-                            <label for="form_name">Holiday Name *</label>
+                            <label class="form-label"><span class="has-error required">* </span>Holiday Name</label>
                             <input id="txtHolidayName" type="text" name="HolidayName" class="form-control text-length datepicker" placeholder="Please enter your HolidayName" value="@Model.HolidayName" isrequired="1" divcontainer="dtxtHolidayName" errorspan="stxtHolidayName" defaultvalue="" autocomplete="off" minlength="2">
                             <span class="help-block d-none has-error" id="stxtHolidayName">Please Enter Valid HolidayName</span>
                         </div>
@@ -36,7 +36,7 @@
                         <div class="row">
                             <div class="form-group col-sm-12" id="dtxtHolidayDate">
                                 <label><span class="has-error required">* </span>Holiday Date</label>
-                                <input id="txtHolidayDate" name="txtHolidayDate" type="text" class="form-control datepicker" value="@Model.HolidayDate" isrequired="1" divcontainer="dtxtHolidayDate" errorspan="stxtHolidayDate" defaultvalue="">
+                                <input id="txtHolidayDate" data-format="dd/MM/yyyy hh:mm:ss" name="txtHolidayDate" type="text" class="form-control datepicker" value="@Model.HolidayDate" isrequired="1" divcontainer="dtxtHolidayDate" errorspan="stxtHolidayDate" defaultvalue="">
                                 <span class="help-block d-none has-error" id="stxtHolidayDate">Please Select Holiday Date</span>
                             </div>
                         </div>
