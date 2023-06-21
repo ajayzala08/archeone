@@ -72,6 +72,7 @@ namespace ArcheOne.Controllers
 
                 var list = await requirementList.ToListAsync();
                 requirementListResModel.RequirementList = new List<RequirementListModel>();
+                requirementListResModel.RequirementStatusList = await _dbRepo.RequirementStatusList().Select(x => new KeyValueModel { Id = x.Id, Name = x.RequirementStatusName }).ToListAsync();
                 foreach (var item in list)
                 {
                     var requirementForDetail = await requirementForList.FirstOrDefaultAsync(x => x.Id == item.RequirementForId);
@@ -284,6 +285,31 @@ namespace ArcheOne.Controllers
                     commonResponse.Message = "Data not found!";
                     commonResponse.StatusCode = HttpStatusCode.NotFound;
                 }
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message;
+            }
+            return Json(commonResponse);
+        }
+
+        public async Task<IActionResult> GetJobCode(int ClientId)
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            try
+            {
+                string jobCode = "";
+                var clientDetail = await _dbRepo.ClientList().FirstOrDefaultAsync(x => x.Id == ClientId);
+                int requirementCount = await _dbRepo.RequirementList().CountAsync() + 1;
+                if (clientDetail != null)
+                {
+                    jobCode = jobCode + clientDetail.ClientName.ToUpper().Substring(0, 2) +"-"+ requirementCount;
+                }
+
+                commonResponse.Status = true;
+                commonResponse.StatusCode = HttpStatusCode.OK;
+                commonResponse.Message = "Success!";
+                commonResponse.Data = jobCode;
             }
             catch (Exception ex)
             {

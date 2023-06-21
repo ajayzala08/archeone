@@ -1,5 +1,7 @@
 ﻿using ArcheOne.Database.Entities;
 using ArcheOne.Helper.CommonHelpers;
+using ArcheOne.Helper.CommonModels;
+using ArcheOne.Models.Req;
 using ArcheOne.Models.Res;
 using Microsoft.AspNetCore.Mvc;
 
@@ -82,6 +84,73 @@ namespace ArcheOne.Controllers
 
             //_dbRepo.UserMstList().FirstOrDefault(x => x.Id == _commonHelper.GetLoggedInUserId());
             return View(profileResModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangeProfileImage(ChangeProfileImageReqModel changeProfileImageReqModel)
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            try
+            {
+                var loggedInUserDetails = _dbRepo.UserMstList().FirstOrDefault(x => x.Id == _commonHelper.GetLoggedInUserId());
+                if (loggedInUserDetails != null)
+                {
+
+                    IFormFile file;
+                    string fileName = string.Empty;
+                    bool validateFileExtension = false;
+                    bool validateFileSize = false;
+                    string filePath = string.Empty;
+                    UserMst userMst = new UserMst();
+                    if (changeProfileImageReqModel.UserImage != null)
+                    {
+                        file = changeProfileImageReqModel.UserImage;
+                        fileName = file.FileName;
+                        FileInfo fileInfo = new FileInfo(fileName);
+                        string fileExtension = fileInfo.Extension;
+                        long fileSize = file.Length;
+
+                        string[] allowedFileExtensions = { CommonConstant.jpeg, CommonConstant.png, CommonConstant.jpg };
+                        long allowedFileSize = 1 * 1024 * 1024 * 10; // 10MB
+                        validateFileExtension = allowedFileExtensions.Contains(fileExtension) ? true : false;
+                        validateFileSize = fileSize <= allowedFileSize ? true : false;
+                        fileName = loggedInUserDetails.UserName + loggedInUserDetails.Id + fileExtension;
+                        if (validateFileExtension && validateFileSize)
+                        {
+                            var imageFile = _commonHelper.UploadFile(changeProfileImageReqModel.UserImage, @"UserProfile", fileName, false, true, false);
+                            filePath = imageFile.Data;
+                            if (!string.IsNullOrEmpty(filePath))
+                            {
+                                loggedInUserDetails.PhotoUrl = filePath;
+                                _dbContext.UserMsts.Update(loggedInUserDetails);
+                                await _dbContext.SaveChangesAsync();
+                                commonResponse.Status = true;
+                                commonResponse.StatusCode = System.Net.HttpStatusCode.OK;
+                                commonResponse.Message = "Profile image changed successfully.";
+
+                            }
+                            else
+                            {
+                                commonResponse.Message = "Failed to change Profile Image !";
+                            }
+                        }
+                        else
+                        {
+                            commonResponse.Message = "Only jpg and png files are Allowed !";
+                        }
+                    }
+                }
+                else
+                {
+                    commonResponse.Message = "User details not found !";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message;
+                commonResponse.Data = ex;
+            }
+            return Json(commonResponse);
         }
     }
 }

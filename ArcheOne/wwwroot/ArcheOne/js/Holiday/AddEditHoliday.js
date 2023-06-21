@@ -1,12 +1,8 @@
 ﻿$(document).ready(function () {
-    //$("#txtHolidayDate").datepicker({
-    //    format: 'dd/mm/yyyy'
-    //});
     $('#txtHolidayDate').datepicker({
-        /*  minDate: new Date(),*/
         dateFormat: 'dd-mm-yy'
-      
     });
+
     $("#btnSaveAdd").click(function () {
         SaveUpdateHoliday();
     });
@@ -18,15 +14,14 @@
 });
 
 function SaveUpdateHoliday() {
-    debugger
+ 
     var saveHolidayData = {
         "Id": parseInt($("#txtHolidayId").val()),
         "HolidayName": $("#txtHolidayName").val(),
-        "HolidayDate": $.datepicker.formatDate("yy-mm-dd", $('#txtHolidayDate').datepicker('getDate'))//$("#txtHolidayDate").datepicker({ dateFormat: 'yyyy-mm-dd' }).val()
-       /* "HolidayDate": getDateFromFields("txtHolidayDate"),*/
+        "HolidayDate": $.datepicker.formatDate("yy-mm-dd", $('#txtHolidayDate').datepicker('getDate')),
     }
     console.log(saveHolidayData);
-    debugger
+    
 
     if (validateRequiredFields()) {
         ajaxCall("Post", false, '/Holiday/SaveUpdateHoliday', JSON.stringify(saveHolidayData), function (result) {

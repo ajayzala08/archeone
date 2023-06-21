@@ -126,7 +126,6 @@
 
         </div>
         <div class="card-footer">
-            <input type="button" id="btnCancelRequirement" name="btnCancelRequirement" class="btn btn-danger float-right" value="Cancel" />
         </div>
 
     </div>
@@ -141,31 +140,19 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="col-sm-12" id="dfileProfileImage">
-                        <div class="form-group">
-                            <label>Photo <span class="has-error d-none">*</span> </label>
-                            <input id="fileProfileImage" type="file" name="fileProfileImage" isRequired="1" divcontainer="dfileProfileImage" errorspan="sfileProfileImage" defaultvalue="" class="form-control" autocomplete="off" accept=".jpg, .jpeg, .png" />
-                            <span class="help-block d-none has-error" id="sfileProfileImage">Please select any file</span>
-
-                        </div>
-
-                    </div>
-                    <div class="col-sm-12" id="dtxtResumeUpload">
-                        <div class="form-group">
-                            <div class="form-group">
-                                <label for="form_name">Photo *</label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input id="txtResumeUpload" type="file" name="txtResumeUpload" isrequired="0" divcontainer="dtxtResumeUpload" errorspan="stxtResumeUpload" defaultvalue="" autocomplete="off" class="custom-file-input" onchange="loadFile(event)" accept=".doc, .docx" />
-                                        <label class="custom-file-label" for="form_file">Choose file</label>
-                                    </div>
+                    <div class="col-sm-12" id="modal">
+                        <div class="form-group" id="dfileProfileImage">
+                            <label for="form_name">Image (Jpg,Jpeg or Png only) *</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input id="fileProfileImage" type="file" name="fileProfileImage" isrequired="1" divcontainer="dfileProfileImage" errorspan="sfileProfileImage" defaultvalue="" autocomplete="off" class="custom-file-input" onchange="loadFile(event)" accept=".jpg, .jpeg, .png" />
+                                    <label id="lblProfileImage" class="custom-file-label">Choose file</label>
                                 </div>
                             </div>
-                            <span class="help-block d-none has-error" id="stxtResumeUpload">Please select any file</span>
+                            <span class="help-block d-none has-error" id="sfileProfileImage">Please select Jpg,Jpeg or Png</span>
                         </div>
                     </div>
                 </div>
-
                 <div class="modal-footer">
                     <input type="button" id="btnChangeProfileImage" name="btnChangeProfileImage" class="btn btn-primary float-right" value="Change" />
                 </div>
@@ -175,5 +162,5 @@
 </section>
 @section Scripts
     {
-    <script src="~/archeone/js/profile/changeprofile.js"></script>
+    <script src="~/archeone/js/profile/changeprofile.js?_@DateTime.Now.Ticks"></script>
     }

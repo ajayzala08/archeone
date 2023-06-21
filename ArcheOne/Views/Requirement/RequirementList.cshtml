@@ -23,6 +23,7 @@
                 <thead>
                     <tr>
                         <td>Actions</td>
+                        <td>Status</td>
                         <td>Id</td>
                         <td>Job Code</td>
                         <td>Main Skills</td>
@@ -50,6 +51,21 @@
                             <td>
                                 <i class="fa fa-pen pen btn-edit" RequirementId="@item.RequirementId" style="cursor: pointer;"></i> &nbsp; | &nbsp;
                                 <i class="fa fa-trash trash btn-delete" RequirementId="@item.RequirementId" style="cursor: pointer;"></i>
+                            </td>
+                            <td>
+                                <select id="ddlRequirementStatus" name="ddlRequirementStatus" class="form-control select2" isRequired="1" divcontainer="dddlRequirementStatus" errorspan="sddlRequirementStatus" defaultvalue="0">
+                                    @foreach (var statusItem in Model.Data.RequirementStatusList)
+                                    {
+                                        if (statusItem.Id == item.RequirementStatusId)
+                                        {
+                                            <option value="@statusItem.Id" selected>@statusItem.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@statusItem.Id">@statusItem.Name</option>
+                                        }
+                                    }
+                                </select>
                             </td>
                             <td>@item.RequirementId</td>
                             <td>@item.JobCode</td>

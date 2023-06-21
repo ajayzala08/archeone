@@ -68,5 +68,14 @@ $(document).ready(function () {
     $("#btnCancelRequirement").click(function () {
         RedirectToPage("/Requirement/Index");
     });
+
+    $("#ddlClients").change(function () {
+        debugger
+        ajaxCall("Get", false, '/Requirement/GetJobCode?ClientId=' + $(this).val(), null, function (result) {
+            if (result.status == true) {
+                $("#txtJobCode").val(result.data);
+            }
+        });
+    });
 });
 
