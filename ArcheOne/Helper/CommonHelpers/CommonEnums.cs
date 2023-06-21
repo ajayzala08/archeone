@@ -2,6 +2,12 @@
 {
     public class CommonEnums
     {
+        public enum RoleMst
+        {
+            Super_Admin = 1,
+            Admin,
+            Project_Manager
+        }
         public enum InterviewRoundStatusMst
         {
             Scheduled = 1,
