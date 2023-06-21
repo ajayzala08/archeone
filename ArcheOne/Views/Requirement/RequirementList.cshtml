@@ -4,6 +4,7 @@
 @{
     Layout = "_BlankLayout";
     ViewBag.dataTable = "true";
+    ViewBag.select2 = "true";
 }
 <style>
     td {
@@ -47,13 +48,14 @@
 
                     @foreach (var item in list)
                     {
-                        <tr>
+                        <tr style="white-space:nowrap;">
                             <td>
+                                <i class="fa fa-file-word btn-resumes" RequirementId="@item.RequirementId" style="cursor: pointer; color:darkblue"></i> &nbsp; | &nbsp;
                                 <i class="fa fa-pen pen btn-edit" RequirementId="@item.RequirementId" style="cursor: pointer;"></i> &nbsp; | &nbsp;
                                 <i class="fa fa-trash trash btn-delete" RequirementId="@item.RequirementId" style="cursor: pointer;"></i>
                             </td>
                             <td>
-                                <select id="ddlRequirementStatus" name="ddlRequirementStatus" class="form-control select2" isRequired="1" divcontainer="dddlRequirementStatus" errorspan="sddlRequirementStatus" defaultvalue="0">
+                                <select id="ddlRequirementStatus" name="ddlRequirementStatus" class="form-control select2 ddl-status" isRequired="1" divcontainer="dddlRequirementStatus" errorspan="sddlRequirementStatus" defaultvalue="0" style="width:110px;" requirementId="@item.RequirementId">
                                     @foreach (var statusItem in Model.Data.RequirementStatusList)
                                     {
                                         if (statusItem.Id == item.RequirementStatusId)

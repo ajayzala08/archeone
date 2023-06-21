@@ -3,21 +3,13 @@ using System.Collections.Generic;
 
 namespace ArcheOne.Database.Entities;
 
-public partial class ResumeFileUploadMst
+public partial class DesignationMst
 {
     public int Id { get; set; }
 
-    public int RequirementId { get; set; }
+    public string Designation { get; set; } = null!;
 
-    public string FileName { get; set; } = null!;
-
-    public string FileExtension { get; set; } = null!;
-
-    public string FileSize { get; set; } = null!;
-
-    public string FilePath { get; set; } = null!;
-
-    public bool IsActive { get; set; }
+    public bool? IsActive { get; set; }
 
     public bool IsDelete { get; set; }
 

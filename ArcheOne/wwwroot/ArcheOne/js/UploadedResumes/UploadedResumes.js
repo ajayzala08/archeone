@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    GetUploadedResumes(1);
+    GetUploadedResumes($("#requirementId").val());
 
     $("#dRemoteLocation").hide();
     $('input[type=radio][name=rdInterviewMedium]').change(function () {
@@ -161,7 +161,7 @@ function ScheduleInterview() {
 
 
         var requestModel = {
-            "ResumeFileUploadId": 1,
+            "ResumeFileUploadId": $("#requirementId").val(),
             "InterviewRoundId": parseInt($("#txtInterviewRoundId").val()) || 0,
             "ResumeFileUploadDetailId": parseInt($("#txtCandidateId").val()),
             "InterviewRoundTypeId": isWalkIn ? 0 : parseInt($("#ddlInterviewVia").val()),
@@ -429,13 +429,23 @@ function UploadNewResume() {
         var file = $("#txtResumeUpload").get(0).files[0];
         var formData = new FormData();
 
-        formData.append('requirementId', 1);
+        formData.append('requirementId', $("#requirementId").val());
         formData.append('resumeFile', file);
 
         ajaxCallWithoutDataType("Post", false, '/UploadedResume/UploadNewResume', formData, function (result) {
             if (result.status == true) {
+
+                $('#resumeValidationMessage').html();
                 Toast.fire({ icon: 'success', title: result.message });
+                setInterval(function () {
+                    window.location.reload();
+                }, 1500);
             } else {
+                var data = result.data;
+                if (data != null) {
+                    data = data.replaceAll('\n', "</br>");
+                }
+                $('#resumeValidationMessage').html(data);
                 Toast.fire({ icon: 'error', title: result.message });
             }
             $.unblockUI();

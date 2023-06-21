@@ -1,7 +1,6 @@
 ﻿$(document).ready(function () {
 
     $("#btnSaveAdd").click(function () {
-        debugger
         SaveUpdatePolicy();
     });
 
@@ -12,20 +11,18 @@
 });
 
 function SaveUpdatePolicy() {
-    debugger
     if (window.FormData !== undefined) {
-        $.blockUI();
-       /* var file = $("#txtPolicyFile").get(0).files[0];*/
+        
         var savePolicyData = new FormData();
         var file = $("#txtPolicyFile").get(0).files[0];
         savePolicyData.append("Id", parseInt($("#txtPolicyId").val()));
         savePolicyData.append("PolicyName", ($("#txtPolicyName").val()));
-        savePolicyData.append("PolicyDocument", file);
+        savePolicyData.append("PolicyDocumentName", file);
 
         console.log(savePolicyData);
-        debugger
 
-        if (validateRequiredFields()) {
+        if (validateRequiredFieldsByGroup('divUploadFile')) {
+            $.blockUI();
             ajaxCallWithoutDataType("Post", false, '/Policy/SaveUpdatePolicy', savePolicyData, function (result) {
                 if (result.status == true) {
                     Toast.fire({ icon: 'success', title: result.message });
