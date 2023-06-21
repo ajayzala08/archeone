@@ -15,8 +15,8 @@ function GetFilteredTeamList() {
         $("#divTeamList").html(result.responseText);
         ApplyDatatableResponsive('tblTeam');
         $(".btn-edit").click(function () {
-            var TeamLeadId = $(this).attr('TeamLeadId');
-            AddEditTeam(TeamLeadId);
+            var Id = $(this).attr('Id');
+            AddEditTeam(Id);
         });
 
         $(".btn-delete").click(function () {
@@ -27,9 +27,23 @@ function GetFilteredTeamList() {
     });
 }
 
-function AddEditTeam(id) {
-    debugger
-    window.location.href = '/Team/AddEditTeam?id=' + id;
+//function AddEditTeam(id) {
+//    debugger
+//    window.location.href = '/Team/AddEditTeam?id=' + id;
+
+//}
+
+function AddEditTeam(Id) {
+    ajaxCall("Get", false, '/Team/AddEditTeam?id=' + Id, null, function (result) {
+        if (Id > 0) {
+            RedirectToPage('/Team/AddEditTeam?id=' + Id)
+            $(".preview img").attr('src');
+            $(".preview img").show();
+        }
+        else {
+            RedirectToPage("/Team/AddEditTeam?id=")
+        }
+    });
 }
 
 
