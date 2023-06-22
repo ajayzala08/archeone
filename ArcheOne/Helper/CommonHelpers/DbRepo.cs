@@ -32,9 +32,9 @@ namespace ArcheOne.Helper.CommonHelpers
             return _db.CompanyMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
 
-        public IQueryable<RoleMst> RoleMstList(bool IsDeleted = false, bool IsActive = true)
+        public IQueryable<RoleMst> RoleMstList(bool IsDeleted = false, bool IsActive = true, bool withSuperAdmin = false)
         {
-            return _db.RoleMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive && x.Id != CommonConstant.Super_Admin).AsQueryable();
+            return _db.RoleMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive && (!withSuperAdmin ? x.Id != CommonConstant.Super_Admin : true)).AsQueryable();
         }
 
         public IQueryable<DefaultPermission> DefaultPermissionList(bool IsDeleted = false, bool IsActive = true)
@@ -221,5 +221,13 @@ namespace ArcheOne.Helper.CommonHelpers
 		{
 			return _db.ReportingManagerMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
 		}
-	}
+        public IQueryable<UserDocumentMst> UserDocumentList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.UserDocumentMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+        public IQueryable<DocumentTypeMst> DocumentTypeList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.DocumentTypeMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+    }
 }

@@ -50,9 +50,9 @@
 								<div class="form-group">
 									<label><span class="has-error required"></span>Gender</label>
 									<select id="ddlGender" name="ddlGender" class="form-control" isrequired="1" divcontainer="dddlGender" errorspan="sddlGender" defaultvalue="0" style="width: 100%;" value="@Model.UserDetail.Gender">
-										<option value="male">Male</option>
-										<option value="female">Female</option>
-										<option value="other">Other</option>
+										<option value="male" selected>Male</option>
+										<option value="female" selected>Female</option>
+										<option value="other" selected>Other</option>
 									</select>
 									<span class="help-block d-none has-error" id="sddlGender">Please select any gender</span>
 								</div>
@@ -103,7 +103,14 @@
 									<select id="ddlDepartment" name="ddlDepartment" class="form-control" isrequired="1" divcontainer="dddlDepartment" errorspan="sddlGender" defaultvalue="0" style="width: 100%;">
 										@foreach (var item in Model.DepartmentList)
 										{
-											<option value="@item.Id">@item.DepartmentName</option>
+											if (item.Id == Department)
+											{
+												<option value="@item.Id" selected>@item.DepartmentName</option>
+											}
+											else
+											{
+												<option value="@item.Id">@item.DepartmentName</option>
+											}
 										}
 									</select>
 									<span class="help-block d-none has-error" id="sddlDepartment">Please select any Department</span>
@@ -115,7 +122,14 @@
 									<select id="ddlDesignation" name="ddlDesignation" class="form-control" isrequired="1" divcontainer="dddlDesignation" errorspan="sddlGender" defaultvalue="0" style="width: 100%;">
 										@foreach (var item in Model.DesignationList)
 										{
-											<option value="@item.Id">@item.Designation</option>
+											if (item.Id == Designation)
+											{
+												<option value="@item.Id" selected>@item.Designation</option>
+											}
+											else
+											{
+												<option value="@item.Id">@item.Designation</option>
+											}
 										}
 									</select>
 									<span class="help-block d-none has-error" id="sddlDesignation">Please select any Designation</span>
@@ -211,7 +225,14 @@
 									<select id="ddlReportingManager" name="ddlReportingManager" class="form-control" isrequired="1" divcontainer="dddlReportingManager" errorspan="sddlGender" defaultvalue="0" style="width: 100%;">
 										@foreach (var item in Model.ReportingManagerList)
 										{
-											<option value="@item.Id">@item.ReportingManager</option>
+											if (item.Id == ReportingManager)
+											{
+												<option value="@item.Id" selected>@item.ReportingManager</option>
+											}
+											else
+											{
+												<option value="@item.Id">@item.ReportingManager</option>
+											}
 										}
 									</select>
 									<span class="help-block d-none has-error" id="sddlReportingManager">Please select any ReportingManager</span>

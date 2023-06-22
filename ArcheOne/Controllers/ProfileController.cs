@@ -4,6 +4,7 @@ using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models.Req;
 using ArcheOne.Models.Res;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace ArcheOne.Controllers
@@ -22,30 +23,35 @@ namespace ArcheOne.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Viewprofile()
+        public async Task<IActionResult> ViewProfile()
         {
             CommonResponse commonResponse = new CommonResponse();
             try
             {
-                var userMst = _dbRepo.UserMstList().FirstOrDefault(x => x.Id == _commonHelper.GetLoggedInUserId());
+                var userMst = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == _commonHelper.GetLoggedInUserId());
                 if (userMst != null)
                 {
-                    var userDetails = _dbRepo.UserDetailList().FirstOrDefault(x => x.UserId == _commonHelper.GetLoggedInUserId());
+                    var userDetails = await (from userDetail in _dbRepo.UserDetailList()
+                                             where userDetail.UserId == _commonHelper.GetLoggedInUserId()
+                                             join designationDetails in _dbRepo.DesignationList() on userDetail.Designation equals designationDetails.Id
+                                             select new { userDetail, designationDetails }).FirstOrDefaultAsync();
                     ProfileResModel profileResModel = new ProfileResModel()
                     {
                         UserId = userMst != null ? userMst.Id : 0,
                         FullName = userMst != null ? (userMst.FirstName.ToString() + " " + userMst.MiddleName.ToString() + " " + userMst.LastName.ToString()) : "",
-                        EmployeeCode = userDetails != null ? userDetails.EmployeeCode.ToString() : "",
-                        DOB = userDetails != null ? userDetails.Dob.ToString("dd MMMM yyyy") : "",
-                        DOJ = userDetails != null ? userDetails.JoinDate.ToString("dd MMMM yyyy") : "",
-                        ProfileImage = userMst != null ? (userMst.PhotoUrl.ToString() != "" ? userMst.PhotoUrl.ToString() : "Theme\\Logo\\default_user_profile.png") : "Theme\\Logo\\default_user_profile.png",
+                        EmployeeCode = userDetails != null ? userDetails.userDetail.EmployeeCode.ToString() : "",
+                        DOB = userDetails != null ? userDetails.userDetail.Dob.ToString("dd MMMM yyyy") : "",
+                        DOJ = userDetails != null ? userDetails.userDetail.JoinDate.ToString("dd MMMM yyyy") : "",
+                        ProfileImage = userMst != null ? System.IO.File.Exists(Path.Combine(_commonHelper.GetPhysicalRootPath(false), userMst.PhotoUrl)) ? Path.Combine(@"\", userMst.PhotoUrl) :
+                              @"\Theme\Logo\default_user_profile.png" : "Theme\\Logo\\default_user_profile.png",
                         Address = userMst != null ? ($"{userMst.Address.ToString()} {userMst.Pincode.ToString()}") : "",
-                        //Designation = userDetails != null ? userDetails.Designation : "",
+                        Designation = userDetails != null ? userDetails.designationDetails.Designation : "",
                         Email = userMst != null ? userMst.Email : "",
                         Mobile = userMst != null ? userMst.Mobile1 : "",
-                        BloodGroup = userDetails != null ? userDetails.BloodGroup : ""
+                        BloodGroup = userDetails != null ? userDetails.userDetail.BloodGroup : ""
 
                     };
+
                     commonResponse.Data = profileResModel;
                     commonResponse.StatusCode = HttpStatusCode.OK;
                     commonResponse.Status = true;
@@ -65,7 +71,7 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
             try
             {
-                var loggedInUserDetails = _dbRepo.UserMstList().FirstOrDefault(x => x.Id == _commonHelper.GetLoggedInUserId());
+                var loggedInUserDetails = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == _commonHelper.GetLoggedInUserId());
                 if (loggedInUserDetails != null)
                 {
 
