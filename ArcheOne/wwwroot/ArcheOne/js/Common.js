@@ -211,7 +211,12 @@ function applyRequiredValidation() {
 }
 
 function validateReqField(obj) {
-    if ($(obj).val().trim() == $(obj).attr("defaultvalue")) {
+    if (Array.isArray($(obj).val()) && $(obj).val().length === 0) {
+        $("#" + $(obj).attr("errorspan")).removeClass('d-none');
+        $("#" + $(obj).attr("divcontainer")).addClass('has-error');
+        $("#" + $(obj).attr("id")).addClass('is-invalid');
+    }
+    else if (!Array.isArray($(obj).val()) && $(obj).val().trim() == $(obj).attr("defaultvalue")) {
         $("#" + $(obj).attr("errorspan")).removeClass('d-none');
         $("#" + $(obj).attr("divcontainer")).addClass('has-error');
         $("#" + $(obj).attr("id")).addClass('is-invalid');
@@ -281,6 +286,7 @@ function ApplyDatatableResponsive(id) {
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo(datatableWrapper + ' .col-md-6:eq(0)');
 }
+
 function getDateFromFields(fieldId) {
     var dtParts = $("#" + fieldId).val().split('/');
     var monthName = "";

@@ -23,6 +23,8 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<CompanyMst> CompanyMsts { get; set; }
 
+    public virtual DbSet<DailyTaskMst> DailyTaskMsts { get; set; }
+
     public virtual DbSet<DefaultPermission> DefaultPermissions { get; set; }
 
     public virtual DbSet<DepartmentMst> DepartmentMsts { get; set; }
@@ -52,6 +54,8 @@ public partial class ArcheOneDbContext : DbContext
     public virtual DbSet<PolicyMst> PolicyMsts { get; set; }
 
     public virtual DbSet<PositionTypeMst> PositionTypeMsts { get; set; }
+
+    public virtual DbSet<ProjectMst> ProjectMsts { get; set; }
 
     public virtual DbSet<ReportingManagerMst> ReportingManagerMsts { get; set; }
 
@@ -86,11 +90,8 @@ public partial class ArcheOneDbContext : DbContext
     public virtual DbSet<UserPermission> UserPermissions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-
-    }
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseSqlServer("Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -211,6 +212,19 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.Pincode).HasMaxLength(10);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             entity.Property(e => e.Website).HasMaxLength(100);
+        });
+
+        modelBuilder.Entity<DailyTaskMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__DailyTas__3214EC07BC9B704D");
+
+            entity.ToTable("DailyTaskMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.TaskDate).HasColumnType("datetime");
+            entity.Property(e => e.TaskStatus).HasMaxLength(30);
+            entity.Property(e => e.TimeSpent).HasMaxLength(100);
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<DefaultPermission>(entity =>
@@ -388,6 +402,18 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.PositionTypeCode).HasMaxLength(100);
             entity.Property(e => e.PositionTypeName).HasMaxLength(100);
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<ProjectMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__ProjectM__3214EC07CA345D17");
+
+            entity.ToTable("ProjectMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.ProjectName).HasMaxLength(100);
+            entity.Property(e => e.ProjectStatus).HasMaxLength(30);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 

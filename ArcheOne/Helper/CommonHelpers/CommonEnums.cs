@@ -66,5 +66,13 @@
             OnlyDecimal,
             OnlyDateTime
         }
+
+        public enum ProjectStatus
+        {
+            ToDo = 1,
+            InProgress,
+            OnHold,
+            Completed
+        }
     }
 }

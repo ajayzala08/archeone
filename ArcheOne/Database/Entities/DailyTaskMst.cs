@@ -3,13 +3,21 @@ using System.Collections.Generic;
 
 namespace ArcheOne.Database.Entities;
 
-public partial class PermissionMst
+public partial class DailyTaskMst
 {
     public int Id { get; set; }
 
-    public string PermissionName { get; set; } = null!;
+    public int ProjectId { get; set; }
 
-    public string PermissionCode { get; set; } = null!;
+    public DateTime TaskDate { get; set; }
+
+    public string TaskStatus { get; set; } = null!;
+
+    public string TimeSpent { get; set; } = null!;
+
+    public string TaskModule { get; set; } = null!;
+
+    public string TaskDescription { get; set; } = null!;
 
     public bool IsActive { get; set; }
 

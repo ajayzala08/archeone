@@ -1017,10 +1017,14 @@ END
 ----------------------------------------Added by SP on 19-06-23-----------------------------------End--------
 ---------------------------------------Executed on Local Server on 19-06-23------------------by SP-----------
 
+
+----------------------------------------Added by TS on 20-06-23-----------------------------------Start------
+
 Drop table dbo.ResumeFileUploadMst;
 
 ----------------------------------------Added by TS on 20-06-23-----------------------------------End--------
 ---------------------------------------Executed on Local Server on 20-06-23------------------by TS-----------
+
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
 			TABLE_NAME = 'AppraisalMst')
 BEGIN 
@@ -1044,3 +1048,56 @@ BEGIN
 END
 ----------------------------------------Added by SP on 21-06-23-----------------------------------End--------
 ---------------------------------------Executed on Local Server on 21-06-23------------------by SP-----------
+
+
+----------------------------------------Added by TS on 22-06-23-----------------------------------Start------
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'ProjectMst')
+BEGIN 
+	Create table dbo.ProjectMst (
+		Id int primary key identity(1,1), 
+		ProjectName nvarchar(100) not null, 
+		Resources nvarchar(max)  not null, 
+		ProjectStatus nvarchar(30) not null, 
+		IsActive bit not null,
+		IsDelete bit not null, 
+		CreatedBy int not null, 
+		UpdatedBy int not null,
+		CreatedDate datetime not null, 
+		UpdatedDate datetime not null
+		);
+	PRINT 'ProjectMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'ProjectMst Table Already Exist' 
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'DailyTaskMst')
+BEGIN 
+	Create table DailyTaskMst (
+		Id int primary key identity(1,1),
+		ProjectId int  not null, 
+		TaskDate datetime not null,
+		TaskStatus nvarchar(30) not null,
+		TimeSpent nvarchar(100) not null,
+		TaskModule nvarchar(max) not null,
+		TaskDescription nvarchar(max) not null,
+		IsActive bit not null, 
+		IsDelete bit not null,
+		CreatedBy int not null, 
+		UpdatedBy int not null, 
+		CreatedDate datetime not null,
+		UpdatedDate datetime not null
+		);
+	PRINT 'DailyTaskMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'DailyTaskMst Table Already Exist' 
+END
+
+----------------------------------------Added by TS on 22-06-23-----------------------------------End--------
+---------------------------------------Executed on Local Server on 22-06-23------------------by TS-----------

@@ -209,17 +209,27 @@ namespace ArcheOne.Helper.CommonHelpers
         {
             return _db.AppraisalMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
-		public IQueryable<DepartmentMst> DepartmentList(bool IsDeleted = false, bool IsActive = true)
-		{
-			return _db.DepartmentMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
-		}
-		public IQueryable<DesignationMst> DesignationList(bool IsDeleted = false, bool IsActive = true)
-		{
-			return _db.DesignationMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
-		}
-		public IQueryable<ReportingManagerMst> ReportingManagerList(bool IsDeleted = false, bool IsActive = true)
-		{
-			return _db.ReportingManagerMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
-		}
-	}
+        public IQueryable<DepartmentMst> DepartmentList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.DepartmentMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+        public IQueryable<DesignationMst> DesignationList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.DesignationMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+        public IQueryable<ReportingManagerMst> ReportingManagerList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.ReportingManagerMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+
+        public IQueryable<ProjectMst> ProjectList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.ProjectMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+
+        public IQueryable<DailyTaskMst> DailyTaskList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.DailyTaskMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+    }
 }
