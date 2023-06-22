@@ -1,7 +1,6 @@
 ﻿$(document).ready(function () {
 
     $("#btnSaveAdd").click(function () {
-        debugger
         SaveUpdateAppraisal();
     });
 
@@ -20,15 +19,12 @@ function SaveUpdateAppraisal() {
             "ReportingManagerId": parseInt($("#ddlReportingManagerId").val()),
             "Year": $("#txtYear").val(),
         }
-        debugger
         console.log(saveAppraisalData);
 
 
         if (validateRequiredFields()) {
             $.blockUI();
-            debugger
             ajaxCall("Post", false, '/Appraisal/SaveUpdateAppraisal', JSON.stringify(saveAppraisalData), function (result) {
-
                 if (result.status == true) {
                     Popup_Toast.fire({ icon: 'success', title: result.message });
                     $("#btnCancel").click();

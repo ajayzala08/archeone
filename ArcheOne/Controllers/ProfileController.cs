@@ -40,7 +40,7 @@ namespace ArcheOne.Controllers
                         DOJ = userDetails != null ? userDetails.JoinDate.ToString("dd MMMM yyyy") : "",
                         ProfileImage = userMst != null ? (userMst.PhotoUrl.ToString() != "" ? userMst.PhotoUrl.ToString() : "Theme\\Logo\\default_user_profile.png") : "Theme\\Logo\\default_user_profile.png",
                         Address = userMst != null ? ($"{userMst.Address.ToString()} {userMst.Pincode.ToString()}") : "",
-                        Designation = userDetails != null ? userDetails.Designation : "",
+                        //Designation = userDetails != null ? userDetails.Designation : "",
                         Email = userMst != null ? userMst.Email : "",
                         Mobile = userMst != null ? userMst.Mobile1 : "",
                         BloodGroup = userDetails != null ? userDetails.BloodGroup : ""

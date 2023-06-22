@@ -53,7 +53,6 @@ function SaveUpdateTeam() {
 
     if (validateRequiredFields()) {
         ajaxCall("Post", false, '/Team/SaveUpdateTeam', JSON.stringify(saveTeamData), function (result) {
-            debugger
             if (result.status == true) {
                 Popup_Toast.fire({ icon: 'success', title: result.message });
                 $("#btnCancel").click();
