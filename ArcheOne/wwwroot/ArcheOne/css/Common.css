@@ -23,6 +23,10 @@
     color: #125fb2
 }
 
+.clsWrap{
+    white-space:nowrap!important
+}
+
 .my-pointer{
     cursor:pointer;
 }

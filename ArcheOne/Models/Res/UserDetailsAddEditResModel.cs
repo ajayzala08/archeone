@@ -1,8 +1,21 @@
-﻿namespace ArcheOne.Models.Req
+﻿using ArcheOne.Database.Entities;
+using ArcheOne.Models.Req;
+
+namespace ArcheOne.Models.Res
 {
-	public class AddEditUserDetailsReqModel
+	public class UserDetailsAddEditResModel
+	{
+		public List<DepartmentMst> DepartmentList { get; set; }
+		public List<EmploymentTypeMst> EmploymentTypeList { get; set; }
+		public List<DesignationMst> DesignationList { get; set; }
+		public List<ReportingManagerMst> ReportingManagerList { get; set; }
+		public UserDetails UserDetail { get; set; }
+	}
+
+	public class UserDetails
 	{
 		public int Id { get; set; }
+
 		public int UserId { get; set; }
 
 		public string EmployeeCode { get; set; } = null!;
@@ -11,7 +24,7 @@
 
 		public string EmergencyContact { get; set; } = null!;
 
-		public DateTime Dob { get; set; } 
+		public string Dob { get; set; } = null!;
 
 		public string PostCode { get; set; } = null!;
 
@@ -25,9 +38,9 @@
 
 		public string BloodGroup { get; set; } = null!;
 
-		public DateTime OfferDate { get; set; }
+		public string OfferDate { get; set; } = null!;
 
-		public DateTime JoinDate { get; set; }
+		public string JoinDate { get; set; } = null!;
 
 		public string BankName { get; set; } = null!;
 
@@ -52,5 +65,7 @@
 		public string EmployeePersonalEmailId { get; set; } = null!;
 
 		public string ProbationPeriod { get; set; } = null!;
+
+		public bool? IsActive { get; set; }
 	}
 }

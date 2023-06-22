@@ -34,7 +34,6 @@ function SaveSalesLead() {
         "WebsiteUrl": $("#txtWebsite").val()
     }
     console.log(saveData);
-    debugger
     if (validateRequiredFields()) {
         ajaxCall("Post", false, '/SalesLead/SaveUpdateSalesLead', JSON.stringify(saveData), function (result) {
 

@@ -2,7 +2,6 @@
     $('.select2').select2()
 
     $("#btnSaveAdd").click(function () {
-        debugger
         SaveUpdateTeam();
     });
   
@@ -25,10 +24,8 @@ function SaveUpdateTeam() {
         "TeamMemberId": $("#ddlTeamMemberId").val().map(Number)
     }
     console.log(saveTeamData);
-    debugger
     if (validateRequiredFields()) {
         ajaxCall("Post", false, '/Team/SaveUpdateTeam', JSON.stringify(saveTeamData), function (result) {
-            debugger
             if (result.status == true) {
                 Popup_Toast.fire({ icon: 'success', title: result.message });
                 $("#btnCancel").click();

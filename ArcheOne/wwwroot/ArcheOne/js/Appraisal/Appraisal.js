@@ -1,38 +1,43 @@
 ﻿$(document).ready(function () {
-    GetFilteredHolidayList();
-    $('#AddHoliday').click(function () {
-        AddEditHoliday(0);
+    GetAppraisalList();
+    $('#AddAppraisal').click(function () {
+      
+        AddEditAppraisal(0);
     });
- 
+
 });
 
-function GetFilteredHolidayList() {
-    ajaxCall("Get", false, '/Holiday/HolidayList', null, function (result) {
-        $("#divHolidayList").html(result.responseText);
-        ApplyDatatableResponsive('tblHoliday');
-        
+function GetAppraisalList() {
+
+    ajaxCall("Get", false, '/Appraisal/AppraisalList', null, function (result) {
+        $("#divAppraisalList").html(result.responseText);
+        ApplyDatatableResponsive('tblAppraisal');
+
         $(".btn-edit").click(function () {
-           
+
             var Id = $(this).attr('Id');
-            AddEditHoliday(Id);
+            AddEditAppraisal(Id);
         });
 
         $(".btn-delete").click(function () {
             Id = $(this).attr('Id');
-            DeleteHoliday(Id);
+            DeleteAppraisal(Id);
         });
 
     });
 }
 
-function AddEditHoliday(Id) {
-    window.location.href = '/Holiday/AddEditHoliday?Id=' + Id;
+
+function AddEditAppraisal(Id) {
+   
+    window.location.href = '/Appraisal/AddEditAppraisal?Id=' + Id;
 }
 
-function DeleteHoliday(Id) {
+function DeleteAppraisal(Id) {
     if ($("#txtId").value > 0) {
         Id = $("#txtId").value;
     }
+
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -44,10 +49,11 @@ function DeleteHoliday(Id) {
     }).then((result) => {
         if (result.isConfirmed) {
 
-            ajaxCall("Post", false, '/Holiday/DeleteHoliday?Id=' + Id, null, function (result) {
+            ajaxCall("Post", false, '/Appraisal/DeleteAppraisal?Id=' + Id, null, function (result) {
+
                 if (result.status == true) {
                     Popup_Toast.fire({ icon: 'success', title: result.message });
-                    GetFilteredHolidayList();
+                    GetAppraisalList();
                 }
                 else {
                     Popup_Toast.fire({ icon: 'error', title: result.message });

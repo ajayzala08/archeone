@@ -19,11 +19,11 @@ public partial class UserDetailsMst
 
     public string PostCode { get; set; } = null!;
 
-    public string EmploymentType { get; set; } = null!;
+    public int EmploymentType { get; set; }
 
-    public string Department { get; set; } = null!;
+    public int Department { get; set; }
 
-    public string Designation { get; set; } = null!;
+    public int Designation { get; set; }
 
     public string Location { get; set; } = null!;
 
@@ -49,7 +49,7 @@ public partial class UserDetailsMst
 
     public decimal Salary { get; set; }
 
-    public string ReportingManager { get; set; } = null!;
+    public int ReportingManager { get; set; }
 
     public string Reason { get; set; } = null!;
 

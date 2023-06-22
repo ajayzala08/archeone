@@ -33,13 +33,14 @@ namespace ArcheOne.Controllers
         public IActionResult PolicyList()
         {
             CommonResponse commonResponse = new CommonResponse();
-            PolicyMst policyMst = new PolicyMst();
-            var policyList = _dbRepo.PolicyList().ToList();
+
+            List<GetPolicyListResModel> getPolicyListResModel = new List<GetPolicyListResModel>();
             try
             {
+                PolicyMst policyMst = new PolicyMst();
+                var policyList = _dbRepo.PolicyList().ToList();
                 if (policyList.Count > 0)
                 {
-                    List<GetPolicyListResModel> getPolicyListResModel = new List<GetPolicyListResModel>();
                     getPolicyListResModel = _dbRepo.PolicyList().Where(x => x.IsActive == true && x.IsDelete == false).Select(x => new GetPolicyListResModel
                     {
                         Id = x.Id,
@@ -65,7 +66,7 @@ namespace ArcheOne.Controllers
                 commonResponse.Data = ex.Message;
                 commonResponse.Status = false;
             }
-            return View(commonResponse.Data);
+            return View(getPolicyListResModel);
         }
 
         public IActionResult AddEditPolicy(int Id)
@@ -82,8 +83,8 @@ namespace ArcheOne.Controllers
 
                     addEditPolicyReqModel.Id = policyList.Id;
                     addEditPolicyReqModel.PolicyName = policyList.PolicyName;
-                    //addEditPolicyReqModel.PolicyDocumentName = policyList.PolicyDocumentName;
-                    addEditPolicyReqModel.PolicyDocumentName = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), policyList.PolicyDocumentName));
+                    addEditPolicyReqModel.PolicyDocumentName = policyList.PolicyDocumentName;
+                    //addEditPolicyReqModel.PolicyDocumentName = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), policyList.PolicyDocumentName));
                     //       byte[] FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), policyList.PolicyDocumentName));
 
                     commonResponse.Status = true;
@@ -134,8 +135,16 @@ namespace ArcheOne.Controllers
                     fileName = policySaveUpdateReqModel.PolicyName + policySaveUpdateReqModel.Id + fileExtension;
                     if (validateFileExtension && validateFileSize)
                     {
-                        var policyFile = _commonHelper.UploadFile(policySaveUpdateReqModel.PolicyDocumentName, @"PolicyDocument", fileName, false, true, false);
-                        filePath = policyFile.Data.RelativePath;
+                        if (policySaveUpdateReqModel.PolicyName == "HRPolicy")
+                        {
+                            var policyFile = _commonHelper.UploadFile(policySaveUpdateReqModel.PolicyDocumentName, @"DefaultPolicyDocument", fileName, false, true, false);
+                            filePath = policyFile.Data.RelativePath;
+                        }
+                        else
+                        {
+                            var policyFile = _commonHelper.UploadFile(policySaveUpdateReqModel.PolicyDocumentName, @"PolicyDocument", fileName, false, true, false);
+                            filePath = policyFile.Data.RelativePath;
+                        }
 
                     }
                     else
@@ -174,8 +183,8 @@ namespace ArcheOne.Controllers
                         policyMst.PolicyDocumentName = filePath;
                         policyMst.CreatedDate = _commonHelper.GetCurrentDateTime();
                         policyMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                        policyMst.CreatedBy = 1;
-                        policyMst.UpdatedBy = 1;
+                        policyMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+                        policyMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
                         policyMst.IsActive = true;
                         policyMst.IsDelete = false;
 
@@ -217,7 +226,7 @@ namespace ArcheOne.Controllers
 
                         commonResponse.Status = true;
                         commonResponse.StatusCode = HttpStatusCode.OK;
-                        commonResponse.Message = "Holiday Deleted Successfully";
+                        commonResponse.Message = "Policy Deleted Successfully";
                     }
                     else
                     {
@@ -242,14 +251,21 @@ namespace ArcheOne.Controllers
 
         }
 
-        public FileResult GetPolicyReport(int Id)
+        public FileResult GetPolicyReport(int? Id)
         {
             var policyList = _dbRepo.PolicyList().FirstOrDefault(x => x.Id == Id);
+
             string ReportURL = policyList.PolicyDocumentName;
             byte[] FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), policyList.PolicyDocumentName));
+            if (policyList == null)
+            {
+                ReportURL = policyList.PolicyDocumentName;
+                string DefaultPolicy = "Files\\DefaultPolicyDocument\\HRPolicy0.pdf";
+                FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), DefaultPolicy));
 
+            }
             return File(FileBytes, "application/pdf");
-            
+
         }
 
     }

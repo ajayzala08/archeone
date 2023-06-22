@@ -54,7 +54,6 @@ function GetFilteredRequirementList() {
                     var requirementId = parseInt($(this).attr('RequirementId'));
                     ajaxCall("Post", false, '/Requirement/DeleteRequirement?RequirementId=' + requirementId, null, function (result) {
                         console.log(result)
-                        debugger
                         if (result.status == true) {
                             Toast.fire({ icon: 'success', title: result.message });
                             RedirectToPage("/Requirement/Index");
@@ -85,10 +84,8 @@ function GetFilteredRequirementList() {
                     $.blockUI();
                     var requirementId = parseInt($(this).attr('requirementId'));
                     var requirementStatusId = parseInt($(this).val());
-                    debugger
                     ajaxCall("Post", false, '/Requirement/ChangeStatus?RequirementId=' + requirementId + "&RequirementStatusId=" + requirementStatusId, null, function (result) {
                         console.log(result)
-                        debugger
                         if (result.status == true) {
                             Toast.fire({ icon: 'success', title: result.message });
                             RedirectToPage("/Requirement/Index");

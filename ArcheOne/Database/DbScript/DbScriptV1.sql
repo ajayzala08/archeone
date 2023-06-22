@@ -891,6 +891,107 @@ END
 ----------------------------------------Added by DS on 16-06-23-----------------------------------End--------
 ---------------------------------------Executed on Local Server on 16-06-23------------------by DS-----------
 
+----------------------------------------Added by DS on 19-06-23-----------------------------------Start--------
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'DepartmentMst')
+BEGIN 
+	Create table dbo.DepartmentMst(
+			Id int identity(1,1) primary key,
+			DepartmentName nvarchar(100) not null,
+			DepartmentCode nvarchar(100) not null,
+			IsActive bit default(1) not null,
+			IsDelete bit default(0) not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'DepartmentMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'DepartmentMst Table Already Exist' 
+END
+
+
+----------------------------------------Added by DS on 19-06-23-----------------------------------End--------
+---------------------------------------Executed on Local Server on 19-06-23------------------by DS-----------
+
+----------------------------------------Added by DS on 19-06-23-----------------------------------Start--------
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'EmploymentTypeMst')
+BEGIN 
+	Create table dbo.EmploymentTypeMst(
+			Id int identity(1,1) primary key,
+			EmploymentType nvarchar(100) not null,
+			IsActive bit default(1) not null,
+			IsDelete bit default(0) not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'EmploymentTypeMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'EmploymentTypeMst Table Already Exist' 
+END
+
+
+----------------------------------------Added by DS on 19-06-23-----------------------------------End--------
+---------------------------------------Executed on Local Server on 19-06-23------------------by DS-----------
+
+----------------------------------------Added by DS on 19-06-23-----------------------------------Start--------
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'DesignationMst')
+BEGIN 
+	Create table dbo.DesignationMst(
+			Id int identity(1,1) primary key,
+			Designation nvarchar(100) not null,
+			IsActive bit default(1) not null,
+			IsDelete bit default(0) not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'DesignationMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'DesignationMst Table Already Exist' 
+END
+
+
+----------------------------------------Added by DS on 19-06-23-----------------------------------End--------
+---------------------------------------Executed on Local Server on 19-06-23------------------by DS-----------
+
+----------------------------------------Added by DS on 19-06-23-----------------------------------Start--------
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'ReportingManagerMst')
+BEGIN 
+	Create table dbo.ReportingManagerMst(
+			Id int identity(1,1) primary key,
+			ReportingManager nvarchar(100) not null,
+			IsActive bit default(1) not null,
+			IsDelete bit default(0) not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'ReportingManagerMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'ReportingManagerMst Table Already Exist' 
+END
+
+
+----------------------------------------Added by DS on 19-06-23-----------------------------------End--------
+---------------------------------------Executed on Local Server on 19-06-23------------------by DS--------------------------------------------------Executed on Local Server on 16-06-23------------------by DS-----------
+
 
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
 			TABLE_NAME = 'PolicyMst')
@@ -920,3 +1021,26 @@ Drop table dbo.ResumeFileUploadMst;
 
 ----------------------------------------Added by TS on 20-06-23-----------------------------------End--------
 ---------------------------------------Executed on Local Server on 20-06-23------------------by TS-----------
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'AppraisalMst')
+BEGIN 
+	Create table dbo.AppraisalMst(
+			Id int identity(1,1) primary key,
+			EmployeeId int not null,
+			ReportingManagerId int not null,
+			year nvarchar(100) not null,
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'AppraisalMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'AppraisalMst Table Already Exist' 
+END
+----------------------------------------Added by SP on 21-06-23-----------------------------------End--------
+---------------------------------------Executed on Local Server on 21-06-23------------------by SP-----------

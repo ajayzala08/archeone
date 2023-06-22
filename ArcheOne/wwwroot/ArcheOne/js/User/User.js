@@ -4,6 +4,7 @@ $(document).ready(function () {
     //GetFilteredUserList();
     $("#btnAddUser").click(function () {
         AddEditUser(0);
+        /*manageUserDetails(0);*/
     });
     GetRoleList();
 });
@@ -29,6 +30,19 @@ function manageUserDetails(Id) {
     ajaxCall("Post", false, '/UserDetails/AddEditUserDetails?userId=' + Id, null, function (result) {
         if (Id > 0) {
             RedirectToPage('/UserDetails/AddEditUserDetails?userId=' + Id)
+        }
+        else {
+            RedirectToPage("/UserDetails/AddEditUserDetails")
+        }
+    });
+}
+
+function AddEditUserDetails(Id) {
+    ajaxCall("Get", false, '/UserDetails/AddEditUserDetails?Id=' + Id, null, function (result) {
+        if (Id > 0) {
+            RedirectToPage('/UserDetails/AddEditUserDetails?Id=' + Id)
+            $(".preview img").attr('src');
+            $(".preview img").show();
         }
         else {
             RedirectToPage("/UserDetails/AddEditUserDetails")
@@ -114,6 +128,7 @@ function GetUserList(RoleId) {
           
                 "columns": [
                     {
+                        class: 'clsWrap',
                         data: null,
                         title: 'Action',
                         
