@@ -1,4 +1,5 @@
 ﻿@inject IHttpContextAccessor HttpContextAccessor
+@using ArcheOne.Helper.CommonHelpers;
 @using ArcheOne.Models.Res;
 @using System.Text.Json;
 @{
@@ -21,123 +22,157 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
-                     with font-awesome or any other icon font library -->
-                @if (permissionList.Any(x => x.PermissionCode == "Dashboard_View"))
+                with font-awesome or any other icon font library -->
+                @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Dashboard_View.ToString()))
                 {
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-tachometer-alt"></i>
-                            <p>
-                                Dashboard
-                            </p>
-                        </a>
+                        <a href="~/Dashboard/Index" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i>Dashboard</a>
                     </li>
                 }
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fa fa-toolbox"></i>
-                        <p>
-                            Masters
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        @if (permissionList.Any(x => x.PermissionCode == "User_View"))
-                        {
-                            <li class="nav-item">
-                                <a onclick="loadPage('/User/User')" class="nav-link">
-                                    <i class="nav-icon fa fa-user"></i>
-                                    <p>Users</p>
-                                </a>
-                            </li>
-                        }
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-lock"></i>
-                                <p>
-                                    Permissions
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
+                @if (permissionList.Any(x
+               => x.PermissionCode == CommonEnums.PermissionMst.Users_View.ToString()
+               || x.PermissionCode == CommonEnums.PermissionMst.Default_Permissions_View.ToString()
+               || x.PermissionCode == CommonEnums.PermissionMst.User_Permissions_View.ToString()
+               || x.PermissionCode == CommonEnums.PermissionMst.Teams_View.ToString()
+               || x.PermissionCode == CommonEnums.PermissionMst.Holidays_View.ToString()))
+                {
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-toolbox"></i>
+                            <p>
+                                Masters
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Users_View.ToString()))
+                            {
                                 <li class="nav-item">
-                                    <a href="~/Permission/DefaultPermission" class="nav-link">
-                                        <i class="nav-icon fa fa-key"></i>
-                                        <p>Default Permission</p>
+                                    <a href="~/User/User" class="nav-link">
+                                        <i class="nav-icon fa fa-user"></i>
+                                        <p>Users</p>
                                     </a>
                                 </li>
+                            }
+
+                            @if (permissionList.Any(x
+                           => x.PermissionCode == CommonEnums.PermissionMst.Default_Permissions_View.ToString()
+                           || x.PermissionCode == CommonEnums.PermissionMst.User_Permissions_View.ToString()))
+                            {
+                                <li class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fa fa-lock"></i>
+                                        <p>
+                                            Permissions
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Default_Permissions_View.ToString()))
+                                        {
+                                            <li class="nav-item">
+                                                <a href="~/Permission/DefaultPermission" class="nav-link">
+                                                    <i class="nav-icon fa fa-key"></i>
+                                                    <p>Default Permission</p>
+                                                </a>
+                                            </li>
+                                        }
+                                        @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.User_Permissions_View.ToString()))
+                                        {
+                                            <li class="nav-item">
+                                                <a href="~/Permission/UserPermission" class="nav-link">
+                                                    <i class="nav-icon fa fa-user-lock"></i>
+                                                    <p>User Permission</p>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
+
+                            @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Teams_View.ToString()))
+                            {
                                 <li class="nav-item">
-                                    <a href="~/Permission/UserPermission" class="nav-link">
-                                        <i class="nav-icon fa fa-user-lock"></i>
-                                        <p>User Permission</p>
+                                    <a href="~/Team/Team" class="nav-link">
+                                        <i class="nav-icon fas fa-users"></i>
+                                        <p>Teams</p>
                                     </a>
                                 </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="~/Team/Team" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p>Teams</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="~/Holiday/Holiday" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p>Holiday</p>
-                            </a>
-                        </li>
+                            }
 
-                    </ul>
-                </li>
+                            @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Holidays_View.ToString()))
+                            {
+                                <li class="nav-item">
+                                    <a href="~/Holiday/Holiday" class="nav-link">
+                                        <i class="nav-icon fas fa-users"></i>
+                                        <p>Holiday</p>
+                                    </a>
+                                </li>
+                            }
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fa fa-handshake"></i>
-                        <p>
-                            HR
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="~/Requirement/Index" class="nav-link">
-                                <i class="nav-icon fas fa-book"></i>
-                                <p>Requirements</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="~/Policy/Policy" class="nav-link">
-                                <i class="nav-icon fas fa-file"></i>
-                                <p>Policy</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                        </ul>
+                    </li>
+                }
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fa fa-cart-plus"></i>
-                        <p>
-                            Sales
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="~/SalesLead/Sales" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Leads</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-people-pulling"></i>
-                                <p>Recruitment</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @if (permissionList.Any(x
+               => x.PermissionCode == CommonEnums.PermissionMst.Requirements_View.ToString()
+               || x.PermissionCode == CommonEnums.PermissionMst.Policy_View.ToString()))
+                {
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-handshake"></i>
+                            <p>
+                                HR
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Requirements_View.ToString()))
+                            {
+                                <li class="nav-item">
+                                    <a href="~/Requirement/Index" class="nav-link">
+                                        <i class="nav-icon fas fa-book"></i>
+                                        <p>Requirements</p>
+                                    </a>
+                                </li>
+                            }
+                            @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Policy_View.ToString()))
+                            {
+                                <li class="nav-item">
+                                    <a href="~/Policy/Policy" class="nav-link">
+                                        <i class="nav-icon fas fa-file"></i>
+                                        <p>Policy</p>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+
+                @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Leads_View.ToString()))
+                {
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-cart-plus"></i>
+                            <p>
+                                Sales
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Leads_View.ToString()))
+                            {
+                                <li class="nav-item">
+                                    <a href="~/SalesLead/Sales" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Leads</p>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

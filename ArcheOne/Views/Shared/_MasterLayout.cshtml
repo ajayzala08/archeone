@@ -215,7 +215,7 @@
         <div class="content-wrapper">
             <section class="content-header" />
             <section class="content">
-                <div class="container-fluid" id="pageContent">
+                <div class="container-fluid">
                     @RenderBody()
                 </div>
             </section>
@@ -235,9 +235,6 @@
         </aside>*@
         <!-- /.control-sidebar -->
 
-        <div id="pageScripts">
-            @await RenderSectionAsync("Scripts", required: false)
-        </div>
     </div>
     <!-- ./wrapper -->
     <!-- jQuery -->
@@ -279,29 +276,27 @@
     <script src="~/theme/dist/js/adminlte.min.js"></script>
     <!-- blockUI -->
     <script src="~/theme/dist/js/jquery.blockui.js"></script>
-
+    <!--Navbar highlight menu selection-->
     <script>
-        function loadPage(pageName) {
-            $.ajax({
-                url: 'http://localhost:5026' + pageName, // Replace with the appropriate URL for your pages
-                type: 'GET',
-                success: function (data) {
-                    var html = $.parseHTML(data); // Parse the HTML string
+        $(document).ready(function () {
+            // Get the current page URL
+            var currentPageUrl = window.location.href;
 
-                    // Find the desired div by its ID
-                    var pageScripts = $(html).find('#pageScripts').html();
-                    var divContent = $(html).find('#pageContent').html();
-
-                    // Use the extracted content as needed
-                    console.log(divContent); // Print the content of the div
-                    $('#pageContent').html(divContent); // Replace the content of #pageContent with the loaded page
-                    $('#pageScripts').html(pageScripts); // Replace the content of #pageContent with the loaded page
-                },
-                error: function (xhr, status, error) {
-                    console.log(error); // Handle any errors
-                }
+            // Find the menu item with the matching URL
+            var $selectedMenuItem = $('ul.nav-sidebar a.nav-link').filter(function () {
+                return this.href === currentPageUrl;
             });
-        }
+
+            // Add the active class to the selected menu item
+            $selectedMenuItem.addClass('active');
+
+            var $parentMenus = $selectedMenuItem.parents('li.has-treeview');
+            $parentMenus.addClass('menu-open');
+            $parentMenus.children('a.nav-link').addClass('active');
+        });
     </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>

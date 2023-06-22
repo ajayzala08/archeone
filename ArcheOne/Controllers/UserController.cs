@@ -287,7 +287,7 @@ namespace ArcheOne.Controllers
             return Json(commonResponse);
         }
 
-        public async Task<IActionResult> UserListByRoleId(int? RoleId)
+        public async Task<IActionResult> UserListByRoleId_Dhrusti(int? RoleId)
         {
             CommonResponse response = new CommonResponse();
             try
@@ -343,6 +343,43 @@ namespace ArcheOne.Controllers
                              PhotoUrl = System.IO.File.Exists(Path.Combine(_commonHelper.GetPhysicalRootPath(false), x.U.PhotoUrl)) ? Path.Combine(@"\", x.U.PhotoUrl) :
                               @"\Theme\Logo\default_user_profile.png"
                          }).ToList();
+                }
+
+
+                if (userList != null && userList.Count > 0)
+                {
+                    response.Data = userList;
+                    response.Status = true;
+                    response.StatusCode = HttpStatusCode.OK;
+                    response.Message = "Data found successfully!";
+                }
+                else
+                {
+                    response.Message = "Data not found!";
+                    response.StatusCode = HttpStatusCode.NotFound;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return Json(response);
+        }
+
+
+        public async Task<IActionResult> UserListByRoleId(int? RoleId)
+        {
+            CommonResponse response = new CommonResponse();
+            try
+            {
+                dynamic userList;
+                if (RoleId == null)
+                {
+                    userList = await _dbRepo.UserMstList().Select(x => new { x.Id, x.FirstName, x.MiddleName, x.LastName }).ToListAsync();
+                }
+                else
+                {
+                    userList = await _dbRepo.UserMstList().Where(x => x.RoleId == RoleId).Select(x => new { x.Id, x.FirstName, x.MiddleName, x.LastName }).ToListAsync();
                 }
 
 
