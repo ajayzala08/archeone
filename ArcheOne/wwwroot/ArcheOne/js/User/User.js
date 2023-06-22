@@ -109,7 +109,7 @@ function GetRoleList() {
 var dataTable = null;
 
 function GetUserList(RoleId) {
-    ajaxCall("Post", false, '/User/UserListByRoleId?RoleId=' + RoleId, null, function (result) {
+    ajaxCall("Post", false, '/User/UserList', null, function (result) {
         if (result.status == true) {
             if (dataTable !== null) {
                 dataTable.destroy();

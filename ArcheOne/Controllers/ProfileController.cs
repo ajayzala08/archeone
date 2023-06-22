@@ -23,12 +23,12 @@ namespace ArcheOne.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Viewprofile()
+        public async Task<IActionResult> ViewProfile()
         {
             CommonResponse commonResponse = new CommonResponse();
             try
             {
-                var userMst = _dbRepo.UserMstList().FirstOrDefault(x => x.Id == _commonHelper.GetLoggedInUserId());
+                var userMst = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == _commonHelper.GetLoggedInUserId());
                 if (userMst != null)
                 {
                     var userDetails = await (from userDetail in _dbRepo.UserDetailList()
@@ -71,7 +71,7 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
             try
             {
-                var loggedInUserDetails = _dbRepo.UserMstList().FirstOrDefault(x => x.Id == _commonHelper.GetLoggedInUserId());
+                var loggedInUserDetails = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == _commonHelper.GetLoggedInUserId());
                 if (loggedInUserDetails != null)
                 {
 

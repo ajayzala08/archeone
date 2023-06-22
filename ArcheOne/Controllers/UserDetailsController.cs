@@ -94,7 +94,8 @@ namespace ArcheOne.Controllers
 				{
 					// Edit Mode
 					//var editUserDetails = _dbRepo.UserDetailList().FirstOrDefault(x => x.Id == addEditUserDetailsReqModel.Id && x.EmployeeCode != addEditUserDetailsReqModel.EmployeeCode && x.EmployeePersonalEmailId != addEditUserDetailsReqModel.EmployeePersonalEmailId);
-					var editUserDetails = _dbRepo.UserDetailList().FirstOrDefault(x => x.Id == addEditUserDetailsReqModel.Id);
+
+					var editUserDetails = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.EmployeeCode == x.EmployeeCode);
 					if (editUserDetails != null)
 					{
 						editUserDetails.EmployeeCode = addEditUserDetailsReqModel.EmployeeCode;
@@ -124,19 +125,23 @@ namespace ArcheOne.Controllers
 						editUserDetails.UpdatedBy = _commonHelper.GetLoggedInUserId();
 						editUserDetails.UpdatedDate = _commonHelper.GetCurrentDateTime();
 
-						_dbContext.Entry(userDetailsMst).State = EntityState.Modified;
+						_dbContext.Entry(editUserDetails).State = EntityState.Modified;
 						_dbContext.SaveChanges();
 
 						commonResponse.Message = "UserDetails updated successfully!";
 						commonResponse.Status = true;
 						commonResponse.StatusCode = HttpStatusCode.OK;
 					}
+					else
+					{
+						commonResponse.Message = "EmployeeCode already exist!";
+					}
 				}
 				else
 				{
 					//Add Mode
-					var userDetails = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.EmployeeCode == addEditUserDetailsReqModel.EmployeeCode && x.EmployeePersonalEmailId.ToLower() == addEditUserDetailsReqModel.EmployeePersonalEmailId.ToLower());
-					if (userDetails == null)
+					var userDetails = await _dbRepo.UserDetailList().Where(x => x.EmployeeCode == addEditUserDetailsReqModel.EmployeeCode || x.EmployeePersonalEmailId.ToLower() == addEditUserDetailsReqModel.EmployeePersonalEmailId.ToLower()).ToListAsync();
+					if (userDetails.Count == 0)
 					{
 						userDetailsMst.UserId = addEditUserDetailsReqModel.UserId;
 						userDetailsMst.EmployeeCode = addEditUserDetailsReqModel.EmployeeCode;
@@ -184,7 +189,6 @@ namespace ArcheOne.Controllers
 					}
 				}
 				commonResponse.Data = userDetailsMst;
-
 			}
 			catch (Exception ex)
 			{
