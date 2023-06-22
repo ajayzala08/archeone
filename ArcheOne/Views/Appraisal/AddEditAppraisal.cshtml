@@ -4,6 +4,7 @@
 
 @{
     Layout = "_MasterLayout";
+    var Title = Model.Id > 0 ? "Edit Holiday" : "Create Holiday"; 
 }
 
 <section class="content-header"></section>
@@ -11,7 +12,7 @@
     <div class="container-fluid">
         <div class="card card-outline card-primary">
             <div class="card-header">
-                Create Policy
+                Title
                 <h3 class="card-title"></h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -22,6 +23,9 @@
             <div class="card-body">
                 <div class="row">
                     <input id="txtAppraisalId" name="txtAppraisalId" type="hidden" class="form-control col-sm-4" value="@Model.Id" />
+
+                 
+
                     <div class="col-sm-4" id="dddlEmployeeId">
                         <div class="form-group">
                             <label><span class="has-error required">* </span>Employee Name</label>
@@ -29,7 +33,7 @@
                                 <option value="0">--- Select ---</option>
                                 @foreach (var item in Model.EmployeeId)
                                 {
-                                    if (item.Id >0)
+                                    if (item.Id == Model.reportingManagetDetail.EmployeeDetail.EmployeeId)
                                     {
                                         <option value="@item.Id" selected>@item.FirstName @item.LastName</option>
                                     }
@@ -51,7 +55,7 @@
                                 <option value="0">--- Select ---</option>
                                 @foreach (var item in Model.ReportingManagerId)
                                 {
-                                    if (item.Id > 0)
+                                    if (item.Id == Model.reportingManagetDetail.ReportingManagerId)
                                     {
                                         <option value="@item.Id" selected>@item.FirstName @item.LastName</option>
                                     }

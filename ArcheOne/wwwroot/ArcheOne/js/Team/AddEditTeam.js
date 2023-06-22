@@ -2,6 +2,7 @@
     $('.select2').select2()
 
     $("#btnSaveAdd").click(function () {
+       
         SaveUpdateTeam();
     });
   
@@ -11,32 +12,31 @@
 
     $(".btn-edit").click(function () {
         EditMode = 1;
-        Id = $(this).attr('Id');
-        AddEditTeam(Id);
+        TeamId = $(this).attr('TeamId');
+        AddEditTeam(TeamId);
     });
 
 });
 
 function SaveUpdateTeam() {
     var saveTeamData = {
-        //"TeamId": parseInt($("#txtTeamId").val()),
+        "TeamId": parseInt($("#txtTeamId").val()),
         "TeamLeadId": parseInt($("#ddlTeamLeadId").val()),
         "TeamMemberId": $("#ddlTeamMemberId").val().map(Number)
     }
+    debugger
     console.log(saveTeamData);
     if (validateRequiredFields()) {
+        debugger
         ajaxCall("Post", false, '/Team/SaveUpdateTeam', JSON.stringify(saveTeamData), function (result) {
+
             if (result.status == true) {
-                Popup_Toast.fire({ icon: 'success', title: result.message });
-                $("#btnCancel").click();
-                ClearAll();
-                GetFilteredTeamList();
+                Toast.fire({ icon: 'success', title: result.message });
+                RedirectToPage("/Team/Team");
             }
             else {
-                Popup_Toast.fire({ icon: 'error', title: result.message });
-                $("#btnCancel").click();
-                ClearAll();
-                GetFilteredTeamList();
+                Toast.fire({ icon: 'error', title: result.message });
+                $.unblockUI();
             }
         });
     }
