@@ -221,5 +221,13 @@ namespace ArcheOne.Helper.CommonHelpers
 		{
 			return _db.ReportingManagerMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
 		}
-	}
+        public IQueryable<UserDocumentMst> UserDocumentList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.UserDocumentMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+        public IQueryable<DocumentTypeMst> DocumentTypeList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.DocumentTypeMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+    }
 }

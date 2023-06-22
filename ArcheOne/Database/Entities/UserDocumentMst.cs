@@ -3,13 +3,15 @@ using System.Collections.Generic;
 
 namespace ArcheOne.Database.Entities;
 
-public partial class PermissionMst
+public partial class UserDocumentMst
 {
     public int Id { get; set; }
 
-    public string PermissionName { get; set; } = null!;
+    public int UserId { get; set; }
 
-    public string PermissionCode { get; set; } = null!;
+    public int DocumentTypeId { get; set; }
+
+    public string Document { get; set; } = null!;
 
     public bool IsActive { get; set; }
 
