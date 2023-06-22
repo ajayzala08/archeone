@@ -30,15 +30,21 @@ Insert into dbo.RoleMst values ('Developer', 'Developer', 1, 0, 0, 0, GETDATE(),
 Insert into dbo.RoleMst values ('Sales Team Lead', 'Sales_Team_Lead', 1, 0, 0, 0, GETDATE(), GETDATE());
 
 --------------------------------------SetUp Permissions-----------------------------
-insert into dbo.PermissionMst values('Dashboard View','Dashboard_View',1,0,0,0,getdate(),getdate())
-insert into dbo.PermissionMst values('Default Permission View','Default_Permission_View',1,0,0,0,getdate(),getdate())
-insert into dbo.PermissionMst values('Default Permission Update','Default_Permission_Update',1,0,0,0,getdate(),getdate())
-insert into dbo.PermissionMst values('User Permission View','User_Permission_View',1,0,0,0,getdate(),getdate())
-insert into dbo.PermissionMst values('User Permission Update','User_Permission_Update',1,0,0,0,getdate(),getdate())
-insert into dbo.PermissionMst values('User View','User_View',1,0,0,0,getdate(),getdate())
-insert into dbo.PermissionMst values('User Add','User_Add',1,0,0,0,getdate(),getdate())
-insert into dbo.PermissionMst values('User Update','User_Update',1,0,0,0,getdate(),getdate())
-insert into dbo.PermissionMst values('User Delete','User_Delete',1,0,0,0,getdate(),getdate())
+
+Insert into PermissionMst values('Dashboard View', 'Dashboard_View', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Users View', 'Users_View', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('User Detail View', 'User_Detail_View', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('User Edit', 'User_Edit', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('User Delete', 'User_Delete', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Teams View', 'Teams_View', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Holidays View', 'Holidays_View', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Default Permissions View', 'Default_Permissions_View', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Default Permissions Edit', 'Default_Permissions_Edit', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('User Permissions View', 'User_Permissions_View', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('User Permissions Edit', 'User_Permissions_Edit', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Requirements View', 'Requirements_View', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Policy View', 'Policy_View', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Leads View', 'Leads_View', 1, 0, 0, 0, GETDATE(), GETDATE());
 
 ------------------------------------SetUp SuperAdmin User----------------------------
 insert into dbo.UserMst values(1,'Admin','','Super','S_Admin','123456','Vadodara','390015','8878964532','9976536725','SuperAdmin@gmail.com','photoURL',1,0,0,0,getdate(),getdate(),1)
