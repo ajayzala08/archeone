@@ -27,10 +27,37 @@
     <!-- Default box -->
     <div class="card">
         <input type="hidden" id="requirementId" value="@Model" />
-        <div class="card-header d-flex p-0">
-            <h3 class="card-title p-3">Daily Task List</h3>
-            <div class="card-tools ml-auto mr-2 p-2">
-                <button type="button" id="btnAddDailyTask" data-toggle="modal" data-target="#modalDailyTask" class="btn btn-primary float-right" onclick="OpenDailyTaskModel()">Add Daily Task</button>
+        <div class="card-header">
+            <div class="row">
+                <div class="form-group col-lg-3" id="dddlProject">
+                    <label>Project</label>
+                    <select id="ddlProject" name="ddlProject" class="form-control select2" isRequired="1" divcontainer="dddlProject" errorspan="sddlProject" defaultvalue="0">
+                    <option selected disabled value="0">Select Project</option>
+                    </select>
+                    <span class="help-block d-none has-error" id="sddlProject">Please Select Project</span>
+                </div>
+                @if (true)
+                {
+                    <div class="form-group col-lg-3" id="dddlResources">
+                        <label>Resources</label>
+                        <select id="ddlResources" name="ddlResources" class="form-control select2" isRequired="1" divcontainer="dddlResources" errorspan="sddlResources" defaultvalue="0">
+                        </select>
+                        <span class="help-block d-none has-error" id="sddlResources">Please Select Resources</span>
+                    </div>
+                }
+                <div class="form-group col-lg-3" id="dtxtFromDate">
+                    <label>From Date</label>
+                    <input type="date" id="txtFromDate" name="txtFromDate" class="form-control" isRequired="1" divcontainer="dtxtFromDate" errorspan="stxtFromDate" defaultvalue="0"/>
+                    <span class="help-block d-none has-error" id="stxtFromDate">Please Select From Date</span>
+                </div>
+                <div class="form-group col-lg-3" id="dtxtToDate">
+                    <label>To Date</label>
+                    <input type="date" id="txtToDate" name="txtToDate" class="form-control" isRequired="1" divcontainer="dtxtToDate" errorspan="stxtToDate" defaultvalue="0"/>
+                    <span class="help-block d-none has-error" id="stxtToDate">Please Select To End</span>
+                </div>
+                <div class="ml-auto mr-2 align-self-end mb-3">
+                    <button type="button" id="btnAddDailyTask" data-toggle="modal" data-target="#modalDailyTask" class="btn btn-primary float-right" onclick="OpenDailyTaskModel()">Add Daily Task</button>
+                </div>
             </div>
         </div>
         <div class="card-body">
@@ -68,14 +95,6 @@
                             <span class="help-block d-none has-error" id="sddlDailyTaskStatus">Please Select DailyTask Status</span>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-sm-12" id="dddlResources">
-                            <label><span class="has-error required">* </span>Resources</label>
-                            <select id="ddlResources" name="ddlResources" class="form-control select2" isRequired="1" divcontainer="dddlResources" errorspan="sddlResources" defaultvalue="0" multiple="multiple">
-                            </select>
-                            <span class="help-block d-none has-error" id="sddlResources">Please Select Resources</span>
-                        </div>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <div class="row">
@@ -91,5 +110,5 @@
 <!-- /.content -->
 @section Scripts
     {
-    <script src="~/archeone/js/project/project.js"></script>
+    <script src="~/archeone/js/task/task.js"></script>
     }

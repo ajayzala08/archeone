@@ -2,6 +2,7 @@
 using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models.Req;
+using ArcheOne.Models.Res;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,17 +25,7 @@ namespace ArcheOne.Controllers
         {
             return View();
         }
-        public class ProjectList
-        {
-            public int Id { get; set; }
-            public string ProjectName { get; set; }
-            public string ProjectStatus { get; set; }
-            public DateTime CreatedDate { get; set; }
-            public string Resources { get; set; }
-            public string ResourcesNames { get; set; }
-            public bool IsEditable { get; set; }
-            public bool IsDeletable { get; set; }
-        }
+
         public async Task<CommonResponse> GetProjectList()
         {
             CommonResponse response = new CommonResponse();
@@ -42,18 +33,18 @@ namespace ArcheOne.Controllers
             {
 
 
-                List<ProjectList> projectList = await (from project in _dbRepo.ProjectList()
-                                                       select new ProjectList
-                                                       {
-                                                           Id = project.Id,
-                                                           ProjectName = project.ProjectName,
-                                                           ProjectStatus = project.ProjectStatus,
-                                                           CreatedDate = project.CreatedDate,
-                                                           Resources = project.Resources,
-                                                           IsEditable = project.ProjectStatus != CommonEnums.ProjectStatus.Completed.ToString(),
-                                                           IsDeletable = project.ProjectStatus == CommonEnums.ProjectStatus.Completed.ToString(),
-                                                           ResourcesNames = string.Empty
-                                                       }).ToListAsync();
+                List<ProjectListResModel> projectList = await (from project in _dbRepo.ProjectList()
+                                                               select new ProjectListResModel
+                                                               {
+                                                                   Id = project.Id,
+                                                                   ProjectName = project.ProjectName,
+                                                                   ProjectStatus = project.ProjectStatus,
+                                                                   CreatedDate = project.CreatedDate,
+                                                                   Resources = project.Resources,
+                                                                   IsEditable = project.ProjectStatus != CommonEnums.ProjectStatus.Completed.ToString(),
+                                                                   IsDeletable = project.ProjectStatus == CommonEnums.ProjectStatus.Completed.ToString(),
+                                                                   ResourcesNames = string.Empty
+                                                               }).ToListAsync();
 
                 foreach (var item in projectList)
                 {
@@ -108,6 +99,47 @@ namespace ArcheOne.Controllers
                 {
                     response.StatusCode = System.Net.HttpStatusCode.NotFound;
                     response.Message = "Data not found!";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
+        public async Task<CommonResponse> GetAllocatedProjectList()
+        {
+            CommonResponse response = new CommonResponse();
+            try
+            {
+                int userId = _commonHelper.GetLoggedInUserId();
+                CommonResponse roleDetailsResponse = await new RoleController(_dbRepo).GetRoleByUserId(userId);
+                dynamic projectDetails = null;
+
+                if (roleDetailsResponse.Status)
+                {
+                    if (roleDetailsResponse.Data.RoleCode == CommonEnums.RoleMst.Super_Admin.ToString())
+                    {
+                        projectDetails = await _dbRepo.ProjectList().Select(x => new { x.Id, x.ProjectName }).ToListAsync();
+                    }
+                    else
+                    {
+                        projectDetails = await _dbRepo.ProjectList().Where(p => ("," + p.Resources + ",").Contains("," + userId + ",")).Select(x => new { x.Id, x.ProjectName }).ToListAsync();
+                    }
+
+                    if (projectDetails != null)
+                    {
+                        response.Data = projectDetails;
+                        response.Status = true;
+                        response.StatusCode = System.Net.HttpStatusCode.OK;
+                        response.Message = "Data found successfully!";
+                    }
+                    else
+                    {
+                        response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                        response.Message = "Data not found!";
+                    }
                 }
             }
             catch (Exception ex)
