@@ -271,8 +271,8 @@ function ApplyDatatableResponsive(id) {
     datatableId = "#" + id;
     datatableWrapper = datatableId + "_wrapper";
     $(datatableId).DataTable({
-        "responsive": false,
-        //"lengthChange": true,
+        "responsive": true,
+        //"lengthChange": false,
         //"autoWidth": true,
         //"scrollX": true,
         "initComplete": function (settings, json) {

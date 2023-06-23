@@ -1,0 +1,54 @@
+﻿@using ArcheOne.Helper.CommonModels;
+@using ArcheOne.Models.Res;
+@model CommonResponse
+@{
+    Layout = "_BlankLayout";
+    ViewBag.dataTable = "true";
+}
+<style>
+    td {
+        text-align: center;
+    }
+
+    thead {
+        font-weight: bold;
+    }
+</style>
+<div class="row form-group">
+    <div class="col-md-12">
+        @if (Model.Status)
+        {
+            List<GetProductTypeListResModel> list = Model.Data;
+            <table id="tblProductType" class="table table-bordered table-hover" style="width:100%;">
+                <thead>
+                    <tr>
+                        <td>Actions</td>
+                        <td>Product Type Id</td>
+                        <td>Product Type Name</td>
+                        <td>Product Type Code</td>
+                        <td>Is Active</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in list)
+                    {
+                        <tr style="white-space:nowrap;">
+                            <td>
+                                <i class="fa fa-pen pen btn-edit" ProductTypeId="@item.ProductTypeId" style="cursor: pointer;"></i> &nbsp; | &nbsp;
+                                <i class="fa fa-trash trash btn-delete" ProductTypeId="@item.ProductTypeId" style="cursor: pointer;"></i>
+                            </td>
+                            <td>@item.ProductTypeId</td>
+                            <td>@item.ProductTypeName</td>
+                            <td>@item.ProductTypeCode</td>
+                            <td>@item.IsActive</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p style="color:red">@Model.Message</p>
+        }
+    </div>
+</div>

@@ -1,0 +1,81 @@
+﻿@using ArcheOne.Helper.CommonModels;
+@using ArcheOne.Models.Res;
+@model CommonResponse
+@{
+    Layout = "_MasterLayout";
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Add Product Type</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Product Types</a></li>
+                    <li class="breadcrumb-item active">Add Product Type</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="card">
+        @if (Model.Status)
+        {
+            AddEditProductTypeResModel addEditProductTypeResModel = Model.Data;
+            <div class="card-header">
+                <h3 class="card-title"><b>Add Product Type</b></h3>
+            </div>
+            <div class="card-body">
+                <input type="hidden" id="txtProductTypeId" name="txtProductTypeId" value="@addEditProductTypeResModel.ProductTypeId" />
+                <div class="row form-group">
+                    <div class="col-md-4" id="dtxtProductTypeName">
+                        <label class="form-label"><span class="has-error required">* </span>Product Type Name</label>
+                        <input type="text" id="txtProductTypeName" name="txtProductTypeName" class="form-control" isRequired="1" divcontainer="dtxtProductTypeName" errorspan="stxtProductTypeName" defaultvalue="" value="@addEditProductTypeResModel.ProductTypeName" />
+                        <span class="help-block d-none has-error" id="stxtProductTypeName">Please Enter Product Type Name</span>
+                    </div>
+                    <div class="col-md-4" id="dtxtProductTypeCode">
+                        <label class="form-label"><span class="has-error required">* </span>Product Type Code</label>
+                        <input type="text" id="txtProductTypeCode" name="txtProductTypeCode" class="form-control" isRequired="1" divcontainer="dtxtProductTypeCode" errorspan="stxtProductTypeCode" defaultvalue="" value="@addEditProductTypeResModel.ProductTypeCode" />
+                        <span class="help-block d-none has-error" id="stxtProductTypeCode">Please Enter Product Type Code</span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Is Active</label> &nbsp;
+                        @if (addEditProductTypeResModel.IsActive || addEditProductTypeResModel.ProductTypeId == 0)
+                        {
+                            <input type="checkbox" id="chkIsActive" name="chkIsActive" checked />
+                        }
+                        else
+                        {
+                            <input type="checkbox" id="chkIsActive" name="chkIsActive" />
+                        }
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="card-footer">
+                @if (addEditProductTypeResModel.ProductTypeId == 0)
+                {
+                    <input type="button" id="btnSaveUpdateProductType" name="btnSaveUpdateProductType" class="btn btn-success float-right ml-1" value="Save" />
+                }
+                else
+                {
+                    <input type="button" id="btnSaveUpdateProductType" name="btnSaveUpdateProductType" class="btn btn-warning float-right ml-1" value="Update" />
+                }
+                <input type="button" id="btnCancelProductType" name="btnCancelProductType" class="btn btn-danger float-right" value="Cancel" />
+            </div>
+        }
+        else
+        {
+            <p style="color:red">@Model.Message</p>
+        }
+    </div>
+</section>
+
+@section Scripts{
+    <script src="~/archeone/js/producttype/addeditproducttype.js?_@DateTime.Now.Ticks"></script>
+}
