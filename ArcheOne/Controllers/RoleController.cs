@@ -38,5 +38,41 @@ namespace ArcheOne.Controllers
             }
             return Json(commonResponse);
         }
+
+        public async Task<CommonResponse> GetRoleByUserId(int UserId)
+        {
+            CommonResponse response = new CommonResponse();
+            try
+            {
+                var data = await (from a in _dbRepo.AllUserMstList()
+                                  where a.Id == UserId
+                                  join b in _dbRepo.RoleMstList(withSuperAdmin: true) on a.RoleId equals b.Id into bGroup
+                                  from bItem in bGroup.DefaultIfEmpty()
+                                  select new
+                                  {
+                                      bItem.Id,
+                                      bItem.RoleName,
+                                      bItem.RoleCode
+                                  }).FirstOrDefaultAsync();
+
+                if (data != null)
+                {
+                    response.Data = data;
+                    response.Status = true;
+                    response.StatusCode = System.Net.HttpStatusCode.OK;
+                    response.Message = "Data found successfully!";
+
+                }
+                else
+                {
+                    response.Message = "Data not found!";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message.ToString();
+            }
+            return response;
+        }
     }
 }

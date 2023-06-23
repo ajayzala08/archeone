@@ -7,7 +7,7 @@ public partial class DocumentTypeMst
 {
     public int Id { get; set; }
 
-    public string DocumentType { get; set; } = null!;
+    public string DocumentType { get; set; } 
 
     public bool IsActive { get; set; }
 

@@ -110,14 +110,15 @@
                                     </a>
                                 </li>
                             }
-
                         </ul>
                     </li>
                 }
 
                 @if (permissionList.Any(x
                => x.PermissionCode == CommonEnums.PermissionMst.Requirements_View.ToString()
-               || x.PermissionCode == CommonEnums.PermissionMst.Policy_View.ToString()))
+               || x.PermissionCode == CommonEnums.PermissionMst.Policy_View.ToString()
+               || x.PermissionCode == CommonEnums.PermissionMst.Leaves_View.ToString()
+               || x.PermissionCode == CommonEnums.PermissionMst.Appraisal_View.ToString()))
                 {
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
@@ -137,12 +138,34 @@
                                     </a>
                                 </li>
                             }
+
                             @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Policy_View.ToString()))
                             {
                                 <li class="nav-item">
                                     <a href="~/Policy/Policy" class="nav-link">
                                         <i class="nav-icon fas fa-file"></i>
                                         <p>Policy</p>
+                                    </a>
+                                </li>
+                            }
+
+
+                            @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Leaves_View.ToString()))
+                            {
+                                <li class="nav-item">
+                                    <a href="~/Leaves/Leaves" class="nav-link">
+                                        <i class="nav-icon fas fa-users"></i>
+                                        <p>Leaves</p>
+                                    </a>
+                                </li>
+                            }
+
+                            @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Appraisal_View.ToString()))
+                            {
+                                <li class="nav-item">
+                                    <a href="~/Appraisal/Appraisal" class="nav-link">
+                                        <i class="nav-icon fas fa-users"></i>
+                                        <p>Appraisal</p>
                                     </a>
                                 </li>
                             }
@@ -167,6 +190,50 @@
                                     <a href="~/SalesLead/Sales" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Leads</p>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+
+                @if (permissionList.Any(x
+               => x.PermissionCode == CommonEnums.PermissionMst.Daily_Tasks_View.ToString()
+               || x.PermissionCode == CommonEnums.PermissionMst.Projects_View.ToString()))
+                {
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-tasks"></i>
+                            <p>
+                                Tasks Management
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Daily_Tasks_View.ToString()))
+                            {
+                                <li class="nav-item">
+                                    <a href="~/Task/Task" class="nav-link">
+                                        <i class="fa fa-table nav-icon"></i>
+                                        <p>Daily Tasks</p>
+                                    </a>
+                                </li>
+                            }
+                            @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Projects_View.ToString()))
+                            {
+                                <li class="nav-item">
+                                    <a href="~/Project/Project" class="nav-link">
+                                        <i class="fa fa-project-diagram nav-icon"></i>
+                                        <p>Projects</p>
+                                    </a>
+                                </li>
+                            }
+                            @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Task_Report_View.ToString()))
+                            {
+                                <li class="nav-item">
+                                    <a href="~/Task/TaskReport" class="nav-link">
+                                        <i class="fa fa-file-csv nav-icon"></i>
+                                        <p>Task Report</p>
                                     </a>
                                 </li>
                             }

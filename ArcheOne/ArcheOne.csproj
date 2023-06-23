@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Folder Include="Database\Entities\" />
+    <Folder Include="wwwroot\ArcheOne\js\Task\" />
     <Folder Include="wwwroot\ArcheOne\js\UploadedResumes\" />
     <Folder Include="wwwroot\Theme\Files\" />
   </ItemGroup>
