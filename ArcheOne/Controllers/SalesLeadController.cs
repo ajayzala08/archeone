@@ -129,154 +129,172 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
             try
             {
-                if (!ModelState.IsValid)
+                DateTime currentDate = _commonHelper.GetCurrentDateTime();
+                int loggedInUserId = _commonHelper.GetLoggedInUserId();
+                bool isEditMode = false;
+                if (saveUpdateSalesLeadReqModel.saveUpdateSalesLeadContactPersonDetails.Count > 0)
                 {
-                    DateTime date = _commonHelper.GetCurrentDateTime();
-                    int LoggedInUserId = _commonHelper.GetLoggedInUserId();
+                    var salesLeadDetail = await _dbRepo.SalesLeadList().FirstOrDefaultAsync(x => x.Id == saveUpdateSalesLeadReqModel.saveUpdateSalesLeadDetailModel.SalesLeadId);
+                    isEditMode = salesLeadDetail != null ? true : false;
+
                     SalesLeadMst salesLeadMst = new SalesLeadMst();
-                    List<SalesContactPersonMst> salesContactPersonMstList = new List<SalesContactPersonMst>();
-
-                    var salesList = await _dbRepo.SalesLeadList().ToListAsync();
-                    var salesContactPersonList = await _dbRepo.SalesContactPersonList().ToListAsync();
-
-                    var duplicateCheck = salesList.Any(x => x.OrgName == saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.OrgName && x.Id != saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Id);
-
-                    using (TransactionScope transactionScope1 = new TransactionScope())
+                    List<SalesContactPersonMst> contactPersonMstList = new List<SalesContactPersonMst>();
+                    if (isEditMode)
                     {
-                        if (!duplicateCheck)
-                        {
-                            var salesLeadDetail = salesList.FirstOrDefault(x => x.Id == saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Id);
-                            if (salesLeadDetail != null)
-                            {
-
-                                //Edit Mode
-                                //salesLeadMst.Id = saveUpdateSalesLeadReqModel.Id;
-                                salesLeadDetail.Address = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Address;
-                                salesLeadDetail.OrgName = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.OrgName;
-                                salesLeadDetail.CountryId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.CountryId;
-                                salesLeadDetail.StateId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.StateId;
-                                salesLeadDetail.CityId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.CityId;
-                                salesLeadDetail.Phone1 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Phone1;
-                                salesLeadDetail.Phone2 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Phone2;
-                                salesLeadDetail.Email1 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Email1;
-                                salesLeadDetail.Email2 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Email2;
-                                salesLeadDetail.WebsiteUrl = @saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.WebsiteUrl;
-                                salesLeadDetail.UpdatedDate = date;
-                                salesLeadDetail.UpdatedBy = LoggedInUserId;
-
-                                _dbContext.Entry(salesLeadDetail).State = EntityState.Modified;
-                                _dbContext.SaveChanges();
-
-
-
-                                #region Edit SalesContactPerson
-                                var SalesLeadContactPersonList = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadContactPersonList;
-
-                                foreach (var item in SalesLeadContactPersonList)
-                                {
-                                    if (item.SalesLeadContactPersonId > 0)
-                                    {
-
-                                        var salesContactPersonDetail = salesContactPersonList.FirstOrDefault(x => x.Id == item.SalesLeadContactPersonId);
-
-
-                                        salesContactPersonDetail.SalesLeadId = salesContactPersonDetail.SalesLeadId;
-                                        salesContactPersonDetail.FirstName = item.FirstName;
-                                        salesContactPersonDetail.LastName = item.LastName;
-                                        salesContactPersonDetail.Email = item.Email;
-                                        salesContactPersonDetail.Designation = item.Designation;
-                                        salesContactPersonDetail.Mobile1 = item.Mobile1;
-                                        salesContactPersonDetail.Mobile2 = item.Mobile2;
-                                        salesContactPersonDetail.Linkedinurl = item.Linkedinurl;
-                                        salesContactPersonDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                                        salesContactPersonDetail.UpdatedBy = _commonHelper.GetLoggedInUserId();
-
-                                        _dbContext.Entry(salesContactPersonDetail).State = EntityState.Modified;
-                                        _dbContext.SaveChanges();
-
-                                    }
-                                }
-                                #endregion
-
-                                transactionScope1.Complete();
-                                commonResponse.Status = true;
-                                commonResponse.StatusCode = HttpStatusCode.OK;
-                                commonResponse.Message = "SalesLead Updated Successfully!";
-                            }
-                            else
-                            {
-                                //Add Mode
-                                salesLeadMst.Address = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Address;
-                                salesLeadMst.OrgName = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.OrgName;
-                                salesLeadMst.CountryId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.CountryId;
-                                salesLeadMst.StateId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.StateId;
-                                salesLeadMst.CityId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.CityId;
-                                salesLeadMst.Phone1 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Phone1;
-                                salesLeadMst.Phone2 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Phone2;
-                                salesLeadMst.Email1 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Email1;
-                                salesLeadMst.Email2 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Email2;
-                                salesLeadMst.WebsiteUrl = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.WebsiteUrl;
-                                salesLeadMst.CreatedDate = date;
-                                salesLeadMst.UpdatedDate = date;
-                                salesLeadMst.CreatedBy = LoggedInUserId;
-                                salesLeadMst.UpdatedBy = LoggedInUserId;
-                                salesLeadMst.IsActive = true;
-                                salesLeadMst.IsDelete = false;
-                                await _dbContext.SalesLeadMsts.AddAsync(salesLeadMst);
-                                _dbContext.SaveChanges();
-
-                                #region ADD SalesContactPerson 
-
-                                var SalesLeadContactPersonList = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadContactPersonList;
-
-                                foreach (var item in SalesLeadContactPersonList)
-                                {
-                                    if (!string.IsNullOrWhiteSpace(item.FirstName))
-                                    {
-                                        SalesContactPersonMst salesContactPersonMst = new SalesContactPersonMst();
-                                        salesContactPersonMst.SalesLeadId = salesLeadMst.Id;
-                                        salesContactPersonMst.FirstName = item.FirstName;
-                                        salesContactPersonMst.LastName = item.LastName;
-                                        salesContactPersonMst.Email = item.Email;
-                                        salesContactPersonMst.Designation = item.Designation;
-                                        salesContactPersonMst.Mobile1 = item.Mobile1;
-                                        salesContactPersonMst.Mobile2 = item.Mobile2;
-                                        salesContactPersonMst.Linkedinurl = item.Linkedinurl;
-                                        salesContactPersonMst.CreatedDate = _commonHelper.GetCurrentDateTime();
-                                        salesContactPersonMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                                        salesContactPersonMst.CreatedBy = _commonHelper.GetLoggedInUserId();
-                                        salesContactPersonMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
-                                        salesContactPersonMst.IsActive = true;
-                                        salesContactPersonMst.IsDelete = false;
-                                        salesContactPersonMstList.Add(salesContactPersonMst);
-                                    }
-                                }
-
-                                await _dbContext.SalesContactPersonMsts.AddRangeAsync(salesContactPersonMstList);
-                                _dbContext.SaveChanges();
-                                #endregion
-
-
-                                transactionScope1.Complete();
-                                commonResponse.Status = true;
-                                commonResponse.StatusCode = HttpStatusCode.OK;
-                                commonResponse.Message = "SalesLead Added Successfully!";
-                            }
-                        }
-                        else
-                        {
-                            transactionScope1.Dispose();
-                            commonResponse.Message = "Organization Name Already Exist";
-                        }
+                        var contactPersonList = await _dbRepo.SalesContactPersonList().Where(x => x.SalesLeadId == salesLeadDetail.Id).ToListAsync();
+                        salesLeadMst = salesLeadDetail;
+                        contactPersonMstList = contactPersonList;
                     }
-                    commonResponse.Data = salesLeadMst;
-                }
-            }
-            catch (Exception e)
-            {
-                commonResponse.Message = e.Message;
-            }
 
+                }
+                else
+                {
+                    commonResponse.Message = "Please enter atleast one contact person details!";
+                    commonResponse.StatusCode = HttpStatusCode.BadRequest;
+                }
+
+                //List<SalesContactPersonMst> salesContactPersonMstList = new List<SalesContactPersonMst>();
+
+                //var salesList = await _dbRepo.SalesLeadList().ToListAsync();
+                //var salesContactPersonList = await _dbRepo.SalesContactPersonList().ToListAsync();
+
+                //var duplicateCheck = salesList.Any(x => x.OrgName == saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.OrgName && x.Id != saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Id);
+
+                //using (TransactionScope transactionScope1 = new TransactionScope())
+                //{
+                //    if (!duplicateCheck)
+                //    {
+                //        var salesLeadDetail = salesList.FirstOrDefault(x => x.Id == saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Id);
+                //        if (salesLeadDetail != null)
+                //        {
+
+                //            //Edit Mode
+                //            //salesLeadMst.Id = saveUpdateSalesLeadReqModel.Id;
+                //            salesLeadDetail.Address = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Address;
+                //            salesLeadDetail.OrgName = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.OrgName;
+                //            salesLeadDetail.CountryId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.CountryId;
+                //            salesLeadDetail.StateId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.StateId;
+                //            salesLeadDetail.CityId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.CityId;
+                //            salesLeadDetail.Phone1 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Phone1;
+                //            salesLeadDetail.Phone2 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Phone2;
+                //            salesLeadDetail.Email1 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Email1;
+                //            salesLeadDetail.Email2 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Email2;
+                //            salesLeadDetail.WebsiteUrl = @saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.WebsiteUrl;
+                //            salesLeadDetail.UpdatedDate = date;
+                //            salesLeadDetail.UpdatedBy = LoggedInUserId;
+
+                //            _dbContext.Entry(salesLeadDetail).State = EntityState.Modified;
+                //            _dbContext.SaveChanges();
+
+
+
+                //            #region Edit SalesContactPerson
+                //            var SalesLeadContactPersonList = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadContactPersonList;
+
+                //            foreach (var item in SalesLeadContactPersonList)
+                //            {
+                //                if (item.SalesLeadContactPersonId > 0)
+                //                {
+
+                //                    var salesContactPersonDetail = salesContactPersonList.FirstOrDefault(x => x.Id == item.SalesLeadContactPersonId);
+
+
+                //                    salesContactPersonDetail.SalesLeadId = salesContactPersonDetail.SalesLeadId;
+                //                    salesContactPersonDetail.FirstName = item.FirstName;
+                //                    salesContactPersonDetail.LastName = item.LastName;
+                //                    salesContactPersonDetail.Email = item.Email;
+                //                    salesContactPersonDetail.Designation = item.Designation;
+                //                    salesContactPersonDetail.Mobile1 = item.Mobile1;
+                //                    salesContactPersonDetail.Mobile2 = item.Mobile2;
+                //                    salesContactPersonDetail.Linkedinurl = item.Linkedinurl;
+                //                    salesContactPersonDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                //                    salesContactPersonDetail.UpdatedBy = _commonHelper.GetLoggedInUserId();
+
+                //                    _dbContext.Entry(salesContactPersonDetail).State = EntityState.Modified;
+                //                    _dbContext.SaveChanges();
+
+                //                }
+                //            }
+                //            #endregion
+
+                //            transactionScope1.Complete();
+                //            commonResponse.Status = true;
+                //            commonResponse.StatusCode = HttpStatusCode.OK;
+                //            commonResponse.Message = "SalesLead Updated Successfully!";
+                //        }
+                //        else
+                //        {
+                //            //Add Mode
+                //            salesLeadMst.Address = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Address;
+                //            salesLeadMst.OrgName = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.OrgName;
+                //            salesLeadMst.CountryId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.CountryId;
+                //            salesLeadMst.StateId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.StateId;
+                //            salesLeadMst.CityId = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.CityId;
+                //            salesLeadMst.Phone1 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Phone1;
+                //            salesLeadMst.Phone2 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Phone2;
+                //            salesLeadMst.Email1 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Email1;
+                //            salesLeadMst.Email2 = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.Email2;
+                //            salesLeadMst.WebsiteUrl = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadDetails.WebsiteUrl;
+                //            salesLeadMst.CreatedDate = date;
+                //            salesLeadMst.UpdatedDate = date;
+                //            salesLeadMst.CreatedBy = LoggedInUserId;
+                //            salesLeadMst.UpdatedBy = LoggedInUserId;
+                //            salesLeadMst.IsActive = true;
+                //            salesLeadMst.IsDelete = false;
+                //            await _dbContext.SalesLeadMsts.AddAsync(salesLeadMst);
+                //            _dbContext.SaveChanges();
+
+                //            #region ADD SalesContactPerson 
+
+                //            var SalesLeadContactPersonList = saveUpdateSalesLeadReqModel.SaveUpdateSalesLeadContactPersonList;
+
+                //            foreach (var item in SalesLeadContactPersonList)
+                //            {
+                //                if (!string.IsNullOrWhiteSpace(item.FirstName))
+                //                {
+                //                    SalesContactPersonMst salesContactPersonMst = new SalesContactPersonMst();
+                //                    salesContactPersonMst.SalesLeadId = salesLeadMst.Id;
+                //                    salesContactPersonMst.FirstName = item.FirstName;
+                //                    salesContactPersonMst.LastName = item.LastName;
+                //                    salesContactPersonMst.Email = item.Email;
+                //                    salesContactPersonMst.Designation = item.Designation;
+                //                    salesContactPersonMst.Mobile1 = item.Mobile1;
+                //                    salesContactPersonMst.Mobile2 = item.Mobile2;
+                //                    salesContactPersonMst.Linkedinurl = item.Linkedinurl;
+                //                    salesContactPersonMst.CreatedDate = _commonHelper.GetCurrentDateTime();
+                //                    salesContactPersonMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                //                    salesContactPersonMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+                //                    salesContactPersonMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                //                    salesContactPersonMst.IsActive = true;
+                //                    salesContactPersonMst.IsDelete = false;
+                //                    salesContactPersonMstList.Add(salesContactPersonMst);
+                //                }
+                //            }
+
+                //            await _dbContext.SalesContactPersonMsts.AddRangeAsync(salesContactPersonMstList);
+                //            _dbContext.SaveChanges();
+                //            #endregion
+
+
+                //            transactionScope1.Complete();
+                //            commonResponse.Status = true;
+                //            commonResponse.StatusCode = HttpStatusCode.OK;
+                //            commonResponse.Message = "SalesLead Added Successfully!";
+                //        }
+                //    }
+                //    else
+                //    {
+                //        transactionScope1.Dispose();
+                //        commonResponse.Message = "Organization Name Already Exist";
+                //    }
+                //}
+                //commonResponse.Data = salesLeadMst;
+
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message;
+            }
             return commonResponse;
         }
 

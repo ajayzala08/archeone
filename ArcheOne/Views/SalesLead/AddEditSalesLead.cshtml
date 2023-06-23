@@ -151,57 +151,57 @@
                 @foreach (var item in salesLeadAddEditResModel.ContactPersonDetailList)
                 {
                     string divId = "divContactPerson" + @ContactPersonCount;
+                    string divClass = "CP-" + ContactPersonCount;
                     <div class="col-md-4" id="@divId">
                         <div class="card">
                             <div class="card-header bg-gray">
                                 <h3 class="card-title"><b>Contact Person Details @ContactPersonCount</b></h3>
-                                @{
-                                    ContactPersonCount++;
-                                }
+
                             </div>
                             <div class="card-body">
                                 <input id="txtSalesLeadContactPersonId" name="txtSalesLeadContactPersonId" type="hidden" value="@item.SalesLeadContactPersonId" />
                                 <input id="txtSalesLeadId" name="txtSalesLeadId" type="hidden" value="@item.SalesLeadId" />
 
-                                <div class="form-group" id="dtxtFirstName">
+                                <div class="form-group" id="dtxtFirstName_@ContactPersonCount">
                                     <label><span class="has-error required">* </span>First Name</label>
-                                    <input id="txtFirstName" name="txtFirstName" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="First Name" value="@item.FirstName" isrequired="1" divcontainer="dtxtFirstName" errorspan="stxtFirstName" defaultvalue="" autocomplete="off" minlength="2">
-                                    <span class="help-block d-none has-error" id="stxtFirstName">Please Enter Valid First Name</span>
+                                    <input id="txtFirstName_@ContactPersonCount" name="txtFirstName_@ContactPersonCount" type="text" class="form-control onlyletter txtCapitalize text-length @divClass" placeholder="First Name" value="@item.FirstName" isrequired="1" divcontainer="dtxtFirstName_@ContactPersonCount" errorspan="stxtFirstName_@ContactPersonCount" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtFirstName_@ContactPersonCount">Please Enter Valid First Name</span>
                                 </div>
-                                <div class="form-group" id="dtxtLastName">
+                                <div class="form-group" id="dtxtLastName_@ContactPersonCount">
                                     <label><span class="has-error required">* </span>Last Name</label>
-                                    <input id="txtLastName" name="txtLastName" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Last Name" value="@item.LastName" isrequired="1" divcontainer="dtxtLastName" errorspan="stxtLastName" defaultvalue="" autocomplete="off" minlength="2">
-                                    <span class="help-block d-none has-error" id="stxtLastName">Please Enter Valid Last Name</span>
+                                    <input id="txtLastName_@ContactPersonCount" name="txtLastName_@ContactPersonCount" type="text" class="form-control onlyletter txtCapitalize text-length @divClass" placeholder="Last Name" value="@item.LastName" isrequired="1" divcontainer="dtxtLastName_@ContactPersonCount" errorspan="stxtLastName_@ContactPersonCount" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtLastName_@ContactPersonCount">Please Enter Valid Last Name</span>
                                 </div>
-                                <div class="form-group" id="dtxtEmail">
+                                <div class="form-group" id="dtxtEmail_@ContactPersonCount">
                                     <label><span class="has-error required">* </span>Email</label>
-                                    <input id="txtEmail" name="txtEmail" type="email" class="form-control text-length" placeholder="Email" value="@item.Email" isrequired="1" divcontainer="dtxtEmail" errorspan="stxtEmail" defaultvalue="" autocomplete="off" minlength="2">
-                                    <span class="help-block d-none has-error" id="stxtEmail">Please Enter Valid Email</span>
+                                    <input id="txtEmail_@ContactPersonCount" name="txtEmail_@ContactPersonCount" type="email" class="form-control text-length @divClass" placeholder="Email" value="@item.Email" isrequired="1" divcontainer="dtxtEmail_@ContactPersonCount" errorspan="stxtEmail_@ContactPersonCount" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtEmail_@ContactPersonCount">Please Enter Valid Email</span>
                                 </div>
-                                <div class="form-group" id="dtxtDesignation">
+                                <div class="form-group" id="dtxtDesignation_@ContactPersonCount">
                                     <label><span class="has-error required">* </span>Designation</label>
-                                    <input id="txtDesignation" name="txtDesignation" type="text" class="form-control onlyletter txtCapitalize text-length" placeholder="Designation" value="@item.Designation" isrequired="1" divcontainer="dtxtDesignation" errorspan="stxtDesignation" defaultvalue="" autocomplete="off" minlength="2">
-                                    <span class="help-block d-none has-error" id="stxtDesignation">Please Enter Valid Designation</span>
+                                    <input id="txtDesignation_@ContactPersonCount" name="txtDesignation_@ContactPersonCount" type="text" class="form-control onlyletter txtCapitalize text-length @divClass" placeholder="Designation" value="@item.Designation" isrequired="1" divcontainer="dtxtDesignation_@ContactPersonCount" errorspan="stxtDesignation_@ContactPersonCount" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtDesignation_@ContactPersonCount">Please Enter Valid Designation</span>
                                 </div>
-                                <div class="form-group" id="dtxtMobile1">
+                                <div class="form-group" id="dtxtMobile1_@ContactPersonCount">
                                     <label><span class="has-error required">* </span>Mobile1</label>
-                                    <input id="txtMobile1" name="txtMobile1" type="text" class="form-control onlyNumeric text-length" placeholder="Mobile1" value="@item.Mobile1" isrequired="1" divcontainer="dtxtMobile1" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
-                                    <span class="help-block d-none has-error" id="stxtMobile1">Please Enter Valid Mobile1</span>
+                                    <input id="txtMobile1_@ContactPersonCount" name="txtMobile1_@ContactPersonCount" type="text" class="form-control onlyNumeric text-length @divClass" placeholder="Mobile1" value="@item.Mobile1" isrequired="1" divcontainer="dtxtMobile1_@ContactPersonCount" errorspan="stxtMobile1_@ContactPersonCount" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+                                    <span class="help-block d-none has-error" id="stxtMobile1_@ContactPersonCount">Please Enter Valid Mobile1</span>
                                 </div>
-                                <div class="form-group" id="dtxtMobile2">
+                                <div class="form-group" id="dtxtMobile2_@ContactPersonCount">
                                     <label>Mobile2</label>
-                                    <input id="txtMobile2" name="txtMobile2" type="text" class="form-control onlyNumeric" placeholder="Mobile2" value="@item.Mobile2" isrequired="0" divcontainer="dtxtMobile2" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
-                                    <span class="help-block d-none has-error" id="stxtMobile2">Please Enter Valid Mobile2</span>
+                                    <input id="txtMobile2_@ContactPersonCount" name="txtMobile2_@ContactPersonCount" type="text" class="form-control onlyNumeric @divClass" placeholder="Mobile2" value="@item.Mobile2" isrequired="0" divcontainer="dtxtMobile2_@ContactPersonCount" errorspan="stxtMobile1_@ContactPersonCount" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+                                    <span class="help-block d-none has-error" id="stxtMobile2_@ContactPersonCount">Please Enter Valid Mobile2</span>
                                 </div>
-                                <div class="form-group" id="dtxtLinkedinurl">
+                                <div class="form-group" id="dtxtLinkedinurl_@ContactPersonCount">
                                     <label>Linkedinurl</label>
-                                    <input id="txtLinkedinurl" name="txtLinkedinurl" type="text" class="form-control txtCapitalize" placeholder="Linkedinurl" value="@item.Linkedinurl" isrequired="0" divcontainer="dtxtLinkedinurl" errorspan="stxtLinkedinurl" defaultvalue="" autocomplete="off" minlength="2">
-                                    <span class="help-block d-none has-error" id="stxtLinkedinurl">Please Enter Valid Linkedinurl</span>
+                                    <input id="txtLinkedinurl_@ContactPersonCount" name="txtLinkedinurl_@ContactPersonCount" type="text" class="form-control txtCapitalize @divClass" placeholder="Linkedinurl" value="@item.Linkedinurl" isrequired="0" divcontainer="dtxtLinkedinurl_@ContactPersonCount" errorspan="stxtLinkedinurl_@ContactPersonCount" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtLinkedinurl_@ContactPersonCount">Please Enter Valid Linkedinurl</span>
                                 </div>
 
                             </div>
                         </div>
                     </div>
+                    ContactPersonCount++;
                 }
 
                 @* <div class="col-4" id="divSalesLeadContactPerson1">
@@ -382,20 +382,25 @@
             </div>
         </div>
         <div class="card-footer">
-            <div class="row justify-content-end">
-                <div class="col-md-1">
-                    <button type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success">Save </button>
-                </div>
-                <div class="col-md-1">
-                    <button type="button" id="btnCancel" name="btnCancel" class="btn btn-danger">Cancel</button>
-                </div>
+            @if (salesLeadAddEditResModel.salesLeadDetail.SalesLeadId == 0)
+            {
+                <input type="button" id="btnSaveUpdateSalesLead" name="btnSaveUpdateSalesLead" class="btn btn-success float-right ml-1" value="Save" />
+            }
+            else
+            {
+                <input type="button" id="btnSaveUpdateSalesLead" name="btnSaveUpdateSalesLead" class="btn btn-success float-right ml-1" value="Update" />
+            }
+            <input type="button" id="btnCancelSalesLead" name="btnCancelSalesLead" class="btn btn-danger float-right" value="Cancel" />
+            @*<div class="row justify-content-end">
+            <div class="col-md-1">
+            <button type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success">Save </button>
             </div>
+            <div class="col-md-1">
+            <button type="button" id="btnCancel" name="btnCancel" class="btn btn-danger">Cancel</button>
+            </div>
+            </div>*@
         </div>
     </div>
-
-
-
-
 
 </section>
 
