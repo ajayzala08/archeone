@@ -19,6 +19,7 @@ function SaveUpdateAppraisal() {
             "ReportingManagerId": parseInt($("#ddlReportingManagerId").val()),
             "Year": $("#txtYear").val(),
         }
+     
         console.log(saveAppraisalData);
 
 
@@ -26,16 +27,12 @@ function SaveUpdateAppraisal() {
             $.blockUI();
             ajaxCall("Post", false, '/Appraisal/SaveUpdateAppraisal', JSON.stringify(saveAppraisalData), function (result) {
                 if (result.status == true) {
-                    Popup_Toast.fire({ icon: 'success', title: result.message });
-                    $("#btnCancel").click();
-                    ClearAll();
-                    GetFilteredAppraisalList();
+                    Toast.fire({ icon: 'success', title: result.message });
+                    RedirectToPage("/Appraisal/Appraisal");
                 }
                 else {
-                    Popup_Toast.fire({ icon: 'error', title: result.message });
-                    $("#btnCancel").click();
-                    ClearAll();
-                    GetFilteredAppraisalList();
+                    Toast.fire({ icon: 'error', title: result.message });
+                    $.unblockUI();
                 }
             });
         }

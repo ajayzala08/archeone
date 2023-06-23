@@ -27,14 +27,12 @@ function SaveUpdateHoliday() {
         ajaxCall("Post", false, '/Holiday/SaveUpdateHoliday', JSON.stringify(saveHolidayData), function (result) {
 
             if (result.status == true) {
-                Popup_Toast.fire({ icon: 'success', title: result.message });
-                $("#btnCancel").click();
-                ClearAll();
+                Toast.fire({ icon: 'success', title: result.message });
+                RedirectToPage("/Holiday/Holiday");
             }
             else {
-                Popup_Toast.fire({ icon: 'error', title: result.message });
-                $("#btnCancel").click();
-                ClearAll();
+                Toast.fire({ icon: 'error', title: result.message });
+                $.unblockUI();
             }
         });
     }

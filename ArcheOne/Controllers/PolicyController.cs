@@ -73,8 +73,6 @@ namespace ArcheOne.Controllers
         {
             CommonResponse commonResponse = new CommonResponse();
             AddEditPolicyReqModel addEditPolicyReqModel = new AddEditPolicyReqModel();
-            PolicyMst policyMst = new PolicyMst();
-
             try
             {
                 if (Id > 0)
@@ -84,12 +82,10 @@ namespace ArcheOne.Controllers
                     addEditPolicyReqModel.Id = policyList.Id;
                     addEditPolicyReqModel.PolicyName = policyList.PolicyName;
                     addEditPolicyReqModel.PolicyDocumentName = policyList.PolicyDocumentName;
-                    //addEditPolicyReqModel.PolicyDocumentName = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), policyList.PolicyDocumentName));
-                    //       byte[] FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), policyList.PolicyDocumentName));
 
                     commonResponse.Status = true;
                     commonResponse.StatusCode = System.Net.HttpStatusCode.OK;
-                    commonResponse.Message = "GetAll HolidayList Successfully";
+                    commonResponse.Message = "GetAll PolicyList Successfully";
                 }
                 else
                 {
@@ -253,16 +249,30 @@ namespace ArcheOne.Controllers
 
         public FileResult GetPolicyReport(int? Id)
         {
-            var policyList = _dbRepo.PolicyList().FirstOrDefault(x => x.Id == Id);
-
-            string ReportURL = policyList.PolicyDocumentName;
-            byte[] FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), policyList.PolicyDocumentName));
-            if (policyList == null)
+            CommonResponse commonResponse = new CommonResponse();
+            string DefaultPolicy = "Files\\DefaultPolicyDocument\\HRPolicy0.pdf";
+            byte[] FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), DefaultPolicy));
+            try
             {
-                ReportURL = policyList.PolicyDocumentName;
-                string DefaultPolicy = "Files\\DefaultPolicyDocument\\HRPolicy0.pdf";
-                FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), DefaultPolicy));
+                if (Id > 0)
+                {
+                    var policyList = _dbRepo.PolicyList().FirstOrDefault(x => x.Id == Id);
 
+                    string ReportURL = policyList.PolicyDocumentName;
+                  
+                    FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), DefaultPolicy));
+                }
+                else
+                {
+                    commonResponse.StatusCode = HttpStatusCode.NotFound;
+                    commonResponse.Message = "Data Not Found";
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message;
+                commonResponse.Data = ex;
             }
             return File(FileBytes, "application/pdf");
 

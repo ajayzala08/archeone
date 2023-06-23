@@ -1,5 +1,7 @@
-﻿@using ArcheOne.Models.Res;
+﻿@using ArcheOne.Helper.CommonModels;
+@using ArcheOne.Models.Res;
 @model List<GetTeamListResModel>
+
 @{
     Layout = "_BlankLayout";
     ViewBag.dataTable = "true";
@@ -13,6 +15,7 @@
         font-weight: bold;
     }
 </style>
+
 <div class="row form-group">
     <div class="col-md-12">
         <table id="tblTeam" class="table table-bordered table-striped" style="width:100%">

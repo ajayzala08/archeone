@@ -52,12 +52,13 @@ function DeleteAppraisal(Id) {
             ajaxCall("Post", false, '/Appraisal/DeleteAppraisal?Id=' + Id, null, function (result) {
 
                 if (result.status == true) {
-                    Popup_Toast.fire({ icon: 'success', title: result.message });
+                    Toast.fire({ icon: 'success', title: result.message });
                     GetAppraisalList();
                 }
                 else {
-                    Popup_Toast.fire({ icon: 'error', title: result.message });
+                    Toast.fire({ icon: 'error', title: result.message });
                 }
+
             });
         }
     })

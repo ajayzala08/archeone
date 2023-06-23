@@ -31,6 +31,8 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<DesignationMst> DesignationMsts { get; set; }
 
+    public virtual DbSet<DocumentTypeMst> DocumentTypeMsts { get; set; }
+
     public virtual DbSet<EmploymentTypeMst> EmploymentTypeMsts { get; set; }
 
     public virtual DbSet<HireStatusMst> HireStatusMsts { get; set; }
@@ -85,14 +87,13 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<UserDetailsMst> UserDetailsMsts { get; set; }
 
+    public virtual DbSet<UserDocumentMst> UserDocumentMsts { get; set; }
+
     public virtual DbSet<UserMst> UserMsts { get; set; }
 
     public virtual DbSet<UserPermission> UserPermissions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AppraisalMst>(entity =>
@@ -261,6 +262,17 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.IsActive)
                 .IsRequired()
                 .HasDefaultValueSql("((1))");
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<DocumentTypeMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Document__3214EC0734E26190");
+
+            entity.ToTable("DocumentTypeMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.DocumentType).HasMaxLength(100);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
@@ -672,6 +684,16 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.PostCode).HasMaxLength(100);
             entity.Property(e => e.ProbationPeriod).HasMaxLength(20);
             entity.Property(e => e.Salary).HasColumnType("decimal(38, 18)");
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<UserDocumentMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__UserDocu__3214EC0703CE8ACB");
+
+            entity.ToTable("UserDocumentMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 

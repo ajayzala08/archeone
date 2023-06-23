@@ -66,11 +66,20 @@ namespace ArcheOne.Controllers
                     getTeamListResModel.TeamLeadId = teamlists[0].TeamLeadId;
                     getTeamListResModel.TeamMemberId = teamlists[0].TeamMemberId;
                 }
+                commonResponse.Status = true;
+                commonResponse.Message = "GetAll TeamList Successfully";
+                commonResponse.Data = teamlists;
+                commonResponse.StatusCode = HttpStatusCode.OK;
 
             }
-            catch { throw; }
+            catch (Exception ex)
+            { 
+                commonResponse.Message = ex.Message;
+                commonResponse.Data = ex;
+            }
 
             return View(teamlists);
+
         }
 
         public IActionResult AddEditTeam(int Id)
@@ -155,7 +164,8 @@ namespace ArcheOne.Controllers
             AddTeamReqModel addTeamReqModel = new AddTeamReqModel();
             try
             {
-                var teamDetails = _dbRepo.TeamList().FirstOrDefault(x => x.Id == saveUpdateTeamReqModel.TeamLeadId);
+                //Edit Mode
+                var teamDetails = await _dbRepo.TeamList().FirstOrDefaultAsync(x => x.Id == saveUpdateTeamReqModel.TeamId);
                 if (teamDetails != null)
                 {
                     foreach (var teamMember in saveUpdateTeamReqModel.TeamMemberId)
@@ -169,16 +179,20 @@ namespace ArcheOne.Controllers
                         teamDetails.CreatedBy = _commonHelper.GetLoggedInUserId();
                         teamDetails.UpdatedBy = _commonHelper.GetLoggedInUserId();
 
+
                         _dbContext.Entry(teamDetails).State = EntityState.Modified;
                         _dbContext.SaveChanges();
+                      
+
 
                         commonResponse.Status = true;
                         commonResponse.StatusCode = HttpStatusCode.OK;
-                        commonResponse.Message = "Success";
+                        commonResponse.Message = "Team Edited Succesfully";
                     }
                 }
                 else
                 {
+                    //Add Mode
                     foreach (var teamMember in saveUpdateTeamReqModel.TeamMemberId)
                     {
                         var teamList = _dbRepo.TeamList().Where(x => x.TeamMemberId == teamMember).ToList();
@@ -209,7 +223,7 @@ namespace ArcheOne.Controllers
 
                     commonResponse.Status = true;
                     commonResponse.StatusCode = HttpStatusCode.OK;
-                    commonResponse.Message = "Success";
+                    commonResponse.Message = "Team Added Successfully";
                 }
                 commonResponse.Data = addTeamReqModelList;
 
