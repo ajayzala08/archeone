@@ -38,19 +38,20 @@ namespace ArcheOne.Controllers
             GetHolidayListResModel getHolidayListResModelList = new GetHolidayListResModel();
             HolidayMst holidayMst = new HolidayMst();
             var holidayList = _dbRepo.HolidayDayList().ToList();
+            List<GetHolidayListResModel> getHolidayListResModel = new List<GetHolidayListResModel>();
             try
             {
                 if (holidayList.Count > 0)
                 {
-                    List<GetHolidayListResModel> getHolidayListResModel = new List<GetHolidayListResModel>();
+                    //List<GetHolidayListResModel> getHolidayListResModel = new List<GetHolidayListResModel>();
                     getHolidayListResModel = _dbRepo.HolidayDayList().Where(x => x.IsActive == true && x.IsDelete == false).Select(x => new GetHolidayListResModel
                     {
                         Id = x.Id,
-                        HolidayName =  x.HolidayName,
+                        HolidayName = x.HolidayName,
                         Date = x.HolidayDate.Date.ToString("dd-MM-yyyy"),
                         Day = x.HolidayDate.DayOfWeek.ToString()
 
-                    }).ToList();
+                    }).ToList().OrderBy(x => Convert.ToDateTime(x.Date)).ToList();
                     commonResponse.Data = getHolidayListResModel;
 
                     commonResponse.Status = true;
@@ -71,7 +72,7 @@ namespace ArcheOne.Controllers
                 commonResponse.Data = ex.Message;
                 commonResponse.Status = false;
             }
-            return View(commonResponse.Data);
+            return View(getHolidayListResModel);
         }
 
         public IActionResult AddEditHoliday(int Id)
@@ -116,26 +117,37 @@ namespace ArcheOne.Controllers
 
                 if (holidayDetails != null)
                 {
+                    //Edit Mode
+                    var checkHolidayName = await _dbRepo.HolidayDayList().Where(x => x.HolidayName == saveUpdateHolidayReqModel.HolidayName).ToListAsync();
+                    if (checkHolidayName.Count() > 0)
+                    {
+                        commonResponse.Message = "Holiday Is Already Exist";
+                        commonResponse.StatusCode = HttpStatusCode.BadRequest;
+                    }
+                    else
+                    {
 
-                    holidayDetails.HolidayName = saveUpdateHolidayReqModel.HolidayName;
-                    holidayDetails.HolidayDate = saveUpdateHolidayReqModel.HolidayDate;
-                    holidayDetails.IsActive = true;
-                    holidayDetails.IsDelete = false;
-                    holidayDetails.CreatedDate = DateTime.Now;
-                    holidayDetails.UpdatedDate = DateTime.Now;
-                    holidayDetails.CreatedBy = _commonHelper.GetLoggedInUserId();
-                    holidayDetails.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                        holidayDetails.HolidayName = saveUpdateHolidayReqModel.HolidayName;
+                        holidayDetails.HolidayDate = saveUpdateHolidayReqModel.HolidayDate;
+                        holidayDetails.IsActive = true;
+                        holidayDetails.IsDelete = false;
+                        holidayDetails.CreatedDate = DateTime.Now;
+                        holidayDetails.UpdatedDate = DateTime.Now;
+                        holidayDetails.CreatedBy = _commonHelper.GetLoggedInUserId();
+                        holidayDetails.UpdatedBy = _commonHelper.GetLoggedInUserId();
 
-                    _dbContext.Entry(holidayDetails).State = EntityState.Modified;
-                    await _dbContext.SaveChangesAsync();
+                        _dbContext.Entry(holidayDetails).State = EntityState.Modified;
+                        await _dbContext.SaveChangesAsync();
 
-                    commonResponse.Status = true;
-                    commonResponse.StatusCode = HttpStatusCode.OK;
-                    commonResponse.Message = "Success";
+                        commonResponse.Status = true;
+                        commonResponse.StatusCode = HttpStatusCode.OK;
+                        commonResponse.Message = "Holiday Edited Succesfully";
+                    }
 
                 }
                 else
                 {
+                    //Add Mode
                     var checkHolidayName = await _dbRepo.HolidayDayList().Where(x => x.HolidayName == saveUpdateHolidayReqModel.HolidayName).ToListAsync();
                     if (checkHolidayName.Count() > 0)
                     {
@@ -158,7 +170,7 @@ namespace ArcheOne.Controllers
 
                         commonResponse.Status = true;
                         commonResponse.StatusCode = HttpStatusCode.OK;
-                        commonResponse.Message = "Success";
+                        commonResponse.Message = "Holiday Added Succesfully";
                     }
 
                 }

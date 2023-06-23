@@ -7,6 +7,12 @@ public partial class ResumeFileUploadDetailMst
 {
     public int Id { get; set; }
 
+    public int RequirementId { get; set; }
+
+    public string FileName { get; set; } = null!;
+
+    public string FilePath { get; set; } = null!;
+
     public string FullName { get; set; } = null!;
 
     public string Mobile1 { get; set; } = null!;
@@ -79,6 +85,12 @@ public partial class ResumeFileUploadDetailMst
 
     public string? Skills { get; set; }
 
+    public DateTime? JoinInDate { get; set; }
+
+    public decimal? OfferedPackageInLac { get; set; }
+
+    public string? JoinInNote { get; set; }
+
     public bool IsActive { get; set; }
 
     public bool IsDelete { get; set; }
@@ -90,16 +102,4 @@ public partial class ResumeFileUploadDetailMst
     public DateTime CreatedDate { get; set; }
 
     public DateTime UpdatedDate { get; set; }
-
-    public DateTime? JoinInDate { get; set; }
-
-    public decimal? OfferedPackageInLac { get; set; }
-
-    public string? JoinInNote { get; set; }
-
-    public int? RequirementId { get; set; }
-
-    public string? FileName { get; set; }
-
-    public string? FilePath { get; set; }
 }

@@ -1,9 +1,20 @@
-﻿@using ArcheOne.Models.Res;
+﻿@using ArcheOne.Helper.CommonModels;
+@using ArcheOne.Models.Res;
 @model List<GetTeamListResModel>
+
 @{
     Layout = "_BlankLayout";
     ViewBag.dataTable = "true";
 }
+<style>
+    td {
+        text-align: center;
+    }
+
+    thead {
+        font-weight: bold;
+    }
+</style>
 
 <div class="row form-group">
     <div class="col-md-12">

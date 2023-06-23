@@ -1,0 +1,61 @@
+﻿@using ArcheOne.Helper.CommonModels;
+@using ArcheOne.Models.Res;
+@model List<GetAppraisalListResModel>
+@{
+    Layout = "_BlankLayout";
+    ViewBag.dataTable = "true";
+}
+<style>
+    td {
+        text-align: center;
+    }
+
+    thead {
+        font-weight: bold;
+    }
+</style>
+
+<div class="row form-group">
+    <div class="col-md-12">
+        <table id="tblAppraisal" class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <td>
+                        <b>Action</b>
+                    </td>
+                    <td>
+                        <b>Employee Name</b>
+                    </td>
+                    <td>
+                        <b>ReportingManager Name</b>
+                    </td>
+                    <td>
+                        <b>Year</b>
+                    </td>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <i class="fa fa-pen pen btn-edit" Id="@item.Id" style="cursor: pointer;"></i> &nbsp; | &nbsp;
+                            <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"></i>
+                        </td>
+                        <td>
+                            @item.EmployeeName
+                        </td>
+                        <td>
+                            @item.ReportingManagerName
+                        </td>
+                        <td>
+                            @item.Year
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>

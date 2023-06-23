@@ -3,7 +3,7 @@
     Layout = "_MasterLayout";
     ViewBag.datatable = "true";
 }
-@model List<PermissionMst>
+@model int
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -27,6 +27,7 @@
 
     <!-- Default box -->
     <div class="card">
+        <input type="hidden" id="requirementId" value="@Model"/>
         <div class="card-header d-flex p-0">
             <h3 class="card-title p-3">Uploaded Resumes</h3>
             <div class="card-tools ml-auto mr-2 p-2">
@@ -140,8 +141,6 @@
                                 </div>
                             </div>
                         </div>
-                        <br />
-                        <hr />
                     </div>
                     <div id="dScheduledInterviewList">
                         <h4 class="modal-title">Scheduled Interview(s)</h4>

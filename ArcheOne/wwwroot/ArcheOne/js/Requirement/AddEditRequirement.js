@@ -52,6 +52,7 @@ $(document).ready(function () {
                     "IsActive": $("#chkIsActive").is(':checked'),
                 }
                 ajaxCall("Post", false, '/Requirement/SaveUpdateRequirement', JSON.stringify(reqData), function (result) {
+                    console.log(result)
                     if (result.status == true) {
                         Toast.fire({ icon: 'success', title: result.message });
                         RedirectToPage("/Requirement/Index");
@@ -71,7 +72,6 @@ $(document).ready(function () {
     });
 
     $("#btnCancelRequirement").click(function () {
-        $.blockUI();
         RedirectToPage("/Requirement/Index");
     });
 
@@ -84,4 +84,3 @@ $(document).ready(function () {
     });
 
 });
-

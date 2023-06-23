@@ -45,7 +45,6 @@ function DeleteHoliday(Id) {
         if (result.isConfirmed) {
 
             ajaxCall("Post", false, '/Holiday/DeleteHoliday?Id=' + Id, null, function (result) {
-                debugger
                 if (result.status == true) {
                     Popup_Toast.fire({ icon: 'success', title: result.message });
                     GetFilteredHolidayList();

@@ -32,9 +32,9 @@ namespace ArcheOne.Helper.CommonHelpers
             return _db.CompanyMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
 
-        public IQueryable<RoleMst> RoleMstList(bool IsDeleted = false, bool IsActive = true)
+        public IQueryable<RoleMst> RoleMstList(bool IsDeleted = false, bool IsActive = true, bool withSuperAdmin = false)
         {
-            return _db.RoleMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive && x.Id != CommonConstant.Super_Admin).AsQueryable();
+            return _db.RoleMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive && (!withSuperAdmin ? x.Id != CommonConstant.Super_Admin : true)).AsQueryable();
         }
 
         public IQueryable<DefaultPermission> DefaultPermissionList(bool IsDeleted = false, bool IsActive = true)
@@ -193,17 +193,60 @@ namespace ArcheOne.Helper.CommonHelpers
         {
             return _db.HireStatusMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
+
         public IQueryable<HolidayMst> HolidayDayList(bool IsDeleted = false, bool IsActive = true)
         {
             return _db.HolidayMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
+
         public IQueryable<UserDetailsMst> UserDetailList(bool IsDeleted = false, bool IsActive = true)
         {
             return _db.UserDetailsMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
+
         public IQueryable<PolicyMst> PolicyList(bool IsDeleted = false, bool IsActive = true)
         {
             return _db.PolicyMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+
+        public IQueryable<AppraisalMst> AppraisalList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.AppraisalMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+
+        public IQueryable<UserDocumentMst> UserDocumentList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.UserDocumentMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+
+        public IQueryable<DocumentTypeMst> DocumentTypeList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.DocumentTypeMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+
+        public IQueryable<DepartmentMst> DepartmentList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.DepartmentMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+
+        public IQueryable<DesignationMst> DesignationList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.DesignationMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+
+        public IQueryable<ReportingManagerMst> ReportingManagerList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.ReportingManagerMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+
+        public IQueryable<ProjectMst> ProjectList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.ProjectMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+
+        public IQueryable<DailyTaskMst> DailyTaskList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.DailyTaskMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
     }
 }

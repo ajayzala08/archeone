@@ -2,7 +2,8 @@
 {
 	public class AddEditUserDetailsReqModel
 	{
-		//public int UserId { get; set; }
+		public int Id { get; set; }
+		public int UserId { get; set; }
 
 		public string EmployeeCode { get; set; } = null!;
 
@@ -10,15 +11,15 @@
 
 		public string EmergencyContact { get; set; } = null!;
 
-		public DateTime Dob { get; set; }
+		public DateTime Dob { get; set; } 
 
 		public string PostCode { get; set; } = null!;
 
-		public string EmploymentType { get; set; } = null!;
+		public int EmploymentType { get; set; }
 
-		public string Department { get; set; } = null!;
+		public int Department { get; set; }
 
-		public string Designation { get; set; } = null!;
+		public int Designation { get; set; }
 
 		public string Location { get; set; } = null!;
 
@@ -44,7 +45,7 @@
 
 		public decimal Salary { get; set; }
 
-		public string ReportingManager { get; set; } = null!;
+		public int ReportingManager { get; set; }
 
 		public string Reason { get; set; } = null!;
 

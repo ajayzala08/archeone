@@ -3,7 +3,7 @@
 @{
     var user = HttpContextAccessor.HttpContext.Session.GetString("User");
     bool IsValidate = string.IsNullOrWhiteSpace(user) ? false : true;
-    IsValidate = HttpContextAccessor.HttpContext.Request.Host.Host == "localhost" && 1 == 1 ? true : IsValidate;
+    IsValidate = HttpContextAccessor.HttpContext.Request.Host.Host == "localhost" && 1 == 0 ? true : IsValidate;
     if (!IsValidate)
     {
         Context.Response.Redirect("/LogIn/Logout");
@@ -39,7 +39,7 @@
         <link rel="stylesheet" href="~/theme/plugins/select2/css/select2.min.css">
         <link rel="stylesheet" href="~/theme/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     }
-  
+
     <!-- Theme style -->
     <link rel="stylesheet" href="~/theme/dist/css/adminlte.min.css">
     <!-- Common CSS -->
@@ -56,12 +56,6 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
-                @* <li class="nav-item d-none d-sm-inline-block">
-                <a href="#" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                <a href="#" class="nav-link">Contact</a>
-                </li>*@
             </ul>
 
             <!-- Right navbar links -->
@@ -186,7 +180,7 @@
                     <div class="dropdown-menu dropdown-menu-sm">
                         @*<span class="dropdown-item dropdown-header"></span>*@
                         @*<div class="dropdown-divider"></div>*@
-                        <a href="#" class="dropdown-item">
+                        <a href="/Profile/ViewProfile" class="dropdown-item">
                             <i class="fas fa-user mr-2"></i> Profile
                         </a>
                         <a href="/LogIn/ChangePassword" class="dropdown-item">
@@ -209,154 +203,11 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="#" class="brand-link">
-                <img src="~/theme/logo/logo.png" class="brand-image img-circle elevation-3" style="opacity: .8" />
-                @*<img src="~/theme/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">*@
+                <img src="~/theme/logo/ReyanBluelogo.png" class="brand-image elevation-3" />
                 <span class="brand-text font-weight-light" style="padding-left:5px;"> ArcheOne</span>
             </a>
-
             <!-- Sidebar -->
-            <div class="sidebar">
-                <!-- Sidebar user (optional) -->
-                @*   <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                <div class="image">
-                <img src="~/theme/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-                </div>
-                <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
-                </div>
-                </div>*@
-
-                <!-- SidebarSearch Form -->
-                @*  <div class="form-inline">
-                <div class="input-group" data-widget="sidebar-search">
-                <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-                <div class="input-group-append">
-                <button class="btn btn-sidebar">
-                <i class="fas fa-search fa-fw"></i>
-                </button>
-                </div>
-                </div>
-                </div>*@
-
-                <!-- Sidebar Menu -->
-                <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-                             with font-awesome or any other icon font library -->
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Dashboard
-                                </p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-toolbox"></i>
-                                <p>
-                                    Masters
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="~/User/User" class="nav-link">
-                                        <i class="nav-icon fa fa-user"></i>
-                                        <p>Users</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="nav-icon fa fa-lock"></i>
-                                        <p>
-                                            Permissions
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a href="~/Permission/DefaultPermission" class="nav-link">
-                                                <i class="nav-icon fa fa-house-lock"></i>
-                                                <p>Default Permission</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="~/Permission/UserPermission" class="nav-link">
-                                                <i class="nav-icon fa fa-user-lock"></i>
-                                                <p>User Permission</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="~/Team/Team" class="nav-link">
-                                        <i class="nav-icon fas fa-users"></i>
-                                        <p>Teams</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="~/Holiday/Holiday" class="nav-link">
-                                        <i class="nav-icon fas fa-users"></i>
-                                        <p>Holiday</p>
-                                    </a>
-                                </li>
-                           
-                            </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-handshake"></i>
-                                <p>
-                                    HR
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="~/Requirement/Index" class="nav-link">
-                                        <i class="nav-icon fas fa-book"></i>
-                                        <p>Requirements</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="~/Policy/Policy" class="nav-link">
-                                        <i class="nav-icon fas fa-file"></i>
-                                        <p>Policy</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-cart-plus"></i>
-                                <p>
-                                    Sales
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="~/SalesLead/Sales" class="nav-link">
-                                        <i class="fas fa-binoculars nav-icon"></i>
-                                        <p>Leads</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="nav-icon fa fa-people-pulling"></i>
-                                        <p>Recruitment</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-                <!-- /.sidebar-menu -->
-            </div>
+            @await Html.PartialAsync("~/Views/Shared/_NavbarLayout.cshtml");
             <!-- /.sidebar -->
         </aside>
 
@@ -383,6 +234,7 @@
         <!-- Control sidebar content goes here -->
         </aside>*@
         <!-- /.control-sidebar -->
+
     </div>
     <!-- ./wrapper -->
     <!-- jQuery -->
@@ -424,6 +276,27 @@
     <script src="~/theme/dist/js/adminlte.min.js"></script>
     <!-- blockUI -->
     <script src="~/theme/dist/js/jquery.blockui.js"></script>
+    <!--Navbar highlight menu selection-->
+    <script>
+        $(document).ready(function () {
+            // Get the current page URL
+            var currentPageUrl = window.location.href;
+
+            // Find the menu item with the matching URL
+            var $selectedMenuItem = $('ul.nav-sidebar a.nav-link').filter(function () {
+                return this.href === currentPageUrl;
+            });
+
+            // Add the active class to the selected menu item
+            $selectedMenuItem.addClass('active');
+
+            var $parentMenus = $selectedMenuItem.parents('li.has-treeview');
+            $parentMenus.addClass('menu-open');
+            $parentMenus.children('a.nav-link').addClass('active');
+        });
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>
