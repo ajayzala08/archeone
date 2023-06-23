@@ -28,7 +28,7 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
             try
             {
-                var userMst = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == _commonHelper.GetLoggedInUserId());
+                var userMst = await _dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.Id == _commonHelper.GetLoggedInUserId());
                 if (userMst != null)
                 {
                     var userDetails = await (from userDetail in _dbRepo.UserDetailList()
@@ -37,17 +37,16 @@ namespace ArcheOne.Controllers
                                              select new { userDetail, designationDetails }).FirstOrDefaultAsync();
                     ProfileResModel profileResModel = new ProfileResModel()
                     {
-                        UserId = userMst != null ? userMst.Id : 0,
-                        FullName = userMst != null ? (userMst.FirstName.ToString() + " " + userMst.MiddleName.ToString() + " " + userMst.LastName.ToString()) : "",
+                        UserId = userMst.Id,
+                        FullName = Convert.ToString(userMst.FirstName) + " " + Convert.ToString(userMst.MiddleName) + " " + Convert.ToString(userMst.LastName),
                         EmployeeCode = userDetails != null ? userDetails.userDetail.EmployeeCode.ToString() : "",
                         DOB = userDetails != null ? userDetails.userDetail.Dob.ToString("dd MMMM yyyy") : "",
                         DOJ = userDetails != null ? userDetails.userDetail.JoinDate.ToString("dd MMMM yyyy") : "",
-                        ProfileImage = userMst != null ? System.IO.File.Exists(Path.Combine(_commonHelper.GetPhysicalRootPath(false), userMst.PhotoUrl)) ? Path.Combine(@"\", userMst.PhotoUrl) :
-                              @"\Theme\Logo\default_user_profile.png" : "Theme\\Logo\\default_user_profile.png",
-                        Address = userMst != null ? ($"{userMst.Address.ToString()} {userMst.Pincode.ToString()}") : "",
+                        ProfileImage = System.IO.File.Exists(Path.Combine(_commonHelper.GetPhysicalRootPath(false), userMst.PhotoUrl)) ? Path.Combine(@"\", userMst.PhotoUrl) : @"\Theme\Logo\default_user_profile.png",
+                        Address = ($"{Convert.ToString(userMst.Address)} {Convert.ToString(userMst.Pincode)}"),
                         Designation = userDetails != null ? userDetails.designationDetails.Designation : "",
-                        Email = userMst != null ? userMst.Email : "",
-                        Mobile = userMst != null ? userMst.Mobile1 : "",
+                        Email = userMst.Email,
+                        Mobile = userMst.Mobile1,
                         BloodGroup = userDetails != null ? userDetails.userDetail.BloodGroup : ""
 
                     };
@@ -55,7 +54,6 @@ namespace ArcheOne.Controllers
                     commonResponse.Data = profileResModel;
                     commonResponse.StatusCode = HttpStatusCode.OK;
                     commonResponse.Status = true;
-
                 }
             }
             catch (Exception ex)
@@ -71,7 +69,7 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
             try
             {
-                var loggedInUserDetails = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == _commonHelper.GetLoggedInUserId());
+                var loggedInUserDetails = await _dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.Id == _commonHelper.GetLoggedInUserId());
                 if (loggedInUserDetails != null)
                 {
 
@@ -80,7 +78,6 @@ namespace ArcheOne.Controllers
                     bool validateFileExtension = false;
                     bool validateFileSize = false;
                     string filePath = string.Empty;
-                    UserMst userMst = new UserMst();
                     if (changeProfileImageReqModel.UserImage != null)
                     {
                         file = changeProfileImageReqModel.UserImage;
@@ -110,12 +107,12 @@ namespace ArcheOne.Controllers
                             }
                             else
                             {
-                                commonResponse.Message = "Failed to change Profile Image !";
+                                commonResponse.Message = "Failed to change profile image !";
                             }
                         }
                         else
                         {
-                            commonResponse.Message = "Only jpg and png files are Allowed !";
+                            commonResponse.Message = "Only jpg and png files are allowed !";
                         }
                     }
                 }

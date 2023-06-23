@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArcheOne.Database.Entities;
 
@@ -14,6 +16,8 @@ public partial class ArcheOneDbContext : DbContext
     }
 
     public virtual DbSet<AppraisalMst> AppraisalMsts { get; set; }
+
+    public virtual DbSet<AppraisalRatingMst> AppraisalRatingMsts { get; set; }
 
     public virtual DbSet<CandidateMst> CandidateMsts { get; set; }
 
@@ -71,6 +75,8 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<RoleMst> RoleMsts { get; set; }
 
+    public virtual DbSet<SalaryMst> SalaryMsts { get; set; }
+
     public virtual DbSet<SalesContactPersonMst> SalesContactPersonMsts { get; set; }
 
     public virtual DbSet<SalesLeadActionMst> SalesLeadActionMsts { get; set; }
@@ -91,7 +97,10 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<UserPermission> UserPermissions { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;");
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AppraisalMst>(entity =>
@@ -105,6 +114,17 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.Year)
                 .HasMaxLength(100)
                 .HasColumnName("year");
+        });
+
+        modelBuilder.Entity<AppraisalRatingMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Appraisa__3214EC07E9AA009B");
+
+            entity.ToTable("AppraisalRatingMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.GoalNtarget).HasColumnName("GoalNTarget");
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<CandidateMst>(entity =>
@@ -570,6 +590,69 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.RoleCode).HasMaxLength(100);
             entity.Property(e => e.RoleName).HasMaxLength(100);
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<SalaryMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__SalaryMs__3214EC0744E331E9");
+
+            entity.ToTable("SalaryMst");
+
+            entity.Property(e => e.AdditionalHraallowance)
+                .HasColumnType("decimal(18, 2)")
+                .HasColumnName("AdditionalHRAAllowance");
+            entity.Property(e => e.Advances).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.Basic).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.BasicSalary).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.ConveyanceAllowance).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.Ctc)
+                .HasColumnType("decimal(18, 2)")
+                .HasColumnName("CTC");
+            entity.Property(e => e.EmployerContributionToPf)
+                .HasColumnType("decimal(18, 2)")
+                .HasColumnName("EmployerContributionToPF");
+            entity.Property(e => e.Esicemployee)
+                .HasColumnType("decimal(18, 2)")
+                .HasColumnName("ESICEmployee");
+            entity.Property(e => e.Esicemployer)
+                .HasColumnType("decimal(18, 2)")
+                .HasColumnName("ESICEmployer");
+            entity.Property(e => e.FixedConveyanceAllowance).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.FixedHra)
+                .HasColumnType("decimal(18, 2)")
+                .HasColumnName("FixedHRA");
+            entity.Property(e => e.FixedMedicalAllowance).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.FlexibleAllowance).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.GrossSalaryPayable).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.Hra)
+                .HasColumnType("decimal(18, 2)")
+                .HasColumnName("HRA");
+            entity.Property(e => e.Hraallowance)
+                .HasColumnType("decimal(18, 2)")
+                .HasColumnName("HRAAllowance");
+            entity.Property(e => e.IncentiveAllowance).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.IncomeTax).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.MedicalAllowance).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.NetPayable).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.PaidLeave).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.PayableDays).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.Pfemployee)
+                .HasColumnType("decimal(18, 2)")
+                .HasColumnName("PFEmployee");
+            entity.Property(e => e.Pfemployer)
+                .HasColumnType("decimal(18, 2)")
+                .HasColumnName("PFEmployer");
+            entity.Property(e => e.ProfessionalTax).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.SalartMonth)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.SalaryYear).HasColumnType("decimal(4, 0)");
+            entity.Property(e => e.TotalDays).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.TotalDeduction).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.TotalEarning).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.UnpaidLeave).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 

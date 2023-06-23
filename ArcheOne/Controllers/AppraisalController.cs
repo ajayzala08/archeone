@@ -40,7 +40,6 @@ namespace ArcheOne.Controllers
             List<GetAppraisalListResModel> getAppraisalListResModel = new List<GetAppraisalListResModel>();
             try
             {
-                AppraisalMst appraisalMst = new AppraisalMst();
                 var appraisalList = _dbRepo.AppraisalList().ToList();
                 if (appraisalList.Count > 0)
                 {
@@ -50,7 +49,7 @@ namespace ArcheOne.Controllers
                                                 on u.EmployeeId equals r.Id
                                                 join i in _dbRepo.AllUserMstList()
                                                 on u.ReportingManagerId equals i.Id
-                                                select new { u, r, i }).ToList().Select(x => new GetAppraisalListResModel
+                                                select new { u, r, i }).Select(x => new GetAppraisalListResModel
                                                 {
                                                     Id = x.u.Id,
                                                     EmployeeName = x.r.FirstName + " " + x.r.LastName,

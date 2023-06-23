@@ -1148,3 +1148,86 @@ BEGIN
 END
 ----------------------------------------Added by DS on 22-06-23-----------------------------------End--------
 ---------------------------------------Executed on Local Server on 22-06-23------------------by DS-----------
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'AppraisalRatingMst')
+BEGIN 
+	Create table dbo.AppraisalRatingMst(
+			Id int identity(1,1) primary key,
+			RatingFromUserId int not null,
+			RatingToUserId int not null,
+			QualityOfWork int not null,
+			GoalNTarget int not null,
+			WrittenVerbalSkill int not null,
+			InitiativeMotivation int not null,
+			TeamWork int null,
+			ProblemSolvingAbillity int null,
+			Attendance int null,
+			Total int  null,
+			Comment nvarchar(Max) null,
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'AppraisalRatingMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'AppraisalRatingMst Table Already Exist' 
+END
+----------------------------------------Added by SP on 23-06-23-----------------------------------End--------
+---------------------------------------Executed on Local Server on 23-06-23------------------by SP-----------
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'SalaryMst')
+BEGIN 
+	Create table dbo.SalaryMst(
+			[Id] int identity(1,1) primary key,
+			[CompanyId] int not null,
+			[EmployeeCode] int not null,
+			[CTC] Decimal(18,2) not null,
+			[BasicSalary] Decimal(18,2) not null,
+			[FixedHRA] Decimal(18,2) not null,
+			[FixedConveyanceAllowance] Decimal(18,2) not null,
+			[FixedMedicalAllowance] Decimal(18,2) not null,
+			[AdditionalHRAAllowance] Decimal(18,2) not null,
+			[TotalDays] Decimal(18,2) not null,
+			[PaidLeave] Decimal(18,2) not null,
+			[UnpaidLeave] Decimal(18,2) not null,
+			[PayableDays] Decimal(18,2) not null,
+			[GrossSalaryPayable] Decimal(18,2) not null,	
+			[Basic] Decimal(18,2) not null,
+			[HRA] Decimal(18,2) not null,
+			[EmployerContributionToPF] Decimal(18,2) not null,
+			[ConveyanceAllowance] Decimal(18,2) not null,
+			[MedicalAllowance] Decimal(18,2) not null,
+			[HRAAllowance] Decimal(18,2) not null,
+			[FlexibleAllowance] Decimal(18,2) not null,
+			[IncentiveAllowance] Decimal(18,2) not null,
+			[TotalEarning] Decimal(18,2) not null,
+			[PFEmployer] Decimal(18,2) not null,
+			[PFEmployee] Decimal(18,2) not null,
+			[ESICEmployer] Decimal(18,2) not null,
+			[ESICEmployee] Decimal(18,2) not null,
+			[ProfessionalTax] Decimal(18,2) not null,
+			[Advances] Decimal(18,2) not null,
+			[IncomeTax] Decimal(18,2) not null,
+			[TotalDeduction] Decimal(18,2) not null,
+			[NetPayable] Decimal(18,2) not null,
+			[SalartMonth] varchar(20) not null,
+			[SalaryYear] decimal(4) not null,
+			[IsDelete] bit not null,
+			[CreatedBy] int not null,
+			[UpdatedBy] int not null,
+			[CreatedDate] datetime not null,
+			[UpdatedDate] datetime not null,
+			);
+	PRINT 'SalaryMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'SalaryMst Table Already Exist' 
+END
+----------------------------------------Added by AZ on 23-06-23-----------------------------------End--------
+---------------------------------------Executed on Local Server on 23-06-23------------------by AZ-----------

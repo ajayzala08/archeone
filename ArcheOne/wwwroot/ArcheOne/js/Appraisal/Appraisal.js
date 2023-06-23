@@ -14,7 +14,7 @@ function GetAppraisalList() {
         ApplyDatatableResponsive('tblAppraisal');
 
         $(".btn-edit").click(function () {
-
+            debugger
             var Id = $(this).attr('Id');
             AddEditAppraisal(Id);
         });
@@ -22,6 +22,12 @@ function GetAppraisalList() {
         $(".btn-delete").click(function () {
             Id = $(this).attr('Id');
             DeleteAppraisal(Id);
+        });
+       
+        $(".btn-info").click(function () {
+          
+            Id = $(this).attr('Id');
+            AppraisalInfo(Id);
         });
 
     });
@@ -62,6 +68,12 @@ function DeleteAppraisal(Id) {
             });
         }
     })
+};
+
+function AppraisalInfo(Id) {
+   
+    window.location.href = '/AppraisalRating/AddEditAppraisalRating?Id=' + Id;
+
 };
 
 

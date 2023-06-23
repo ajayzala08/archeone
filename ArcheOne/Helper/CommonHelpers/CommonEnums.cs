@@ -24,7 +24,12 @@
             User_Permissions_Edit,
             Requirements_View,
             Policy_View,
+            Leaves_View,
+            Appraisal_View,
             Leads_View,
+            Daily_Tasks_View,
+            Projects_View,
+            Task_Report_View
         }
 
         public enum InterviewRoundStatusMst

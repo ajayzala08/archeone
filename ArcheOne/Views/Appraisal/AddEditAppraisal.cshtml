@@ -4,7 +4,7 @@
 
 @{
     Layout = "_MasterLayout";
-    var Title = Model.Id > 0 ? "Edit Holiday" : "Create Holiday"; 
+    string Title = Model.Id > 0 ? "Edit Holiday" : "Create Holiday"; 
 }
 
 <section class="content-header"></section>
@@ -12,7 +12,7 @@
     <div class="container-fluid">
         <div class="card card-outline card-primary">
             <div class="card-header">
-                Title
+                @Title
                 <h3 class="card-title"></h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
