@@ -23,11 +23,11 @@ function GetAppraisalList() {
             Id = $(this).attr('Id');
             DeleteAppraisal(Id);
         });
-        debugger
+       
         $(".btn-info").click(function () {
-            debugger
+          
             Id = $(this).attr('Id');
-            AddEditAppraisal(Id);
+            AppraisalInfo(Id);
         });
 
     });
@@ -71,7 +71,7 @@ function DeleteAppraisal(Id) {
 };
 
 function AppraisalInfo(Id) {
-    debugger
+   
     window.location.href = '/AppraisalRating/AddEditAppraisalRating?Id=' + Id;
 
 };
