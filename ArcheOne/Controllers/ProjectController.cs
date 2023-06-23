@@ -24,24 +24,52 @@ namespace ArcheOne.Controllers
         {
             return View();
         }
-
+        public class ProjectList
+        {
+            public int Id { get; set; }
+            public string ProjectName { get; set; }
+            public string ProjectStatus { get; set; }
+            public DateTime CreatedDate { get; set; }
+            public string Resources { get; set; }
+            public string ResourcesNames { get; set; }
+            public bool IsEditable { get; set; }
+            public bool IsDeletable { get; set; }
+        }
         public async Task<CommonResponse> GetProjectList()
         {
             CommonResponse response = new CommonResponse();
             try
             {
-                var projectList = await (from project in _dbRepo.ProjectList()
-                                         select new
-                                         {
-                                             project.Id,
-                                             project.ProjectName,
-                                             project.ProjectStatus,
-                                             project.CreatedDate,
-                                             project.Resources,
-                                             IsEditable = project.ProjectStatus != CommonEnums.ProjectStatus.Completed.ToString(),
-                                             IsDeletable = project.ProjectStatus == CommonEnums.ProjectStatus.Completed.ToString(),
-                                             ResourcesNames = string.Join(",", _dbContext.UserMsts.Where(x => project.Resources.Contains(x.Id.ToString())).Select(x => x.FirstName + ' ' + x.LastName))
-                                         }).ToListAsync();
+
+
+                List<ProjectList> projectList = await (from project in _dbRepo.ProjectList()
+                                                       select new ProjectList
+                                                       {
+                                                           Id = project.Id,
+                                                           ProjectName = project.ProjectName,
+                                                           ProjectStatus = project.ProjectStatus,
+                                                           CreatedDate = project.CreatedDate,
+                                                           Resources = project.Resources,
+                                                           IsEditable = project.ProjectStatus != CommonEnums.ProjectStatus.Completed.ToString(),
+                                                           IsDeletable = project.ProjectStatus == CommonEnums.ProjectStatus.Completed.ToString(),
+                                                           ResourcesNames = string.Empty
+                                                       }).ToListAsync();
+
+                foreach (var item in projectList)
+                {
+
+                    string[] resourcesIds = item.Resources.Split(',');
+
+                    var resourcesNames = (from p in resourcesIds
+                                          join u in _dbRepo.UserMstList() on p.Trim() equals u.Id.ToString()
+                                          select new
+                                          {
+                                              ResourcesNames = $"{u.FirstName} {u.LastName}"
+                                          }).ToList();
+
+                    item.ResourcesNames = string.Join(", ", resourcesNames.Select(r => r.ResourcesNames).ToList());
+
+                }
 
                 if (projectList != null && projectList.Count > 0)
                 {
@@ -148,12 +176,11 @@ namespace ArcheOne.Controllers
                     }
                     else // Update Old Project
                     {
-                        var duplicateProject = await _dbRepo.ProjectList().Where(x => x.ProjectName.ToLower() == request.ProjectName.ToLower()).ToListAsync();
-                        if (duplicateProject != null && duplicateProject.Count == 1 && duplicateProject[0].Id == request.Id)
+                        if (!await _dbRepo.ProjectList().AnyAsync(x => x.ProjectName.ToLower() == request.ProjectName.ToLower() && x.Id != request.Id))
                         {
-                            if (duplicateProject[0].ProjectStatus != CommonEnums.ProjectStatus.Completed.ToString())
+                            var projectMst = await _dbRepo.ProjectList().FirstOrDefaultAsync(x => x.Id == request.Id);
+                            if (projectMst != null && projectMst.ProjectStatus != CommonEnums.ProjectStatus.Completed.ToString())
                             {
-                                ProjectMst projectMst = duplicateProject[0];
                                 projectMst.ProjectName = request.ProjectName;
                                 projectMst.ProjectStatus = request.ProjectStatus;
                                 projectMst.Resources = request.Resources;
@@ -192,7 +219,7 @@ namespace ArcheOne.Controllers
             CommonResponse response = new CommonResponse();
             try
             {
-                var projectMst = await _dbRepo.PermissionList().FirstOrDefaultAsync(x => x.Id == ProjectId);
+                var projectMst = await _dbRepo.ProjectList().FirstOrDefaultAsync(x => x.Id == ProjectId);
                 if (projectMst != null)
                 {
                     projectMst.IsDelete = true;
