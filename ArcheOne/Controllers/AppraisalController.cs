@@ -52,11 +52,12 @@ namespace ArcheOne.Controllers
                                                 on u.ReportingManagerId equals i.Id
                                                 select new { u, r, i }).ToList().Select(x => new GetAppraisalListResModel
                                                 {
-                                                    Id = x.r.Id,
+                                                    Id = x.u.Id,
                                                     EmployeeName = x.r.FirstName + " " + x.r.LastName,
                                                     ReportingManagerName = x.i.FirstName + " " + x.i.LastName,
                                                     Year = x.u.Year
                                                 }).ToList();
+
 
                     commonResponse.Data = getAppraisalListResModel;
 
@@ -83,10 +84,12 @@ namespace ArcheOne.Controllers
         {
             CommonResponse commonResponse = new CommonResponse();
             AddEditAppraisalResModel addEditAppraisalResModel = new AddEditAppraisalResModel();
+            addEditAppraisalResModel.reportingManagetDetail = new ReportingManagetDetail();
+            addEditAppraisalResModel.reportingManagetDetail.EmployeeDetail = new EmployeeDetail();
 
             var roleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Manager")).ToList();
             var roleIdList = roleList.Select(x => x.Id).ToList();
-            var userList = _dbRepo.UserMstList().Where(x => x.RoleId != null);
+            var userList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null);
 
             var appraisalList = _dbRepo.AppraisalList().ToList();
             var reportingManagerList = userList.Where(x => roleIdList.Contains(x.RoleId.Value)).ToList();
@@ -95,18 +98,21 @@ namespace ArcheOne.Controllers
 
             addEditAppraisalResModel.EmployeeId = employeeList;
             addEditAppraisalResModel.ReportingManagerId = reportingManagerList;
-
-
+            //addEditAppraisalResModel.reportingManagetDetail.ReportingManagerId = 0;
+        
             try
             {
                 AppraisalMst appraisalMst = new AppraisalMst();
                 if (Id > 0)
                 {
                     var appraisal = _dbRepo.AppraisalList().FirstOrDefault(x => x.Id == Id);
+                    var managerUserDetail = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == appraisal.ReportingManagerId);
+                    var employeeUserDetail = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == appraisal.EmployeeId);
                     if (appraisal != null)
                     {
-                        //addEditAppraisalResModel.EmployeeId = appraisal.EmployeeId;
-                        //addEditAppraisalResModel.ReportingManagerId = appraisal.ReportingManagerId;
+                        addEditAppraisalResModel.reportingManagetDetail.ReportingManagerId = appraisal.ReportingManagerId;
+                        addEditAppraisalResModel.reportingManagetDetail.EmployeeDetail.EmployeeId = appraisal.EmployeeId;
+                        addEditAppraisalResModel.Id = appraisal.Id;
                         addEditAppraisalResModel.Year = appraisal.Year;
 
                         commonResponse.Status = true;
@@ -177,6 +183,7 @@ namespace ArcheOne.Controllers
                         appraisalMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
                         appraisalMst.IsActive = true;
                         appraisalMst.IsDelete = false;
+
 
                         _dbContext.Add(appraisalMst);
                         _dbContext.SaveChanges();

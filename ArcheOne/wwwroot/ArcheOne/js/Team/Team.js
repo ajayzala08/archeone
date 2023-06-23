@@ -3,29 +3,30 @@
     $('#AddTeamPage').click(function () {
         AddEditTeam(0);
     });
-    
+
 });
 
 function GetFilteredTeamList() {
     ajaxCall("Get", false, '/Team/TeamList', null, function (result) {
         $("#divTeamList").html(result.responseText);
         ApplyDatatableResponsive('tblTeam');
+      
         $(".btn-edit").click(function () {
-            var Id = $(this).attr('Id');
-            AddEditTeam(Id);
+            var TeamLeadId = $(this).attr('TeamLeadId');
+            AddEditTeam(TeamLeadId);
         });
 
         $(".btn-delete").click(function () {
-            Id = $(this).attr('Id');
-            DeleteTeam(Id);
+            TeamLeadId = $(this).attr('TeamLeadId');
+            DeleteTeam(TeamLeadId);
         });
 
     });
 }
-function AddEditTeam(Id) {
-    ajaxCall("Get", false, '/Team/AddEditTeam?id=' + Id, null, function (result) {
-        if (Id > 0) {
-            RedirectToPage('/Team/AddEditTeam?id=' + Id)
+function AddEditTeam(TeamLeadId) {
+    ajaxCall("Get", false, '/Team/AddEditTeam?id=' + TeamLeadId, null, function (result) {
+        if (TeamLeadId > 0) {
+            RedirectToPage('/Team/AddEditTeam?id=' + TeamLeadId)
             $(".preview img").attr('src');
             $(".preview img").show();
         }
@@ -42,7 +43,7 @@ function SaveUpdateTeam() {
     $('#ddlTeamMemberId :selected').each(function () {
         selected.push[$(this).val()] = $(this).text();
     });
-    /*   var arraSelect =[]*/
+ 
     var saveTeamData = {
         "TeamId": parseInt($("#txtTeamId").val()),
         "TeamLeadId": parseInt($("#ddlTeamLeadId").val()),
@@ -69,14 +70,14 @@ function ClearAll() {
     $("#txtTeamId").val(''),
         $("#ddlTeamLeadId").val(),
         $("#ddlTeamMemberId").val()
-    
+
 }
 
 function DeleteTeam(Id) {
     if ($("#txtTeamId").value > 0) {
         Id = $("#txtTeamId").value;
     }
- 
+
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -100,6 +101,8 @@ function DeleteTeam(Id) {
         }
     })
 };
+
+
 
 
 

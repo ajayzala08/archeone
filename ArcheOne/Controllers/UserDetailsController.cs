@@ -95,7 +95,7 @@ namespace ArcheOne.Controllers
 					// Edit Mode
 					//var editUserDetails = _dbRepo.UserDetailList().FirstOrDefault(x => x.Id == addEditUserDetailsReqModel.Id && x.EmployeeCode != addEditUserDetailsReqModel.EmployeeCode && x.EmployeePersonalEmailId != addEditUserDetailsReqModel.EmployeePersonalEmailId);
 
-					var editUserDetails = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.EmployeeCode == x.EmployeeCode);
+					var editUserDetails = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.EmployeeCode == addEditUserDetailsReqModel.EmployeeCode);
 					if (editUserDetails != null)
 					{
 						editUserDetails.EmployeeCode = addEditUserDetailsReqModel.EmployeeCode;

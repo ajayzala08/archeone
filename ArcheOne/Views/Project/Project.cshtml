@@ -1,0 +1,95 @@
+﻿@{
+    Layout = "_MasterLayout";
+    ViewBag.datatable = "true";
+    ViewBag.select2 = "true";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Projects</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Project</a></li>
+                    <li class="breadcrumb-item active">Projects</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <input type="hidden" id="requirementId" value="@Model" />
+        <div class="card-header d-flex p-0">
+            <h3 class="card-title p-3">Project List</h3>
+            <div class="card-tools ml-auto mr-2 p-2">
+                <button type="button" id="btnAddProject" data-toggle="modal" data-target="#modalProject" class="btn btn-primary float-right" onclick="OpenProjectModel()">Add Project</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="tblProjects" class="table table-bordered table-striped" style="width:100%">
+            </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+
+    <div class="modal fade" id="modalProject" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Create New Project</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalAddUpdateProject">
+                    <input type="hidden" id="projectId" value="0"/>
+                    <div class="row">
+                        <div class="form-group col-sm-12" id="dtxtProjectName">
+                            <label><span class="has-error required">* </span>Project Name</label>
+                            <input id="txtProjectName" name="txtProjectName" type="text" class="form-control text-length" placeholder="Project Name" isrequired="1" divcontainer="dtxtProjectName" errorspan="stxtProjectName" defaultvalue="" autocomplete="off" minlength="2" maxlength="100">
+                            <span class="help-block d-none has-error" id="stxtProjectName">Please Enter Project Name</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12" id="dddlProjectStatus">
+                            <label><span class="has-error required">* </span>Status</label>
+                            <select id="ddlProjectStatus" name="ddlProjectStatus" class="form-control" isrequired="1" divcontainer="dddlProjectStatus" errorspan="sddlProjectStatus" defaultvalue="0">
+                            </select>
+                            <span class="help-block d-none has-error" id="sddlProjectStatus">Please Select Project Status</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12" id="dddlResources">
+                            <label><span class="has-error required">* </span>Resources</label>
+                            <select id="ddlResources" name="ddlResources" class="form-control select2" isRequired="1" divcontainer="dddlResources" errorspan="sddlResources" defaultvalue="0" multiple="multiple">
+                            </select>
+                            <span class="help-block d-none has-error" id="sddlResources">Please Select Resources</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <button type="button" id="btnAddUpdateProject" class="btn btn-success mr-2" onclick="AddUpdateProject()">Save</button>
+                        <button type="button" id="btnCancel" data-dismiss="modal" class="btn btn-danger" onclick="CancelProject()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<!-- /.content -->
+@section Scripts
+    {
+    <script src="~/archeone/js/project/project.js"></script>
+    }
