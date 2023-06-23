@@ -1,101 +1,129 @@
-﻿@{
-    Layout = "_MasterLayout";
+﻿@using ArcheOne.Models.Req;
+@model AddEditUserDocumentReqModel;
+@{
+	Layout = "_MasterLayout";
+	ViewBag.datatable = "true";
+	string Title1 = "";
+	Title1 = Model.AddEditUserDocuments.Id > 0 ? "Edit UserDocument" : "Add UserDocument";
+	var UserId = Model.AddEditUserDocuments.UserId;
+	var DocumentTypeId = Model.AddEditUserDocuments.DocumentTypeId;
 }
 
+<!-- Content Header (Page header) -->
 <section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>User Document</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Masters</a></li>
-                    <li class="breadcrumb-item active">User</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+	<div class="container-fluid">
+		<div class="row mb-2">
+			<div class="col-sm-6">
+				<h1>User Documents</h1>
+			</div>
+			<div class="col-sm-6">
+				<ol class="breadcrumb float-sm-right">
+					<li class="breadcrumb-item"><a href="#">User Documents</a></li>
+					@*<li class="breadcrumb-item active">Projects</li>*@
+				</ol>
+			</div>
+		</div>
+	</div><!-- /.container-fluid -->
 </section>
 
+<!-- Main content -->
 <section class="content">
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">User Document List</h3>
-            <button type="button" id="AddUserDocument" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal-lg" value="Add UserDocument">
-                Add UserDocument
-            </button>
 
-            <div class="modal fade" id="modal-lg">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Add User Documents</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <input id="txtId" name="txtId" type="hidden" class="form-control col-sm-4" value="" />
-                        <div class="modal-body" id="dtxtPolicyName">
-                            <label class="form-label">User</label>
-                            <select id="ddlUser" name="ddlUser" class="form-control" isrequired="1" divcontainer="dddlUser" errorspan="sddlUser" defaultvalue="0" style="width: 100%;">
-                                @* @foreach (var item in Model.RoleList)
-                                {
-                                if (item.Id == RoleId)
-                                {
-                                <option value="@item.Id" selected">@item.RoleName</option>
-                                }
-                                else
-                                {
-                                <option value="@item.Id">@item.RoleName</option>
-                                }
-                                }*@
-                            </select>
-                        </div>
-                        <div class="modal-body" id="dtxtPolicyName">
-                            <label class="form-label">DocumentType</label>
-                            <select id="ddlDocumentType" name="ddlDocumentType" class="form-control" isrequired="1" divcontainer="dddlDocumentType" errorspan="sddlDocumentType" defaultvalue="0" style="width: 100%;">
-                                @* @foreach (var item in Model.RoleList)
-                                {
-                                if (item.Id == RoleId)
-                                {
-                                <option value="@item.Id" selected">@item.RoleName</option>
-                                }
-                                else
-                                {
-                                <option value="@item.Id">@item.RoleName</option>
-                                }
-                                }*@
-                            </select>
-                        </div>
-                        <div class="modal-body" id="dtxtPolicyName">
-                            <label class="form-label">Document</label>
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="exampleInputFile">
-                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                </div>
-                               @* <div class="input-group-append">
-                                    <span class="input-group-text">Upload</span>
-                                </div>*@
-                            </div>
-                        </div>
-                        <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div>
+	<!-- Default box -->
+	<div class="card">
+		<input type="hidden" id="requirementId" value="@Model" />
+		<div class="card-header d-flex p-0">
+			<h3 class="card-title p-3">UserDocuments List</h3>
+			<div class="card-tools ml-auto mr-2 p-2">
+				<button type="button" id="btnAddUserDocument" data-toggle="modal" data-target="#modalUserDocument" class="btn btn-primary float-right" onclick="OpenUserDocumentModel()">Add UserDocument</button>
+			</div>
+		</div>
+		<div class="card-body">
+			<table id="tblUserDocument" class="table table-bordered table-striped" style="width:100%">
+			</table>
+		</div>
+		<!-- /.card-body -->
+	</div>
+	<!-- /.card -->
 
-                </div>
 
-        </div>
-        <div class="card-body">
-            <div id="divPolicyList">
-            </div>
-        </div>
-    </div>
+	<div class="modal fade" id="modalUserDocument" data-keyboard="false" data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+						<h5 class="modal-title">@Title1</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" id="modalAddUpdateUserDocument">
+					<input type="hidden" id="txtuserDocumentId" name="txtuserDocumentId" />
+					<div class="row">
+						<div class="form-group col-sm-12" id="dddlUser">
+							<label><span class="has-error required">* </span>User</label>
+							<select id="ddlUser" name="ddlUser" class="form-control" isrequired="1" divcontainer="dddlUser" errorspan="sddlUser" defaultvalue="0" style="width: 100%;">
+								@foreach (var item in Model.UserList)
+								{
+									if (item.Id == DocumentTypeId)
+									{
+										<option value="@item.Id" selected">@item.UserName</option>
+									}
+									else
+									{
+										<option value="@item.Id">@item.UserName</option>
+									}
+								}
+							</select>
+							<span class="help-block d-none has-error" id="sddlUser">Please Select User</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-sm-12" id="dddlDocumentType">
+							<label><span class="has-error required">* </span>DocumentType</label>
+							<select id="ddlDocumentType" name="ddlDocumentType" class="form-control" isrequired="1" divcontainer="dddlDocumentType" errorspan="sddlDocumentType" defaultvalue="0" style="width: 100%;">
+								@foreach (var item in Model.DocumentTypeList)
+								{
+									if (item.Id == DocumentTypeId)
+									{
+										<option value="@item.Id" selected">@item.DocumentType</option>
+									}
+									else
+									{
+										<option value="@item.Id">@item.DocumentType</option>
+									}
+								}
+							</select>
+							<span class="help-block d-none has-error" id="sddlDocumentType">Please Select DocumentType</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-sm-12" id="dtxtDocument">
+							<label><span class="has-error required">* </span>Document</label>
+							<div class="input-group">
+								<div class="custom-file">
+									<input id="txtDocument" name="txtDocument" class="custom-file-input" type="file" isRequired="1" divcontainer="dtxtDocument" errorspan="sdtxtDocument" defaultvalue="0">
+									<label class="custom-file-label" for="exampleInputFile">Choose file</label>
+								</div>
+							</div>
+							<span class="help-block d-none has-error" id="sddlDocumentType">Please Select DocumentType</span>
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<div class="row">
+						<button type="button" id="btnAddUpdateUserDocument" class="btn btn-success mr-2" onclick="AddUpdateUserDocument()">Save</button>
+						<button type="button" id="btnCancel" data-dismiss="modal" class="btn btn-danger" onclick="CancelDocument()">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
-
-@section Scripts{
-    
+<!-- /.content -->
+@section Scripts
+	{
+	<script src="~/archeone/js/userdocument/userdocument.js"></script>
 }
