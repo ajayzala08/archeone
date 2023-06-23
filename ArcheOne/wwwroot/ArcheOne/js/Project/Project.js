@@ -35,12 +35,11 @@ function GetProjectList() {
                                 actions = '<i class="fa fa-pen pen btn-edit" style="cursor: pointer;" data-toggle="modal" data-target="#modalProject" onclick="GetProjectDetails(' + row.id + ')"></i>';
                             }
                             if (row.isDeletable) {
-                                actions = '<i class="fa fa-trash trash btn-delete" style="cursor: pointer;" onclick="ShowDeleteProjectAlert('+row.id+')"></i>';
+                                actions = '<i class="fa fa-trash trash btn-delete" style="cursor: pointer;" onclick="ShowDeleteProjectAlert(' + row.id + ')"></i>';
                             }
                             return actions;
                         }
                     },
-                    { data: "id", title: "Id" },
                     { data: "id", title: "Id" },
                     { data: "projectName", title: "Project" },
                     { data: "projectStatus", title: "Project Status" },
@@ -54,58 +53,68 @@ function GetProjectList() {
             }).buttons().container().appendTo('#tblProjects_wrapper .col-md-6:eq(0)');
         }
         else {
-            $.blockUI({
-                message: "<h2>" + result.message + "</p>"
-            });
+            Toast.fire({ icon: 'error', title: result.message });
         }
         $.unblockUI();
     });
 }
 
 function OpenProjectModel() {
-    GetResources();
-    GetProjectStatus();
-
+    return new Promise((resolve, reject) => {
+        GetResources()
+            .then(() => {
+                return GetProjectStatus();
+            })
+            .then(() => {
+                resolve(); // Resolve the promise when all methods complete
+            })
+            .catch(error => {
+                reject(error); // Reject the promise if any error occurs
+            });
+    });
 }
 
 function GetResources() {
-    $.blockUI({ message: "<h2>Please wait</p>" });
+    return new Promise((resolve, reject) => {
+        $.blockUI({ message: "<h2>Please wait</p>" });
 
-    $("#ddlResources").empty();
+        $("#ddlResources").empty();
 
-    ajaxCall("Post", false, '/User/UserListByRoleId', null, function (result) {
-        if (result.status == true) {
-            $.each(result.data, function (data, value) {
-                $("#ddlResources").append($("<option></option>").val(value.id).html(value.firstName + ' ' + value.lastName));
-            })
-        }
-        else {
-            $.blockUI({
-                message: "<h2>" + result.message + "</p>"
-            });
-        }
-        $.unblockUI();
+        ajaxCall("Post", false, '/User/UserListByRoleId', null, function (result) {
+            if (result.status == true) {
+                $.each(result.data, function (data, value) {
+                    $("#ddlResources").append($("<option></option>").val(value.id).html(value.firstName + ' ' + value.lastName));
+                })
+                resolve();
+            }
+            else {
+                Toast.fire({ icon: 'error', title: result.message });
+            }
+            $.unblockUI();
+        });
     });
 }
 
 function GetProjectStatus() {
-    $.blockUI({ message: "<h2>Please wait</p>" });
+    return new Promise((resolve, reject) => {
+        $.blockUI({ message: "<h2>Please wait</p>" });
 
-    $("#ddlProjectStatus").empty();
-    $("#ddlProjectStatus").append($("<option selected value='0'>Select Status</option>"));
+        $("#ddlProjectStatus").empty();
+        $("#ddlProjectStatus").append($("<option selected disabled value='0'>Select Status</option>"));
 
-    ajaxCall("Post", false, '/Project/GetProjectStatus', null, function (result) {
-        if (result.status == true) {
-            $.each(result.data, function (data, value) {
-                $("#ddlProjectStatus").append($("<option></option>").val(value.id).html(value.title));
-            })
-        }
-        else {
-            $.blockUI({
-                message: "<h2>" + result.message + "</p>"
-            });
-        }
-        $.unblockUI();
+        ajaxCall("Post", false, '/Project/GetProjectStatus', null, function (result) {
+            if (result.status == true) {
+                $.each(result.data, function (data, value) {
+                    $("#ddlProjectStatus").append($("<option></option>").val(value.id).html(value.title));
+                })
+                resolve();
+            }
+            else {
+                Toast.fire({ icon: 'error', title: result.message });
+                reject();
+            }
+            $.unblockUI();
+        });
     });
 }
 
@@ -143,23 +152,27 @@ function GetProjectDetails(projectId) {
     $("#btnAddUpdateProject").html("Update");
     $("#btnAddUpdateProject").removeClass("btn-success").addClass("btn-warning");
 
-    $.blockUI({ message: "<h2>Please wait</p>" });
+    OpenProjectModel().then(() => {
+        $.blockUI({ message: "<h2>Please wait</p>" });
 
-    ajaxCall("Post", false, '/Project/GetProjectById?ProjectId=' + projectId, null, function (result) {
-        if (result.status == true) {
-            $("#projectId").val(projectId);
-            $("#txtProjectName").val(result.data.projectName);
-            $('#ddlProjectStatus').val(result.data.projectStatus);
-            $("#ddlResources").val(result.data.resources);
+        ajaxCall("Post", false, '/Project/GetProjectById?ProjectId=' + projectId, null, function (result) {
+            if (result.status == true) {
+                $("#projectId").val(projectId);
+                $("#txtProjectName").val(result.data.projectName);
+                $('#ddlProjectStatus option:contains(' + result.data.projectStatus + ')').prop('selected', true);
 
-        }
-        else {
-            $.blockUI({
-                message: "<h2>" + result.message + "</p>"
-            });
-        }
-        $.unblockUI();
-    });
+                $('#ddlResources').val(result.data.resources.split(','));
+                $('#ddlResources').trigger('change');
+
+            }
+            else {
+                Toast.fire({ icon: 'error', title: result.message });
+            }
+            $.unblockUI();
+        });
+    }).catch(error => {
+        console.error(error);
+    });    
 }
 
 function CancelProject() {
@@ -173,8 +186,7 @@ function CancelProject() {
 
 }
 
-function ShowDeleteProjectAlert(projectId)
-{
+function ShowDeleteProjectAlert(projectId) {
     swal.fire({
         title: "Delete",
         html: "Are you sure you want to Delete this project?",
