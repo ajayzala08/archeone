@@ -192,7 +192,7 @@ namespace ArcheOne.Controllers
             CommonResponse response = new CommonResponse();
             try
             {
-                var projectMst = await _dbRepo.ProjectList().FirstOrDefaultAsync(x => x.Id == ProjectId);
+                var projectMst = await _dbRepo.PermissionList().FirstOrDefaultAsync(x => x.Id == ProjectId);
                 if (projectMst != null)
                 {
                     projectMst.IsDelete = true;
