@@ -24,26 +24,27 @@ namespace ArcheOne.Controllers
         public IActionResult AddEditAppraisalRating(int Id)
         {
             CommonResponse commonResponse = new CommonResponse();
-            AddEditAppraisalResModel addEditAppraisalResModel = new AddEditAppraisalResModel();
-            addEditAppraisalResModel.reportingManagetDetail = new ReportingManagetDetail();
-            addEditAppraisalResModel.reportingManagetDetail.EmployeeDetail = new EmployeeDetail();
+            AddEditAppraisalRatingResModel addEditAppraisalRatingResModel= new AddEditAppraisalRatingResModel();
+            addEditAppraisalRatingResModel.reportingManagetDetail = new ManagetDetail();
+            addEditAppraisalRatingResModel.reportingManagetDetail.EmployeeDetail = new EmployeesDetail();
+            addEditAppraisalRatingResModel.appraisalRating = new AppraisalRating();
 
             var roleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Manager")).ToList();
             var roleIdList = roleList.Select(x => x.Id).ToList();
             var userList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null);
 
-            var appraisalList = _dbRepo.AppraisalList().ToList();
+           
             var reportingManagerList = userList.Where(x => roleIdList.Contains(x.RoleId.Value)).ToList();
             var employeeList = userList.Where(x => !roleIdList.Contains(x.RoleId.Value)).ToList();
 
 
-            addEditAppraisalResModel.EmployeeId = employeeList;
-            addEditAppraisalResModel.ReportingManagerId = reportingManagerList;
+            addEditAppraisalRatingResModel.EmployeeId = employeeList;
+            addEditAppraisalRatingResModel.ReportingManagerId = reportingManagerList;
           
 
             try
             {
-                AppraisalMst appraisalMst = new AppraisalMst();
+                
                 if (Id > 0)
                 {
                     var appraisal = _dbRepo.AppraisalList().FirstOrDefault(x => x.Id == Id);
@@ -51,15 +52,16 @@ namespace ArcheOne.Controllers
                     var employeeUserDetail = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == appraisal.EmployeeId);
                     if (appraisal != null)
                     {
-                        addEditAppraisalResModel.reportingManagetDetail.ReportingManagerId = appraisal.ReportingManagerId;
-                        addEditAppraisalResModel.reportingManagetDetail.EmployeeDetail.EmployeeId = appraisal.EmployeeId;
-                        addEditAppraisalResModel.Id = appraisal.Id;
-                        addEditAppraisalResModel.Year = appraisal.Year;
+                        addEditAppraisalRatingResModel.reportingManagetDetail.ReportingManagerId = appraisal.ReportingManagerId;
+                        addEditAppraisalRatingResModel.reportingManagetDetail.EmployeeDetail.EmployeeId = appraisal.EmployeeId;
+                        addEditAppraisalRatingResModel.Id = appraisal.Id;
+                        addEditAppraisalRatingResModel.Date = appraisal.CreatedDate.Date.ToString("dd-MM-yyyy");
+                        addEditAppraisalRatingResModel.ReviewDate = appraisal.UpdatedDate.Date.ToString("dd-MM-yyyy");
 
                         commonResponse.Status = true;
                         commonResponse.StatusCode = System.Net.HttpStatusCode.OK;
-                        commonResponse.Message = "Get Appraisal Successfully";
-                        commonResponse.Data = addEditAppraisalResModel;
+                        commonResponse.Message = "Get Appraisal Rating Successfully";
+                        commonResponse.Data = addEditAppraisalRatingResModel;
 
                     }
                     else
@@ -74,7 +76,7 @@ namespace ArcheOne.Controllers
                     commonResponse.Message = "Data Not Found";
                     commonResponse.StatusCode = System.Net.HttpStatusCode.NotFound;
                 }
-                commonResponse.Data = addEditAppraisalResModel;
+                commonResponse.Data = addEditAppraisalRatingResModel;
 
             }
             catch (Exception ex)
