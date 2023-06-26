@@ -71,7 +71,7 @@ public partial class SalaryMst
 
     public string SalartMonth { get; set; } = null!;
 
-    public decimal SalaryYear { get; set; }
+    public int SalaryYear { get; set; }
 
     public bool IsDelete { get; set; }
 
