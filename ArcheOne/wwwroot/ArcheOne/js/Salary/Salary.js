@@ -78,3 +78,31 @@ $("#btnSearch").click(function () {
 
 });
 
+$("#btnUploadSalarySheet").click(function () {
+    if (validateRequiredFieldsByGroup("modelUpload")) {
+        if (window.FormData !== undefined) {
+
+            var saveData = new FormData();
+            var file = $("#fileSalarySheet").get(0).files[0];
+            saveData.append("SalarySheet", file);
+            console.log(saveData);
+                ajaxCallWithoutDataType("Post", false, '/Salary/UploadSalarySheet', saveData, function (result) {
+                    console.log(result);
+                    if (result.status == true) {
+                        Toast.fire({ icon: 'success', title: result.message });
+                        $("#modalSalaryUpload").hide();
+                        window.location.reload();
+                    }
+                    else {
+                        Toast.fire({ icon: 'error', title: result.message });
+                        $.unblockUI();
+                    }
+                });
+            
+        }
+        else {
+            Toast.fire({ icon: 'error', title: "Please Select Profile Photo." });
+        }
+    }
+});
+
