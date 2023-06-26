@@ -32,7 +32,8 @@ function UserDocumentList() {
                         render: function (data, type, row) {
                             if (data) {
                                 var fullName = ' + data.fullName + '
-                                return '<i class="fa fa-pen pen btn-edit" style="cursor: pointer;" data-toggle="modal" data-target="#modalUserDocument" onclick="GetUserDocsDetails(' + row.id + ')"></i> | <i class="fa fa-trash trash btn-delete" style="cursor: pointer;" onclick="DeleteUserDocs(' + row.id + ')"></i>';
+                                return '<i class="fa fa-pen pen btn-edit" style="cursor: pointer;" data-toggle="modal" data-target="#modalUserDocument" onclick="GetUserDocsDetails(' + row.id + ')"></i> | <i class="fa fa-trash trash btn-delete" style="cursor: pointer;" onclick="DeleteUserDocs(' + row.id + ')"></i> | <i class="fas fa-envelope-open offerEnvelop btn-delete" style="cursor: pointer;" onclick="downloadOfferLetterDownload(' + row.id + ')"></i> | <i class="fas fa-envelope-open-text experienceEnvelop btn-delete" style="cursor: pointer;" onclick="downloadExperienceLetterDownload(' + row.id + ')"></i>';
+                                                                                                                                                                                                                                                                                                                             
                             } else {
                             }
                         }
@@ -160,3 +161,12 @@ function DeleteUserDocs(id) {
         }
     })
 };
+
+function loadFile(event) {
+    $("#txtDocument").html(event.target.files[0].name);
+}
+
+function downloadOfferLetterDownload() {
+    alert("Do you want to download Offer letter of this employee??")
+    window.open('/UserDocument/DownloadOfferLetter')
+}
