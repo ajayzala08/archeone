@@ -29,17 +29,27 @@ namespace ArcheOne.Controllers
             addEditAppraisalRatingResModel.reportingManagetDetail.EmployeeDetail = new EmployeesDetail();
             addEditAppraisalRatingResModel.appraisalRating = new AppraisalRating();
 
-            var roleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Manager")).ToList();
-            var roleIdList = roleList.Select(x => x.Id).ToList();
-            var userList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null);
+            var roleManagerList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Manager") && !x.RoleCode.Contains("HR")).ToList();
+            var roleManagerIdList = roleManagerList.Select(x => x.Id).ToList();
+            var userList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
 
+            var roleHRList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
+            var roleHRIdList = roleHRList.Select(x => x.Id).ToList();
+     
            
-            var reportingManagerList = userList.Where(x => roleIdList.Contains(x.RoleId.Value)).ToList();
-            var employeeList = userList.Where(x => !roleIdList.Contains(x.RoleId.Value)).ToList();
+            var reportingManagerList = userList.Where(x => roleManagerIdList.Contains(x.RoleId.Value)).ToList();
+
+            var employeeList = userList.Where(x => !roleManagerIdList.Contains(x.RoleId.Value) && !roleHRIdList.Contains(x.RoleId.Value)).ToList();
+            var HRuserList = userList.Where(x => roleHRIdList.Contains(x.RoleId.Value)).ToList();
 
 
             addEditAppraisalRatingResModel.EmployeeId = employeeList;
             addEditAppraisalRatingResModel.ReportingManagerId = reportingManagerList;
+
+
+            addEditAppraisalRatingResModel.IsUserHR = true;
+            addEditAppraisalRatingResModel.IsUserReportManager = false;
+            addEditAppraisalRatingResModel.IsUserEmployee = false;
           
 
             try
