@@ -89,6 +89,7 @@ function GetResources() {
             }
             else {
                 Toast.fire({ icon: 'error', title: result.message });
+                reject(error);
             }
             $.unblockUI();
         });
@@ -202,7 +203,7 @@ function ShowDeleteProjectAlert(projectId) {
                     DeleteProject(projectId);
                 }
             } else {
-                Toast.fire({ icon: 'warning', title: "Interview status update abort!" });
+                Toast.fire({ icon: 'warning', title: "Project delete abort!" });
             }
         });
 }
