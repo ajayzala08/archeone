@@ -286,7 +286,6 @@ namespace ArcheOne.Controllers
 					var docsList = await _dbRepo.UserDocumentList().FirstOrDefaultAsync(x => x.Id == id);
 
 					string ReportURL = docsList.Document;
-
 					FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), ReportURL));
 				}
 				else
