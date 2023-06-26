@@ -32,7 +32,7 @@
                 <div class="form-group col-lg-3" id="dddlProject">
                     <label>Project</label>
                     <select id="ddlProject" name="ddlProject" class="form-control select2" isRequired="1" divcontainer="dddlProject" errorspan="sddlProject" defaultvalue="0">
-                    <option selected disabled value="0">Select Project</option>
+                        <option selected disabled value="0">Select Project</option>
                     </select>
                     <span class="help-block d-none has-error" id="sddlProject">Please Select Project</span>
                 </div>
@@ -47,16 +47,16 @@
                 }
                 <div class="form-group col-lg-3" id="dtxtFromDate">
                     <label>From Date</label>
-                    <input type="date" id="txtFromDate" name="txtFromDate" class="form-control" isRequired="1" divcontainer="dtxtFromDate" errorspan="stxtFromDate" defaultvalue="0"/>
+                    <input type="date" id="txtFromDate" name="txtFromDate" class="form-control" isRequired="1" divcontainer="dtxtFromDate" errorspan="stxtFromDate" defaultvalue="0" />
                     <span class="help-block d-none has-error" id="stxtFromDate">Please Select From Date</span>
                 </div>
                 <div class="form-group col-lg-3" id="dtxtToDate">
                     <label>To Date</label>
-                    <input type="date" id="txtToDate" name="txtToDate" class="form-control" isRequired="1" divcontainer="dtxtToDate" errorspan="stxtToDate" defaultvalue="0"/>
+                    <input type="date" id="txtToDate" name="txtToDate" class="form-control" isRequired="1" divcontainer="dtxtToDate" errorspan="stxtToDate" defaultvalue="0" />
                     <span class="help-block d-none has-error" id="stxtToDate">Please Select To End</span>
                 </div>
                 <div class="ml-auto mr-2 align-self-end mb-3">
-                    <button type="button" id="btnAddDailyTask" data-toggle="modal" data-target="#modalDailyTask" class="btn btn-primary float-right" onclick="OpenDailyTaskModel()">Add Daily Task</button>
+                    <button type="button" id="btnAddDailyTask" data-toggle="modal" data-target="#modalDailyTask" class="btn btn-primary float-right">Add Daily Task</button>
                 </div>
             </div>
         </div>
@@ -79,20 +79,80 @@
                     </button>
                 </div>
                 <div class="modal-body" id="modalAddUpdateDailyTask">
-                    <input type="hidden" id="projectId" value="0" />
                     <div class="row">
-                        <div class="form-group col-sm-12" id="dtxtDailyTaskName">
-                            <label><span class="has-error required">* </span>DailyTask Name</label>
-                            <input id="txtDailyTaskName" name="txtDailyTaskName" type="text" class="form-control text-length" placeholder="DailyTask Name" isrequired="1" divcontainer="dtxtDailyTaskName" errorspan="stxtDailyTaskName" defaultvalue="" autocomplete="off" minlength="2" maxlength="100">
-                            <span class="help-block d-none has-error" id="stxtDailyTaskName">Please Enter DailyTask Name</span>
+                        <div class="form-group col-sm-12" id="dddlProjectTask">
+                            <label><span class="has-error required">* </span>Project</label>
+                            <select id="ddlProjectTask" name="ddlProjectTask" class="form-control select2" isRequired="1" divcontainer="dddlProjectTask" errorspan="sddlProjectTask" defaultvalue="0">
+                                <option selected disabled value="0">Select Project</option>
+                            </select>
+                            <span class="help-block d-none has-error" id="sddlProjectTask">Please Select Project</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12" id="dtxtModule">
+                            <label><span class="has-error required">* </span>Task Module</label>
+                            <input id="txtModule" name="txtModule" type="text" class="form-control text-length" placeholder="Task Module" isrequired="1" divcontainer="dtxtModule" errorspan="stxtModule" defaultvalue="" autocomplete="off" minlength="2" maxlength="100">
+                            <span class="help-block d-none has-error" id="stxtModule">Please Enter Task Module</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12" id="dtxtTaskDate">
+                            <label><span class="has-error required">* </span>Task Date</label>
+                            <input type="date" id="txtTaskDate" name="txtTaskDate" class="form-control" isRequired="1" divcontainer="dtxtTaskDate" errorspan="stxtTaskDate" defaultvalue="0" minlength="2" />
+                            <span class="help-block d-none has-error" id="stxtTaskDate">Please Select Task Date</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-12" id="dddlDailyTaskStatus">
-                            <label><span class="has-error required">* </span>Status</label>
+                            <label><span class="has-error required">* </span>Task Status</label>
                             <select id="ddlDailyTaskStatus" name="ddlDailyTaskStatus" class="form-control" isrequired="1" divcontainer="dddlDailyTaskStatus" errorspan="sddlDailyTaskStatus" defaultvalue="0">
+                                <option selected disabled value="0">Select Task Status</option>
                             </select>
-                            <span class="help-block d-none has-error" id="sddlDailyTaskStatus">Please Select DailyTask Status</span>
+                            <span class="help-block d-none has-error" id="sddlDailyTaskStatus">Please Select Task Status</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6" id="dddlTimeSpentHH">
+                            <label><span class="has-error required">* </span>Time Spent (Hours)</label>
+                            <select id="ddlTimeSpentHH" name="ddlTimeSpentHH" class="form-control" isrequired="1" divcontainer="dddlTimeSpentHH" errorspan="sddlTimeSpentHH" defaultvalue="0">
+                                <option value="0" selected>Select Hours</option>
+                                <option>00</option>
+                                <option>01</option>
+                                <option>02</option>
+                                <option>03</option>
+                                <option>04</option>
+                                <option>05</option>
+                                <option>06</option>
+                                <option>07</option>
+                                <option>08</option>
+                            </select>
+                            <span class="help-block d-none has-error" id="sddlTimeSpentHH">Please Select Time Spent (Hours)</span>
+                        </div>
+                        <div class="form-group col-sm-6" id="dddlTimeSpentMM">
+                            <label><span class="has-error required">* </span>Time Spent (Minutes)</label>
+                            <select id="ddlTimeSpentMM" name="ddlTimeSpentMM" class="form-control" isrequired="1" divcontainer="dddlTimeSpentMM" errorspan="sddlTimeSpentMM" defaultvalue="0">
+                                <option value="0" selected>Select Minutes</option>
+                                <option>00</option>
+                                <option>05</option>
+                                <option>10</option>
+                                <option>15</option>
+                                <option>20</option>
+                                <option>25</option>
+                                <option>30</option>
+                                <option>35</option>
+                                <option>40</option>
+                                <option>45</option>
+                                <option>50</option>
+                                <option>55</option>
+                            </select>
+                            <span class="help-block d-none has-error" id="sddlTimeSpentMM">Please Select Time Spent (Minutes)</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12" id="dtxtTaskDescription">
+                            <label><span class="has-error required">* </span>Task Description</label>
+                            <textarea id="txtTaskDescription" name="txtTaskDescription" class="form-control" isrequired="1" divcontainer="dtxtTaskDescription" errorspan="stxtTaskDescription" defaultvalue="0" minlength="2"></textarea>
+                            <span class="help-block d-none has-error" id="stxtTaskDescription">Please Enter Task Description</span>
                         </div>
                     </div>
                 </div>

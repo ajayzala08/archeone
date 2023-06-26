@@ -100,7 +100,7 @@ function GetProjectStatus() {
         $.blockUI({ message: "<h2>Please wait</p>" });
 
         $("#ddlProjectStatus").empty();
-        $("#ddlProjectStatus").append($("<option selected disabled value='0'>Select Status</option>"));
+        $("#ddlProjectStatus").append($("<option selected value='0'>Select Status</option>"));
 
         ajaxCall("Post", false, '/Project/GetProjectStatus', null, function (result) {
             if (result.status == true) {
