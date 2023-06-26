@@ -72,6 +72,8 @@ function GetUserDocs(id) {
 }; 
 
 function AddUpdateUserDocument() {
+    $("#btnAddUpdateUserDocument").html("Add");
+    $("#btnAddUpdateUserDocument").removeClass("btn-success").addClass("btn-warning");
     if (window.FormData !== undefined) {
         $.blockUI();
         var saveData = new FormData();

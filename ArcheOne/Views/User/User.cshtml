@@ -20,36 +20,26 @@
 </section>
 
 <section class="content">
-	<div class="col-md-12">
-		<div class="card">
-			<div class="card-header">
-				<div class="row">
-					<div class="col-md-3">
-						<div class="form-group">
-							<label>Role</label>
-							<select class="form-control" id="slRoles" onchange="GetUserList($(this).val())">
-								<option selected disabled value="0">Select Role</option>
-							</select>
-						</div>
-					</div>
-					<div class="card-tools ml-auto mr-2 p-2">
-						<input type="button" id="btnAddUser" class="btn btn-primary float-right" value="Add User" />
-					</div>
-				</div>
+	<div class="card">
+		<input type="hidden" id="userId" value="@Model" />
+		<div class="card-header d-flex p-0">
+			<h3 class="card-title p-3">User List</h3>
+			<div class="card-tools ml-auto mr-2 p-2">
+				<button type="button" id="btnAddUser" class="btn btn-primary float-right">Add User</button>
 			</div>
-			<!-- /.card-header -->
-			<div class="card-body">
-				<div class="md-12">
-				</div>
-				<table id="tblUser" class="table table-responsive table-bordered table-striped" style="width:100%"></table>
-				<div id="divUserList"> </div>
-				<div id="AddUserForm">
-				</div>
-			</div>
-			<!-- /.card-body -->
 		</div>
-		<!-- /.card -->
+		<!-- /.card-header -->
+		<div class="card-body">
+			<div class="md-12">
+			</div>
+			<table id="tblUser" class="table table-responsive table-bordered table-striped" style="width:100%"></table>
+			<div id="divUserList"> </div>
+			<div id="AddUserForm">
+			</div>
+		</div>
 	</div>
+	<!-- /.card-body -->
+	<!-- /.card -->
 </section>
 
 @section Scripts{

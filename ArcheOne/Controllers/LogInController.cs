@@ -44,8 +44,8 @@ namespace ArcheOne.Controllers
                 {
                     if (!string.IsNullOrEmpty(loginModel.UserName) && !string.IsNullOrEmpty(loginModel.Password))
                     {
-
-                        var UserDetail = await _dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.UserName.ToLower() == loginModel.UserName.ToLower() && x.Password.ToLower() == loginModel.Password.ToLower());
+                        var encryptPassword = _commonHelper.EncryptString(loginModel.Password);
+                        var UserDetail = await _dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.UserName.ToLower() == loginModel.UserName.ToLower() && x.Password.ToLower() == encryptPassword.ToLower());
                         if (UserDetail != null)
                         {
                             _httpContextAccessor.HttpContext.Session.SetString("User", UserDetail.UserName);
@@ -133,7 +133,7 @@ namespace ArcheOne.Controllers
             {
                 if (!string.IsNullOrEmpty(forgotPasswordreqModel.Email))
                 {
-                    var baseURL = _configuration.GetSection("SiteEmailConfigration:BaseURL").Value;
+                    var baseURL = _configuration.GetSection("SiteEmailConfigure:BaseURL").Value;
                     var res = await this._dbRepo.UserMstList().FirstOrDefaultAsync(x => x.Email == forgotPasswordreqModel.Email);
 
                     if (res != null)
@@ -232,7 +232,8 @@ namespace ArcheOne.Controllers
                     var IsExistId = await _dbRepo.UserMstList().FirstOrDefaultAsync(x => x.Id == userId);
                     if (IsExistId != null)
                     {
-                        IsExistId.Password = resetPasswordReqDTO.NewPassword;
+                        var encryptedPassword = _commonHelper.EncryptString(resetPasswordReqDTO.NewPassword);
+                        IsExistId.Password = encryptedPassword;
                         _dbContext.Entry(IsExistId).State = EntityState.Modified;
                         _dbContext.SaveChanges();
 
@@ -312,8 +313,8 @@ namespace ArcheOne.Controllers
         [HttpGet]
         public async Task<IActionResult> ChangePassword()
         {
-            var id = _httpContextAccessor.HttpContext.Session.GetString("UserId");
-            ViewBag.data = id;
+            string userId = await Task.Run(() => _httpContextAccessor.HttpContext.Session.GetString("UserId"));
+            ViewBag.data = userId;
             return View();
         }
         [HttpPost]
@@ -329,10 +330,12 @@ namespace ArcheOne.Controllers
                     var IsExistId = _dbRepo.UserMstList().FirstOrDefault(x => x.Id == userId);
                     if (IsExistId != null)
                     {
-                        var isValidOldPassword = IsExistId.Password.Equals(changePasswordReqModel.OldPassword);
+                        var decryptedPassword = _commonHelper.DecryptString(changePasswordReqModel.OldPassword);
+                        var isValidOldPassword = IsExistId.Password.Equals(decryptedPassword);
                         if (isValidOldPassword)
                         {
-                            IsExistId.Password = changePasswordReqModel.NewPassword;
+                            var encryptedPassword = _commonHelper.EncryptString(changePasswordReqModel.NewPassword);
+                            IsExistId.Password = encryptedPassword;
                             _dbContext.Entry(IsExistId).State = EntityState.Modified;
                             _dbContext.SaveChanges();
 
@@ -365,35 +368,18 @@ namespace ArcheOne.Controllers
             return Json(commonResponse);
         }
 
-        //[HttpPost]
-        ////public IActionResult Login(string username, string password, bool rememberMe)
-        //public IActionResult Login([FromBody] LoginReqModel loginModel)
-        //{
-        //    // Your login logic here
+        [HttpPost]
+        public string GetEncryption([FromBody] EncryptDecryptReqModel encryptDecryptReqModel)
+        {
+            return _commonHelper.EncryptString(encryptDecryptReqModel.Text);
+        }
 
-        //    if (loginModel.RememberMe)
-        //    {
-        //        // Set the "Remember Me" cookie to persist for a longer duration
-        //        var option = new CookieOptions
-        //        {
-        //            Expires = loginModel.RememberMe ? DateTimeOffset.UtcNow.AddDays(30) : DateTimeOffset.UtcNow.AddHours(1),
-        //            IsEssential = true, // Make sure the cookie is available even for non-essential features
-        //            HttpOnly = true // Ensure the cookie is only accessible through HTTP
-        //        };
-        //        Response.Cookies.Append(RememberMeCookieName, "true", option);
-        //    }
-        //    else
-        //    {
-        //        // Remove the "Remember Me" cookie if present
-        //        if (Request.Cookies.ContainsKey(RememberMeCookieName))
-        //        {
-        //            Response.Cookies.Delete(RememberMeCookieName);
-        //        }
-        //    }
+        [HttpPost]
+        public string GetDecryption([FromBody] EncryptDecryptReqModel encryptDecryptReqModel)
+        {
+            return _commonHelper.DecryptString(encryptDecryptReqModel.Text);
+        }
 
-        //    // Redirect to the desired page after successful login
-        //    return RedirectToAction("Index", "Home");
-        //}
     }
 }
 
