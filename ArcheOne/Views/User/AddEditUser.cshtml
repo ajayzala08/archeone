@@ -16,7 +16,6 @@
 <div class="modal-header">
 	<h5 class="modal-title">@Title1</h5>
 </div>
-<section class="content-header"></section>
 <section class="content">
 	<div class="container-fluid">
 		<div class="card card-outline card-primary">
@@ -58,8 +57,6 @@
 									<span class="help-block d-none has-error" id="stxtPhotoUrl">Please select any file</span>
 								</div>
 							</div>
-
-
 
 						</div>
 						<div class="row">
@@ -165,12 +162,16 @@
 							</div>
 						</div>
 					</div>
-					<div class="clearfix"></div>
-					<div class="row">
-						<div class="col-md-1">
-							<input type="button" id="btnSaveUpdateUser" class="btn btn-success" value="Submit" />
-						</div>
-						<div class="col-md-1">
+					<div class="modal-footer">
+						<div class="row mr-lg-n3">
+							@if (Title1 == "Edit User")
+							{
+								<input type="button" id="btnSaveUpdateUser" class="btn btn-warning mr-2" value="Update" />
+							}
+							else
+							{
+								<input type="button" id="btnSaveUpdateUser" class="btn btn-success mr-2" value="Submit" />
+							}
 							<button id="btnClose" class="btn btn-danger btn-send" asp-action="User" asp-controller="User">Close</button>
 						</div>
 					</div>
