@@ -134,7 +134,7 @@ namespace ArcheOne.Controllers
                 if (!string.IsNullOrEmpty(forgotPasswordreqModel.Email))
                 {
                     var baseURL = _configuration.GetSection("SiteEmailConfigure:BaseURL").Value;
-                    var res = await this._dbRepo.UserMstList().FirstOrDefaultAsync(x => x.Email == forgotPasswordreqModel.Email);
+                    var res = await this._dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.Email == forgotPasswordreqModel.Email);
 
                     if (res != null)
                     {

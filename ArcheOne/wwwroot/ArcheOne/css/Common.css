@@ -30,3 +30,11 @@
 .my-pointer{
     cursor:pointer;
 }
+
+.offerEnvelop {
+    color: blue !important;
+}
+
+.experienceEnvelop {
+    color: darkorange
+}
