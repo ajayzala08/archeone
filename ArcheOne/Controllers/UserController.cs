@@ -158,13 +158,15 @@ namespace ArcheOne.Controllers
 					var duplicateCheck = await _dbRepo.AllUserMstList().Where(x => x.UserName == userSaveUpdateReq.UserName || x.Email == userSaveUpdateReq.Email || x.Mobile1 == userSaveUpdateReq.Mobile1).ToListAsync();
 					if (duplicateCheck.Count == 0)
 					{
+						var encryptedPassword = _commonHelper.EncryptString(userSaveUpdateReq.Password);
+
 						userMst.RoleId = userSaveUpdateReq.RoleId;
 						userMst.CompanyId = 1;
 						userMst.FirstName = userSaveUpdateReq.FirstName;
 						userMst.MiddleName = userSaveUpdateReq.MiddleName;
 						userMst.LastName = userSaveUpdateReq.LastName;
 						userMst.UserName = userSaveUpdateReq.UserName;
-						userMst.Password = userSaveUpdateReq.Password;
+						userMst.Password = encryptedPassword;
 						userMst.Address = userSaveUpdateReq.Address;
 						userMst.Pincode = userSaveUpdateReq.Pincode;
 						userMst.Mobile1 = userSaveUpdateReq.Mobile1;

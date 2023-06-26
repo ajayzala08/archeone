@@ -116,7 +116,7 @@ function GetUserList(RoleId) {
                 dataTable = null;
             }
             dataTable = $('#tblUser').DataTable({
-                "responsive": false,
+                "responsive": true,
                 "lengthChange": true,
                 "paging": true,
                 "searching": true,

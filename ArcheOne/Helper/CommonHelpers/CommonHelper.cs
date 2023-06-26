@@ -178,7 +178,6 @@ namespace ArcheOne.Helper.CommonHelpers
                         //    Attachment attachment = new Attachment(path);
                         //    mail.Attachments.Add(attachment);
                         //}
-
                         if (model.Attachment != null)
                         {
                             mail.Attachments.Add(new Attachment(model.Attachment));
@@ -193,15 +192,22 @@ namespace ArcheOne.Helper.CommonHelpers
                         try
                         {
                             smtp.Send(mail);
+                            response.Status = true;
+                            response.Message = "Success.";
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
-                            throw;
+                            response.Message = e.Message;
+                            response.Status = false;
                         }
+
                     }
 
-                    response.Status = true;
-                    response.Message = "Success.";
+                    else
+                    {
+                        response.Status = false;
+                        response.Message = "Fail";
+                    }
                 }
                 else
                 {
