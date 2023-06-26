@@ -7,7 +7,14 @@
 
 $('#txtDob').datepicker({
     dateFormat: 'dd-mm-yy'
+});
 
+$('#txtOfferDate').datepicker({
+    dateFormat: 'dd-mm-yy'
+});
+
+$('#txtJoinDate').datepicker({
+    dateFormat: 'dd-mm-yy'
 });
 
 function SaveUserDetails() {
@@ -35,7 +42,6 @@ function SaveUserDetails() {
     saveData.append("AdharCardNumber", $("#txtAdharCardNumber").val());
     saveData.append("Salary", $("#txtSalary").val());
     saveData.append("ReportingManager", $("#ddlReportingManager").val());
-    saveData.append("Reason", $("#txtReason").val());
     saveData.append("EmployeePersonalEmailId", $("#txtEmployeePersonalEmailId").val());
     saveData.append("ProbationPeriod", $("#txtProbationPeriod").val());
     console.log(saveData);
@@ -59,55 +65,3 @@ function SaveUserDetails() {
         ClearAll();
     }
 }
-
-
-//function SaveUserDetails() {
-//    var saveUserDetailsData = {
-//        "Id": parseInt($("#txtId").val()),
-//        "UserId": parseInt($("#txtUserId").val()),
-//        "EmployeeCode": $("#txtEmployeeCode").val(),
-//        "Gender": $("#ddlGender").val(),
-//        "EmergencyContact": $("#txtEmergencyContact").val(),
-//        "Dob": $("#txtDob").val(),
-//        "PostCode": $("#txtPostCode").val(),
-//        "EmploymentType": $("#ddlEmploymentType").val(),
-//        "Department": $("#ddlDepartment").val(),
-//        "Designation": $("#ddlDesignation").val(),
-//        "Location": $("#txtLocation").val(),
-//        "BloodGroup": $("#txtBloodGroup").val(),
-//        "OfferDate": $("#txtOfferDate").val(),
-//        "JoinDate": $("#txtJoinDate").val(),
-//        "BankName": $("#txtBankName").val(),
-//        "AccountNumber": $("#txtAccountNumber").val(),
-//        "Branch": $("#txtBranch").val(),
-//        "IfscCode": $("#txtIfscCode").val(),
-//        "PfaccountNumber": $("#txtPfaccountNumber").val(),
-//        "PancardNumber": $("#txtPancardNumber").val(),
-//        "AdharCardNumber": $("#txtAdharCardNumber").val(),
-//        "Salary": $("#txtSalary").val(),
-//        "ReportingManager": $("#ddlReportingManager").val(),
-//        "Reason": $("#txtReason").val(),
-//        "EmployeePersonalEmailId": $("#txtEmployeePersonalEmailId").val(),
-//        "ProbationPeriod": $("#txtProbationPeriod").val(),
-//    }
-//    console.log(saveUserDetailsData);
-//    if (validateRequiredFields()) {
-//        ajaxCallWithoutDataType("Post", false, '/UserDetails/SaveUpdateUserDetails',saveUserDetailsData, function (result) {
-//            console.log(result);
-//            if (result.status == true) {
-//                Toast.fire({ icon: 'success', title: result.message });
-//                RedirectToPage("/User/User");
-//            }
-//            else {
-//                Toast.fire({ icon: 'error', title: result.message });
-//                $.unblockUI();
-//            }
-//        });
-//    }
-//    else {
-//        $.unblockUI();
-//        Toast.fire({ icon: 'success', title: result.message });
-//        $("#clearAll").click();
-//        ClearAll();
-//    }
-//}

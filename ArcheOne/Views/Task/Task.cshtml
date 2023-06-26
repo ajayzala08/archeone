@@ -1,5 +1,114 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    Layout = "_MasterLayout";
+    ViewBag.datatable = "true";
+    ViewBag.select2 = "true";
 }
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Daily Tasks</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Task Management</a></li>
+                    <li class="breadcrumb-item active">Daily Tasks</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <input type="hidden" id="requirementId" value="@Model" />
+        <div class="card-header">
+            <div class="row">
+                <div class="form-group col-lg-3" id="dddlProject">
+                    <label>Project</label>
+                    <select id="ddlProject" name="ddlProject" class="form-control select2" isRequired="1" divcontainer="dddlProject" errorspan="sddlProject" defaultvalue="0">
+                    <option selected disabled value="0">Select Project</option>
+                    </select>
+                    <span class="help-block d-none has-error" id="sddlProject">Please Select Project</span>
+                </div>
+                @if (true)
+                {
+                    <div class="form-group col-lg-3" id="dddlResources">
+                        <label>Resources</label>
+                        <select id="ddlResources" name="ddlResources" class="form-control select2" isRequired="1" divcontainer="dddlResources" errorspan="sddlResources" defaultvalue="0">
+                        </select>
+                        <span class="help-block d-none has-error" id="sddlResources">Please Select Resources</span>
+                    </div>
+                }
+                <div class="form-group col-lg-3" id="dtxtFromDate">
+                    <label>From Date</label>
+                    <input type="date" id="txtFromDate" name="txtFromDate" class="form-control" isRequired="1" divcontainer="dtxtFromDate" errorspan="stxtFromDate" defaultvalue="0"/>
+                    <span class="help-block d-none has-error" id="stxtFromDate">Please Select From Date</span>
+                </div>
+                <div class="form-group col-lg-3" id="dtxtToDate">
+                    <label>To Date</label>
+                    <input type="date" id="txtToDate" name="txtToDate" class="form-control" isRequired="1" divcontainer="dtxtToDate" errorspan="stxtToDate" defaultvalue="0"/>
+                    <span class="help-block d-none has-error" id="stxtToDate">Please Select To End</span>
+                </div>
+                <div class="ml-auto mr-2 align-self-end mb-3">
+                    <button type="button" id="btnAddDailyTask" data-toggle="modal" data-target="#modalDailyTask" class="btn btn-primary float-right" onclick="OpenDailyTaskModel()">Add Daily Task</button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="tblDailyTask" class="table table-bordered table-striped" style="width:100%">
+            </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+
+    <div class="modal fade" id="modalDailyTask" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Daily Task</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalAddUpdateDailyTask">
+                    <input type="hidden" id="projectId" value="0" />
+                    <div class="row">
+                        <div class="form-group col-sm-12" id="dtxtDailyTaskName">
+                            <label><span class="has-error required">* </span>DailyTask Name</label>
+                            <input id="txtDailyTaskName" name="txtDailyTaskName" type="text" class="form-control text-length" placeholder="DailyTask Name" isrequired="1" divcontainer="dtxtDailyTaskName" errorspan="stxtDailyTaskName" defaultvalue="" autocomplete="off" minlength="2" maxlength="100">
+                            <span class="help-block d-none has-error" id="stxtDailyTaskName">Please Enter DailyTask Name</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12" id="dddlDailyTaskStatus">
+                            <label><span class="has-error required">* </span>Status</label>
+                            <select id="ddlDailyTaskStatus" name="ddlDailyTaskStatus" class="form-control" isrequired="1" divcontainer="dddlDailyTaskStatus" errorspan="sddlDailyTaskStatus" defaultvalue="0">
+                            </select>
+                            <span class="help-block d-none has-error" id="sddlDailyTaskStatus">Please Select DailyTask Status</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <button type="button" id="btnAddUpdateDailyTask" class="btn btn-success mr-2" onclick="AddUpdateDailyTask()">Save</button>
+                        <button type="button" id="btnCancel" data-dismiss="modal" class="btn btn-danger" onclick="CancelDailyTask()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<!-- /.content -->
+@section Scripts
+    {
+    <script src="~/archeone/js/task/task.js"></script>
+    }

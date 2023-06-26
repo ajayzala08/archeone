@@ -24,10 +24,6 @@ namespace ArcheOne.Controllers
 			_dbContext = dbContext;
 			_hostEnvironment = hostEnvironment;
 		}
-		public IActionResult Index()
-		{
-			return View();
-		}
 
 		public async Task<IActionResult> User()
 		{
@@ -128,8 +124,6 @@ namespace ArcheOne.Controllers
 						commonResponse.Message = "Only jpg and png files are Allowed !";
 					}
 				}
-
-				//var imageFile = _commonHelper.UploadFile(userSaveUpdateReq.PhotoUrl, @"UserProfile", fileName, false, true, false);
 				var userDetail = await _dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.Id == userSaveUpdateReq.Id && x.Email != userSaveUpdateReq.Email && x.Mobile1 != userSaveUpdateReq.Mobile1);
 				if (userDetail != null && userDetail.Id > 0)
 				{
@@ -152,7 +146,7 @@ namespace ArcheOne.Controllers
 					userDetail.UpdatedBy = _commonHelper.GetLoggedInUserId(); ;
 
 					_dbContext.Entry(userDetail).State = EntityState.Modified;
-					_dbContext.SaveChanges();
+					await _dbContext.SaveChangesAsync();
 
 					commonResponse.Status = true;
 					commonResponse.StatusCode = HttpStatusCode.OK;
@@ -184,8 +178,8 @@ namespace ArcheOne.Controllers
 						userMst.IsActive = true;
 						userMst.IsDelete = false;
 
-						_dbContext.Add(userMst);
-						_dbContext.SaveChanges();
+					 	await _dbContext.AddAsync(userMst);
+						await _dbContext.SaveChangesAsync();
 
 						commonResponse.Status = true;
 						commonResponse.StatusCode = HttpStatusCode.OK;
@@ -219,7 +213,7 @@ namespace ArcheOne.Controllers
 					isUserExist.UpdatedDate = _commonHelper.GetCurrentDateTime();
 
 					_dbContext.Entry(isUserExist).State = EntityState.Modified;
-					_dbContext.SaveChanges();
+					await _dbContext.SaveChangesAsync();
 
 					commonResponse.Status = true;
 					commonResponse.Message = "User Deleted Successfully!";

@@ -38,7 +38,7 @@ namespace ArcheOne.Controllers
 				userDetailsAddEditResModel.EmploymentTypeList = _dbRepo.EmploymentTypeList().ToList();
 				userDetailsAddEditResModel.ReportingManagerList = _dbRepo.ReportingManagerList().ToList();
 				userDetailsAddEditResModel.UserDetail.UserId = userId;
-				var isUserDetailsExist = _dbRepo.UserDetailList().FirstOrDefault(x => x.UserId == userId);
+				var isUserDetailsExist = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == userId);
 				if (isUserDetailsExist != null)
 				{
 					userDetailsAddEditResModel.UserDetail.Id = isUserDetailsExist.Id;
@@ -89,7 +89,7 @@ namespace ArcheOne.Controllers
 			UserDetailsMst userDetailsMst = new UserDetailsMst();
 			try
 			{
-				var isUserExist = _dbRepo.UserDetailList().FirstOrDefault(x => x.UserId == addEditUserDetailsReqModel.UserId);
+				var isUserExist = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == addEditUserDetailsReqModel.UserId);
 				if (isUserExist != null)
 				{
 					// Edit Mode
@@ -175,8 +175,8 @@ namespace ArcheOne.Controllers
 						userDetailsMst.CreatedDate = _commonHelper.GetCurrentDateTime();
 						userDetailsMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
 
-						_dbContext.Add(userDetailsMst);
-						_dbContext.SaveChanges();
+						await _dbContext.AddAsync(userDetailsMst);
+						await _dbContext.SaveChangesAsync();
 
 						commonResponse.Message = "UserDetails added successfully!";
 						commonResponse.Status = true;
