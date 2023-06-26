@@ -27,7 +27,7 @@ namespace ArcheOne.Controllers
             _commonHelper = commonHelper;
             _hostingEnvironment = hostingEnvironment;
         }
-        public async Task<IActionResult> LogIn()
+        public IActionResult LogIn()
         {
             return View();
         }
@@ -38,8 +38,6 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
             try
             {
-                //loginModel.RememberMe = true;
-                //Thread.Sleep(10000);
                 if (ModelState.IsValid)
                 {
                     if (!string.IsNullOrEmpty(loginModel.UserName) && !string.IsNullOrEmpty(loginModel.Password))
@@ -86,100 +84,108 @@ namespace ArcheOne.Controllers
                             #endregion
 
                             commonResponse.Status = true;
-                            commonResponse.Message = "Login SuccessFully!";
+                            commonResponse.Message = "Login successFully!";
                             commonResponse.Data = UserDetail;
                         }
                         else
                         {
-                            commonResponse.Message = "Please Enter Valid Username & Password!";
+                            commonResponse.Message = "Please enter valid username & password!";
                         }
                     }
                     else
                     {
-                        commonResponse.Message = "Please Enter Valid Username & Password!";
+                        commonResponse.Message = "Please enter valid username & password!";
                     }
                 }
                 else
                 {
-                    commonResponse.Message = "Please Enter Valid Username & Password!";
+                    commonResponse.Message = "Please enter valid username & password!";
                 }
             }
             catch (Exception ex)
             {
                 commonResponse.Message = ex.Message;
-                commonResponse.Data = ex.StackTrace;
             }
             return Json(commonResponse);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Logout()
+        public IActionResult Logout()
         {
             _httpContextAccessor.HttpContext.Session.Clear();
             return RedirectToAction("LogIn", "LogIn");
         }
 
         [HttpGet]
-        public async Task<IActionResult> ForgotPassword()
+        public IActionResult ForgotPassword()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordReqModel forgotPasswordreqModel)
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordReqModel forgotPasswordReqModel)
         {
             CommonResponse commonResponse = new CommonResponse();
             try
             {
-                if (!string.IsNullOrEmpty(forgotPasswordreqModel.Email))
+                if (!string.IsNullOrEmpty(forgotPasswordReqModel.Email))
                 {
                     var baseURL = _configuration.GetSection("SiteEmailConfigure:BaseURL").Value;
                     var res = await this._dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.Email == forgotPasswordreqModel.Email);
 
-                    if (res != null)
+                    if (userList != null)
                     {
 
-                        var datetimevalue = _commonHelper.GetCurrentDateTime().ToString("ddMMyyyyhhmmsstt");
-                        baseURL += "?q=" + res.Id + "&d=" + datetimevalue;
-
-                        // var ImagePath = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot", "EmailTemplate", "logo.png");
+                        var dateTimeValue = _commonHelper.GetCurrentDateTime().ToString("ddMMyyyyhhmmsstt");
+                        baseURL += "?q=" + userList.Id + "&d=" + dateTimeValue;
                         var emailTemplatePath = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot", "ArcheOne", "EmailTemplate", "EmailTemplate.html");
                         StreamReader str = new StreamReader(emailTemplatePath);
                         string MailText = str.ReadToEnd();
                         str.Close();
 
-                        var htmlBody = MailText.Replace("[Resetlink]", "<a target='_blank' href='" + baseURL + "'>Reset Password</a>").Replace("[Username]", res.FirstName + " " + res.LastName);
-                        //htmlBody = htmlBody.Replace("logo.png", ImagePath);
+                        var htmlBody = MailText.Replace("[ResetLink]", "<a target='_blank' href='" + baseURL + "'>Reset Password</a>").Replace("[Username]", userList.FirstName + " " + userList.LastName);
                         SendEmailRequestModel sendEmailRequestModel = new SendEmailRequestModel();
-                        sendEmailRequestModel.ToEmail = forgotPasswordreqModel.Email;
+                        sendEmailRequestModel.ToEmail = forgotPasswordReqModel.Email;
                         sendEmailRequestModel.Body = htmlBody;
                         sendEmailRequestModel.Subject = "Reset Password Link";
 
                         var EmailSend = _commonHelper.SendEmail(sendEmailRequestModel);
+                        if (EmailSend.Status)
+                        {
 
-                        var IsLinkSave = AddResetPasswordLink(res.Id, baseURL);
+                            var IsLinkSave = AddResetPasswordLink(userList.Id, baseURL);
 
                         commonResponse.Status = true;
-                        commonResponse.Message = "Password Reset Link Has Been Sent To Your Email!";
-                        commonResponse.Data = res.Id;
+                            commonResponse.Message = "Password reset link has been sent to your email!";
+                            commonResponse.Data = userList.Id;
                     }
                     else
                     {
-                        commonResponse.Message = "Email Not Found!";
+                            commonResponse.Status = false;
+                            commonResponse.Message = "Password reset link has been not sent to your email";
                     }
                 }
                 else
                 {
-                    commonResponse.Message = "Please Enter Valid Email";
+                        commonResponse.Message = "Email not found!";
                 }
             }
-            catch { throw; }
-
+                else
+                {
+                    commonResponse.Message = "Please enter valid email";
+                }
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message;
+            }
             return Json(commonResponse);
         }
 
         private bool AddResetPasswordLink(int Id, string BaseUrl)
         {
+            try
+            {
             LinkMst linkMst = new LinkMst();
             linkMst.UserId = Id;
             linkMst.IsClicked = false;
@@ -191,22 +197,27 @@ namespace ArcheOne.Controllers
 
             return true;
         }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
 
         [HttpGet]
-        public async Task<IActionResult> ResetPassword(string q, string d)
+        public async Task<IActionResult> ResetPassword(string Id, string SecurityCode)
         {
-            CommonResponse commonResponse = new CommonResponse();
             try
             {
+                CommonResponse commonResponse = new CommonResponse();
                 var url = $"{Request.Scheme}://{Request.Host}{Request.Path}{Request.QueryString}";
                 CheckResetPasswordLinkReqModel model = new CheckResetPasswordLinkReqModel();
-                model.Id = q;
+                model.Id = Id;
                 model.Link = url;
-                model.SecurityCode = d;
+                model.SecurityCode = SecurityCode;
                 commonResponse = await CheckResetPasswordLink(model);
                 if (commonResponse.Status)
                 {
-                    ViewBag.data = q;
+                    ViewBag.data = Id;
                     ViewBag.Status = commonResponse.Status;
                     return View();
                 }
@@ -218,44 +229,43 @@ namespace ArcheOne.Controllers
                 }
             }
             catch { throw; }
+
         }
 
         [HttpPost]
-        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordReqModel resetPasswordReqDTO)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordReqModel resetPasswordReqModel)
         {
-            CommonResponse commonResponse = new();
+            CommonResponse commonResponse = new CommonResponse();
             try
             {
-                if (!string.IsNullOrEmpty(resetPasswordReqDTO.UserId) && !string.IsNullOrEmpty(resetPasswordReqDTO.NewPassword))
+                if (!string.IsNullOrEmpty(resetPasswordReqModel.UserId) && !string.IsNullOrEmpty(resetPasswordReqModel.NewPassword))
                 {
-                    int userId = Convert.ToInt32(resetPasswordReqDTO.UserId);
+                    int userId = Convert.ToInt32(resetPasswordReqModel.UserId);
                     var IsExistId = await _dbRepo.UserMstList().FirstOrDefaultAsync(x => x.Id == userId);
                     if (IsExistId != null)
                     {
-                        var encryptedPassword = _commonHelper.EncryptString(resetPasswordReqDTO.NewPassword);
+                        var encryptedPassword = _commonHelper.EncryptString(resetPasswordReqModel.NewPassword);
                         IsExistId.Password = encryptedPassword;
                         _dbContext.Entry(IsExistId).State = EntityState.Modified;
-                        _dbContext.SaveChanges();
+                        await _dbContext.SaveChangesAsync();
 
                         commonResponse.Status = true;
-                        commonResponse.Message = "Reset Password Successfully!";
+                        commonResponse.Message = "Reset password successfully!";
                     }
                     else
                     {
-                        commonResponse.Status = false;
-                        commonResponse.Message = "Can Not Reset Your Password!";
+                        commonResponse.Message = "Can not reset your password!";
                     }
                 }
                 else
                 {
                     commonResponse.Status = false;
-                    commonResponse.Message = "Please Enter Valid Password";
+                    commonResponse.Message = "Please enter valid password";
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
-
+                commonResponse.Message = ex.Message;
             }
             return Json(commonResponse);
         }
@@ -263,17 +273,17 @@ namespace ArcheOne.Controllers
         [HttpPost]
         public async Task<CommonResponse> CheckResetPasswordLink(CheckResetPasswordLinkReqModel checkResetPasswordLinkReqModel)
         {
-            CommonResponse commonResponse = new();
+            CommonResponse commonResponse = new CommonResponse();
             try
             {
                 if (!string.IsNullOrEmpty(checkResetPasswordLinkReqModel.Id) && !string.IsNullOrEmpty(checkResetPasswordLinkReqModel.Link) && !string.IsNullOrEmpty(checkResetPasswordLinkReqModel.SecurityCode))
                 {
-                    var IsExistLink = _dbRepo.LinkMstList().FirstOrDefault(x => x.UserId == Convert.ToInt32(checkResetPasswordLinkReqModel.Id) && x.ResetPasswordLink == checkResetPasswordLinkReqModel.Link && x.IsClicked == false);
+                    var IsExistLink = await _dbRepo.LinkMstList().FirstOrDefaultAsync(x => x.UserId == Convert.ToInt32(checkResetPasswordLinkReqModel.Id) && x.ResetPasswordLink == checkResetPasswordLinkReqModel.Link && x.IsClicked == false);
                     if (IsExistLink != null)
                     {
                         if (IsExistLink.ExpiredDate <= _commonHelper.GetCurrentDateTime())
                         {
-                            commonResponse.Message = "Link is expired";
+                            commonResponse.Message = "Link is expired!";
                         }
                         else
                         {
@@ -283,87 +293,87 @@ namespace ArcheOne.Controllers
                             {
                                 IsExistLink.IsClicked = true;
                                 _dbContext.Entry(IsExistLink).State = EntityState.Modified;
-                                _dbContext.SaveChanges();
+                                await _dbContext.SaveChangesAsync();
+
                                 commonResponse.Status = true;
-                                commonResponse.Message = "Link is valid.";
+                                commonResponse.Message = "Link is valid!";
                             }
                             else
                             {
-                                commonResponse.Message = "Link is expired";
+                                commonResponse.Message = "Link is expired!";
                             }
                         }
                     }
                     else
                     {
-                        commonResponse.Message = "Link is expired";
+                        commonResponse.Message = "Link is expired!";
                     }
                 }
                 else
                 {
-                    commonResponse.Message = "Link is expired";
+                    commonResponse.Message = "Link is expired!";
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                commonResponse.Message = ex.Message;
             }
             return commonResponse;
         }
 
         [HttpGet]
-        public async Task<IActionResult> ChangePassword()
+        public IActionResult ChangePassword()
         {
-            string userId = await Task.Run(() => _httpContextAccessor.HttpContext.Session.GetString("UserId"));
-            ViewBag.data = userId;
+            ViewBag.data = _httpContextAccessor.HttpContext.Session.GetString("UserId"); ;
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordReqModel changePasswordReqModel)
         {
-            CommonResponse commonResponse = new();
+            CommonResponse commonResponse = new CommonResponse();
             try
             {
                 if (!string.IsNullOrEmpty(changePasswordReqModel.UserId) && !string.IsNullOrEmpty(changePasswordReqModel.OldPassword) && !string.IsNullOrEmpty(changePasswordReqModel.NewPassword))
                 {
 
                     int userId = Convert.ToInt32(changePasswordReqModel.UserId);
-                    var IsExistId = _dbRepo.UserMstList().FirstOrDefault(x => x.Id == userId);
+                    var IsExistId = await _dbRepo.UserMstList().FirstOrDefaultAsync(x => x.Id == userId);
                     if (IsExistId != null)
                     {
-                        var decryptedPassword = _commonHelper.DecryptString(changePasswordReqModel.OldPassword);
+                        var decryptedPassword = _commonHelper.EncryptString(changePasswordReqModel.OldPassword);
                         var isValidOldPassword = IsExistId.Password.Equals(decryptedPassword);
                         if (isValidOldPassword)
                         {
                             var encryptedPassword = _commonHelper.EncryptString(changePasswordReqModel.NewPassword);
                             IsExistId.Password = encryptedPassword;
                             _dbContext.Entry(IsExistId).State = EntityState.Modified;
-                            _dbContext.SaveChanges();
+                            await _dbContext.SaveChangesAsync();
 
                             commonResponse.Status = true;
-                            commonResponse.Message = "Change Password Successfully!";
+                            commonResponse.Message = "Change password successfully!";
                         }
                         else
                         {
                             commonResponse.Status = false;
-                            commonResponse.Message = "Can Not Match Your OldPassword!";
+                            commonResponse.Message = "Can not match your oldPassword!";
                         }
                     }
                     else
                     {
                         commonResponse.Status = false;
-                        commonResponse.Message = "Can Not Change Your Password!";
+                        commonResponse.Message = "Can not change your password!";
                     }
                 }
                 else
                 {
                     commonResponse.Status = false;
-                    commonResponse.Message = "Please Enter Valid Password";
+                    commonResponse.Message = "Please enter valid password!";
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
-
+                commonResponse.Message = ex.Message;
             }
             return Json(commonResponse);
         }
