@@ -1,5 +1,6 @@
 ﻿using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
+using ArcheOne.Models.Req;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -101,6 +102,24 @@ namespace ArcheOne.Controllers
                 commonResponse.Message = ex.Message.ToString();
             }
 
+            return Json(commonResponse);
+        }
+
+        [HttpPost]
+        public IActionResult SearchSalary(SalaryReqModel salaryReqModel)
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            try
+            {
+
+
+                commonResponse.Data = "";
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message.ToString();
+                commonResponse.Data = ex;
+            }
             return Json(commonResponse);
         }
 

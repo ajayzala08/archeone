@@ -19,54 +19,50 @@
 </section>
 
 <section class="content">
-    <div class="card">
+    <div class="card" >
         <div class="card-header">
             <h3 class="card-title"><b>Salary</b></h3>
             <input type="button" id="btnUploadSalary" class="btn btn-primary float-right" data-toggle="modal" data-target="#modalSalaryUpload" value="Upload Salary" />
         </div>
-        <div class="card-body">
+        <div class="card-body" >
 
-            <div class="row">
+            <div class="row" id="modal" >
                 <div class="col-md-3">
-                    <div class="form-group mx-auto">
+                    <div class="form-group mx-auto" id="dddlCompany">
                         <label><span class="has-error required">* </span>Company</label>
                         <select id="ddlCompany" name="ddlCompany" class="form-control" isrequired="1" divcontainer="dddlCompany" errorspan="sddlCompany" defaultvalue="0" style="width: 100%;">
                             <option value="0">--- Select ---</option>
-
-                            
-
                         </select>
-                        <span class="help-block d-none has-error" id="sddlCompany">Please Company</span>
+                        <span class="help-block d-none has-error" id="sddlCompany">Please Select Company</span>
                     </div>
 
                 </div>
 
                 <div class="col-md-3">
-                    <div class="form-group mx-auto">
+                    <div class="form-group mx-auto" id="dddlyear">
                         <label><span class="has-error required">* </span>Year</label>
                         <select id="ddlyear" name="ddlyear" class="form-control" isrequired="1" divcontainer="dddlyear" errorspan="sddlyear" defaultvalue="0" style="width: 100%;">
                             <option value="0">--- Select ---</option>
 
                            
                         </select>
-                        <span class="help-block d-none has-error" id="sddlyear">Please Company</span>
+                        <span class="help-block d-none has-error" id="sddlyear">Please Select Year</span>
                     </div>
 
                 </div>
 
                 <div class="col-md-3">
-                    <div class="form-group mx-auto">
+                    <div class="form-group mx-auto" id="dddlmonth">
                         <label><span class="has-error required">* </span>Month</label>
                         <select id="ddlmonth" name="ddlmonth" class="form-control" isrequired="1" divcontainer="dddlmonth" errorspan="sddlmonth" defaultvalue="0" style="width: 100%;">
                             <option value="0">--- Select ---</option>
 
 
                         </select>
-                        <span class="help-block d-none has-error" id="sddlmonth">Please Company</span>
+                        <span class="help-block d-none has-error" id="sddlmonth">Please Select Month</span>
                     </div>
 
                 </div>
-
                 <div class="col-md-3">
                     <div class="form-group mx-auto">
                         <label><span>&nbsp; </span></label>
@@ -97,7 +93,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="col-sm-12" id="modal">
+                    <div class="col-sm-12">
                         <div class="form-group" id="dfileSalarySheet">
                             <label for="form_name">SalarySheet *</label>
                             <div class="input-group">
