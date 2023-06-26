@@ -401,7 +401,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<PermissionMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Permissi__3214EC07A9F2016E");
+            entity.HasKey(e => e.Id).HasName("PK__Permissi__3214EC07F55E068F");
 
             entity.ToTable("PermissionMst");
 
@@ -648,7 +648,6 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.SalartMonth)
                 .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.SalaryYear).HasColumnType("decimal(4, 0)");
             entity.Property(e => e.TotalDays).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.TotalDeduction).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.TotalEarning).HasColumnType("decimal(18, 2)");
@@ -795,7 +794,7 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.MiddleName).HasMaxLength(100);
             entity.Property(e => e.Mobile1).HasMaxLength(20);
             entity.Property(e => e.Mobile2).HasMaxLength(20);
-            entity.Property(e => e.Password).HasMaxLength(20);
+            entity.Property(e => e.Password).HasMaxLength(100);
             entity.Property(e => e.PhotoUrl).HasColumnName("PhotoURL");
             entity.Property(e => e.Pincode).HasMaxLength(10);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");

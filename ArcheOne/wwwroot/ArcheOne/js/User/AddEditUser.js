@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
     applyRequiredValidation();
     $("#btnSaveUpdateUser").click(function () {
+        
         SaveUser();
     });
 });
