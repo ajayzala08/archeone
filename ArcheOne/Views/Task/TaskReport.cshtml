@@ -1,0 +1,56 @@
+﻿@{
+    Layout = "_MasterLayout";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Task Report</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Task Management</a></li>
+                    <li class="breadcrumb-item active">Task Report</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <input type="hidden" id="requirementId" value="@Model" />
+        <div class="card-header">
+            <div class="row">
+                <div class="ml-auto mr-2 align-self-end mb-3">
+                    <button type="button" id="btnAddDailyTask" class="btn btn-primary float-right" onclick="GenerateExcelReport()">Add Daily Task</button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</section>
+<!-- /.content -->
+@section Scripts
+    {<script>
+             function GenerateExcelReport() {
+                 ajaxCall("Post", false, '/Task/GenerateTaskReport', null, function (result) {
+                     if (result.status == true) {
+                         Toast.fire({ icon: 'success', title: result.message });
+                     }
+                     else {
+                         Toast.fire({ icon: 'error', title: result.message });
+                     }
+                     $.unblockUI();
+                 });
+             }
+    </script>
+    }
