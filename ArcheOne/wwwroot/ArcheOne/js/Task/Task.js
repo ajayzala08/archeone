@@ -18,11 +18,29 @@ $(document).ready(function () {
 var tblDailyTask = null;
 
 function GetTaskList() {
+
     $.blockUI({ message: "<h2>Please wait</p>" });
-    ajaxCall("Post", false, '/Task/GetTaskList', null, function (result) {
+
+    var requestModel = {
+        "ProjectId": parseInt($("#ddlProject").val()),
+        "ResourceId": parseInt($("#ddlResources").val()),
+    }
+
+    if ($("#txtFromDate").val() != "") {
+        requestModel.FromDate = $("#txtFromDate").val();
+    }
+
+    if ($("#txtToDate").val() != "") {
+        requestModel.ToDate = $("#txtToDate").val();
+    }
+
+    ajaxCall("Post", false, '/Task/GetTaskList', JSON.stringify(requestModel) , function (result) {
         if (result.status == true) {
 
-            if (tblDailyTask !== null) {
+            if (tblDailyTask !== null ) {
+                if (!$.fn.DataTable.isDataTable(tblDailyTask)) {
+                    tblDailyTask = $('#tblDailyTask').DataTable();
+                }
                 tblDailyTask.destroy();
                 tblDailyTask = null;
             }
@@ -78,6 +96,10 @@ function GetTaskList() {
             }).buttons().container().appendTo('#tblDailyTask_wrapper .col-md-6:eq(0)');
         }
         else {
+            if (!$.fn.DataTable.isDataTable(tblDailyTask)) {
+                tblDailyTask = $('#tblDailyTask').DataTable();
+            }
+            tblDailyTask.rows().remove().draw();
             Toast.fire({ icon: 'error', title: result.message });
         }
         $.unblockUI();
@@ -217,10 +239,10 @@ function GetTaskDetails(taskId) {
                 $("#taskId").val(taskId);
                 $("#ddlProjectTask").val(result.data.projectId).trigger('change');;
                 $("#txtModule").val(result.data.taskModule);
-                $("#ddlDailyTaskStatus").val(result.data.taskStatus).trigger('change');;
+                $("#ddlDailyTaskStatus option:contains(" + result.data.taskStatus + ")").prop('selected', true).trigger('change');
                 $("#txtTaskDate").val(result.data.taskDate.split('T')[0]);
-                $("#ddlTimeSpentHH option:contains(" + result.data.timeSpent.split(':')[0] + ")").prop('selected', true).trigger('change');;
-                $("#ddlTimeSpentMM option:contains(" + result.data.timeSpent.split(':')[1] + ")").prop('selected', true).trigger('change');;
+                $("#ddlTimeSpentHH option:contains(" + result.data.timeSpent.split(':')[0] + ")").prop('selected', true).trigger('change');
+                $("#ddlTimeSpentMM option:contains(" + result.data.timeSpent.split(':')[1] + ")").prop('selected', true).trigger('change');
                 $("#txtTaskDescription").val(result.data.taskDescription);
 
             }
@@ -294,6 +316,18 @@ function DeleteTask(taskId) {
             setInterval(function () {
                 window.location.reload();
             }, 1500)
+        }
+        else {
+            Toast.fire({ icon: 'error', title: result.message });
+        }
+        $.unblockUI();
+    });
+}
+
+function GenerateExcelReport() {
+    ajaxCall("Post", false, '/Task/GenerateTaskReport', null, function (result) {
+        if (result.status == true) {
+            Toast.fire({ icon: 'success', title: result.message });
         }
         else {
             Toast.fire({ icon: 'error', title: result.message });
