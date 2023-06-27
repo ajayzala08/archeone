@@ -11,6 +11,12 @@ namespace ArcheOne.Models.Res
         public string Date { get; set; }
         public string ReviewDate { get; set; }
 
+        public bool IsUserHR { get; set; }
+        public bool IsUserEmployee { get; set; }
+        public bool IsUserReportManager { get; set; }
+
+        public EmployeeRating EmployeeRating { get; set; }
+
         public AppraisalRating appraisalRating { get; set; }
 
  
@@ -26,13 +32,13 @@ namespace ArcheOne.Models.Res
     }
     public class AppraisalRating
     {
-        public int QualityOfWork { get; set; }
+        public int? QualityOfWork { get; set; }
 
-        public int GoalNtarget { get; set; }
+        public int? GoalNtarget { get; set; }
 
-        public int WrittenVerbalSkill { get; set; }
+        public int? WrittenVerbalSkill { get; set; }
 
-        public int InitiativeMotivation { get; set; }
+        public int? InitiativeMotivation { get; set; }
 
         public int? TeamWork { get; set; }
 
@@ -45,6 +51,26 @@ namespace ArcheOne.Models.Res
         public string? Comment { get; set; }
 
 
+    }
+    public class EmployeeRating
+    {
+        public int? QualityOfWork { get; set; }
+
+        public int? GoalNtarget { get; set; }
+
+        public int? WrittenVerbalSkill { get; set; }
+
+        public int? InitiativeMotivation { get; set; }
+
+        public int? TeamWork { get; set; }
+
+        public int? ProblemSolvingAbillity { get; set; }
+
+        public int? Attendance { get; set; }
+
+        public int? Total { get; set; }
+
+        public string? Comment { get; set; }
     }
 
 }

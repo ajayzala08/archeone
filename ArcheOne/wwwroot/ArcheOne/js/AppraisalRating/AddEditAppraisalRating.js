@@ -1,7 +1,8 @@
 ﻿$(document).ready(function () {
 
     $("#btnSaveAdd").click(function () {
-        SaveUpdateAppraisal();
+        debugger
+        SaveUpdateAppraisalRating();
     });
 
 
@@ -10,22 +11,32 @@
     });
 });
 
-function SaveUpdateAppraisal() {
+function SaveUpdateAppraisalRating() {
     if (window.FormData !== undefined) {
-
-        var saveAppraisalData = {
+        debugger
+        var saveAppraisalRatingData = {
             "Id": parseInt($("#txtAppraisalId").val()),
-            "EmployeeId": parseInt($("#ddlEmployeeId").val()),
-            "ReportingManagerId": parseInt($("#ddlReportingManagerId").val()),
-            "Year": $("#txtYear").val(),
+            "ReportingManagerId": $("#txtReportingManagerId").val(),
+            "EmployeeId": $("#txtEmployeeId").val(),
+            "QualityOfWork": $("#txtQualityOfWork").val(), 
+            "GoalNtarget": $("#txtGoalsNachievement").val(),
+            "WrittenVerbalSkill": $("#txtWrittenNVerbalSkill").val(),
+            "InitiativeMotivation": $("#txtInitiative").val(),
+            "TeamWork": $("#txtTeamWorkNLeaderShip").val(),
+            "ProblemSolvingAbillity": $("#txtProblemsolveAbility").val(),
+            "Attendance": $("#txtAttendanceRegularization").val(),
+            "Total": $("#txtTotal").val(),
+            "Comment": $("#txtEmployeeComment").val(),
+          
         }
+        debugger
 
-        console.log(saveAppraisalData);
+        console.log(saveAppraisalRatingData);
 
 
         if (validateRequiredFields()) {
             $.blockUI();
-            ajaxCall("Post", false, '/Appraisal/SaveUpdateAppraisal', JSON.stringify(saveAppraisalData), function (result) {
+            ajaxCall("Post", false, '/AppraisalRating/SaveUpdateAppraisalRating', JSON.stringify(saveAppraisalRatingData), function (result) {
                 if (result.status == true) {
                     Toast.fire({ icon: 'success', title: result.message });
                     RedirectToPage("/Appraisal/Appraisal");
