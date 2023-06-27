@@ -1241,3 +1241,150 @@ alter table dbo.SalaryMst
 alter column SalaryYear int not null
 ----------------------------------------Added by AZ on 26-06-23-----------------------------------End----------
 ---------------------------------------Executed on Local Server on 26-06-23-----------------------by AZ--------
+
+Alter table AppraisalRatingMst
+Add  AppraisalId int null
+----------------------------------------Added by SP on 27-06-23-----------------------------------End----------
+---------------------------------------Executed on Local Server on 27-06-23-----------------------by SP--------
+----------------------------------------Added by PP on 27-06-23-----------------------------------Start--------
+----------------------------------------Added by PP on 27-06-23-----------------------------------Start--------
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'LeaveTypeMst')
+BEGIN 
+	Create table dbo.LeaveTypeMst(
+			Id int identity(1,1) primary key,
+			LeaveTypeName nvarchar(100) not null,
+			LeaveDays decimal(38, 17),
+			CalenderYearId int not null,
+			IsCurrentYear bit not null,
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'LeaveTypeMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'LeaveTypeMst Table Already Exist' 
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'LeaveMst')
+BEGIN 
+	Create table dbo.LeaveMst(
+			Id int identity(1,1) primary key,
+			LeaveTypeId int not null,
+			AppliedByUserId int not null,
+			ApprovedByUserId int not null,
+			StartDateTime datetime not null,
+			EndDateTime datetime not null,
+			NoOfDays decimal(38, 17),
+			Reason nvarchar(max) not null,
+			LeaveStatusId int not null,
+			LeaveBalance decimal(38, 17),
+			IsActive bit  not null,
+			IsDelete bit  not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'LeaveMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'LeaveMst Table Already Exist' 
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'FinancialYearMst')
+BEGIN 
+	Create table dbo.FinancialYearMst(
+			Id int identity(1,1) primary key,
+			YearName nvarchar(100) not null,
+			YearCode nvarchar(100) not null,
+			IsCurrentYear bit not null,
+			IsActive bit not null,
+			IsDelete bit  not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'FinancialYearMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'FinancialYearMst Table Already Exist' 
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'CalenderYearMst')
+BEGIN 
+	Create table dbo.CalenderYearMst(
+			Id int identity(1,1) primary key,
+			YearName nvarchar(100) not null,
+			YearCode nvarchar(100) not null,
+			IsCurrentYear bit not null,
+			IsActive bit  not null,
+			IsDelete bit  not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'CalenderYearMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'CalenderYearMst Table Already Exist' 
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'LeaveStatusMst')
+BEGIN 
+	Create table dbo.LeaveStatusMst(
+			Id int identity(1,1) primary key,
+			LeaveStatus nvarchar(100) not null,
+			IsActive bit  not null,
+			IsDelete bit  not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'LeaveStatusMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'LeaveStatusMst Table Already Exist' 
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'LeaveBalanceMst')
+BEGIN 
+	Create table dbo.LeaveBalanceMst(
+			Id int identity(1,1) primary key,
+			LeaveStatus nvarchar(100) not null,
+			UserId int not null,
+			LeaveTypeId int not null,
+			PendingLeaveBalance decimal(38, 17),
+			AvailableLeaveBalance decimal(38, 17),
+			TotalLeaveBalance decimal(38, 17),
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'LeaveBalanceMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'LeaveBalanceMst Table Already Exist' 
+END
+----------------------------------------Added by PP on 27-06-23-----------------------------------End--------
