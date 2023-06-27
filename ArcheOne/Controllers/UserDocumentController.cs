@@ -11,6 +11,12 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNet.SignalR.Hosting;
+using DocumentFormat.OpenXml.Office2010.PowerPoint;
+using DocumentFormat.OpenXml.Wordprocessing;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
+using Font = iTextSharp.text.Font;
+using Document = iTextSharp.text.Document;
 
 namespace ArcheOne.Controllers
 {
@@ -286,7 +292,6 @@ namespace ArcheOne.Controllers
 					var docsList = await _dbRepo.UserDocumentList().FirstOrDefaultAsync(x => x.Id == id);
 
 					string ReportURL = docsList.Document;
-
 					FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), ReportURL));
 				}
 				else
@@ -301,6 +306,117 @@ namespace ArcheOne.Controllers
 				commonResponse.Data = ex;
 			}
 			return File(FileBytes, "application/pdf");
+		}
+
+		public async Task<FileResult> GetUserOfferLetter(int id)
+		{
+			CommonResponse commonResponse = new CommonResponse();
+			string userDocument = "Files\\DefaultPolicyDocument\\HRPolicy0.pdf";
+			byte[] FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), userDocument));
+			try
+			{
+				if (id > 0)
+				{
+					var docsList = await _dbRepo.UserDocumentList().FirstOrDefaultAsync(x => x.Id == id);
+
+					string ReportURL = docsList.Document;
+					FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), ReportURL));
+				}
+				else
+				{
+					commonResponse.StatusCode = HttpStatusCode.NotFound;
+					commonResponse.Message = "Data Not Found";
+				}
+			}
+			catch (Exception ex)
+			{
+				commonResponse.Message = ex.Message;
+				commonResponse.Data = ex;
+			}
+			return File(FileBytes, "application/pdf");
+		}
+
+		[HttpGet]
+		public IActionResult DownloadOfferLetter()
+		{
+			string filePath = string.Empty;
+			string pdfFileName = string.Empty;
+
+			Rectangle pageSize = new Rectangle(iTextSharp.text.PageSize.A4.Rotate());
+			pageSize.BackgroundColor = new BaseColor(234, 244, 251);
+            Document document = new Document(pageSize);
+
+
+			using (System.IO.MemoryStream memoryStream = new System.IO.MemoryStream())
+			{
+
+				PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
+				document.Open();
+
+				//string Fontpath = "D:\\NewProject\\ValidationDemoApi\\ValidationDemoApi\\NewFolder\\Font\\Poppins ExtraLight 275.ttf";
+				//Font fontSummary = FontFactory.GetFont(Fontpath, 24, Font.NORMAL, BaseColor.BLACK);
+				//Font fontCHWTitle = FontFactory.GetFont(Fontpath, 20, Font.NORMAL, BaseColor.BLACK);
+
+				var fontTableHeader = FontFactory.GetFont("https://fonts.googleapis.com/css?family=Poppins", 12, Font.NORMAL, BaseColor.BLACK);
+				var fontTableRow = FontFactory.GetFont("https://fonts.googleapis.com/css?family=Poppins", 10, Font.NORMAL, BaseColor.GRAY);
+				PdfContentByte content = writer.DirectContentUnder;
+
+				#region image
+				PdfPTable table = new PdfPTable(4);
+				table.WidthPercentage = 28;
+
+				table.HorizontalAlignment = Rectangle.ALIGN_LEFT;
+				PdfPCell cell2 = new PdfPCell((iTextSharp.text.Image.GetInstance("D:\\ArcheProjects\\ArcheOne\\DS\\archeone\\ArcheOne\\wwwroot\\Files\\UserDocument\\Reyna.jpg")));
+				cell2.FixedHeight = 50;
+
+				cell2.Border = Rectangle.NO_BORDER;
+				cell2.PaddingLeft = 0;
+				cell2.PaddingTop = 10;
+				cell2.PaddingBottom = 10;
+				cell2.PaddingRight = 0;
+				cell2.HorizontalAlignment = Rectangle.ALIGN_CENTER;
+				table.AddCell(cell2);
+
+				PdfPCell cell = new PdfPCell(new Phrase("Arche Softronix"));
+				cell.Colspan = 3;
+				cell.Border = Rectangle.NO_BORDER;
+				cell.PaddingLeft = 0;
+				cell.PaddingTop = 10;
+				cell.PaddingBottom = 10;
+				cell.PaddingRight = 0;
+				table.AddCell(cell);
+
+				#endregion
+
+				//main table create
+				PdfPTable MainTable = new PdfPTable(3);
+				MainTable.WidthPercentage = 100;
+
+				#region summary
+				PdfPCell MainTableCell_1 = new PdfPCell(new Phrase("Offer Letter"));
+				MainTableCell_1.Colspan = 3;
+				MainTableCell_1.PaddingBottom = 10;
+				MainTableCell_1.BorderWidthBottom = 0;
+				MainTableCell_1.BorderWidthLeft = 0;
+				MainTableCell_1.BorderWidthTop = 0;
+				MainTableCell_1.BorderWidthRight = 0;
+				MainTableCell_1.PaddingBottom = 10;
+				MainTableCell_1.Border = PdfPCell.NO_BORDER;
+				//MainTableCell_1.CellEvent = new RoundedBorder();
+				MainTableCell_1.HorizontalAlignment = 1;
+				MainTable.AddCell(MainTableCell_1);
+				#endregion
+
+				document.Add(table);
+				document.Add(MainTable);
+				document.Close();
+				byte[] bytes = memoryStream.ToArray();
+				memoryStream.Close();
+				var filename = "Employee_Offer_Letter";
+				pdfFileName = filename.ToString() + ".pdf";
+				filePath = (filename + ".pdf");
+				return File(bytes, "application/pdf", filePath);
+			}
 		}
 	}
 }

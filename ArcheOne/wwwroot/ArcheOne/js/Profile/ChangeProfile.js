@@ -9,7 +9,7 @@
 });
 
 function loadFile(event) {
-    $('#lblResumeUpload').html(event.target.files[0].name);
+    $('#lblProfileImage').html(event.target.files[0].name);
 }
 
 

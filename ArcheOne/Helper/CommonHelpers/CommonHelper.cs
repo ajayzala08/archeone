@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Net;
 using System.Net.Mail;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -157,12 +158,12 @@ namespace ArcheOne.Helper.CommonHelpers
                     MailMessage mail = new MailMessage();
 
                     //get configration from appsettings.json
-                    string FromEmail = _configuration.GetSection("SiteEmailConfigration:FromEmail").Value;
-                    string Host = _configuration.GetSection("SiteEmailConfigration:Host").Value;
-                    int Port = Convert.ToInt32(_configuration.GetSection("SiteEmailConfigration:Port").Value);
-                    bool EnableSSL = Convert.ToBoolean(_configuration.GetSection("SiteEmailConfigration:EnableSSL").Value);
-                    string Password = _configuration.GetSection("SiteEmailConfigration:MailPassword").Value;
-                    bool EmailEnable = Convert.ToBoolean(_configuration.GetSection("SiteEmailConfigration:EmailEnable").Value);
+                    string FromEmail = _configuration.GetSection("SiteEmailConfigure:FromEmail").Value;
+                    string Host = _configuration.GetSection("SiteEmailConfigure:Host").Value;
+                    int Port = Convert.ToInt32(_configuration.GetSection("SiteEmailConfigure:Port").Value);
+                    bool EnableSSL = Convert.ToBoolean(_configuration.GetSection("SiteEmailConfigure:EnableSSL").Value);
+                    string Password = _configuration.GetSection("SiteEmailConfigure:MailPassword").Value;
+                    bool EmailEnable = Convert.ToBoolean(_configuration.GetSection("SiteEmailConfigure:EmailEnable").Value);
                     if (EmailEnable)
                     {
                         mail.From = new MailAddress(FromEmail, "Arche");
@@ -177,7 +178,6 @@ namespace ArcheOne.Helper.CommonHelpers
                         //    Attachment attachment = new Attachment(path);
                         //    mail.Attachments.Add(attachment);
                         //}
-
                         if (model.Attachment != null)
                         {
                             mail.Attachments.Add(new Attachment(model.Attachment));
@@ -192,15 +192,22 @@ namespace ArcheOne.Helper.CommonHelpers
                         try
                         {
                             smtp.Send(mail);
+                            response.Status = true;
+                            response.Message = "Success.";
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
-                            throw;
+                            response.Message = e.Message;
+                            response.Status = false;
                         }
+
                     }
 
-                    response.Status = true;
-                    response.Message = "Success.";
+                    else
+                    {
+                        response.Status = false;
+                        response.Message = "Fail";
+                    }
                 }
                 else
                 {
@@ -370,6 +377,119 @@ namespace ArcheOne.Helper.CommonHelpers
         public bool IsValidDateTime(string input, string format, out DateTime results)
         {
             return DateTime.TryParseExact(input, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out results);
+        }
+        public string EncryptString(string plainText)
+        {
+
+            var key = Encoding.UTF8.GetBytes(_configuration["EncryptionKeys:EncryptionSecurityKey"].ToString());
+            var iv = Encoding.UTF8.GetBytes(_configuration["EncryptionKeys:EncryptionSecurityIV"].ToString());
+            // Check arguments.
+            if (plainText == null || plainText.Length <= 0)
+            {
+                throw new ArgumentNullException("plainText");
+            }
+            if (key == null || key.Length <= 0)
+            {
+                throw new ArgumentNullException("key");
+            }
+            if (iv == null || iv.Length <= 0)
+            {
+                throw new ArgumentNullException("key");
+            }
+            byte[] encrypted;
+            // Create a RijndaelManaged object
+            // with the specified key and IV.
+            using (var rijAlg = new RijndaelManaged())
+            {
+                rijAlg.Mode = CipherMode.CBC;
+                rijAlg.Padding = PaddingMode.PKCS7;
+                rijAlg.FeedbackSize = 128;
+
+                rijAlg.Key = key;
+                rijAlg.IV = iv;
+
+                // Create a decrytor to perform the stream transform.
+                var encryptor = rijAlg.CreateEncryptor(rijAlg.Key, rijAlg.IV);
+
+                // Create the streams used for encryption.
+                using (var msEncrypt = new MemoryStream())
+                {
+                    using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (var swEncrypt = new StreamWriter(csEncrypt))
+                        {
+                            //Write all data to the stream.
+                            swEncrypt.Write(plainText);
+                        }
+                        encrypted = msEncrypt.ToArray();
+                    }
+                }
+            }
+            // Return the encrypted bytes from the memory stream.
+
+            return Convert.ToBase64String(encrypted);
+            //return encrypted;
+        }
+
+        public string DecryptString(string cipherText)
+        {
+            var key = Encoding.UTF8.GetBytes(_configuration["EncryptionKeys:EncryptionSecurityKey"].ToString());
+            var iv = Encoding.UTF8.GetBytes(_configuration["EncryptionKeys:EncryptionSecurityIV"].ToString());
+            var encrypted = Convert.FromBase64String(cipherText);
+            // Check arguments.
+            if (encrypted == null || encrypted.Length <= 0)
+            {
+                throw new ArgumentNullException("cipherText");
+            }
+            if (key == null || key.Length <= 0)
+            {
+                throw new ArgumentNullException("key");
+            }
+            if (iv == null || iv.Length <= 0)
+            {
+                throw new ArgumentNullException("key");
+            }
+
+            // Declare the string used to hold
+            // the decrypted text.
+            string plaintext = null;
+
+            // Create an RijndaelManaged object
+            // with the specified key and IV.
+            using (var rijAlg = new RijndaelManaged())
+            {
+                //Settings
+                rijAlg.Mode = CipherMode.CBC;
+                rijAlg.Padding = PaddingMode.PKCS7;
+                rijAlg.FeedbackSize = 128;
+                rijAlg.Key = key;
+                rijAlg.IV = iv;
+
+                // Create a decrytor to perform the stream transform.
+                var decryptor = rijAlg.CreateDecryptor(rijAlg.Key, rijAlg.IV);
+
+                try
+                {
+                    // Create the streams used for decryption.
+                    using (var msDecrypt = new MemoryStream(encrypted))
+                    {
+                        using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                        {
+                            using (var srDecrypt = new StreamReader(csDecrypt))
+                            {
+                                // Read the decrypted bytes from the decrypting stream
+                                // and place them in a string.
+                                plaintext = srDecrypt.ReadToEnd();
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+                    plaintext = "keyError";
+                }
+            }
+            return plaintext;
         }
     }
 }

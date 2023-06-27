@@ -1,6 +1,4 @@
 $(document).ready(function () {
-
-    //applyRequiredValidation();
     $("#btnLogin").click(function () {
         $.blockUI();
         var dataModel = {
@@ -8,10 +6,8 @@ $(document).ready(function () {
             "Password": $('#txtPassword').val(),
             "RememberMe": $('#rememberMeCheckbox').is(':checked')
         }
-        /*console.log(dataModel);*/
         if (validateRequiredFields()) {
             ajaxCall("Post", false, '/LogIn/LogIn', JSON.stringify(dataModel), function (result) {
-                //console.log(result);
                 if (result.status == true) {
                     RedirectToPage("/Dashboard/Index");
                     Toast.fire({ icon: 'success', title: result.message });
@@ -101,23 +97,6 @@ $(document).ready(function () {
         }
     });
 
-    $("#BtnLogout").click(function () {
-        ajaxCall("get", false, '/LogIn/Logout', '', function (result) {
-            if (result.status == true) {
-                console.log(result);
-                // Popup_Toast.fire({ icon: 'success', title: result.message });
-                RedirectToPage("/LogIn/LogIn");
-                //preventBack();
-                //noBack();
-            }
-            else {
-            }
-
-        });
-
-
-    });
-
     $("#btnCancelCP").click(function () {
         window.location.href = '/Dashboard/Index';
     });
@@ -125,29 +104,7 @@ $(document).ready(function () {
 
 
 
-function preventBack() { window.history.forward(); }
-setTimeout("preventBack()", 0);
-window.onunload = function () { null };
-window.history.forward();
-function noBack() {
-    window.history.forward();
-}
 
-function getCookie(name) {
-    // var cookieName = encodeURIComponent(name) + '=';
-    var cookieName = encodeURIComponent(name);
-    var cookieArray = document.cookie.split(';');
-
-    for (var i = 0; i < cookieArray.length; i++) {
-        var cookie = cookieArray[i].trim(); // Trim any leading/trailing whitespace
-
-        if (cookie.indexOf(cookieName) === 0) {
-            return decodeURIComponent(cookie.substring(cookieName.length));
-        }
-    }
-
-    return null;
-}
 
 
 

@@ -1,0 +1,119 @@
+﻿@{
+    Layout = "_MasterLayout";
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Salary</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">HR</a></li>
+                    <li class="breadcrumb-item active">Salary</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+    <div class="card" >
+        <div class="card-header">
+            <h3 class="card-title"><b>Salary</b></h3>
+            <input type="button" id="btnUploadSalary" class="btn btn-primary float-right" data-toggle="modal" data-target="#modalSalaryUpload" value="Upload Salary" />
+        </div>
+        <div class="card-body" >
+
+            <div class="row" id="modal" >
+                <div class="col-md-3">
+                    <div class="form-group mx-auto" id="dddlCompany">
+                        <label><span class="has-error required">* </span>Company</label>
+                        <select id="ddlCompany" name="ddlCompany" class="form-control" isrequired="1" divcontainer="dddlCompany" errorspan="sddlCompany" defaultvalue="0" style="width: 100%;">
+                            <option value="0">--- Select ---</option>
+                        </select>
+                        <span class="help-block d-none has-error" id="sddlCompany">Please Select Company</span>
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group mx-auto" id="dddlyear">
+                        <label><span class="has-error required">* </span>Year</label>
+                        <select id="ddlyear" name="ddlyear" class="form-control" isrequired="1" divcontainer="dddlyear" errorspan="sddlyear" defaultvalue="0" style="width: 100%;">
+                            <option value="0">--- Select ---</option>
+
+                           
+                        </select>
+                        <span class="help-block d-none has-error" id="sddlyear">Please Select Year</span>
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group mx-auto" id="dddlmonth">
+                        <label><span class="has-error required">* </span>Month</label>
+                        <select id="ddlmonth" name="ddlmonth" class="form-control" isrequired="1" divcontainer="dddlmonth" errorspan="sddlmonth" defaultvalue="0" style="width: 100%;">
+                            <option value="0">--- Select ---</option>
+
+
+                        </select>
+                        <span class="help-block d-none has-error" id="sddlmonth">Please Select Month</span>
+                    </div>
+
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group mx-auto">
+                        <label><span>&nbsp; </span></label>
+                        <input type="button" id="btnSearch" class="form-control btn btn-success float-left" value="Search" />
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <span>No record found</span>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-footer">
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="modalSalaryUpload">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Upload SalarySheet</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-sm-12" id="modelUpload">
+                        <div class="form-group" id="dfileSalarySheet">
+                            <label for="form_name">SalarySheet *</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input id="fileSalarySheet" type="file" name="fileSalarySheet" isrequired="1" divcontainer="dfileSalarySheet" errorspan="sfileSalarySheet" defaultvalue="" autocomplete="off" class="custom-file-input" onchange="loadFile(event)" accept=".xls, .xlsx" />
+                                    <label id="lblSalarySheet" class="custom-file-label">Choose file</label>
+                                </div>
+                            </div>
+                            <span class="help-block d-none has-error" id="sfileSalarySheet">Please select excel sheet only.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" id="btnUploadSalarySheet" name="btnUploadSalarySheet" class="btn btn-warning float-right" value="Upload" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts
+    {
+    <script src="~/archeone/js/salary/salary.js?_@DateTime.Now.Ticks"></script>
+    }
