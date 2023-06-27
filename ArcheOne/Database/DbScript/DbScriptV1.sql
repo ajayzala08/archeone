@@ -1241,3 +1241,8 @@ alter table dbo.SalaryMst
 alter column SalaryYear int not null
 ----------------------------------------Added by AZ on 26-06-23-----------------------------------End----------
 ---------------------------------------Executed on Local Server on 26-06-23-----------------------by AZ--------
+
+Alter table AppraisalRatingMst
+Add  AppraisalId int null
+----------------------------------------Added by SP on 27-06-23-----------------------------------End----------
+---------------------------------------Executed on Local Server on 27-06-23-----------------------by SP--------

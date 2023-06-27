@@ -40,4 +40,6 @@ public partial class AppraisalRatingMst
     public DateTime CreatedDate { get; set; }
 
     public DateTime UpdatedDate { get; set; }
+
+    public int? AppraisalId { get; set; }
 }

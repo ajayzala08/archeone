@@ -187,7 +187,7 @@ namespace ArcheOne.Controllers
 
                         commonResponse.Status = true;
                         commonResponse.StatusCode = HttpStatusCode.OK;
-                        commonResponse.Message = "Team Edited Succesfully";
+                        commonResponse.Message = "Team Edited Successfully";
                     }
                 }
                 else
