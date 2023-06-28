@@ -13,9 +13,13 @@ public partial class LeaveMst
 
     public int ApprovedByUserId { get; set; }
 
-    public DateTime StartDateTime { get; set; }
+    public DateTime StartDate { get; set; }
 
-    public DateTime EndDateTime { get; set; }
+    public DateTime EndDate { get; set; }
+
+    public TimeSpan StartTime { get; set; }
+
+    public TimeSpan EndTime { get; set; }
 
     public decimal? NoOfDays { get; set; }
 
