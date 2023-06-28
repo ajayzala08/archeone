@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace ArcheOne.Database.Entities;
 
@@ -18,6 +16,8 @@ public partial class ArcheOneDbContext : DbContext
     public virtual DbSet<AppraisalMst> AppraisalMsts { get; set; }
 
     public virtual DbSet<AppraisalRatingMst> AppraisalRatingMsts { get; set; }
+
+    public virtual DbSet<CalenderYearMst> CalenderYearMsts { get; set; }
 
     public virtual DbSet<CandidateMst> CandidateMsts { get; set; }
 
@@ -37,6 +37,8 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<EmploymentTypeMst> EmploymentTypeMsts { get; set; }
 
+    public virtual DbSet<FinancialYearMst> FinancialYearMsts { get; set; }
+
     public virtual DbSet<HireStatusMst> HireStatusMsts { get; set; }
 
     public virtual DbSet<HolidayMst> HolidayMsts { get; set; }
@@ -48,6 +50,14 @@ public partial class ArcheOneDbContext : DbContext
     public virtual DbSet<InterviewRoundStatusMst> InterviewRoundStatusMsts { get; set; }
 
     public virtual DbSet<InterviewRoundTypeMst> InterviewRoundTypeMsts { get; set; }
+
+    public virtual DbSet<LeaveBalanceMst> LeaveBalanceMsts { get; set; }
+
+    public virtual DbSet<LeaveMst> LeaveMsts { get; set; }
+
+    public virtual DbSet<LeaveStatusMst> LeaveStatusMsts { get; set; }
+
+    public virtual DbSet<LeaveTypeMst> LeaveTypeMsts { get; set; }
 
     public virtual DbSet<LinkMst> LinkMsts { get; set; }
 
@@ -97,9 +107,9 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<UserPermission> UserPermissions { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;");
+    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+    //        => optionsBuilder.UseSqlServer("Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -125,6 +135,18 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.GoalNtarget).HasColumnName("GoalNTarget");
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<CalenderYearMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Calender__3214EC07A0CA3F11");
+
+            entity.ToTable("CalenderYearMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            entity.Property(e => e.YearCode).HasMaxLength(100);
+            entity.Property(e => e.YearName).HasMaxLength(100);
         });
 
         modelBuilder.Entity<CandidateMst>(entity =>
@@ -306,6 +328,18 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
+        modelBuilder.Entity<FinancialYearMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Financia__3214EC0750C50CAD");
+
+            entity.ToTable("FinancialYearMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            entity.Property(e => e.YearCode).HasMaxLength(100);
+            entity.Property(e => e.YearName).HasMaxLength(100);
+        });
+
         modelBuilder.Entity<HireStatusMst>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__HireStat__3214EC07D5B3310A");
@@ -374,6 +408,57 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.InterviewRoundTypeCode).HasMaxLength(100);
             entity.Property(e => e.InterviewRoundTypeName).HasMaxLength(100);
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<LeaveBalanceMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__LeaveBal__3214EC07D820450D");
+
+            entity.ToTable("LeaveBalanceMst");
+
+            entity.Property(e => e.AvailableLeaveBalance).HasColumnType("decimal(38, 17)");
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.LeaveStatus).HasMaxLength(100);
+            entity.Property(e => e.PendingLeaveBalance).HasColumnType("decimal(38, 17)");
+            entity.Property(e => e.TotalLeaveBalance).HasColumnType("decimal(38, 17)");
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<LeaveMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__LeaveMst__3214EC07107672C7");
+
+            entity.ToTable("LeaveMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.EndDateTime).HasColumnType("datetime");
+            entity.Property(e => e.LeaveBalance).HasColumnType("decimal(38, 17)");
+            entity.Property(e => e.NoOfDays).HasColumnType("decimal(38, 17)");
+            entity.Property(e => e.StartDateTime).HasColumnType("datetime");
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<LeaveStatusMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__LeaveSta__3214EC077F8BB32C");
+
+            entity.ToTable("LeaveStatusMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.LeaveStatus).HasMaxLength(100);
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<LeaveTypeMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__LeaveTyp__3214EC07A30DAF6B");
+
+            entity.ToTable("LeaveTypeMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.LeaveDays).HasColumnType("decimal(38, 17)");
+            entity.Property(e => e.LeaveTypeName).HasMaxLength(100);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 

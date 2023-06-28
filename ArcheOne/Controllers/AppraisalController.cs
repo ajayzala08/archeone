@@ -41,10 +41,16 @@ namespace ArcheOne.Controllers
             try
             {
                 var appraisalList = _dbRepo.AppraisalList().ToList();
+                var appraisalManagerList = _dbRepo.AppraisalList().Where(x => x.ReportingManagerId == _commonHelper.GetLoggedInUserId()).ToList();
+                if (appraisalManagerList.Count >0)
+                {
+                    appraisalList = _dbRepo.AppraisalList().Where(x => x.ReportingManagerId == _commonHelper.GetLoggedInUserId()).ToList();
+                }
+
                 if (appraisalList.Count > 0)
                 {
 
-                    getAppraisalListResModel = (from u in _dbRepo.AppraisalList()
+                    getAppraisalListResModel = (from u in appraisalList
                                                 join r in _dbRepo.AllUserMstList()
                                                 on u.EmployeeId equals r.Id
                                                 join i in _dbRepo.AllUserMstList()
