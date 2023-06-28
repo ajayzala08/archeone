@@ -7,7 +7,7 @@
     string Title = Model.Id > 0 ? "Edit Appraisal" : "Create Appraisal"; 
 }
 
-@*<section class="content-header"></section>*@
+
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -21,7 +21,7 @@
                 </ol>
             </div>
         </div>
-    </div><!-- /.container-fluid -->
+    </div>
 </section>
 <section class="content">
     <div class="container-fluid">
@@ -87,7 +87,7 @@
                     <div class="col-sm-4" id="dtxtYear">
                         <div class="form-group">
                             <label class="form-label"><span class="has-error required">* </span>Year</label>
-                            <input id="txtYear" type="text" name="Year" class="form-control text-length datepicker" placeholder="Please enter your Year" value="@Model.Year" isrequired="1" divcontainer="dtxtYear" errorspan="stxtYear" defaultvalue="" autocomplete="off" minlength="2">
+                            <input id="txtYear" type="text" name="Year" class="form-control text-length datepicker" placeholder="e.g.2020-2021" value="@Model.Year" isrequired="1" divcontainer="dtxtYear" errorspan="stxtYear" defaultvalue="" autocomplete="off" minlength="2">
                             <span class="help-block d-none has-error" id="stxtYear">Please Enter Valid Year</span>
                         </div>
                     </div>
