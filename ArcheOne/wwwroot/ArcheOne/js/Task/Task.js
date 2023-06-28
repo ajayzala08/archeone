@@ -11,7 +11,17 @@ $(document).ready(function () {
     GetProjectList();
     GetResources();
     GetProjectStatus();
-    GetTaskList();
+    GetTaskList()
+        .then(() => {
+            // This is the event for removing the column from "Column Vibility" of datatable.
+            // This should be used with Promise only because once table is rendered then only this event can be attach to it.
+            $(".buttons-colvis[aria-controls='tblDailyTask']").on("click", function () {
+                $('[aria-controls="tblDailyTask"][data-cv-idx="1"]').remove();
+            });
+        })
+        .catch(error => {
+            console.error(error);
+        });
 });
 
 
@@ -19,90 +29,208 @@ var tblDailyTask = null;
 
 function GetTaskList() {
 
-    $.blockUI({ message: "<h2>Please wait</p>" });
+    return new Promise((resolve, reject) => {
+        var showUserName = false;
 
-    var requestModel = {
-        "ProjectId": parseInt($("#ddlProject").val()),
-        "ResourceId": parseInt($("#ddlResources").val()),
-    }
-
-    if ($("#txtFromDate").val() != "") {
-        requestModel.FromDate = $("#txtFromDate").val();
-    }
-
-    if ($("#txtToDate").val() != "") {
-        requestModel.ToDate = $("#txtToDate").val();
-    }
-
-    ajaxCall("Post", false, '/Task/GetTaskList', JSON.stringify(requestModel) , function (result) {
-        if (result.status == true) {
-
-            if (tblDailyTask !== null ) {
-                if (!$.fn.DataTable.isDataTable(tblDailyTask)) {
-                    tblDailyTask = $('#tblDailyTask').DataTable();
-                }
-                tblDailyTask.destroy();
-                tblDailyTask = null;
-            }
-
-            var showUserName = false;
-
-            if (result.data.length > 0) {
-                showUserName = result.data[0].showUserName;
-            }
-
-            tblDailyTask = $('#tblDailyTask').DataTable({
-                "responsive": true,
-                "lengthChange": true,
-                "paging": true,
-                "processing": true,
-                "filter": true,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-
-                "data": result.data,
-                "columns": [
-                    {
-                        data: null,
-                        title: 'Action',
-                        render: function (data, type, row) {
-                            var actions = '';
-                            if (row.isEditable) {
-                                actions = '<i class="fa fa-pen pen btn-edit" style="cursor: pointer;" data-toggle="modal" data-target="#modalDailyTask" onclick="GetTaskDetails(' + row.id + ')"></i> | ';
-                            }
-                            actions += '<i class="fa fa-trash trash btn-delete" style="cursor: pointer;" onclick="ShowDeleteTaskAlert(' + row.id + ')"></i>';
-                            return actions;
-                        }
-                    },
-                    //{ data: "id", title: "Id" },
-
-                    { data: "createdByName", title: "Resource", visible: showUserName, searchable: showUserName },
-                    { data: "projectName", title: "Project" },
-                    {
-                        data: null, title: "Task Date", render: function (data, type, row) {
-                            var datetime = new Date(row.taskDate);
-                            return datetime.toLocaleString('en-US', { day: '2-digit', month: 'short', year: '2-digit' });
-                        }
-                    },
-                    {
-                        data: null, title: "Entered Date", render: function (data, type, row) {
-                            var datetime = new Date(row.createdDate);
-                            return datetime.toLocaleString('en-US', { day: '2-digit', month: 'short', year: '2-digit' });
-                        }
-                    },
-                    { data: "taskModule", title: "Module" },
-                    { data: "taskDescription", title: "Description" },
-                    { data: "taskStatus", title: "Task Status" },
-                    { data: "timeSpent", title: "Time Spent" }]
-            }).buttons().container().appendTo('#tblDailyTask_wrapper .col-md-6:eq(0)');
-        }
-        else {
+        /*if (result.data.length > 0) {
+            showUserName = result.data[0].showUserName;
+            showUserName ? $("#dddlResources").show() : $("#dddlResources").hide().remove();
+        }*/
+        if (tblDailyTask !== null) {
             if (!$.fn.DataTable.isDataTable(tblDailyTask)) {
                 tblDailyTask = $('#tblDailyTask').DataTable();
             }
-            tblDailyTask.rows().remove().draw();
-            Toast.fire({ icon: 'error', title: result.message });
+            tblDailyTask.destroy();
+            tblDailyTask = null;
         }
-        $.unblockUI();
+
+        tblDailyTask = $('#tblDailyTask').DataTable({
+            ajax: {
+                url: "/Task/GetTaskList",
+                type: "POST",
+                data: function (requestModel) {
+                    requestModel.ProjectId = parseInt($("#ddlProject").val());
+                    requestModel.ResourceId = parseInt($("#ddlResources").val());
+
+
+                    if ($("#txtFromDate").val() != "") {
+                        requestModel.FromDate = $("#txtFromDate").val();
+                    }
+
+                    if ($("#txtToDate").val() != "") {
+                        requestModel.ToDate = $("#txtToDate").val();
+                    }
+
+                    return requestModel;
+                },
+            },
+            "drawCallback": function (response) {
+                if (response.json.data.length > 0) {
+                    showUserName = response.json.data[0].showUserName;
+                    showUserName ? $("#dddlResources").show() : $("#dddlResources").hide().remove();
+                }
+            },
+            responsive: true,
+            lengthChange: true,
+            paging: true,
+            processing: true,
+            filter: true,
+            //buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"],
+            serverSide: true,
+            columns: [{
+                data: null,
+                title: 'Action',
+                render: function (data, type, row) {
+                    var actions = '';
+                    if (row.isEditable) {
+                        actions = '<i class="fa fa-pen pen btn-edit" style="cursor: pointer;" data-toggle="modal" data-target="#modalDailyTask" onclick="GetTaskDetails(' + row.id + ')"></i> | ';
+                    }
+                    actions += '<i class="fa fa-trash trash btn-delete" style="cursor: pointer;" onclick="ShowDeleteTaskAlert(' + row.id + ')"></i>';
+                    return actions;
+                }
+            },
+            { data: "id", title: "Id", name: "Id", visible: false, searchable: false },
+            { data: "createdByName", title: "Resource", name: "CreatedByName", visible: showUserName, searchable: showUserName },
+            { data: "projectName", title: "Project", name: "ProjectName" },
+            {
+                data: null, title: "Task Date", name: "TaskDate", render: function (data, type, row) {
+                    var datetime = new Date(row.taskDate);
+                    return datetime.toLocaleString('en-US', { day: '2-digit', month: 'short', year: '2-digit' });
+                }
+            },
+            {
+                data: null, title: "Entered Date", name: "CreatedDate", render: function (data, type, row) {
+                    var datetime = new Date(row.createdDate);
+                    return datetime.toLocaleString('en-US', { day: '2-digit', month: 'short', year: '2-digit' });
+                }
+            },
+            { data: "taskModule", title: "Module", name: "TaskModule" },
+            { data: "taskDescription", title: "Description", name: "TaskDescription" },
+            { data: "taskStatus", title: "Task Status", name: "TaskStatus" },
+            { data: "timeSpent", title: "Time Spent", name: "TimeSpent" }],
+
+            "buttons": [
+                {
+                    extend: 'copy',
+                    text: 'Copia',
+                },
+                'csv',
+                'excel',
+                'pdf',
+                {
+                    extend: 'print',
+                    text: 'Stampa',
+                    autoPrint: false
+                },
+                {
+                    extend: 'colvis',
+                    text: 'Colonne',
+                    postfixButtons: ['colvisRestore']
+                }
+            ],
+        });
+        //.buttons().container().appendTo('#tblDailyTask_wrapper .col-md-6:eq(0)');
+    });
+    resolve();
+}
+function GetTaskList1() {
+
+    return new Promise((resolve, reject) => {
+
+        $.blockUI({ message: "<h2>Please wait</p>" });
+
+        var requestModel = {
+            "ProjectId": parseInt($("#ddlProject").val()),
+            "ResourceId": parseInt($("#ddlResources").val()),
+        }
+
+        if ($("#txtFromDate").val() != "") {
+            requestModel.FromDate = $("#txtFromDate").val();
+        }
+
+        if ($("#txtToDate").val() != "") {
+            requestModel.ToDate = $("#txtToDate").val();
+        }
+
+        ajaxCall("Post", false, '/Task/GetTaskList', JSON.stringify(requestModel), function (result) {
+            if (result.status == true) {
+
+                if (tblDailyTask !== null) {
+                    if (!$.fn.DataTable.isDataTable(tblDailyTask)) {
+                        tblDailyTask = $('#tblDailyTask').DataTable();
+                    }
+                    tblDailyTask.destroy();
+                    tblDailyTask = null;
+                }
+
+                var showUserName = false;
+
+                if (result.data.length > 0) {
+                    showUserName = result.data[0].showUserName;
+                    showUserName ? $("#dddlResources").show() : $("#dddlResources").hide().remove();
+
+                }
+
+                tblDailyTask = $('#tblDailyTask').DataTable({
+                    "responsive": true,
+                    "lengthChange": true,
+                    "paging": true,
+                    "processing": true,
+                    "filter": true,
+                    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+
+                    "data": result.data,
+                    "columns": [
+                        {
+                            data: null,
+                            title: 'Action',
+                            render: function (data, type, row) {
+                                var actions = '';
+                                if (row.isEditable) {
+                                    actions = '<i class="fa fa-pen pen btn-edit" style="cursor: pointer;" data-toggle="modal" data-target="#modalDailyTask" onclick="GetTaskDetails(' + row.id + ')"></i> | ';
+                                }
+                                actions += '<i class="fa fa-trash trash btn-delete" style="cursor: pointer;" onclick="ShowDeleteTaskAlert(' + row.id + ')"></i>';
+                                return actions;
+                            }
+                        },
+                        { data: "id", title: "Id", visible: false, searchable: false },
+                        { data: "createdByName", title: "Resource", visible: showUserName, searchable: showUserName },
+                        { data: "projectName", title: "Project" },
+                        {
+                            data: null, title: "Task Date", render: function (data, type, row) {
+                                var datetime = new Date(row.taskDate);
+                                return datetime.toLocaleString('en-US', { day: '2-digit', month: 'short', year: '2-digit' });
+                            }
+                        },
+                        {
+                            data: null, title: "Entered Date", render: function (data, type, row) {
+                                var datetime = new Date(row.createdDate);
+                                return datetime.toLocaleString('en-US', { day: '2-digit', month: 'short', year: '2-digit' });
+                            }
+                        },
+                        { data: "taskModule", title: "Module" },
+                        { data: "taskDescription", title: "Description" },
+                        { data: "taskStatus", title: "Task Status" },
+                        { data: "timeSpent", title: "Time Spent" }],
+
+                    "order": [[1, 'desc']]
+                }).buttons().container().appendTo('#tblDailyTask_wrapper .col-md-6:eq(0)');
+
+                resolve();
+
+            }
+            else {
+                if (!$.fn.DataTable.isDataTable(tblDailyTask)) {
+                    tblDailyTask = $('#tblDailyTask').DataTable();
+                }
+                tblDailyTask.rows().remove().draw();
+                Toast.fire({ icon: 'error', title: result.message });
+
+                reject();
+            }
+            $.unblockUI();
+        });
+
     });
 }
 
