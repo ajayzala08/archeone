@@ -30,7 +30,139 @@ namespace ArcheOne.Controllers
             return View();
         }
 
-        public async Task<CommonResponse> GetTaskList([FromBody] GetTaskListReqModel request)
+        public async Task<IActionResult> GetTaskList()
+        {
+            CommonResponse response = new CommonResponse();
+            try
+            {
+                int userId = _commonHelper.GetLoggedInUserId();
+                CommonResponse roleDetailsResponse = await new RoleController(_dbRepo).GetRoleByUserId(userId);
+
+                int totalRecord = 0;
+                int filterRecord = 0;
+                var draw = Request.Form["draw"].FirstOrDefault();
+                var start = Request.Form["start"].FirstOrDefault();
+                var length = Request.Form["length"].FirstOrDefault();
+                var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+                var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+                var searchValue = Request.Form["search[value]"].FirstOrDefault();
+                int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                int skip = start != null ? Convert.ToInt32(start) : 0;
+
+                int ResourceId = Convert.ToInt32(Request.Form["ResourceId"].FirstOrDefault() ?? "0");
+                int ProjectId = Convert.ToInt32(Request.Form["ProjectId"].FirstOrDefault() ?? "0");
+                var fromDate = Request.Form["FromDate"].FirstOrDefault();
+                DateTime? FromDate = fromDate != null ? Convert.ToDateTime(Request.Form["FromDate"].FirstOrDefault()) : null;
+                var toDate = Request.Form["ToDate"].FirstOrDefault();
+                DateTime? ToDate = toDate != null ? Convert.ToDateTime(Request.Form["ToDate"].FirstOrDefault()) : null;
+
+                if (roleDetailsResponse.Status)
+                {
+                    bool showUserName = false;
+                    if (roleDetailsResponse.Data.RoleCode == CommonEnums.RoleMst.Super_Admin.ToString())
+                    {
+                        showUserName = true;
+                    }
+
+                    List<DailyTaskMst> dailyTaskList = await _dbRepo.DailyTaskList()
+                        .Where(x
+                        => (showUserName == false ? x.CreatedBy == userId : true)
+                        && (ResourceId != 0 ? x.CreatedBy == ResourceId : true)
+                        && (ProjectId != 0 ? x.ProjectId == ProjectId : true)
+                        && (FromDate != null && ToDate != null
+                        ? FromDate.Value.Date <= x.TaskDate.Date && x.TaskDate.Date <= ToDate.Value.Date
+                        : FromDate != null ? x.TaskDate.Date == FromDate.Value.Date : true)).ToListAsync();
+
+                    var taskList = (from dailyTask in dailyTaskList
+                                    join project in _dbRepo.ProjectList() on dailyTask.ProjectId equals project.Id into projectGroup
+                                    from projectItem in projectGroup.DefaultIfEmpty()
+                                    join allUser in _dbRepo.AllUserMstList() on dailyTask.CreatedBy equals allUser.Id into allUserGroup
+                                    from allUserItem in allUserGroup.DefaultIfEmpty()
+                                    select new
+                                    {
+                                        Id = dailyTask.Id,
+                                        ProjectName = projectItem.ProjectName,
+                                        TaskDate = dailyTask.TaskDate,
+                                        TaskStatus = dailyTask.TaskStatus,
+                                        TimeSpent = dailyTask.TimeSpent,
+                                        TaskModule = dailyTask.TaskModule,
+                                        TaskDescription = dailyTask.TaskDescription,
+                                        CreatedBy = dailyTask.CreatedBy,
+                                        CreatedByName = $"{allUserItem.FirstName ?? ""} {allUserItem.LastName ?? ""}",
+                                        CreatedDate = dailyTask.CreatedDate,
+                                        IsEditable = !(dailyTask.CreatedDate.Date != _commonHelper.GetCurrentDateTime().Date),
+                                        ShowUserName = showUserName
+                                    });
+
+                    totalRecord = taskList.Count();
+
+                    // search taskList when search value found
+                    if (!string.IsNullOrEmpty(searchValue))
+                    {
+                        var search = searchValue.ToLower();
+                        taskList = taskList.Where(x
+                            => x.ProjectName.ToLower().Contains(search)
+                            || x.TaskDate.ToShortDateString().ToLower().Contains(search)
+                            || x.TaskStatus.ToLower().Contains(search)
+                            || x.TimeSpent.ToLower().Contains(search)
+                            || x.TaskModule.ToLower().Contains(search)
+                            || x.TaskDescription.ToLower().Contains(search)
+                            || x.CreatedDate.ToShortDateString().Contains(search));
+                    }
+
+                    filterRecord = taskList.Count();
+
+                    if (!string.IsNullOrEmpty(sortColumn) && !string.IsNullOrEmpty(sortColumnDirection))
+                    {
+                        taskList = sortColumnDirection == "asc" ? taskList.OrderBy(x => _commonHelper.GetPropertyValue(x, sortColumn)) : taskList.OrderByDescending(x => _commonHelper.GetPropertyValue(x, sortColumn));
+                    }
+                    else
+                    {
+                        taskList = taskList.OrderByDescending(x => x.Id);
+                    }
+
+                    var empList = taskList.Skip(skip).Take(pageSize).ToList();
+                    var returnObj = new
+                    {
+                        draw = draw,
+                        recordsTotal = totalRecord,
+                        recordsFiltered = filterRecord,
+                        data = empList
+                    };
+
+                    if (returnObj != null && returnObj.data.Count > 0)
+                    {
+                        var calculatedTime = "00:00";
+                        int totalMinutes = 0;
+
+                        foreach (var item in returnObj.data)
+                        {
+                            totalMinutes += GetMinutesByHours(item.TimeSpent, false);
+                        }
+
+                        calculatedTime = GetHourByMinutes(totalMinutes);
+
+                        response.Data = returnObj;
+                        response.Message = $"{calculatedTime} Data found successfully!";
+                        response.Status = true;
+                        response.StatusCode = System.Net.HttpStatusCode.OK;
+                    }
+                    else
+                    {
+                        response.Message = "Data not found!";
+                        response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                    }
+                    return Json(returnObj);
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return Json("sdf");
+        }
+
+        public async Task<CommonResponse> GetTaskList1([FromBody] GetTaskListReqModel request)
         {
             CommonResponse response = new CommonResponse();
             try
@@ -40,15 +172,16 @@ namespace ArcheOne.Controllers
 
                 if (roleDetailsResponse.Status)
                 {
-                    bool showUserName = true;
+                    bool showUserName = false;
                     if (roleDetailsResponse.Data.RoleCode == CommonEnums.RoleMst.Super_Admin.ToString())
                     {
-                        showUserName = false;
+                        showUserName = true;
                     }
 
-                    var dailyTaskList = await _dbRepo.DailyTaskList()
+                    List<DailyTaskMst> dailyTaskList = await _dbRepo.DailyTaskList()
                         .Where(x
-                        => (request.ResourceId != 0 ? x.CreatedBy == request.ResourceId : true)
+                        => (showUserName == false ? x.CreatedBy == userId : true)
+                        && (request.ResourceId != 0 ? x.CreatedBy == request.ResourceId : true)
                         && (request.ProjectId != 0 ? x.ProjectId == request.ProjectId : true)
                         && (request.FromDate != null && request.ToDate != null
                         ? request.FromDate.Value.Date <= x.TaskDate.Date && x.TaskDate.Date <= request.ToDate.Value.Date
@@ -57,8 +190,8 @@ namespace ArcheOne.Controllers
                     var taskList = (from dailyTask in dailyTaskList
                                     join project in _dbRepo.ProjectList() on dailyTask.ProjectId equals project.Id into projectGroup
                                     from projectItem in projectGroup.DefaultIfEmpty()
-                                    join c in _dbRepo.AllUserMstList() on dailyTask.CreatedBy equals c.Id into cGroup
-                                    from cItem in cGroup.DefaultIfEmpty()
+                                    join allUser in _dbRepo.AllUserMstList() on dailyTask.CreatedBy equals allUser.Id into allUserGroup
+                                    from allUserItem in allUserGroup.DefaultIfEmpty()
                                     select new
                                     {
                                         dailyTask.Id,
@@ -69,7 +202,7 @@ namespace ArcheOne.Controllers
                                         dailyTask.TaskModule,
                                         dailyTask.TaskDescription,
                                         dailyTask.CreatedBy,
-                                        CreatedByName = $"{cItem.FirstName ?? ""} {cItem.LastName ?? ""}",
+                                        CreatedByName = $"{allUserItem.FirstName ?? ""} {allUserItem.LastName ?? ""}",
                                         dailyTask.CreatedDate,
                                         IsEditable = !(dailyTask.CreatedDate.Date != _commonHelper.GetCurrentDateTime().Date),
                                         ShowUserName = showUserName
@@ -77,8 +210,18 @@ namespace ArcheOne.Controllers
 
                     if (taskList != null && taskList.Count > 0)
                     {
+                        var calculatedTime = "00:00";
+                        int totalMinutes = 0;
+
+                        foreach (var item in taskList)
+                        {
+                            totalMinutes += GetMinutesByHours(item.TimeSpent, false);
+                        }
+
+                        calculatedTime = GetHourByMinutes(totalMinutes);
+
                         response.Data = taskList;
-                        response.Message = "Data found successfully!";
+                        response.Message = $"{calculatedTime} Data found successfully!";
                         response.Status = true;
                         response.StatusCode = System.Net.HttpStatusCode.OK;
                     }
@@ -469,13 +612,14 @@ namespace ArcheOne.Controllers
             return Math.Round(minuteSalary, 3);
         }
 
-        public int GetMinutesByHours(string input)
+        public int GetMinutesByHours(string input, bool? enableFinalAmountLimit = true)
         {
             var inputarr = input != null ? input.Split(':') : ("00:00").Split(':');
             var finalAmout = (Convert.ToInt32(inputarr[0]) * 60) + Convert.ToInt32(inputarr[1]);
 
             // this line of code is to set max salary per day : 480
-            finalAmout = finalAmout > 480 ? 480 : finalAmout;
+            if (enableFinalAmountLimit == true)
+                finalAmout = finalAmout > 480 ? 480 : finalAmout;
 
             return finalAmout;
         }

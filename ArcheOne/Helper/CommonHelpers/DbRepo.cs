@@ -252,5 +252,9 @@ namespace ArcheOne.Helper.CommonHelpers
         {
             return _db.AppraisalRatingMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
+        public IQueryable<SalaryMst> SalaryList(bool IsDeleted = false)
+        {
+            return _db.SalaryMsts.Where(x => x.IsDelete == IsDeleted).AsQueryable();
+        }
     }
 }

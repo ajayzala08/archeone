@@ -24,7 +24,7 @@ function SaveUpdateTeam() {
         "TeamLeadId": parseInt($("#ddlTeamLeadId").val()),
         "TeamMemberId": $("#ddlTeamMemberId").val().map(Number)
     }
-    debugger
+   
     console.log(saveTeamData);
     if (validateRequiredFields()) {
         debugger
