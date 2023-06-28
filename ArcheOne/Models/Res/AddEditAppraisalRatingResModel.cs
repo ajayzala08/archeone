@@ -32,45 +32,45 @@ namespace ArcheOne.Models.Res
     }
     public class AppraisalRating
     {
-        public int? QualityOfWork { get; set; }
+        public int? QualityOfWork { get; set; } 
 
         public int? GoalNtarget { get; set; }
 
-        public int? WrittenVerbalSkill { get; set; }
+        public int? WrittenVerbalSkill { get; set; } 
 
-        public int? InitiativeMotivation { get; set; }
+        public int? InitiativeMotivation { get; set; } 
 
-        public int? TeamWork { get; set; }
+        public int? TeamWork { get; set; } 
 
-        public int? ProblemSolvingAbillity { get; set; }
+        public int? ProblemSolvingAbillity { get; set; } 
 
-        public int? Attendance { get; set; }
+        public int? Attendance { get; set; } 
 
         public int? Total { get; set; }
 
-        public string? Comment { get; set; }
+        public string? Comment { get; set; } 
 
 
     }
     public class EmployeeRating
     {
-        public int? QualityOfWork { get; set; }
+        public int? QualityOfWork { get; set; } 
 
         public int? GoalNtarget { get; set; }
 
-        public int? WrittenVerbalSkill { get; set; }
+        public int? WrittenVerbalSkill { get; set; } 
 
-        public int? InitiativeMotivation { get; set; }
+        public int? InitiativeMotivation { get; set; } 
 
-        public int? TeamWork { get; set; }
+        public int? TeamWork { get; set; } 
 
-        public int? ProblemSolvingAbillity { get; set; }
+        public int? ProblemSolvingAbillity { get; set; } 
 
         public int? Attendance { get; set; }
 
-        public int? Total { get; set; }
+        public int? Total { get; set; } 
 
-        public string? Comment { get; set; }
+        public string? Comment { get; set; } 
     }
 
 }

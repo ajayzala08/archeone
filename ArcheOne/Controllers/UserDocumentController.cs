@@ -17,6 +17,7 @@ using iTextSharp.text.pdf;
 using iTextSharp.text;
 using Font = iTextSharp.text.Font;
 using Document = iTextSharp.text.Document;
+using Microsoft.CodeAnalysis.Elfie.Extensions;
 
 namespace ArcheOne.Controllers
 {
@@ -337,33 +338,29 @@ namespace ArcheOne.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult DownloadOfferLetter()
+		public async Task<IActionResult> DownloadConfirmationLetter(int id)
 		{
 			string filePath = string.Empty;
 			string pdfFileName = string.Empty;
 
-			Rectangle pageSize = new Rectangle(iTextSharp.text.PageSize.A4.Rotate());
-			pageSize.BackgroundColor = new BaseColor(234, 244, 251);
+			Rectangle pageSize = new Rectangle(iTextSharp.text.PageSize.A4);
+			//pageSize.BackgroundColor = new BaseColor(234, 244, 251);
             Document document = new Document(pageSize);
 
-
+			var user = await _dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.Id == id);
+			var userDetails = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == id);
 			using (System.IO.MemoryStream memoryStream = new System.IO.MemoryStream())
 			{
 
 				PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
 				document.Open();
-
-				//string Fontpath = "D:\\NewProject\\ValidationDemoApi\\ValidationDemoApi\\NewFolder\\Font\\Poppins ExtraLight 275.ttf";
-				//Font fontSummary = FontFactory.GetFont(Fontpath, 24, Font.NORMAL, BaseColor.BLACK);
-				//Font fontCHWTitle = FontFactory.GetFont(Fontpath, 20, Font.NORMAL, BaseColor.BLACK);
-
 				var fontTableHeader = FontFactory.GetFont("https://fonts.googleapis.com/css?family=Poppins", 12, Font.NORMAL, BaseColor.BLACK);
 				var fontTableRow = FontFactory.GetFont("https://fonts.googleapis.com/css?family=Poppins", 10, Font.NORMAL, BaseColor.GRAY);
 				PdfContentByte content = writer.DirectContentUnder;
 
 				#region image
 				PdfPTable table = new PdfPTable(4);
-				table.WidthPercentage = 28;
+				table.WidthPercentage = 90;
 
 				table.HorizontalAlignment = Rectangle.ALIGN_LEFT;
 				PdfPCell cell2 = new PdfPCell((iTextSharp.text.Image.GetInstance("D:\\ArcheProjects\\ArcheOne\\DS\\archeone\\ArcheOne\\wwwroot\\Files\\UserDocument\\Reyna.jpg")));
@@ -374,11 +371,66 @@ namespace ArcheOne.Controllers
 				cell2.PaddingTop = 10;
 				cell2.PaddingBottom = 10;
 				cell2.PaddingRight = 0;
-				cell2.HorizontalAlignment = Rectangle.ALIGN_CENTER;
+				cell2.HorizontalAlignment = Rectangle.ALIGN_LEFT;
 				table.AddCell(cell2);
 
-				PdfPCell cell = new PdfPCell(new Phrase("Arche Softronix"));
-				cell.Colspan = 3;
+				PdfPCell cell = new PdfPCell(new Phrase("Arche Softronix "));
+				cell2.HorizontalAlignment = Rectangle.ALIGN_LEFT;
+				cell.Colspan = 6;
+				cell.Border = Rectangle.NO_BORDER;
+				cell.PaddingLeft = 0;
+				cell.PaddingTop = 10;
+				cell.PaddingBottom = 10;
+				cell.PaddingRight = 0;
+				table.AddCell(cell);
+
+				cell = new PdfPCell(new Phrase(DateTime.Now.ToString()));
+				cell.Colspan = 6;
+				cell.Border = Rectangle.NO_BORDER;
+				cell.PaddingLeft = 0;
+				cell.PaddingTop = 10;
+				cell.PaddingBottom = 10;
+				cell.PaddingRight = 0;
+				table.AddCell(cell);
+
+				cell = new PdfPCell(new Phrase("Dear " + user.FirstName + ' ' + user.MiddleName + ' ' + user.LastName + ","));
+				cell.Colspan = 6;
+				cell.Border = Rectangle.NO_BORDER;
+				cell.PaddingLeft = 0;
+				cell.PaddingTop = 10;
+				cell.PaddingBottom = 10;
+				cell.PaddingRight = 0;
+				table.AddCell(cell);
+
+				cell = new PdfPCell(new Phrase("With reference to the review of your performance during the probation period from  " + userDetails.JoinDate + ' ' + "to" + userDetails.JoinDate.AddDays(60) + "We are grateful to inform you that your employment is being confirmed as " + userDetails.Designation + "effective from " + userDetails.JoinDate.AddDays(60)));
+				cell.Colspan = 12;
+				cell.Border = Rectangle.NO_BORDER;
+				cell.PaddingLeft = 0;
+				cell.PaddingTop = 0;
+				cell.PaddingBottom = 0;
+				cell.PaddingRight = 0;
+				table.AddCell(cell);
+
+				cell = new PdfPCell(new Phrase("The terms and conditions as per mentioned in your appointment letter will remain unchanged."));
+				cell.Colspan = 12;
+				cell.Border = Rectangle.NO_BORDER;
+				cell.PaddingLeft = 0;
+				cell.PaddingTop = 10;
+				cell.PaddingBottom = 10;
+				cell.PaddingRight = 0;
+				table.AddCell(cell);
+
+				cell = new PdfPCell(new Phrase("We look forward to your valuable contribution and wish you all the very best for a fruitful career with our company."));
+				cell.Colspan = 12;
+				cell.Border = Rectangle.NO_BORDER;
+				cell.PaddingLeft = 0;
+				cell.PaddingTop = 10;
+				cell.PaddingBottom = 10;
+				cell.PaddingRight = 0;
+				table.AddCell(cell);
+
+				cell = new PdfPCell(new Phrase("Please sign the duplicate copy of this letter as a token of acceptance of the same"));
+				cell.Colspan = 12;
 				cell.Border = Rectangle.NO_BORDER;
 				cell.PaddingLeft = 0;
 				cell.PaddingTop = 10;
@@ -393,7 +445,7 @@ namespace ArcheOne.Controllers
 				MainTable.WidthPercentage = 100;
 
 				#region summary
-				PdfPCell MainTableCell_1 = new PdfPCell(new Phrase("Offer Letter"));
+				PdfPCell MainTableCell_1 = new PdfPCell(new Phrase("Thank You!"));
 				MainTableCell_1.Colspan = 3;
 				MainTableCell_1.PaddingBottom = 10;
 				MainTableCell_1.BorderWidthBottom = 0;
@@ -401,8 +453,7 @@ namespace ArcheOne.Controllers
 				MainTableCell_1.BorderWidthTop = 0;
 				MainTableCell_1.BorderWidthRight = 0;
 				MainTableCell_1.PaddingBottom = 10;
-				MainTableCell_1.Border = PdfPCell.NO_BORDER;
-				//MainTableCell_1.CellEvent = new RoundedBorder();
+				//MainTableCell_1.Border = PdfPCell.NO_BORDER;
 				MainTableCell_1.HorizontalAlignment = 1;
 				MainTable.AddCell(MainTableCell_1);
 				#endregion
@@ -412,11 +463,149 @@ namespace ArcheOne.Controllers
 				document.Close();
 				byte[] bytes = memoryStream.ToArray();
 				memoryStream.Close();
-				var filename = "Employee_Offer_Letter";
+				var filename = "Employee_Confirmation_Letter";
 				pdfFileName = filename.ToString() + ".pdf";
 				filePath = (filename + ".pdf");
 				return File(bytes, "application/pdf", filePath);
 			}
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> DownloadExperienceLetter(int id)
+		{
+			string filePath = string.Empty;
+			string pdfFileName = string.Empty;
+
+			Rectangle pageSize = new Rectangle(iTextSharp.text.PageSize.A4);
+			Document document = new Document(pageSize);
+
+			var user = await _dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.Id == id);
+			var userDetails = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == id);
+			using (System.IO.MemoryStream memoryStream = new System.IO.MemoryStream())
+			{
+
+				PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
+				document.Open();
+				var fontTableHeader = FontFactory.GetFont("https://fonts.googleapis.com/css?family=Poppins", 12, Font.NORMAL, BaseColor.BLACK);
+				var fontTableRow = FontFactory.GetFont("https://fonts.googleapis.com/css?family=Poppins", 10, Font.NORMAL, BaseColor.GRAY);
+				PdfContentByte content = writer.DirectContentUnder;
+
+				#region image
+				PdfPTable table = new PdfPTable(4);
+				table.WidthPercentage = 90;
+
+				table.HorizontalAlignment = Rectangle.ALIGN_LEFT;
+				PdfPCell cell2 = new PdfPCell((iTextSharp.text.Image.GetInstance("D:\\ArcheProjects\\ArcheOne\\DS\\archeone\\ArcheOne\\wwwroot\\Files\\UserDocument\\Reyna.jpg")));
+				cell2.FixedHeight = 50;
+
+				cell2.Border = Rectangle.NO_BORDER;
+				cell2.PaddingLeft = 0;
+				cell2.PaddingTop = 10;
+				cell2.PaddingBottom = 10;
+				cell2.PaddingRight = 0;
+				cell2.HorizontalAlignment = Rectangle.ALIGN_LEFT;
+				table.AddCell(cell2);
+
+				PdfPCell cell = new PdfPCell(new Phrase("Arche Softronix "));
+				cell2.HorizontalAlignment = Rectangle.ALIGN_LEFT;
+				cell.Colspan = 6;
+				cell.Border = Rectangle.NO_BORDER;
+				cell.PaddingLeft = 0;
+				cell.PaddingTop = 10;
+				cell.PaddingBottom = 10;
+				cell.PaddingRight = 0;
+				table.AddCell(cell);
+
+				cell = new PdfPCell(new Phrase(DateTime.Now.ToString()));
+				cell.Colspan = 6;
+				cell.Border = Rectangle.NO_BORDER;
+				cell.PaddingLeft = 0;
+				cell.PaddingTop = 10;
+				cell.PaddingBottom = 10;
+				cell.PaddingRight = 0;
+				table.AddCell(cell);
+
+				cell = new PdfPCell(new Phrase("Dear " + user.FirstName + ' ' + user.MiddleName + ' ' + user.LastName + ","));
+				cell.Colspan = 6;
+				cell.Border = Rectangle.NO_BORDER;
+				cell.PaddingLeft = 0;
+				cell.PaddingTop = 10;
+				cell.PaddingBottom = 10;
+				cell.PaddingRight = 0;
+				table.AddCell(cell);
+
+				cell = new PdfPCell(new Phrase("With reference to the review of your performance during the probation period from  " + userDetails.JoinDate + ' ' + "to" + userDetails.JoinDate.AddDays(60) + "We are grateful to inform you that your employment is being confirmed as " + userDetails.Designation + "effective from " + userDetails.JoinDate.AddDays(60)));
+				cell.Colspan = 12;
+				cell.Border = Rectangle.NO_BORDER;
+				cell.PaddingLeft = 0;
+				cell.PaddingTop = 0;
+				cell.PaddingBottom = 0;
+				cell.PaddingRight = 0;
+				table.AddCell(cell);
+
+				cell = new PdfPCell(new Phrase("The terms and conditions as per mentioned in your appointment letter will remain unchanged."));
+				cell.Colspan = 12;
+				cell.Border = Rectangle.NO_BORDER;
+				cell.PaddingLeft = 0;
+				cell.PaddingTop = 10;
+				cell.PaddingBottom = 10;
+				cell.PaddingRight = 0;
+				table.AddCell(cell);
+
+				cell = new PdfPCell(new Phrase("We look forward to your valuable contribution and wish you all the very best for a fruitful career with our company."));
+				cell.Colspan = 12;
+				cell.Border = Rectangle.NO_BORDER;
+				cell.PaddingLeft = 0;
+				cell.PaddingTop = 10;
+				cell.PaddingBottom = 10;
+				cell.PaddingRight = 0;
+				table.AddCell(cell);
+
+				cell = new PdfPCell(new Phrase("Please sign the duplicate copy of this letter as a token of acceptance of the same"));
+				cell.Colspan = 12;
+				cell.Border = Rectangle.NO_BORDER;
+				cell.PaddingLeft = 0;
+				cell.PaddingTop = 10;
+				cell.PaddingBottom = 10;
+				cell.PaddingRight = 0;
+				table.AddCell(cell);
+
+				#endregion
+
+				//main table create
+				PdfPTable MainTable = new PdfPTable(3);
+				MainTable.WidthPercentage = 100;
+
+				#region summary
+				PdfPCell MainTableCell_1 = new PdfPCell(new Phrase("Thank You!"));
+				MainTableCell_1.Colspan = 3;
+				MainTableCell_1.PaddingBottom = 10;
+				MainTableCell_1.BorderWidthBottom = 0;
+				MainTableCell_1.BorderWidthLeft = 0;
+				MainTableCell_1.BorderWidthTop = 0;
+				MainTableCell_1.BorderWidthRight = 0;
+				MainTableCell_1.PaddingBottom = 10;
+				//MainTableCell_1.Border = PdfPCell.NO_BORDER;
+				MainTableCell_1.HorizontalAlignment = 1;
+				MainTable.AddCell(MainTableCell_1);
+				#endregion
+
+				document.Add(table);
+				document.Add(MainTable);
+				document.Close();
+				byte[] bytes = memoryStream.ToArray();
+				memoryStream.Close();
+				var filename = "Employee_Experience_Letter";
+				pdfFileName = filename.ToString() + ".pdf";
+				filePath = (filename + ".pdf");
+				return File(bytes, "application/pdf", filePath);
+			}
+		}
+
+		[HttpPost]
+		public IActionResult SendConfirmationMail()
+		{
+			return View();
 		}
 	}
 }

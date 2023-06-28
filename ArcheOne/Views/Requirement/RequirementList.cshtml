@@ -27,6 +27,7 @@
                         <td>Status</td>
                         <td>Id</td>
                         <td>Job Code</td>
+                        <td>Client Name</td>
                         <td>Main Skills</td>
                         <td>Mandatory Skills</td>
                         <td>Total Min Experience</td>
@@ -35,12 +36,12 @@
                         <td>Relevant Max Experience</td>
                         <td>No Of Position</td>
                         <td>Location</td>
-                        <td>Job Description</td>
-                        <td>End Client</td>
+                       @* <td>Job Description</td>*@
+                       @* <td>End Client</td>
                         <td>POC Name</td>
                         <td>Client Bill Rate</td>
                         <td>Candidate Pay Rate</td>
-                        <td>Requirement Status</td>
+                        <td>Requirement Status</td>*@
                         <td>Is Active</td>
                     </tr>
                 </thead>
@@ -71,6 +72,7 @@
                             </td>
                             <td>@item.RequirementId</td>
                             <td>@item.JobCode</td>
+                            <td>@item.ClientName</td>
                             <td>@item.MainSkill</td>
                             <td>@item.MandatorySkills</td>
                             <td>@item.TotalMinExperience</td>
@@ -79,12 +81,12 @@
                             <td>@item.RelevantMaxExperience</td>
                             <td>@item.NoOfPosition</td>
                             <td>@item.Location</td>
-                            <td>@Html.Raw(item.JobDescription)</td>
-                            <td>@item.EndClient</td>
+                            @*<td>@Html.Raw(item.JobDescription)</td>*@
+                           @* <td>@item.EndClient</td>
                             <td>@item.Pocname</td>
                             <td>@item.ClientBillRate</td>
                             <td>@item.CandidatePayRate</td>
-                            <td>@item.RequirementStatusName</td>
+                            <td>@item.RequirementStatusName</td>*@
                             <td>@item.IsActive</td>
                         </tr>
                     }
