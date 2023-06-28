@@ -68,7 +68,7 @@ namespace ArcheOne.Controllers
                 if (Id > 0)
                 {
                     var appraisal = _dbRepo.AppraisalList().FirstOrDefault(x => x.Id == Id);
-
+                    var appraisalManagerRating = _dbRepo.AppraisalRatingList().FirstOrDefault(x => x.RatingFromUserId == _commonHelper.GetLoggedInUserId() && x.AppraisalId == Id);
                     if (appraisal != null)
                     {
                         addEditAppraisalRatingResModel.reportingManagetDetail.ReportingManagerId = appraisal.ReportingManagerId;
@@ -78,7 +78,10 @@ namespace ArcheOne.Controllers
                         addEditAppraisalRatingResModel.ReviewDate = appraisal.UpdatedDate.Date.ToString("dd-MM-yyyy");
                         if (addEditAppraisalRatingResModel.IsUserHR == true || addEditAppraisalRatingResModel.IsUserReportManager == true)
                         {
-                            var appraisalManagerRating = _dbRepo.AppraisalRatingList().FirstOrDefault(x => x.RatingFromUserId == _commonHelper.GetLoggedInUserId() || x.RatingFromUserId == appraisal.ReportingManagerId);
+                            if (addEditAppraisalRatingResModel.IsUserHR == true)
+                            {
+                                appraisalManagerRating = _dbRepo.AppraisalRatingList().FirstOrDefault(x => x.AppraisalId == Id && x.RatingFromUserId == appraisal.ReportingManagerId);
+                            }
                             if (appraisalManagerRating != null)
                             {
                                 addEditAppraisalRatingResModel.appraisalRating.QualityOfWork = appraisalManagerRating.QualityOfWork;
@@ -96,6 +99,10 @@ namespace ArcheOne.Controllers
                         if (addEditAppraisalRatingResModel.IsUserHR == true || addEditAppraisalRatingResModel.IsUserEmployee == true)
                         {
                             var appraisalEmployeeRating = _dbRepo.AppraisalRatingList().FirstOrDefault(x => x.RatingToUserId == _commonHelper.GetLoggedInUserId() || x.RatingToUserId == appraisal.EmployeeId);
+                            if (addEditAppraisalRatingResModel.IsUserHR == true)
+                            {
+                                appraisalEmployeeRating = _dbRepo.AppraisalRatingList().FirstOrDefault(x => x.AppraisalId == Id && x.RatingFromUserId == appraisal.EmployeeId);
+                            }
                             if (appraisalEmployeeRating != null)
                             {
                                 addEditAppraisalRatingResModel.EmployeeRating.QualityOfWork = appraisalEmployeeRating.QualityOfWork;
@@ -147,8 +154,8 @@ namespace ArcheOne.Controllers
             try
             {
                 AppraisalRatingMst appraisalRatingMst = new AppraisalRatingMst();
-                var appraisalRatingDetail = await _dbRepo.AppraisalRatingList().FirstOrDefaultAsync(x => x.RatingFromUserId == appraisalRatingSaveUpdateReqModel.ReportingManagerId || x.RatingFromUserId == appraisalRatingSaveUpdateReqModel.EmployeeId || x.RatingToUserId == appraisalRatingSaveUpdateReqModel.ReportingManagerId || x.RatingToUserId == appraisalRatingSaveUpdateReqModel.EmployeeId);
-            
+                var appraisalRatingDetail = await _dbRepo.AppraisalRatingList().FirstOrDefaultAsync(x => x.RatingFromUserId == _commonHelper.GetLoggedInUserId() && x.AppraisalId == appraisalRatingSaveUpdateReqModel.Id);
+
                 if (appraisalRatingDetail != null)
                 {
                     //Edit Mode
@@ -176,6 +183,7 @@ namespace ArcheOne.Controllers
                 else
                 {
                     //Add Mode
+                    appraisalRatingMst.AppraisalId = appraisalRatingSaveUpdateReqModel.Id;
                     appraisalRatingMst.RatingFromUserId = _commonHelper.GetLoggedInUserId();
                     appraisalRatingMst.RatingToUserId = appraisalRatingSaveUpdateReqModel.ReportingManagerId;
                     appraisalRatingMst.QualityOfWork = appraisalRatingSaveUpdateReqModel.QualityOfWork;
