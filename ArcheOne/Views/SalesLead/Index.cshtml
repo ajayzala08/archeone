@@ -1,0 +1,40 @@
+﻿@{
+    Layout = "_MasterLayout";
+
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Leads</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Sales</a></li>
+                    <li class="breadcrumb-item active">Leads</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content" id="sectionData">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Leads</h3>
+
+            <div class="card-tools">
+                <button id="btnAddSaleLead" type="button" class="btn btn-primary float-right">Add Lead</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="divSalesLeadList"> </div>
+            <div id="AddSalesLeadData"></div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="~/archeone/js/saleslead/index.js?_@DateTime.Now.Ticks"></script>
+}
