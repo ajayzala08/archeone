@@ -19,8 +19,6 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<AppraisalRatingMst> AppraisalRatingMsts { get; set; }
 
-    public virtual DbSet<CalenderYearMst> CalenderYearMsts { get; set; }
-
     public virtual DbSet<CandidateMst> CandidateMsts { get; set; }
 
     public virtual DbSet<ClientMst> ClientMsts { get; set; }
@@ -39,10 +37,6 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<EmploymentTypeMst> EmploymentTypeMsts { get; set; }
 
-    public virtual DbSet<EventMst> EventMsts { get; set; }
-
-    public virtual DbSet<FinancialYearMst> FinancialYearMsts { get; set; }
-
     public virtual DbSet<HireStatusMst> HireStatusMsts { get; set; }
 
     public virtual DbSet<HolidayMst> HolidayMsts { get; set; }
@@ -54,14 +48,6 @@ public partial class ArcheOneDbContext : DbContext
     public virtual DbSet<InterviewRoundStatusMst> InterviewRoundStatusMsts { get; set; }
 
     public virtual DbSet<InterviewRoundTypeMst> InterviewRoundTypeMsts { get; set; }
-
-    public virtual DbSet<LeaveBalanceMst> LeaveBalanceMsts { get; set; }
-
-    public virtual DbSet<LeaveMst> LeaveMsts { get; set; }
-
-    public virtual DbSet<LeaveStatusMst> LeaveStatusMsts { get; set; }
-
-    public virtual DbSet<LeaveTypeMst> LeaveTypeMsts { get; set; }
 
     public virtual DbSet<LinkMst> LinkMsts { get; set; }
 
@@ -90,6 +76,8 @@ public partial class ArcheOneDbContext : DbContext
     public virtual DbSet<RoleMst> RoleMsts { get; set; }
 
     public virtual DbSet<SalaryMst> SalaryMsts { get; set; }
+    public virtual DbSet<LeaveTypeMst> LeaveTypeMsts { get; set; }
+    public virtual DbSet<LeaveMst> LeaveMsts { get; set; }
 
     public virtual DbSet<SalesContactPersonMst> SalesContactPersonMsts { get; set; }
 
@@ -139,18 +127,6 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.GoalNtarget).HasColumnName("GoalNTarget");
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
-        });
-
-        modelBuilder.Entity<CalenderYearMst>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__Calender__3214EC07A0CA3F11");
-
-            entity.ToTable("CalenderYearMst");
-
-            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
-            entity.Property(e => e.YearCode).HasMaxLength(100);
-            entity.Property(e => e.YearName).HasMaxLength(100);
         });
 
         modelBuilder.Entity<CandidateMst>(entity =>
@@ -332,32 +308,6 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
-        modelBuilder.Entity<EventMst>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__EventMst__3214EC07B5BD4FE0");
-
-            entity.ToTable("EventMst");
-
-            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.EndDate).HasColumnType("datetime");
-            entity.Property(e => e.EventType).HasMaxLength(100);
-            entity.Property(e => e.StartDate).HasColumnType("datetime");
-            entity.Property(e => e.ThemeColour).HasMaxLength(100);
-            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
-        });
-
-        modelBuilder.Entity<FinancialYearMst>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__Financia__3214EC0750C50CAD");
-
-            entity.ToTable("FinancialYearMst");
-
-            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
-            entity.Property(e => e.YearCode).HasMaxLength(100);
-            entity.Property(e => e.YearName).HasMaxLength(100);
-        });
-
         modelBuilder.Entity<HireStatusMst>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__HireStat__3214EC07D5B3310A");
@@ -429,57 +379,6 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
-        modelBuilder.Entity<LeaveBalanceMst>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__LeaveBal__3214EC07D820450D");
-
-            entity.ToTable("LeaveBalanceMst");
-
-            entity.Property(e => e.AvailableLeaveBalance).HasColumnType("decimal(38, 17)");
-            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.LeaveStatus).HasMaxLength(100);
-            entity.Property(e => e.PendingLeaveBalance).HasColumnType("decimal(38, 17)");
-            entity.Property(e => e.TotalLeaveBalance).HasColumnType("decimal(38, 17)");
-            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
-        });
-
-        modelBuilder.Entity<LeaveMst>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__LeaveMst__3214EC07DB44B77C");
-
-            entity.ToTable("LeaveMst");
-
-            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.EndDate).HasColumnType("date");
-            entity.Property(e => e.LeaveBalance).HasColumnType("decimal(38, 17)");
-            entity.Property(e => e.NoOfDays).HasColumnType("decimal(38, 17)");
-            entity.Property(e => e.StartDate).HasColumnType("date");
-            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
-        });
-
-        modelBuilder.Entity<LeaveStatusMst>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__LeaveSta__3214EC077F8BB32C");
-
-            entity.ToTable("LeaveStatusMst");
-
-            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.LeaveStatus).HasMaxLength(100);
-            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
-        });
-
-        modelBuilder.Entity<LeaveTypeMst>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__LeaveTyp__3214EC07A30DAF6B");
-
-            entity.ToTable("LeaveTypeMst");
-
-            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.LeaveDays).HasColumnType("decimal(38, 17)");
-            entity.Property(e => e.LeaveTypeName).HasMaxLength(100);
-            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
-        });
-
         modelBuilder.Entity<LinkMst>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__LinkMst__3214EC078FAB29B8");
@@ -504,14 +403,13 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<PermissionMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Permissi__3214EC0759F00F12");
+            entity.HasKey(e => e.Id).HasName("PK__Permissi__3214EC07F55E068F");
 
             entity.ToTable("PermissionMst");
 
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.PermissionCode).HasMaxLength(100);
             entity.Property(e => e.PermissionName).HasMaxLength(100);
-            entity.Property(e => e.PermissionRoute).HasMaxLength(100);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 

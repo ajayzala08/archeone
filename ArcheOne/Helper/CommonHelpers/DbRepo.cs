@@ -256,5 +256,13 @@ namespace ArcheOne.Helper.CommonHelpers
         {
             return _db.SalaryMsts.Where(x => x.IsDelete == IsDeleted).AsQueryable();
         }
+        public IQueryable<LeaveTypeMst> LeaveTypeLists(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.LeaveTypeMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+        public IQueryable<LeaveMst> LeaveLists(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.LeaveMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
     }
 }

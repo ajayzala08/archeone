@@ -93,3 +93,28 @@ Insert into dbo.HireStatusMst values ('Bad Delivery', 'Bad_Delivery', 1, 0, 0, 0
 Insert into dbo.OfferStatusMst values ('Cleared', 'Cleared', 1, 0, 0, 0, GETDATE(), GETDATE())
 Insert into dbo.OfferStatusMst values ('Offer', 'Offer', 1, 0, 0, 0, GETDATE(), GETDATE())
 Insert into dbo.OfferStatusMst values ('Hire', 'Hire', 1, 0, 0, 0, GETDATE(), GETDATE())
+
+Insert into CalenderYearMst values('2020','2020',0,1,0,1,1,GETDATE(),GETDATE())
+Insert into CalenderYearMst values('2021','2021',0,1,0,1,1,GETDATE(),GETDATE())
+Insert into CalenderYearMst values('2022','2022',0,1,0,1,1,GETDATE(),GETDATE())
+Insert into CalenderYearMst values('2023','2023',1,1,0,1,1,GETDATE(),GETDATE())
+
+Insert into LeaveTypeMst values('SickLeave',6,1,0,1,0,1,1,GETDATE(),GETDATE())
+Insert into LeaveTypeMst values('CasualLeave',6,1,0,1,0,1,1,GETDATE(),GETDATE())
+Insert into LeaveTypeMst values('EarnedLeave',6,1,0,1,0,1,1,GETDATE(),GETDATE())
+
+Insert into LeaveTypeMst values('SickLeave',6,2,0,1,0,1,1,GETDATE(),GETDATE())
+Insert into LeaveTypeMst values('CasualLeave',6,2,0,1,0,1,1,GETDATE(),GETDATE())
+Insert into LeaveTypeMst values('EarnedLeave',6,2,0,1,0,1,1,GETDATE(),GETDATE())
+
+Insert into LeaveTypeMst values('SickLeave',6,3,0,1,0,1,1,GETDATE(),GETDATE())
+Insert into LeaveTypeMst values('CasualLeave',6,3,0,1,0,1,1,GETDATE(),GETDATE())
+Insert into LeaveTypeMst values('EarnedLeave',6,3,0,1,0,1,1,GETDATE(),GETDATE())
+
+Insert into LeaveTypeMst values('SickLeave',6,4,1,1,0,1,1,GETDATE(),GETDATE())
+Insert into LeaveTypeMst values('CasualLeave',6,4,1,1,0,1,1,GETDATE(),GETDATE())
+Insert into LeaveTypeMst values('EarnedLeave',6,4,1,1,0,1,1,GETDATE(),GETDATE())
+
+Insert into LeaveStatusMst values('Approve',1,0,1,1,GETDATE(),GETDATE())
+Insert into LeaveStatusMst values('Reject',1,0,1,1,GETDATE(),GETDATE())
+Insert into LeaveStatusMst values('Pending',1,0,1,1,GETDATE(),GETDATE())
