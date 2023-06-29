@@ -36,14 +36,14 @@ namespace ArcheOne.Controllers
             {
                 if (holidayList.Count > 0)
                 {
-                    getHolidayListResModel = _dbRepo.HolidayDayList().Where(x => x.IsActive == true && x.IsDelete == false).Select(x => new GetHolidayListResModel
+                    getHolidayListResModel = _dbRepo.HolidayDayList().Select(x => new GetHolidayListResModel
                     {
                         Id = x.Id,
                         HolidayName = x.HolidayName,
                         Date = x.HolidayDate.Date.ToString("dd-MM-yyyy"),
                         Day = x.HolidayDate.DayOfWeek.ToString()
 
-                    }).OrderBy(x => Convert.ToDateTime(x.Date)).ToList();
+                    }).ToList();
                     commonResponse.Data = getHolidayListResModel;
 
                     commonResponse.Status = true;
@@ -108,7 +108,7 @@ namespace ArcheOne.Controllers
                 if (holidayDetails != null)
                 {
                     //Edit Mode
-                    var checkHolidayName = await _dbRepo.HolidayDayList().Where(x => x.HolidayName == saveUpdateHolidayReqModel.HolidayName).ToListAsync();
+                    var checkHolidayName = await _dbRepo.HolidayDayList().Where(x => x.HolidayName == saveUpdateHolidayReqModel.HolidayName && x.Id != saveUpdateHolidayReqModel.Id).ToListAsync();
                     if (checkHolidayName.Count() > 0)
                     {
                         commonResponse.Message = "Holiday Is Already Exist";

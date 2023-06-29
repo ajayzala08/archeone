@@ -232,14 +232,14 @@ namespace ArcheOne.Controllers
 
         }
 
-        public async Task<IActionResult> DeleteTeam(int id)
+        public async Task<IActionResult> DeleteTeam(int Id)
         {
             CommonResponse commonResponse = new CommonResponse();
             try
             {
-                if (id > 0)
+                if (Id > 0)
                 {
-                    var teamList = await _dbRepo.TeamList().Where(x => x.TeamLeadId == id).ToListAsync();
+                    var teamList = await _dbRepo.TeamList().Where(x => x.TeamLeadId == Id).ToListAsync();
                     if (teamList.Count > 0)
                     {
                         _dbContext.RemoveRange(teamList);
