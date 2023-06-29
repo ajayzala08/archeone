@@ -10,7 +10,7 @@
     {
         using (MemoryStream memoryStream = new MemoryStream(serializedData))
         {
-            permissionList = JsonSerializer.Deserialize<List<IndexDashboardResModel>>(memoryStream);
+            permissionList = JsonSerializer.Deserialize<List<IndexDashboardResModel>>(memoryStream) ?? new List<IndexDashboardResModel>();
         }
     }
 }

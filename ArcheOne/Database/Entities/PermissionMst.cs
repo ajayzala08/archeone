@@ -11,6 +11,8 @@ public partial class PermissionMst
 
     public string PermissionCode { get; set; } = null!;
 
+    public string PermissionRoute { get; set; } = null!;
+
     public bool IsActive { get; set; }
 
     public bool IsDelete { get; set; }

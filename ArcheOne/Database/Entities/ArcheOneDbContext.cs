@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArcheOne.Database.Entities;
 
@@ -107,9 +109,9 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<UserPermission> UserPermissions { get; set; }
 
-    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-    //        => optionsBuilder.UseSqlServer("Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -427,15 +429,15 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<LeaveMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__LeaveMst__3214EC07107672C7");
+            entity.HasKey(e => e.Id).HasName("PK__LeaveMst__3214EC07DB44B77C");
 
             entity.ToTable("LeaveMst");
 
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.EndDateTime).HasColumnType("datetime");
+            entity.Property(e => e.EndDate).HasColumnType("date");
             entity.Property(e => e.LeaveBalance).HasColumnType("decimal(38, 17)");
             entity.Property(e => e.NoOfDays).HasColumnType("decimal(38, 17)");
-            entity.Property(e => e.StartDateTime).HasColumnType("datetime");
+            entity.Property(e => e.StartDate).HasColumnType("date");
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
@@ -486,13 +488,14 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<PermissionMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Permissi__3214EC07F55E068F");
+            entity.HasKey(e => e.Id).HasName("PK__Permissi__3214EC0759F00F12");
 
             entity.ToTable("PermissionMst");
 
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.PermissionCode).HasMaxLength(100);
             entity.Property(e => e.PermissionName).HasMaxLength(100);
+            entity.Property(e => e.PermissionRoute).HasMaxLength(100);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
