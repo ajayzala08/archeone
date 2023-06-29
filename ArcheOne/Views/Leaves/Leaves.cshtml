@@ -1,46 +1,54 @@
 ﻿@using ArcheOne.Models.Req;
 @model UserAddEditReqViewModel;
 @{
+	int id = 0;
 	ViewBag.datatable = "true";
 }
-<section class="content-header">
-	<div class="container-fluid">
-		<div class="row mb-2">
-			<div class="col-sm-6">
-				<h1>Leave</h1>
+@if (id > 0)
+{
+	<section class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1>Leave</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="#">Leave</a></li>
+						<li class="breadcrumb-item active">Leave List</li>
+					</ol>
+				</div>
 			</div>
-			<div class="col-sm-6">
-				<ol class="breadcrumb float-sm-right">
-					<li class="breadcrumb-item"><a href="#">Leave</a></li>
-					<li class="breadcrumb-item active">Leave List</li>
-				</ol>
-			</div>
-		</div>
-	</div><!-- /.container-fluid -->
-</section>
+		</div><!-- /.container-fluid -->
+	</section>
 
-<section class="content">
-	<div class="card">
-		<input type="hidden" id="userId" value="@Model" />
-		<div class="card-header d-flex p-0">
-			<h3 class="card-title p-3">Leave List</h3>
-			<div class="card-tools ml-auto mr-2 p-2">
-				<button type="button" id="btnAddLeave" class="btn btn-primary float-right">Add Leave</button>
+	<section class="content">
+		<div class="card">
+			<input type="hidden" id="userId" value="@Model" />
+			<div class="card-header d-flex p-0">
+				<h3 class="card-title p-3">Leave List</h3>
+				<div class="card-tools ml-auto mr-2 p-2">
+					<button type="button" id="btnAddLeave" class="btn btn-primary float-right">Add Leave</button>
+				</div>
+			</div>
+			<!-- /.card-header -->
+			<div class="card-body">
+				<div class="md-12">
+				</div>
+				<table id="tblLeave" class="table table-bordered table-striped" style="width:100%"></table>
+				<div id="divLeaveList"> </div>
+				<div id="AddLeaveForm">
+				</div>
 			</div>
 		</div>
-		<!-- /.card-header -->
-		<div class="card-body">
-			<div class="md-12">
-			</div>
-			<table id="tblLeave" class="table table-bordered table-striped" style="width:100%"></table>
-			<div id="divLeaveList"> </div>
-			<div id="AddLeaveForm">
-			</div>
-		</div>
-	</div>
-	<!-- /.card-body -->
-	<!-- /.card -->
-</section>
+		<!-- /.card-body -->
+		<!-- /.card -->
+	</section>
+}
+else
+{
+	<h1 style="color:red">Page is under Progress</h1>
+}
 
 @section Scripts{
     <script src="~/archeone/js/leave/leave.js"></script>

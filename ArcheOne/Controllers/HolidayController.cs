@@ -22,10 +22,6 @@ namespace ArcheOne.Controllers
             _webHostEnvironment = webHostEnvironment;
             _dbContext = dbContext;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
         public IActionResult Holiday()
         {
             return View();
@@ -34,16 +30,12 @@ namespace ArcheOne.Controllers
         public IActionResult HolidayList()
         {
             CommonResponse commonResponse = new CommonResponse();
-
-            GetHolidayListResModel getHolidayListResModelList = new GetHolidayListResModel();
-            HolidayMst holidayMst = new HolidayMst();
             var holidayList = _dbRepo.HolidayDayList().ToList();
             List<GetHolidayListResModel> getHolidayListResModel = new List<GetHolidayListResModel>();
             try
             {
                 if (holidayList.Count > 0)
                 {
-                    //List<GetHolidayListResModel> getHolidayListResModel = new List<GetHolidayListResModel>();
                     getHolidayListResModel = _dbRepo.HolidayDayList().Where(x => x.IsActive == true && x.IsDelete == false).Select(x => new GetHolidayListResModel
                     {
                         Id = x.Id,
@@ -51,7 +43,7 @@ namespace ArcheOne.Controllers
                         Date = x.HolidayDate.Date.ToString("dd-MM-yyyy"),
                         Day = x.HolidayDate.DayOfWeek.ToString()
 
-                    }).ToList().OrderBy(x => Convert.ToDateTime(x.Date)).ToList();
+                    }).OrderBy(x => Convert.ToDateTime(x.Date)).ToList();
                     commonResponse.Data = getHolidayListResModel;
 
                     commonResponse.Status = true;
@@ -80,7 +72,6 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
             AddEditHolidayReqModel addEditHolidayReqModel = new AddEditHolidayReqModel();
 
-            HolidayMst holidayMst = new HolidayMst();
             try
             {
                 var holidayList = _dbRepo.HolidayDayList().FirstOrDefault(x => x.Id == Id);
@@ -109,7 +100,6 @@ namespace ArcheOne.Controllers
         public async Task<IActionResult> SaveUpdateHoliday([FromBody] SaveUpdateHolidayReqModel saveUpdateHolidayReqModel)
         {
             CommonResponse commonResponse = new CommonResponse();
-            AddEditHolidayReqModel addEditHolidayReqModel = new AddEditHolidayReqModel();
             HolidayMst holidayMst = new HolidayMst();
             var holidayDetails = await _dbRepo.HolidayDayList().FirstOrDefaultAsync(x => x.Id == saveUpdateHolidayReqModel.Id);
             try
@@ -180,7 +170,7 @@ namespace ArcheOne.Controllers
             catch (Exception ex)
             {
                 commonResponse.Message = ex.Message;
-                commonResponse.Data = ex.StackTrace;
+                commonResponse.Data = ex;
             }
             return Json(commonResponse);
 
@@ -215,7 +205,11 @@ namespace ArcheOne.Controllers
                     commonResponse.StatusCode = HttpStatusCode.NotFound;
                 }
             }
-            catch { throw; }
+            catch(Exception ex) 
+            {
+                commonResponse.Message += ex.Message;
+                commonResponse.Data = ex;
+            }
             return Json(commonResponse);
         }
 

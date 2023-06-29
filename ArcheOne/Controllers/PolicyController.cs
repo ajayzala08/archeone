@@ -37,7 +37,6 @@ namespace ArcheOne.Controllers
             List<GetPolicyListResModel> getPolicyListResModel = new List<GetPolicyListResModel>();
             try
             {
-                PolicyMst policyMst = new PolicyMst();
                 var policyList = _dbRepo.PolicyList().ToList();
                 if (policyList.Count > 0)
                 {
