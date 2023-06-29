@@ -63,6 +63,11 @@ namespace ArcheOne.Controllers
                 leaveAddEditReqModel.leaveDetails = new LeaveDetails();
                 leaveAddEditReqModel.leaveTypeList = _dbRepo.LeaveTypeLists().Where(x => x.IsCurrentYear == true).ToList();
 
+                var userId = _dbRepo.GetLoggedInUserDetails().RoleId;
+
+                var roleUserId = await _dbRepo.RoleMstList().FirstOrDefaultAsync(x => x.Id == userId);
+
+
                 var startTimeList = new List<KeyValueModel>();
                 startTimeList.Add(new KeyValueModel { Id = 1, Name = "09:30 AM" });
                 startTimeList.Add(new KeyValueModel { Id = 2, Name = "02:00 PM" });
@@ -95,7 +100,38 @@ namespace ArcheOne.Controllers
             }
             return View(commonResponse.Data);
         }
-
+        public async Task<IActionResult> EndTimeList(int id)
+        {
+            CommonResponse response = new CommonResponse();
+            try
+            {
+                var endTimeList = new List<KeyValueModel>();
+                if (id == 1)
+                {
+                    endTimeList.Add(new KeyValueModel { Id = 1, Name = "02:00 PM" });
+                    endTimeList.Add(new KeyValueModel { Id = 2, Name = "06:30 PM" });
+                }
+                else
+                {
+                    endTimeList.Add(new KeyValueModel { Id = 2, Name = "06:30 PM" });
+                }
+                if (endTimeList.Count > 0)
+                {
+                    response.Data = endTimeList;
+                    response.Status = true;
+                    response.Message = "Data found successfully!";
+                }
+                else
+                {
+                    response.Message = "Data not found!";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return Json(response);
+        }
         [HttpPost]
         public async Task<CommonResponse> SaveUpdateLeave([FromBody] AddUpdateLeaveReqModel request)
         {
@@ -108,51 +144,94 @@ namespace ArcheOne.Controllers
                     decimal noOfDay = 0;
                     if (request.Id == 0) // Add Leave
                     {
-                        var leaveTypeDetails = await _dbRepo.LeaveTypeLists().FirstOrDefaultAsync(x => x.Id == request.LeaveTypeId);
-                        if (leaveTypeDetails != null)
+                        var userJoiningDate = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == userId);
+                        if (userJoiningDate != null)
                         {
-                            if (leaveTypeDetails.LeaveTypeName.ToLower() == "sickleave")
+                            decimal isProbationPeriodDays = 0;
+                            bool isProbationPeriod = false;
+                            #region ProbationPeriod
+
+                            if (userJoiningDate.JoinDate < request.StartDate)
                             {
-                                noOfDay = NoOfDaySickLeave();
+                                isProbationPeriodDays = GetProbationPeriod(userJoiningDate.JoinDate, request.StartDate);
+
+                                if (isProbationPeriodDays > 0)
+                                {
+                                    if (isProbationPeriodDays < Convert.ToDecimal(userJoiningDate.ProbationPeriod))
+                                    {
+                                        isProbationPeriod = false;
+                                    }
+                                    else if (isProbationPeriodDays >= Convert.ToDecimal(userJoiningDate.ProbationPeriod))
+                                    {
+                                        isProbationPeriod = true;
+                                    }
+                                }
                             }
-                            else if (leaveTypeDetails.LeaveTypeName.ToLower() == "casualleave")
+                            else
                             {
-                                noOfDay = NoOfDayCasualLeave();
+                                response.Message = "Please select valid startdate";
                             }
-                            else if (leaveTypeDetails.LeaveTypeName.ToLower() == "earnedleave")
+                            #endregion
+
+
+                            if (isProbationPeriod)
                             {
-                                noOfDay = NoOfDayEarnedLeave();
+
                             }
-
-
-
-                            LeaveMst leaveMst = new LeaveMst()
+                            else
                             {
-                                LeaveTypeId = request.LeaveTypeId,
-                                StartDate = request.StartDate,
-                                EndDate = request.EndDate,
-                                StartTime = request.StartTime,
-                                EndTime = request.EndTime,
-                                Reason = request.Reason,
-                                NoOfDays = noOfDay,
-                                AppliedByUserId = userId,
-                                ApprovedByUserId = userId,
-                                LeaveStatusId = 1,
-                                LeaveBalance = 24,
-                                IsActive = true,
-                                IsDelete = false,
-                                CreatedBy = userId,
-                                UpdatedBy = userId,
-                                CreatedDate = _commonHelper.GetCurrentDateTime(),
-                                UpdatedDate = _commonHelper.GetCurrentDateTime()
-                            };
 
-                            await _dbContext.LeaveMsts.AddAsync(leaveMst);
-                            await _dbContext.SaveChangesAsync();
-
-                            response.Status = true;
-                            response.Message = "Leave added successfully!";
+                            }
                         }
+                        #region ADD
+
+                        //var leaveTypeDetails = await _dbRepo.LeaveTypeLists().FirstOrDefaultAsync(x => x.Id == request.LeaveTypeId);
+                        //if (leaveTypeDetails != null)
+                        //{
+                        //	if (leaveTypeDetails.LeaveTypeName.ToLower() == "sickleave")
+                        //	{
+                        //		noOfDay = NoOfDaySickLeave();
+                        //	}
+                        //	else if (leaveTypeDetails.LeaveTypeName.ToLower() == "casualleave")
+                        //	{
+                        //		noOfDay = NoOfDayCasualLeave();
+                        //	}
+                        //	else if (leaveTypeDetails.LeaveTypeName.ToLower() == "earnedleave")
+                        //	{
+                        //		noOfDay = NoOfDayEarnedLeave();
+                        //	}
+
+
+
+                        //	LeaveMst leaveMst = new LeaveMst()
+                        //	{
+                        //		LeaveTypeId = request.LeaveTypeId,
+                        //		StartDate = request.StartDate,
+                        //		EndDate = request.EndDate,
+                        //		StartTime = request.StartTime,
+                        //		EndTime = request.EndTime,
+                        //		Reason = request.Reason,
+                        //		NoOfDays = noOfDay,
+                        //		AppliedByUserId = userId,
+                        //		ApprovedByUserId = userId,
+                        //		LeaveStatusId = 1,
+                        //		LeaveBalance = 24,
+                        //		IsActive = true,
+                        //		IsDelete = false,
+                        //		CreatedBy = userId,
+                        //		UpdatedBy = userId,
+                        //		CreatedDate = _commonHelper.GetCurrentDateTime(),
+                        //		UpdatedDate = _commonHelper.GetCurrentDateTime()
+                        //	};
+
+                        //	//await _dbContext.LeaveMsts.AddAsync(leaveMst);
+                        //	//await _dbContext.SaveChangesAsync();
+
+                        //	response.Status = true;
+                        //	response.Message = "Leave added successfully!";
+                        //}
+
+                        #endregion
                     }
                     else // updated
                     {
@@ -162,8 +241,8 @@ namespace ArcheOne.Controllers
                             LeaveDetails.LeaveTypeId = request.LeaveTypeId;
                             LeaveDetails.StartDate = request.StartDate;
                             LeaveDetails.EndDate = request.EndDate;
-                            LeaveDetails.StartTime = request.StartTime;
-                            LeaveDetails.EndTime = request.EndTime;
+                            //LeaveDetails.StartTime = request.StartTime;
+                            //LeaveDetails.EndTime = request.EndTime;
                             LeaveDetails.Reason = request.Reason;
                             LeaveDetails.NoOfDays = 18;
                             LeaveDetails.AppliedByUserId = userId;
@@ -214,40 +293,14 @@ namespace ArcheOne.Controllers
             return NoOfDay;
         }
 
-        public async Task<IActionResult> EndTimeList(int id)
+
+
+        public decimal GetProbationPeriod(DateTime StartDate, DateTime EndDate)
         {
-            CommonResponse response = new CommonResponse();
-            try
-            {
-                var endTimeList = new List<KeyValueModel>();
-
-                if (id == 1)
-                {
-
-                    endTimeList.Add(new KeyValueModel { Id = 1, Name = "02:00 PM" });
-                    endTimeList.Add(new KeyValueModel { Id = 2, Name = "06:30 PM" });
-                }
-                else
-                {
-                    endTimeList.Add(new KeyValueModel { Id = 2, Name = "06:30 PM" });
-                }
-
-                if (endTimeList.Count > 0)
-                {
-                    response.Data = endTimeList;
-                    response.Status = true;
-                    response.Message = "Data found successfully!";
-                }
-                else
-                {
-                    response.Message = "Data not found!";
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Message = ex.Message;
-            }
-            return Json(response);
+            decimal isProbationPeriodDays = 0;
+            var span = EndDate - StartDate; //return timespan
+            isProbationPeriodDays = span.Days; //return days
+            return isProbationPeriodDays;
         }
     }
 }
