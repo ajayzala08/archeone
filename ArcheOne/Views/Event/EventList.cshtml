@@ -1,0 +1,346 @@
+﻿@{
+    Layout = "_BlankLayout";
+    ViewBag.dataTable = "true";
+}
+
+@*<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>*@
+
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Events</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="contact-form" method="post" role="form" enctype="multipart/form-data">
+                    <div class="messages"></div>
+                    <div class="controls">
+                     
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="form_name">Subject</label>
+                                    <input id="txtSubject" type="text" name="subject" class="form-control" placeholder="Please enter subject ">
+                                    <span class="txtValidation"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="form_name">Description</label>
+                                    <input id="txtDescription" type="text" name="description" class="form-control" placeholder="Please enter description">
+                                    <span class="txtValidation"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="form_name">Start Date</label>
+                                    <input id="txtStart" type="datetime-local" name="start" class="form-control" placeholder="Please select start date">
+                                    <span class="txtValidation"></span>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="form_name">End Date</label>
+                                    <input id="txtEnd" type="datetime-local" name="end" class="form-control" placeholder="Please select end date">
+                                    <span class="txtValidation"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="form_name">Color </label>
+                                    <select name="colorId" id="ddlcolorId" class="form-control">
+                                        <option name="colorId" value="Red">Red</option>
+                                        <option name="colorId" value="Green">Green</option>
+                                        <option name="colorId" value="Blue">Blue</option>
+                                        <option name="colorId" value="Yellow">Yellow</option>
+                                        <option name="colorId" value="Purple">Purple</option>
+                                    </select>
+                                    <span class="txtValidation"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="form_name">Is Full Day</label>
+                                    <input id="chbIsFullDay" type="checkbox" name="isFullDay" />
+                                    <span class="txtValidation"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default close" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="addNewEvent">Add Event</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div id="calendar">
+</div>
+
+
+@*<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>*@
+@*
+@section Scripts{
+    <script>
+        var data;
+        $.ajax({
+            type: 'GET',
+            url: '/Home/EventData',
+            cache: false,
+            success: function (response) {
+                //alert(response);
+                console.log(response);
+                debugger;
+                if (response.status == true) {
+                    //data = response;
+                    alert("response got");
+                    //$.each(data, function (key, value) {
+
+                    //    alert(data[key].title)
+                    //});
+                    showCalender(response.data);
+                }
+                else {
+                    alert(response.data);
+                }
+
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+
+        $(".close").click(function () {
+            alert("Close event called");
+            $("#myModal").modal("hide");
+
+        });
+
+
+
+        $("#addNewEvent").click(function () {
+            alert("Add button click");
+            var subject = $("#txtSubject").val(); //prompt('Enter a date in YYYY-MM-DD format');
+            var description = $("#txtDescription").val();
+            var start = $("#txtStart").val(); // prompt('Enter a title');
+            var end = $("#txtEnd").val();
+            var theamColor = $('#ddlcolorId').val();
+            var allDay = $('#chbIsFullDay').is(':checked');
+            alert(subject + "-" + description + "-" + start + "-" + end + "-" + theamColor + "-" + allDay);
+
+            var addEvent = {
+                subject: $("#txtSubject").val(),
+                description: $("#txtDescription").val(),
+                start: $("#txtStart").val(),
+                end: $("#txtEnd").val(),
+                theamColor: $('#ddlcolorId').val(),
+                isFullDay: $('#chbIsFullDay').is(':checked')
+
+            };
+
+            //calendar.addEvent(function(){
+            //    title= subject,
+            //    start= start,
+            //    end= end,
+            //    allDay= allDay,
+            //    color= theamColor
+            //});
+
+            $.ajax({
+                type: 'POST',
+                url: '/Home/AddEventData',
+                contentType: 'application/json',
+                data: JSON.stringify(addEvent),
+                cache: false,
+                success: function (response) {
+                    debugger;
+                    console.log(response);
+                    location.reload();
+                    //alert("Refreshed called");
+                    showCalender(response.Data);
+                    //calendar.addEvent({
+                    //    title: subject,
+                    //    description:description,
+                    //    start: start,
+                    //    end: end,
+                    //    allDay: allDay,
+                    //    color: theamColor
+                    //});
+                }
+            });
+
+            $("#myModal").modal("hide");
+
+        });
+
+
+        function showCalender(data) {
+            debugger;
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                //dateClick: function () {
+                //    alert('a day has been clicked!');
+                //},
+                headerToolbar: {
+                    left: 'prev,next,today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                footerToolbar: {
+                    start: 'custom1,custom2',
+                    center: '',
+                    end: 'prev,next'
+                },
+                customButtons: {
+                    custom1: {
+                        text: 'Add Event',
+                        click: function () {
+                            $("#myModal").modal("show");
+                            //var dateStr = prompt('Enter a date in YYYY-MM-DD format');
+                            //var titleStr = prompt('Enter a title');
+                            //var strDate = new Date(dateStr + 'T13:00:00'); // will be in local time
+                            //var endDate = new Date(dateStr + 'T15:00:00');
+
+
+                            //if (!isNaN(strDate.valueOf()) && !isNaN(endDate.valueOf())) { // valid?
+                            //    calendar.addEvent({
+                            //        title: titleStr,
+                            //        start: strDate,
+                            //        end: endDate,
+                            //        allDay: true,
+                            //        color: 'palegoldenrod'
+                            //    });
+                            //    var addEvent = {
+                            //        subject: titleStr,
+                            //        description: titleStr,
+                            //        start: strDate,
+                            //        end: endDate,
+                            //        theamColor: "palegoldenrod",
+                            //        isFullDay: true
+
+                            //    };
+                            //    console.log(JSON.stringify(addEvent));
+                            //    //ajax call to save events data into database
+                            //    $.ajax({
+                            //        type: 'POST',
+                            //        url: '/Home/AddEventData',
+                            //        contentType: 'application/json',
+                            //        data: JSON.stringify(addEvent),
+                            //        cache: false,
+                            //        success: function (response) {
+
+                            //            alert(response);
+
+                            //        }
+                            //    });
+
+                            //}
+                        }
+                    },
+                    custom2: {
+                        text: 'custom 2',
+                        click: function () {
+                            alert('clicked custom button 2!');
+                        }
+                    }
+                },
+                events: data,
+                //events:
+                //[
+                //    {
+                //        title: 'First Test',
+                //        start: new Date(),
+                //        end: new Date(),
+                //        url: 'https://www.google.com'
+                //    }
+                //]
+                dateClick: function (info) {
+                    //var dateStr = prompt('Enter a date in YYYY-MM-DD format');
+                    //var titleStr = prompt('Enter a title');
+                    //var strDate = new Date(dateStr + 'T13:00:00'); // will be in local time
+                    //var endDate = new Date(dateStr + 'T15:00:00');
+                    //$("#myModal").modal("show");
+                    //if (!isNaN(strDate.valueOf()) && !isNaN(endDate.valueOf())) { // valid?
+                    //    calendar.addEvent({
+                    //        title: titleStr,
+                    //        start: strDate,
+                    //        end: endDate,
+                    //        allDay: false,
+                    //        color: 'purple'
+                    //    });
+                    //    alert('Great. Now, update your database...');
+                    //} else {
+                    //    alert('Invalid date.');
+                    //}
+                    //alert('Date: ' + info.dateStr);
+                    //alert('Resource ID: ' + info.view.title);
+                    //alert('DayEI', + info.dayEl)
+                },
+                eventClick: function (info) {
+
+                    alert('Event: ' + info.event.title);
+                    alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+                    alert('View: ' + info.view.type);
+
+                    // change the border color just for fun
+                    info.el.style.borderColor = 'red';
+                },
+                editable: true,
+                dayMaxEvents: true,
+                navLinks: true, // can click day/week names to navigate views
+                selectable: true,
+                nowIndicator: true,
+                now: '2023-06-02T02:45:00',
+
+                click: function () {
+                    //$("#myModal").modal("show");
+                    //var dateStr = prompt('Enter a date in YYYY-MM-DD format');
+                    //var date = new Date(dateStr + 'T00:00:00'); // will be in local time
+
+                    //if (!isNaN(date.valueOf())) { // valid?
+                    //    calendar.addEvent({
+                    //        title: 'dynamic event',
+                    //        start: date,
+                    //        allDay: true
+                    //    });
+                    //    alert('Great. Now, update your database...');
+                    //} else {
+                    //    alert('Invalid date.');
+                    //}
+                },
+                eventDrop: function (info) {
+                    alert(info.event.title + " was dropped on " + info.event.start.toISOString());
+
+                    if (!confirm("Are you sure about this change?")) {
+                        info.revert();
+                    }
+                }
+
+
+            });
+
+            calendar.render();
+        };
+
+
+
+    </script>
+}
+*@
+

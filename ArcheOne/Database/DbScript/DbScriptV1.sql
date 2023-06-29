@@ -1388,3 +1388,33 @@ BEGIN
 	PRINT 'LeaveBalanceMst Table Already Exist' 
 END
 ----------------------------------------Added by PP on 27-06-23-----------------------------------End--------
+
+----------------------------------------Added by SP on 29-06-23-----------------------------------Start--------
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'EventMst')
+BEGIN 
+	Create table dbo.EventMst(
+			Id int identity(1,1) primary key,
+			Subject nvarchar(Max) null,
+			Description nvarchar(Max) null,
+			StartDate datetime null,
+			EndDate datetime null,
+			ThemeColour nvarchar(100) null,
+			EventType nvarchar(100) null,
+			IsFullDay bit null,
+			IsActive bit  not null,
+			IsDelete bit  not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'EventMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'EventMst Table Already Exist' 
+END
+
+----------------------------------------Added by SP on 29-06-23-----------------------------------End--------
