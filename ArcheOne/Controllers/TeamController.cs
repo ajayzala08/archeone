@@ -26,10 +26,7 @@ namespace ArcheOne.Controllers
             _webHostEnvironment = webHostEnvironment;
             _dbContext = dbContext;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
+        
         public IActionResult Team()
         {
             return View();
@@ -86,7 +83,6 @@ namespace ArcheOne.Controllers
         {
             CommonResponse commonResponse = new CommonResponse();
             AddEditTeamReqViewModel addEditTeamReqViewModel = new AddEditTeamReqViewModel();
-            List<TeamLeadDetails> teamLeadLists = new List<TeamLeadDetails>();
             TeamLeadDetails teamLeadDetails = new TeamLeadDetails();
             List<TeamMemberDetails> teamMemberDetails = new List<TeamMemberDetails>();
             addEditTeamReqViewModel.TeamLeadDetails = new TeamLeadDetails();
@@ -95,7 +91,6 @@ namespace ArcheOne.Controllers
             var roleIdList = roleList.Select(x => x.Id).ToList();
             var userList = _dbRepo.UserMstList().Where(x => x.RoleId != null);
             
-            var teamList = _dbRepo.TeamList().ToList();
             var teamLeadList = userList.Where(x => roleIdList.Contains(x.RoleId.Value)).ToList();
             addEditTeamReqViewModel.TeamLeadList = teamLeadList;
             addEditTeamReqViewModel.TeamMemberList = userList.Where(x => !roleIdList.Contains(x.RoleId.Value)).ToList();
@@ -133,7 +128,7 @@ namespace ArcheOne.Controllers
                     teamMemberDetails = (from z in _dbRepo.TeamList()
                                          join f in _dbRepo.AllUserMstList() on z.TeamLeadId equals f.Id
                                          join t in _dbRepo.AllUserMstList() on z.TeamMemberId equals t.Id
-                                         select new { z, f, t }).ToList().Select(x => new TeamMemberDetails
+                                         select new { z, f, t }).Select(x => new TeamMemberDetails
                                          {
                                              TeamMemberId = x.t.Id,
                                              TeamMemberName = x.t.FirstName + " " + x.t.LastName,
@@ -161,7 +156,7 @@ namespace ArcheOne.Controllers
         {
             CommonResponse commonResponse = new CommonResponse();
             List<TeamMst> addTeamReqModelList = new List<TeamMst>();
-            AddTeamReqModel addTeamReqModel = new AddTeamReqModel();
+          
             try
             {
                 //Edit Mode
@@ -231,7 +226,7 @@ namespace ArcheOne.Controllers
             catch (Exception ex)
             {
                 commonResponse.Message = ex.Message;
-                commonResponse.Data = ex.StackTrace;
+                commonResponse.Data = ex;
             }
             return commonResponse;
 
@@ -267,9 +262,12 @@ namespace ArcheOne.Controllers
                     commonResponse.StatusCode = HttpStatusCode.NotFound;
                 }
             }
-            catch { throw; }
+            catch(Exception ex) 
+            {
+                commonResponse.Message = ex.Message;
+                commonResponse.Data = ex;
+            }
             return Json(commonResponse);
-            //return Json(commonResponse);
         }
     }
 }

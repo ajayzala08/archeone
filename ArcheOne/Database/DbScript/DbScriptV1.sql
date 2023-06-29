@@ -1248,7 +1248,6 @@ Add  AppraisalId int null
 ----------------------------------------Added by SP on 27-06-23-----------------------------------End----------
 ---------------------------------------Executed on Local Server on 27-06-23-----------------------by SP--------
 ----------------------------------------Added by PP on 27-06-23-----------------------------------Start--------
-----------------------------------------Added by PP on 27-06-23-----------------------------------Start--------
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
 			TABLE_NAME = 'LeaveTypeMst')
 BEGIN 
@@ -1388,4 +1387,38 @@ ELSE
 BEGIN 
 	PRINT 'LeaveBalanceMst Table Already Exist' 
 END
+----------------------------------------Added by PP on 27-06-23-----------------------------------End--------
+----------------------------------------Added by PP on 28-06-23-----------------------------------Start--------
+DROP TABLE LeaveMst;
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'LeaveMst')
+BEGIN 
+	Create table dbo.LeaveMst(
+			Id int identity(1,1) primary key,
+			LeaveTypeId int not null,
+			AppliedByUserId int not null,
+			ApprovedByUserId int not null,
+			StartDate date not null,
+			EndDate date not null,
+			StartTime time not null,
+			EndTime time not null,
+			NoOfDays decimal(38, 17),
+			Reason nvarchar(max) not null,
+			LeaveStatusId int not null,
+			LeaveBalance decimal(38, 17),
+			IsActive bit  not null,
+			IsDelete bit  not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'LeaveMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'LeaveMst Table Already Exist' 
+END
+
 ----------------------------------------Added by PP on 27-06-23-----------------------------------End--------
