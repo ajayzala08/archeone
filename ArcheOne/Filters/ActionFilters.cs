@@ -23,14 +23,18 @@ namespace ArcheOne.Filters
             {
                 bool isAjaxRequest = filterContext.HttpContext.Request.Headers.ContainsKey("X-Requested-With");
                 List<IndexDashboardResModel> permissionList = _commonHelper.GetPermissionList();
-                if ((!isAjaxRequest || (isAjaxRequest && !permissionList.Any(x => x.PermissionRoute.Contains($"{controllerName}/{actionName}")))) && !permissionList.Any(x => x.PermissionRoute.Contains($"{controllerName}/{actionName}")))
+                if ((!isAjaxRequest || (isAjaxRequest && !permissionList.Any(x => x.IsAjaxRoute && x.PermissionRoute.Contains($"{controllerName}/{actionName}")))) && !permissionList.Any(x => x.PermissionRoute.Contains($"{controllerName}/{actionName}")))
                 {
-                    // Update the route values
-                    filterContext.RouteData.Values["controller"] = "Error";
-                    filterContext.RouteData.Values["action"] = "Forbidden";
+                    // Create a RouteValueDictionary to store the route values
+                    var routeValues = new RouteValueDictionary(new
+                    {
+                        controller = "Error",
+                        action = "Forbidden",
+                        isAjax = isAjaxRequest // Set the value of isAjax parameter
+                    });
 
-                    // Redirect to the new controller and action
-                    filterContext.Result = new RedirectToActionResult("Forbidden", "Error", null);
+                    // Redirect to the new controller, action, and pass the route values
+                    filterContext.Result = new RedirectToActionResult("Forbidden", "Error", routeValues);
                 }
             }
 

@@ -56,13 +56,12 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseCookiePolicy();
 app.UseStaticFiles();
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseRouting();
-app.UseSession();
-app.UseAuthorization();
 
-app.UseEndpoints(x => x.MapControllers());
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

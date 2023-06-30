@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ArcheOne.Helper.CommonModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ArcheOne.Controllers
 {
@@ -8,9 +9,17 @@ namespace ArcheOne.Controllers
         {
             return View();
         }
-        public IActionResult Forbidden()
+        public IActionResult Forbidden(bool isAjax)
         {
-            return View();
+            CommonResponse response = new CommonResponse();
+            if (isAjax)
+            {
+                response.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                response.Message = "You're not authorized to perform this action!";
+                return Json(response);
+            }
+
+            return View(response);
         }
     }
 }
