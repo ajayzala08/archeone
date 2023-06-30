@@ -100,30 +100,48 @@ namespace ArcheOne.Controllers
             }
             return View(commonResponse.Data);
         }
-        public async Task<IActionResult> EndTimeList(int id)
+        [HttpPost]
+        public async Task<IActionResult> EndTimeList([FromBody] EndTimeListReqModel endTimeListReqModel)
         {
             CommonResponse response = new CommonResponse();
             try
             {
-                var endTimeList = new List<KeyValueModel>();
-                if (id == 1)
+                if (ModelState.IsValid)
                 {
-                    endTimeList.Add(new KeyValueModel { Id = 1, Name = "02:00 PM" });
-                    endTimeList.Add(new KeyValueModel { Id = 2, Name = "06:30 PM" });
-                }
-                else
-                {
-                    endTimeList.Add(new KeyValueModel { Id = 2, Name = "06:30 PM" });
-                }
-                if (endTimeList.Count > 0)
-                {
-                    response.Data = endTimeList;
-                    response.Status = true;
-                    response.Message = "Data found successfully!";
-                }
-                else
-                {
-                    response.Message = "Data not found!";
+                    DateTime startDate = endTimeListReqModel.StartDate;
+                    DateTime endDate = endTimeListReqModel.EndDate;
+                    var endTimeList = new List<KeyValueModel>();
+                    if (endDate >= startDate)
+                    {
+                        if (startDate == endDate)
+                        {
+                            if (endTimeListReqModel.StartTime == "09:30 AM")
+                            {
+                                endTimeList.Add(new KeyValueModel { Id = 1, Name = "02:00 PM" });
+                                endTimeList.Add(new KeyValueModel { Id = 2, Name = "06:30 PM" });
+                            }
+                            else
+                            {
+                                endTimeList.Add(new KeyValueModel { Id = 2, Name = "06:30 PM" });
+                            }
+                        }
+                        else
+                        {
+                            endTimeList.Add(new KeyValueModel { Id = 1, Name = "02:00 PM" });
+                            endTimeList.Add(new KeyValueModel { Id = 2, Name = "06:30 PM" });
+                        }
+                    }
+
+                    if (endTimeList.Count > 0)
+                    {
+                        response.Data = endTimeList;
+                        response.Status = true;
+                        response.Message = "Data found successfully!";
+                    }
+                    else
+                    {
+                        response.Message = "Data not found!";
+                    }
                 }
             }
             catch (Exception ex)
@@ -140,49 +158,84 @@ namespace ArcheOne.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    int userId = _commonHelper.GetLoggedInUserId();
                     decimal noOfDay = 0;
+
+                    noOfDay = GetNoOfDays(request.StartDate, request.EndDate, request.StartTime, request.EndTime);
+
+
+                    #region MyRegion
+
+                    //LeaveMst leaveMst = new LeaveMst();
+                    //LeaveBalanceMst leaveBalanceMst = new LeaveBalanceMst();
+                    //int userId = _commonHelper.GetLoggedInUserId();
+
                     if (request.Id == 0) // Add Leave
                     {
-                        var userJoiningDate = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == userId);
-                        if (userJoiningDate != null)
-                        {
-                            decimal isProbationPeriodDays = 0;
-                            bool isProbationPeriod = false;
-                            #region ProbationPeriod
+                        //    var userJoiningDate = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == userId);
+                        //    if (userJoiningDate != null)
+                        //    {
+                        //        decimal isProbationPeriodDays = 0;
+                        //        bool isProbationPeriod = false;
+                        //        #region ProbationPeriod
 
-                            if (userJoiningDate.JoinDate < request.StartDate)
-                            {
-                                isProbationPeriodDays = GetProbationPeriod(userJoiningDate.JoinDate, request.StartDate);
+                        //        if (userJoiningDate.JoinDate < request.StartDate)
+                        //        {
+                        //            isProbationPeriodDays = GetNoOfDays(userJoiningDate.JoinDate, request.StartDate);
 
-                                if (isProbationPeriodDays > 0)
-                                {
-                                    if (isProbationPeriodDays < Convert.ToDecimal(userJoiningDate.ProbationPeriod))
-                                    {
-                                        isProbationPeriod = false;
-                                    }
-                                    else if (isProbationPeriodDays >= Convert.ToDecimal(userJoiningDate.ProbationPeriod))
-                                    {
-                                        isProbationPeriod = true;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                response.Message = "Please select valid startdate";
-                            }
-                            #endregion
+                        //            if (isProbationPeriodDays > 0)
+                        //            {
+                        //                if (isProbationPeriodDays < Convert.ToDecimal(userJoiningDate.ProbationPeriod))
+                        //                {
+                        //                    isProbationPeriod = false;
+                        //                }
+                        //                else if (isProbationPeriodDays >= Convert.ToDecimal(userJoiningDate.ProbationPeriod))
+                        //                {
+                        //                    isProbationPeriod = true;
+                        //                }
+                        //            }
+                        //        }
+                        //        else
+                        //        {
+                        //            response.Message = "Please select valid startdate";
+                        //        }
+                        //        #endregion
+
+                        //        if (request.StartDate < request.EndDate)
+                        //        {
+                        //            noOfDay = GetNoOfDays(request.StartDate, request.EndDate);
+
+                        //            if (isProbationPeriod)
+                        //            {
 
 
-                            if (isProbationPeriod)
-                            {
 
-                            }
-                            else
-                            {
 
-                            }
-                        }
+
+
+
+
+
+
+
+
+
+
+
+                        //                leaveBalanceMst.PaidDayLeaves = noOfDay;
+                        //                leaveBalanceMst.UnPaidDayLeaves = 0;
+                        //            }
+                        //            else
+                        //            {
+                        //                leaveBalanceMst.PaidDayLeaves = 0;
+                        //                leaveBalanceMst.UnPaidDayLeaves = noOfDay;
+                        //            }
+                        //        }
+                        //        else
+                        //        {
+                        //            response.Message = "Please select valid startdate";
+                        //        }
+                        //    }
+
                         #region ADD
 
                         //var leaveTypeDetails = await _dbRepo.LeaveTypeLists().FirstOrDefaultAsync(x => x.Id == request.LeaveTypeId);
@@ -203,7 +256,7 @@ namespace ArcheOne.Controllers
 
 
 
-                        //	LeaveMst leaveMst = new LeaveMst()
+                        //	
                         //	{
                         //		LeaveTypeId = request.LeaveTypeId,
                         //		StartDate = request.StartDate,
@@ -233,37 +286,42 @@ namespace ArcheOne.Controllers
 
                         #endregion
                     }
+                    #endregion
+
                     else // updated
                     {
-                        var LeaveDetails = await _dbRepo.LeaveLists().FirstOrDefaultAsync(x => x.Id == request.Id);
-                        if (LeaveDetails != null)
-                        {
-                            LeaveDetails.LeaveTypeId = request.LeaveTypeId;
-                            LeaveDetails.StartDate = request.StartDate;
-                            LeaveDetails.EndDate = request.EndDate;
-                            //LeaveDetails.StartTime = request.StartTime;
-                            //LeaveDetails.EndTime = request.EndTime;
-                            LeaveDetails.Reason = request.Reason;
-                            LeaveDetails.NoOfDays = 18;
-                            LeaveDetails.AppliedByUserId = userId;
-                            LeaveDetails.ApprovedByUserId = userId;
-                            LeaveDetails.LeaveStatusId = 1;
-                            LeaveDetails.LeaveBalance = 24;
-                            LeaveDetails.UpdatedBy = userId;
-                            LeaveDetails.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                        #region MyRegion
 
-                            _dbContext.Entry(LeaveDetails).State = EntityState.Modified;
-                            await _dbContext.SaveChangesAsync();
+                        //var LeaveDetails = await _dbRepo.LeaveLists().FirstOrDefaultAsync(x => x.Id == request.Id);
+                        //if (LeaveDetails != null)
+                        //{
+                        //    LeaveDetails.LeaveTypeId = request.LeaveTypeId;
+                        //    LeaveDetails.StartDate = request.StartDate;
+                        //    LeaveDetails.EndDate = request.EndDate;
+                        //    //LeaveDetails.StartTime =request.StartTime;
+                        //    //LeaveDetails.EndTime = request.EndTime;
+                        //    LeaveDetails.Reason = request.Reason;
+                        //    LeaveDetails.NoOfDays = 18;
+                        //    LeaveDetails.AppliedByUserId = userId;
+                        //    LeaveDetails.ApprovedByUserId = userId;
+                        //    LeaveDetails.LeaveStatusId = 1;
+                        //    LeaveDetails.LeaveBalance = 24;
+                        //    LeaveDetails.UpdatedBy = userId;
+                        //    LeaveDetails.UpdatedDate = _commonHelper.GetCurrentDateTime();
 
-                            response.Status = true;
-                            response.StatusCode = System.Net.HttpStatusCode.OK;
-                            response.Message = "Leave updated successfully!";
-                        }
-                        else
-                        {
-                            response.Message = "Leave not found!";
-                            response.StatusCode = System.Net.HttpStatusCode.NotFound;
-                        }
+                        //    _dbContext.Entry(LeaveDetails).State = EntityState.Modified;
+                        //    await _dbContext.SaveChangesAsync();
+
+                        //    response.Status = true;
+                        //    response.StatusCode = System.Net.HttpStatusCode.OK;
+                        //    response.Message = "Leave updated successfully!";
+                        //}
+                        //else
+                        //{
+                        //    response.Message = "Leave not found!";
+                        //    response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                        //} 
+                        #endregion
                     }
                 }
             }
@@ -293,14 +351,25 @@ namespace ArcheOne.Controllers
             return NoOfDay;
         }
 
-
-
-        public decimal GetProbationPeriod(DateTime StartDate, DateTime EndDate)
+        public decimal GetNoOfDays(DateTime StartDate, DateTime EndDate, string StartTime, string EndTime)
         {
-            decimal isProbationPeriodDays = 0;
-            var span = EndDate - StartDate; //return timespan
-            isProbationPeriodDays = span.Days; //return days
-            return isProbationPeriodDays;
+            decimal isGetNoOfDays = 0;
+
+            TimeSpan duration = EndDate - StartDate;
+
+            decimal days = duration.Days;
+            //decimal hours = duration.Hours;
+            //decimal minutes = duration.Minutes;
+            //decimal seconds = duration.Seconds;
+
+
+
+
+
+
+
+
+            return isGetNoOfDays;
         }
     }
 }

@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('.select2').select2()
-
+    
     $("#btnSaveAdd").click(function () {
         SaveUpdateLeave();
     });
@@ -9,8 +9,85 @@ $(document).ready(function () {
         window.location.href = '/Leaves/Leaves';
     });
 
+    $("#txtEndDate").change(function () {
+        let EndDateData = {
+            "StartDate": $('#txtStartDate').val(),
+            "EndDate": $("#txtEndDate").val(),
+            "StartTime": $('#ddlStartTime').find('option:selected').text(),
+        }
+        //LoadEndTime($(this).val());
+        $("#ddlEndTime").empty();
+
+        /*if (txtSelectedEndTime != "0") {*/
+        //if (!isNaN(txtSelectedEndTime)) {
+            var ddlEndTime = $('#ddlEndTime');
+            ddlEndTime.empty();
+            ddlEndTime.append($("<option></option>").val('').html('Please wait ...'));
+            ajaxCall("Post", false, '/Leaves/EndTimeList', JSON.stringify(EndDateData), function (response) {
+
+
+                $("#ddlEndTime").html('');
+                $("#ddlEndTime").append('<option value="0">--- Select EndTime ---</option>');
+                $.each(response.data, function (i, states) {
+                    console.log(response.data);
+                    $("#ddlEndTime").append('<option  value="' + states.id + '">' +
+                        states.name + '</option>');
+                });
+                //$("#ddlEndTime").val(0);
+                //if (txtSelectedEndTime != null && txtSelectedEndTime != 0 && EditMode == 1) {
+                //    $("#ddlEndTime").val(txtSelectedEndTime);
+                //   // EditMode = 0;
+                //}
+
+                //$("#ddlState").change();
+            });
+        //}
+    
+        //} else {
+        //    //$("#ddlEndTime").html('');
+        //    $("#ddlEndTime").append('<option value="0">--- Select EndTime ---</option>');
+        //}
+    });
+
     $("#ddlStartTime").change(function () {
         LoadEndTime($(this).val());
+        let EndDateData = {
+            "StartDate": $('#txtStartDate').val(),
+            "EndDate": $("#txtEndDate").val(),
+            "StartTime": $('#ddlStartTime').find('option:selected').text(),
+        }
+        //LoadEndTime($(this).val());
+        $("#ddlEndTime").empty();
+
+        /*if (txtSelectedEndTime != "0") {*/
+        //if (!isNaN(txtSelectedEndTime)) {
+        var ddlEndTime = $('#ddlEndTime');
+        ddlEndTime.empty();
+        ddlEndTime.append($("<option></option>").val('').html('Please wait ...'));
+        ajaxCall("Post", false, '/Leaves/EndTimeList', JSON.stringify(EndDateData), function (response) {
+
+
+            $("#ddlEndTime").html('');
+            $("#ddlEndTime").append('<option value="0">--- Select EndTime ---</option>');
+            $.each(response.data, function (i, states) {
+                console.log(response.data);
+                $("#ddlEndTime").append('<option  value="' + states.id + '">' +
+                    states.name + '</option>');
+            });
+            //$("#ddlEndTime").val(0);
+            //if (txtSelectedEndTime != null && txtSelectedEndTime != 0 && EditMode == 1) {
+            //    $("#ddlEndTime").val(txtSelectedEndTime);
+            //   // EditMode = 0;
+            //}
+
+            //$("#ddlState").change();
+        });
+        //}
+
+        //} else {
+        //    //$("#ddlEndTime").html('');
+        //    $("#ddlEndTime").append('<option value="0">--- Select EndTime ---</option>');
+        //}
     });
 
 });
@@ -43,7 +120,7 @@ function SaveUpdateLeave() {
 }
 
 
-function LoadEndTime(txtSelectedEndTime) {
+function LoadEndTime(EndDateData) {
     $("#ddlEndTime").empty();
     console.log(txtSelectedEndTime)
     if (txtSelectedEndTime != "0") {

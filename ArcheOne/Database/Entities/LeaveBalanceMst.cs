@@ -30,4 +30,8 @@ public partial class LeaveBalanceMst
     public DateTime CreatedDate { get; set; }
 
     public DateTime UpdatedDate { get; set; }
+
+    public decimal? PaidDayLeaves { get; set; }
+
+    public decimal? UnPaidDayLeaves { get; set; }
 }

@@ -1421,3 +1421,10 @@ BEGIN
 END
 
 ----------------------------------------Added by PP on 27-06-23-----------------------------------End--------
+----------------------------------------Added by PP on 30-06-23-----------------------------------Start--------
+ALTER TABLE LeaveBalanceMst
+ADD PaidDayLeaves decimal(38, 17);
+
+ALTER TABLE LeaveBalanceMst
+ADD UnPaidDayLeaves decimal(38, 17);
+----------------------------------------Added by PP on 30-06-23-----------------------------------End--------
