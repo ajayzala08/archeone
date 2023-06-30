@@ -66,7 +66,7 @@ $(document).ready(function () {
             else {
                 Toast.fire({ icon: 'error', title: "Please enter Job Description!" });
             }
-           
+
         }
 
     });
@@ -84,4 +84,3 @@ $(document).ready(function () {
     });
 
 });
-

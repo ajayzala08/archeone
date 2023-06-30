@@ -26,25 +26,21 @@
 
     <!-- Default box -->
     <div class="card">
-        <input type="hidden" id="requirementId" value="@Model" />
         <div class="card-header">
             <div class="row">
                 <div class="form-group col-lg-3" id="dddlProject">
                     <label>Project</label>
-                    <select id="ddlProject" name="ddlProject" class="form-control select2" isRequired="1" divcontainer="dddlProject" errorspan="sddlProject" defaultvalue="0" onchange="GetTaskList()">
+                    <select id="ddlProject" name="ddlProject" class="form-control" isRequired="1" divcontainer="dddlProject" errorspan="sddlProject" defaultvalue="0" onchange="GetTaskList()">
                         <option selected disabled value="0">Select Project</option>
                     </select>
                     <span class="help-block d-none has-error" id="sddlProject">Please Select Project</span>
                 </div>
-                @if (true)
-                {
-                    <div class="form-group col-lg-3" id="dddlResources">
-                        <label>Resources</label>
-                        <select id="ddlResources" name="ddlResources" class="form-control select2" isRequired="1" divcontainer="dddlResources" errorspan="sddlResources" defaultvalue="0" onchange="GetTaskList()">
-                        </select>
-                        <span class="help-block d-none has-error" id="sddlResources">Please Select Resources</span>
-                    </div>
-                }
+                <div class="form-group col-lg-3" id="dddlResources" hidden>
+                    <label>Resources</label>
+                    <select id="ddlResources" name="ddlResources" class="form-control select2" isRequired="1" divcontainer="dddlResources" errorspan="sddlResources" defaultvalue="0" onchange="GetTaskList()">
+                    </select>
+                    <span class="help-block d-none has-error" id="sddlResources">Please Select Resources</span>
+                </div>
                 <div class="form-group col-lg-3" id="dtxtFromDate">
                     <label>From Date</label>
                     <input type="date" id="txtFromDate" name="txtFromDate" class="form-control" isRequired="1" divcontainer="dtxtFromDate" errorspan="stxtFromDate" defaultvalue="0" onchange="GetTaskList()" />

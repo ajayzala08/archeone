@@ -23,15 +23,35 @@ namespace ArcheOne.Controllers
             _dbContext = dbContext;
         }
 
-
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         public IActionResult Appraisal()
         {
-            return View();
+            AppraisalResModel appraisalResModel = new AppraisalResModel();
+
+            var managerRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Manager")).ToList();
+            var managerroleIdList = managerRoleList.Select(x => x.Id).ToList();
+
+            var hrRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
+            var hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
+
+            var adminRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Admin")).ToList();
+            var adminroleIdList = adminRoleList.Select(x => x.Id).ToList();
+
+            var employeeRoleList = _dbRepo.RoleMstList().Where(x => !x.RoleCode.Contains("HR") && !x.RoleCode.Contains("Manager") && !x.RoleCode.Contains("Admin")).ToList();
+            var employeeroleIdList = employeeRoleList.Select(x => x.Id).ToList();
+
+            var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
+
+            var IsUserManager = loginUserList.Where(x => managerroleIdList.Contains(x.RoleId.Value)).ToList();
+            var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
+            var IsUserEmployee = loginUserList.Where(x => employeeroleIdList.Contains(x.RoleId.Value)).ToList();
+
+
+            appraisalResModel.IsUserHR = IsUserHR.Count > 0 ? true : false;
+            appraisalResModel.IsUserManager = IsUserManager.Count > 0 ? true : false;
+            appraisalResModel.IsUserEmployee = IsUserEmployee.Count > 0 ? true : false;
+
+
+            return View(appraisalResModel);
         }
 
         public IActionResult AppraisalList()
@@ -40,12 +60,40 @@ namespace ArcheOne.Controllers
             List<GetAppraisalListResModel> getAppraisalListResModel = new List<GetAppraisalListResModel>();
             try
             {
-                var appraisalList = _dbRepo.AppraisalList().ToList();
-                var appraisalManagerList = _dbRepo.AppraisalList().Where(x => x.ReportingManagerId == _commonHelper.GetLoggedInUserId()).ToList();
-                if (appraisalManagerList.Count >0)
+                var appraisalList = _dbRepo.AppraisalList().ToList(); 
+
+                var hrRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
+                var hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
+
+                var managerRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Manager")).ToList();
+                var managerroleIdList = managerRoleList.Select(x => x.Id).ToList();
+
+                var employeeRoleList = _dbRepo.RoleMstList().Where(x => !x.RoleCode.Contains("Manager") &&!x.RoleCode.Contains("HR")).ToList();
+                var employeeroleIdList = employeeRoleList.Select(x => x.Id).ToList();
+
+                var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
+
+                var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
+                var IsUserManager = loginUserList.Where(x => managerroleIdList.Contains(x.RoleId.Value)).ToList();
+                var IsUserEmployee = loginUserList.Where(x => employeeroleIdList.Contains(x.RoleId.Value)).ToList();
+
+
+
+                if (IsUserManager.Count > 0)
                 {
                     appraisalList = _dbRepo.AppraisalList().Where(x => x.ReportingManagerId == _commonHelper.GetLoggedInUserId()).ToList();
                 }
+              
+
+                if (IsUserEmployee.Count > 0)
+                {
+                    appraisalList = _dbRepo.AppraisalList().Where(x => x.EmployeeId == _commonHelper.GetLoggedInUserId()).ToList();
+                }
+                if (IsUserHR.Count > 0)
+                {
+                    appraisalList = _dbRepo.AppraisalList().ToList();
+                }
+              
 
                 if (appraisalList.Count > 0)
                 {
@@ -57,10 +105,11 @@ namespace ArcheOne.Controllers
                                                 on u.ReportingManagerId equals i.Id
                                                 select new { u, r, i }).Select(x => new GetAppraisalListResModel
                                                 {
-                                                    Id = x.u.Id,
+                                                    Id = x.u.Id,            
                                                     EmployeeName = x.r.FirstName + " " + x.r.LastName,
                                                     ReportingManagerName = x.i.FirstName + " " + x.i.LastName,
-                                                    Year = x.u.Year
+                                                    Year = x.u.Year,
+                                                    IsUserHR = IsUserHR.Count > 0 ? true : false
                                                 }).ToList();
 
 
@@ -94,25 +143,28 @@ namespace ArcheOne.Controllers
 
             var roleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Manager")).ToList();
             var roleIdList = roleList.Select(x => x.Id).ToList();
+
+            var hrroleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR") || x.RoleCode.Contains("Manager")).ToList();
+            var hrroleIdList = hrroleList.Select(x => x.Id).ToList();
+
+            var adminroleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Admin")).ToList();
+            var adminroleIdList = adminroleList.Select(x => x.Id).ToList();
+
             var userList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null);
 
-            var appraisalList = _dbRepo.AppraisalList().ToList();
             var reportingManagerList = userList.Where(x => roleIdList.Contains(x.RoleId.Value)).ToList();
-            var employeeList = userList.Where(x => !roleIdList.Contains(x.RoleId.Value)).ToList();
+            var employeeList = userList.Where(x =>  !hrroleIdList.Contains(x.RoleId.Value) && !adminroleIdList.Contains(x.RoleId.Value)).ToList();
 
 
             addEditAppraisalResModel.EmployeeId = employeeList;
             addEditAppraisalResModel.ReportingManagerId = reportingManagerList;
-            //addEditAppraisalResModel.reportingManagetDetail.ReportingManagerId = 0;
         
             try
             {
-                AppraisalMst appraisalMst = new AppraisalMst();
                 if (Id > 0)
                 {
                     var appraisal = _dbRepo.AppraisalList().FirstOrDefault(x => x.Id == Id);
-                    var managerUserDetail = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == appraisal.ReportingManagerId);
-                    var employeeUserDetail = _dbRepo.AllUserMstList().FirstOrDefault(x => x.Id == appraisal.EmployeeId);
+                 
                     if (appraisal != null)
                     {
                         addEditAppraisalResModel.reportingManagetDetail.ReportingManagerId = appraisal.ReportingManagerId;
@@ -124,7 +176,6 @@ namespace ArcheOne.Controllers
                         commonResponse.StatusCode = System.Net.HttpStatusCode.OK;
                         commonResponse.Message = "Get Appraisal Successfully";
                         commonResponse.Data = addEditAppraisalResModel;
-
                     }
                     else
                     {
@@ -156,27 +207,36 @@ namespace ArcheOne.Controllers
             {
                 AppraisalMst appraisalMst = new AppraisalMst();
                 var appraisalDetail = await _dbRepo.AppraisalList().FirstOrDefaultAsync(x => x.Id == appraisalSaveUpdateReqModel.Id);
+                var duplicateCheck = await _dbRepo.AppraisalList().Where(x => x.EmployeeId == appraisalSaveUpdateReqModel.EmployeeId && x.Year == appraisalSaveUpdateReqModel.Year).ToListAsync();
                 if (appraisalDetail != null)
                 {
-                    //Edit Mode
-                    appraisalDetail.EmployeeId = appraisalSaveUpdateReqModel.EmployeeId;
-                    appraisalDetail.ReportingManagerId = appraisalSaveUpdateReqModel.ReportingManagerId;
-                    appraisalDetail.Year = appraisalSaveUpdateReqModel.Year;
-                    appraisalDetail.UpdatedDate = _commonHelper.GetCurrentDateTime(); 
-                    appraisalDetail.UpdatedBy = _commonHelper.GetLoggedInUserId(); 
-                  
+                    if (duplicateCheck.Count == 0)
+                    {
 
-                    _dbContext.Entry(appraisalDetail).State = EntityState.Modified;
-                    _dbContext.SaveChanges();
+                        //Edit Mode
+                        appraisalDetail.EmployeeId = appraisalSaveUpdateReqModel.EmployeeId;
+                        appraisalDetail.ReportingManagerId = appraisalSaveUpdateReqModel.ReportingManagerId;
+                        appraisalDetail.Year = appraisalSaveUpdateReqModel.Year;
+                        appraisalDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                        appraisalDetail.UpdatedBy = _commonHelper.GetLoggedInUserId();
 
-                    commonResponse.Status = true;
-                    commonResponse.StatusCode = HttpStatusCode.OK;
-                    commonResponse.Message = "Appraisal Updated Successfully!";
+
+                        _dbContext.Entry(appraisalDetail).State = EntityState.Modified;
+                        _dbContext.SaveChanges();
+
+                        commonResponse.Status = true;
+                        commonResponse.StatusCode = HttpStatusCode.OK;
+                        commonResponse.Message = "Appraisal Updated Successfully!";
+                    }
+                    else
+                    {
+                        commonResponse.Message = "Appraisal Is Already Exist";
+                    }
                 }
                 else
                 {
                     //Add Mode
-                    var duplicateCheck = await _dbRepo.AppraisalList().Where(x => x.EmployeeId == appraisalSaveUpdateReqModel.EmployeeId && x.Year == appraisalSaveUpdateReqModel.Year).ToListAsync();
+                   duplicateCheck = await _dbRepo.AppraisalList().Where(x => x.EmployeeId == appraisalSaveUpdateReqModel.EmployeeId && x.Year == appraisalSaveUpdateReqModel.Year).ToListAsync();
                     if (duplicateCheck.Count == 0)
                     {
                         appraisalMst.EmployeeId = appraisalSaveUpdateReqModel.EmployeeId;

@@ -39,16 +39,17 @@ namespace ArcheOne.Controllers
             var hrRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
             var hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
 
-            var employeeRoleList = _dbRepo.RoleMstList().Where(x => !x.RoleCode.Contains("HR") && !x.RoleCode.Contains("Manager")).ToList();
+            var adminRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Admin")).ToList();
+            var adminroleIdList = adminRoleList.Select(x => x.Id).ToList();
+
+            var employeeRoleList = _dbRepo.RoleMstList().Where(x => !x.RoleCode.Contains("HR") && !x.RoleCode.Contains("Manager") && !x.RoleCode.Contains("Admin")).ToList();
             var employeeroleIdList = employeeRoleList.Select(x => x.Id).ToList();
 
             var userList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null);
             var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
 
-            var appraisalList = _dbRepo.AppraisalList().ToList();
-
             var reportingManagerList = userList.Where(x => managerroleIdList.Contains(x.RoleId.Value)).ToList();
-            var employeeList = userList.Where(x => !managerroleIdList.Contains(x.RoleId.Value)).ToList();
+            var employeeList = userList.Where(x => !managerroleIdList.Contains(x.RoleId.Value) && !hrroleIdList.Contains(x.RoleId.Value) && !adminroleIdList.Contains(x.RoleId.Value)).ToList();
 
             var IsUserManager = loginUserList.Where(x => managerroleIdList.Contains(x.RoleId.Value)).ToList();
             var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
