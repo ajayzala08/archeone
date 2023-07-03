@@ -99,7 +99,7 @@ namespace ArcheOne.Controllers
                         }
                         if (addEditAppraisalRatingResModel.IsUserHR == true || addEditAppraisalRatingResModel.IsUserEmployee == true)
                         {
-                            var appraisalEmployeeRating = _dbRepo.AppraisalRatingList().FirstOrDefault(x => x.RatingToUserId == _commonHelper.GetLoggedInUserId() || x.RatingToUserId == appraisal.EmployeeId);
+                            var appraisalEmployeeRating = _dbRepo.AppraisalRatingList().FirstOrDefault(x => x.RatingFromUserId == _commonHelper.GetLoggedInUserId() && x.AppraisalId == Id);
                             if (addEditAppraisalRatingResModel.IsUserHR == true)
                             {
                                 appraisalEmployeeRating = _dbRepo.AppraisalRatingList().FirstOrDefault(x => x.AppraisalId == Id && x.RatingFromUserId == appraisal.EmployeeId);

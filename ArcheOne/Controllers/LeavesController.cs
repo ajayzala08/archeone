@@ -248,7 +248,7 @@ namespace ArcheOne.Controllers
                             LeaveDetails.AppliedByUserId = userId;
                             LeaveDetails.ApprovedByUserId = userId;
                             LeaveDetails.LeaveStatusId = 1;
-                            LeaveDetails.LeaveBalance = 24;
+                           // LeaveDetails.LeaveBalance = 24;
                             LeaveDetails.UpdatedBy = userId;
                             LeaveDetails.UpdatedDate = _commonHelper.GetCurrentDateTime();
 

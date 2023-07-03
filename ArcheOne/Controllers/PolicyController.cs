@@ -52,7 +52,7 @@ namespace ArcheOne.Controllers
 
                     commonResponse.Status = true;
                     commonResponse.StatusCode = System.Net.HttpStatusCode.OK;
-                    commonResponse.Message = "GetAll HolidayList Successfully";
+                    commonResponse.Message = "GetAll PolicyList Successfully";
                 }
                 else
                 {
@@ -158,7 +158,7 @@ namespace ArcheOne.Controllers
                         policyDetail.PolicyDocumentName = filePath;
                     }
                     policyDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                    policyDetail.UpdatedBy = _commonHelper.GetLoggedInUserId(); ;
+                    policyDetail.UpdatedBy = _commonHelper.GetLoggedInUserId(); 
 
                     _dbContext.Entry(policyDetail).State = EntityState.Modified;
                     _dbContext.SaveChanges();

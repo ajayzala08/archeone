@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArcheOne.Database.Entities;
 
@@ -36,6 +38,8 @@ public partial class ArcheOneDbContext : DbContext
     public virtual DbSet<DocumentTypeMst> DocumentTypeMsts { get; set; }
 
     public virtual DbSet<EmploymentTypeMst> EmploymentTypeMsts { get; set; }
+
+    public virtual DbSet<EventMst> EventMsts { get; set; }
 
     public virtual DbSet<FinancialYearMst> FinancialYearMsts { get; set; }
 
@@ -328,6 +332,20 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
+        modelBuilder.Entity<EventMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__EventMst__3214EC07B5BD4FE0");
+
+            entity.ToTable("EventMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.EndDate).HasColumnType("datetime");
+            entity.Property(e => e.EventType).HasMaxLength(100);
+            entity.Property(e => e.StartDate).HasColumnType("datetime");
+            entity.Property(e => e.ThemeColour).HasMaxLength(100);
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
         modelBuilder.Entity<FinancialYearMst>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Financia__3214EC0750C50CAD");
@@ -413,31 +431,39 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<LeaveBalanceMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__LeaveBal__3214EC07D820450D");
+            entity.HasKey(e => e.Id).HasName("PK__LeaveBal__3214EC071ADC44C1");
 
             entity.ToTable("LeaveBalanceMst");
 
-            entity.Property(e => e.AvailableLeaveBalance).HasColumnType("decimal(38, 17)");
+            entity.Property(e => e.BalanceDate).HasColumnType("datetime");
+            entity.Property(e => e.BalanceMonth).HasMaxLength(25);
+            entity.Property(e => e.BalanceYear).HasColumnType("decimal(38, 17)");
+            entity.Property(e => e.CasualLeaveBalance).HasColumnType("decimal(38, 17)");
+            entity.Property(e => e.CasualLeaveTaken).HasColumnType("decimal(38, 17)");
+            entity.Property(e => e.ClosingLeaveBalance).HasColumnType("decimal(38, 17)");
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.LeaveStatus).HasMaxLength(100);
-            entity.Property(e => e.PaidDayLeaves).HasColumnType("decimal(38, 17)");
-            entity.Property(e => e.PendingLeaveBalance).HasColumnType("decimal(38, 17)");
-            entity.Property(e => e.TotalLeaveBalance).HasColumnType("decimal(38, 17)");
-            entity.Property(e => e.UnPaidDayLeaves).HasColumnType("decimal(38, 17)");
+            entity.Property(e => e.EarnedLeaveBalance).HasColumnType("decimal(38, 17)");
+            entity.Property(e => e.EarnedLeaveTaken).HasColumnType("decimal(38, 17)");
+            entity.Property(e => e.NoOfDays).HasColumnType("decimal(38, 17)");
+            entity.Property(e => e.OpeningLeaveBalance).HasColumnType("decimal(38, 17)");
+            entity.Property(e => e.SickLeaveBalance).HasColumnType("decimal(38, 17)");
+            entity.Property(e => e.SickLeaveTaken).HasColumnType("decimal(38, 17)");
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<LeaveMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__LeaveMst__3214EC07DB44B77C");
+            entity.HasKey(e => e.Id).HasName("PK__LeaveMst__3214EC07D193D08C");
 
             entity.ToTable("LeaveMst");
 
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.EndDate).HasColumnType("date");
-            entity.Property(e => e.LeaveBalance).HasColumnType("decimal(38, 17)");
             entity.Property(e => e.NoOfDays).HasColumnType("decimal(38, 17)");
+            entity.Property(e => e.OpeningLeaveBalance).HasColumnType("decimal(38, 17)");
+            entity.Property(e => e.PaidDays).HasColumnType("decimal(38, 17)");
             entity.Property(e => e.StartDate).HasColumnType("date");
+            entity.Property(e => e.UnPaidDays).HasColumnType("decimal(38, 17)");
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 

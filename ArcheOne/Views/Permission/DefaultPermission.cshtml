@@ -11,26 +11,49 @@
 	}
 
 	.tag-input {
-		padding: 8px;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
 		border: 1px solid #ccc;
 		border-radius: 5px;
-		font-size: 14px;
-		width: 100%;
+		padding: 5px;
+	}
+
+		.tag-input input[type="text"] {
+			flex-grow: 1;
+			border: none;
+			outline: none;
+		}
+
+	.tag-list {
+		display: flex;
+		flex-wrap: wrap;
 	}
 
 	.tag {
-		display: inline-block;
+		display: flex;
+		align-items: center;
+		background-color: #eaeaea;
+		padding: 5px;
 		margin-right: 5px;
-		background-color: #f1f1f1;
-		padding: 2px 5px;
-		border-radius: 3px;
+		margin-bottom: 5px;
+		border-radius: 5px;
+	}
+
+	.tag-label {
+		margin-right: 5px;
 	}
 
 	.tag-remove {
-		margin-left: 5px;
 		cursor: pointer;
+		color: #999;
+		font-size: 12px;
+		line-height: 1;
 	}
 
+		.tag-remove:hover {
+			color: #666;
+		}
 
 
 	/*.tags-input {
@@ -104,9 +127,11 @@
 			   placeholder="Enter tag name" />
 	</div>
 	<div class="tag-input-container">
-		<input type="text" id="tag-input" class="tag-input" placeholder="Add tags">
+		<div class="tag-input">
+			<input type="text" id="tag-input" placeholder="Add tags">
+			<div class="tag-list" id="tag-list"></div>
+		</div>
 	</div>
-
 
 	<!-- Default box -->
 	<div class="card">
@@ -140,6 +165,7 @@
 	<script src="~/archeone/js/permission/defaultpermission.js"></script>
 	<script>
 		var tagInput = document.getElementById('tag-input');
+		var tagList = document.getElementById('tag-list');
 		var tags = [];
 
 		tagInput.addEventListener('keydown', function (event) {
@@ -148,33 +174,27 @@
 				var tagValue = this.value.trim();
 				if (tagValue !== '') {
 					if (!tags.includes(tagValue)) {
-						tags.push(tagValue);
-						renderTags();
+						tags.unshift(tagValue); // Add the new tag at the start of the array
+						var tagElement = document.createElement('div');
+						tagElement.classList.add('tag');
+						tagElement.innerHTML = '<span class="tag-label">' + tagValue + '</span><span class="tag-remove">&#x2715;</span>';
+						tagList.insertBefore(tagElement, tagList.firstChild); // Insert the tag at the beginning of the tag list
 					}
 					this.value = '';
 				}
 			}
 		});
 
-		function renderTags() {
-			var tagsHTML = '';
-			tags.forEach(function (tag) {
-				tagsHTML += '<span class="tag">' + tag + '<span class="tag-remove">&#x2715;</span></span>';
-			});
-			tagInput.value = tagsHTML;
-		}
-
-		document.addEventListener('click', function (event) {
+		tagList.addEventListener('click', function (event) {
 			if (event.target.classList.contains('tag-remove')) {
-				var tagValue = event.target.parentNode.textContent.trim();
+				var tagValue = event.target.parentNode.querySelector('.tag-label').textContent;
 				var tagIndex = tags.indexOf(tagValue);
 				if (tagIndex !== -1) {
 					tags.splice(tagIndex, 1);
-					renderTags();
+					this.removeChild(event.target.parentNode);
 				}
 			}
 		});
-
 	</script>
 	<script>
 
