@@ -42,6 +42,7 @@ function GetDefaultPermissions(RoleId) {
                 "columns": [
                     { data: "id", title: "Id" },
                     { data: "permissionName", title: "Permissions" },
+                    { data: "permissionRoute", title: "Permission Route(s)" },
                     {
                         data: null,
                         title: 'Action',

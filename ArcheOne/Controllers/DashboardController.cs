@@ -31,7 +31,7 @@ namespace ArcheOne.Controllers
                 List<IndexDashboardResModel> permissionList;
                 if (roleDetails!.RoleCode == CommonEnums.RoleMst.Super_Admin.ToString())
                 {
-                    permissionList = await _dbRepo.PermissionList().Select(x => new IndexDashboardResModel { IsAjaxRoute = x.IsAjaxRoute, PermissionCode = x.PermissionCode, PermissionRoute = x.PermissionRoute }).ToListAsync();
+                    permissionList = await _dbRepo.PermissionList().Select(x => new IndexDashboardResModel { PermissionCode = x.PermissionCode, PermissionRoute = x.PermissionRoute }).ToListAsync();
                 }
                 else
                 {
@@ -42,7 +42,6 @@ namespace ArcheOne.Controllers
                                             from permissionsItem in permissionsGroup.DefaultIfEmpty()
                                             select new IndexDashboardResModel
                                             {
-                                                IsAjaxRoute = permissionsItem.IsAjaxRoute,
                                                 PermissionCode = permissionsItem.PermissionCode ?? "",
                                                 PermissionRoute = permissionsItem.PermissionRoute ?? ""
                                             }).ToListAsync();

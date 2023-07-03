@@ -1,58 +1,231 @@
 ﻿@using ArcheOne.Database.Entities;
 @{
-    Layout = "_MasterLayout";
-    ViewBag.datatable = "true";
+	Layout = "_MasterLayout";
+	ViewBag.datatable = "true";
+	ViewBag.select2 = "true";
 }
 @model List<PermissionMst>
+<style>
+	.tag-input-container {
+		position: relative;
+	}
+
+	.tag-input {
+		padding: 8px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		font-size: 14px;
+		width: 100%;
+	}
+
+	.tag {
+		display: inline-block;
+		margin-right: 5px;
+		background-color: #f1f1f1;
+		padding: 2px 5px;
+		border-radius: 3px;
+	}
+
+	.tag-remove {
+		margin-left: 5px;
+		cursor: pointer;
+	}
+
+
+
+	/*.tags-input {
+		display: inline-block;
+		position: relative;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		padding: 5px;
+		box-shadow: 2px 2px 5px #00000033;
+		width: 50%;
+	}
+
+		.tags-input ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+
+		.tags-input li {
+			display: inline-block;
+			background-color: #f2f2f2;
+			color: #333;
+			border-radius: 20px;
+			padding: 5px 10px;
+			margin-right: 5px;
+			margin-bottom: 5px;
+		}
+
+		.tags-input input[type="text"] {
+			border: none;
+			outline: none;
+			padding: 5px;
+			font-size: 14px;
+		}
+
+			.tags-input input[type="text"]:focus {
+				outline: none;
+			}
+
+		.tags-input .delete-button {
+			background-color: transparent;
+			border: none;
+			color: #999;
+			cursor: pointer;
+			margin-left: 5px;
+		}*/
+</style>
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Default Permission</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Permission</a></li>
-                    <li class="breadcrumb-item active">Default Permission</li>
-                </ol>
-            </div>
-        </div>
-    </div><!-- /.container-fluid -->
+	<div class="container-fluid">
+		<div class="row mb-2">
+			<div class="col-sm-6">
+				<h1>Default Permission</h1>
+			</div>
+			<div class="col-sm-6">
+				<ol class="breadcrumb float-sm-right">
+					<li class="breadcrumb-item"><a href="#">Permission</a></li>
+					<li class="breadcrumb-item active">Default Permission</li>
+				</ol>
+			</div>
+		</div>
+	</div><!-- /.container-fluid -->
 </section>
 
 <!-- Main content -->
 <section class="content">
+	<div class="tags-input">
+		<ul id="tags"></ul>
+		<input type="text" id="input-tag"
+			   placeholder="Enter tag name" />
+	</div>
+	<div class="tag-input-container">
+		<input type="text" id="tag-input" class="tag-input" placeholder="Add tags">
+	</div>
 
-    <!-- Default box -->
-    <div class="card">
-        <div class="card-header">
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Role</label>
-                        <select class="form-control" id="slRoles" onchange="GetDefaultPermissions($(this).val())">
-                            <option selected disabled value="0">Select Role</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+	<!-- Default box -->
+	<div class="card">
+		<div class="card-header">
+			<div class="row">
+				<div class="col-md-3">
+					<div class="form-group">
+						<label>Role</label>
+						<select class="form-control" id="slRoles" onchange="GetDefaultPermissions($(this).val())">
+							<option selected disabled value="0">Select Role</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="card-body">
-            <table id="tbDefaultPermissions" class="table table-bordered table-striped" style="width:100%">
+			<table id="tbDefaultPermissions" class="table table-bordered table-striped" style="width:100%">
 			</table>
 		</div>
-        <div class="card-footer">
-            <button id="btnUpdatePermission" type="button" class="btn btn-warning" disabled onclick="ShowPermissionAlert();">Update Permissions</button>
-        </div>
-        <!-- /.card-body -->
-    </div>
-    <!-- /.card -->
+		<div class="card-footer">
+			<button id="btnUpdatePermission" type="button" class="btn btn-warning" disabled onclick="ShowPermissionAlert();">Update Permissions</button>
+		</div>
+		<!-- /.card-body -->
+	</div>
+	<!-- /.card -->
 
 </section>
 <!-- /.content -->
 @section Scripts
-    {
-    <script src="~/archeone/js/permission/defaultpermission.js"></script>
-    }
+	{
+	<script src="~/archeone/js/permission/defaultpermission.js"></script>
+	<script>
+		var tagInput = document.getElementById('tag-input');
+		var tags = [];
+
+		tagInput.addEventListener('keydown', function (event) {
+			if (event.key === 'Enter' || event.keyCode === 188) {
+				event.preventDefault();
+				var tagValue = this.value.trim();
+				if (tagValue !== '') {
+					if (!tags.includes(tagValue)) {
+						tags.push(tagValue);
+						renderTags();
+					}
+					this.value = '';
+				}
+			}
+		});
+
+		function renderTags() {
+			var tagsHTML = '';
+			tags.forEach(function (tag) {
+				tagsHTML += '<span class="tag">' + tag + '<span class="tag-remove">&#x2715;</span></span>';
+			});
+			tagInput.value = tagsHTML;
+		}
+
+		document.addEventListener('click', function (event) {
+			if (event.target.classList.contains('tag-remove')) {
+				var tagValue = event.target.parentNode.textContent.trim();
+				var tagIndex = tags.indexOf(tagValue);
+				if (tagIndex !== -1) {
+					tags.splice(tagIndex, 1);
+					renderTags();
+				}
+			}
+		});
+
+	</script>
+	<script>
+
+		// Get the tags and input elements from the DOM
+		const tags = document.getElementById('tags');
+		const input = document.getElementById('input-tag');
+
+		// Add an event listener for keydown on the input element
+		input.addEventListener('keydown', function (event) {
+
+			// Check if the key pressed is 'Enter'
+			if (event.key === 'Enter') {
+
+				// Prevent the default action of the keypress
+				// event (submitting the form)
+				event.preventDefault();
+
+				// Create a new list item element for the tag
+				const tag = document.createElement('li');
+
+				// Get the trimmed value of the input element
+				const tagContent = input.value.trim();
+
+				// If the trimmed value is not an empty string
+				if (tagContent !== '') {
+
+					// Set the text content of the tag to
+					// the trimmed value
+					tag.innerText = tagContent;
+
+					// Add a delete button to the tag
+					tag.innerHTML += '<button class="delete-button">X</button>';
+
+					// Append the tag to the tags list
+					tags.appendChild(tag);
+
+					// Clear the input element's value
+					input.value = '';
+				}
+			}
+		});
+
+		// Add an event listener for click on the tags list
+		tags.addEventListener('click', function (event) {
+
+			// If the clicked element has the class 'delete-button'
+			if (event.target.classList.contains('delete-button')) {
+
+				// Remove the parent element (the tag)
+				event.target.parentNode.remove();
+			}
+		});
+	</script>
+	}
