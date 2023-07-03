@@ -264,5 +264,9 @@ namespace ArcheOne.Helper.CommonHelpers
         {
             return _db.LeaveMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
+        public IQueryable<EventMst> EventList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.EventMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
     }
 }

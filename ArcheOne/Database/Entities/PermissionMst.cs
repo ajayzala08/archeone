@@ -13,6 +13,8 @@ public partial class PermissionMst
 
     public string PermissionRoute { get; set; } = null!;
 
+    public bool IsAjaxRoute { get; set; }
+
     public bool IsActive { get; set; }
 
     public bool IsDelete { get; set; }

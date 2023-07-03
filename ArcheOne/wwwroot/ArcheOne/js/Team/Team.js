@@ -55,22 +55,16 @@ function SaveUpdateTeam() {
     if (validateRequiredFields()) {
         ajaxCall("Post", false, '/Team/SaveUpdateTeam', JSON.stringify(saveTeamData), function (result) {
             if (result.status == true) {
-                Popup_Toast.fire({ icon: 'success', title: result.message });
+                Toast.fire({ icon: 'success', title: result.message });
                 $("#btnCancel").click();
                 ClearAll();
                 GetFilteredTeamList();
             }
             else {
-                Popup_Toast.fire({ icon: 'error', title: result.message });
+                Toast.fire({ icon: 'error', title: result.message });
             }
         });
     }
-}
-function ClearAll() {
-    $("#txtTeamId").val(''),
-        $("#ddlTeamLeadId").val(),
-        $("#ddlTeamMemberId").val()
-
 }
 
 function DeleteTeam(TeamLeadId) {

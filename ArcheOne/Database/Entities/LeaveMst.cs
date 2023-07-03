@@ -21,13 +21,17 @@ public partial class LeaveMst
 
     public TimeSpan EndTime { get; set; }
 
+    public decimal? OpeningLeaveBalance { get; set; }
+
     public decimal? NoOfDays { get; set; }
+
+    public decimal? PaidDays { get; set; }
+
+    public decimal? UnPaidDays { get; set; }
 
     public string Reason { get; set; } = null!;
 
     public int LeaveStatusId { get; set; }
-
-    public decimal? LeaveBalance { get; set; }
 
     public bool IsActive { get; set; }
 

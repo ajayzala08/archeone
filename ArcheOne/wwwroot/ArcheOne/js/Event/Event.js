@@ -1,19 +1,12 @@
-﻿var data;
+﻿/*var data;*/
 $.ajax({
     type: 'GET',
-    url: '/Home/EventData',
+    url: '/Event/EventData',
     cache: false,
     success: function (response) {
-        //alert(response);
-        console.log(response);
-        debugger;
-        if (response.status == true) {
-            //data = response;
-            alert("response got");
-            //$.each(data, function (key, value) {
 
-            //    alert(data[key].title)
-            //});
+        console.log(response);
+        if (response.status == true) {
             showCalender(response.data);
         }
         else {
@@ -21,9 +14,7 @@ $.ajax({
         }
 
     },
-    error: function () {
-        alert("Error");
-    }
+    
 });
 
 $(".close").click(function () {
@@ -36,9 +27,9 @@ $(".close").click(function () {
 
 $("#addNewEvent").click(function () {
     alert("Add button click");
-    var subject = $("#txtSubject").val(); //prompt('Enter a date in YYYY-MM-DD format');
+    var subject = $("#txtSubject").val();
     var description = $("#txtDescription").val();
-    var start = $("#txtStart").val(); // prompt('Enter a title');
+    var start = $("#txtStart").val();
     var end = $("#txtEnd").val();
     var theamColor = $('#ddlcolorId').val();
     var allDay = $('#chbIsFullDay').is(':checked');
@@ -54,34 +45,17 @@ $("#addNewEvent").click(function () {
 
     };
 
-    //calendar.addEvent(function(){
-    //    title= subject,
-    //    start= start,
-    //    end= end,
-    //    allDay= allDay,
-    //    color= theamColor
-    //});
-
     $.ajax({
         type: 'POST',
-        url: '/Home/AddEventData',
+        url: '/Event/AddEditEventData',
         contentType: 'application/json',
         data: JSON.stringify(addEvent),
         cache: false,
         success: function (response) {
-            debugger;
             console.log(response);
             location.reload();
-            //alert("Refreshed called");
             showCalender(response.Data);
-            //calendar.addEvent({
-            //    title: subject,
-            //    description:description,
-            //    start: start,
-            //    end: end,
-            //    allDay: allDay,
-            //    color: theamColor
-            //});
+
         }
     });
 
@@ -91,13 +65,10 @@ $("#addNewEvent").click(function () {
 
 
 function showCalender(data) {
-    debugger;
+    
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
-        //dateClick: function () {
-        //    alert('a day has been clicked!');
-        //},
         headerToolbar: {
             left: 'prev,next,today',
             center: 'title',
@@ -113,7 +84,7 @@ function showCalender(data) {
                 text: 'Add Event',
                 click: function () {
                     $("#myModal").modal("show");
-                   
+
                 }
             },
             custom2: {
@@ -124,28 +95,9 @@ function showCalender(data) {
             }
         },
         events: data,
-     
+
         dateClick: function (info) {
-            //var dateStr = prompt('Enter a date in YYYY-MM-DD format');
-            //var titleStr = prompt('Enter a title');
-            //var strDate = new Date(dateStr + 'T13:00:00'); // will be in local time
-            //var endDate = new Date(dateStr + 'T15:00:00');
-            //$("#myModal").modal("show");
-            //if (!isNaN(strDate.valueOf()) && !isNaN(endDate.valueOf())) { // valid?
-            //    calendar.addEvent({
-            //        title: titleStr,
-            //        start: strDate,
-            //        end: endDate,
-            //        allDay: false,
-            //        color: 'purple'
-            //    });
-            //    alert('Great. Now, update your database...');
-            //} else {
-            //    alert('Invalid date.');
-            //}
-            //alert('Date: ' + info.dateStr);
-            //alert('Resource ID: ' + info.view.title);
-            //alert('DayEI', + info.dayEl)
+            
         },
         eventClick: function (info) {
 
@@ -164,7 +116,7 @@ function showCalender(data) {
         now: '2023-06-02T02:45:00',
 
         click: function () {
-          
+
         },
         eventDrop: function (info) {
             alert(info.event.title + " was dropped on " + info.event.start.toISOString());
@@ -180,34 +132,17 @@ function showCalender(data) {
     calendar.render();
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 $(document).ready(function () {
     GetEventList();
     $('#AddEvent').click(function () {
-    /*    AddEditEvent(0);*/
-        window.location.href = '/Event/EventList';
+        /*    AddEditEvent(0);*/
+        window.location.href = '/Event/Event';
     });
 
 });
 
 function GetEventList() {
-    ajaxCall("Get", false, '/Event/EventList', null, function (result) {
+    ajaxCall("Get", false, '/Event/Event', null, function (result) {
         $("#divEventList").html(result.responseText);
         ApplyDatatableResponsive('tblEvent');
 
