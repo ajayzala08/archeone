@@ -27,7 +27,7 @@ function SaveUpdateTeam() {
    
     console.log(saveTeamData);
     if (validateRequiredFields()) {
-        debugger
+   
         ajaxCall("Post", false, '/Team/SaveUpdateTeam', JSON.stringify(saveTeamData), function (result) {
 
             if (result.status == true) {

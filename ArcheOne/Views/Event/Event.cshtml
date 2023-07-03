@@ -1,0 +1,127 @@
+﻿@using ArcheOne.Helper.CommonModels;
+@using ArcheOne.Models.Res;
+@model CommonResponse
+@{
+    Layout = "_MasterLayout";
+    ViewBag.dataTable = "true";
+}
+
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Event</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Masters</a></li>
+                    <li class="breadcrumb-item active">Event</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+@if (Model.Status == true)
+{
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Events</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="contact-form" method="post" role="form" enctype="multipart/form-data">
+                        <div class="messages"></div>
+                        <div class="controls">
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="form_name">Subject</label>
+                                        <input id="txtSubject" type="text" name="subject" class="form-control" placeholder="Please enter subject ">
+                                        <span class="txtValidation"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="form_name">Description</label>
+                                        <input id="txtDescription" type="text" name="description" class="form-control" placeholder="Please enter description">
+                                        <span class="txtValidation"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="form_name">Start Date</label>
+                                        <input id="txtStart" type="datetime-local" name="start" class="form-control" placeholder="Please select start date">
+                                        <span class="txtValidation"></span>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="form_name">End Date</label>
+                                        <input id="txtEnd" type="datetime-local" name="end" class="form-control" placeholder="Please select end date">
+                                        <span class="txtValidation"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="form_name">Color </label>
+                                        <select name="colorId" id="ddlcolorId" class="form-control">
+                                            <option name="colorId" value="Red">Red</option>
+                                            <option name="colorId" value="Green">Green</option>
+                                            <option name="colorId" value="Blue">Blue</option>
+                                            <option name="colorId" value="Yellow">Yellow</option>
+                                            <option name="colorId" value="Purple">Purple</option>
+                                        </select>
+                                        <span class="txtValidation"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="form_name">Is Full Day</label>
+                                        <input id="chbIsFullDay" type="checkbox" name="isFullDay" />
+                                        <span class="txtValidation"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default close" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="addNewEvent">Add Event</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+}
+else
+{
+    <p style="color:red">@Model.Message</p>
+}
+
+<div id="calendar">
+</div>
+
+@section Scripts{
+    <script src="~/archeone/js/event/event.js"></script>
+
+}
+
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+
+

@@ -10,7 +10,7 @@ function GetFilteredTeamList() {
     ajaxCall("Get", false, '/Team/TeamList', null, function (result) {
         $("#divTeamList").html(result.responseText);
         ApplyDatatableResponsive('tblTeam');
-      
+
         $(".btn-edit").click(function () {
             var TeamLeadId = $(this).attr('TeamLeadId');
             AddEditTeam(TeamLeadId);
@@ -43,7 +43,7 @@ function SaveUpdateTeam() {
     $('#ddlTeamMemberId :selected').each(function () {
         selected.push[$(this).val()] = $(this).text();
     });
- 
+
     var saveTeamData = {
         "TeamId": parseInt($("#txtTeamId").val()),
         "TeamLeadId": parseInt($("#ddlTeamLeadId").val()),
@@ -55,27 +55,22 @@ function SaveUpdateTeam() {
     if (validateRequiredFields()) {
         ajaxCall("Post", false, '/Team/SaveUpdateTeam', JSON.stringify(saveTeamData), function (result) {
             if (result.status == true) {
-                Popup_Toast.fire({ icon: 'success', title: result.message });
+                Toast.fire({ icon: 'success', title: result.message });
                 $("#btnCancel").click();
                 ClearAll();
                 GetFilteredTeamList();
             }
             else {
-                Popup_Toast.fire({ icon: 'error', title: result.message });
+                Toast.fire({ icon: 'error', title: result.message });
             }
         });
     }
 }
-function ClearAll() {
-    $("#txtTeamId").val(''),
-        $("#ddlTeamLeadId").val(),
-        $("#ddlTeamMemberId").val()
 
-}
+function DeleteTeam(TeamLeadId) {
 
-function DeleteTeam(Id) {
-    if ($("#txtTeamId").value > 0) {
-        Id = $("#txtTeamId").value;
+    if ($("#ddlTeamLeadId").value > 0) {
+        TeamLeadId = $("#ddlTeamLeadId").value;
     }
 
     Swal.fire({
@@ -88,15 +83,16 @@ function DeleteTeam(Id) {
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
+            ajaxCall("Post", false, '/Team/DeleteTeam?Id=' + TeamLeadId, null, function (result) {
 
-            ajaxCall("Post", false, '/Team/DeleteTeam?Id=' + Id, null, function (result) {
                 if (result.status == true) {
-                    Popup_Toast.fire({ icon: 'success', title: result.message });
+                    Toast.fire({ icon: 'success', title: result.message });
                     GetFilteredTeamList();
                 }
                 else {
-                    Popup_Toast.fire({ icon: 'error', title: result.message });
+                    Toast.fire({ icon: 'error', title: result.message });
                 }
+
             });
         }
     })

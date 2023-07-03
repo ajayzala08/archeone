@@ -39,6 +39,8 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<EmploymentTypeMst> EmploymentTypeMsts { get; set; }
 
+    public virtual DbSet<EventMst> EventMsts { get; set; }
+
     public virtual DbSet<FinancialYearMst> FinancialYearMsts { get; set; }
 
     public virtual DbSet<HireStatusMst> HireStatusMsts { get; set; }
@@ -330,6 +332,20 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
+        modelBuilder.Entity<EventMst>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__EventMst__3214EC07B5BD4FE0");
+
+            entity.ToTable("EventMst");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.EndDate).HasColumnType("datetime");
+            entity.Property(e => e.EventType).HasMaxLength(100);
+            entity.Property(e => e.StartDate).HasColumnType("datetime");
+            entity.Property(e => e.ThemeColour).HasMaxLength(100);
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
         modelBuilder.Entity<FinancialYearMst>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Financia__3214EC0750C50CAD");
@@ -506,6 +522,7 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.PermissionCode).HasMaxLength(100);
             entity.Property(e => e.PermissionName).HasMaxLength(100);
+            entity.Property(e => e.PermissionRoute).HasMaxLength(100);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 

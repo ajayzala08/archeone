@@ -1,12 +1,11 @@
 ﻿@using ArcheOne.Helper.CommonModels;
 @using ArcheOne.Models.Req;
-@*@model AddEditTeamReqViewModel*@
 @model CommonResponse
-
-
 @{
+    AddEditTeamReqViewModel addEditTeamReqViewModel = Model.Data;
     Layout = "_MasterLayout";
     ViewBag.select2 = "true";
+    string Title = addEditTeamReqViewModel.TeamLeadDetails.TeamLeadId > 0 ? "Edit Team" : "Create Team";
 }
 
 <section class="content-header"></section>
@@ -14,7 +13,7 @@
     <div class="container-fluid">
         <div class="card card-outline card-primary">
             <div class="card-header">
-                Create Team
+                @Title
                 <h3 class="card-title"></h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -25,8 +24,6 @@
             <div class="card-body">
                 @if (Model.Status)
                 {
-                    AddEditTeamReqViewModel addEditTeamReqViewModel = Model.Data;
-                    @*  TeamMemberDetails teamMemberDetails = Model.Data;*@
                     <div class="row">
                         <input id="txtTeamId" name="txtTeamId" type="hidden" class="form-control col-sm-4" value="@addEditTeamReqViewModel.TeamLeadDetails.TeamLeadId" />
 
@@ -54,7 +51,8 @@
                         <div class="col-sm-4" id="dddlTeamMemberId">
                             <div class="form-group">
                                 <label><span class="has-error required" typeof="checkbox">* </span>Team Member</label>
-                                <select id="ddlTeamMemberId" name="ddlTeamMemberId" multiple="multiple" class="form-control select2" isrequired="1" divcontainer="dddlTeamMemberId" errorspan="sddlTeamMemberId" defaultvalue="0" style="width: 100%;">
+                                <select id="ddlTeamMemberId" name="ddlTeamMemberId" class="form-control select2" isrequired="1" divcontainer="dddlTeamMemberId" errorspan="sddlTeamMemberId" multiple="multiple" defaultvalue="0" style="width: 100%;">
+                                    <option value="0">--- Select ---</option>
                                     @if (addEditTeamReqViewModel.TeamLeadDetails.TeamLeadId > 0)
                                     {
                                             @foreach (var item in addEditTeamReqViewModel.TeamMemberList)
@@ -86,14 +84,14 @@
                         </div>
 
                     </div>
-                    <div class="row">
+                @*    <div class="row">
                         <div class="col-md-1">
                             <button type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success">Submit</button>
                         </div>
                         <div class="col-md-1">
                             <button type="button" id="btnCancel" name="btnCancel" class="btn btn-danger">Cancel</button>
                         </div>
-                    </div>
+                    </div>*@
                 }
                 else
                 {
@@ -102,10 +100,24 @@
 
 
             </div>
+            <div class="card-footer">
+                <div class="row mr-lg-n3 float-right">
+                    @if (Title == "Edit Team")
+                    {
+                        <button type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success mr-2">Update</button>
+                    }
+                    else
+                    {
+                        <button type="button" id="btnSaveAdd" name="btnCancel" class="btn btn-success mr-2">Submit</button>
+                    }
+                    <button type="button" id="btnCancel" data-dismiss="modal" class="btn btn-danger float-right">Cancel</button>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
 
 @section Scripts {
-    <script src="~/archeone/js/leave/addeditleave.js"></script>
+    <script src="~/archeone/js/team/addeditteam.js"></script>
 }

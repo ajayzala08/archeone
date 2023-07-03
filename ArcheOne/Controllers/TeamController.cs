@@ -160,30 +160,34 @@ namespace ArcheOne.Controllers
             try
             {
                 //Edit Mode
-                var teamDetails = await _dbRepo.TeamList().FirstOrDefaultAsync(x => x.Id == saveUpdateTeamReqModel.TeamId);
+                var teamDetails = await _dbRepo.TeamList().FirstOrDefaultAsync(x => x.TeamLeadId == saveUpdateTeamReqModel.TeamLeadId);
                 if (teamDetails != null)
                 {
+                    TeamMst teamMst = new TeamMst();
                     foreach (var teamMember in saveUpdateTeamReqModel.TeamMemberId)
                     {
-                        teamDetails.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
-                        teamDetails.TeamMemberId = teamMember;
-                        teamDetails.IsActive = true;
-                        teamDetails.IsDelete = false;
-                        teamDetails.CreatedDate = DateTime.Now;
-                        teamDetails.UpdatedDate = DateTime.Now;
-                        teamDetails.CreatedBy = _commonHelper.GetLoggedInUserId();
-                        teamDetails.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                        //TeamMst teamMst = new TeamMst();
+                        teamMst.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
+                        teamMst.TeamMemberId = teamMember;
+                        teamMst.IsActive = true;
+                        teamMst.IsDelete = false;
+                        teamMst.CreatedDate = DateTime.Now;
+                        teamMst.UpdatedDate = DateTime.Now;
+                        teamMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+                        teamMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
 
 
-                        _dbContext.Entry(teamDetails).State = EntityState.Modified;
-                        _dbContext.SaveChanges();
-                      
-
-
-                        commonResponse.Status = true;
-                        commonResponse.StatusCode = HttpStatusCode.OK;
-                        commonResponse.Message = "Team Edited Successfully";
+                        //_dbContext.Entry(teamDetails).State = EntityState.Added;
+                        //_dbContext.SaveChanges();
                     }
+
+                    await _dbContext.TeamMsts.AddRangeAsync(teamMst);
+                    _dbContext.SaveChangesAsync();
+
+
+                    commonResponse.Status = true;
+                    commonResponse.StatusCode = HttpStatusCode.OK;
+                    commonResponse.Message = "Team Edited Successfully";
                 }
                 else
                 {
@@ -232,14 +236,14 @@ namespace ArcheOne.Controllers
 
         }
 
-        public async Task<IActionResult> DeleteTeam(int id)
+        public async Task<IActionResult> DeleteTeam(int Id)
         {
             CommonResponse commonResponse = new CommonResponse();
             try
             {
-                if (id > 0)
+                if (Id > 0)
                 {
-                    var teamList = await _dbRepo.TeamList().Where(x => x.TeamLeadId == id).ToListAsync();
+                    var teamList = await _dbRepo.TeamList().Where(x => x.TeamLeadId == Id).ToListAsync();
                     if (teamList.Count > 0)
                     {
                         _dbContext.RemoveRange(teamList);
