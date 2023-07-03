@@ -65,3 +65,29 @@ function SaveUserDetails() {
         ClearAll();
     }
 }
+
+$("#txtEmployeeCode").blur(function () {
+    debugger
+    const urlParams = new URLSearchParams(window.location.search);
+    var userId = urlParams.get('userId');
+    if ($("#txtEmployeeCode").val() != "") {
+        var checkEmployeeCodeReqModel = {
+            "Id": parseInt(userId),
+            "EmployeeCode": parseInt($("#txtEmployeeCode").val())
+        }
+        ajaxCall("Post", false, '/UserDetails/CheckEmployeeCode', JSON.stringify(checkEmployeeCodeReqModel), function (result) {
+
+            if (result.status == true) {
+                Toast.fire({ icon: 'success', title: result.message });
+            }
+            else {
+                Toast.fire({ icon: 'error', title: result.message });
+            }
+        });
+    }
+    
+});
+
+$("#btnClose").click(function () {
+    RedirectToPage("/User/User");
+});

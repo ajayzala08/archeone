@@ -1,11 +1,11 @@
-﻿using System.Net;
-using ArcheOne.Database.Entities;
+﻿using ArcheOne.Database.Entities;
 using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models.Req;
 using ArcheOne.Models.Res;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace ArcheOne.Controllers
 {
@@ -160,12 +160,12 @@ namespace ArcheOne.Controllers
 						userDetailsMst.AccountNumber = addEditUserDetailsReqModel.AccountNumber;
 						userDetailsMst.Branch = addEditUserDetailsReqModel.Branch;
 						userDetailsMst.IfscCode = addEditUserDetailsReqModel.IfscCode;
-						userDetailsMst.PfaccountNumber = addEditUserDetailsReqModel.PfaccountNumber;
+						userDetailsMst.PfaccountNumber = addEditUserDetailsReqModel.PfaccountNumber != null ? addEditUserDetailsReqModel.PfaccountNumber : "NA";
 						userDetailsMst.PancardNumber = addEditUserDetailsReqModel.PancardNumber;
 						userDetailsMst.AdharCardNumber = addEditUserDetailsReqModel.AdharCardNumber;
 						userDetailsMst.Salary = addEditUserDetailsReqModel.Salary;
 						userDetailsMst.ReportingManager = addEditUserDetailsReqModel.ReportingManager;
-						userDetailsMst.Reason = addEditUserDetailsReqModel.Reason;
+						userDetailsMst.Reason = addEditUserDetailsReqModel.Reason != null ? addEditUserDetailsReqModel.Reason : "NA";
 						userDetailsMst.EmployeePersonalEmailId = addEditUserDetailsReqModel.EmployeePersonalEmailId;
 						userDetailsMst.ProbationPeriod = addEditUserDetailsReqModel.ProbationPeriod;
 						userDetailsMst.IsActive = true;
@@ -193,7 +193,33 @@ namespace ArcheOne.Controllers
 			catch (Exception ex)
 			{
 				commonResponse.Message = ex.Message;
-				commonResponse.Data = ex;
+				commonResponse.Data = ex.ToString();
+			}
+			return Json(commonResponse);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> CheckEmployeeCode([FromBody] CheckEmployeeCodeReqModel checkEmployeeCodeReqModel)
+		{
+			CommonResponse commonResponse = new CommonResponse();
+			try
+			{
+				var userDetails = await _dbRepo.UserDetailList().Where(x => x.EmployeeCode == checkEmployeeCodeReqModel.EmployeeCode.ToString() && x.UserId != checkEmployeeCodeReqModel.Id).ToListAsync();
+				if (userDetails.Count == 0)
+				{
+					commonResponse.Status = true;
+					commonResponse.StatusCode = HttpStatusCode.OK;
+					commonResponse.Message = "Employee Code Valid";
+				}
+				else
+				{
+					commonResponse.Message = "Employee Code Already Exists";
+				}
+			}
+			catch (Exception ex)
+			{
+				commonResponse.Message = ex.Message;
+				commonResponse.Data = ex.ToString();
 			}
 			return Json(commonResponse);
 		}

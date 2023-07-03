@@ -22,11 +22,11 @@
 			<div class="card-header">
 				Create Users
 				<h3 class="card-title"></h3>
-				<div class="card-tools">
+@*				<div class="card-tools">
 					<button type="button" class="btn btn-tool" data-card-widget="collapse">
 						<i class="fas fa-minus"></i>
 					</button>
-				</div>
+				</div>*@
 			</div>
 			<div class="card-body">
 				<form id="AddUserForm" method="post" role="form" enctype="multipart/form-data">
@@ -44,7 +44,7 @@
 										}
 										else
 										{
-											<label for="form_name">Photo *</label>
+											<label for="form_name">Photo</label>
 											<img src="@Model.UserDetails.PhotoUrl" id="photoUrl" style="width:75px!important" name="photoUrl" />
 										}
 										<div class="input-group">
@@ -62,7 +62,7 @@
 						<div class="row">
 							<div class="col-sm-4" id="dddlRole">
 								<div class="form-group">
-									<label><span class="has-error required">* </span>Role</label>
+									<label>Role *</label>
 									<select id="ddlRole" name="ddlRole" class="form-control" isrequired="1" divcontainer="dddlRole" errorspan="sddlRole" defaultvalue="0" style="width: 100%;">
 										@foreach (var item in Model.RoleList)
 										{
@@ -82,21 +82,21 @@
 							<div class="col-sm-4" id="dtxtFirstName">
 								<div class="form-group">
 									<label for="form_name">FirstName *</label>
-									<input id="txtFirstName" type="text" name="FirstName" class="form-control text-length" placeholder="Please enter your firstname" value="@Model.UserDetails.FirstName" isrequired="1" divcontainer="dtxtFirstName" errorspan="stxtFirstName" defaultvalue="" autocomplete="off" minlength="2">
+									<input id="txtFirstName" type="text" name="FirstName" class="form-control text-length" placeholder="Please enter your Firstname" value="@Model.UserDetails.FirstName" isrequired="1" divcontainer="dtxtFirstName" errorspan="stxtFirstName" defaultvalue="" autocomplete="off" minlength="2">
 									<span class="help-block d-none has-error" id="stxtFirstName">Please Enter Valid FirstName</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtMiddleName">
 								<div class="form-group">
 									<label for="form_name">MiddleName *</label>
-									<input id="txtMiddleName" type="text" name="MiddleName" class="form-control text-length" placeholder="Please enter your MiddleName *" value="@Model.UserDetails.MiddleName" isrequired="1" divcontainer="dtxtMiddleName" errorspan="stxtMiddleName" defaultvalue="" autocomplete="off" minlength="2">
+									<input id="txtMiddleName" type="text" name="MiddleName" class="form-control text-length" placeholder="Please enter your MiddleName" value="@Model.UserDetails.MiddleName" isrequired="1" divcontainer="dtxtMiddleName" errorspan="stxtMiddleName" defaultvalue="" autocomplete="off" minlength="2">
 									<span class="help-block d-none has-error" id="stxtMiddleName">Please Enter Valid MiddleName</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtLastName">
 								<div class="form-group">
 									<label for="form_name">LastName *</label>
-									<input id="txtLastName" type="text" name="LastName" class="form-control text-length" placeholder="Please enter your LastName *" autocomplete="off" value="@Model.UserDetails.LastName" isrequired="1" divcontainer="dtxtLastName" errorspan="stxtLastName" defaultvalue="" minlength="2">
+									<input id="txtLastName" type="text" name="LastName" class="form-control text-length" placeholder="Please enter your LastName" autocomplete="off" value="@Model.UserDetails.LastName" isrequired="1" divcontainer="dtxtLastName" errorspan="stxtLastName" defaultvalue="" minlength="2">
 									<span class="help-block d-none has-error" id="stxtLastName">Please Enter Valid LastName</span>
 								</div>
 							</div>
@@ -105,14 +105,14 @@
 								<div class="col-sm-4" id="dtxtUserName">
 									<div class="form-group">
 										<label for="form_name">UserName *</label>
-										<input id="txtUserName" type="text" name="UserName" class="form-control text-length" placeholder="Please enter your UserName *" value="@Model.UserDetails.UserName" isrequired="1" divcontainer="dtxtUserName" errorspan="stxtUserName" defaultvalue="" autocomplete="off" minlength="2">
+										<input id="txtUserName" type="text" name="UserName" class="form-control text-length" placeholder="Please enter your UserName" value="@Model.UserDetails.UserName" isrequired="1" divcontainer="dtxtUserName" errorspan="stxtUserName" defaultvalue="" autocomplete="off" minlength="2">
 										<span class="help-block d-none has-error" id="stxtUserName">Please Enter Valid UserName</span>
 									</div>
 								</div>
 								<div class="col-sm-4" id="dtxtPassword">
 									<div class="form-group">
 										<label for="form_name">Password *</label>
-										<input id="txtPassword" type="password" name="Password" class="form-control text-length" placeholder="Please enter your Password *" value="@Model.UserDetails.Password" isrequired="1" divcontainer="dtxtPassword" errorspan="stxtPassword" defaultvalue="" autocomplete="off" minlength="3">
+										<input id="txtPassword" type="password" name="Password" class="form-control text-length" placeholder="Please enter your Password" value="@Model.UserDetails.Password" isrequired="1" divcontainer="dtxtPassword" errorspan="stxtPassword" defaultvalue="" autocomplete="off" minlength="3">
 										<span class="help-block d-none has-error" id="stxtPassword">Please Enter Valid Password</span>
 									</div>
 								</div>
@@ -129,52 +129,40 @@
 							}
 							<div class="col-sm-4" id="dtxtAddress">
 								<div class="form-group">
-									<label for="form_name">Address *</label>
-									<input id="txtAddress" type="text" name="Address" class="form-control text-length" placeholder="Please enter your Address *" value="@Model.UserDetails.Address">
+									<label for="form_name">Address</label>
+									<input id="txtAddress" type="text" name="Address" class="form-control text-length" placeholder="Please enter your Address" value="@Model.UserDetails.Address">
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtPincode">
 								<div class="form-group">
 									<label for="form_name">Pincode *</label>
-									<input id="txtPincode" type="text" name="Pincode" class="form-control onlyNumeric text-length" placeholder="Please enter your Pincode *" value="@Model.UserDetails.Pincode" isrequired="1" divcontainer="dtxtPincode" errorspan="stxtPincode" defaultvalue="" autocomplete="off" minlength="4" maxlength="6">
+									<input id="txtPincode" type="text" name="Pincode" class="form-control onlyNumeric text-length" placeholder="Please enter your Pincode" value="@Model.UserDetails.Pincode" isrequired="1" divcontainer="dtxtPincode" errorspan="stxtPincode" defaultvalue="" autocomplete="off" minlength="4" maxlength="6">
 									<span class="help-block d-none has-error" id="stxtPincode">Please Enter Valid Pincode</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtMobile1">
 								<div class="form-group">
-									<label for="form_mobile1">Mobile1 *</label>
-									<input id="txtMobile1" type="tel" name="Mobile1" class="form-control onlyNumeric text-length" placeholder="Please enter your Mobile1 number" value="@Model.UserDetails.Mobile1" isrequired="1" divcontainer="dtxtMobile1" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+									<label for="form_mobile1">Mobile No.1 *</label>
+									<input id="txtMobile1" type="tel" name="Mobile1" class="form-control onlyNumeric text-length" placeholder="Please enter your Mobile Number" value="@Model.UserDetails.Mobile1" isrequired="1" divcontainer="dtxtMobile1" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
 									<span class="help-block d-none has-error" id="stxtMobile1">Please Enter Valid Mobile1</span>
 								</div>
 							</div>
 							<div class="col-sm-4">
 								<div class="form-group">
-									<label for="form_mobile1">Mobile2 *</label>
-									<input id="txtMobile2" type="tel" name="Mobile2" class="form-control onlyNumeric text-length" placeholder="Please enter your Mobile2 number" value="@Model.UserDetails.Mobile2" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+									<label for="form_mobile1">Mobile No.2</label>
+									<input id="txtMobile2" type="tel" name="Mobile2" isrequired="0" class="form-control onlyNumeric text-length" placeholder="Please enter your Mobile Number" value="@Model.UserDetails.Mobile2" defaultvalue="" autocomplete="off">
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtEmail">
 								<div class="form-group">
 									<label for="form_email">Email *</label>
-									<input id="txtEmail" type="email" name="Email" class="form-control text-length" placeholder="Please enter your Email *" value="@Model.UserDetails.Email" isrequired="1" divcontainer="dtxtEmail" errorspan="stxtEmail" defaultvalue="" autocomplete="off" minlength="5">
+									<input id="txtEmail" type="email" name="Email" class="form-control text-length" placeholder="Please enter your Email" value="@Model.UserDetails.Email" isrequired="1" divcontainer="dtxtEmail" errorspan="stxtEmail" defaultvalue="" autocomplete="off" minlength="5">
 									<span class="help-block d-none has-error" id="stxtEmail">Please Enter Valid Email</span>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="modal-footer">
-						<div class="row mr-lg-n3">
-							@if (Title1 == "Edit User")
-							{
-								<input type="button" id="btnSaveUpdateUser" class="btn btn-warning mr-2" value="Update" />
-							}
-							else
-							{
-								<input type="button" id="btnSaveUpdateUser" class="btn btn-success mr-2" value="Submit" />
-							}
-							<button id="btnClose" class="btn btn-danger btn-send" asp-action="User" asp-controller="User">Close</button>
-						</div>
-					</div>
+					
 					@if (ViewBag.Message != null)
 					{
 						<script type="text/javascript">
@@ -185,12 +173,27 @@
 					}
 				</form>
 			</div>
+			<div class="card-footer">
+				@*<div class="row mr-lg-n3">*@
+				<input type="button" id="btnCloseUser" class="btn btn-danger float-right" value="Close" />
+				@if (Title1 == "Edit User")
+				{
+					<input type="button" id="btnSaveUpdateUser" class="btn btn-warning float-right mr-2" value="Update" />
+				}
+				else
+				{
+					<input type="button" id="btnSaveUpdateUser" class="btn btn-success float-right mr-2" value="Submit" />
+				}
+				
+				@*<button id="btnClose" class="btn btn-danger float-right" asp-action="User" asp-controller="User">Close</button>*@
+				@*</div>*@
+			</div>
 		</div>
 	</div>
 </section>
 
 @section Scripts {
-	<script src="~/archeone/js/user/addedituser.js"></script>
+	<script src="~/archeone/js/user/addedituser.js?_@DateTime.Now.Ticks"></script>
 	<script type="text/javascript">
 		var loadFile = function (event) {
 			var reader = new FileReader();
