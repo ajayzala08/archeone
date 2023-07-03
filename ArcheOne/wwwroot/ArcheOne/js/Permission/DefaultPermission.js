@@ -59,9 +59,7 @@ function GetDefaultPermissions(RoleId) {
 
             $("#btnUpdatePermission").attr("disabled", true);
 
-            $.blockUI({
-                message: "<h2>" + result.message + "</p>"
-            });
+            Toast.fire({ icon: 'error', title: result.message });
         }
         $.unblockUI();
     });

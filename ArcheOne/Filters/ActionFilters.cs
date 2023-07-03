@@ -23,7 +23,8 @@ namespace ArcheOne.Filters
             {
                 bool isAjaxRequest = filterContext.HttpContext.Request.Headers.ContainsKey("X-Requested-With");
                 List<IndexDashboardResModel> permissionList = _commonHelper.GetPermissionList();
-                if ((!isAjaxRequest || (isAjaxRequest && !permissionList.Any(x => x.IsAjaxRoute && x.PermissionRoute.Contains($"{controllerName}/{actionName}")))) && !permissionList.Any(x => x.PermissionRoute.Contains($"{controllerName}/{actionName}")))
+                //if ((!isAjaxRequest || (isAjaxRequest && !permissionList.Any(x => x.IsAjaxRoute && x.PermissionRoute.Contains($"{controllerName}/{actionName}")))) && !permissionList.Any(x => x.PermissionRoute.Contains($"{controllerName}/{actionName}")))
+                if (!permissionList.Any(x => x.PermissionRoute.Contains($"{controllerName}/{actionName}")))
                 {
                     // Create a RouteValueDictionary to store the route values
                     var routeValues = new RouteValueDictionary(new

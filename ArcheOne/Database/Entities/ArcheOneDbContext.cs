@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace ArcheOne.Database.Entities;
 
@@ -38,8 +36,6 @@ public partial class ArcheOneDbContext : DbContext
     public virtual DbSet<DocumentTypeMst> DocumentTypeMsts { get; set; }
 
     public virtual DbSet<EmploymentTypeMst> EmploymentTypeMsts { get; set; }
-
-    public virtual DbSet<EventMst> EventMsts { get; set; }
 
     public virtual DbSet<FinancialYearMst> FinancialYearMsts { get; set; }
 
@@ -329,20 +325,6 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.EmploymentTypeCode).HasMaxLength(100);
             entity.Property(e => e.EmploymentTypeName).HasMaxLength(100);
-            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
-        });
-
-        modelBuilder.Entity<EventMst>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__EventMst__3214EC07B5BD4FE0");
-
-            entity.ToTable("EventMst");
-
-            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.EndDate).HasColumnType("datetime");
-            entity.Property(e => e.EventType).HasMaxLength(100);
-            entity.Property(e => e.StartDate).HasColumnType("datetime");
-            entity.Property(e => e.ThemeColour).HasMaxLength(100);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
