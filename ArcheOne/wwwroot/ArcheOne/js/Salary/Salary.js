@@ -125,10 +125,11 @@ function SalaryDataFill() {
             "SalaryMonth": $("#ddlmonth option:selected").text()
         }
         ajaxCall("Post", false, '/Salary/SearchSalary', JSON.stringify(salaryReqModel), function (result) {
+            debugger
             if (result.status == true) {
-                   
+                debugger
                 
-                dataTable = $('#tblSalary').DataTable({
+                $('#tblSalary').DataTable({
                     "destroy": true,
                     "responsive": true,
                     "lengthChange": true,
@@ -136,7 +137,7 @@ function SalaryDataFill() {
                     "searching": true,
                     "processing": true, // for show progress bar
                     "dom": 'Blfrtip',
-                   // "retrieve": true,
+                    // "retrieve": true,
                     "filter": true, // this is for disable filter (search box)
                     "data": result.data,
                     "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
@@ -156,14 +157,18 @@ function SalaryDataFill() {
                         { data: "employeeCode", title: "Employee Code" },
                         { data: "employeeName", title: "Employee Name" }
                     ]
-                })
+                });
+                $.unblockUI();
             }
             else {
+               
                 Toast.fire({ icon: 'error', title: result.message });
-            }
-            $.unblockUI();
+                $.unblockUI();
+              
 
+            }
 
         });
+        
     }
 }
