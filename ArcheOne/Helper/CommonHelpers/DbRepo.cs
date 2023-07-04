@@ -258,7 +258,7 @@ namespace ArcheOne.Helper.CommonHelpers
         }
         public IQueryable<LeaveTypeMst> LeaveTypeLists(bool IsDeleted = false, bool IsActive = true)
         {
-            return _db.LeaveTypeMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+            return _db.LeaveTypeMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive && x.IsCurrentYear == true).AsQueryable();
         }
         public IQueryable<LeaveMst> LeaveLists(bool IsDeleted = false, bool IsActive = true)
         {
@@ -267,6 +267,11 @@ namespace ArcheOne.Helper.CommonHelpers
         public IQueryable<EventMst> EventList(bool IsDeleted = false, bool IsActive = true)
         {
             return _db.EventMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+
+		public IQueryable<LeaveBalanceMst> LeaveBalanceLists(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.LeaveBalanceMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
     }
 }
