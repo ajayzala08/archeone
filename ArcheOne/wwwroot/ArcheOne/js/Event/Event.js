@@ -4,13 +4,14 @@ $.ajax({
     url: '/Event/EventData',
     cache: false,
     success: function (response) {
-
+        debugger
         console.log(response);
         if (response.status == true) {
             showCalender(response.data);
         }
         else {
-            alert(response.data);
+            debugger
+            showCalender(response.data);
         }
 
     },
@@ -65,7 +66,7 @@ $("#addNewEvent").click(function () {
 
 
 function showCalender(data) {
-    
+    debugger
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',

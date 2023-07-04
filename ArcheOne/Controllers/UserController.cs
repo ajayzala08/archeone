@@ -124,33 +124,42 @@ namespace ArcheOne.Controllers
 						commonResponse.Message = "Only jpg and png files are Allowed !";
 					}
 				}
-				var userDetail = await _dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.Id == userSaveUpdateReq.Id && x.Email != userSaveUpdateReq.Email && x.Mobile1 != userSaveUpdateReq.Mobile1);
+				//var userDetail = await _dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.Id == userSaveUpdateReq.Id && x.Email != userSaveUpdateReq.Email && x.Mobile1 != userSaveUpdateReq.Mobile1);
+				var userDetail = await _dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.Id == userSaveUpdateReq.Id);
 				if (userDetail != null && userDetail.Id > 0)
 				{
-					//Edit Mode
-					userDetail.RoleId = userSaveUpdateReq.RoleId;
-					userDetail.CompanyId = _dbRepo.GetLoggedInUserDetails().CompanyId;
-					userDetail.FirstName = userSaveUpdateReq.FirstName;
-					userDetail.MiddleName = userSaveUpdateReq.MiddleName;
-					userDetail.LastName = userSaveUpdateReq.LastName;
-					userDetail.Address = userSaveUpdateReq.Address;
-					userDetail.Pincode = userSaveUpdateReq.Pincode;
-					userDetail.Mobile1 = userSaveUpdateReq.Mobile1;
-					userDetail.Mobile2 = userSaveUpdateReq.Mobile2;
-					userDetail.Email = userSaveUpdateReq.Email;
-					if (!string.IsNullOrEmpty(filePath))
+					bool duplicateCheck = await _dbRepo.AllUserMstList().Where(x => (x.Id != userSaveUpdateReq.Id) && (x.UserName == userSaveUpdateReq.UserName || x.Email == userSaveUpdateReq.Email || x.Mobile1 == userSaveUpdateReq.Mobile1)).AnyAsync();
+					if (!duplicateCheck)
 					{
-						userDetail.PhotoUrl = filePath;
+						//Edit Mode
+						userDetail.RoleId = userSaveUpdateReq.RoleId;
+						userDetail.CompanyId = _dbRepo.GetLoggedInUserDetails().CompanyId;
+						userDetail.FirstName = userSaveUpdateReq.FirstName;
+						userDetail.MiddleName = userSaveUpdateReq.MiddleName;
+						userDetail.LastName = userSaveUpdateReq.LastName;
+						userDetail.Address = (Convert.ToString(userSaveUpdateReq.Address) != "" && userSaveUpdateReq.Address != null) ? userSaveUpdateReq.Address : "NA";
+						userDetail.Pincode = userSaveUpdateReq.Pincode;
+						userDetail.Mobile1 = userSaveUpdateReq.Mobile1;
+						userDetail.Mobile2 = (Convert.ToString(userSaveUpdateReq.Mobile2) != "" && userSaveUpdateReq.Mobile2 != null) ? userSaveUpdateReq.Mobile2 : "NA";
+						userDetail.Email = userSaveUpdateReq.Email;
+						if (!string.IsNullOrEmpty(filePath))
+						{
+							userDetail.PhotoUrl = filePath;
+						}
+						userDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
+						userDetail.UpdatedBy = _commonHelper.GetLoggedInUserId(); ;
+
+						_dbContext.Entry(userDetail).State = EntityState.Modified;
+						await _dbContext.SaveChangesAsync();
+
+						commonResponse.Status = true;
+						commonResponse.StatusCode = HttpStatusCode.OK;
+						commonResponse.Message = "User Updated Successfully!";
 					}
-					userDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
-					userDetail.UpdatedBy = _commonHelper.GetLoggedInUserId(); ;
-
-					_dbContext.Entry(userDetail).State = EntityState.Modified;
-					await _dbContext.SaveChangesAsync();
-
-					commonResponse.Status = true;
-					commonResponse.StatusCode = HttpStatusCode.OK;
-					commonResponse.Message = "User Updated Successfully!";
+					else
+					{
+						commonResponse.Message = "UserName, Email OR Contact Already Exist";
+					}
 				}
 				else
 				{
@@ -167,10 +176,10 @@ namespace ArcheOne.Controllers
 						userMst.LastName = userSaveUpdateReq.LastName;
 						userMst.UserName = userSaveUpdateReq.UserName;
 						userMst.Password = encryptedPassword;
-						userMst.Address = userSaveUpdateReq.Address;
+						userMst.Address = (Convert.ToString(userSaveUpdateReq.Address) != "" && userSaveUpdateReq.Address != null) ? userSaveUpdateReq.Address : "NA";
 						userMst.Pincode = userSaveUpdateReq.Pincode;
 						userMst.Mobile1 = userSaveUpdateReq.Mobile1;
-						userMst.Mobile2 = userSaveUpdateReq.Mobile2;
+						userMst.Mobile2 = (Convert.ToString(userSaveUpdateReq.Mobile2) != "" && userSaveUpdateReq.Mobile2 != null) ? userSaveUpdateReq.Mobile2 : "NA";
 						userMst.Email = userSaveUpdateReq.Email;
 						userMst.PhotoUrl = filePath;
 						userMst.CreatedDate = _commonHelper.GetCurrentDateTime();
@@ -180,7 +189,7 @@ namespace ArcheOne.Controllers
 						userMst.IsActive = true;
 						userMst.IsDelete = false;
 
-					 	await _dbContext.AddAsync(userMst);
+						await _dbContext.AddAsync(userMst);
 						await _dbContext.SaveChangesAsync();
 
 						commonResponse.Status = true;
@@ -189,7 +198,7 @@ namespace ArcheOne.Controllers
 					}
 					else
 					{
-						commonResponse.Message = "UserName, Email and Contact Already Exist";
+						commonResponse.Message = "UserName, Email OR Contact Already Exist";
 					}
 				}
 				commonResponse.Data = userMst;
@@ -285,40 +294,40 @@ namespace ArcheOne.Controllers
 		}
 
 
-        public async Task<IActionResult> UserListByRoleId(int? RoleId)
-        {
-            CommonResponse response = new CommonResponse();
-            try
-            {
-                dynamic userList;
-                if (RoleId == null)
-                {
-                    userList = await _dbRepo.UserMstList().Select(x => new { x.Id, x.FirstName, x.MiddleName, x.LastName }).ToListAsync();
-                }
-                else
-                {
-                    userList = await _dbRepo.UserMstList().Where(x => x.RoleId == RoleId).Select(x => new { x.Id, x.FirstName, x.MiddleName, x.LastName }).ToListAsync();
-                }
+		public async Task<IActionResult> UserListByRoleId(int? RoleId)
+		{
+			CommonResponse response = new CommonResponse();
+			try
+			{
+				dynamic userList;
+				if (RoleId == null)
+				{
+					userList = await _dbRepo.UserMstList().Select(x => new { x.Id, x.FirstName, x.MiddleName, x.LastName }).ToListAsync();
+				}
+				else
+				{
+					userList = await _dbRepo.UserMstList().Where(x => x.RoleId == RoleId).Select(x => new { x.Id, x.FirstName, x.MiddleName, x.LastName }).ToListAsync();
+				}
 
 
-                if (userList != null && userList.Count > 0)
-                {
-                    response.Data = userList;
-                    response.Status = true;
-                    response.StatusCode = HttpStatusCode.OK;
-                    response.Message = "Data found successfully!";
-                }
-                else
-                {
-                    response.Message = "Data not found!";
-                    response.StatusCode = HttpStatusCode.NotFound;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Message = ex.Message;
-            }
-            return Json(response);
-        }
-    }
+				if (userList != null && userList.Count > 0)
+				{
+					response.Data = userList;
+					response.Status = true;
+					response.StatusCode = HttpStatusCode.OK;
+					response.Message = "Data found successfully!";
+				}
+				else
+				{
+					response.Message = "Data not found!";
+					response.StatusCode = HttpStatusCode.NotFound;
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Message = ex.Message;
+			}
+			return Json(response);
+		}
+	}
 }
