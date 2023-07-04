@@ -205,8 +205,8 @@
                                         }
                                         @if (Model.EmployeeRating.Total <= 50)
                                         {
-                                            <input id="txtTotal" type="text" name="Total" class="form-control text-length" placeholder=" " value="@Model.appraisalRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" a
-                                                   utocomplete="off" minlength="1" readonly style="color:yellow">
+                                            <input id="txtTotal" type="text" name="Total" class="form-control text-length" placeholder=" " value="@Model.EmployeeRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" a
+                                                   utocomplete="off" minlength="1" readonly style="color:gold">
                                         }
                                         @if (Model.EmployeeRating.Total <= 40)
                                         {
@@ -332,7 +332,7 @@
                                         @if (Model.appraisalRating.Total <= 50)
                                         {
                                             <input id="txtTotal" type="text" name="Total" class="form-control text-length" placeholder=" " value="@Model.appraisalRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" a
-                                                   utocomplete="off" minlength="1" readonly style="color:yellow">
+                                                   utocomplete="off" minlength="1" readonly style="color:gold">
                                         }
                                         @if (Model.appraisalRating.Total <= 40)
                                         {
@@ -378,7 +378,7 @@
                             <label><i class="fas fa-square" style="color: orange" ; font-weight:1000;></i> @Message</label>
                         </div>
                         <div class="col-sm-4">
-                            <label> <i class="fas fa-square" style="color: yellow" ; font-weight:1000;></i> @Message1</label>
+                            <label> <i class="fas fa-square" style="color:gold" ; font-weight:1000;></i> @Message1</label>
                         </div>
                         <div class="col-sm-4">
                             <label><i class="fas fa-square" style="color: red" ; font-weight:1000;></i> @Message2</label>
@@ -602,6 +602,5 @@
 </section>
 
 @section Scripts {
-    @*    <script src="~/archeone/js/appraisal/addeditappraisal.js?_@DateTime.Now.Ticks"></script>*@
     <script src="~/archeone/js/appraisalrating/addeditappraisalrating.js?_@DateTime.Now.Ticks"></script>
 }

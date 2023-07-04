@@ -128,8 +128,8 @@ namespace ArcheOne.Controllers
             }
             catch (Exception ex)
             {
-                commonResponse.Data = ex.Message;
-                commonResponse.Status = false;
+                commonResponse.Data = ex;
+                commonResponse.Message = ex.Message;
             }
             return View(getAppraisalListResModel);
         }
@@ -195,7 +195,7 @@ namespace ArcheOne.Controllers
             catch (Exception ex)
             {
                 commonResponse.Message= ex.Message;
-                commonResponse.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                commonResponse.Data = ex;
             }
             return View(commonResponse.Data);
         }

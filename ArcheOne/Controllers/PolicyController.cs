@@ -27,7 +27,19 @@ namespace ArcheOne.Controllers
 
         public IActionResult Policy()
         {
-            return View();
+            PolicyResModel policyResModel = new PolicyResModel();
+
+
+            var hrRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
+            var hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
+
+
+            var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
+            var IsUserHr = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
+
+            policyResModel.IsUserHR = IsUserHr.Count >0 ? true: false;
+
+            return View(policyResModel);
         }
 
         public IActionResult PolicyList()
@@ -35,19 +47,44 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
 
             List<GetPolicyListResModel> getPolicyListResModel = new List<GetPolicyListResModel>();
+
+            var hrRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
+            var hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
+
+
+            var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
+
+            var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
+
             try
             {
                 var policyList = _dbRepo.PolicyList().ToList();
                 if (policyList.Count > 0)
                 {
-                    getPolicyListResModel = _dbRepo.PolicyList().Where(x => x.IsActive == true && x.IsDelete == false).Select(x => new GetPolicyListResModel
+                    if (IsUserHR.Count > 0)
                     {
-                        Id = x.Id,
-                        PolicyName = x.PolicyName,
-                        PolicyDocument = x.PolicyDocumentName
+                        getPolicyListResModel = _dbRepo.PolicyList().Where(x => x.IsActive == true && x.IsDelete == false).Select(x => new GetPolicyListResModel
+                        {
+                            Id = x.Id,
+                            PolicyName = x.PolicyName,
+                            PolicyDocument = x.PolicyDocumentName,
+                            IsUserHR = IsUserHR.Count > 0 ? true : false,
 
-                    }).ToList();
-                    commonResponse.Data = getPolicyListResModel;
+                        }).ToList();
+                        commonResponse.Data = getPolicyListResModel;
+                    }
+                    else
+                    {
+                        getPolicyListResModel = _dbRepo.PolicyList().Where(x => x.PolicyName == "HRPolicy").Select(x => new GetPolicyListResModel
+                        {
+                            Id = x.Id,
+                            PolicyName = x.PolicyName,
+                            PolicyDocument = x.PolicyDocumentName,
+                            IsUserHR = IsUserHR.Count > 0 ? true : false,
+
+                        }).ToList();
+                        commonResponse.Data = getPolicyListResModel;
+                    }
 
 
                     commonResponse.Status = true;
@@ -62,8 +99,8 @@ namespace ArcheOne.Controllers
             }
             catch (Exception ex)
             {
-                commonResponse.Data = ex.Message;
-                commonResponse.Status = false;
+                commonResponse.Data = ex;
+                commonResponse.Message = ex.Message;
             }
             return View(getPolicyListResModel);
         }
