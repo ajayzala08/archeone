@@ -7,17 +7,33 @@ public partial class LeaveBalanceMst
 {
     public int Id { get; set; }
 
-    public string LeaveStatus { get; set; } = null!;
-
     public int UserId { get; set; }
 
     public int LeaveTypeId { get; set; }
 
-    public decimal? PendingLeaveBalance { get; set; }
+    public decimal? OpeningLeaveBalance { get; set; }
 
-    public decimal? AvailableLeaveBalance { get; set; }
+    public decimal? NoOfDays { get; set; }
 
-    public decimal? TotalLeaveBalance { get; set; }
+    public decimal? ClosingLeaveBalance { get; set; }
+
+    public string BalanceMonth { get; set; } = null!;
+
+    public decimal? BalanceYear { get; set; }
+
+    public DateTime BalanceDate { get; set; }
+
+    public decimal? SickLeaveBalance { get; set; }
+
+    public decimal? SickLeaveTaken { get; set; }
+
+    public decimal? CasualLeaveTaken { get; set; }
+
+    public decimal? CasualLeaveBalance { get; set; }
+
+    public decimal? EarnedLeaveTaken { get; set; }
+
+    public decimal? EarnedLeaveBalance { get; set; }
 
     public bool IsActive { get; set; }
 
@@ -30,4 +46,8 @@ public partial class LeaveBalanceMst
     public DateTime CreatedDate { get; set; }
 
     public DateTime UpdatedDate { get; set; }
+
+    public string? Detail { get; set; }
+
+    public decimal? LeaveTaken { get; set; }
 }

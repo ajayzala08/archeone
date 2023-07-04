@@ -9,6 +9,11 @@
     $("#btnCancel").click(function () {
         window.location.href = '/Appraisal/Appraisal';
     });
+    $("#AppraisalList").click(function () {
+        window.location.href = '/Appraisal/Appraisal';
+    });
+
+
 });
 
 function SaveUpdateAppraisalRating() {

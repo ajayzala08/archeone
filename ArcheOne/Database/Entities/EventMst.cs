@@ -3,15 +3,23 @@ using System.Collections.Generic;
 
 namespace ArcheOne.Database.Entities;
 
-public partial class PermissionMst
+public partial class EventMst
 {
     public int Id { get; set; }
 
-    public string PermissionName { get; set; } = null!;
+    public string? Subject { get; set; }
 
-    public string PermissionCode { get; set; } = null!;
+    public string? Description { get; set; }
 
-    public string PermissionRoute { get; set; } = null!;
+    public DateTime? StartDate { get; set; }
+
+    public DateTime? EndDate { get; set; }
+
+    public string? ThemeColour { get; set; }
+
+    public string? EventType { get; set; }
+
+    public bool? IsFullDay { get; set; }
 
     public bool IsActive { get; set; }
 

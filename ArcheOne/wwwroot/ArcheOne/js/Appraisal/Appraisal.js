@@ -14,7 +14,7 @@ function GetAppraisalList() {
         ApplyDatatableResponsive('tblAppraisal');
 
         $(".btn-edit").click(function () {
-            debugger
+        
             var Id = $(this).attr('Id');
             AddEditAppraisal(Id);
         });
