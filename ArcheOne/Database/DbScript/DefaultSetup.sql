@@ -31,36 +31,35 @@ Insert into dbo.RoleMst values ('Sales Team Lead', 'Sales_Team_Lead', 1, 0, 0, 0
 
 --------------------------------------SetUp Permissions-----------------------------
 
-Insert into PermissionMst values('Dashboard View', 'Dashboard_View', 'Dashboard/Index', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Users View', 'Users_View', 'User/User', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('User Detail View', 'User_Detail_View', '', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('User Add', 'User_Edit', '', 0, 1, 0, 0, 0, GETDATE(), GETDATE())
-Insert into PermissionMst values('User Edit', 'User_Edit', '', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('User Delete', 'User_Delete', '', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Teams View', 'Teams_View', 'Team/Team', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Holidays View', 'Holidays_View', 'Holiday/Holiday', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Default Permissions View', 'Default_Permissions_View', 'Permission/DefaultPermission', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Default Permissions Edit', 'Default_Permissions_Edit', '', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('User Permissions View', 'User_Permissions_View', 'Permission/UserPermission', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('User Permissions Edit', 'User_Permissions_Edit', '', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Requirements View', 'Requirements_View', 'Requirement/Index', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Policy View', 'Policy_View', 'Policy/Policy', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Leaves View', 'Leaves_View', 'Leaves/Leaves', 0, 1, Appraisal/Appraisal0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Appraisal View', 'Appraisal_View', '', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Leads View', 'Leads_View', 'SalesLead/Index', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Daily Tasks View', 'Daily_Tasks_View', 'Task/Task', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Projects View', 'Projects_View', 'Project/Project', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Task Report View', 'Task_Report_View', 'Task/TaskReport', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Appraisal Add View', 'Appraisal_Add_View', '', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Appraisal Edit View', 'Appraisal_Edit_View', '', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Appraisal Delete View', 'Appraisal_Delete_View', '', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Appraisal Rating Add View', 'Appraisal_Rating_Add_View', '', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Appraisal Rating Edit View', 'Appraisal_Rating_Edit_View', '', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Leave Add View', 'Leave_Add_View', '', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Leave Edit View', 'Leave_Edit_View', '', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Leave Delete View', 'Leave_Delete_View', '', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('Leave Status Change View', 'Leave_Status_Change_View', '', 0, 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into PermissionMst values('UserList', 'Ajax_UserList', 'User/UserList', 1, 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Dashboard View', 'Dashboard_View', 'Dashboard/Index', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Users View', 'Users_View', 'User/User, User/UserList', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('User Detail View', 'User_Detail_View', '', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('User Add', 'User_Edit', 'User/AddEditUser', 1, 0, 0, 0, GETDATE(), GETDATE())
+Insert into PermissionMst values('User Edit', 'User_Edit', 'User/AddEditUser', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('User Delete', 'User_Delete', '', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Teams View', 'Teams_View', 'Team/Team, Team/TeamList', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Holidays View', 'Holidays_View', 'Holiday/Holiday, Holiday/HolidayList', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Default Permissions View', 'Default_Permissions_View', 'Permission/DefaultPermission, Permission/GetDefaultPermissionList, Role/RoleList', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Default Permissions Edit', 'Default_Permissions_Edit', 'Permission/UpdateDefaultPermission', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('User Permissions View', 'User_Permissions_View', 'Permission/UserPermission, Role/RoleList, User/UserListByRoleId, Permission/GetUserPermissions', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('User Permissions Edit', 'User_Permissions_Edit', 'Permission/UpdateUserPermission', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Requirements View', 'Requirements_View', 'Requirement/Index', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Policy View', 'Policy_View', 'Policy/Policy Policy/PolicyList', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Leaves View', 'Leaves_View', 'Leaves/Leaves', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Appraisal View', 'Appraisal_View', 'Appraisal/Appraisal, Appraisal/AppraisalList', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Leads View', 'Leads_View', 'SalesLead/Index', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Daily Tasks View', 'Daily_Tasks_View', 'Task/Task, Project/GetAllocatedProjectList, Task/GetTaskList, Project/GetProjectStatus, User/UserListByRoleId', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Projects View', 'Projects_View', 'Project/Project, Project/GetProjectList', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Task Report View', 'Task_Report_View', 'Task/TaskReport', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Appraisal Add View', 'Appraisal_Add_View', '', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Appraisal Edit View', 'Appraisal_Edit_View', '', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Appraisal Delete View', 'Appraisal_Delete_View', '', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Appraisal Rating Add View', 'Appraisal_Rating_Add_View', '', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Appraisal Rating Edit View', 'Appraisal_Rating_Edit_View', '', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Leave Add View', 'Leave_Add_View', '', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Leave Edit View', 'Leave_Edit_View', '', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Leave Delete View', 'Leave_Delete_View', '', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Leave Status Change View', 'Leave_Status_Change_View', '', 1, 0, 0, 0, GETDATE(), GETDATE());
 
 ------------------------------------SetUp SuperAdmin User----------------------------
 insert into dbo.UserMst values(1,'Admin','','Super','S_Admin','123456','Vadodara','390015','8878964532','9976536725','SuperAdmin@gmail.com','photoURL',1,0,0,0,getdate(),getdate(),1)

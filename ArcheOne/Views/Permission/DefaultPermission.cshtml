@@ -3,104 +3,9 @@
 	Layout = "_MasterLayout";
 	ViewBag.datatable = "true";
 	ViewBag.select2 = "true";
+	ViewBag.inputTags = "true";
 }
 @model List<PermissionMst>
-<style>
-	.tag-input-container {
-		position: relative;
-	}
-
-	.tag-input {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		border: 1px solid #ccc;
-		border-radius: 5px;
-		padding: 5px;
-	}
-
-		.tag-input input[type="text"] {
-			flex-grow: 1;
-			border: none;
-			outline: none;
-		}
-
-	.tag-list {
-		display: flex;
-		flex-wrap: wrap;
-	}
-
-	.tag {
-		display: flex;
-		align-items: center;
-		background-color: #eaeaea;
-		padding: 5px;
-		margin-right: 5px;
-		margin-bottom: 5px;
-		border-radius: 5px;
-	}
-
-	.tag-label {
-		margin-right: 5px;
-	}
-
-	.tag-remove {
-		cursor: pointer;
-		color: #999;
-		font-size: 12px;
-		line-height: 1;
-	}
-
-		.tag-remove:hover {
-			color: #666;
-		}
-
-
-	/*.tags-input {
-		display: inline-block;
-		position: relative;
-		border: 1px solid #ccc;
-		border-radius: 4px;
-		padding: 5px;
-		box-shadow: 2px 2px 5px #00000033;
-		width: 50%;
-	}
-
-		.tags-input ul {
-			list-style: none;
-			padding: 0;
-			margin: 0;
-		}
-
-		.tags-input li {
-			display: inline-block;
-			background-color: #f2f2f2;
-			color: #333;
-			border-radius: 20px;
-			padding: 5px 10px;
-			margin-right: 5px;
-			margin-bottom: 5px;
-		}
-
-		.tags-input input[type="text"] {
-			border: none;
-			outline: none;
-			padding: 5px;
-			font-size: 14px;
-		}
-
-			.tags-input input[type="text"]:focus {
-				outline: none;
-			}
-
-		.tags-input .delete-button {
-			background-color: transparent;
-			border: none;
-			color: #999;
-			cursor: pointer;
-			margin-left: 5px;
-		}*/
-</style>
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -121,18 +26,6 @@
 
 <!-- Main content -->
 <section class="content">
-	<div class="tags-input">
-		<ul id="tags"></ul>
-		<input type="text" id="input-tag"
-			   placeholder="Enter tag name" />
-	</div>
-	<div class="tag-input-container">
-		<div class="tag-input">
-			<input type="text" id="tag-input" placeholder="Add tags">
-			<div class="tag-list" id="tag-list"></div>
-		</div>
-	</div>
-
 	<!-- Default box -->
 	<div class="card">
 		<div class="card-header">
@@ -158,94 +51,45 @@
 	</div>
 	<!-- /.card -->
 
+	<div class="modal fade" id="modalProject" data-keyboard="false" data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Default Permission</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" id="modalUpdatePermission">
+					<input type="hidden" id="permissionId" value="0" />
+					<div class="row">
+						<div class="form-group col-sm-12" id="dtxtPermissionTitle">
+							<label><span class="has-error required">* </span>Permission Title</label>
+							<input id="txtPermissionTitle" name="txtPermissionTitle" type="text" class="form-control text-length" placeholder="Permission Title" isrequired="1" divcontainer="dtxtPermissionTitle" errorspan="stxtPermissionTitle" defaultvalue="" autocomplete="off" minlength="2" maxlength="100">
+							<span class="help-block d-none has-error" id="stxtPermissionTitle">Please Enter Permission Title</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-12" id="dddlProjectStatus">
+							<label><span class="has-error required">* </span>Status</label>
+							<input id="txtPermissionRoutes" name="txtPermissionRoutes" class="inputTags" placeholder="Routes"/>
+							<span class="help-block d-none has-error" id="sddlProjectStatus">Please Select Project Status</span>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="row">
+						<button type="button" id="btnAddUpdateProject" class="btn btn-success mr-2" onclick="AddUpdateProject()">Save</button>
+						<button type="button" id="btnCancel" data-dismiss="modal" class="btn btn-danger" onclick="CancelProject()">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </section>
 <!-- /.content -->
 @section Scripts
 	{
 	<script src="~/archeone/js/permission/defaultpermission.js"></script>
-	<script>
-		var tagInput = document.getElementById('tag-input');
-		var tagList = document.getElementById('tag-list');
-		var tags = [];
-
-		tagInput.addEventListener('keydown', function (event) {
-			if (event.key === 'Enter' || event.keyCode === 188) {
-				event.preventDefault();
-				var tagValue = this.value.trim();
-				if (tagValue !== '') {
-					if (!tags.includes(tagValue)) {
-						tags.unshift(tagValue); // Add the new tag at the start of the array
-						var tagElement = document.createElement('div');
-						tagElement.classList.add('tag');
-						tagElement.innerHTML = '<span class="tag-label">' + tagValue + '</span><span class="tag-remove">&#x2715;</span>';
-						tagList.insertBefore(tagElement, tagList.firstChild); // Insert the tag at the beginning of the tag list
-					}
-					this.value = '';
-				}
-			}
-		});
-
-		tagList.addEventListener('click', function (event) {
-			if (event.target.classList.contains('tag-remove')) {
-				var tagValue = event.target.parentNode.querySelector('.tag-label').textContent;
-				var tagIndex = tags.indexOf(tagValue);
-				if (tagIndex !== -1) {
-					tags.splice(tagIndex, 1);
-					this.removeChild(event.target.parentNode);
-				}
-			}
-		});
-	</script>
-	<script>
-
-		// Get the tags and input elements from the DOM
-		const tags = document.getElementById('tags');
-		const input = document.getElementById('input-tag');
-
-		// Add an event listener for keydown on the input element
-		input.addEventListener('keydown', function (event) {
-
-			// Check if the key pressed is 'Enter'
-			if (event.key === 'Enter') {
-
-				// Prevent the default action of the keypress
-				// event (submitting the form)
-				event.preventDefault();
-
-				// Create a new list item element for the tag
-				const tag = document.createElement('li');
-
-				// Get the trimmed value of the input element
-				const tagContent = input.value.trim();
-
-				// If the trimmed value is not an empty string
-				if (tagContent !== '') {
-
-					// Set the text content of the tag to
-					// the trimmed value
-					tag.innerText = tagContent;
-
-					// Add a delete button to the tag
-					tag.innerHTML += '<button class="delete-button">X</button>';
-
-					// Append the tag to the tags list
-					tags.appendChild(tag);
-
-					// Clear the input element's value
-					input.value = '';
-				}
-			}
-		});
-
-		// Add an event listener for click on the tags list
-		tags.addEventListener('click', function (event) {
-
-			// If the clicked element has the class 'delete-button'
-			if (event.target.classList.contains('delete-button')) {
-
-				// Remove the parent element (the tag)
-				event.target.parentNode.remove();
-			}
-		});
-	</script>
 	}

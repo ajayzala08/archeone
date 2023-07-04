@@ -11,6 +11,7 @@
     bool datatable = (!string.IsNullOrWhiteSpace(ViewBag.datatable) && (ViewBag.datatable == "true" || ViewBag.datatable == "True")) ? true : false;
     bool select2 = (!string.IsNullOrWhiteSpace(ViewBag.select2) && (ViewBag.select2 == "true" || ViewBag.select2 == "True")) ? true : false;
     bool ckeditor = (!string.IsNullOrWhiteSpace(ViewBag.ckeditor) && (ViewBag.ckeditor == "true" || ViewBag.ckeditor == "True")) ? true : false;
+    bool inputTags = (!string.IsNullOrWhiteSpace(ViewBag.inputTags) && (ViewBag.inputTags == "true" || ViewBag.inputTags == "True")) ? true : false;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -245,6 +246,10 @@
     <script src="~/theme/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Sweetalert2 V11 -->
     <script src="~/archeone/js/sweetalert2_v11.js"></script>
+    @if(inputTags)
+    {
+        <script src="~/archeone/js/inputtags.js"></script>
+    }
     @if (select2)
     {
         <!-- Select2 -->
