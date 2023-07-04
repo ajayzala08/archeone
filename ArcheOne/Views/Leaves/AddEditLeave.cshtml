@@ -6,105 +6,102 @@
     ViewBag.select2 = "true";
 }
 
-<section class="content-header"></section>
-<section class="content">
+<section class="content-header">
     <div class="container-fluid">
-        <div class="card card-outline card-primary">
-            <div class="card-header">
+        <div class="row mb-2">
+            <div class="col-sm-6">
                 Add Leave
-                <h3 class="card-title"></h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                </div>
             </div>
-            <div class="card-body">
-                <div class="row">
-                    <input id="txtLeaveId" name="txtLeaveId" type="hidden" class="form-control col-sm-4" value="@Model.leaveDetails.Id" />
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#"></a>Leave</li>
+                    <li class="breadcrumb-item active">Add Leave</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
 
-                    <div class="col-sm-4" id="dddlLeaveTypeId">
-                        <div class="form-group">
-                            <label><span class="has-error required">* </span>Leave Type</label>
-                            <select id="ddlLeaveTypeId" name="ddlLeaveTypeId" class="form-control select2" isrequired="1" divcontainer="dddlLeaveTypeId" errorspan="sddlLeaveTypeId" defaultvalue="0" style="width: 100%;">
-                                <option value="0">--- Select LeaveType ---</option>
-                                @foreach (var item in Model.leaveTypeList)
-                                {
-                                    if (item.Id == Model.leaveDetails.Id)
-                                    {
-                                        <option value="@item.Id" selected>@item.LeaveTypeName</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@item.Id">@item.LeaveTypeName</option>
-                                    }
-                                }
-                            </select>
-                            <span class="help-block d-none has-error" id="sddlLeaveTypeId">Please select Leave Type</span>
-                        </div>
-                    </div>
-                    <div class="form-group col-sm-4" id="dtxtStartDate">
-                        <label><span class="has-error required">* </span>Start Date</label>
-                        <input type="date" id="txtStartDate" name="txtStartDate" class="form-control" isRequired="1" divcontainer="dtxtStartDate" errorspan="stxtStartDate" defaultvalue="0" minlength="2" />
-                        <span class="help-block d-none has-error" id="stxtStartDate">Please Select Start Date</span>
-                    </div>
-                    
+<section class="content">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <input id="txtLeaveId" name="txtLeaveId" type="hidden" class="form-control col-sm-4" value="@Model.leaveDetails.Id" />
 
-                    <div class="form-group col-sm-4" id="dddlStartTime">
-                        <label><span class="has-error required">* </span>Start Time</label>
-                        <select id="ddlStartTime" name="ddlStartTime" class="form-control select2" isrequired="1" divcontainer="dddlStartTime" errorspan="sddlStartTime" defaultvalue="0" style="width: 100%;">
-                            <option value="0">--- Select StartTime---</option>
-                            @foreach (var item in Model.StartTimeList)
+                <div class="col-sm-4" id="dddlLeaveTypeId">
+                    <div class="form-group">
+                        <label><span class="has-error required">* </span>Leave Type</label>
+                        <select id="ddlLeaveTypeId" name="ddlLeaveTypeId" class="form-control select2" isrequired="1" divcontainer="dddlLeaveTypeId" errorspan="sddlLeaveTypeId" defaultvalue="0" style="width: 100%;">
+                            <option value="0">--- Select LeaveType ---</option>
+                            @foreach (var item in Model.leaveTypeList)
                             {
                                 if (item.Id == Model.leaveDetails.Id)
                                 {
-                                    <option value="@item.Id" selected>@item.Name</option>
+                                    <option value="@item.Id" selected>@item.LeaveTypeName</option>
                                 }
                                 else
                                 {
-                                    <option value="@item.Id">@item.Name</option>
+                                    <option value="@item.Id">@item.LeaveTypeName</option>
                                 }
                             }
                         </select>
-                        <span class="help-block d-none has-error" id="sddlStartTime">Please Select StartTime</span>
-                    </div>
-
-                    <div class="form-group col-sm-4" id="dtxtEndDate">
-                        <label><span class="has-error required">* </span>End Date</label>
-                        <input type="date" id="txtEndDate" name="txtEndDate" class="form-control" isRequired="1" divcontainer="dtxtEndDate" errorspan="stxtEndDate" defaultvalue="0" minlength="2" />
-                        <span class="help-block d-none has-error" id="stxtEndDate">Please Select End Date</span>
-                    </div>
-
-                    <div class="form-group col-sm-4" id="dddlEndTime">
-
-                        <label><span class="has-error required">* </span>End Time</label>
-                        <select id="ddlEndTime" name="ddlEndTime" class="form-control select2" isrequired="1" divcontainer="dddlEndTime" errorspan="sddlEndTime" defaultvalue="0" style="width: 100%;">
-                            <option value="0">--- Select EndTime---</option>
-                        </select>
-                        <input id="txtSelectedEndTime" name="txtSelectedEndTime" type="hidden" class="form-control" value="@Model.leaveDetails.EndTime" />
-                        <span class="help-block d-none has-error" id="sddlEndTime">Please Select EndTime</span>
-
-                    </div>
-
-                    <div class="form-group col-sm-4" id="dtxtReason">
-                        <label><span class="has-error required">* </span>Enter Reason</label>
-                        <textarea id="txtReason" name="txtReason" class="form-control" isrequired="1" divcontainer="dtxtReason" errorspan="stxtReason" defaultvalue="0" minlength="2"></textarea>
-                        <span class="help-block d-none has-error" id="stxtReason">Please Enter Reason</span>
+                        <span class="help-block d-none has-error" id="sddlLeaveTypeId">Please select Leave Type</span>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-1">
-                        <button type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success">Submit</button>
-                    </div>
-                    <div class="col-md-1">
-                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-danger">Cancel</button>
-                    </div>
+                <div class="form-group col-sm-4" id="dtxtStartDate">
+                    <label><span class="has-error required">* </span>Start Date</label>
+                    <input type="date" id="txtStartDate" name="txtStartDate" class="form-control" isRequired="1" divcontainer="dtxtStartDate" errorspan="stxtStartDate" defaultvalue="0" minlength="2" />
+                    <span class="help-block d-none has-error" id="stxtStartDate">Please Select Start Date</span>
                 </div>
 
 
+                <div class="form-group col-sm-4" id="dddlStartTime">
+                    <label><span class="has-error required">* </span>Start Time</label>
+                    <select id="ddlStartTime" name="ddlStartTime" class="form-control select2" isrequired="1" divcontainer="dddlStartTime" errorspan="sddlStartTime" defaultvalue="0" style="width: 100%;">
+                        <option value="0">--- Select StartTime---</option>
+                        @foreach (var item in Model.StartTimeList)
+                        {
+                            if (item.Id == Model.leaveDetails.Id)
+                            {
+                                <option value="@item.Id" selected>@item.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        }
+                    </select>
+                    <span class="help-block d-none has-error" id="sddlStartTime">Please Select StartTime</span>
+                </div>
 
+                <div class="form-group col-sm-4" id="dtxtEndDate">
+                    <label><span class="has-error required">* </span>End Date</label>
+                    <input type="date" id="txtEndDate" name="txtEndDate" class="form-control" isRequired="1" divcontainer="dtxtEndDate" errorspan="stxtEndDate" defaultvalue="0" minlength="2" />
+                    <span class="help-block d-none has-error" id="stxtEndDate">Please Select End Date</span>
+                </div>
 
+                <div class="form-group col-sm-4" id="dddlEndTime">
+
+                    <label><span class="has-error required">* </span>End Time</label>
+                    <select id="ddlEndTime" name="ddlEndTime" class="form-control select2" isrequired="1" divcontainer="dddlEndTime" errorspan="sddlEndTime" defaultvalue="0" style="width: 100%;">
+                        <option value="0">--- Select EndTime---</option>
+                    </select>
+                    <input id="txtSelectedEndTime" name="txtSelectedEndTime" type="hidden" class="form-control" value="@Model.leaveDetails.EndTime" />
+                    <span class="help-block d-none has-error" id="sddlEndTime">Please Select EndTime</span>
+
+                </div>
+
+                <div class="form-group col-sm-4" id="dtxtReason">
+                    <label><span class="has-error required">* </span>Enter Reason</label>
+                    <textarea id="txtReason" name="txtReason" class="form-control" isrequired="1" divcontainer="dtxtReason" errorspan="stxtReason" defaultvalue="0" minlength="2"></textarea>
+                    <span class="help-block d-none has-error" id="stxtReason">Please Enter Reason</span>
+                </div>
             </div>
+        </div>
+        <div class="card-footer">
+            <input type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success float-right ml-1" value="Submit" />
+           
+            <input type="button" id="btnCancel" name="btnCancel" class="btn btn-danger float-right" value="Cancel" />
         </div>
     </div>
 </section>
