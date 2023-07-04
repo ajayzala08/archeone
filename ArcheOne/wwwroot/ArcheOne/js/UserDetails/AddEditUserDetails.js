@@ -4,17 +4,24 @@
         SaveUserDetails();
     });
 });
+var minDate = new Date();
+minDate.setFullYear(minDate.getFullYear() - 18);
 
 $('#txtDob').datepicker({
-    dateFormat: 'dd-mm-yy'
+    dateFormat: 'dd-mm-yy',
+    maxDate: minDate
+
+
 });
 
 $('#txtOfferDate').datepicker({
-    dateFormat: 'dd-mm-yy'
+    dateFormat: 'dd-mm-yy',
+    minDate: 0
 });
 
 $('#txtJoinDate').datepicker({
-    dateFormat: 'dd-mm-yy'
+    dateFormat: 'dd-mm-yy',
+    minDate: 0
 });
 
 function SaveUserDetails() {
@@ -65,3 +72,48 @@ function SaveUserDetails() {
         ClearAll();
     }
 }
+
+$("#txtEmployeeCode").blur(function () {
+
+    const urlParams = new URLSearchParams(window.location.search);
+    var userId = urlParams.get('userId');
+    if ($("#txtEmployeeCode").val() != "") {
+        var checkEmployeeCodeReqModel = {
+            "Id": parseInt(userId),
+            "EmployeeCode": parseInt($("#txtEmployeeCode").val())
+        }
+        ajaxCall("Post", false, '/UserDetails/CheckEmployeeCode', JSON.stringify(checkEmployeeCodeReqModel), function (result) {
+
+            if (result.status == true) {
+                Toast.fire({ icon: 'success', title: result.message });
+            }
+            else {
+                Toast.fire({ icon: 'error', title: result.message });
+                $("#txtEmployeeCode").val("");
+                $("#txtEmployeeCode").focus();
+            }
+        });
+    }
+
+});
+
+$("#btnClose").click(function () {
+    RedirectToPage("/User/User");
+});
+
+$("#txtDob").blur(function () {
+    var startDate = new Date($("#txtDob").val());;
+    var endDate = minDate;
+
+    if (startDate > endDate) {
+        $("#txtDob").val("");
+    }
+
+});
+
+$("#txtEmployeeCode").keypress(function (e) {
+    if (String.fromCharCode(e.keyCode).match(/[^0-9]/g)) return false;
+
+    if ($(this).val().length >= 10) return false;
+});
+

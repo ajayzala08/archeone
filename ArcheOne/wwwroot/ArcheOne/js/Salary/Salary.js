@@ -77,7 +77,7 @@ $("#btnUploadSalarySheet").click(function () {
             
         }
         else {
-            Toast.fire({ icon: 'error', title: "Please Select Profile Photo." });
+            Toast.fire({ icon: 'error', title: "Please Select Salarysheet" });
         }
         
     }

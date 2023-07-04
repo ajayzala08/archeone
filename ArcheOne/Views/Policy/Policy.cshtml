@@ -1,4 +1,6 @@
-﻿@{
+﻿@using ArcheOne.Models.Res;
+@model PolicyResModel
+@{
     Layout = "_MasterLayout";
     int id = 0;
 }
@@ -23,7 +25,10 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Policy List</h3>
-            <input type="button" id="AddPolicy" class="btn btn-primary float-right" value="Add Policy" />
+            @if (Model.IsUserHR == true)
+            {
+                <input type="button" id="AddPolicy" class="btn btn-primary float-right" value="Add Policy" />
+            }
         </div>
         <div class="card-body">
             <div id="divPolicyList">

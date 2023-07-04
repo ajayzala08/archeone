@@ -47,7 +47,7 @@ public partial class LeaveBalanceMst
 
     public DateTime UpdatedDate { get; set; }
 
-    public decimal? PaidDayLeaves { get; set; }
+    public string? Detail { get; set; }
 
-    public decimal? UnPaidDayLeaves { get; set; }
+    public decimal? LeaveTaken { get; set; }
 }

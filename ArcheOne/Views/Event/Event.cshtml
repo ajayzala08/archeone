@@ -1,7 +1,4 @@
-﻿@using ArcheOne.Helper.CommonModels;
-@using ArcheOne.Models.Res;
-@model CommonResponse
-@{
+﻿@{
     Layout = "_MasterLayout";
     ViewBag.dataTable = "true";
 }
@@ -11,20 +8,17 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Event</h1>
+                <h1>Calendar</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Masters</a></li>
-                    <li class="breadcrumb-item active">Event</li>
+                    <li class="breadcrumb-item active">Calendar</li>
                 </ol>
             </div>
         </div>
     </div>
 </section>
-
-@if (Model.Status == true)
-{
 
     <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog modal-md">
@@ -108,13 +102,8 @@
         </div>
 
     </div>
-}
-else
-{
-    <p style="color:red">@Model.Message</p>
-}
 
-<div id="calendar">
+<div class="col-md-12" id="calendar">
 </div>
 
 @section Scripts{

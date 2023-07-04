@@ -1452,3 +1452,86 @@ BEGIN
 END
 
 ----------------------------------------Added by SP on 29-06-23-----------------------------------End--------
+----------------------------------------Added by PP on 27-06-23-----------------------------------End--------
+----------------------------------------Added by PP on 30-06-23-----------------------------------Start--------
+ALTER TABLE LeaveBalanceMst
+ADD PaidDayLeaves decimal(38, 17);
+
+ALTER TABLE LeaveBalanceMst
+ADD UnPaidDayLeaves decimal(38, 17);
+----------------------------------------Added by PP on 30-06-23-----------------------------------End--------
+
+----------------------------------------Added by PP on 03-07-23-----------------------------------Start--------
+DROP TABLE LeaveMst;
+DROP TABLE LeaveBalanceMst;
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'LeaveMst')
+BEGIN 
+	Create table dbo.LeaveMst(
+			Id int identity(1,1) primary key,
+			LeaveTypeId int not null,
+			AppliedByUserId int not null,
+			ApprovedByUserId int not null,
+			StartDate date not null,
+			EndDate date not null,
+			StartTime time not null,
+			EndTime time not null,
+			OpeningLeaveBalance decimal(38, 17),
+			NoOfDays decimal(38, 17),
+			PaidDays decimal(38, 17),
+			UnPaidDays decimal(38, 17),
+			Reason nvarchar(max) not null,
+			LeaveStatusId int not null,
+			IsActive bit  not null,
+			IsDelete bit  not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'LeaveMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'LeaveMst Table Already Exist' 
+END
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  
+			TABLE_NAME = 'LeaveBalanceMst')
+BEGIN 
+	Create table dbo.LeaveBalanceMst(
+			Id int identity(1,1) primary key,
+			UserId int not null,
+			LeaveTypeId int not null,
+			OpeningLeaveBalance decimal(38, 17),
+			NoOfDays decimal(38, 17),
+			ClosingLeaveBalance decimal(38, 17),
+			BalanceMonth  nvarchar(25) not null,
+			BalanceYear decimal(38, 17),
+			BalanceDate datetime not null,
+			SickLeaveBalance decimal(38, 17),
+			SickLeaveTaken decimal(38, 17),
+			CasualLeaveTaken decimal(38, 17),
+			CasualLeaveBalance decimal(38, 17),
+			EarnedLeaveTaken decimal(38, 17),
+			EarnedLeaveBalance decimal(38, 17),
+			IsActive bit not null,
+			IsDelete bit not null,
+			CreatedBy int not null,
+			UpdatedBy int not null,
+			CreatedDate datetime not null,
+			UpdatedDate datetime not null,
+			);
+	PRINT 'LeaveBalanceMst Table Created' 
+END
+ELSE
+BEGIN 
+	PRINT 'LeaveBalanceMst Table Already Exist' 
+END
+
+ALTER TABLE LeaveBalanceMst
+ADD Detail nvarchar(max) null;
+
+ALTER TABLE LeaveBalanceMst
+ADD LeaveTaken decimal(38, 17) null;
+----------------------------------------Added by PP on 03-07-23-----------------------------------End--------

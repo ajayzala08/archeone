@@ -444,6 +444,7 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.EarnedLeaveBalance).HasColumnType("decimal(38, 17)");
             entity.Property(e => e.EarnedLeaveTaken).HasColumnType("decimal(38, 17)");
+            entity.Property(e => e.LeaveTaken).HasColumnType("decimal(38, 17)");
             entity.Property(e => e.NoOfDays).HasColumnType("decimal(38, 17)");
             entity.Property(e => e.OpeningLeaveBalance).HasColumnType("decimal(38, 17)");
             entity.Property(e => e.SickLeaveBalance).HasColumnType("decimal(38, 17)");
@@ -514,7 +515,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<PermissionMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Permissi__3214EC0760963C8F");
+            entity.HasKey(e => e.Id).HasName("PK__Permissi__3214EC0739E77E55");
 
             entity.ToTable("PermissionMst");
 

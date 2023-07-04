@@ -20,9 +20,12 @@
         <table id="tblPolicy" class="table table-bordered table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <td>
-                        <b>Action</b>
-                    </td>
+                    @if (Model.Count > 1)
+                    {
+                        <td>
+                            <b>Action</b>
+                        </td>
+                    }
                     <td>
                         <b>Policy Name</b>
                     </td>
@@ -36,16 +39,17 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
-                           @* <i class="fa fa-pen pen btn-edit" Id="@item.Id" style="cursor: pointer;"></i> &nbsp; | &nbsp;*@
-                            <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"></i>
-                        </td>
+                        @if (item.IsUserHR == true)
+                        {
+                            <td>
+                                <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"></i>
+                            </td>
+                        }
                         <td>
                             @item.PolicyName
                         </td>
                         <td>
                             <i class="fa fa-download btn-download" Id="@item.Id" aria-hidden="true"></i>
-                        
                         </td>
                     </tr>
                 }

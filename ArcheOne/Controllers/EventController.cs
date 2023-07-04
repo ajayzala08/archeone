@@ -29,8 +29,9 @@ namespace ArcheOne.Controllers
             {
                 List<GetAllEventResModel> eventList = new List<GetAllEventResModel>();
 
-
-                var list = _dbRepo.EventList().ToList();
+               
+               //var list = _dbRepo.EventList().ToList();
+                var list = _dbRepo.EventList().Where(x => x.CreatedBy == _commonHelper.GetLoggedInUserId()).ToList();
                 if (list.Count > 0)
                 {
                     foreach (var x in list)
@@ -44,16 +45,11 @@ namespace ArcheOne.Controllers
                         getAllEventResModel.allDay = x.IsFullDay.Value;
                         eventList.Add(getAllEventResModel);
                     }
-                    commonResponse.Status = true;
-                    commonResponse.Message = "Success!";
-                    commonResponse.Data = eventList;
+                   
                 }
-                else
-                {
-                    commonResponse.Status = false;
-                    commonResponse.StatusCode = System.Net.HttpStatusCode.NotFound;
-                    commonResponse.Message = "Data Not Found";
-                }
+                commonResponse.Status = true;
+                commonResponse.Message = "Success!";
+                commonResponse.Data = eventList;
 
             }
             catch (Exception ex)
@@ -97,34 +93,7 @@ namespace ArcheOne.Controllers
 
         public IActionResult Event()
         {
-            CommonResponse commonResponse = new CommonResponse();
-            try
-            {
-                var list = _dbRepo.EventList().ToList();
-                if (list.Count > 0)
-                {
-                    commonResponse.Status = true;
-                    commonResponse.StatusCode = System.Net.HttpStatusCode.OK;
-                    commonResponse.Message = "Success!";
-
-
-                }
-                else
-                {
-                    commonResponse.Status = false;
-                    commonResponse.StatusCode = System.Net.HttpStatusCode.NotFound;
-                    commonResponse.Message = "Data Not Found";
-                }
-
-            }
-            catch (Exception ex)
-            {
-                commonResponse.Message = ex.Message;
-                commonResponse.Data = ex.StackTrace;
-            }
-            //return View(commonResponse);
-            return View(commonResponse);
-            //return View();
+            return View();
         }
 
     }
