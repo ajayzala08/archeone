@@ -62,7 +62,7 @@ namespace ArcheOne.Controllers
 					userDetailsAddEditResModel.UserDetail.PfaccountNumber = isUserDetailsExist.PfaccountNumber;
 					userDetailsAddEditResModel.UserDetail.PancardNumber = isUserDetailsExist.PancardNumber;
 					userDetailsAddEditResModel.UserDetail.AdharCardNumber = isUserDetailsExist.AdharCardNumber;
-					userDetailsAddEditResModel.UserDetail.Salary = isUserDetailsExist.Salary;
+					userDetailsAddEditResModel.UserDetail.Salary = Convert.ToDecimal(isUserDetailsExist.Salary.ToString("#.##"));
 					userDetailsAddEditResModel.UserDetail.ReportingManager = isUserDetailsExist.ReportingManager;
 					userDetailsAddEditResModel.UserDetail.Reason = isUserDetailsExist.Reason;
 					userDetailsAddEditResModel.UserDetail.EmployeePersonalEmailId = isUserDetailsExist.EmployeePersonalEmailId;
@@ -114,12 +114,12 @@ namespace ArcheOne.Controllers
 						editUserDetails.AccountNumber = addEditUserDetailsReqModel.AccountNumber;
 						editUserDetails.Branch = addEditUserDetailsReqModel.Branch;
 						editUserDetails.IfscCode = addEditUserDetailsReqModel.IfscCode;
-						editUserDetails.PfaccountNumber = addEditUserDetailsReqModel.PfaccountNumber;
+						editUserDetails.PfaccountNumber = addEditUserDetailsReqModel.PfaccountNumber != null ? addEditUserDetailsReqModel.PfaccountNumber : "NA";
 						editUserDetails.PancardNumber = addEditUserDetailsReqModel.PancardNumber;
 						editUserDetails.AdharCardNumber = addEditUserDetailsReqModel.AdharCardNumber;
 						editUserDetails.Salary = addEditUserDetailsReqModel.Salary;
 						editUserDetails.ReportingManager = addEditUserDetailsReqModel.ReportingManager;
-						editUserDetails.Reason = addEditUserDetailsReqModel.Reason;
+						editUserDetails.Reason = addEditUserDetailsReqModel.Reason != null ? addEditUserDetailsReqModel.Reason : "NA";
 						editUserDetails.EmployeePersonalEmailId = addEditUserDetailsReqModel.EmployeePersonalEmailId;
 						editUserDetails.ProbationPeriod = addEditUserDetailsReqModel.ProbationPeriod;
 						editUserDetails.UpdatedBy = _commonHelper.GetLoggedInUserId();

@@ -41,7 +41,7 @@
 							<div class="col-sm-4" id="dtxtEmployeeCode">
 								<div class="form-group">
 									<label for="form_name">Employee Code *</label>
-									<input id="txtEmployeeCode" type="text" name="txtEmployeeCode" class="form-control onlynumeric text-length" placeholder="Please enter employeecode" value="@Model.UserDetail.EmployeeCode" isrequired="1" divcontainer="dtxtEmployeeCode" errorspan="stxtEmployeeCode" defaultvalue="" autocomplete="off" minlength="1">
+									<input id="txtEmployeeCode" type="text" name="txtEmployeeCode" class="form-control onlynumeric text-length" placeholder="Please enter employeecode" value="@Model.UserDetail.EmployeeCode" isrequired="1" divcontainer="dtxtEmployeeCode" errorspan="stxtEmployeeCode" defaultvalue="" autocomplete="off" minlength="1" maxlength="10">
 									<span class="help-block d-none has-error" id="stxtEmployeeCode">Please Enter Valid EmployeeCode</span>
 								</div>
 							</div>
@@ -70,13 +70,13 @@
 									<span class="help-block d-none has-error" id="stxtDob">Please Enter Valid Dob</span>
 								</div>
 							</div>
-							<div class="col-sm-4" id="dtxtPostCode">
+@*							<div class="col-sm-4" id="dtxtPostCode">
 								<div class="form-group">
 									<label for="form_name">Post Code *</label>
 									<input id="txtPostCode" type="tel" name="txtPostCode" class="form-control onlyNumeric text-length" placeholder="Please enter your PostCode" autocomplete="off" value="@Model.UserDetail.PostCode" isrequired="1" divcontainer="dtxtPostCode" errorspan="stxtPostCode" defaultvalue="" minlength="6" maxlength="7">
 									<span class="help-block d-none has-error" id="stxtPostCode">Please Enter Valid PostCode</span>
 								</div>
-							</div>
+							</div>*@
 							<div class="col-sm-4" id="dddlEmploymentType">
 								<div class="form-group">
 									<label><span class="has-error required"></span>Employment Type</label>
