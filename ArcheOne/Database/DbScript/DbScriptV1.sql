@@ -1534,3 +1534,10 @@ ADD Detail nvarchar(max) null;
 ALTER TABLE LeaveBalanceMst
 ADD LeaveTaken decimal(38, 17) null;
 ----------------------------------------Added by PP on 03-07-23-----------------------------------End--------
+----------------------------------------Added by PP on 05-07-23-----------------------------------Start--------
+ALTER TABLE LeaveMst
+ADD HRStatus bit  null;
+
+	ALTER TABLE LeaveMst
+ADD ProjectManagerStatus bit  null;
+----------------------------------------Added by PP on 05-07-23-----------------------------------End--------
