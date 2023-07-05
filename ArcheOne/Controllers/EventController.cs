@@ -63,6 +63,7 @@ namespace ArcheOne.Controllers
         [HttpPost]
         public JsonResult AddEditEventData([FromBody] AddEventReqModel addEvent)
         {
+            CommonResponse commonResponse = new CommonResponse();
             if (addEvent != null)
             {
                 EventMst eventMst = new EventMst();
@@ -83,11 +84,18 @@ namespace ArcheOne.Controllers
                 _dbContext.EventMsts.Add(eventMst);
                 _dbContext.SaveChanges();
 
-                return Json(true);
+                commonResponse.Status = true;
+                commonResponse.StatusCode = System.Net.HttpStatusCode.OK;
+                commonResponse.Message = "Add Event Successfully";
+
+                return Json(commonResponse);
             }
             else
             {
-                return Json(false);
+                commonResponse.Status = false;
+                commonResponse.StatusCode = System.Net.HttpStatusCode.NotFound;
+                commonResponse.Message = "Please Enter Valid Data";
+                return Json(commonResponse);
             }
         }
 
