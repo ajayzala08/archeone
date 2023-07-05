@@ -31,15 +31,16 @@ namespace ArcheOne.Controllers
             CommonResponse response = new CommonResponse();
             try
             {
-                var data = await (from pm in _dbRepo.PermissionList()
-                                  join dp in _dbRepo.DefaultPermissionList().Where(x => x.RoleId == RoleId)
-                                  on pm.Id equals dp.PermissionId into dpGroup
-                                  from dp in dpGroup.DefaultIfEmpty()
+                var data = await (from permission in _dbRepo.PermissionList()
+                                  join defaultPermission in _dbRepo.DefaultPermissionList().Where(x => x.RoleId == RoleId)
+                                  on permission.Id equals defaultPermission.PermissionId into defaultPermissionGroup
+                                  from defaultPermission in defaultPermissionGroup.DefaultIfEmpty()
                                   select new
                                   {
-                                      pm.Id,
-                                      pm.PermissionName,
-                                      IsDefaultPermission = dp != null
+                                      permission.Id,
+                                      permission.PermissionName,
+                                      permission.PermissionRoute,
+                                      IsDefaultPermission = defaultPermission != null
                                   }).ToListAsync();
 
                 if (data != null && data.Count > 0)
@@ -153,15 +154,16 @@ namespace ArcheOne.Controllers
             CommonResponse response = new CommonResponse();
             try
             {
-                var data = await (from pm in _dbRepo.PermissionList()
-                                  join dp in _dbRepo.UserPermissionList().Where(x => x.UserId == UserId)
-                                  on pm.Id equals dp.PermissionId into dpGroup
-                                  from dp in dpGroup.DefaultIfEmpty()
+                var data = await (from permission in _dbRepo.PermissionList()
+                                  join userPermission in _dbRepo.UserPermissionList().Where(x => x.UserId == UserId)
+                                  on permission.Id equals userPermission.PermissionId into userPermissionGroup
+                                  from userPermission in userPermissionGroup.DefaultIfEmpty()
                                   select new
                                   {
-                                      pm.Id,
-                                      pm.PermissionName,
-                                      IsDefaultPermission = dp != null
+                                      permission.Id,
+                                      permission.PermissionName,
+                                      permission.PermissionRoute,
+                                      IsDefaultPermission = userPermission != null
                                   }).ToListAsync();
 
                 if (data != null && data.Count > 0)
@@ -223,6 +225,64 @@ namespace ArcheOne.Controllers
                         response.Status = true;
                         response.StatusCode = HttpStatusCode.OK;
                     };
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return Json(response);
+        }
+
+        public async Task<IActionResult> GetPermissionDetailsById(int PermissionId)
+        {
+            CommonResponse response = new CommonResponse();
+            try
+            {
+                var permissionDetails = await _dbRepo.PermissionList().Where(x => x.Id == PermissionId).Select(x => new { x.Id, x.PermissionName, x.PermissionCode, x.PermissionRoute }).FirstOrDefaultAsync();
+                if (permissionDetails != null)
+                {
+                    response.Status = true;
+                    response.StatusCode = HttpStatusCode.OK;
+                    response.Message = "Data found successfully!";
+                    response.Data = permissionDetails;
+                }
+                else
+                {
+                    response.StatusCode = HttpStatusCode.NotFound;
+                    response.Message = "Data not found!";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return Json(response);
+        }
+
+        public async Task<IActionResult> UpdatePermissionDetails([FromBody] UpdatePermissionDetailsReqModel request)
+        {
+            CommonResponse response = new CommonResponse();
+            try
+            {
+                var permissionDetails = await _dbRepo.PermissionList().FirstOrDefaultAsync(x => x.Id == request.PermissionId);
+                if (permissionDetails != null)
+                {
+                    permissionDetails.PermissionRoute = request.PermissionRoute;
+
+
+                    _dbContext.Entry(permissionDetails).State = EntityState.Modified;
+                    await _dbContext.SaveChangesAsync();
+
+                    response.Status = true;
+                    response.StatusCode = HttpStatusCode.OK;
+                    response.Message = "Permission details updated successfully!";
+                    response.Data = permissionDetails;
+                }
+                else
+                {
+                    response.StatusCode = HttpStatusCode.NotFound;
+                    response.Message = "Data not found!";
                 }
             }
             catch (Exception ex)
