@@ -1,7 +1,7 @@
 ﻿@using ArcheOne.Models.Req;
 @model UserAddEditReqViewModel;
 @{
-	int id = 0;
+	int id = 1;
 	ViewBag.datatable = "true";
 }
 @if (id > 0)
@@ -33,12 +33,14 @@
 			</div>
 			<!-- /.card-header -->
 			<div class="card-body">
-				<div class="md-12">
+				@*<div class="md-12">
 				</div>
 				<table id="tblLeave" class="table table-bordered table-striped" style="width:100%"></table>
-				<div id="divLeaveList"> </div>
+				
 				<div id="AddLeaveForm">
-				</div>
+				</div>*@
+
+				<div id="divLeaveList"> </div>
 			</div>
 		</div>
 		<!-- /.card-body -->

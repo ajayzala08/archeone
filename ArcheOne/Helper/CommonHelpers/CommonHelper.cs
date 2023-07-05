@@ -708,7 +708,7 @@ namespace ArcheOne.Helper.CommonHelpers
             return val.ToUpper();
         }
 
-        private String ConvertDecimals(String number)
+        public String ConvertDecimals(String number)
         {
             String cd = "", digit = "", engOne = "";
             for (int i = 0; i < number.Length; i++)
@@ -752,6 +752,18 @@ namespace ArcheOne.Helper.CommonHelpers
             }
             return permissionList;
         }
-    }
-}
+
+ 		public string GetFormatedDecimal(decimal value)
+        {
+            string formatedDecimal = Convert.ToString(value);
+            formatedDecimal = value > 0 ? Convert.ToString(TruncateDecimal(value, 2)) : value.ToString("#,##0.00");
+            return formatedDecimal;
+        }
+
+        public decimal TruncateDecimal(decimal value, int precision)
+        {
+            decimal step = (decimal)Math.Pow(10, precision);
+            decimal tmp = Math.Truncate(step * value);
+            return tmp / step;
+        }}
 

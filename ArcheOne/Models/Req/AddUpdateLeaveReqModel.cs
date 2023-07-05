@@ -14,6 +14,7 @@
 
         public string EndTime { get; set; }
         public string Reason { get; set; } = null!;
+        public int LeaveStatusId { get; set; }
 
 
     }
