@@ -30,6 +30,13 @@
                     </li>
                 }
 
+                @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Event_View.ToString()))
+                {
+                    <li class="nav-item">
+                        <a href="~/Event/Event" class="nav-link"><i class="nav-icon fas fa-calendar-alt"></i>Events</a>
+                    </li>
+                }
+
                 @if (permissionList.Any(x
                => x.PermissionCode == CommonEnums.PermissionMst.Users_View.ToString()
                || x.PermissionCode == CommonEnums.PermissionMst.Default_Permissions_View.ToString()
@@ -105,7 +112,7 @@
                             {
                                 <li class="nav-item">
                                     <a href="~/Holiday/Holiday" class="nav-link">
-                                        <i class="nav-icon fas fa-users"></i>
+                                        <i class="nav-icon fas fa-umbrella-beach"></i>
                                         <p>Holiday</p>
                                     </a>
                                 </li>
@@ -118,6 +125,7 @@
                => x.PermissionCode == CommonEnums.PermissionMst.Requirements_View.ToString()
                || x.PermissionCode == CommonEnums.PermissionMst.Policy_View.ToString()
                || x.PermissionCode == CommonEnums.PermissionMst.Leaves_View.ToString()
+               || x.PermissionCode == CommonEnums.PermissionMst.Salary_View.ToString()
                || x.PermissionCode == CommonEnums.PermissionMst.Appraisal_View.ToString()))
                 {
                     <li class="nav-item has-treeview">
@@ -154,7 +162,17 @@
                             {
                                 <li class="nav-item">
                                     <a href="~/Leaves/Leaves" class="nav-link">
-                                        <i class="nav-icon fas fa-users"></i>
+                                        <i class="nav-icon fas fa-calendar-day"></i>
+                                        <p>Leaves</p>
+                                    </a>
+                                </li>
+                            }
+
+                            @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Salary_View.ToString()))
+                            {
+                                <li class="nav-item">
+                                    <a href="~/Salary/Salary" class="nav-link">
+                                        <i class="nav-icon fas fa-hand-holding-usd"></i>
                                         <p>Leaves</p>
                                     </a>
                                 </li>
@@ -164,7 +182,7 @@
                             {
                                 <li class="nav-item">
                                     <a href="~/Appraisal/Appraisal" class="nav-link">
-                                        <i class="nav-icon fas fa-users"></i>
+                                        <i class="nav-icon fas fa-money-check-alt"></i>
                                         <p>Appraisal</p>
                                     </a>
                                 </li>
@@ -188,7 +206,7 @@
                             {
                                 <li class="nav-item">
                                     <a href="~/SalesLead/Index" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="nav-icon fas fa-magnet"></i>
                                         <p>Leads</p>
                                     </a>
                                 </li>

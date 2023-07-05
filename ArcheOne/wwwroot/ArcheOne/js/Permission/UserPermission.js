@@ -69,7 +69,7 @@ function GetUserPermissions(UserId) {
                     { data: "permissionRoute", title: "Permission Route(s)" },
                     {
                         data: null,
-                        title: 'Action',
+                        title: 'Status',
                         render: function (data, type, row) {
                             if (row.isDefaultPermission) {
                                 return '<input type="checkbox" class="permissionBox" checked value="' + row.id + '">';

@@ -50,7 +50,7 @@ function GetDefaultPermissions(RoleId) {
                     { data: "permissionRoute", title: "Permission Route(s)" },
                     {
                         data: null,
-                        title: 'Action',
+                        title: 'Status',
                         render: function (data, type, row) {
                             if (row.isDefaultPermission) {
                                 return '<input type="checkbox" class="permissionBox" checked value="' + row.id + '">';
@@ -131,11 +131,38 @@ function GetPermissionDetails(permissionId) {
         if (result.status == true) {
             $("#permissionId").val(result.data.id);
             $("#txtPermissionTitle").val(result.data.permissionName);
-            $("#txtPermissionRoutes").val(result.data.permissionRoute);
+            $("#txtPermissionRoutes").value(result.data.permissionRoute);
         }
         else {
             Toast.fire({ icon: 'error', title: result.message });
         }
         $.unblockUI();
     });
+}
+
+function SavePermissionDetails() {
+    var permissionRoute = $("#txtPermissionRoutes").value().join(', ');
+    var requestModel = {
+        "PermissionId": parseInt($("#permissionId").val()),
+        "PermissionRoute": permissionRoute
+    }
+
+    ajaxCall("Post", false, '/Permission/UpdatePermissionDetails', JSON.stringify(requestModel), function (result) {
+        if (result.status == true) {
+            Toast.fire({ icon: 'success', title: result.message });
+            GetDefaultPermissions($("#slRoles").val());
+            $('#modalProject').modal('hide');
+            CancelPermissionUpdate();
+        }
+        else {
+            Toast.fire({ icon: 'error', title: result.message });
+        }
+        $.unblockUI();
+    });
+}
+
+function CancelPermissionUpdate() {
+    $("#permissionId").val(0);
+    $("#txtPermissionTitle").val('');
+    $("#txtPermissionRoutes").value();
 }

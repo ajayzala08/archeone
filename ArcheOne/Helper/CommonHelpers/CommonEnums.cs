@@ -29,7 +29,9 @@
             Leads_View,
             Daily_Tasks_View,
             Projects_View,
-            Task_Report_View
+            Task_Report_View,
+            Event_View,
+            Salary_View
         }
 
         public enum InterviewRoundStatusMst

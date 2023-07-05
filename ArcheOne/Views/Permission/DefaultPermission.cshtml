@@ -65,22 +65,22 @@
 					<div class="row">
 						<div class="form-group col-sm-12" id="dtxtPermissionTitle">
 							<label><span class="has-error required">* </span>Permission Title</label>
-							<input id="txtPermissionTitle" name="txtPermissionTitle" type="text" class="form-control text-length" placeholder="Permission Title" isrequired="1" divcontainer="dtxtPermissionTitle" errorspan="stxtPermissionTitle" defaultvalue="" autocomplete="off" minlength="2" maxlength="100">
+							<input id="txtPermissionTitle" name="txtPermissionTitle" type="text" class="form-control text-length" placeholder="Permission Title" isrequired="1" divcontainer="dtxtPermissionTitle" errorspan="stxtPermissionTitle" defaultvalue="" autocomplete="off" minlength="2" maxlength="100" readonly>
 							<span class="help-block d-none has-error" id="stxtPermissionTitle">Please Enter Permission Title</span>
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-sm-12" id="dddlProjectStatus">
-							<label><span class="has-error required">* </span>Status</label>
-							<input id="txtPermissionRoutes" name="txtPermissionRoutes" class="inputTags" placeholder="Routes"/>
-							<span class="help-block d-none has-error" id="sddlProjectStatus">Please Select Project Status</span>
+						<div class="form-group col-sm-12" id="dtxtPermissionRoutes">
+							<label><span class="has-error required">* </span>Permission Routes</label>
+							<input id="txtPermissionRoutes" name="txtPermissionRoutes" class="inputTags" placeholder="Routes" />
+							<span class="help-block d-none has-error" id="stxtPermissionRoutes">Please Select Permission Routes</span>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<div class="row">
-						<button type="button" id="btnAddUpdateProject" class="btn btn-success mr-2" onclick="AddUpdateProject()">Save</button>
-						<button type="button" id="btnCancel" data-dismiss="modal" class="btn btn-danger" onclick="CancelProject()">Cancel</button>
+						<button type="button" id="btnAddUpdateProject" class="btn btn-success mr-2" onclick="SavePermissionDetails()">Save</button>
+						<button type="button" id="btnCancel" data-dismiss="modal" class="btn btn-danger" onclick="CancelPermissionUpdate()">Cancel</button>
 					</div>
 				</div>
 			</div>

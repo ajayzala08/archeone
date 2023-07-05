@@ -60,6 +60,12 @@ Insert into PermissionMst values('Leave Add View', 'Leave_Add_View', '', 1, 0, 0
 Insert into PermissionMst values('Leave Edit View', 'Leave_Edit_View', '', 1, 0, 0, 0, GETDATE(), GETDATE());
 Insert into PermissionMst values('Leave Delete View', 'Leave_Delete_View', '', 1, 0, 0, 0, GETDATE(), GETDATE());
 Insert into PermissionMst values('Leave Status Change View', 'Leave_Status_Change_View', '', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Event View','Event_View','', 1, 0, 1, 1, GETDATE(), GETDATE())
+Insert into PermissionMst values('Event Add View','Event_Add_View','', 1, 0, 1, 1, GETDATE(), GETDATE())
+Insert into PermissionMst values('Event Edit View','Event_Edit_View','', 1, 0, 1, 1, GETDATE(), GETDATE())
+Insert into PermissionMst values('Event Delete View','Event_Delete_View','', 1, 0, 1, 1, GETDATE(), GETDATE())
+Insert into PermissionMst values('Salary View','Salary_View','', 1, 0, 1, 1, GETDATE(), GETDATE())
+Insert into PermissionMst values('Upload Salary Sheet View','Upload_Salary_Sheet_View','', 1, 0, 1, 1, GETDATE(), GETDATE())
 
 ------------------------------------SetUp SuperAdmin User----------------------------
 insert into dbo.UserMst values(1,'Admin','','Super','S_Admin','123456','Vadodara','390015','8878964532','9976536725','SuperAdmin@gmail.com','photoURL',1,0,0,0,getdate(),getdate(),1)
