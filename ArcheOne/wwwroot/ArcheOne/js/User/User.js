@@ -6,7 +6,6 @@ $(document).ready(function () {
         AddEditUser(0);
         /*manageUserDetails(0);*/
     });
-    GetRoleList();
 });
 
 $('#AddUserPage').click(function () {
@@ -88,21 +87,6 @@ function GetFilteredUserList() {
             Id = $(this).attr('Id');
             DeleteUser(Id);
         });
-    });
-}
-
-function GetRoleList() {
-    $.blockUI({ message: "<h2>Please wait</p>" });
-    ajaxCall("Post", false, '/Role/RoleList', null, function (result) {
-        if (result.status == true) {
-            $.each(result.data, function (data, value) {
-                $("#slRoles").append($("<option></option>").val(value.id).html(value.roleName));
-            })
-        }
-        else {
-            Toast.fire({ icon: 'error', title: result.message });
-        }
-        $.unblockUI();
     });
 }
 

@@ -1,4 +1,5 @@
 ﻿using ArcheOne.Helper.CommonModels;
+using ArcheOne.Models.Res;
 using System.Data;
 using System.Globalization;
 using System.Net;
@@ -6,6 +7,7 @@ using System.Net.Mail;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace ArcheOne.Helper.CommonHelpers
@@ -734,6 +736,21 @@ namespace ArcheOne.Helper.CommonHelpers
                 return propertyInfo.GetValue(obj);
             }
             return null;
+        }
+
+        public List<IndexDashboardResModel> GetPermissionList()
+        {
+            List<IndexDashboardResModel> permissionList = new List<IndexDashboardResModel>();
+            byte[] serializedData = _httpContextAccessor.HttpContext.Session.Get("PermissionList");
+
+            if (serializedData != null)
+            {
+                using (MemoryStream memoryStream = new MemoryStream(serializedData))
+                {
+                    permissionList = JsonSerializer.Deserialize<List<IndexDashboardResModel>>(memoryStream) ?? new List<IndexDashboardResModel>();
+                }
+            }
+            return permissionList;
         }
     }
 }

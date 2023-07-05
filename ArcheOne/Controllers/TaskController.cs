@@ -2,6 +2,7 @@
 using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models.Req;
+using ArcheOne.Models.Res;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
@@ -32,7 +33,7 @@ namespace ArcheOne.Controllers
 
         public async Task<IActionResult> GetTaskList()
         {
-            CommonResponse response = new CommonResponse();
+            dynamic response = null;
             try
             {
                 int userId = _commonHelper.GetLoggedInUserId();
@@ -102,6 +103,7 @@ namespace ArcheOne.Controllers
                         var search = searchValue.ToLower();
                         taskList = taskList.Where(x
                             => x.ProjectName.ToLower().Contains(search)
+                            || (showUserName ? x.CreatedByName.ToLower().Contains(search) : false)
                             || x.TaskDate.ToShortDateString().ToLower().Contains(search)
                             || x.TaskStatus.ToLower().Contains(search)
                             || x.TimeSpent.ToLower().Contains(search)
@@ -121,122 +123,45 @@ namespace ArcheOne.Controllers
                         taskList = taskList.OrderByDescending(x => x.Id);
                     }
 
-                    var empList = taskList.Skip(skip).Take(pageSize).ToList();
-                    var returnObj = new
+                    var finalTaskList = taskList.Skip(skip).Take(pageSize).ToList();
+
+                    string calculatedTime = "00:00";
+
+                    if (finalTaskList != null && finalTaskList.Count > 0)
                     {
-                        draw = draw,
+                        int totalMinutes = 0;
+
+                        foreach (var item in finalTaskList)
+                        {
+                            totalMinutes += GetMinutesByHours(item.TimeSpent, false);
+                        }
+                        calculatedTime = GetHourByMinutes(totalMinutes);
+                    }
+
+                    response = new
+                    {
+                        draw,
+                        status = true,
                         recordsTotal = totalRecord,
                         recordsFiltered = filterRecord,
-                        data = empList
+                        calculatedTime,
+                        data = finalTaskList
                     };
-
-                    if (returnObj != null && returnObj.data.Count > 0)
-                    {
-                        var calculatedTime = "00:00";
-                        int totalMinutes = 0;
-
-                        foreach (var item in returnObj.data)
-                        {
-                            totalMinutes += GetMinutesByHours(item.TimeSpent, false);
-                        }
-
-                        calculatedTime = GetHourByMinutes(totalMinutes);
-
-                        response.Data = returnObj;
-                        response.Message = $"{calculatedTime} Data found successfully!";
-                        response.Status = true;
-                        response.StatusCode = System.Net.HttpStatusCode.OK;
-                    }
-                    else
-                    {
-                        response.Message = "Data not found!";
-                        response.StatusCode = System.Net.HttpStatusCode.NotFound;
-                    }
-                    return Json(returnObj);
+                    return Json(response);
                 }
             }
             catch (Exception ex)
             {
-                response.Message = ex.Message;
-            }
-            return Json("sdf");
-        }
-
-        public async Task<CommonResponse> GetTaskList1([FromBody] GetTaskListReqModel request)
-        {
-            CommonResponse response = new CommonResponse();
-            try
-            {
-                int userId = _commonHelper.GetLoggedInUserId();
-                CommonResponse roleDetailsResponse = await new RoleController(_dbRepo).GetRoleByUserId(userId);
-
-                if (roleDetailsResponse.Status)
+                response = new
                 {
-                    bool showUserName = false;
-                    if (roleDetailsResponse.Data.RoleCode == CommonEnums.RoleMst.Super_Admin.ToString())
-                    {
-                        showUserName = true;
-                    }
-
-                    List<DailyTaskMst> dailyTaskList = await _dbRepo.DailyTaskList()
-                        .Where(x
-                        => (showUserName == false ? x.CreatedBy == userId : true)
-                        && (request.ResourceId != 0 ? x.CreatedBy == request.ResourceId : true)
-                        && (request.ProjectId != 0 ? x.ProjectId == request.ProjectId : true)
-                        && (request.FromDate != null && request.ToDate != null
-                        ? request.FromDate.Value.Date <= x.TaskDate.Date && x.TaskDate.Date <= request.ToDate.Value.Date
-                        : request.FromDate != null ? x.TaskDate.Date == request.FromDate.Value.Date : true)).ToListAsync();
-
-                    var taskList = (from dailyTask in dailyTaskList
-                                    join project in _dbRepo.ProjectList() on dailyTask.ProjectId equals project.Id into projectGroup
-                                    from projectItem in projectGroup.DefaultIfEmpty()
-                                    join allUser in _dbRepo.AllUserMstList() on dailyTask.CreatedBy equals allUser.Id into allUserGroup
-                                    from allUserItem in allUserGroup.DefaultIfEmpty()
-                                    select new
-                                    {
-                                        dailyTask.Id,
-                                        projectItem.ProjectName,
-                                        dailyTask.TaskDate,
-                                        dailyTask.TaskStatus,
-                                        dailyTask.TimeSpent,
-                                        dailyTask.TaskModule,
-                                        dailyTask.TaskDescription,
-                                        dailyTask.CreatedBy,
-                                        CreatedByName = $"{allUserItem.FirstName ?? ""} {allUserItem.LastName ?? ""}",
-                                        dailyTask.CreatedDate,
-                                        IsEditable = !(dailyTask.CreatedDate.Date != _commonHelper.GetCurrentDateTime().Date),
-                                        ShowUserName = showUserName
-                                    }).ToList();
-
-                    if (taskList != null && taskList.Count > 0)
-                    {
-                        var calculatedTime = "00:00";
-                        int totalMinutes = 0;
-
-                        foreach (var item in taskList)
-                        {
-                            totalMinutes += GetMinutesByHours(item.TimeSpent, false);
-                        }
-
-                        calculatedTime = GetHourByMinutes(totalMinutes);
-
-                        response.Data = taskList;
-                        response.Message = $"{calculatedTime} Data found successfully!";
-                        response.Status = true;
-                        response.StatusCode = System.Net.HttpStatusCode.OK;
-                    }
-                    else
-                    {
-                        response.Message = "Data not found!";
-                        response.StatusCode = System.Net.HttpStatusCode.NotFound;
-                    }
-                }
+                    status = false,
+                    message = ex.Message,
+                    recordsTotal = 0,
+                    recordsFiltered = 0,
+                    calculatedTime = "00:00",
+                };
             }
-            catch (Exception ex)
-            {
-                response.Message = ex.Message;
-            }
-            return response;
+            return Json(response);
         }
 
         public async Task<CommonResponse> GetTaskById(int TaskId)
@@ -372,7 +297,6 @@ namespace ArcheOne.Controllers
             return View();
         }
 
-
         public async Task<CommonResponse> GenerateTaskReport()
         {
             CommonResponse response = new CommonResponse();
@@ -388,38 +312,10 @@ namespace ArcheOne.Controllers
             return response;
         }
 
-        public class DailyTaskExcelViewModel
-        {
-            public int Id { get; set; }
 
-            public string ProjectName { get; set; } = null!;
+        #region Private GenerateTaskReport Functions
 
-            public string ProjectStatus { get; set; } = null!;
-
-            public List<Resources> UserMst { get; set; }
-            public List<DailyTask> DailyTaskMsts { get; set; }
-
-            public class Resources
-            {
-                public int Id { get; set; }
-                public string FirstName { get; set; }
-                public string LastName { get; set; }
-                public int RoleId { get; set; }
-                public string Role { get; set; }
-                public decimal Salary { get; set; }
-            }
-
-            public class DailyTask
-            {
-                public int Id { get; set; }
-                public int ProjectId { get; set; }
-                public string TimeSpent { get; set; }
-                public string TaskModule { get; set; }
-                public int CreatedBy { get; set; }
-            }
-        }
-
-        public async Task<string> ExportProjectReportExcel()
+        private async Task<string> ExportProjectReportExcel()
         {
             string FileName = "WeeklyTaskReport_" + _commonHelper.GetCurrentDateTime().ToString("dd-MM-yyyy_HHmmss") + ".xlsx";
             string CurrentDirectory = Directory.GetCurrentDirectory();
@@ -430,7 +326,7 @@ namespace ArcheOne.Controllers
             Directory.CreateDirectory(target1);
             var strPath = Path.Combine(target1, FileName);
 
-            List<DailyTaskExcelViewModel> dailyExcelModelList = new List<DailyTaskExcelViewModel>();
+            List<DailyTaskExcelResModel> dailyExcelModelList = new List<DailyTaskExcelResModel>();
 
             var projectList = await _dbRepo.ProjectList().Select(x => new { x.Id, x.ProjectName, x.ProjectStatus, x.Resources }).ToListAsync();
             var userIdsWithComma = string.Join(",", projectList.Select(x => x.Resources).ToList());
@@ -442,7 +338,7 @@ namespace ArcheOne.Controllers
                                from roleItem in roleGroup.DefaultIfEmpty()
                                join userDetails in _dbRepo.UserDetailList() on user.Id equals userDetails.UserId into userDetailsGroup
                                from userDetailsItem in userDetailsGroup.DefaultIfEmpty()
-                               select new DailyTaskExcelViewModel.Resources
+                               select new DailyTaskExcelResModel.Resources
                                {
                                    Id = user.Id,
                                    FirstName = user.FirstName,
@@ -457,7 +353,7 @@ namespace ArcheOne.Controllers
             var allDailyTaskData = (from userId in userIds
                                     join dailyTask in _dbRepo.DailyTaskList() on userId equals dailyTask.CreatedBy.ToString()
                                     where (previousDateTime <= dailyTask.CreatedDate && dailyTask.CreatedDate <= _commonHelper.GetCurrentDateTime())
-                                    select new DailyTaskExcelViewModel.DailyTask
+                                    select new DailyTaskExcelResModel.DailyTask
                                     {
                                         Id = dailyTask.Id,
                                         ProjectId = dailyTask.ProjectId,
@@ -468,28 +364,28 @@ namespace ArcheOne.Controllers
 
             foreach (var item in projectList)
             {
-                DailyTaskExcelViewModel dailyExcelModel = new DailyTaskExcelViewModel();
+                DailyTaskExcelResModel dailyExcelModel = new DailyTaskExcelResModel();
 
                 dailyExcelModel.Id = item.Id;
                 dailyExcelModel.ProjectName = item.ProjectName;
                 dailyExcelModel.ProjectStatus = item.ProjectStatus;
 
-                dailyExcelModel.UserMst = new List<DailyTaskExcelViewModel.Resources>();
-                dailyExcelModel.DailyTaskMsts = new List<DailyTaskExcelViewModel.DailyTask>();
+                dailyExcelModel.UserMst = new List<DailyTaskExcelResModel.Resources>();
+                dailyExcelModel.DailyTaskMsts = new List<DailyTaskExcelResModel.DailyTask>();
 
                 foreach (var id in item.Resources.Split(','))
                 {
                     var userData = allUserData.Where(x => x.Id.ToString() == id).FirstOrDefault();
-                    dailyExcelModel.UserMst.Add(userData != null ? userData : new DailyTaskExcelViewModel.Resources());
+                    dailyExcelModel.UserMst.Add(userData != null ? userData : new DailyTaskExcelResModel.Resources());
 
                     var dailyTaskData = allDailyTaskData.Where(x => x.CreatedBy.ToString() == id && x.ProjectId == item.Id).ToList();
-                    DailyTaskExcelViewModel.DailyTask dailyTask = new DailyTaskExcelViewModel.DailyTask();
+                    DailyTaskExcelResModel.DailyTask dailyTask = new DailyTaskExcelResModel.DailyTask();
                     foreach (var daily in dailyTaskData)
                     {
                         daily.TimeSpent = GetHourByMinutes(GetMinutesByHours(dailyTask.TimeSpent ?? "0:0") + GetMinutesByHours(daily.TimeSpent));
                         dailyTask = daily;
                     }
-                    dailyExcelModel.DailyTaskMsts.Add(dailyTask != null ? dailyTask : new DailyTaskExcelViewModel.DailyTask());
+                    dailyExcelModel.DailyTaskMsts.Add(dailyTask != null ? dailyTask : new DailyTaskExcelResModel.DailyTask());
                 }
                 dailyExcelModelList.Add(dailyExcelModel);
             }
@@ -599,7 +495,7 @@ namespace ArcheOne.Controllers
             return FileName;
         }
 
-        public decimal GetPerMinuteSalary(decimal annualPackage)
+        private decimal GetPerMinuteSalary(decimal annualPackage)
         {
             var monthSalary = annualPackage / 12; // Monthly Salary
             var monthDays = DateTime.DaysInMonth(
@@ -612,7 +508,7 @@ namespace ArcheOne.Controllers
             return Math.Round(minuteSalary, 3);
         }
 
-        public int GetMinutesByHours(string input, bool? enableFinalAmountLimit = true)
+        private int GetMinutesByHours(string input, bool? enableFinalAmountLimit = true)
         {
             var inputarr = input != null ? input.Split(':') : ("00:00").Split(':');
             var finalAmout = (Convert.ToInt32(inputarr[0]) * 60) + Convert.ToInt32(inputarr[1]);
@@ -624,12 +520,12 @@ namespace ArcheOne.Controllers
             return finalAmout;
         }
 
-        public string GetHourByMinutes(int input)
+        private string GetHourByMinutes(int input)
         {
             return Convert.ToString((input / 60) + ":" + (input % 60));
         }
 
-        public string GetPercentageByHrsWorking(string inputTime)
+        private string GetPercentageByHrsWorking(string inputTime)
         {
             double finalOutput = 0.0;
             if (inputTime != null || inputTime != string.Empty)
@@ -659,7 +555,7 @@ namespace ArcheOne.Controllers
             return finalOutput.ToString("n2");
         }
 
-        public DateTime GetLastStartDateTime()
+        private DateTime GetLastStartDateTime()
         {
             //var emailMst = db.EmailScheduleMst.SingleOrDefault();
 
@@ -672,6 +568,7 @@ namespace ArcheOne.Controllers
 
             return lastStartDateTime.Date;
         }
+        #endregion
 
     }
 }

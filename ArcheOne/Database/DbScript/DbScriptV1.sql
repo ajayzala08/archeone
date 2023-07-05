@@ -118,6 +118,7 @@ BEGIN
 			Id int identity(1,1) primary key,
 			PermissionName nvarchar(100) not null,
 			PermissionCode nvarchar(100) not null,
+			PermissionRoute nvarchar(100) not null,
 			IsActive bit not null,
 			IsDelete bit not null,
 			CreatedBy int not null,
