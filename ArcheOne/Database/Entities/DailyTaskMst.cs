@@ -15,9 +15,13 @@ public partial class DailyTaskMst
 
     public string TimeSpent { get; set; } = null!;
 
+    public string TaskName { get; set; } = null!;
+
     public string TaskModule { get; set; } = null!;
 
     public string TaskDescription { get; set; } = null!;
+
+    public DateTime? DueDate { get; set; }
 
     public bool IsActive { get; set; }
 

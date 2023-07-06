@@ -1,6 +1,27 @@
+var EditMode = 1;
 $(document).ready(function () {
+
+
+    $("#txtEndDate").change();
     $('.select2').select2()
+    //let txtSelectedEndTime = $("#txtSelectedEndTime").val();
+    //if (txtSelectedEndTime != null && txtSelectedEndTime != 0 && EditMode == 1) {
+    //    $("#ddlEndTime").val(txtSelectedEndTime);
+    //    EditMode = 0;
+    //}
+
+
+    let txtSelectedEndTime = $("#txtSelectedEndTime").val();
     
+    if (txtSelectedEndTime && EditMode === 1) {
+        let dropdown = $("#ddlEndTime");
+        let option = dropdown.find('option[value="' + txtSelectedEndTime + '"]');
+        
+        if (option.length > 0) {
+            dropdown.val(txtSelectedEndTime);
+            EditMode = 0;
+        }
+    }
     $("#btnSaveAdd").click(function () {
         SaveUpdateLeave();
     });
@@ -28,16 +49,14 @@ $(document).ready(function () {
 
                 $("#ddlEndTime").html('');
                 $("#ddlEndTime").append('<option value="0">--- Select EndTime ---</option>');
-                $.each(response.data, function (i, states) {
-                    console.log(response.data);
-                    $("#ddlEndTime").append('<option  value="' + states.id + '">' +
-                        states.name + '</option>');
+                $.each(response.data, function (i, endtime) {
+                    
+                    $("#ddlEndTime").append('<option  value="' + endtime.id + '">' +
+                        endtime.name + '</option>');
                 });
                 //$("#ddlEndTime").val(0);
-                //if (txtSelectedEndTime != null && txtSelectedEndTime != 0 && EditMode == 1) {
-                //    $("#ddlEndTime").val(txtSelectedEndTime);
-                //   // EditMode = 0;
-                //}
+                
+               
 
                 //$("#ddlState").change();
             });
@@ -95,7 +114,7 @@ function SaveUpdateLeave() {
     let saveLeavesData = {
         "Id": parseInt($("#txtLeaveId").val()),
         "LeaveTypeId": parseInt($("#ddlLeaveTypeId").val()),
-        "LeaveStatusId": parseInt($("#ddlLeaveStatusId").val()),
+        "LeaveStatusId": isNaN(parseInt($("#ddlLeaveStatusId").val())) ? 0 : parseInt($("#ddlLeaveStatusId").val()),
         "StartDate": $('#txtStartDate').val(),
         "EndDate": $("#txtEndDate").val(),
         "StartTime": $('#ddlStartTime').find('option:selected').text(),
@@ -104,6 +123,7 @@ function SaveUpdateLeave() {
 
 
     }
+    
     console.log(saveLeavesData);
     if (validateRequiredFields()) {
         ajaxCall("Post", false, '/Leaves/SaveUpdateLeave', JSON.stringify(saveLeavesData), function (result) {
