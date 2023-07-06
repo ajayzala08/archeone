@@ -66,7 +66,6 @@ function GetUserPermissions(UserId) {
                 "columns": [
                     { data: "id", title: "Id" },
                     { data: "permissionName", title: "Permissions" },
-                    { data: "permissionRoute", title: "Permission Route(s)" },
                     {
                         data: null,
                         title: 'Status',
