@@ -11,6 +11,7 @@
     bool datatable = (!string.IsNullOrWhiteSpace(ViewBag.datatable) && (ViewBag.datatable == "true" || ViewBag.datatable == "True")) ? true : false;
     bool select2 = (!string.IsNullOrWhiteSpace(ViewBag.select2) && (ViewBag.select2 == "true" || ViewBag.select2 == "True")) ? true : false;
     bool ckeditor = (!string.IsNullOrWhiteSpace(ViewBag.ckeditor) && (ViewBag.ckeditor == "true" || ViewBag.ckeditor == "True")) ? true : false;
+    bool inputTags = (!string.IsNullOrWhiteSpace(ViewBag.inputTags) && (ViewBag.inputTags == "true" || ViewBag.inputTags == "True")) ? true : false;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +26,7 @@
     <link href="~/theme/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
     <!-- JQuery UI -->
     <link href="~/theme/dist/css/jquery.ui_1.13.2_themes_base_jquery-ui.css" rel="stylesheet" />
-    <link href="~/archeone/css/jquery.datetimepicker.min.css" rel="stylesheet" />
+
     @if (datatable)
     {
         <!-- DataTables -->
@@ -243,7 +244,7 @@
     <!-- jQuery UI -->
     <script src="~/theme/dist/js/jquery.ui_1.13.2_jquery-ui.js"></script>
 
-    <script src="~/archeone/js/jquery.datetimepicker.min.js"></script>
+
     <!-- Bootstrap 4 -->
     <script src="~/theme/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Sweetalert2 V11 -->
@@ -274,6 +275,10 @@
     @if (ckeditor)
     {
         <script src="~/theme/dist/js/ckeditor5_38.0.1_classic_ckeditor.js"></script>
+    }
+    @if (inputTags)
+    {
+        <script src="~/archeone/js/inputtags.js"></script>
     }
     <!-- AdminLTE App -->
     <script src="~/theme/dist/js/adminlte.min.js"></script>

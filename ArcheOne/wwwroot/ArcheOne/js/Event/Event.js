@@ -4,7 +4,6 @@ $.ajax({
     url: '/Event/EventData',
     cache: false,
     success: function (response) {
-        debugger
         console.log(response);
         if (response.status == true) {
             showCalender(response.data);
@@ -19,7 +18,6 @@ $.ajax({
 });
 
 $(".close").click(function () {
-    alert("Close event called");
     $("#myModal").modal("hide");
 
 });
@@ -27,46 +25,59 @@ $(".close").click(function () {
 
 
 $("#addNewEvent").click(function () {
-    alert("Add button click");
+   
     var subject = $("#txtSubject").val();
     var description = $("#txtDescription").val();
-    var start = $("#txtStart").val();
-    var end = $("#txtEnd").val();
+    var start = $("#txtStartDate").val();
+    var end = $("#txtEndDate").val();
     var theamColor = $('#ddlcolorId').val();
     var allDay = $('#chbIsFullDay').is(':checked');
-    alert(subject + "-" + description + "-" + start + "-" + end + "-" + theamColor + "-" + allDay);
 
     var addEvent = {
         subject: $("#txtSubject").val(),
         description: $("#txtDescription").val(),
-        start: $("#txtStart").val(),
-        end: $("#txtEnd").val(),
+        start: $("#txtStartDate").val(),
+        end: $("#txtEndDate").val(),
         theamColor: $('#ddlcolorId').val(),
         isFullDay: $('#chbIsFullDay').is(':checked')
 
     };
+    if (validateRequiredFields()) {
+        $.ajax({
+            type: 'POST',
+            url: '/Event/AddEditEventData',
+            contentType: 'application/json',
+            data: JSON.stringify(addEvent),
+            cache: false,
+            success: function (response) {
+                
+                if (response.status == true) {
+                
+                    Toast.fire({ icon: 'success', title: response.message });
+                    console.log(response);
+                    location.reload();
+                    showCalender(response.Data);
 
-    $.ajax({
-        type: 'POST',
-        url: '/Event/AddEditEventData',
-        contentType: 'application/json',
-        data: JSON.stringify(addEvent),
-        cache: false,
-        success: function (response) {
-            console.log(response);
-            location.reload();
-            showCalender(response.Data);
+                }
+                else {
+                    Toast.fire({ icon: 'error', title: response.message });
+                    $.unblockUI();
+                }
 
-        }
-    });
+            }
+        });
 
-    $("#myModal").modal("hide");
+        $("#myModal").modal("hide");
+
+    }
 
 });
 
-
+$("#btnCancel").click(function () {
+    window.location.href = '/Event/Event';
+});
 function showCalender(data) {
-    debugger
+  
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
@@ -76,7 +87,7 @@ function showCalender(data) {
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
         footerToolbar: {
-            start: 'custom1,custom2',
+            start: 'custom1',
             center: '',
             end: 'prev,next'
         },
@@ -87,13 +98,8 @@ function showCalender(data) {
                     $("#myModal").modal("show");
 
                 }
-            },
-            custom2: {
-                text: 'custom 2',
-                click: function () {
-                    alert('clicked custom button 2!');
-                }
             }
+            
         },
         events: data,
 
@@ -101,10 +107,6 @@ function showCalender(data) {
             
         },
         eventClick: function (info) {
-
-            alert('Event: ' + info.event.title);
-            alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-            alert('View: ' + info.view.type);
 
             // change the border color just for fun
             info.el.style.borderColor = 'red';
@@ -120,7 +122,6 @@ function showCalender(data) {
 
         },
         eventDrop: function (info) {
-            alert(info.event.title + " was dropped on " + info.event.start.toISOString());
 
             if (!confirm("Are you sure about this change?")) {
                 info.revert();
@@ -148,7 +149,6 @@ function GetEventList() {
         ApplyDatatableResponsive('tblEvent');
 
         $(".btn-edit").click(function () {
-
             var Id = $(this).attr('Id');
             AddEditEvent(Id);
         });

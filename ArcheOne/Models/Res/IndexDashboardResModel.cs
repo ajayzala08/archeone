@@ -2,11 +2,11 @@
 {
     public class IndexDashboardResModel
     {
-        public int Id { get; set; }
-
-        public string PermissionName { get; set; } = null!;
+        public bool IsAjaxRoute { get; set; }
 
         public string PermissionCode { get; set; } = null!;
+
+        public string PermissionRoute { get; set; } = null!;
 
     }
 }

@@ -94,7 +94,7 @@ namespace ArcheOne.Controllers
 					}
 					else
 					{
-						commonResponse.Message = "Only pdf files are Allowed !";
+						commonResponse.Message = "Only pdf and jpg files are Allowed !";
 					}
 					int userId = _commonHelper.GetLoggedInUserId();
 					if (saveUpdateUserDocumentsReqModel.Id == 0) // Add New Project
@@ -175,7 +175,7 @@ namespace ArcheOne.Controllers
 		}
 
 		public async Task<CommonResponse> UserDocumentList()
-		{
+	{
 			CommonResponse commonResponse = new CommonResponse();
 			try
 			{
@@ -185,11 +185,13 @@ namespace ArcheOne.Controllers
 													   on UD.UserId equals U.Id
 									join D in _dbRepo.DocumentTypeList()
 									on UD.DocumentTypeId equals D.Id
-									select new { UD, U, D })
+									join f in _dbRepo.UserDetailList() on U.Id equals f.UserId
+									select new { UD, U, D,f })
 					 .Select(x => new UserDocumentResModel
 					 {
 						 Id = x.UD.Id,
-						 UserId = x.U.UserName,
+						 EmployeeName = x.U.FirstName +" "+x.U.LastName,
+						 EmployeeCode = x.f.EmployeeCode,
 						 DocumentTypeId = x.D.DocumentType,
 						 Document = System.IO.File.Exists(Path.Combine(_commonHelper.GetPhysicalRootPath(false), x.UD.Document)) ? Path.Combine(@"\", x.UD.Document) :
 						  @"\Theme\Logo\default_user_profile.png"

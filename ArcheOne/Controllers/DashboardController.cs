@@ -23,21 +23,15 @@ namespace ArcheOne.Controllers
             {
                 int userId = _commonHelper.GetLoggedInUserId();
 
-                var roleDetails = await (from userMst in _dbRepo.AllUserMstList()
-                                         where userMst.Id == userId
-                                         join roleMst in _dbRepo.RoleMstList(withSuperAdmin: true) on userMst.RoleId equals roleMst.Id into roleMstGroup
-                                         from roleMstItem in roleMstGroup.DefaultIfEmpty()
-                                         select new
-                                         {
-                                             roleMstItem.Id,
-                                             roleMstItem.RoleCode,
-                                             roleMstItem.RoleName
-                                         }).FirstOrDefaultAsync();
+                var roleDetailsResponse = await new RoleController(_dbRepo).GetRoleByUserId(userId);
+
+                dynamic roleDetails = null;
+                if (roleDetailsResponse != null) { roleDetails = roleDetailsResponse.Data; }
 
                 List<IndexDashboardResModel> permissionList;
                 if (roleDetails!.RoleCode == CommonEnums.RoleMst.Super_Admin.ToString())
                 {
-                    permissionList = await _dbRepo.PermissionList().Select(x => new IndexDashboardResModel { Id = x.Id, PermissionName = x.PermissionName, PermissionCode = x.PermissionCode }).ToListAsync();
+                    permissionList = await _dbRepo.PermissionList().Select(x => new IndexDashboardResModel { PermissionCode = x.PermissionCode, PermissionRoute = x.PermissionRoute }).ToListAsync();
                 }
                 else
                 {
@@ -48,9 +42,8 @@ namespace ArcheOne.Controllers
                                             from permissionsItem in permissionsGroup.DefaultIfEmpty()
                                             select new IndexDashboardResModel
                                             {
-                                                Id = (int?)permissionsItem.Id ?? 0,
-                                                PermissionName = permissionsItem.PermissionName ?? "",
                                                 PermissionCode = permissionsItem.PermissionCode ?? "",
+                                                PermissionRoute = permissionsItem.PermissionRoute ?? ""
                                             }).ToListAsync();
                 }
 

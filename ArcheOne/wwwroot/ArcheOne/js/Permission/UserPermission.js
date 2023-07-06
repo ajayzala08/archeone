@@ -66,9 +66,10 @@ function GetUserPermissions(UserId) {
                 "columns": [
                     { data: "id", title: "Id" },
                     { data: "permissionName", title: "Permissions" },
+                    { data: "permissionRoute", title: "Permission Route(s)" },
                     {
                         data: null,
-                        title: 'Action',
+                        title: 'Status',
                         render: function (data, type, row) {
                             if (row.isDefaultPermission) {
                                 return '<input type="checkbox" class="permissionBox" checked value="' + row.id + '">';
@@ -83,9 +84,7 @@ function GetUserPermissions(UserId) {
 
             $("#btnUpdatePermission").attr("disabled", true);
 
-            $.blockUI({
-                message: "<h2>" + result.message + "</p>"
-            });
+            Toast.fire({ icon: 'error', title: result.message });
         }
         $.unblockUI();
     });
