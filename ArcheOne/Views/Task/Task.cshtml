@@ -92,9 +92,25 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-12" id="dtxtModule">
-                            <label><span class="has-error required">* </span>Task Module</label>
+                            <label><span class="has-error required">* </span>Task Module/User Story</label>
                             <input id="txtModule" name="txtModule" type="text" class="form-control text-length" placeholder="Task Module" isrequired="1" divcontainer="dtxtModule" errorspan="stxtModule" defaultvalue="" autocomplete="off" minlength="2" maxlength="100">
-                            <span class="help-block d-none has-error" id="stxtModule">Please Enter Task Module</span>
+                            <span class="help-block d-none has-error" id="stxtModule">Please Enter Task Module/User Story </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12" id="dtxtTaskName">
+                            <label><span class="has-error required">* </span>Task Name</label>
+                            <input id="txtTaskName" name="txtTaskName" type="text" class="form-control text-length" placeholder="Task Module" isrequired="1" divcontainer="dtxtTaskName" errorspan="stxtTaskName" defaultvalue="" autocomplete="off" minlength="2" maxlength="100">
+                            <span class="help-block d-none has-error" id="stxtTaskName">Please Enter Task Name</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12" id="dddlDailyTaskStatus">
+                            <label><span class="has-error required">* </span>Task Status</label>
+                            <select id="ddlDailyTaskStatus" name="ddlDailyTaskStatus" class="form-control" isrequired="1" divcontainer="dddlDailyTaskStatus" errorspan="sddlDailyTaskStatus" defaultvalue="0" onchange="ToggleCompletionDate()">
+                                <option selected disabled value="0">Select Task Status</option>
+                            </select>
+                            <span class="help-block d-none has-error" id="sddlDailyTaskStatus">Please Select Task Status</span>
                         </div>
                     </div>
                     <div class="row">
@@ -104,13 +120,11 @@
                             <span class="help-block d-none has-error" id="stxtTaskDate">Please Select Task Date</span>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-sm-12" id="dddlDailyTaskStatus">
-                            <label><span class="has-error required">* </span>Task Status</label>
-                            <select id="ddlDailyTaskStatus" name="ddlDailyTaskStatus" class="form-control" isrequired="1" divcontainer="dddlDailyTaskStatus" errorspan="sddlDailyTaskStatus" defaultvalue="0">
-                                <option selected disabled value="0">Select Task Status</option>
-                            </select>
-                            <span class="help-block d-none has-error" id="sddlDailyTaskStatus">Please Select Task Status</span>
+                    <div class="row" style="display: none;">
+                        <div class="form-group col-lg-12" id="dtxtTaskCompletionDate">
+                            <label><span class="has-error required">* </span>Task Completion Date</label>
+                            <input type="date" id="txtTaskCompletionDate" name="txtTaskCompletionDate" class="form-control" isRequired="0" divcontainer="dtxtTaskCompletionDate" errorspan="stxtTaskCompletionDate" defaultvalue="0" minlength="2" />
+                            <span class="help-block d-none has-error" id="stxtTaskCompletionDate">Please Select Task Completion Date</span>
                         </div>
                     </div>
                     <div class="row">

@@ -25,7 +25,7 @@ $(document).ready(function () {
             }
         })
         .catch(error => {
-            console.error(error);
+            console.log(error);
         });
 });
 
@@ -116,12 +116,21 @@ function GetTaskList() {
                 }
             },
             {
+                data: null, title: "Completion Date", name: "CompletionDate", render: function (data, type, row) {
+                    if (row.completionDate != null && row.completionDate != "") {
+                        var datetime = new Date(row.completionDate);
+                        return datetime.toLocaleString('en-US', { day: '2-digit', month: 'short', year: '2-digit' });
+                    } else return "";
+                }
+            },
+            {
                 data: null, title: "Entered Date", name: "CreatedDate", render: function (data, type, row) {
                     var datetime = new Date(row.createdDate);
                     return datetime.toLocaleString('en-US', { day: '2-digit', month: 'short', year: '2-digit' });
                 }
             },
-            { data: "taskModule", title: "Module", name: "TaskModule" },
+            { data: "taskModule", title: "Module/User Story", name: "TaskModule" },
+            { data: "taskName", title: "Task Name", name: "TaskName" },
             { data: "taskDescription", title: "Description", name: "TaskDescription" },
             { data: "taskStatus", title: "Task Status", name: "TaskStatus" },
             { data: "timeSpent", title: "Time Spent", name: "TimeSpent" }],
@@ -203,6 +212,16 @@ function GetProjectStatus() {
     });
 }
 
+function ToggleCompletionDate() {
+    if ($('#ddlDailyTaskStatus option:selected').text() == "InProgress") {
+        $('#dtxtTaskCompletionDate').parent().show();
+        $('#txtTaskCompletionDate').attr("isRequired", "1");
+    } else {
+        $('#dtxtTaskCompletionDate').parent().hide();
+        $('#txtTaskCompletionDate').removeAttr("isRequired");
+    }
+}
+
 function AddUpdateDailyTask() {
 
     $("#sddlTimeSpentMM").text("Please Select Time Spent (Minutes)");
@@ -231,6 +250,12 @@ function AddUpdateDailyTask() {
                 "TimeSpentHH": $("#ddlTimeSpentHH option:selected").text(),
                 "TimeSpentMM": $("#ddlTimeSpentMM option:selected").text(),
                 "TaskDescription": $("#txtTaskDescription").val(),
+                "TaskName": $("#txtTaskName").val(),
+            }
+
+            var completionDate = $("#txtTaskCompletionDate").val();
+            if (completionDate != null && completionDate != "") {
+                requestModel.CompletionDate = completionDate;
             }
 
             ajaxCall("Post", false, '/Task/AddUpdateTask', JSON.stringify(requestModel), function (result) {
@@ -244,7 +269,7 @@ function AddUpdateDailyTask() {
                 }
                 $.unblockUI();
 
-                $("#btnAddUpdateTask").removeAttr("disabled");
+                $("#btnAddUpdateDailyTask").removeAttr("disabled");
             });
         }
     }
@@ -267,6 +292,8 @@ function GetTaskDetails(taskId) {
                 $("#ddlTimeSpentHH option:contains(" + result.data.timeSpent.split(':')[0] + ")").prop('selected', true).trigger('change');
                 $("#ddlTimeSpentMM option:contains(" + result.data.timeSpent.split(':')[1] + ")").prop('selected', true).trigger('change');
                 $("#txtTaskDescription").val(result.data.taskDescription);
+                $("#txtTaskCompletionDate").val(result.data.completionDate != null ? result.data.completionDate.split('T')[0] : null);
+                $("#txtTaskName").val(result.data.taskName);
 
             }
             else {
@@ -303,6 +330,8 @@ function CancelDailyTask() {
     $("#ddlTimeSpentHH").val(0).trigger('change');;
     $("#ddlTimeSpentMM").val(0).trigger('change');;
     $("#txtTaskDescription").val('');
+    $("#txtTaskCompletionDate").val('');
+    $("#txtTaskName").val('');
 
     $("#btnAddUpdateDailyTask").html("Save");
     $("#btnAddUpdateDailyTask").removeClass("btn-warning").addClass("btn-success");

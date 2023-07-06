@@ -31,29 +31,41 @@ namespace ArcheOne.Controllers
             CommonResponse response = new CommonResponse();
             try
             {
-                var data = await (from permission in _dbRepo.PermissionList()
-                                  join defaultPermission in _dbRepo.DefaultPermissionList().Where(x => x.RoleId == RoleId)
-                                  on permission.Id equals defaultPermission.PermissionId into defaultPermissionGroup
-                                  from defaultPermission in defaultPermissionGroup.DefaultIfEmpty()
-                                  select new
-                                  {
-                                      permission.Id,
-                                      permission.PermissionName,
-                                      permission.PermissionRoute,
-                                      IsDefaultPermission = defaultPermission != null
-                                  }).ToListAsync();
+                var userId = _commonHelper.GetLoggedInUserId();
+                var roleDetails = await new RoleController(_dbRepo).GetRoleByUserId(userId);
+                if (roleDetails != null)
+                {
+                    bool showPermissionRoutes = false;
+                    if (roleDetails.Data.RoleCode == CommonEnums.RoleMst.Super_Admin.ToString())
+                    {
+                        showPermissionRoutes = true;
+                    }
 
-                if (data != null && data.Count > 0)
-                {
-                    response.Status = true;
-                    response.Message = "Data found successfully!";
-                    response.StatusCode = HttpStatusCode.OK;
-                    response.Data = data;
-                }
-                else
-                {
-                    response.StatusCode = HttpStatusCode.NotFound;
-                    response.Message = "Data not found!";
+                    var data = await (from permission in _dbRepo.PermissionList()
+                                      join defaultPermission in _dbRepo.DefaultPermissionList().Where(x => x.RoleId == RoleId)
+                                      on permission.Id equals defaultPermission.PermissionId into defaultPermissionGroup
+                                      from defaultPermission in defaultPermissionGroup.DefaultIfEmpty()
+                                      select new
+                                      {
+                                          permission.Id,
+                                          permission.PermissionName,
+                                          permission.PermissionRoute,
+                                          ShowPermissionRoutes = showPermissionRoutes,
+                                          IsDefaultPermission = defaultPermission != null
+                                      }).ToListAsync();
+
+                    if (data != null && data.Count > 0)
+                    {
+                        response.Status = true;
+                        response.Message = "Data found successfully!";
+                        response.StatusCode = HttpStatusCode.OK;
+                        response.Data = data;
+                    }
+                    else
+                    {
+                        response.StatusCode = HttpStatusCode.NotFound;
+                        response.Message = "Data not found!";
+                    }
                 }
             }
             catch (Exception ex)
@@ -162,7 +174,6 @@ namespace ArcheOne.Controllers
                                   {
                                       permission.Id,
                                       permission.PermissionName,
-                                      permission.PermissionRoute,
                                       IsDefaultPermission = userPermission != null
                                   }).ToListAsync();
 
