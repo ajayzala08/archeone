@@ -116,17 +116,11 @@ function GetTaskList() {
                 }
             },
             {
-                data: null, title: "Completion Date", name: "CompletionDate", render: function (data, type, row) {
-                    if (row.completionDate != null && row.completionDate != "") {
-                        var datetime = new Date(row.completionDate);
+                data: null, title: "Due Date", name: "DueDate", render: function (data, type, row) {
+                    if (row.dueDate != null && row.dueDate != "") {
+                        var datetime = new Date(row.dueDate);
                         return datetime.toLocaleString('en-US', { day: '2-digit', month: 'short', year: '2-digit' });
                     } else return "";
-                }
-            },
-            {
-                data: null, title: "Entered Date", name: "CreatedDate", render: function (data, type, row) {
-                    var datetime = new Date(row.createdDate);
-                    return datetime.toLocaleString('en-US', { day: '2-digit', month: 'short', year: '2-digit' });
                 }
             },
             { data: "taskModule", title: "Module/User Story", name: "TaskModule" },
@@ -212,13 +206,13 @@ function GetProjectStatus() {
     });
 }
 
-function ToggleCompletionDate() {
+function ToggleDueDate() {
     if ($('#ddlDailyTaskStatus option:selected').text() == "InProgress") {
-        $('#dtxtTaskCompletionDate').parent().show();
-        $('#txtTaskCompletionDate').attr("isRequired", "1");
+        $('#dtxtTaskDueDate').parent().show();
+        $('#txtTaskDueDate').attr("isRequired", "1");
     } else {
-        $('#dtxtTaskCompletionDate').parent().hide();
-        $('#txtTaskCompletionDate').removeAttr("isRequired");
+        $('#dtxtTaskDueDate').parent().hide();
+        $('#txtTaskDueDate').removeAttr("isRequired");
     }
 }
 
@@ -253,9 +247,9 @@ function AddUpdateDailyTask() {
                 "TaskName": $("#txtTaskName").val(),
             }
 
-            var completionDate = $("#txtTaskCompletionDate").val();
-            if (completionDate != null && completionDate != "") {
-                requestModel.CompletionDate = completionDate;
+            var dueDate = $("#txtTaskDueDate").val();
+            if (dueDate != null && dueDate != "") {
+                requestModel.DueDate = dueDate;
             }
 
             ajaxCall("Post", false, '/Task/AddUpdateTask', JSON.stringify(requestModel), function (result) {
@@ -292,7 +286,7 @@ function GetTaskDetails(taskId) {
                 $("#ddlTimeSpentHH option:contains(" + result.data.timeSpent.split(':')[0] + ")").prop('selected', true).trigger('change');
                 $("#ddlTimeSpentMM option:contains(" + result.data.timeSpent.split(':')[1] + ")").prop('selected', true).trigger('change');
                 $("#txtTaskDescription").val(result.data.taskDescription);
-                $("#txtTaskCompletionDate").val(result.data.completionDate != null ? result.data.completionDate.split('T')[0] : null);
+                $("#txtTaskDueDate").val(result.data.dueDate != null ? result.data.dueDate.split('T')[0] : null);
                 $("#txtTaskName").val(result.data.taskName);
 
             }
@@ -330,7 +324,7 @@ function CancelDailyTask() {
     $("#ddlTimeSpentHH").val(0).trigger('change');;
     $("#ddlTimeSpentMM").val(0).trigger('change');;
     $("#txtTaskDescription").val('');
-    $("#txtTaskCompletionDate").val('');
+    $("#txtTaskDueDate").val('');
     $("#txtTaskName").val('');
 
     $("#btnAddUpdateDailyTask").html("Save");
