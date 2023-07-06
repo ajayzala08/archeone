@@ -32,28 +32,50 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
             try
             {
-                List<SalesLeadListResViewModel> salesLeadListResViewModels = new List<SalesLeadListResViewModel>();
-                salesLeadListResViewModels = await _dbRepo.SalesLeadList().Where(x => x.IsActive == true && x.IsDelete == false).Select(x => new SalesLeadListResViewModel
-                {
-                    Id = x.Id,
-                    OrgName = x.OrgName,
-                    Address = x.Address,
-                    CountryId = x.CountryId,
-                    StateId = x.StateId,
-                    CityId = x.CityId,
-                    Phone1 = x.Phone1,
-                    Phone2 = x.Phone2,
-                    Email1 = x.Email1,
-                    Email2 = x.Email2,
-                    WebsiteUrl = x.WebsiteUrl
-                }).ToListAsync();
-                commonResponse.Data = salesLeadListResViewModels;
+                /*List<SalesLeadListResViewModel> salesLeadListResViewModels = new List<SalesLeadListResViewModel>();
+				salesLeadListResViewModels = await _dbRepo.SalesLeadList().Where(x => x.IsActive == true && x.IsDelete == false).Select(x => new SalesLeadListResViewModel
+				{
+					Id = x.Id,
+					OrgName = x.OrgName,
+					Address = x.Address,
+					CountryId = x.CountryId,
+					StateId = x.StateId,
+					CityId = x.CityId,
+					Phone1 = x.Phone1,
+					Phone2 = x.Phone2,
+					Email1 = x.Email1,
+					Email2 = x.Email2,
+					WebsiteUrl = x.WebsiteUrl
+				}).ToListAsync();
+				commonResponse.Data = salesLeadListResViewModels;*/
+
+                var salesContactPersonList = (from salesLeadList in _dbRepo.SalesLeadList()
+                                              join salescontactPersonList in _dbRepo.SalesContactPersonList()
+                                              on salesLeadList.Id equals salescontactPersonList.SalesLeadId
+                                              select new { salesLeadList, salescontactPersonList }
+                                                   ).Select(x => new
+                                                   {
+                                                       Id = x.salesLeadList.Id,
+                                                       OrgName = x.salesLeadList.OrgName,
+                                                       ContactPersonId = x.salescontactPersonList.Id,
+                                                       FullName = $"{x.salescontactPersonList.FirstName} {x.salescontactPersonList.LastName}",
+                                                       Mobile = x.salescontactPersonList.Mobile1,
+                                                       Email = x.salescontactPersonList.Email,
+                                                       Designation = x.salescontactPersonList.Designation
+
+                                                   }).ToList();
+                commonResponse.Status = true;
+                commonResponse.StatusCode = HttpStatusCode.OK;
+                commonResponse.Message = "Record Found";
+                commonResponse.Data = salesContactPersonList;
+
             }
             catch (Exception ex)
             {
                 commonResponse.Message = ex.Message;
+                commonResponse.Data = ex.ToString();
             }
-            return View(commonResponse.Data);
+            return Json(commonResponse);
         }
 
         public async Task<IActionResult> AddEditSalesLead(int SalesLeadId)
@@ -81,7 +103,7 @@ namespace ArcheOne.Controllers
                     salesLeadAddEdit.salesLeadDetail.IsActive = SalesLeadDetails.IsActive;
 
                     var ContactPersonList = await _dbRepo.SalesContactPersonList().Where(x => x.SalesLeadId == SalesLeadDetails.Id).Take(3).ToListAsync();
-                    
+
                     foreach (var item in ContactPersonList)
                     {
                         SalesLeadContactPersonDetail salesLeadContactPersonDetail = new SalesLeadContactPersonDetail();
@@ -162,7 +184,7 @@ namespace ArcheOne.Controllers
                             {
                                 salesLeadMst.CreatedBy = loggedInUserId;
                                 salesLeadMst.CreatedDate = currentDateTime;
-                                salesLeadMst.IsDelete=false;
+                                salesLeadMst.IsDelete = false;
                             }
                             salesLeadMst.OrgName = saveUpdateSalesLeadReqModel.saveUpdateSalesLeadDetailModel.OrgName;
                             salesLeadMst.CountryId = saveUpdateSalesLeadReqModel.saveUpdateSalesLeadDetailModel.CountryId;
@@ -264,7 +286,7 @@ namespace ArcheOne.Controllers
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 commonResponse.Message = ex.Message;
             }
@@ -299,5 +321,9 @@ namespace ArcheOne.Controllers
             return View(commonResponse.Data);
         }
 
+        public IActionResult Actions()
+        {
+            return View();
+        }
     }
 }

@@ -1,23 +1,15 @@
-﻿using System.Net;
-using ArcheOne.Database.Entities;
+﻿using ArcheOne.Database.Entities;
 using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models.Req;
 using ArcheOne.Models.Res;
-using Azure.Core;
-using Azure;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNet.SignalR.Hosting;
-using DocumentFormat.OpenXml.Office2010.PowerPoint;
-using DocumentFormat.OpenXml.Wordprocessing;
-using iTextSharp.text.pdf;
-using iTextSharp.text;
-using Font = iTextSharp.text.Font;
+using System.Net;
 using Document = iTextSharp.text.Document;
-using Microsoft.CodeAnalysis.Elfie.Extensions;
+using Font = iTextSharp.text.Font;
 
 namespace ArcheOne.Controllers
 {
@@ -153,7 +145,7 @@ namespace ArcheOne.Controllers
 								duplicateUserDocs.UpdatedBy = _commonHelper.GetLoggedInUserId();
 
 								_dbContext.Entry(duplicateUserDocs).State = EntityState.Modified;
-								 await _dbContext.SaveChangesAsync();
+								await _dbContext.SaveChangesAsync();
 
 								commonResponse.Status = true;
 								commonResponse.StatusCode = System.Net.HttpStatusCode.OK;
@@ -345,7 +337,7 @@ namespace ArcheOne.Controllers
 
 			Rectangle pageSize = new Rectangle(iTextSharp.text.PageSize.A4);
 			//pageSize.BackgroundColor = new BaseColor(234, 244, 251);
-            Document document = new Document(pageSize);
+			Document document = new Document(pageSize);
 
 			var user = await _dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.Id == id);
 			var userDetails = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == id);

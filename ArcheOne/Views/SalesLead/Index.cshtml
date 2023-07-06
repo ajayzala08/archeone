@@ -1,5 +1,6 @@
 ﻿@{
     Layout = "_MasterLayout";
+    ViewBag.datatable = "true";
 
 }
 
@@ -29,12 +30,15 @@
             </div>
         </div>
         <div class="card-body">
-            <div id="divSalesLeadList"> </div>
-            <div id="AddSalesLeadData"></div>
+            @*<div id="divSalesLeadList"> </div>
+            <div id="AddSalesLeadData"></div>*@
+            <table id="tblLeadContacts" class="table table-bordered table-striped" style="width:100%">
+            </table>
         </div>
     </div>
 </section>
 
 @section Scripts{
     <script src="~/archeone/js/saleslead/index.js?_@DateTime.Now.Ticks"></script>
+    <script src="//cdn.rawgit.com/ashl1/datatables-rowsgroup/v1.0.0/dataTables.rowsGroup.js"></script>
 }
