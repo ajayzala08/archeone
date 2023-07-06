@@ -223,6 +223,14 @@ namespace ArcheOne.Helper.CommonHelpers
         {
             return _db.LeaveStatusMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
+        public IQueryable<SalesLeadActionMst> SalesLeadActionList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.SalesLeadActionMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
+        public IQueryable<SalesLeadStatusMst> SalesLeadStatusList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.SalesLeadStatusMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
 
     }
 }

@@ -89,13 +89,60 @@ function GetFilteredSalesLeadList() {
 
     ajaxCall("Get", false, '/SalesLead/SalesList', null, function (result) {
 
-        $("#AddSalesLeadData").html(result.responseText);
-        ApplyDatatableResponsive('tblSalesLead');
+     
 
-        $(".btn-edit").click(function () {
+        if (result.status == true) {
 
+            dataTable = $('#tblLeadContacts').DataTable({
+                "responsive": true,
+                "lengthChange": true,
+                "paging": true,
+                "searching": true,
+                "processing": true, // for show progress bar
+                /*"dom": 'Blfrtip',*/
+                "filter": true, // this is for disable filter (search box)
+                "data": result.data,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+
+                "columns": [
+                    {
+                        class: 'clsWrap',
+                        data: "id",
+                        title: 'Action',
+                        name:"second",
+                        render: function (data, type, row) {
+                            if (data) {
+                                return '<i class="fa fa-pen pen" value="' + data.id + '" onclick="AddEditSalesLead(' + row.id + ')"></i> | <i class="fa fa-trash trash btn-delete" value="' + data.id + '" onclick="DeleteSalesLead(' + row.id + ')"></i>';
+                            } 
+                        }
+                    },
+                    { data: "orgName", title: "Lead", name:"first" },
+                    {
+                        data: null,
+                        title: "Contact Person",
+                        render: function (data) {
+                            return '<a href=/SalesLead/Actions/' + data.contactPersonId + '>' + data.fullName + ' </a> ';
+                        }
+
+                    },
+                    { data: "mobile", title: "Mobile" },
+                    { data: "email", title: "Email" },
+                    { data: "designation", title: "Designation" }
+                ],
+                "rowsGroup": [
+                    "first:name",
+                    "second:name"
+
+                ]
+            }).buttons().container().appendTo('#tblUser_wrapper .col-md-6:eq(0)');
+        }
+        else {
+            Toast.fire({ icon: 'error', title: result.message });
+        }
+
+        $(".btn-edit").click(function (Id) {
+            debugger
             EditMode = 1;
-            Id = $(this).attr('Id');
             AddEditSalesLead(Id);
         });
 
@@ -158,5 +205,8 @@ function GetFilteredSalesConatactPersonList() {
 
     });
 }
+
+
+
 
 

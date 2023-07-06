@@ -27,6 +27,8 @@ namespace ArcheOne.Models.Req
 
         public string Reason { get; set; } = null!;
         public int LeaveStatusId { get; set; }
+        public int HrStatus { get; set; }
+        public int ProjectManagerStatus { get; set; }
 
     }
 }

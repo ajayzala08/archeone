@@ -59,6 +59,8 @@ namespace ArcheOne.Controllers
                     var AppliedByUserList1 = await UserList.FirstOrDefaultAsync(x => x.Id == item.AppliedByUserId);
                     var ApprovedByUserList = await UserList.FirstOrDefaultAsync(x => x.Id == item.ApprovedByUserId);
                     var LeaveStatusList1 = await LeaveStatusList.FirstOrDefaultAsync(x => x.Id == item.LeaveStatusId);
+                    var HrStatus = await LeaveStatusList.FirstOrDefaultAsync(x => x.Id == item.Hrstatus);
+                    var ProjectManagerStatus = await LeaveStatusList.FirstOrDefaultAsync(x => x.Id == item.ProjectManagerStatus);
                     var LeaveTypeList1 = await LeaveTypeList.FirstOrDefaultAsync(x => x.Id == item.LeaveTypeId);
                     var LeaveBalanceList1 = await LeaveBlanceList.FirstOrDefaultAsync(x => x.BalanceMonth == BalanceMonth);
 
@@ -74,23 +76,25 @@ namespace ArcheOne.Controllers
                     leaveDetailsListModel.EndDate = item.EndDate;
                     leaveDetailsListModel.StartTime = item.StartTime;
                     leaveDetailsListModel.EndTime = item.EndTime;
-                    leaveDetailsListModel.OpeningBalance = Convert.ToDecimal(_commonHelper.GetFormatedDecimal((decimal)item.OpeningLeaveBalance));
-                    leaveDetailsListModel.ClosingBalance = Convert.ToDecimal(_commonHelper.GetFormatedDecimal((decimal)LeaveBalanceList1.ClosingLeaveBalance));
-                    leaveDetailsListModel.NoOfDays = Convert.ToDecimal(_commonHelper.GetFormatedDecimal((decimal)item.NoOfDays));
-                    leaveDetailsListModel.PaidDays = Convert.ToDecimal(_commonHelper.GetFormatedDecimal((decimal)item.PaidDays));
-                    leaveDetailsListModel.UnPaidDays = Convert.ToDecimal(_commonHelper.GetFormatedDecimal((decimal)item.UnPaidDays));
+                    leaveDetailsListModel.OpeningBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)item.OpeningLeaveBalance));
+                    leaveDetailsListModel.ClosingBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.ClosingLeaveBalance));
+                    leaveDetailsListModel.NoOfDays = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)item.NoOfDays));
+                    leaveDetailsListModel.PaidDays = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)item.PaidDays));
+                    leaveDetailsListModel.UnPaidDays = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)item.UnPaidDays));
                     leaveDetailsListModel.Reason = item.Reason;
                     leaveDetailsListModel.LeaveStatus = LeaveStatusList1.LeaveStatus;
                     leaveDetailsListModel.BalanceMonth = LeaveBalanceList1.BalanceMonth;
-                    leaveDetailsListModel.BalanceYear = Convert.ToDecimal(_commonHelper.GetFormatedDecimal((decimal)LeaveBalanceList1.BalanceYear));
-                    leaveDetailsListModel.SickLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormatedDecimal((decimal)LeaveBalanceList1.SickLeaveBalance));
-                    leaveDetailsListModel.SickLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormatedDecimal((decimal)LeaveBalanceList1.SickLeaveTaken));
-                    leaveDetailsListModel.CasualLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormatedDecimal((decimal)LeaveBalanceList1.CasualLeaveBalance));
-                    leaveDetailsListModel.CasualLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormatedDecimal((decimal)LeaveBalanceList1.CasualLeaveTaken));
-                    leaveDetailsListModel.EarnedLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormatedDecimal((decimal)LeaveBalanceList1.EarnedLeaveBalance));
-                    leaveDetailsListModel.EarnedLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormatedDecimal((decimal)LeaveBalanceList1.EarnedLeaveTaken));
+                    leaveDetailsListModel.BalanceYear = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.BalanceYear));
+                    leaveDetailsListModel.SickLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.SickLeaveBalance));
+                    leaveDetailsListModel.SickLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.SickLeaveTaken));
+                    leaveDetailsListModel.CasualLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.CasualLeaveBalance));
+                    leaveDetailsListModel.CasualLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.CasualLeaveTaken));
+                    leaveDetailsListModel.EarnedLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.EarnedLeaveBalance));
+                    leaveDetailsListModel.EarnedLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.EarnedLeaveTaken));
                     leaveDetailsListModel.Details = LeaveBalanceList1.Detail;
-                    leaveDetailsListModel.LeaveTaken = Convert.ToDecimal(_commonHelper.GetFormatedDecimal((decimal)LeaveBalanceList1.LeaveTaken));
+                    leaveDetailsListModel.LeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.LeaveTaken));
+                    leaveDetailsListModel.HrStatus = HrStatus == null ? "pending" : HrStatus.LeaveStatus;
+                    leaveDetailsListModel.ProjectManagerStatus = ProjectManagerStatus == null ? "pending" : ProjectManagerStatus.LeaveStatus;
 
 
                     leavesListResModel.LeaveDetailsLists.Add(leaveDetailsListModel);
@@ -128,33 +132,53 @@ namespace ArcheOne.Controllers
             {
                 LeaveAddEditReqModel leaveAddEditReqModel = new LeaveAddEditReqModel();
                 leaveAddEditReqModel.leaveDetails = new LeaveDetails();
-                leaveAddEditReqModel.leaveTypeList = _dbRepo.LeaveTypeLists().Where(x => x.IsCurrentYear == true).ToList();
+                leaveAddEditReqModel.leaveTypeList = await _dbRepo.LeaveTypeLists().Where(x => x.IsCurrentYear == true).ToListAsync();
                 bool LeaveStatusChangeView = false;
-                var userId = _dbRepo.GetLoggedInUserDetails().Id;
+                var userId = _commonHelper.GetLoggedInUserId();
 
-                var roleUserId = await _dbRepo.RoleMstList().FirstOrDefaultAsync(x => x.Id == userId);
                 var Permissions = await _dbRepo.PermissionList().ToListAsync();
                 var userPermissions = await _dbRepo.UserPermissionList().Where(x => x.UserId == userId).ToListAsync();
 
-                foreach (var userpermission in userPermissions)
-                {
-                    foreach (var permission in Permissions)
-                    {
-                        if (userpermission.PermissionId == permission.Id)
-                        {
-                            if (permission.PermissionCode.ToLower() == "leave_status_change_view")
-                            {
-                                LeaveStatusChangeView = true;
-                            }
-                            else
-                            {
-                                LeaveStatusChangeView = false;
-                            }
-                        }
 
+                foreach (var permission in Permissions)
+                {
+                    foreach (var userpermission in userPermissions)
+                    {
+                        if (userpermission.PermissionId == permission.Id && permission.PermissionCode.ToLower() == "leave_status_change_view")
+                        {
+                            LeaveStatusChangeView = true;
+                            break;
+                        }
+                    }
+
+                    if (LeaveStatusChangeView)
+                    {
+                        break;
                     }
                 }
 
+                var hrRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
+                var hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
+
+
+                var managerRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Manager")).ToList();
+                var managerroleIdList = managerRoleList.Select(x => x.Id).ToList();
+
+                var employeeRoleList = _dbRepo.RoleMstList().Where(x => !x.RoleCode.Contains("Manager") && !x.RoleCode.Contains("HR")).ToList();
+                var employeeroleIdList = employeeRoleList.Select(x => x.Id).ToList();
+
+                var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
+
+                var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
+                var IsUserManager = loginUserList.Where(x => managerroleIdList.Contains(x.RoleId.Value)).ToList();
+                var IsUserEmployee = loginUserList.Where(x => employeeroleIdList.Contains(x.RoleId.Value)).ToList();
+
+
+
+
+                bool IsUserHR1 = IsUserHR.Count > 0;
+                bool IsUserManager1 = IsUserManager.Count > 0 ? true : false;
+                bool IsUserEmployee1 = IsUserEmployee.Count > 0 ? true : false;
 
                 leaveAddEditReqModel.LeaveStatusChangeView = LeaveStatusChangeView;
                 var startTimeList = new List<KeyValueModel>();
@@ -175,9 +199,22 @@ namespace ArcheOne.Controllers
                         leaveAddEditReqModel.leaveDetails.EndTime = leaveDetails.EndTime;
                         leaveAddEditReqModel.leaveDetails.Reason = leaveDetails.Reason;
                         leaveAddEditReqModel.leaveDetails.LeaveStatusId = leaveDetails.LeaveStatusId;
+                        if (IsUserHR1)
+                        {
+                            leaveAddEditReqModel.leaveDetails.HrStatus = leaveDetails.Hrstatus == null ? 0 : (int)leaveDetails.Hrstatus;
+                        }
+                        else if (IsUserManager1)
+                        {
+                            leaveAddEditReqModel.leaveDetails.ProjectManagerStatus = leaveDetails.ProjectManagerStatus == null ? 0 : (int)leaveDetails.ProjectManagerStatus;
+                        }
+
                     }
                 }
-
+                else
+                {
+                    leaveAddEditReqModel.leaveDetails.StartDate = DateTime.Now;
+                    leaveAddEditReqModel.leaveDetails.EndDate = DateTime.Now;
+                }
                 leaveAddEditReqModel.LeaveStatusList = await _dbRepo.LeaveStatusLists().Select(x => new KeyValueModel { Id = x.Id, Name = x.LeaveStatus }).ToListAsync();
 
                 commonResponse.Status = true;
@@ -315,6 +352,331 @@ namespace ArcheOne.Controllers
 
 
 
+                                        var LeaveBalanceList = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId).OrderBy(x => x.Id).LastOrDefault();
+
+
+                                        if (LeaveBalanceList != null)
+                                        {
+                                            if (isProbationPeriod)
+                                            {
+
+                                                DateTime dt2 = new DateTime(DateTime.Now.Year, 01, 01);
+                                                for (DateTime i = dt2; i <= request.StartDate; i = i.Date.AddMonths(1))
+                                                {
+                                                    var BalanceMonth = i.Date.ToString("MMMM");
+                                                    var LeaveBalance = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId && x.BalanceMonth == BalanceMonth).OrderBy(x => x.Id).LastOrDefault();
+
+                                                    if (LeaveBalance == null)
+
+                                                    {
+                                                        var LeaveBalanceList1 = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId).OrderBy(x => x.Id).LastOrDefault();
+
+
+                                                        var LeaveType1 = await _dbRepo.LeaveLists().Where(x => x.LeaveTypeId == request.LeaveTypeId).OrderByDescending(x => x.Id).FirstOrDefaultAsync();
+
+                                                        LeaveBalanceMst tbl = new LeaveBalanceMst();
+                                                        tbl.UserId = userId;
+                                                        tbl.LeaveTypeId = request.LeaveTypeId;
+                                                        tbl.BalanceMonth = i.Date.ToString("MMMM");
+                                                        tbl.BalanceYear = i.Year;
+                                                        tbl.NoOfDays = 0;
+                                                        tbl.OpeningLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.ClosingLeaveBalance;
+
+                                                        tbl.SickLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.SickLeaveBalance + decimal.Parse("0.5");
+
+
+                                                        tbl.CasualLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.CasualLeaveBalance + decimal.Parse("0.5");
+                                                        tbl.EarnedLeaveBalance = 6;
+                                                        tbl.SickLeaveTaken = 0;
+                                                        tbl.CasualLeaveTaken = 0;
+                                                        tbl.EarnedLeaveTaken = 0;
+                                                        tbl.ClosingLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.ClosingLeaveBalance + decimal.Parse("1.5");
+                                                        tbl.LeaveTaken = noOfDay;
+                                                        tbl.BalanceDate = DateTime.Now;
+                                                        tbl.Detail = "Monthly Leave Balance";
+                                                        tbl.IsActive = true;
+                                                        tbl.IsDelete = false;
+                                                        tbl.CreatedBy = userId;
+                                                        tbl.UpdatedBy = userId;
+                                                        tbl.CreatedDate = _commonHelper.GetCurrentDateTime();
+                                                        tbl.UpdatedDate = _commonHelper.GetCurrentDateTime();
+
+                                                        await _dbContext.LeaveBalanceMsts.AddAsync(tbl);
+                                                        _dbContext.SaveChanges();
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                DateTime dt2 = new DateTime(DateTime.Now.Year, 01, 01);
+                                                for (DateTime i = dt2; i <= request.StartDate; i = i.Date.AddMonths(1))
+                                                {
+                                                    var BalanceMonth = i.Date.ToString("MMMM");
+
+
+                                                    var LeaveBalance = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId && x.BalanceMonth == BalanceMonth).OrderBy(x => x.Id).LastOrDefault();
+
+                                                    if (LeaveBalance == null)
+
+                                                    {
+                                                        var LeaveBalanceList1 = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId).OrderBy(x => x.Id).LastOrDefault();
+
+                                                        LeaveBalanceMst tbl = new LeaveBalanceMst();
+                                                        tbl.UserId = userId;
+                                                        tbl.LeaveTypeId = request.LeaveTypeId;
+                                                        tbl.BalanceMonth = i.Date.ToString("MMMM");
+                                                        tbl.BalanceYear = i.Year;
+                                                        tbl.NoOfDays = noOfDay;
+                                                        tbl.OpeningLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.ClosingLeaveBalance;
+                                                        tbl.SickLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.SickLeaveBalance + decimal.Parse("0.5");
+                                                        tbl.CasualLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.CasualLeaveBalance + decimal.Parse("0.5");
+                                                        tbl.EarnedLeaveBalance = 6;
+                                                        tbl.SickLeaveTaken = 0;
+                                                        tbl.CasualLeaveTaken = 0;
+                                                        tbl.EarnedLeaveTaken = 0;
+                                                        tbl.ClosingLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.ClosingLeaveBalance + decimal.Parse("1.5");
+                                                        tbl.LeaveTaken = noOfDay;
+                                                        tbl.BalanceDate = DateTime.Now;
+                                                        tbl.Detail = "Monthly Leave Balance";
+                                                        tbl.IsActive = true;
+                                                        tbl.IsDelete = false;
+                                                        tbl.CreatedBy = userId;
+                                                        tbl.UpdatedBy = userId;
+                                                        tbl.CreatedDate = _commonHelper.GetCurrentDateTime();
+                                                        tbl.UpdatedDate = _commonHelper.GetCurrentDateTime();
+
+                                                        await _dbContext.LeaveBalanceMsts.AddAsync(tbl);
+                                                        await _dbContext.SaveChangesAsync();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+
+                                            DateTime dt2 = new DateTime(DateTime.Now.Year, 01, 01);
+                                            for (DateTime i = dt2; i <= request.StartDate; i = i.Date.AddMonths(1))
+                                            {
+                                                var LeaveBalanceList1 = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId).OrderBy(x => x.Id).LastOrDefault();
+
+                                                LeaveBalanceMst tbl = new LeaveBalanceMst();
+                                                tbl.UserId = userId;
+                                                tbl.LeaveTypeId = request.LeaveTypeId;
+                                                tbl.BalanceMonth = i.Date.ToString("MMMM");
+                                                tbl.BalanceYear = i.Year;
+                                                tbl.NoOfDays = noOfDay;
+                                                tbl.OpeningLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.ClosingLeaveBalance;
+                                                tbl.SickLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.SickLeaveBalance + decimal.Parse("0.5");
+                                                tbl.CasualLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.CasualLeaveBalance + decimal.Parse("0.5");
+                                                tbl.EarnedLeaveBalance = 6;
+                                                tbl.SickLeaveTaken = 0;
+                                                tbl.CasualLeaveTaken = 0;
+                                                tbl.EarnedLeaveTaken = 0;
+                                                tbl.ClosingLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.ClosingLeaveBalance + decimal.Parse("1.5");
+                                                tbl.LeaveTaken = noOfDay;
+                                                tbl.BalanceDate = DateTime.Now;
+                                                tbl.Detail = "Monthly Leave Balance";
+                                                tbl.IsActive = true;
+                                                tbl.IsDelete = false;
+                                                tbl.CreatedBy = userId;
+                                                tbl.UpdatedBy = userId;
+                                                tbl.CreatedDate = _commonHelper.GetCurrentDateTime();
+                                                tbl.UpdatedDate = _commonHelper.GetCurrentDateTime();
+
+                                                await _dbContext.LeaveBalanceMsts.AddAsync(tbl);
+                                                _dbContext.SaveChanges();
+                                            }
+                                        }
+
+                                        var BalanceList = await _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId).OrderByDescending(x => x.Id).FirstOrDefaultAsync();
+
+                                        var LeaveType = await _dbRepo.LeaveTypeLists().Where(x => x.Id == request.LeaveTypeId).OrderByDescending(x => x.Id).FirstOrDefaultAsync();
+                                        if (BalanceList != null && LeaveType != null)
+                                        {
+                                            if (noOfDay >= 4)
+                                            {
+
+
+                                                if (LeaveType.LeaveTypeName.ToLower() == "sickleave")
+                                                {
+                                                    if (BalanceList.SickLeaveBalance >= noOfDay)
+
+                                                    {
+                                                        leaveMst.PaidDays = noOfDay;
+                                                        leaveMst.UnPaidDays = decimal.Parse("0");
+
+                                                    }
+                                                    else
+                                                    {
+                                                        leaveMst.PaidDays = BalanceList.SickLeaveBalance;
+                                                        leaveMst.UnPaidDays = noOfDay - leaveMst.PaidDays;
+
+                                                    }
+                                                }
+                                                else if (LeaveType.LeaveTypeName.ToLower() == "casualleave")
+                                                {
+
+                                                    if (BalanceList.CasualLeaveBalance >= noOfDay)
+
+                                                    {
+                                                        leaveMst.PaidDays = noOfDay;
+                                                        leaveMst.UnPaidDays = decimal.Parse("0");
+                                                    }
+                                                    else
+                                                    {
+                                                        leaveMst.PaidDays = BalanceList.CasualLeaveBalance;
+                                                        leaveMst.UnPaidDays = noOfDay - leaveMst.PaidDays;
+                                                    }
+                                                }
+                                                else if (LeaveType.LeaveTypeName.ToLower() == "earnedleave")
+                                                {
+
+                                                    if (BalanceList.EarnedLeaveBalance >= noOfDay)
+
+                                                    {
+                                                        leaveMst.PaidDays = noOfDay;
+                                                        leaveMst.UnPaidDays = decimal.Parse("0");
+
+                                                    }
+                                                    else
+                                                    {
+                                                        leaveMst.PaidDays = BalanceList.EarnedLeaveBalance;
+                                                        leaveMst.UnPaidDays = noOfDay - leaveMst.PaidDays;
+
+                                                    }
+                                                }
+
+
+                                            }
+                                            else
+                                            {
+                                                if (LeaveType.LeaveTypeName.ToLower() == "sickleave")
+                                                {
+                                                    if (BalanceList.SickLeaveBalance >= noOfDay)
+                                                    {
+                                                        leaveMst.PaidDays = noOfDay;
+                                                        leaveMst.UnPaidDays = decimal.Parse("0");
+
+                                                    }
+                                                    else
+                                                    {
+                                                        leaveMst.PaidDays = BalanceList.SickLeaveBalance;
+                                                        leaveMst.UnPaidDays = noOfDay - leaveMst.PaidDays;
+
+                                                    }
+                                                }
+                                                else if (LeaveType.LeaveTypeName.ToLower() == "casualleave")
+                                                {
+
+                                                    if (BalanceList.CasualLeaveBalance >= noOfDay)
+
+                                                    {
+                                                        leaveMst.PaidDays = noOfDay;
+                                                        leaveMst.UnPaidDays = decimal.Parse("0");
+
+
+                                                    }
+                                                    else
+                                                    {
+                                                        leaveMst.PaidDays = BalanceList.CasualLeaveBalance;
+                                                        leaveMst.UnPaidDays = noOfDay - leaveMst.PaidDays;
+                                                    }
+                                                }
+                                                else if (LeaveType.LeaveTypeName.ToLower() == "earnedleave")
+                                                {
+
+                                                    if (BalanceList.EarnedLeaveBalance >= noOfDay)
+
+                                                    {
+                                                        leaveMst.PaidDays = noOfDay;
+                                                        leaveMst.UnPaidDays = decimal.Parse("0");
+
+                                                    }
+                                                    else
+                                                    {
+                                                        leaveMst.PaidDays = BalanceList.EarnedLeaveBalance;
+                                                        leaveMst.UnPaidDays = noOfDay - leaveMst.PaidDays;
+
+                                                    }
+                                                }
+
+                                            }
+
+                                            if (isProbationPeriod)
+                                            {
+                                                if (LeaveType.LeaveTypeName.ToLower() == "sickleave")
+                                                {
+                                                    BalanceList.SickLeaveTaken = leaveMst.PaidDays;
+                                                    BalanceList.CasualLeaveTaken = 0;
+                                                    BalanceList.EarnedLeaveTaken = 0;
+                                                }
+                                                else if (LeaveType.LeaveTypeName.ToLower() == "casualleave")
+                                                {
+                                                    BalanceList.SickLeaveTaken = 0;
+                                                    BalanceList.CasualLeaveTaken = leaveMst.PaidDays;
+                                                    BalanceList.EarnedLeaveTaken = 0;
+                                                }
+                                                else if (LeaveType.LeaveTypeName.ToLower() == "earnedleave")
+                                                {
+                                                    BalanceList.SickLeaveTaken = 0;
+                                                    BalanceList.CasualLeaveTaken = 0;
+                                                    BalanceList.EarnedLeaveTaken = leaveMst.PaidDays;
+
+                                                }
+                                                _dbContext.Entry(BalanceList).State = EntityState.Modified;
+                                                await _dbContext.SaveChangesAsync();
+
+                                            }
+
+
+
+
+
+
+                                        }
+                                        else
+                                        {
+                                            response.Message = "Data Not Found!";
+
+                                        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                         if (isProbationPeriod == false)
                                         {
                                             leaveMst.PaidDays = 0;
@@ -352,7 +714,7 @@ namespace ArcheOne.Controllers
                         #region MyRegion
 
 
-
+                        noOfDay = GetNoOfDays(request.StartDate, request.EndDate, request.StartTime, request.EndTime);
                         var hrRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
                         var hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
 
@@ -367,372 +729,180 @@ namespace ArcheOne.Controllers
 
                         var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
                         var IsUserManager = loginUserList.Where(x => managerroleIdList.Contains(x.RoleId.Value)).ToList();
+                        var IsUserEmployee = loginUserList.Where(x => employeeroleIdList.Contains(x.RoleId.Value)).ToList();
 
 
-                        var LeaveDetails = await _dbRepo.LeaveLists().FirstOrDefaultAsync(x => x.Id == request.Id);
-                        if (LeaveDetails != null)
+
+
+                        bool IsUserHR1 = IsUserHR.Count > 0 ? true : false;
+                        bool IsUserManager1 = IsUserManager.Count > 0 ? true : false;
+                        bool IsUserEmployee1 = IsUserEmployee.Count > 0 ? true : false;
+
+
+                        var userJoiningDate = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == userId);
+                        if (userJoiningDate != null)
                         {
-                            LeaveDetails.LeaveTypeId = request.LeaveTypeId;
-                            LeaveDetails.StartDate = request.StartDate;
-                            LeaveDetails.EndDate = request.EndDate;
-                            LeaveDetails.StartTime = Convert.ToDateTime(request.StartTime).TimeOfDay;
-                            LeaveDetails.EndTime = Convert.ToDateTime(request.EndTime).TimeOfDay;
-                            LeaveDetails.Reason = request.Reason;
-                            LeaveDetails.NoOfDays = 18;
-                            LeaveDetails.AppliedByUserId = userId;
-                            LeaveDetails.ApprovedByUserId = userId;
-                            LeaveDetails.LeaveStatusId = request.LeaveStatusId;
-                            LeaveDetails.UpdatedBy = userId;
-                            LeaveDetails.UpdatedDate = _commonHelper.GetCurrentDateTime();
 
+                            decimal isProbationPeriodDays = 0;
+                            bool isProbationPeriod = false;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-                            #region Calculation of deduction leave 
-
-
-
-                            //var LeaveBalanceList = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId).OrderBy(x => x.Id).LastOrDefault();
-
-
-                            //if (LeaveBalanceList != null)
-                            //{
-                            //    if (isProbationPeriod)
-                            //    {
-
-                            //        DateTime dt2 = new DateTime(DateTime.Now.Year, 01, 01);
-                            //        for (DateTime i = dt2; i <= request.StartDate; i = i.Date.AddMonths(1))
-                            //        {
-                            //            var BalanceMonth = i.Date.ToString("MMMM");
-                            //            var LeaveBalance = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId && x.BalanceMonth == BalanceMonth).OrderBy(x => x.Id).LastOrDefault();
-
-                            //            if (LeaveBalance == null)
-
-                            //            {
-                            //                var LeaveBalanceList1 = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId).OrderBy(x => x.Id).LastOrDefault();
-
-
-                            //                var Leavetype1 = await _dbRepo.LeaveLists().Where(x => x.LeaveTypeId == request.LeaveTypeId).OrderByDescending(x => x.Id).FirstOrDefaultAsync();
-
-                            //                LeaveBalanceMst tbl = new LeaveBalanceMst();
-                            //                tbl.UserId = userId;
-                            //                tbl.LeaveTypeId = request.LeaveTypeId;
-                            //                tbl.BalanceMonth = i.Date.ToString("MMMM");
-                            //                tbl.BalanceYear = i.Year;
-                            //                tbl.NoOfDays = 0;
-                            //                tbl.OpeningLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.ClosingLeaveBalance;
-
-                            //                if (Leavetype1.Id == request.LeaveTypeId)
-                            //                {
-                            //                    tbl.SickLeaveBalance = LeaveBalanceList1.SickLeaveTaken == 0 ? LeaveBalanceList1.SickLeaveBalance + decimal.Parse("0.5") : LeaveBalanceList1.SickLeaveBalance - LeaveBalanceList1.SickLeaveTaken;
-                            //                }
-                            //                else
-                            //                {
-                            //                    tbl.SickLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.SickLeaveBalance + decimal.Parse("0.5");
-                            //                }
-
-                            //                if (Leavetype1.Id == request.LeaveTypeId)
-                            //                {
-                            //                    tbl.CasualLeaveBalance = LeaveBalanceList1.CasualLeaveBalance == 0 ? LeaveBalanceList1.CasualLeaveBalance + decimal.Parse("0.5") : LeaveBalanceList1.CasualLeaveBalance - LeaveBalanceList1.CasualLeaveTaken;
-                            //                }
-                            //                else
-                            //                {
-                            //                    tbl.CasualLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.CasualLeaveBalance + decimal.Parse("0.5");
-                            //                }
-
-
-                            //                if (Leavetype1.Id == request.LeaveTypeId)
-                            //                {
-                            //                    tbl.EarnedLeaveBalance = LeaveBalanceList1.EarnedLeaveBalance == 0 ? LeaveBalanceList1.EarnedLeaveBalance + decimal.Parse("0.5") : LeaveBalanceList1.EarnedLeaveBalance - LeaveBalanceList1.EarnedLeaveTaken;
-                            //                }
-                            //                else
-                            //                {
-                            //                    tbl.EarnedLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.EarnedLeaveBalance + decimal.Parse("0.5");
-                            //                }
-
-
-
-                            //                tbl.SickLeaveTaken = 0;
-                            //                tbl.CasualLeaveTaken = 0;
-                            //                tbl.EarnedLeaveTaken = 0;
-                            //                tbl.ClosingLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.ClosingLeaveBalance + decimal.Parse("1.5");
-                            //                tbl.LeaveTaken = 0;
-                            //                tbl.BalanceDate = DateTime.Now;
-                            //                tbl.Detail = "Monthly Leave Balance";
-                            //                tbl.IsActive = true;
-                            //                tbl.IsDelete = false;
-                            //                tbl.CreatedBy = userId;
-                            //                tbl.UpdatedBy = userId;
-                            //                tbl.CreatedDate = _commonHelper.GetCurrentDateTime();
-                            //                tbl.UpdatedDate = _commonHelper.GetCurrentDateTime();
-
-                            //                await _dbContext.LeaveBalanceMsts.AddAsync(tbl);
-                            //                _dbContext.SaveChanges();
-                            //            }
-                            //        }
-                            //    }
-                            //    else
-                            //    {
-                            //        DateTime dt2 = new DateTime(DateTime.Now.Year, 01, 01);
-                            //        for (DateTime i = dt2; i <= request.StartDate; i = i.Date.AddMonths(1))
-                            //        {
-                            //            var BalanceMonth = i.Date.ToString("MMMM");
-
-
-                            //            var LeaveBalance = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId && x.BalanceMonth == BalanceMonth).OrderBy(x => x.Id).LastOrDefault();
-
-                            //            if (LeaveBalance == null)
-
-                            //            {
-                            //                var LeaveBalanceList1 = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId).OrderBy(x => x.Id).LastOrDefault();
-
-                            //                LeaveBalanceMst tbl = new LeaveBalanceMst();
-                            //                tbl.UserId = userId;
-                            //                tbl.LeaveTypeId = request.LeaveTypeId;
-                            //                tbl.BalanceMonth = i.Date.ToString("MMMM");
-                            //                tbl.BalanceYear = i.Year;
-                            //                tbl.NoOfDays = 0;
-                            //                tbl.OpeningLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.ClosingLeaveBalance;
-                            //                tbl.SickLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.SickLeaveBalance + decimal.Parse("0.5");
-                            //                tbl.CasualLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.CasualLeaveBalance + decimal.Parse("0.5");
-                            //                tbl.EarnedLeaveBalance = 6;
-                            //                tbl.SickLeaveTaken = 0;
-                            //                tbl.CasualLeaveTaken = 0;
-                            //                tbl.EarnedLeaveTaken = 0;
-                            //                tbl.ClosingLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.ClosingLeaveBalance + decimal.Parse("1.5");
-                            //                tbl.LeaveTaken = 0;
-                            //                tbl.BalanceDate = DateTime.Now;
-                            //                tbl.Detail = "Monthly Leave Balance";
-                            //                tbl.IsActive = true;
-                            //                tbl.IsDelete = false;
-                            //                tbl.CreatedBy = userId;
-                            //                tbl.UpdatedBy = userId;
-                            //                tbl.CreatedDate = _commonHelper.GetCurrentDateTime();
-                            //                tbl.UpdatedDate = _commonHelper.GetCurrentDateTime();
-
-                            //                await _dbContext.LeaveBalanceMsts.AddAsync(tbl);
-                            //                await _dbContext.SaveChangesAsync();
-                            //            }
-                            //        }
-                            //    }
-                            //}
-                            //else
-                            //{
-
-                            //    DateTime dt2 = new DateTime(DateTime.Now.Year, 01, 01);
-                            //    for (DateTime i = dt2; i <= request.StartDate; i = i.Date.AddMonths(1))
-                            //    {
-                            //        var LeaveBalanceList1 = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId).OrderBy(x => x.Id).LastOrDefault();
-
-                            //        LeaveBalanceMst tbl = new LeaveBalanceMst();
-                            //        tbl.UserId = userId;
-                            //        tbl.LeaveTypeId = request.LeaveTypeId;
-                            //        tbl.BalanceMonth = i.Date.ToString("MMMM");
-                            //        tbl.BalanceYear = i.Year;
-                            //        tbl.NoOfDays = 0;
-                            //        tbl.OpeningLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.ClosingLeaveBalance;
-                            //        tbl.SickLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.SickLeaveBalance + decimal.Parse("0.5");
-                            //        tbl.CasualLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.CasualLeaveBalance + decimal.Parse("0.5");
-                            //        tbl.EarnedLeaveBalance = 6;
-                            //        tbl.SickLeaveTaken = 0;
-                            //        tbl.CasualLeaveTaken = 0;
-                            //        tbl.EarnedLeaveTaken = 0;
-                            //        tbl.ClosingLeaveBalance = LeaveBalanceList1 == null ? 0 : LeaveBalanceList1.ClosingLeaveBalance + decimal.Parse("1.5");
-                            //        tbl.LeaveTaken = 0;
-                            //        tbl.BalanceDate = DateTime.Now;
-                            //        tbl.Detail = "Monthly Leave Balance";
-                            //        tbl.IsActive = true;
-                            //        tbl.IsDelete = false;
-                            //        tbl.CreatedBy = userId;
-                            //        tbl.UpdatedBy = userId;
-                            //        tbl.CreatedDate = _commonHelper.GetCurrentDateTime();
-                            //        tbl.UpdatedDate = _commonHelper.GetCurrentDateTime();
-
-                            //        await _dbContext.LeaveBalanceMsts.AddAsync(tbl);
-                            //        _dbContext.SaveChanges();
-                            //    }
-                            //}
-
-                            //var BalanceList = await _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId).OrderByDescending(x => x.Id).FirstOrDefaultAsync();
-
-                            //var Leavetype = await _dbRepo.LeaveTypeLists().Where(x => x.Id == request.LeaveTypeId).OrderByDescending(x => x.Id).FirstOrDefaultAsync();
-                            //if (BalanceList != null && Leavetype != null)
-                            //{
-                            //    if (noOfDay >= 4)
-                            //    {
-                            //        code if apply leave for 4 or more than 4 days
-
-
-                            //        if (Leavetype.LeaveTypeName.ToLower() == "sickleave")
-                            //            {
-                            //                if (BalanceList.SickLeaveBalance >= noOfDay)
-
-                            //                {
-                            //                    leaveMst.PaidDays = noOfDay;
-                            //                    leaveMst.UnPaidDays = decimal.Parse("0");
-
-                            //                }
-                            //                else
-                            //                {
-                            //                    leaveMst.PaidDays = BalanceList.SickLeaveBalance;
-                            //                    leaveMst.UnPaidDays = noOfDay - leaveMst.PaidDays;
-
-                            //                }
-                            //            }
-                            //            else if (Leavetype.LeaveTypeName.ToLower() == "casualleave")
-                            //            {
-
-                            //                if (BalanceList.CasualLeaveBalance >= noOfDay)
-
-                            //                {
-                            //                    leaveMst.PaidDays = noOfDay;
-                            //                    leaveMst.UnPaidDays = decimal.Parse("0");
-                            //                }
-                            //                else
-                            //                {
-                            //                    leaveMst.PaidDays = BalanceList.CasualLeaveBalance;
-                            //                    leaveMst.UnPaidDays = noOfDay - leaveMst.PaidDays;
-                            //                }
-                            //            }
-                            //            else if (Leavetype.LeaveTypeName.ToLower() == "earnedleave")
-                            //            {
-
-                            //                if (BalanceList.EarnedLeaveBalance >= noOfDay)
-
-                            //                {
-                            //                    leaveMst.PaidDays = noOfDay;
-                            //                    leaveMst.UnPaidDays = decimal.Parse("0");
-
-                            //                }
-                            //                else
-                            //                {
-                            //                    leaveMst.PaidDays = BalanceList.EarnedLeaveBalance;
-                            //                    leaveMst.UnPaidDays = noOfDay - leaveMst.PaidDays;
-
-                            //                }
-                            //            }
-
-
-                            //    }
-                            //    else
-                            //    {
-                            //        if (Leavetype.LeaveTypeName.ToLower() == "sickleave")
-                            //        {
-                            //            if (BalanceList.SickLeaveBalance >= noOfDay)
-                            //            {
-                            //                leaveMst.PaidDays = noOfDay;
-                            //                leaveMst.UnPaidDays = decimal.Parse("0");
-
-                            //            }
-                            //            else
-                            //            {
-                            //                leaveMst.PaidDays = BalanceList.SickLeaveBalance;
-                            //                leaveMst.UnPaidDays = noOfDay - leaveMst.PaidDays;
-
-                            //            }
-                            //        }
-                            //        else if (Leavetype.LeaveTypeName.ToLower() == "casualleave")
-                            //        {
-
-                            //            if (BalanceList.CasualLeaveBalance >= noOfDay)
-
-                            //            {
-                            //                leaveMst.PaidDays = noOfDay;
-                            //                leaveMst.UnPaidDays = decimal.Parse("0");
-
-
-                            //            }
-                            //            else
-                            //            {
-                            //                leaveMst.PaidDays = BalanceList.CasualLeaveBalance;
-                            //                leaveMst.UnPaidDays = noOfDay - leaveMst.PaidDays;
-                            //            }
-                            //        }
-                            //        else if (Leavetype.LeaveTypeName.ToLower() == "earnedleave")
-                            //        {
-
-                            //            if (BalanceList.EarnedLeaveBalance >= noOfDay)
-
-                            //            {
-                            //                leaveMst.PaidDays = noOfDay;
-                            //                leaveMst.UnPaidDays = decimal.Parse("0");
-
-                            //            }
-                            //            else
-                            //            {
-                            //                leaveMst.PaidDays = BalanceList.EarnedLeaveBalance;
-                            //                leaveMst.UnPaidDays = noOfDay - leaveMst.PaidDays;
-
-                            //            }
-                            //        }
-
-                            //    }
-
-                            //    if (isProbationPeriod)
-                            //    {
-                            //        BalanceList.SickLeaveTaken = leaveMst.PaidDays;
-                            //        BalanceList.CasualLeaveTaken = leaveMst.PaidDays;
-                            //        BalanceList.EarnedLeaveTaken = leaveMst.PaidDays;
-                            //        _dbContext.Entry(BalanceList).State = EntityState.Modified;
-                            //        await _dbContext.SaveChangesAsync();
-                            //    }
-                            //}
-                            //else
-                            //{
-                            //    response.Message = "Data Not Found!";
-
-                            //}
-
-                            #endregion
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                            if (userJoiningDate.JoinDate < request.StartDate)
+                            {
+                                isProbationPeriodDays = GetProbationPeriod(userJoiningDate.JoinDate, request.StartDate);
+
+                                if (isProbationPeriodDays > 0)
+                                {
+                                    if (isProbationPeriodDays < Convert.ToDecimal(userJoiningDate.ProbationPeriod))
+                                    {
+                                        isProbationPeriod = false;
+                                    }
+                                    else if (isProbationPeriodDays >= Convert.ToDecimal(userJoiningDate.ProbationPeriod))
+                                    {
+                                        isProbationPeriod = true;
+                                    }
+                                }
+                            }
+
+                            var LeaveDetails = await _dbRepo.LeaveLists().FirstOrDefaultAsync(x => x.Id == request.Id);
+                            if (LeaveDetails != null)
+                            {
+                                LeaveDetails.LeaveTypeId = request.LeaveTypeId;
+                                LeaveDetails.StartDate = request.StartDate;
+                                LeaveDetails.EndDate = request.EndDate;
+                                LeaveDetails.StartTime = Convert.ToDateTime(request.StartTime).TimeOfDay;
+                                LeaveDetails.EndTime = Convert.ToDateTime(request.EndTime).TimeOfDay;
+                                LeaveDetails.Reason = request.Reason;
+                                LeaveDetails.NoOfDays = noOfDay;
+                                LeaveDetails.ApprovedByUserId = userId;
+                                LeaveDetails.LeaveStatusId = request.LeaveStatusId;
+                                LeaveDetails.UpdatedBy = userId;
+                                LeaveDetails.UpdatedDate = _commonHelper.GetCurrentDateTime();
+
+
+                                if (IsUserHR1)
+                                {
+                                    LeaveDetails.Hrstatus = request.LeaveStatusId;
+
+                                }
+                                else if (IsUserManager1)
+                                {
+                                    LeaveDetails.ProjectManagerStatus = request.LeaveStatusId;
+                                }
+
+
+
+                                var LeaveStatusApproved = await _dbRepo.LeaveStatusLists().FirstOrDefaultAsync(x => x.Id == LeaveDetails.LeaveStatusId);
+                                var HrStatusStatusApproved = await _dbRepo.LeaveStatusLists().FirstOrDefaultAsync(x => x.Id == LeaveDetails.Hrstatus);
+                                var ProjectManagerStatusApproved = await _dbRepo.LeaveStatusLists().FirstOrDefaultAsync(x => x.Id == LeaveDetails.ProjectManagerStatus);
+
+                                if (LeaveStatusApproved != null && HrStatusStatusApproved != null && ProjectManagerStatusApproved != null)
+                                {
+                                    if (LeaveStatusApproved.LeaveStatus.ToLower() == "approve" && HrStatusStatusApproved.LeaveStatus.ToLower() == "approve" && ProjectManagerStatusApproved.LeaveStatus.ToLower() == "approve")
+                                    {
+                                        #region Calculation of deduction leave 
+
+
+
+
+                                        var leaveBalanceList1 = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == LeaveDetails.AppliedByUserId).OrderBy(x => x.Id).LastOrDefault();
+
+
+                                        if (leaveBalanceList1 != null)
+                                        {
+                                            if (isProbationPeriod)
+                                            {
+
+
+                                                var leaveType1 = await _dbRepo.LeaveTypeLists().Where(x => x.Id == request.LeaveTypeId).OrderByDescending(x => x.Id).FirstOrDefaultAsync();
+
+
+                                                leaveBalanceList1.UserId = userId;
+                                                leaveBalanceList1.LeaveTypeId = request.LeaveTypeId;
+                                                leaveBalanceList1.BalanceMonth = leaveBalanceList1.BalanceMonth;
+                                                leaveBalanceList1.BalanceYear = leaveBalanceList1.BalanceYear;
+                                                leaveBalanceList1.NoOfDays = noOfDay;
+                                                leaveBalanceList1.OpeningLeaveBalance = leaveBalanceList1 == null ? 0 : leaveBalanceList1.ClosingLeaveBalance;
+
+                                                if (leaveType1.LeaveTypeName.ToLower() == "sickleave")
+                                                {
+                                                    leaveBalanceList1.SickLeaveBalance = leaveBalanceList1.SickLeaveTaken == 0 ? leaveBalanceList1.SickLeaveBalance : leaveBalanceList1.SickLeaveBalance - leaveBalanceList1.SickLeaveTaken;
+                                                    leaveBalanceList1.ClosingLeaveBalance = leaveBalanceList1 == null ? 0 : leaveBalanceList1.ClosingLeaveBalance - leaveBalanceList1.SickLeaveTaken;
+                                                }
+                                                else
+                                                {
+                                                    leaveBalanceList1.SickLeaveBalance = leaveBalanceList1 == null ? 0 : leaveBalanceList1.SickLeaveBalance;
+                                                }
+
+                                                if (leaveType1.LeaveTypeName.ToLower() == "casualleave")
+                                                {
+                                                    leaveBalanceList1.CasualLeaveBalance = leaveBalanceList1.CasualLeaveBalance == 0 ? leaveBalanceList1.CasualLeaveBalance : leaveBalanceList1.CasualLeaveBalance - leaveBalanceList1.CasualLeaveTaken;
+                                                    leaveBalanceList1.ClosingLeaveBalance = leaveBalanceList1 == null ? 0 : leaveBalanceList1.ClosingLeaveBalance - leaveBalanceList1.CasualLeaveTaken;
+                                                }
+                                                else
+                                                {
+                                                    leaveBalanceList1.CasualLeaveBalance = leaveBalanceList1 == null ? 0 : leaveBalanceList1.CasualLeaveBalance;
+                                                }
+
+
+                                                if (leaveType1.LeaveTypeName.ToLower() == "earnedleave")
+                                                {
+                                                    leaveBalanceList1.EarnedLeaveBalance = leaveBalanceList1.EarnedLeaveBalance == 0 ? leaveBalanceList1.EarnedLeaveBalance : leaveBalanceList1.EarnedLeaveBalance - leaveBalanceList1.EarnedLeaveTaken;
+                                                    leaveBalanceList1.ClosingLeaveBalance = leaveBalanceList1 == null ? 0 : leaveBalanceList1.ClosingLeaveBalance - leaveBalanceList1.EarnedLeaveTaken;
+                                                }
+                                                else
+                                                {
+                                                    leaveBalanceList1.EarnedLeaveBalance = leaveBalanceList1 == null ? 0 : leaveBalanceList1.EarnedLeaveBalance;
+                                                }
+
+
+
+                                                leaveBalanceList1.SickLeaveTaken = leaveBalanceList1.SickLeaveTaken;
+                                                leaveBalanceList1.CasualLeaveTaken = leaveBalanceList1.CasualLeaveTaken;
+                                                leaveBalanceList1.EarnedLeaveTaken = leaveBalanceList1.EarnedLeaveTaken;
+                                                leaveBalanceList1.LeaveTaken = noOfDay;
+                                                leaveBalanceList1.BalanceDate = DateTime.Now;
+                                                leaveBalanceList1.Detail = "Monthly Leave Balance";
+                                                leaveBalanceList1.IsActive = true;
+                                                leaveBalanceList1.IsDelete = false;
+                                                leaveBalanceList1.CreatedBy = userId;
+                                                leaveBalanceList1.UpdatedBy = userId;
+                                                leaveBalanceList1.CreatedDate = _commonHelper.GetCurrentDateTime();
+                                                leaveBalanceList1.UpdatedDate = _commonHelper.GetCurrentDateTime();
+
+                                                _dbContext.Entry(leaveBalanceList1).State = EntityState.Modified;
+                                                await _dbContext.SaveChangesAsync();
+
+
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            response.Message = "Data Not Found!";
+
+                                        }
+
+                                        #endregion
+                                    }
+                                    else
+                                    {
+                                        response.Message = "Your Leave Not Approve";
+                                    }
+                                }
+
+                            }
 
 
 
                             _dbContext.Entry(LeaveDetails).State = EntityState.Modified;
                             await _dbContext.SaveChangesAsync();
 
+
                             response.Status = true;
                             response.StatusCode = System.Net.HttpStatusCode.OK;
                             response.Message = "Leave updated successfully!";
+
                         }
                         else
                         {
@@ -740,7 +910,12 @@ namespace ArcheOne.Controllers
                             response.StatusCode = System.Net.HttpStatusCode.NotFound;
                         }
                         #endregion
+
                     }
+                }
+                else
+                {
+                    response.Message = "Data not found";
                 }
             }
             catch (Exception ex)
@@ -819,22 +994,22 @@ namespace ArcheOne.Controllers
         private CommonResponse SandwichLeave(AddUpdateLeaveReqModel model)
         {
             CommonResponse response = new CommonResponse();
-            decimal noofdays = 0;
+            decimal noOfDays = 0;
             int userId = _commonHelper.GetLoggedInUserId();
             #region calculate no of days based on start date time and end date time
             if (model.StartDate.Date == model.EndDate.Date) // leave days count for single day
             {
                 if ((model.StartTime == "09:30 AM") && (model.EndTime == "06:30 PM"))
                 {
-                    noofdays = decimal.Parse("1");
+                    noOfDays = decimal.Parse("1");
                 }
                 else if ((model.StartTime == "09:30 AM") && (model.EndTime == "02:00 PM"))
                 {
-                    noofdays = decimal.Parse("0.5");
+                    noOfDays = decimal.Parse("0.5");
                 }
                 else if ((model.StartTime == "02:00 PM") && (model.EndTime == "06:30 PM"))
                 {
-                    noofdays = decimal.Parse("0.5");
+                    noOfDays = decimal.Parse("0.5");
                 }
             }
             else // leave days count for multiple days
@@ -847,27 +1022,27 @@ namespace ArcheOne.Controllers
                         {
                             if (model.StartTime == "09:30 AM")
                             {
-                                noofdays += decimal.Parse("1");
+                                noOfDays += decimal.Parse("1");
                             }
                             else
                             {
-                                noofdays += decimal.Parse("0.5");
+                                noOfDays += decimal.Parse("0.5");
                             }
                         }
                         else if (i.Date == model.EndDate.Date)
                         {
                             if (model.EndTime == "02:00 PM")
                             {
-                                noofdays += decimal.Parse("0.5");
+                                noOfDays += decimal.Parse("0.5");
                             }
                             else
                             {
-                                noofdays += decimal.Parse("1");
+                                noOfDays += decimal.Parse("1");
                             }
                         }
                         else
                         {
-                            noofdays += decimal.Parse("1");
+                            noOfDays += decimal.Parse("1");
                         }
                     }
                 }
@@ -876,31 +1051,31 @@ namespace ArcheOne.Controllers
 
 
 
-            var leavemaster = _dbRepo.LeaveLists().Where(x => x.AppliedByUserId == userId).FirstOrDefault();
-            if (noofdays > 1)
+            var leaveMaster = _dbRepo.LeaveLists().Where(x => x.AppliedByUserId == userId).FirstOrDefault();
+            if (noOfDays > 1)
             {
                 if (model.StartDate.DayOfWeek.ToString() == "Friday" && model.StartTime == "09:30 AM" && model.EndDate.DayOfWeek.ToString() == "Monday" && model.EndTime == "06:30 PM")
                 {
-                    noofdays = 4;
+                    noOfDays = 4;
 
-                    if (noofdays >= 4)
+                    if (noOfDays >= 4)
                     {
                         //code if apply leave for 4 or more than 4 days
                         var BalanceList = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId).OrderByDescending(x => x.BalanceDate).Take(1).FirstOrDefault();
 
-                        if (BalanceList.ClosingLeaveBalance >= noofdays)
+                        if (BalanceList.ClosingLeaveBalance >= noOfDays)
                         {
-                            leavemaster.PaidDays = noofdays;
-                            leavemaster.UnPaidDays = decimal.Parse("0");
+                            leaveMaster.PaidDays = noOfDays;
+                            leaveMaster.UnPaidDays = decimal.Parse("0");
                         }
                         else
                         {
-                            leavemaster.PaidDays = BalanceList.ClosingLeaveBalance;
-                            leavemaster.UnPaidDays = noofdays - leavemaster.PaidDays;
+                            leaveMaster.PaidDays = BalanceList.ClosingLeaveBalance;
+                            leaveMaster.UnPaidDays = noOfDays - leaveMaster.PaidDays;
                         }
                     }
                 }
-                response.Data = leavemaster;
+                response.Data = leaveMaster;
 
             }
 
