@@ -3,8 +3,8 @@
 @{
 	Layout = "_MasterLayout";
 	ViewBag.datatable = "true";
-	string Title1 = "";
-	Title1 = Model.AddEditUserDocuments.Id > 0 ? "Edit UserDocument" : "Add UserDocument";
+	string Title = "";
+	Title = Model.AddEditUserDocuments.Id > 0 ? "Edit UserDocument" : "Add UserDocument";
 	var UserId = Model.AddEditUserDocuments.UserId;
 	var DocumentTypeId = Model.AddEditUserDocuments.DocumentTypeId;
 }
@@ -51,7 +51,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-						<h5 class="modal-title">@Title1</h5>
+						<h5 class="modal-title">@Title</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -62,6 +62,7 @@
 						<div class="form-group col-sm-12" id="dddlUser">
 							<label><span class="has-error required">* </span>User</label>
 							<select id="ddlUser" name="ddlUser" class="form-control" isrequired="1" divcontainer="dddlUser" errorspan="sddlUser" defaultvalue="0" style="width: 100%;">
+								<option value="0">--- Select ---</option>
 								@foreach (var item in Model.UserList)
 								{
 									if (item.Id == DocumentTypeId)
@@ -82,6 +83,7 @@
 						<div class="form-group col-sm-12" id="dddlDocumentType">
 							<label><span class="has-error required">* </span>DocumentType</label>
 							<select id="ddlDocumentType" name="ddlDocumentType" class="form-control" isrequired="1" divcontainer="dddlDocumentType" errorspan="sddlDocumentType" defaultvalue="0" style="width: 100%;">
+								<option value="0">--- Select ---</option>
 								@foreach (var item in Model.DocumentTypeList)
 								{
 									if (item.Id == DocumentTypeId)
@@ -103,7 +105,7 @@
 							<label><span class="has-error required">* </span>Document</label>
 							<div class="input-group">
 								<div class="custom-file">
-									<input id="txtDocument" name="txtDocument" class="custom-file-input" type="file" isRequired="1" divcontainer="dtxtDocument" errorspan="sdtxtDocument" defaultvalue="0" onclick="loadFile(event)">
+									<input id="dtxtDocument" name="txtDocument" class="custom-file-input" type="file" isRequired="1" divcontainer="dtxtDocument" errorspan="sdtxtDocument" defaultvalue="0" onclick="loadFile(event)">
 									<label class="custom-file-label" for="exampleInputFile">Choose file</label>
 								</div>
 							</div>
@@ -112,12 +114,26 @@
 					</div>
 
 				</div>
-				<div class="modal-footer">
+@*				<div class="modal-footer">
 					<div class="row">
-						<button type="button" id="btnAddUpdateUserDocument" class="btn btn-success mr-2" onclick="AddUpdateUserDocument()">Save</button>
+						<button type="button" id="btnAddUpdateUserDocument" class="btn btn-success mr-2" ">Save</button>
 						<button type="button" id="btnCancel" data-dismiss="modal" class="btn btn-danger" onclick="CancelDocument()">Cancel</button>
 					</div>
+				</div>*@
+				<div class="card-footer">
+					<div class="row mr-lg-n3 float-right">
+						@if (Title == "Edit UserDocument")
+						{
+							<button type="button" id="btnAddUpdateUserDocument" class="btn btn-success mr-2" onclick="AddUpdateUserDocument()">Update</button>
+						}
+						else
+						{
+							<button type="button" id="btnAddUpdateUserDocument" class="btn btn-success mr-2" onclick="AddUpdateUserDocument()">Submit</button>
+						}
+						<button type="button" id="btnCancel" data-dismiss="modal" class="btn btn-danger float-right" onclick="CancelDocument()">Cancel</button>
+					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>

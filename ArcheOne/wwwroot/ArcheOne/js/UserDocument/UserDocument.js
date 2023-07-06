@@ -1,5 +1,12 @@
 ﻿$(document).ready(function () {
     UserDocumentList();
+    $("#btnAddUpdateUserDocument").click(function () {
+        debugger
+        AddUpdateUserDocument();
+    });
+    $("#btnCancel").click(function () {
+        window.location.href = '/UserDocument/UserDocumentList';
+    });
 });
 
 var tblUserDocument = null;
@@ -58,14 +65,17 @@ function UserDocumentList() {
 }
 
 function GetUserDocs(id) {
+    debugger
     window.open('/UserDocument/GetUserDocument?Id=' + id, "_blank");
 }; 
 
+debugger
 function AddUpdateUserDocument() {
-    $("#btnAddUpdateUserDocument").html("Add");
-    $("#btnAddUpdateUserDocument").removeClass("btn-success").addClass("btn-warning");
-    if (window.FormData !== undefined) {
-        $.blockUI();
+    debugger
+    //$("#btnAddUpdateUserDocument").html("Add");
+    //$("#btnAddUpdateUserDocument").removeClass("btn-success").addClass("btn-warning");
+   /* if (window.FormData !== undefined) {*/
+       /* $.blockUI();*/
         var saveData = new FormData();
         var file = $("#txtDocument").get(0).files[0];
         saveData.append("Id", parseInt($("#txtuserDocumentId").val()));
@@ -76,6 +86,8 @@ function AddUpdateUserDocument() {
 
         console.log(saveData);
         if (validateRequiredFields()) {
+
+            debugger
             ajaxCallWithoutDataType("Post", false, '/UserDocument/SaveUpdateUserDocument', saveData, function (result) {
                 console.log(result);
                 if (result.status == true) {
@@ -94,10 +106,10 @@ function AddUpdateUserDocument() {
             $("#clearAll").click();
             ClearAll();
         }
-    }
-    else {
-        Toast.fire({ icon: 'error', title: "Please Select Document." });
-    }
+    //}
+    //else {
+    //    Toast.fire({ icon: 'error', title: "Please Select Document." });
+    //}
 }
 
 function GetUserDocsDetails(Id) {
