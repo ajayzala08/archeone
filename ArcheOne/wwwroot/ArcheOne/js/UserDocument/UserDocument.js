@@ -1,19 +1,20 @@
 ﻿$(document).ready(function () {
     UserDocumentList();
     $("#btnAddUpdateUserDocument").click(function () {
-        debugger
         AddUpdateUserDocument();
     });
     $("#btnCancel").click(function () {
-        window.location.href = '/UserDocument/UserDocumentList';
+        window.location.href = '/UserDocument/UserDocument';
     });
 });
 
 var tblUserDocument = null;
 
+
 function UserDocumentList() {
     $.blockUI({ message: "<h2>Please wait</p>" });
-    ajaxCall("Post", false, '/UserDocument/UserDocumentList', null, function (result) {
+
+    ajaxCall("post", false, '/UserDocument/UserDocumentList', null, function (result) {
         if (result.status == true) {
 
             if (tblUserDocument !== null) {
@@ -39,16 +40,16 @@ function UserDocumentList() {
                         render: function (data, type, row) {
                             if (data) {
                                 return '<i class="fa fa-pen pen btn-edit" style="cursor: pointer;" data-toggle="modal" data-target="#modalUserDocument" onclick="GetUserDocsDetails(' + row.id + ')"></i> | <i class="fa fa-trash trash btn-delete" style="cursor: pointer;" onclick="DeleteUserDocs(' + row.id + ')"></i> | <i class="fas fa-envelope-open offerEnvelop btn-delete" style="cursor: pointer;" onclick="downloadConfirmationLetter(' + data.id + ')"></i> | <i class="fas fa-envelope-open-text experienceEnvelop" style="cursor: pointer;" onclick="downloadExperienceLetter(' + data.id + ')"></i> | <i class="fas fa-mail-bulk email" style="cursor: pointer;" onclick="sendEmail(' + data.id + ')"></i>|<i class="fa fa-download btn-download" value=' + row.document + ' Id=' + row.id + ' onclick="GetUserDocs(' + row.id + ')" aria-hidden="true"></i>';
-                                                                                                                                                                                                                                                                                                                             
+
                             }
 
                         }
                     },
-                   
+
                     { data: "employeeCode", title: "EmployeeCode" },
                     { data: "employeeName", title: "EmployeeName" },
                     { data: "documentTypeId", title: "DocumentType" },
-                    
+
 
                 ]
             }).buttons().container().appendTo('#tblUserDocument_wrapper .col-md-6:eq(0)');
@@ -61,34 +62,28 @@ function UserDocumentList() {
         $.unblockUI();
     });
 
-    
+
 }
 
 function GetUserDocs(id) {
-    debugger
     window.open('/UserDocument/GetUserDocument?Id=' + id, "_blank");
-}; 
+};
 
-debugger
 function AddUpdateUserDocument() {
-    debugger
-    //$("#btnAddUpdateUserDocument").html("Add");
-    //$("#btnAddUpdateUserDocument").removeClass("btn-success").addClass("btn-warning");
-   /* if (window.FormData !== undefined) {*/
-       /* $.blockUI();*/
-        var saveData = new FormData();
+    
+    if (window.FormData !== undefined) {
+        var saveUserDocumentData = new FormData();
         var file = $("#txtDocument").get(0).files[0];
-        saveData.append("Id", parseInt($("#txtuserDocumentId").val()));
-        saveData.append("UserId", $("#ddlUser").val());
-        saveData.append("DocumentTypeId", $("#ddlDocumentType").val());
-        saveData.append("Document", file);
-        saveData.append("IsActive", false);
+        saveUserDocumentData.append("Id", parseInt($("#txtuserDocumentId").val()));
+        saveUserDocumentData.append("UserId", parseInt($("#ddlUser").val()));
+        saveUserDocumentData.append("DocumentTypeId", parseInt($("#ddlDocumentType").val()));
+        saveUserDocumentData.append("Document", file);
 
-        console.log(saveData);
-        if (validateRequiredFields()) {
+        console.log(saveUserDocumentData);
 
-            debugger
-            ajaxCallWithoutDataType("Post", false, '/UserDocument/SaveUpdateUserDocument', saveData, function (result) {
+        if (validateRequiredFieldsByGroup('divUploadFile')) {
+            $.blockUI();
+            ajaxCallWithoutDataType("Post", false, '/UserDocument/SaveUpdateUserDocument', saveUserDocumentData, function (result) {
                 console.log(result);
                 if (result.status == true) {
                     Toast.fire({ icon: 'success', title: result.message });
@@ -100,22 +95,23 @@ function AddUpdateUserDocument() {
                 }
             });
         }
-        else {
-            $.unblockUI();
-            Toast.fire({ icon: 'success', title: result.message });
-            $("#clearAll").click();
-            ClearAll();
-        }
-    //}
-    //else {
-    //    Toast.fire({ icon: 'error', title: "Please Select Document." });
-    //}
+        //else {
+        //    $.unblockUI();
+        //    Toast.fire({ icon: 'success', title: result.message });
+        //    $("#clearAll").click();
+        //    ClearAll();
+        //}
+    }
+    else {
+        Toast.fire({ icon: 'error', title: "Please Select ." });
+    }
 }
 
 function GetUserDocsDetails(Id) {
-    $("#btnAddUpdateUserDocument").html("Update");
-    $("#btnAddUpdateUserDocument").removeClass("btn-success").addClass("btn-warning");
-    ajaxCall("Post", false, '/UserDocument/GetUserDocumentById?Id=' + Id, null, function (result) {
+    //$("#btnAddUpdateUserDocument").html("Update");
+    //$("#btnAddUpdateUserDocument").removeClass("btn-success").addClass("btn-warning");
+    debugger
+    ajaxCall("Post", false, '/UserDocument/UserDocument?Id=' + Id, null, function (result) {
         if (result.status == true) {
             $("#txtuserDocumentId").val(result.data.id);
             $("#ddlUser").val(result.data.userId);

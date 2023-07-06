@@ -71,6 +71,7 @@ namespace ArcheOne.Controllers
 			return View(commonResponse.Data);
 		}
 
+		[HttpPost]
 		public async Task<CommonResponse> SaveUpdateUserDocument(SaveUpdateUserDocumentsReqModel saveUpdateUserDocumentsReqModel)
 		{
 			CommonResponse commonResponse = new CommonResponse();
@@ -140,9 +141,6 @@ namespace ArcheOne.Controllers
 						var duplicateUserDocs = await _dbRepo.UserDocumentList().FirstOrDefaultAsync(x => x.Id == saveUpdateUserDocumentsReqModel.Id);
 						if (duplicateUserDocs != null)
 						{
-							if (duplicateUserDocs.DocumentTypeId != saveUpdateUserDocumentsReqModel.DocumentTypeId)
-							{
-
 								duplicateUserDocs.UserId = saveUpdateUserDocumentsReqModel.UserId;
 								duplicateUserDocs.DocumentTypeId = saveUpdateUserDocumentsReqModel.DocumentTypeId;
 								if (!string.IsNullOrEmpty(filePath))
@@ -158,11 +156,7 @@ namespace ArcheOne.Controllers
 								commonResponse.Status = true;
 								commonResponse.StatusCode = System.Net.HttpStatusCode.OK;
 								commonResponse.Message = "Document updated successfully!";
-							}
-							else
-							{
-								commonResponse.Message = "Document is already exist!";
-							}
+					
 						}
 						else
 						{
@@ -182,8 +176,9 @@ namespace ArcheOne.Controllers
 			return commonResponse;
 		}
 
+		[HttpPost]
 		public async Task<CommonResponse> UserDocumentList()
-	{
+	    {
 			CommonResponse commonResponse = new CommonResponse();
 			try
 			{
@@ -223,32 +218,6 @@ namespace ArcheOne.Controllers
 				commonResponse.Message = ex.Message;
 			}
 			return commonResponse;
-		}
-
-		public async Task<CommonResponse> GetUserDocumentById(int Id)
-		{
-			CommonResponse response = new CommonResponse();
-			try
-			{
-				var userDocsDetails = await _dbRepo.UserDocumentList().FirstOrDefaultAsync(x => x.Id == Id);
-				if (userDocsDetails != null)
-				{
-					response.Data = userDocsDetails;
-					response.Status = true;
-					response.StatusCode = System.Net.HttpStatusCode.OK;
-					response.Message = "UserDocument found successfully!";
-				}
-				else
-				{
-					response.StatusCode = System.Net.HttpStatusCode.NotFound;
-					response.Message = "UserDocument not found!";
-				}
-			}
-			catch (Exception ex)
-			{
-				response.Message = ex.Message;
-			}
-			return response;
 		}
 
 		public async Task<CommonResponse> DeleteUserDocument(int id)
