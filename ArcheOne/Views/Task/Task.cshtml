@@ -107,7 +107,7 @@
                     <div class="row">
                         <div class="form-group col-sm-12" id="dddlDailyTaskStatus">
                             <label><span class="has-error required">* </span>Task Status</label>
-                            <select id="ddlDailyTaskStatus" name="ddlDailyTaskStatus" class="form-control" isrequired="1" divcontainer="dddlDailyTaskStatus" errorspan="sddlDailyTaskStatus" defaultvalue="0" onchange="ToggleCompletionDate()">
+                            <select id="ddlDailyTaskStatus" name="ddlDailyTaskStatus" class="form-control" isrequired="1" divcontainer="dddlDailyTaskStatus" errorspan="sddlDailyTaskStatus" defaultvalue="0" onchange="ToggleDueDate()">
                                 <option selected disabled value="0">Select Task Status</option>
                             </select>
                             <span class="help-block d-none has-error" id="sddlDailyTaskStatus">Please Select Task Status</span>
@@ -121,10 +121,10 @@
                         </div>
                     </div>
                     <div class="row" style="display: none;">
-                        <div class="form-group col-lg-12" id="dtxtTaskCompletionDate">
-                            <label><span class="has-error required">* </span>Task Completion Date</label>
-                            <input type="date" id="txtTaskCompletionDate" name="txtTaskCompletionDate" class="form-control" isRequired="0" divcontainer="dtxtTaskCompletionDate" errorspan="stxtTaskCompletionDate" defaultvalue="0" minlength="2" />
-                            <span class="help-block d-none has-error" id="stxtTaskCompletionDate">Please Select Task Completion Date</span>
+                        <div class="form-group col-lg-12" id="dtxtTaskDueDate">
+                            <label><span class="has-error required">* </span>Task Due Date</label>
+                            <input type="date" id="txtTaskDueDate" name="txtTaskDueDate" class="form-control" isRequired="0" divcontainer="dtxtTaskDueDate" errorspan="stxtTaskDueDate" defaultvalue="0" minlength="2" />
+                            <span class="help-block d-none has-error" id="stxtTaskDueDate">Please Select Task Due Date</span>
                         </div>
                     </div>
                     <div class="row">

@@ -727,7 +727,6 @@ namespace ArcheOne.Helper.CommonHelpers
             return cd;
         }
 
-
         public object GetPropertyValue(object obj, string propertyName)
         {
             var propertyInfo = obj.GetType().GetProperty(propertyName);
@@ -766,6 +765,10 @@ namespace ArcheOne.Helper.CommonHelpers
             decimal tmp = Math.Truncate(step * value);
             return tmp / step;
         }
+
+        public bool CheckHasPermission(CommonEnums.PermissionMst permission)
+        {
+            return GetPermissionList().Any(x => x.PermissionRoute == permission.ToString());
+        }
     }
 }
-
