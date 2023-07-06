@@ -84,7 +84,7 @@ namespace ArcheOne.Controllers
                                         Id = dailyTask.Id,
                                         ProjectName = projectItem.ProjectName,
                                         TaskDate = dailyTask.TaskDate,
-                                        CompletionDate = dailyTask.CompletionDate ?? null,
+                                        DueDate = dailyTask.DueDate ?? null,
                                         TaskStatus = dailyTask.TaskStatus,
                                         TimeSpent = dailyTask.TimeSpent,
                                         TaskModule = dailyTask.TaskModule,
@@ -216,7 +216,7 @@ namespace ArcheOne.Controllers
                             UpdatedBy = userId,
                             CreatedDate = _commonHelper.GetCurrentDateTime(),
                             UpdatedDate = _commonHelper.GetCurrentDateTime(),
-                            CompletionDate = request.TaskStatus == CommonEnums.ProjectStatus.InProgress.ToString() ? request.CompletionDate ?? request.TaskDate : null,
+                            DueDate = request.TaskStatus == CommonEnums.ProjectStatus.InProgress.ToString() ? request.DueDate ?? request.TaskDate : null,
                             TaskName = request.TaskName
                         };
 
@@ -240,7 +240,7 @@ namespace ArcheOne.Controllers
                             dailyTask.TimeSpent = $"{request.TimeSpentHH}:{request.TimeSpentMM}";
                             dailyTask.UpdatedBy = userId;
                             dailyTask.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                            dailyTask.CompletionDate = request.TaskStatus == CommonEnums.ProjectStatus.InProgress.ToString() ? request.CompletionDate ?? request.TaskDate : null;
+                            dailyTask.DueDate = request.TaskStatus == CommonEnums.ProjectStatus.InProgress.ToString() ? request.DueDate ?? request.TaskDate : null;
                             dailyTask.TaskName = request.TaskName;
 
                             _dbContext.Entry(dailyTask).State = EntityState.Modified;
