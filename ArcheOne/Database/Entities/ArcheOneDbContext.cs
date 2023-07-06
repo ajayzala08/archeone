@@ -460,6 +460,7 @@ public partial class ArcheOneDbContext : DbContext
 
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.EndDate).HasColumnType("date");
+            entity.Property(e => e.Hrstatus).HasColumnName("HRStatus");
             entity.Property(e => e.NoOfDays).HasColumnType("decimal(38, 17)");
             entity.Property(e => e.OpeningLeaveBalance).HasColumnType("decimal(38, 17)");
             entity.Property(e => e.PaidDays).HasColumnType("decimal(38, 17)");
@@ -522,7 +523,6 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.PermissionCode).HasMaxLength(100);
             entity.Property(e => e.PermissionName).HasMaxLength(100);
-            entity.Property(e => e.PermissionRoute).HasMaxLength(100);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 

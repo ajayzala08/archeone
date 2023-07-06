@@ -95,6 +95,7 @@ function SaveUpdateLeave() {
     let saveLeavesData = {
         "Id": parseInt($("#txtLeaveId").val()),
         "LeaveTypeId": parseInt($("#ddlLeaveTypeId").val()),
+        "LeaveStatusId": parseInt($("#ddlLeaveStatusId").val()),
         "StartDate": $('#txtStartDate').val(),
         "EndDate": $("#txtEndDate").val(),
         "StartTime": $('#ddlStartTime').find('option:selected').text(),

@@ -1,0 +1,103 @@
+﻿@using ArcheOne.Helper.CommonModels;
+@using ArcheOne.Models.Res;
+@model CommonResponse
+@{
+    Layout = "_BlankLayout";
+    ViewBag.dataTable = "true";
+    ViewBag.select2 = "true";
+}
+<style>
+    td {
+        text-align: center;
+    }
+
+    thead {
+        font-weight: bold;
+    }
+</style>
+<div class="row form-group">
+    <div class="col-md-12">
+        @if (Model.Status)
+        {
+            List<LeaveDetailsList> list = Model.Data.LeaveDetailsLists;
+            <table id="tblLeave" class="table table-responsive table-bordered table-hover" style="width:100%;">
+                <thead>
+                    <tr>
+                        <td>Actions</td>
+                        <td>Id</td>
+                        <td>LeaveTypeName</td>
+                        <td>AppliedByUserName</td>
+                        <td>ApprovebyUserName</td>
+                        <td>StartDate</td>
+                        <td>EndDate</td>
+                        <td>StartTime</td>
+                        <td>EndTime</td>
+                        <td>Opening Balance</td>
+                        <td>Closing Balance</td>
+                        <td>No Of Days</td>
+                        <td>PaidDays</td>
+                        <td>UnPaidDays</td>
+                        <td>Reason</td>
+                        <td>Leave Status</td>
+                        <td>Balance Month</td>
+                        <td>Balance Year</td>
+                        <td>SickLeave Balance</td>
+                        <td>SickLeave Taken</td>
+                        <td>CasualLeave Balance</td>
+                        <td>CasualLeave Taken</td>
+                        <td>EarnedLeave Balance</td>
+                        <td>EarnedLeave Taken</td>
+                        <td>Details</td>
+                        <td>Leave Taken</td>
+                        
+                        
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in list)
+                    {
+                        <tr style="white-space:nowrap;">
+                            <td>
+                                <i class="fa fa-pen pen btn-edit" Id="@item.Id" style="cursor: pointer;"></i> &nbsp; 
+                               @* <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"></i>*@
+                            </td>
+                            <td>@item.Id</td>
+                            <td>@item.LeaveTypeName</td>
+                            <td>@item.AppliedByUserName</td>
+                            <td>@item.ApprovebyUserName</td>
+                            <td>@item.StartDate</td>
+                            <td>@item.EndDate</td>
+                            <td>@item.StartTime</td>
+                            <td>@item.EndTime</td>
+                            <td>@item.OpeningBalance</td>
+                            <td>@item.ClosingBalance</td>
+                            <td>@item.NoOfDays</td>
+                            <td>@item.PaidDays</td>
+                            <td>@item.UnPaidDays</td>
+                            <td>@item.Reason</td>
+                            <td>@item.LeaveStatus</td>
+                            <td>@item.BalanceMonth</td>
+                            <td>@item.BalanceYear</td>
+                            <td>@item.SickLeaveBalance</td>
+                            <td>@item.SickLeaveTaken</td>
+                            <td>@item.CasualLeaveBalance</td>
+                            <td>@item.CasualLeaveTaken</td>
+                            <td>@item.EarnedLeaveBalance</td>
+                            <td>@item.EarnedLeaveTaken</td>
+                            <td>@item.Details</td>
+                            <td>@item.LeaveTaken</td>
+                            
+                          
+                            
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p style="color:red">@Model.Message</p>
+        }
+    </div>
+</div>

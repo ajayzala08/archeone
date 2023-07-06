@@ -7,6 +7,8 @@ namespace ArcheOne.Models.Req
         public List<LeaveTypeMst> leaveTypeList { get; set; }
         public LeaveDetails leaveDetails { get; set; }
         public List<KeyValueModel> StartTimeList { get; set; }
+        public List<KeyValueModel> LeaveStatusList { get; set; }
+        public bool LeaveStatusChangeView { get; set; }
     }
 
     public class LeaveDetails
@@ -24,6 +26,7 @@ namespace ArcheOne.Models.Req
         public TimeSpan EndTime { get; set; }
 
         public string Reason { get; set; } = null!;
+        public int LeaveStatusId { get; set; }
 
     }
 }

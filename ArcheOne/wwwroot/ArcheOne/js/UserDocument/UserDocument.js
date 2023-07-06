@@ -31,28 +31,17 @@ function UserDocumentList() {
 
                         render: function (data, type, row) {
                             if (data) {
-                                var fullName = ' + data.fullName + '
-                                return '<i class="fa fa-pen pen btn-edit" style="cursor: pointer;" data-toggle="modal" data-target="#modalUserDocument" onclick="GetUserDocsDetails(' + row.id + ')"></i> | <i class="fa fa-trash trash btn-delete" style="cursor: pointer;" onclick="DeleteUserDocs(' + row.id + ')"></i> | <i class="fas fa-envelope-open offerEnvelop btn-delete" style="cursor: pointer;" onclick="downloadConfirmationLetter(' + data.id + ')"></i> | <i class="fas fa-envelope-open-text experienceEnvelop" style="cursor: pointer;" onclick="downloadExperienceLetter(' + data.id + ')"></i> | <i class="fas fa-mail-bulk email" style="cursor: pointer;" onclick="sendEmail(' + data.id + ')"></i>';
+                                return '<i class="fa fa-pen pen btn-edit" style="cursor: pointer;" data-toggle="modal" data-target="#modalUserDocument" onclick="GetUserDocsDetails(' + row.id + ')"></i> | <i class="fa fa-trash trash btn-delete" style="cursor: pointer;" onclick="DeleteUserDocs(' + row.id + ')"></i> | <i class="fas fa-envelope-open offerEnvelop btn-delete" style="cursor: pointer;" onclick="downloadConfirmationLetter(' + data.id + ')"></i> | <i class="fas fa-envelope-open-text experienceEnvelop" style="cursor: pointer;" onclick="downloadExperienceLetter(' + data.id + ')"></i> | <i class="fas fa-mail-bulk email" style="cursor: pointer;" onclick="sendEmail(' + data.id + ')"></i>|<i class="fa fa-download btn-download" value=' + row.document + ' Id=' + row.id + ' onclick="GetUserDocs(' + row.id + ')" aria-hidden="true"></i>';
                                                                                                                                                                                                                                                                                                                              
-                            } else {
                             }
+
                         }
                     },
-                    //{ data: "id", title: "Id" },
-                    { data: "userId", title: "UserId" },
+                   
+                    { data: "employeeCode", title: "EmployeeCode" },
+                    { data: "employeeName", title: "EmployeeName" },
                     { data: "documentTypeId", title: "DocumentType" },
-                    //{ data: "document", title: "Document " },
-                    {
-                        data: null,
-                        title: 'Document',
-                        render: function (data, type, row) {
-                            if (data) {
-                                return '<i class="fa fa-download btn-download" value=' + row.document + ' Id=' + row.id + ' onclick="GetUserDocs(' + row.id + ')" aria-hidden="true"></i>';
-                            } else {
-                                //return '<i class="fa fa-trash trash" value="' + data.id + '" onclick="DeleteUser(@item.Id)"></i>';
-                            }
-                        }
-                    }
+                    
 
                 ]
             }).buttons().container().appendTo('#tblUserDocument_wrapper .col-md-6:eq(0)');

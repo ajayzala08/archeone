@@ -44,4 +44,8 @@ public partial class LeaveMst
     public DateTime CreatedDate { get; set; }
 
     public DateTime UpdatedDate { get; set; }
+
+    public bool? Hrstatus { get; set; }
+
+    public bool? ProjectManagerStatus { get; set; }
 }

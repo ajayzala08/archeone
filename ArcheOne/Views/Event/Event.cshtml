@@ -1,6 +1,7 @@
 ﻿@{
     Layout = "_MasterLayout";
     ViewBag.dataTable = "true";
+    string Title = " ";
 }
 
 
@@ -15,93 +16,102 @@
                     <li class="breadcrumb-item"><a href="#">Masters</a></li>
                     <li class="breadcrumb-item active">Calendar</li>
                 </ol>
+
             </div>
         </div>
     </div>
 </section>
 
-    <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add Events</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="contact-form" method="post" role="form" enctype="multipart/form-data">
-                        <div class="messages"></div>
-                        <div class="controls">
 
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="form_name">Subject</label>
-                                        <input id="txtSubject" type="text" name="subject" class="form-control" placeholder="Please enter subject ">
-                                        <span class="txtValidation"></span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="form_name">Description</label>
-                                        <input id="txtDescription" type="text" name="description" class="form-control" placeholder="Please enter description">
-                                        <span class="txtValidation"></span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="form_name">Start Date</label>
-                                        <input id="txtStart" type="datetime-local" name="start" class="form-control" placeholder="Please select start date">
-                                        <span class="txtValidation"></span>
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Events</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="contact-form" method="post" role="form" enctype="multipart/form-data">
+                    <div class="messages"></div>
+                    <div class="controls">
 
-
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="form_name">End Date</label>
-                                        <input id="txtEnd" type="datetime-local" name="end" class="form-control" placeholder="Please select end date">
-                                        <span class="txtValidation"></span>
-                                    </div>
+                        <div class="row">
+                            <div class="col-sm-6" id="dtxtSubject">
+                                <div class="form-group">
+                                    <label class="form-label"><span class="has-error required">* </span>Subject</label>
+                                    <input id="txtSubject" type="text" name="subject" class="form-control text-length " placeholder="Please enter your Subject" isrequired="1" divcontainer="dtxtSubject" errorspan="stxtSubject" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtSubject">Please Enter Valid Subject</span>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="form_name">Color </label>
-                                        <select name="colorId" id="ddlcolorId" class="form-control">
-                                            <option name="colorId" value="Red">Red</option>
-                                            <option name="colorId" value="Green">Green</option>
-                                            <option name="colorId" value="Blue">Blue</option>
-                                            <option name="colorId" value="Yellow">Yellow</option>
-                                            <option name="colorId" value="Purple">Purple</option>
-                                        </select>
-                                        <span class="txtValidation"></span>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label for="form_name">Is Full Day</label>
-                                        <input id="chbIsFullDay" type="checkbox" name="isFullDay" />
-                                        <span class="txtValidation"></span>
-                                    </div>
-                                </div>
-
                             </div>
+                            <div class="col-sm-6" id="dtxtDescription">
+                                <div class="form-group">
+                                    <label class="form-label"><span class="has-error required">* </span>Description</label>
+                                    <input id="txtDescription" type="text" name="Description" class="form-control text-length " placeholder="Please enter your Description" isrequired="1" divcontainer="dtxtDescription" errorspan="stxtDescription" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtDescription">Please Enter Valid Description</span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6" id="dtxtStartDate">
+                                <div class="form-group">
+                                    <label class="form-label"><span class="has-error required">* </span>Start Date</label>
+                                    <input id="txtStartDate" type="datetime-local" name="StartDate" class="form-control text-length " placeholder="Please enter your Start Date" isrequired="1" divcontainer="dtxtStartDate" errorspan="stxtStartDate" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtStartDate">Please Enter Valid Start Date</span>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6" id="dtxtEndDate">
+                                <div class="form-group">
+                                    <label class="form-label"><span class="has-error required">* </span>End Date</label>
+                                    <input id="txtEndDate" type="datetime-local" name="EndDate" class="form-control text-length " placeholder="Please enter your End Date" isrequired="1" divcontainer="dtxtEndDate" errorspan="stxtEndDate" defaultvalue="" autocomplete="off" minlength="2">
+                                    <span class="help-block d-none has-error" id="stxtEndDate">Please Enter Valid End Date</span>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6" id="dddlcolorId">
+                                <div class="form-group">
+                                    <label ><span class="has-error required">* </span>Color </label>
+                                        <select id="ddlcolorId" name="ddlcolorId" class="form-control" isrequired="1" divcontainer="dddlcolorId" errorspan="sddlcolorId" defaultvalue="0" style="width: 100%;">
+                                            <option value="0">--- Select ---</option>
+                                        <option name="colorId" value="Red">Red</option>
+                                        <option name="colorId" value="Green">Green</option>
+                                        <option name="colorId" value="Blue">Blue</option>
+                                        <option name="colorId" value="Yellow">Yellow</option>
+                                        <option name="colorId" value="Purple">Purple</option>
+                                    </select>
+                                    <span class="help-block d-none has-error" id="sddlcolorId">Please select Valid color</span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="form_name">Is Full Day</label>
+                                    <input id="chbIsFullDay" type="checkbox" name="isFullDay" />
+                                    <span class="txtValidation"></span>
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="clearfix"></div>
-                    </form>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default close" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="addNewEvent">Add Event</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </form>
+            </div>
+            <div class="card-footer justify-content-between">
+                <div class="row mr-lg-n3 float-right">
+                    <button type="button" id="addNewEvent" class="btn btn-primary mr-2">Add Event</button>
+                    <button type="button" id="btnCancel" data-dismiss="modal" class="btn btn-danger float-right">Cancel</button>
                 </div>
             </div>
-
+      
         </div>
 
     </div>
+
+</div>
 
 <div class="col-md-12" id="calendar">
 </div>
