@@ -325,5 +325,51 @@ namespace ArcheOne.Controllers
         {
             return View();
         }
+
+        public async Task<IActionResult> ActionTaken()
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            var actionTakenList = _dbRepo.SalesLeadActionList().Select(x => new
+            {
+                Id = x.Id,
+                Action = x.SalesLeadActionName
+            }).ToList();
+            commonResponse.Data = actionTakenList;
+            commonResponse.Status = true;
+            commonResponse.StatusCode = HttpStatusCode.OK;
+            commonResponse.Message = "Action List Found";
+            return Json(commonResponse);
+        }
+
+        public async Task<IActionResult> OrganizationStatus()
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            var actionTakenList = _dbRepo.SalesLeadStatusList().Select(x => new
+            {
+                Id = x.Id,
+                Status = x.SalesLeadStatusName
+            }).ToList();
+            commonResponse.Data = actionTakenList;
+            commonResponse.Status = true;
+            commonResponse.StatusCode = HttpStatusCode.OK;
+            commonResponse.Message = "Status List Found";
+            return Json(commonResponse);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddAction()
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            try
+            {
+
+
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message.ToString();
+                commonResponse.Data = ex.ToString();
+            }
+            return Json(commonResponse);
+        }
     }
 }

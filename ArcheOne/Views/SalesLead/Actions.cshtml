@@ -22,64 +22,152 @@
 <section class="content" id="sectionData">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Actions</h3>
+            <h3 class="card-title">Lead and Contact Person Details</h3>
 
-            <div class="card-tools">
-                <button id="btnAddAction" type="button" class="btn btn-primary float-right">Add Action</button>
-            </div>
+            @*            <div class="card-tools">
+            <button id="btnAddAction" type="button" class="btn btn-primary float-right">Add Action</button>
+            </div>*@
         </div>
         <div class="card-body">
             <div class="row form-group">
-                <div class="col-md-4" >
-                    <label>Contact Person : </label>
-                    <label class="text-muted">Contact Person</label>
-                    
+                <div class="col-md-4">
+                    <label class="text-dark">Contact Person : </label>
+                    <label class="text-secondary">Contact Person</label>
+
                 </div>
-                <div class="col-md-4" >
-                    <label>Designation : </label>
-                    <label>Designation</label>
+                <div class="col-md-4">
+                    <label class="text-dark">Designation : </label>
+                    <label class="text-secondary">Designation</label>
                 </div>
-                <div class="col-md-4" >
-                    <label>Organization : </label>
-                    <label>Organization</label>
+                <div class="col-md-4">
+                    <label class="text-dark">Organization : </label>
+                    <label class="text-secondary">Organization</label>
                 </div>
-                
+
             </div>
 
             <div class="row form-group">
                 <div class="col-md-4">
-                    <label>Website</label>
-                    <label>Website</label>
+                    <label class="text-dark">Website : </label>
+                    <label class="text-secondary">Website</label>
                 </div>
-                <div class="col-md-4" >
-                    <label>Speciality</label>
-                    <label>Speciality</label>
+                <div class="col-md-4">
+                    <label class="text-dark">Speciality : </label>
+                    <label class="text-secondary">Speciality</label>
                 </div>
-                <div class="col-md-4" >
-                    <label>Country</label>
-                    <label>Country</label>
+                <div class="col-md-4">
+                    <label class="text-dark">Country : </label>
+                    <label class="text-secondary">Country</label>
                 </div>
-               
+
             </div>
             <div class="row form-group">
                 <div class="col-md-4">
-                    <label>Office Phone</label>
-                    <label>Office Phone </label>
+                    <label class="text-dark">Office Phone : </label>
+                    <label class="text-secondary">Office Phone </label>
                 </div>
                 <div class="col-md-4">
-                    <label>Mobile</label>
-                    <label>Mobile</label>
+                    <label class="text-dark">Mobile : </label>
+                    <label class="text-secondary">Mobile</label>
                 </div>
                 <div class="col-md-4">
-                    <label>Email</label>
-                    <label>Email</label>
+                    <label class="text-dark">Email : </label>
+                    <label class="text-secondary">Email</label>
                 </div>
             </div>
 
-            
+
         </div>
     </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Action List</h3>
+
+            <div class="card-tools">
+                <button id="btnAddAction" type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modalActionUpload">Add New Action</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="tblUser" class="table table-bordered table-striped" style="width:100%">
+            </table>
+        </div>
+    </div>
+    <div class="modal fade" id="modalActionUpload">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Action</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-sm-12" id="modelAction">
+                        <div class="row form-group">
+                            <div class="col-md-6" id="dtxtActionDate">
+                                <label class="form-label"><span class="has-error required">* </span>Action Date</label>
+                                <input type="text" id="txtActionDate" name="txtActionDate" class="form-control" isRequired="1" divcontainer="dtxtActionDate" errorspan="stxtActionDate" defaultvalue="" />
+                                <span class="help-block d-none has-error" id="stxtActionDate">Please Select Action Date</span>
+                            </div>
+                            <div class="col-md-6" id="dtxtNextFollowupDate">
+                                <label class="form-label"><span class="has-error required">* </span>Next Followup Date</label>
+                                <input type="text" id="txtNextFollowupDate" name="txtNextFollowupDate" class="form-control" isRequired="1" divcontainer="dtxtNextFollowupDate" errorspan="stxtNextFollowupDate" defaultvalue="" />
+                                <span class="help-block d-none has-error" id="stxtNextFollowupDate">Please Select Next Followup Date</span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-6" id="dddlActionPerformed">
+                                <label class="form-label"><span class="has-error required">* </span>Action Performed</label>
+                                <select id="ddlActionPerformed" name="ddlActionPerformed" class="form-control" isrequired="1" divcontainer="dddlActionPerformed" errorspan="sddlActionPerformed" defaultvalue="0" style="width: 100%;">
+                                    <option value="0">--- Select ---</option>
+                                </select>
+                                <span class="help-block d-none has-error" id="sddlActionPerformed">Please Select Action Performed</span>
+                            </div>
+                            <div class="col-md-6" id="dddlNextFollowupActionPerformed">
+                                <label class="form-label"><span class="has-error required">* </span>Next Followup Action Performed</label>  
+                                <select id="ddlActionPerformedNextFollowupActionPerformed" name="ddlNextFollowupActionPerformed" class="form-control" isrequired="1" divcontainer="dddlNextFollowupActionPerformed" errorspan="sddlNextFollowupActionPerformed" defaultvalue="0" style="width: 100%;">
+                                    <option value="0">--- Select ---</option>
+                                </select>
+                                <span class="help-block d-none has-error" id="sddlNextFollowupActionPerformed">Please Select Next Followup Action Performed</span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-6" id="dtxtActionComment">
+                                <label class="form-label"><span class="has-error required">* </span>Action Comment</label>
+                                <input type="text" id="txtActionComment" multiple="3" name="txtActionComment" class="form-control" isrequired="1" divcontainer="dtxtActionComment" errorspan="stxtActionComment" defaultvalue="" /> 
+                                <span class="help-block d-none has-error" id="stxtActionComment">Please Select Action Performed</span>
+                            </div>
+                            <div class="col-md-6" id="dtxtNextFollowupActionComment">
+                                <label class="form-label"><span class="has-error required">* </span>Next Followup Action Comment</label>
+                                <input type="text" id="txtNextFollowupActionComment" name="txtNextFollowupActionComment" class="form-control" isrequired="1" divcontainer="dtxtNextFollowupActionComment" errorspan="stxtNextFollowupActionComment" defaultvalue="" />
+                                <span class="help-block d-none has-error" id="stxtNextFollowupActionComment">Please Select Next Followup Action Performed</span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-6" id="dddlOrganizationStatus">
+                                <label class="form-label"><span class="has-error required">* </span>Organization Status</label>
+                                <select id="ddlOrganizationStatus" name="ddlOrganizationStatus" class="form-control" isrequired="1" divcontainer="dddlOrganizationStatus" errorspan="sddlOrganizationStatus" defaultvalue="0" style="width: 100%;">
+                                    <option value="0">--- Select ---</option>
+                                </select>
+                                <span class="help-block d-none has-error" id="sddlOrganizationStatus">Please Select Organization Status</span>
+                            </div>
+                            <div class="col-md-6 d-flex align-items-baseline">
+                                
+                                <input type="Checkbox" id="chbActive" name="chbActive" isrequired="0" divcontainer="dchbActive" /><span class="p-1">Is Active</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" id="btnSubmitAction" name="btnSubmitAction" class="btn btn-warning float-right" value="Add" />
+                </div>
+            </div>
+        </div>
+    </div>
+
 </section>
 
 @section Scripts{
+    <script src="~/archeone/js/saleslead/action.js?_@DateTime.Now.Ticks"></script>
 }

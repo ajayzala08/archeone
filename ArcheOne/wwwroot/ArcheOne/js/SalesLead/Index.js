@@ -89,15 +89,10 @@ function GetFilteredSalesLeadList() {
 
     ajaxCall("Get", false, '/SalesLead/SalesList', null, function (result) {
 
-        /*$("#AddSalesLeadData").html(result.responseText);
-        ApplyDatatableResponsive('tblSalesLead');*/
-        debugger
+     
 
         if (result.status == true) {
-        /*    if (dataTable !== null) {
-                dataTable.destroy();
-                dataTable = null;
-            }*/
+
             dataTable = $('#tblLeadContacts').DataTable({
                 "responsive": true,
                 "lengthChange": true,
