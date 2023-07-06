@@ -25,10 +25,15 @@ function GetDefaultPermissions(RoleId) {
         if (result.status == true) {
 
             $("#btnUpdatePermission").removeAttr("disabled");
+            var showPermissionRoutes = false;
 
             if (dataTable !== null) {
                 dataTable.destroy();
                 dataTable = null;
+            }
+
+            if (result.data != null && result.data.length > 0) {
+                showPermissionRoutes = result.data[0].showPermissionRoutes;
             }
 
             dataTable = $('#tbDefaultPermissions').DataTable({
@@ -41,13 +46,13 @@ function GetDefaultPermissions(RoleId) {
                 "data": result.data,
                 "columns": [
                     {
-                        data: null, title: "Actions", render: function (data, type, row) {
+                        data: null, title: "Actions", visible: showPermissionRoutes, searchable: showPermissionRoutes, render: function (data, type, row) {
                             return '<i class="fa fa-pen pen btn-edit" style="cursor: pointer;" data-toggle="modal" data-target="#modalProject" onclick="GetPermissionDetails(' + row.id + ')"></i>';
                         }
                     },
                     { data: "id", title: "Id" },
                     { data: "permissionName", title: "Permissions" },
-                    { data: "permissionRoute", title: "Permission Route(s)" },
+                    { data: "permissionRoute", visible: showPermissionRoutes, searchable: showPermissionRoutes, title: "Permission Route(s)", },
                     {
                         data: null,
                         title: 'Status',

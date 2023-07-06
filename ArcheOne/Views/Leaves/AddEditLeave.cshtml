@@ -66,8 +66,8 @@
                             <option value="0">--- Select StartTime---</option>
                             @foreach (var item in addEditRequirementResModel.StartTimeList)
                             {
-                                if (item.Id == addEditRequirementResModel.leaveDetails.Id)
-                                {
+                                if (addEditRequirementResModel.leaveDetails.Id > 0)
+                                    {
                                     <option value="@item.Id" selected>@item.Name</option>
                                 }
                                 else
@@ -81,7 +81,7 @@
 
                     <div class="form-group col-sm-4" id="dtxtEndDate">
                         <label><span class="has-error required">* </span>End Date</label>
-                        <input type="date" id="txtEndDate" name="txtEndDate" class="form-control" isRequired="1" divcontainer="dtxtEndDate" errorspan="stxtEndDate" defaultvalue="0" minlength="2" value=""@addEditRequirementResModel.leaveDetails.EndDate.ToString("yyyy-MM-dd") />
+                        <input type="date" id="txtEndDate" name="txtEndDate" class="form-control" isRequired="1" divcontainer="dtxtEndDate" errorspan="stxtEndDate" defaultvalue="0" minlength="2" value="@addEditRequirementResModel.leaveDetails.EndDate.ToString("yyyy-MM-dd")" />
                         <span class="help-block d-none has-error" id="stxtEndDate">Please Select End Date</span>
                     </div>
 
@@ -90,6 +90,7 @@
                         <label><span class="has-error required">* </span>End Time</label>
                         <select id="ddlEndTime" name="ddlEndTime" class="form-control select2" isrequired="1" divcontainer="dddlEndTime" errorspan="sddlEndTime" defaultvalue="0" style="width: 100%;">
                             <option value="0">--- Select EndTime---</option>
+                          
                         </select>
                         <input id="txtSelectedEndTime" name="txtSelectedEndTime" type="hidden" class="form-control" value="@addEditRequirementResModel.leaveDetails.EndTime" />
                         <span class="help-block d-none has-error" id="sddlEndTime">Please Select EndTime</span>
@@ -111,8 +112,11 @@
                                     <option value="0">--- Select LeaveStatus ---</option>
                                     @foreach (var item in addEditRequirementResModel.LeaveStatusList)
                                     {
-                                        if (item.Id == addEditRequirementResModel.leaveDetails.LeaveStatusId)
+                                        if (item.Id == addEditRequirementResModel.leaveDetails.HrStatus)
                                         {
+                                            <option value="@item.Id" selected>@item.Name</option>
+                                        }
+                                        else if(item.Id == addEditRequirementResModel.leaveDetails.ProjectManagerStatus){
                                             <option value="@item.Id" selected>@item.Name</option>
                                         }
                                         else
@@ -141,6 +145,7 @@
 </section>
 @section Scripts
     {
-    <script src="~/archeone/js/leave/addeditleave.js"></script>
+
+    <script src="~/archeone/js/leave/addeditleave.js?_@DateTime.Now.Ticks"></script>
 
     }

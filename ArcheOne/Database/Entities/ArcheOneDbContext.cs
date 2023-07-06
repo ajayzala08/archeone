@@ -261,11 +261,12 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<DailyTaskMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__DailyTas__3214EC07BC9B704D");
+            entity.HasKey(e => e.Id).HasName("PK__DailyTas__3214EC079C280D87");
 
             entity.ToTable("DailyTaskMst");
 
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.DueDate).HasColumnType("datetime");
             entity.Property(e => e.TaskDate).HasColumnType("datetime");
             entity.Property(e => e.TaskStatus).HasMaxLength(30);
             entity.Property(e => e.TimeSpent).HasMaxLength(100);

@@ -84,6 +84,7 @@ namespace ArcheOne.Controllers
                                         Id = dailyTask.Id,
                                         ProjectName = projectItem.ProjectName,
                                         TaskDate = dailyTask.TaskDate,
+                                        DueDate = dailyTask.DueDate ?? null,
                                         TaskStatus = dailyTask.TaskStatus,
                                         TimeSpent = dailyTask.TimeSpent,
                                         TaskModule = dailyTask.TaskModule,
@@ -92,7 +93,8 @@ namespace ArcheOne.Controllers
                                         CreatedByName = $"{allUserItem.FirstName ?? ""} {allUserItem.LastName ?? ""}",
                                         CreatedDate = dailyTask.CreatedDate,
                                         IsEditable = !(dailyTask.CreatedDate.Date != _commonHelper.GetCurrentDateTime().Date),
-                                        ShowUserName = showUserName
+                                        ShowUserName = showUserName,
+                                        TaskName = dailyTask.TaskName
                                     });
 
                     totalRecord = taskList.Count();
@@ -213,7 +215,9 @@ namespace ArcheOne.Controllers
                             CreatedBy = userId,
                             UpdatedBy = userId,
                             CreatedDate = _commonHelper.GetCurrentDateTime(),
-                            UpdatedDate = _commonHelper.GetCurrentDateTime()
+                            UpdatedDate = _commonHelper.GetCurrentDateTime(),
+                            DueDate = request.TaskStatus == CommonEnums.ProjectStatus.InProgress.ToString() ? request.DueDate ?? request.TaskDate : null,
+                            TaskName = request.TaskName
                         };
 
                         await _dbContext.AddAsync(dailyTaskMst);
@@ -236,6 +240,8 @@ namespace ArcheOne.Controllers
                             dailyTask.TimeSpent = $"{request.TimeSpentHH}:{request.TimeSpentMM}";
                             dailyTask.UpdatedBy = userId;
                             dailyTask.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                            dailyTask.DueDate = request.TaskStatus == CommonEnums.ProjectStatus.InProgress.ToString() ? request.DueDate ?? request.TaskDate : null;
+                            dailyTask.TaskName = request.TaskName;
 
                             _dbContext.Entry(dailyTask).State = EntityState.Modified;
                             await _dbContext.SaveChangesAsync();
