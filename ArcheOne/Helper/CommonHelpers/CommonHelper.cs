@@ -753,7 +753,7 @@ namespace ArcheOne.Helper.CommonHelpers
             return permissionList;
         }
 
- 		public string GetFormatedDecimal(decimal value)
+        public string GetFormatedDecimal(decimal value)
         {
             string formatedDecimal = Convert.ToString(value);
             formatedDecimal = value > 0 ? Convert.ToString(TruncateDecimal(value, 2)) : value.ToString("#,##0.00");
@@ -765,5 +765,7 @@ namespace ArcheOne.Helper.CommonHelpers
             decimal step = (decimal)Math.Pow(10, precision);
             decimal tmp = Math.Truncate(step * value);
             return tmp / step;
-        }}
+        }
+    }
+}
 
