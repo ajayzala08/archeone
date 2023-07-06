@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ArcheOne.Database.Entities;
+﻿namespace ArcheOne.Database.Entities;
 
 public partial class DailyTaskMst
 {
@@ -15,9 +12,13 @@ public partial class DailyTaskMst
 
     public string TimeSpent { get; set; } = null!;
 
+    public string TaskName { get; set; } = null!;
+
     public string TaskModule { get; set; } = null!;
 
     public string TaskDescription { get; set; } = null!;
+
+    public DateTime? DueDate { get; set; }
 
     public bool IsActive { get; set; }
 
@@ -30,4 +31,7 @@ public partial class DailyTaskMst
     public DateTime CreatedDate { get; set; }
 
     public DateTime UpdatedDate { get; set; }
+
+    public DateTime? CompletionDate { get; set; }
+    public string? TaskName { get; set; }
 }

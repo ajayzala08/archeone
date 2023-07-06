@@ -26,14 +26,16 @@
                 @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Dashboard_View.ToString()))
                 {
                     <li class="nav-item">
-                        <a href="~/Dashboard/Index" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i>Dashboard</a>
+                        <a href="~/Dashboard/Index" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i><p>Dashboard</p></a>
                     </li>
                 }
 
                 @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Event_View.ToString()))
                 {
                     <li class="nav-item">
-                        <a href="~/Event/Event" class="nav-link"><i class="nav-icon fas fa-calendar-alt"></i>Events</a>
+                        <a href="~/Event/Event" class="nav-link">
+                            <i class="nav-icon fas fa-calendar-alt"></i><p>Events</p>
+                        </a>
                     </li>
                 }
 
@@ -173,7 +175,7 @@
                                 <li class="nav-item">
                                     <a href="~/Salary/Salary" class="nav-link">
                                         <i class="nav-icon fas fa-hand-holding-usd"></i>
-                                        <p>Leaves</p>
+                                        <p>Salary</p>
                                     </a>
                                 </li>
                             }

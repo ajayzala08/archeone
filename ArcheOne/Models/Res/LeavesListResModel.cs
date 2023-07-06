@@ -31,6 +31,8 @@
         public decimal EarnedLeaveBalance { get; set; }
         public decimal EarnedLeaveTaken { get; set; }
         public string Details { get; set; }
+        public string HrStatus { get; set; }
+        public string ProjectManagerStatus { get; set; }
         public decimal LeaveTaken { get; set; }
     }
 }

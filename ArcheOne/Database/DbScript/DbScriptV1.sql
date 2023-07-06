@@ -1542,6 +1542,14 @@ ADD HRStatus bit  null;
 	ALTER TABLE LeaveMst
 ADD ProjectManagerStatus bit  null;
 ----------------------------------------Added by PP on 05-07-23-----------------------------------End--------
+----------------------------------------Added by PP on 06-07-23-----------------------------------Start--------
+ALTER TABLE LeaveMst
+ALTER COLUMN HRStatus int;
+
+ALTER TABLE LeaveMst
+ALTER COLUMN ProjectManagerStatus int;
+----------------------------------------Added by PP on 06-07-23-----------------------------------End--------
+----------------------------------------Added by PP on 05-07-23-----------------------------------End--------
 ----------------------------------------Added by AZ on 06-07-23-----------------------------------Start--------
 insert into dbo.SalesLeadActionMst (SalesLeadActionName,SalesLeadActionCode,IsActive,IsDelete,CreatedBy,UpdatedBy,CreatedDate,UpdatedDate)values ('Voice Call','1',1,0,1,1,GETDATE(),GETDATE());
 insert into dbo.SalesLeadActionMst (SalesLeadActionName,SalesLeadActionCode,IsActive,IsDelete,CreatedBy,UpdatedBy,CreatedDate,UpdatedDate)values ('Audio Call','2',1,0,1,1,GETDATE(),GETDATE());

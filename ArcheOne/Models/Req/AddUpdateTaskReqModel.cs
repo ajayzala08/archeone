@@ -10,5 +10,8 @@
         public string TimeSpentHH { get; set; }
         public string TimeSpentMM { get; set; }
         public string TaskDescription { get; set; }
+
+        public DateTime? CompletionDate { get; set; } = null;
+        public string? TaskName { get; set; }
     }
 }

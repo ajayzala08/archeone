@@ -13,7 +13,7 @@ public partial class SalesLeadFollowUpMst
 
     public DateTime FollowUpDateTime { get; set; }
 
-    public DateTime NextFollowUpDateTime { get; set; }
+    public DateTime? NextFollowUpDateTime { get; set; }
 
     public int SalesLeadStatusId { get; set; }
 
@@ -32,4 +32,8 @@ public partial class SalesLeadFollowUpMst
     public DateTime CreatedDate { get; set; }
 
     public DateTime UpdatedDate { get; set; }
+
+    public int? NextFollowUpActionId { get; set; }
+
+    public string? NextFollowUpNotes { get; set; }
 }
