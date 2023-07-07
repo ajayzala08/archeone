@@ -23,9 +23,13 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<CandidateMst> CandidateMsts { get; set; }
 
+    public virtual DbSet<CityMst> CityMsts { get; set; }
+
     public virtual DbSet<ClientMst> ClientMsts { get; set; }
 
     public virtual DbSet<CompanyMst> CompanyMsts { get; set; }
+
+    public virtual DbSet<CountryMst> CountryMsts { get; set; }
 
     public virtual DbSet<DailyTaskMst> DailyTaskMsts { get; set; }
 
@@ -100,6 +104,8 @@ public partial class ArcheOneDbContext : DbContext
     public virtual DbSet<SalesLeadMst> SalesLeadMsts { get; set; }
 
     public virtual DbSet<SalesLeadStatusMst> SalesLeadStatusMsts { get; set; }
+
+    public virtual DbSet<StateMst> StateMsts { get; set; }
 
     public virtual DbSet<TeamMst> TeamMsts { get; set; }
 
@@ -205,6 +211,17 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
+        modelBuilder.Entity<CityMst>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("CityMst");
+
+            entity.Property(e => e.CityName).HasMaxLength(250);
+            entity.Property(e => e.Latitude).HasMaxLength(250);
+            entity.Property(e => e.Longitude).HasMaxLength(250);
+        });
+
         modelBuilder.Entity<ClientMst>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__ClientMs__3214EC07DC9E4578");
@@ -257,6 +274,31 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.Pincode).HasMaxLength(10);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             entity.Property(e => e.Website).HasMaxLength(100);
+        });
+
+        modelBuilder.Entity<CountryMst>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("CountryMst");
+
+            entity.Property(e => e.Capital).HasMaxLength(250);
+            entity.Property(e => e.CountryName).HasMaxLength(250);
+            entity.Property(e => e.Currency).HasMaxLength(250);
+            entity.Property(e => e.CurrencyName).HasMaxLength(250);
+            entity.Property(e => e.CurrencySymbol).HasMaxLength(250);
+            entity.Property(e => e.Emoji).HasMaxLength(250);
+            entity.Property(e => e.EmojiU).HasMaxLength(250);
+            entity.Property(e => e.Iso2).HasMaxLength(250);
+            entity.Property(e => e.Iso3).HasMaxLength(250);
+            entity.Property(e => e.Latitude).HasMaxLength(250);
+            entity.Property(e => e.Longitude).HasMaxLength(250);
+            entity.Property(e => e.Native).HasMaxLength(250);
+            entity.Property(e => e.NumericCode).HasMaxLength(250);
+            entity.Property(e => e.PhoneCode).HasMaxLength(250);
+            entity.Property(e => e.Region).HasMaxLength(250);
+            entity.Property(e => e.SubRegion).HasMaxLength(250);
+            entity.Property(e => e.Tld).HasMaxLength(250);
         });
 
         modelBuilder.Entity<DailyTaskMst>(entity =>
@@ -459,6 +501,7 @@ public partial class ArcheOneDbContext : DbContext
 
             entity.ToTable("LeaveMst");
 
+            entity.Property(e => e.ApprovedByHruserId).HasColumnName("ApprovedByHRUserId");
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.EndDate).HasColumnType("date");
             entity.Property(e => e.Hrstatus).HasColumnName("HRStatus");
@@ -839,6 +882,18 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.SalesLeadStatusCode).HasMaxLength(50);
             entity.Property(e => e.SalesLeadStatusName).HasMaxLength(50);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<StateMst>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("StateMst");
+
+            entity.Property(e => e.Latitude).HasMaxLength(250);
+            entity.Property(e => e.Longitude).HasMaxLength(250);
+            entity.Property(e => e.StateCode).HasMaxLength(250);
+            entity.Property(e => e.StateName).HasMaxLength(250);
         });
 
         modelBuilder.Entity<TeamMst>(entity =>
