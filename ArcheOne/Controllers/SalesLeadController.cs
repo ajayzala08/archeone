@@ -432,13 +432,13 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
             try
             {
-                var salesLeadFollowUpList = (from followUp in _dbRepo.salesLeadFollowUpMst()
-                                             where followUp.Id == id
+                var salesLeadFollowUpList = (from followUp in _dbRepo.salesLeadFollowUpMst().ToList()
+                                             where followUp.SalesContactPersonId == id
                                              join followupAction in _dbRepo.SalesLeadActionList().ToList() on followUp.SalesLeadActionId equals followupAction.Id
-                                             join nextfolloupaction in _dbRepo.SalesLeadActionList() on followUp.NextFollowUpActionId equals nextfolloupaction.Id
-                                             join leadStatus in _dbRepo.SalesLeadStatusList() on followUp.SalesLeadStatusId equals leadStatus.Id
-                                             join lead in _dbRepo.SalesLeadList() on followUp.SalesLeadId equals lead.Id
-                                             join contactPerson in _dbRepo.SalesContactPersonList() on followUp.SalesContactPersonId equals contactPerson.Id
+                                             join nextfolloupaction in _dbRepo.SalesLeadActionList().ToList() on followUp.NextFollowUpActionId equals nextfolloupaction.Id
+                                             join leadStatus in _dbRepo.SalesLeadStatusList().ToList() on followUp.SalesLeadStatusId equals leadStatus.Id
+                                             join lead in _dbRepo.SalesLeadList().ToList() on followUp.SalesLeadId equals lead.Id
+                                             join contactPerson in _dbRepo.SalesContactPersonList().ToList() on followUp.SalesContactPersonId equals contactPerson.Id
                                              select new { followUp, followupAction, nextfolloupaction, leadStatus, lead, contactPerson }
                                                   ).Select(x => new
                                                   {
@@ -452,7 +452,7 @@ namespace ArcheOne.Controllers
                                                       Organization = x.lead.OrgName,
                                                       ContactPerson = $"{x.contactPerson.FirstName} {x.contactPerson.LastName}"
 
-                                                  }).FirstOrDefault();
+                                                  }).ToList();
                 commonResponse.Status = true;
                 commonResponse.StatusCode = HttpStatusCode.OK;
                 commonResponse.Message = "Record found";

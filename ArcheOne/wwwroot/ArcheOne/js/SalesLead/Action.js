@@ -10,6 +10,7 @@
     LoadActions();
     LoadStatus();
     LoadLeadNContactPersonDetails();
+    FolloupActions();
     $.unblockUI();
 });
 
@@ -69,15 +70,12 @@ function LoadLeadNContactPersonDetails() {
     });
 }
 
-function SalaryDataFill() {
+function FolloupActions() {
     if (validateRequiredFieldsByGroup("modal")) {
         $.blockUI();
-        let salaryReqModel = {
-            "CompanyId": parseInt($("#ddlCompany").val()),
-            "SalaryYear": parseInt($("#ddlyear option:selected").text()),
-            "SalaryMonth": $("#ddlmonth option:selected").text()
-        }
-        ajaxCall("Post", false, '/SalesLead/SalesLeadFollowUpList', JSON.stringify(salaryReqModel), function (result) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = parseInt(urlParams.get('id'));
+        ajaxCall("GET", false, '/SalesLead/SalesLeadFollowUpList?id='+id, null, function (result) {
             debugger
             if (result.status == true) {
                 debugger
@@ -102,13 +100,18 @@ function SalaryDataFill() {
 
                             render: function (data, type, row) {
 
-                                return '<i class="fa fa-trash trash" value="' + data.salaryId + '" onclick="DeleteSalary(' + row.salaryId + ')"></i> | <i class="fa fa-download btn-download" value="' + data.salaryId + '" onclick="DownloadSalarySlip(' + row.salaryId + ')"></i>';
+                                return '<i class="fa fa-trash trash" value="' + data.id + '" onclick="DeleteSalary(' + row.id + ')"></i> | <i class="fa fa-download btn-download" value="' + data.id + '" onclick="DownloadSalarySlip(' + row.id + ')"></i>';
 
                             }
                         },
 
-                        { data: "employeeCode", title: "Employee Code" },
-                        { data: "employeeName", title: "Employee Name" }
+                        { data: "followUpDate", title: "FollowUp Date" },
+                        { data: "nextFollowUpDate", title: "Next Follow Up Date" },
+                        { data: "action", title: "Action" },
+                        { data: "nextAction", title: "NextAction" },
+                        { data: "status", title: "Status" },
+                        { data: "organization", title: "Organization" },
+                        { data: "contactPerson", title: "Contact Person" }
                     ]
                 });
                 $.unblockUI();
