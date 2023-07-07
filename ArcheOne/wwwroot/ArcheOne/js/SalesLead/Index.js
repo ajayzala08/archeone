@@ -121,7 +121,7 @@ function GetFilteredSalesLeadList() {
                         data: null,
                         title: "Contact Person",
                         render: function (data) {
-                            return '<a href=/SalesLead/Actions/' + data.contactPersonId + '>' + data.fullName + ' </a> ';
+                            return '<a href=/SalesLead/Actions?id=' + data.contactPersonId + '>' + data.fullName + ' </a> ';
                         }
 
                     },
