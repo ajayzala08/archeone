@@ -26,7 +26,7 @@
 
 <section class="content">
     <div class="card">
-          @if (Model.Status)
+        @if (Model.Status)
         {
             LeaveAddEditReqModel addEditRequirementResModel = Model.Data;
             <div class="card-body">
@@ -67,7 +67,7 @@
                             @foreach (var item in addEditRequirementResModel.StartTimeList)
                             {
                                 if (addEditRequirementResModel.leaveDetails.Id > 0)
-                                    {
+                                {
                                     <option value="@item.Id" selected>@item.Name</option>
                                 }
                                 else
@@ -90,7 +90,7 @@
                         <label><span class="has-error required">* </span>End Time</label>
                         <select id="ddlEndTime" name="ddlEndTime" class="form-control select2" isrequired="1" divcontainer="dddlEndTime" errorspan="sddlEndTime" defaultvalue="0" style="width: 100%;">
                             <option value="0">--- Select EndTime---</option>
-                          
+
                         </select>
                         <input id="txtSelectedEndTime" name="txtSelectedEndTime" type="hidden" class="form-control" value="@addEditRequirementResModel.leaveDetails.EndTime" />
                         <span class="help-block d-none has-error" id="sddlEndTime">Please Select EndTime</span>
@@ -102,40 +102,44 @@
                         <textarea id="txtReason" name="txtReason" class="form-control" isrequired="1" divcontainer="dtxtReason" errorspan="stxtReason" defaultvalue="0" minlength="2">@addEditRequirementResModel.leaveDetails.Reason</textarea>
                         <span class="help-block d-none has-error" id="stxtReason">Please Enter Reason</span>
                     </div>
-
-                    @if (addEditRequirementResModel.LeaveStatusChangeView)
+                    @if (addEditRequirementResModel.leaveDetails.Id > 0)
                     {
-                        <div class="col-sm-4" id="dddlLeaveStatusId">
-                            <div class="form-group">
-                                <label><span class="has-error required">* </span>Leave Status</label>
-                                <select id="ddlLeaveStatusId" name="ddlLeaveStatusId" class="form-control select2" isrequired="1" divcontainer="dddlLeaveStatusId" errorspan="sddlLeaveStatusId" defaultvalue="0" style="width: 100%;">
-                                    <option value="0">--- Select LeaveStatus ---</option>
-                                    @foreach (var item in addEditRequirementResModel.LeaveStatusList)
-                                    {
-                                        if (item.Id == addEditRequirementResModel.leaveDetails.HrStatus)
+
+                        @if (addEditRequirementResModel.LeaveStatusChangeView)
+                        {
+                            <div class="col-sm-4" id="dddlLeaveStatusId">
+                                <div class="form-group">
+                                    <label><span class="has-error required">* </span>Leave Status</label>
+                                    <select id="ddlLeaveStatusId" name="ddlLeaveStatusId" class="form-control select2" isrequired="1" divcontainer="dddlLeaveStatusId" errorspan="sddlLeaveStatusId" defaultvalue="0" style="width: 100%;">
+                                        <option value="0">--- Select LeaveStatus ---</option>
+                                        @foreach (var item in addEditRequirementResModel.LeaveStatusList)
                                         {
-                                            <option value="@item.Id" selected>@item.Name</option>
+                                            if (item.Id == addEditRequirementResModel.leaveDetails.HrStatus)
+                                            {
+                                                <option value="@item.Id" selected>@item.Name</option>
+                                            }
+                                            else if (item.Id == addEditRequirementResModel.leaveDetails.ApprovedByReportingStatus)
+                                            {
+                                                <option value="@item.Id" selected>@item.Name</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
                                         }
-                                        else if(item.Id == addEditRequirementResModel.leaveDetails.ProjectManagerStatus){
-                                            <option value="@item.Id" selected>@item.Name</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@item.Id">@item.Name</option>
-                                        }
-                                    }
-                                </select>
-                                <span class="help-block d-none has-error" id="sddlLeaveStatusId">Please select Leave Status</span>
+                                    </select>
+                                    <span class="help-block d-none has-error" id="sddlLeaveStatusId">Please select Leave Status</span>
+                                </div>
                             </div>
-                        </div>
+                        }
                     }
                 </div>
             </div>
             <div class="card-footer">
                 <input type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success float-right ml-1" value="Submit" />
-           
-            <input type="button" id="btnCancel" name="btnCancel" class="btn btn-danger float-right" value="Cancel" />
-        </div>
+
+                <input type="button" id="btnCancel" name="btnCancel" class="btn btn-danger float-right" value="Cancel" />
+            </div>
         }
         else
         {
