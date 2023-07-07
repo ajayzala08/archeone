@@ -28,20 +28,22 @@
             <button id="btnAddAction" type="button" class="btn btn-primary float-right">Add Action</button>
             </div>*@
         </div>
+        <input type="hidden" id="txtSalesLeadId" />
+        <input type="hidden" id="txtSalesContactPersonId" />
         <div class="card-body">
             <div class="row form-group">
                 <div class="col-md-4">
                     <label class="text-dark">Contact Person : </label>
-                    <label class="text-secondary">Contact Person</label>
+                    <label id="lblContactPerson" class="text-secondary"></label>
 
                 </div>
                 <div class="col-md-4">
                     <label class="text-dark">Designation : </label>
-                    <label class="text-secondary">Designation</label>
+                    <label id="lblDesignation" class="text-secondary"></label>
                 </div>
                 <div class="col-md-4">
                     <label class="text-dark">Organization : </label>
-                    <label class="text-secondary">Organization</label>
+                    <label id="lblOrganization" class="text-secondary"></label>
                 </div>
 
             </div>
@@ -49,30 +51,30 @@
             <div class="row form-group">
                 <div class="col-md-4">
                     <label class="text-dark">Website : </label>
-                    <label class="text-secondary">Website</label>
+                    <label id="lblWebsite" class="text-secondary"></label>
                 </div>
                 <div class="col-md-4">
                     <label class="text-dark">Speciality : </label>
-                    <label class="text-secondary">Speciality</label>
+                    <label id="lblSpeciality" class="text-secondary"></label>
                 </div>
                 <div class="col-md-4">
                     <label class="text-dark">Country : </label>
-                    <label class="text-secondary">Country</label>
+                    <label id="lblCountry" class="text-secondary"></label>
                 </div>
 
             </div>
             <div class="row form-group">
                 <div class="col-md-4">
                     <label class="text-dark">Office Phone : </label>
-                    <label class="text-secondary">Office Phone </label>
+                    <label id="lblOfficePhone" class="text-secondary"></label>
                 </div>
                 <div class="col-md-4">
                     <label class="text-dark">Mobile : </label>
-                    <label class="text-secondary">Mobile</label>
+                    <label id="lblMobile" class="text-secondary"></label>
                 </div>
                 <div class="col-md-4">
                     <label class="text-dark">Email : </label>
-                    <label class="text-secondary">Email</label>
+                    <label id="lblEmail" class="text-secondary"></label>
                 </div>
             </div>
 
@@ -107,12 +109,12 @@
                         <div class="row form-group">
                             <div class="col-md-6" id="dtxtActionDate">
                                 <label class="form-label"><span class="has-error required">* </span>Action Date</label>
-                                <input type="text" id="txtActionDate" name="txtActionDate" class="form-control" isRequired="1" divcontainer="dtxtActionDate" errorspan="stxtActionDate" defaultvalue="" />
+                                <input type="date" id="txtActionDate" name="txtActionDate" class="form-control" isRequired="1" divcontainer="dtxtActionDate" errorspan="stxtActionDate" defaultvalue="" />
                                 <span class="help-block d-none has-error" id="stxtActionDate">Please Select Action Date</span>
                             </div>
                             <div class="col-md-6" id="dtxtNextFollowupDate">
                                 <label class="form-label"><span class="has-error required">* </span>Next Followup Date</label>
-                                <input type="text" id="txtNextFollowupDate" name="txtNextFollowupDate" class="form-control" isRequired="1" divcontainer="dtxtNextFollowupDate" errorspan="stxtNextFollowupDate" defaultvalue="" />
+                                <input type="date" id="txtNextFollowupDate" name="txtNextFollowupDate" class="form-control" isRequired="1" divcontainer="dtxtNextFollowupDate" errorspan="stxtNextFollowupDate" defaultvalue="" />
                                 <span class="help-block d-none has-error" id="stxtNextFollowupDate">Please Select Next Followup Date</span>
                             </div>
                         </div>
@@ -154,13 +156,14 @@
                             </div>
                             <div class="col-md-6 d-flex align-items-baseline">
                                 
-                                <input type="Checkbox" id="chbActive" name="chbActive" isrequired="0" divcontainer="dchbActive" /><span class="p-1">Is Active</span>
+                                <input type="Checkbox" id="chbActive" name="chbActive" checked="checked" isrequired="0" divcontainer="dchbActive" /><span class="p-1">Is Active</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="button" id="btnSubmitAction" name="btnSubmitAction" class="btn btn-warning float-right" value="Add" />
+                    <input type="button" id="btnClose" name="btnClose" class="btn btn-danger float-right" data-dismiss="modal" value="Close" />
+                    <input type="button" id="btnSubmitAction" name="btnSubmitAction" class="btn btn-success float-right" value="Add" />
                 </div>
             </div>
         </div>

@@ -231,6 +231,10 @@ namespace ArcheOne.Helper.CommonHelpers
         {
             return _db.SalesLeadStatusMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
+        public IQueryable<SalesLeadFollowUpMst> salesLeadFollowUpMst(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.SalesLeadFollowUpMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
+        }
 
     }
 }

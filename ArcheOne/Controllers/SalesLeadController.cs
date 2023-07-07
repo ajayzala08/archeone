@@ -344,11 +344,11 @@ namespace ArcheOne.Controllers
         public async Task<IActionResult> OrganizationStatus()
         {
             CommonResponse commonResponse = new CommonResponse();
-            var actionTakenList = _dbRepo.SalesLeadStatusList().Select(x => new
+            var actionTakenList = await _dbRepo.SalesLeadStatusList().Select(x => new
             {
                 Id = x.Id,
                 Status = x.SalesLeadStatusName
-            }).ToList();
+            }).ToListAsync();
             commonResponse.Data = actionTakenList;
             commonResponse.Status = true;
             commonResponse.StatusCode = HttpStatusCode.OK;
@@ -356,13 +356,107 @@ namespace ArcheOne.Controllers
             return Json(commonResponse);
         }
         [HttpPost]
-        public async Task<IActionResult> AddAction()
+        public async Task<IActionResult> AddAction([FromBody] SalesLeadFollowUpReqModel salesLeadFollowUpReqModel)
         {
             CommonResponse commonResponse = new CommonResponse();
             try
             {
+                SalesLeadFollowUpMst salesLeadFollowUpMst = new SalesLeadFollowUpMst();
+                salesLeadFollowUpMst.SalesLeadId = salesLeadFollowUpReqModel.SalesLeadId;
+                salesLeadFollowUpMst.SalesContactPersonId = salesLeadFollowUpReqModel.SalesContactPersonId;
+                salesLeadFollowUpMst.FollowUpDateTime = salesLeadFollowUpReqModel.FollowUpDate;
+                salesLeadFollowUpMst.NextFollowUpDateTime = salesLeadFollowUpReqModel.NextFollowUpDate;
+                salesLeadFollowUpMst.SalesLeadActionId = salesLeadFollowUpReqModel.SalesLeadActionId;
+                salesLeadFollowUpMst.NextFollowUpActionId = salesLeadFollowUpReqModel.SalesLeadNextActionId;
+                salesLeadFollowUpMst.Notes = salesLeadFollowUpReqModel.Notes;
+                salesLeadFollowUpMst.NextFollowUpNotes = salesLeadFollowUpReqModel.NextFollowUpNotes;
+                salesLeadFollowUpMst.SalesLeadStatusId = salesLeadFollowUpReqModel.SalesLeadStatusId;
+                salesLeadFollowUpMst.CreatedDate = _commonHelper.GetCurrentDateTime();
+                salesLeadFollowUpMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                salesLeadFollowUpMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+                salesLeadFollowUpMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                _dbContext.SalesLeadFollowUpMsts.Add(salesLeadFollowUpMst);
+                await _dbContext.SaveChangesAsync();
+                commonResponse.Status = true;
+                commonResponse.StatusCode = HttpStatusCode.OK;
+                commonResponse.Message = "FollowUp Action Added Successfully";
 
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message.ToString();
+                commonResponse.Data = ex.ToString();
+            }
+            return Json(commonResponse);
+        }
+        [HttpGet]
+        public async Task<IActionResult> LeadNContactPersonDetails(int id)
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            try
+            {
+                var leadNContactPersonDetail = await (from contactPerson in _dbRepo.SalesContactPersonList()
+                                                      where contactPerson.Id == id
+                                                      join leadDetail in _dbRepo.SalesLeadList() on contactPerson.SalesLeadId equals leadDetail.Id
+                                                      select new { contactPerson, leadDetail }
+                                                ).Select(x => new
+                                                {
+                                                    LeadId = x.leadDetail.Id,
+                                                    LeadName = x.leadDetail.OrgName,
+                                                    Website = x.leadDetail.WebsiteUrl,
+                                                    OfficePhone = x.leadDetail.Phone1,
+                                                    Speciality = "-",
+                                                    Country = "-",
+                                                    ContactPersonId = x.contactPerson.Id,
+                                                    ContactPersonName = $"{x.contactPerson.FirstName} {x.contactPerson.LastName}",
+                                                    Designation = x.contactPerson.Designation,
+                                                    Mobile = x.contactPerson.Mobile1,
+                                                    Email = x.contactPerson.Email
+                                                }).FirstOrDefaultAsync();
+                commonResponse.Status = true;
+                commonResponse.StatusCode = HttpStatusCode.OK;
+                commonResponse.Message = "Record found";
+                commonResponse.Data = leadNContactPersonDetail;
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message.ToString();
+                commonResponse.Data = ex.ToString();
+            }
+            return Json(commonResponse);
+        }
 
+        [HttpGet]
+        public async Task<IActionResult> SalesLeadFollowUpList(int id)
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            try
+            {
+                var salesLeadFollowUpList = (from followUp in _dbRepo.salesLeadFollowUpMst()
+                                             where followUp.Id == id
+                                             join followupAction in _dbRepo.SalesLeadActionList().ToList() on followUp.SalesLeadActionId equals followupAction.Id
+                                             join nextfolloupaction in _dbRepo.SalesLeadActionList() on followUp.NextFollowUpActionId equals nextfolloupaction.Id
+                                             join leadStatus in _dbRepo.SalesLeadStatusList() on followUp.SalesLeadStatusId equals leadStatus.Id
+                                             join lead in _dbRepo.SalesLeadList() on followUp.SalesLeadId equals lead.Id
+                                             join contactPerson in _dbRepo.SalesContactPersonList() on followUp.SalesContactPersonId equals contactPerson.Id
+                                             select new { followUp, followupAction, nextfolloupaction, leadStatus, lead, contactPerson }
+                                                  ).Select(x => new
+                                                  {
+
+                                                      Id = x.followUp.Id,
+                                                      FollowUpDate = x.followUp.FollowUpDateTime,
+                                                      NextFollowUpDate = x.followUp.NextFollowUpDateTime,
+                                                      Action = x.followupAction.SalesLeadActionName,
+                                                      NextAction = x.nextfolloupaction.SalesLeadActionName,
+                                                      Status = x.leadStatus.SalesLeadStatusName,
+                                                      Organization = x.lead.OrgName,
+                                                      ContactPerson = $"{x.contactPerson.FirstName} {x.contactPerson.LastName}"
+
+                                                  }).FirstOrDefault();
+                commonResponse.Status = true;
+                commonResponse.StatusCode = HttpStatusCode.OK;
+                commonResponse.Message = "Record found";
+                commonResponse.Data = salesLeadFollowUpList;
             }
             catch (Exception ex)
             {
