@@ -252,7 +252,11 @@ namespace ArcheOne.Controllers
                             if (user.Id == loginId)
                             {
                                 reportingManager = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == leaveDetails.AppliedByUserId);
+                                hrRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
+                                hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
 
+                                loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
+                                IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
                                 if (reportingManager.ReportingManager == loginId)
                                 {
                                     LeaveStatusChangeView = true;
@@ -289,14 +293,7 @@ namespace ArcheOne.Controllers
 
 
 
-                    bool IsUserHR1 = IsUserHR.Count > 0;
-                    bool ReportingManager1 = reportingManager != null;
 
-
-                    if (IsUserHR1)
-                    {
-                        LeaveStatusChangeView = true;
-                    }
 
 
 
@@ -328,14 +325,14 @@ namespace ArcheOne.Controllers
                         leaveAddEditReqModel.leaveDetails.EndTime = leaveDetails.EndTime;
                         leaveAddEditReqModel.leaveDetails.Reason = leaveDetails.Reason;
                         leaveAddEditReqModel.leaveDetails.LeaveStatusId = leaveDetails.LeaveStatusId;
-                        if (IsUserHR1)
-                        {
-                            leaveAddEditReqModel.leaveDetails.HrStatus = leaveDetails.Hrstatus == null ? 0 : (int)leaveDetails.Hrstatus;
-                        }
-                        else if (ReportingManager1)
-                        {
-                            leaveAddEditReqModel.leaveDetails.ApprovedByReportingStatus = leaveDetails.ApprovedByReportingStatus == null ? 0 : (int)leaveDetails.ApprovedByReportingStatus;
-                        }
+                        //if (IsUserHR1)
+                        //{
+                        //    leaveAddEditReqModel.leaveDetails.HrStatus = leaveDetails.Hrstatus == null ? 0 : (int)leaveDetails.Hrstatus;
+                        //}
+                        //else if (ReportingManager1)
+                        //{
+                        //    leaveAddEditReqModel.leaveDetails.ApprovedByReportingStatus = leaveDetails.ApprovedByReportingStatus == null ? 0 : (int)leaveDetails.ApprovedByReportingStatus;
+                        //}
 
                     }
                 }
