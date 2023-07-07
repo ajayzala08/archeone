@@ -57,10 +57,10 @@ namespace ArcheOne.Controllers
 
                     var BalanceMonth = item.StartDate.ToString("MMMM");
                     var AppliedByUserList1 = await UserList.FirstOrDefaultAsync(x => x.Id == item.AppliedByUserId);
-                    var ApprovedByUserList = await UserList.FirstOrDefaultAsync(x => x.Id == item.ApprovedByUserId);
+                    var ApprovedByUserList = await UserList.FirstOrDefaultAsync(x => x.Id == item.ApprovedByHruserId);
                     var LeaveStatusList1 = await LeaveStatusList.FirstOrDefaultAsync(x => x.Id == item.LeaveStatusId);
                     var HrStatus = await LeaveStatusList.FirstOrDefaultAsync(x => x.Id == item.Hrstatus);
-                    var ProjectManagerStatus = await LeaveStatusList.FirstOrDefaultAsync(x => x.Id == item.ProjectManagerStatus);
+                    var ProjectManagerStatus = await LeaveStatusList.FirstOrDefaultAsync(x => x.Id == item.ApprovedByReportingStatus);
                     var LeaveTypeList1 = await LeaveTypeList.FirstOrDefaultAsync(x => x.Id == item.LeaveTypeId);
                     var LeaveBalanceList1 = await LeaveBlanceList.FirstOrDefaultAsync(x => x.BalanceMonth == BalanceMonth);
 
@@ -205,7 +205,7 @@ namespace ArcheOne.Controllers
                         }
                         else if (IsUserManager1)
                         {
-                            leaveAddEditReqModel.leaveDetails.ProjectManagerStatus = leaveDetails.ProjectManagerStatus == null ? 0 : (int)leaveDetails.ProjectManagerStatus;
+                            leaveAddEditReqModel.leaveDetails.ProjectManagerStatus = leaveDetails.ApprovedByReportingStatus == null ? 0 : (int)leaveDetails.ApprovedByReportingStatus;
                         }
 
                     }
@@ -340,7 +340,7 @@ namespace ArcheOne.Controllers
                                         leaveMst.EndDate = request.EndDate;
                                         leaveMst.EndTime = Convert.ToDateTime(request.EndTime).TimeOfDay;
                                         leaveMst.AppliedByUserId = userId;
-                                        leaveMst.ApprovedByUserId = userId;
+                                        leaveMst.ApprovedByHruserId = userId;
                                         leaveMst.OpeningLeaveBalance = LeaveBalanceList12 == null ? 0 : LeaveBalanceList12.ClosingLeaveBalance;
                                         leaveMst.LeaveStatusId = 1;
                                         leaveMst.IsActive = true;
@@ -837,7 +837,7 @@ namespace ArcheOne.Controllers
                                 LeaveDetails.EndTime = Convert.ToDateTime(request.EndTime).TimeOfDay;
                                 LeaveDetails.Reason = request.Reason;
                                 LeaveDetails.NoOfDays = noOfDay;
-                                LeaveDetails.ApprovedByUserId = userId;
+                                LeaveDetails.ApprovedByHruserId = userId;
                                 LeaveDetails.LeaveStatusId = request.LeaveStatusId;
                                 LeaveDetails.UpdatedBy = userId;
                                 LeaveDetails.UpdatedDate = _commonHelper.GetCurrentDateTime();
@@ -850,7 +850,7 @@ namespace ArcheOne.Controllers
                                 }
                                 else if (IsUserManager1)
                                 {
-                                    LeaveDetails.ProjectManagerStatus = request.LeaveStatusId;
+                                    LeaveDetails.ApprovedByReportingStatus = request.LeaveStatusId;
                                 }
 
                                 _dbContext.Entry(LeaveDetails).State = EntityState.Modified;
@@ -859,7 +859,7 @@ namespace ArcheOne.Controllers
 
                                 var LeaveStatusApproved = await _dbRepo.LeaveStatusLists().FirstOrDefaultAsync(x => x.Id == LeaveDetails.LeaveStatusId);
                                 var HrStatusStatusApproved = await _dbRepo.LeaveStatusLists().FirstOrDefaultAsync(x => x.Id == LeaveDetails.Hrstatus);
-                                var ProjectManagerStatusApproved = await _dbRepo.LeaveStatusLists().FirstOrDefaultAsync(x => x.Id == LeaveDetails.ProjectManagerStatus);
+                                var ProjectManagerStatusApproved = await _dbRepo.LeaveStatusLists().FirstOrDefaultAsync(x => x.Id == LeaveDetails.ApprovedByReportingStatus);
 
                                 if (LeaveStatusApproved != null && HrStatusStatusApproved != null && ProjectManagerStatusApproved != null)
                                 {
