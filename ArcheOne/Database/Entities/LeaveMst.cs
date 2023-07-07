@@ -11,8 +11,6 @@ public partial class LeaveMst
 
     public int AppliedByUserId { get; set; }
 
-    public int ApprovedByUserId { get; set; }
-
     public DateTime StartDate { get; set; }
 
     public DateTime EndDate { get; set; }
@@ -47,5 +45,9 @@ public partial class LeaveMst
 
     public int? Hrstatus { get; set; }
 
-    public int? ProjectManagerStatus { get; set; }
+    public int? ApprovedByHruserId { get; set; }
+
+    public int? ApprovedByReportingUserId { get; set; }
+
+    public int? ApprovedByReportingStatus { get; set; }
 }

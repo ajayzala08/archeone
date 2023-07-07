@@ -1573,3 +1573,18 @@ alter table dbo.SalesLeadFollowUpMst
 alter column [NextFollowUpDateTime] Datetime null;
 
 ----------------------------------------Added by AZ on 06-07-23-----------------------------------End--------
+
+----------------------------------------Added by PP on 07-07-23-----------------------------------Start--------
+
+ALTER TABLE LeaveMst
+DROP COLUMN ApprovedByUserId;
+ALTER TABLE LeaveMst
+DROP COLUMN ProjectManagerStatus;
+
+ALTER TABLE LeaveMst
+ADD ApprovedByHRUserId int;
+ALTER TABLE LeaveMst
+ADD ApprovedByReportingUserId int;
+ALTER TABLE LeaveMst
+ADD ApprovedByReportingStatus int;
+----------------------------------------Added by PP on 07-07-23-----------------------------------End--------
