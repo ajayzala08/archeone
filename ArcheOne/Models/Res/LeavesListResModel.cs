@@ -3,6 +3,8 @@
     public class LeavesListResModel
     {
         public List<LeaveDetailsList> LeaveDetailsLists { get; set; }
+
+
     }
     public class LeaveDetailsList
     {
@@ -35,5 +37,6 @@
         public string HrStatus { get; set; }
         public string ApprovedByReportingStatus { get; set; }
         public decimal LeaveTaken { get; set; }
+        public bool EditDisable { get; set; }
     }
 }

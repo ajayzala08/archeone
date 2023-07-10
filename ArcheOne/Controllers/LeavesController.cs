@@ -152,6 +152,12 @@ namespace ArcheOne.Controllers
                     leaveDetailsListModel.ApprovedByReportingStatus = ApprovedByReportingStatus == null ? "pending" : ApprovedByReportingStatus.LeaveStatus;
 
 
+
+                    if (leaveDetailsListModel.HrStatus.ToLower() == "approve" && leaveDetailsListModel.ApprovedByReportingStatus.ToLower() == "approve")
+                    {
+                        leaveDetailsListModel.EditDisable = true;
+                    }
+
                     leavesListResModel.LeaveDetailsLists.Add(leaveDetailsListModel);
 
                 }
@@ -185,22 +191,24 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
             try
             {
+                var userId = _commonHelper.GetLoggedInUserId();
                 LeaveAddEditReqModel leaveAddEditReqModel = new LeaveAddEditReqModel();
                 leaveAddEditReqModel.leaveDetails = new LeaveDetails();
                 leaveAddEditReqModel.leaveTypeList = await _dbRepo.LeaveTypeLists().Where(x => x.IsCurrentYear == true).ToListAsync();
                 bool LeaveStatusChangeView = false;
 
 
-
-
-
-
-
-
+                var joiningDate = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == userId);
                 var startTimeList = new List<KeyValueModel>();
                 startTimeList.Add(new KeyValueModel { Id = 1, Name = "09:30 AM" });
                 startTimeList.Add(new KeyValueModel { Id = 2, Name = "02:00 PM" });
                 leaveAddEditReqModel.StartTimeList = startTimeList;
+
+                var hrRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
+                var hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
+
+                var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
+                var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
 
                 if (Id > 0)
                 {
@@ -219,8 +227,6 @@ namespace ArcheOne.Controllers
                         {
                             LeaveStatusChangeView = false;
                         }
-
-
                     }
                     else
                     {
@@ -235,14 +241,17 @@ namespace ArcheOne.Controllers
                         }
                     }
 
-
-
-                    var hrRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
-                    var hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
-
-                    var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
-                    var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
-
+                    if (leaveDetails != null)
+                    {
+                        leaveAddEditReqModel.leaveDetails.Id = leaveDetails.Id;
+                        leaveAddEditReqModel.leaveDetails.LeaveTypeId = leaveDetails.LeaveTypeId;
+                        leaveAddEditReqModel.leaveDetails.StartDate = leaveDetails.StartDate;
+                        leaveAddEditReqModel.leaveDetails.EndDate = leaveDetails.EndDate;
+                        leaveAddEditReqModel.leaveDetails.StartTime = leaveDetails.StartTime;
+                        leaveAddEditReqModel.leaveDetails.EndTime = leaveDetails.EndTime;
+                        leaveAddEditReqModel.leaveDetails.Reason = leaveDetails.Reason;
+                        leaveAddEditReqModel.leaveDetails.LeaveStatusId = leaveDetails.LeaveStatusId;
+                    }
 
                     if (IsUserHR.Count > 0)
                     {
@@ -252,20 +261,30 @@ namespace ArcheOne.Controllers
                             if (user.Id == loginId)
                             {
                                 reportingManager = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == leaveDetails.AppliedByUserId);
-                                hrRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
-                                hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
 
-                                loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
-                                IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
+
+                                var employeeRoleList = _dbRepo.RoleMstList().Where(x => !x.RoleCode.Contains("HR")).ToList();
+                                var employeeroleIdList = employeeRoleList.Select(x => x.Id).ToList();
+
+
+                                loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == leaveDetails.AppliedByUserId);
+                                var IsUserEmployee = loginUserList.Where(x => employeeroleIdList.Contains(x.RoleId.Value)).ToList();
+
+
                                 if (reportingManager.ReportingManager == loginId)
                                 {
                                     LeaveStatusChangeView = true;
+                                    leaveAddEditReqModel.leaveDetails.ApprovedByReportingStatus = leaveDetails.ApprovedByReportingStatus == null ? 0 : (int)leaveDetails.ApprovedByReportingStatus;
                                 }
+                                else
                                 {
                                     LeaveStatusChangeView = false;
                                 }
-
-
+                                if (IsUserEmployee.Count > 0)
+                                {
+                                    LeaveStatusChangeView = true;
+                                    leaveAddEditReqModel.leaveDetails.HrStatus = leaveDetails.Hrstatus == null ? 0 : (int)leaveDetails.Hrstatus;
+                                }
                             }
                             else
                             {
@@ -273,6 +292,7 @@ namespace ArcheOne.Controllers
                                 if (reportingManager.ReportingManager == loginId)
                                 {
                                     LeaveStatusChangeView = true;
+                                    leaveAddEditReqModel.leaveDetails.ApprovedByReportingStatus = leaveDetails.ApprovedByReportingStatus == null ? 0 : (int)leaveDetails.ApprovedByReportingStatus;
                                 }
                                 else
                                 {
@@ -285,62 +305,15 @@ namespace ArcheOne.Controllers
                     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    if (leaveDetails != null)
-                    {
-                        leaveAddEditReqModel.leaveDetails.Id = leaveDetails.Id;
-                        leaveAddEditReqModel.leaveDetails.LeaveTypeId = leaveDetails.LeaveTypeId;
-                        leaveAddEditReqModel.leaveDetails.StartDate = leaveDetails.StartDate;
-                        leaveAddEditReqModel.leaveDetails.EndDate = leaveDetails.EndDate;
-                        leaveAddEditReqModel.leaveDetails.StartTime = leaveDetails.StartTime;
-                        leaveAddEditReqModel.leaveDetails.EndTime = leaveDetails.EndTime;
-                        leaveAddEditReqModel.leaveDetails.Reason = leaveDetails.Reason;
-                        leaveAddEditReqModel.leaveDetails.LeaveStatusId = leaveDetails.LeaveStatusId;
-                        //if (IsUserHR1)
-                        //{
-                        //    leaveAddEditReqModel.leaveDetails.HrStatus = leaveDetails.Hrstatus == null ? 0 : (int)leaveDetails.Hrstatus;
-                        //}
-                        //else if (ReportingManager1)
-                        //{
-                        //    leaveAddEditReqModel.leaveDetails.ApprovedByReportingStatus = leaveDetails.ApprovedByReportingStatus == null ? 0 : (int)leaveDetails.ApprovedByReportingStatus;
-                        //}
-
-                    }
                 }
                 else
                 {
                     leaveAddEditReqModel.leaveDetails.StartDate = DateTime.Now;
                     leaveAddEditReqModel.leaveDetails.EndDate = DateTime.Now;
+
+
                 }
+                leaveAddEditReqModel.leaveDetails.JoiningDate = joiningDate == null ? DateTime.Now : joiningDate.JoinDate;
                 leaveAddEditReqModel.LeaveStatusChangeView = LeaveStatusChangeView;
                 leaveAddEditReqModel.LeaveStatusList = await _dbRepo.LeaveStatusLists().Select(x => new KeyValueModel { Id = x.Id, Name = x.LeaveStatus }).ToListAsync();
 
@@ -467,7 +440,8 @@ namespace ArcheOne.Controllers
                                         leaveMst.EndDate = request.EndDate;
                                         leaveMst.EndTime = Convert.ToDateTime(request.EndTime).TimeOfDay;
                                         leaveMst.AppliedByUserId = userId;
-                                        leaveMst.ApprovedByHruserId = userId;
+                                        //leaveMst.ApprovedByHruserId = userId;
+                                        // leaveMst.ApprovedByReportingUserId = userId;
                                         leaveMst.OpeningLeaveBalance = LeaveBalanceList12 == null ? 0 : LeaveBalanceList12.ClosingLeaveBalance;
                                         leaveMst.LeaveStatusId = 1;
                                         leaveMst.IsActive = true;
@@ -535,35 +509,6 @@ namespace ArcheOne.Controllers
                                             }
                                             else
                                             {
-                                                LeaveBalanceMst tbl1 = new LeaveBalanceMst();
-                                                tbl1.UserId = userId;
-                                                tbl1.LeaveTypeId = request.LeaveTypeId;
-                                                tbl1.BalanceMonth = "January";//DateTime.Now.ToString("MMMM");
-                                                tbl1.BalanceYear = DateTime.Now.Year;
-                                                tbl1.OpeningLeaveBalance = 0;
-                                                tbl1.SickLeaveBalance = 0.5m;
-                                                tbl1.CasualLeaveBalance = 0.5m;
-                                                tbl1.EarnedLeaveBalance = 6;
-                                                tbl1.SickLeaveTaken = 0;
-                                                tbl1.CasualLeaveTaken = 0;
-                                                tbl1.EarnedLeaveTaken = 0;
-                                                tbl1.ClosingLeaveBalance = 1.5m;
-                                                tbl1.LeaveTaken = 0;
-                                                tbl1.BalanceDate = DateTime.Now;
-                                                tbl1.Detail = "Monthly Leave Balance";
-                                                tbl1.IsActive = true;
-                                                tbl1.IsDelete = false;
-                                                tbl1.CreatedBy = userId;
-                                                tbl1.UpdatedBy = userId;
-                                                tbl1.CreatedDate = _commonHelper.GetCurrentDateTime();
-                                                tbl1.UpdatedDate = _commonHelper.GetCurrentDateTime();
-
-
-                                                await _dbContext.LeaveBalanceMsts.AddAsync(tbl1);
-                                                await _dbContext.SaveChangesAsync();
-
-
-
 
                                                 DateTime dt2 = new DateTime(DateTime.Now.Year, 01, 01);
                                                 for (DateTime i = dt2; i <= request.StartDate; i = i.Date.AddMonths(1))
@@ -576,6 +521,39 @@ namespace ArcheOne.Controllers
                                                     if (LeaveBalance == null)
 
                                                     {
+                                                        if (BalanceMonth.ToLower() == "january")
+                                                        {
+
+                                                            LeaveBalanceMst tbl1 = new LeaveBalanceMst();
+                                                            tbl1.UserId = userId;
+                                                            tbl1.LeaveTypeId = request.LeaveTypeId;
+                                                            tbl1.BalanceMonth = "January";//DateTime.Now.ToString("MMMM");
+                                                            tbl1.BalanceYear = DateTime.Now.Year;
+                                                            tbl1.OpeningLeaveBalance = 0;
+                                                            tbl1.SickLeaveBalance = 0.5m;
+                                                            tbl1.CasualLeaveBalance = 0.5m;
+                                                            tbl1.EarnedLeaveBalance = 6;
+                                                            tbl1.SickLeaveTaken = 0;
+                                                            tbl1.CasualLeaveTaken = 0;
+                                                            tbl1.EarnedLeaveTaken = 0;
+                                                            tbl1.ClosingLeaveBalance = 1.5m;
+                                                            tbl1.LeaveTaken = 0;
+                                                            tbl1.BalanceDate = DateTime.Now;
+                                                            tbl1.Detail = "Monthly Leave Balance";
+                                                            tbl1.IsActive = true;
+                                                            tbl1.IsDelete = false;
+                                                            tbl1.CreatedBy = userId;
+                                                            tbl1.UpdatedBy = userId;
+                                                            tbl1.CreatedDate = _commonHelper.GetCurrentDateTime();
+                                                            tbl1.UpdatedDate = _commonHelper.GetCurrentDateTime();
+
+
+                                                            await _dbContext.LeaveBalanceMsts.AddAsync(tbl1);
+                                                            await _dbContext.SaveChangesAsync();
+
+                                                        }
+
+
                                                         var LeaveBalanceList1 = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId).OrderBy(x => x.Id).LastOrDefault();
 
                                                         LeaveBalanceMst tbl = new LeaveBalanceMst();
@@ -839,10 +817,12 @@ namespace ArcheOne.Controllers
 
                                         }
 
-                                        var sandwichleave = SandwichLeave(request);
-
                                         await _dbContext.LeaveMsts.AddAsync(leaveMst);
                                         await _dbContext.SaveChangesAsync();
+
+                                        var sandwichleave = SandwichLeave(request);
+
+
 
                                         transactionScope.Complete();
                                         response.Status = true;
@@ -874,10 +854,10 @@ namespace ArcheOne.Controllers
                         var hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
 
 
-                        var managerRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Manager")).ToList();
+                        var managerRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Project_Manager")).ToList();
                         var managerroleIdList = managerRoleList.Select(x => x.Id).ToList();
 
-                        var employeeRoleList = _dbRepo.RoleMstList().Where(x => !x.RoleCode.Contains("Manager") && !x.RoleCode.Contains("HR")).ToList();
+                        var employeeRoleList = _dbRepo.RoleMstList().Where(x => !x.RoleCode.Contains("Project_Manager") && !x.RoleCode.Contains("HR")).ToList();
                         var employeeroleIdList = employeeRoleList.Select(x => x.Id).ToList();
 
                         var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
@@ -929,7 +909,6 @@ namespace ArcheOne.Controllers
                                 LeaveDetails.EndTime = Convert.ToDateTime(request.EndTime).TimeOfDay;
                                 LeaveDetails.Reason = request.Reason;
                                 LeaveDetails.NoOfDays = noOfDay;
-                                LeaveDetails.ApprovedByHruserId = userId;
                                 LeaveDetails.LeaveStatusId = request.LeaveStatusId;
                                 LeaveDetails.UpdatedBy = userId;
                                 LeaveDetails.UpdatedDate = _commonHelper.GetCurrentDateTime();
@@ -938,11 +917,13 @@ namespace ArcheOne.Controllers
                                 if (IsUserHR1)
                                 {
                                     LeaveDetails.Hrstatus = request.LeaveStatusId;
+                                    LeaveDetails.ApprovedByHruserId = userId;
 
                                 }
                                 else if (IsUserManager1)
                                 {
                                     LeaveDetails.ApprovedByReportingStatus = request.LeaveStatusId;
+                                    LeaveDetails.ApprovedByReportingUserId = userId;
                                 }
 
                                 _dbContext.Entry(LeaveDetails).State = EntityState.Modified;
@@ -1014,8 +995,6 @@ namespace ArcheOne.Controllers
                                                 }
 
 
-
-
                                                 leaveBalanceList1.CasualLeaveTaken = leaveBalanceList1.CasualLeaveTaken;
                                                 leaveBalanceList1.EarnedLeaveTaken = leaveBalanceList1.EarnedLeaveTaken;
                                                 leaveBalanceList1.LeaveTaken = noOfDay;
@@ -1027,6 +1006,21 @@ namespace ArcheOne.Controllers
                                                 leaveBalanceList1.UpdatedBy = userId;
                                                 leaveBalanceList1.CreatedDate = _commonHelper.GetCurrentDateTime();
                                                 leaveBalanceList1.UpdatedDate = _commonHelper.GetCurrentDateTime();
+
+
+
+
+                                                if (IsUserHR1)
+                                                {
+                                                    LeaveDetails.Hrstatus = request.LeaveStatusId;
+                                                    LeaveDetails.ApprovedByHruserId = userId;
+
+                                                }
+                                                else if (IsUserManager1)
+                                                {
+                                                    LeaveDetails.ApprovedByReportingStatus = request.LeaveStatusId;
+                                                    LeaveDetails.ApprovedByReportingUserId = userId;
+                                                }
 
                                                 _dbContext.Entry(leaveBalanceList1).State = EntityState.Modified;
                                                 await _dbContext.SaveChangesAsync();
@@ -1217,7 +1211,7 @@ namespace ArcheOne.Controllers
                     if (noOfDays >= 4)
                     {
                         //code if apply leave for 4 or more than 4 days
-                        var BalanceList = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId).OrderByDescending(x => x.BalanceDate).Take(1).FirstOrDefault();
+                        var BalanceList = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId).OrderByDescending(x => x.Id).FirstOrDefault();
 
                         if (BalanceList.ClosingLeaveBalance >= noOfDays)
                         {
