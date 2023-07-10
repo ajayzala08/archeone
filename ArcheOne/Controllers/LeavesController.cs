@@ -29,15 +29,13 @@ namespace ArcheOne.Controllers
             return View();
         }
 
-
-
         public async Task<IActionResult> LeavesList()
         {
             CommonResponse response = new CommonResponse();
             try
             {
                 LeavesListResModel leavesListResModel = new LeavesListResModel();
-
+                var userId = _commonHelper.GetLoggedInUserId();
                 var LeaveList = _dbRepo.LeaveLists();
                 var LeaveBlanceList = _dbRepo.LeaveBalanceLists();
                 var UserList = _dbRepo.UserMstList();
@@ -45,24 +43,80 @@ namespace ArcheOne.Controllers
                 var LeaveTypeList = _dbRepo.LeaveTypeLists();
 
 
-                var list = await LeaveList.ToListAsync();
+
 
                 leavesListResModel.LeaveDetailsLists = new List<LeaveDetailsList>();
 
+                var hrRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
+                var hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
+
+                var isUserExist = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == userId);
+
+                var ReportingManager = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.ReportingManager == userId);
+
+                var employeeRoleList = _dbRepo.RoleMstList().Where(x => !x.RoleCode.Contains("HR")).ToList();
+                var employeeroleIdList = employeeRoleList.Select(x => x.Id).ToList();
+
+
+                var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == userId);
+
+
+                var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
+                var IsUserEmployee = loginUserList.Where(x => employeeroleIdList.Contains(x.RoleId.Value)).ToList();
+
+                bool IsUserHR1 = IsUserHR.Count > 0;
+                bool ReportingManager1 = ReportingManager != null;
+                bool IsUserEmployee1 = IsUserEmployee.Count > 0;
+
+
+
+
+                var list = await LeaveList.ToListAsync();
+
+
+                if (IsUserHR1)
+                {
+
+                    list = await LeaveList.OrderBy(x => x.Id).ToListAsync();
+                }
+                else if (ReportingManager1)
+                {
+
+                    list = await LeaveList.OrderBy(x => x.Id).ToListAsync();
+                }
+                else if (IsUserEmployee1)
+                {
+                    list = await LeaveList.Where(x => x.AppliedByUserId == userId).OrderBy(x => x.Id).ToListAsync();
+                }
 
                 foreach (var item in list)
                 {
-                    var LeaveBlanceList1 = await LeaveBlanceList.Where(x => x.UserId == item.AppliedByUserId).OrderBy(x => x.Id).ToListAsync();
+                    var LeaveBalanceList = new List<LeaveBalanceMst>();
 
+
+                    if (IsUserHR1)
+                    {
+
+                        LeaveBalanceList = await LeaveBlanceList.Where(x => x.UserId == item.AppliedByUserId).OrderBy(x => x.Id).ToListAsync();
+                    }
+                    else if (ReportingManager1)
+                    {
+                        LeaveBalanceList = await LeaveBlanceList.Where(x => x.UserId == item.AppliedByUserId).OrderBy(x => x.Id).ToListAsync();
+                    }
+                    else if (IsUserEmployee1)
+                    {
+                        LeaveBalanceList = await LeaveBlanceList.Where(x => x.UserId == userId).OrderBy(x => x.Id).ToListAsync();
+                    }
 
                     var BalanceMonth = item.StartDate.ToString("MMMM");
                     var AppliedByUserList1 = await UserList.FirstOrDefaultAsync(x => x.Id == item.AppliedByUserId);
-                    var ApprovedByUserList = await UserList.FirstOrDefaultAsync(x => x.Id == item.ApprovedByHruserId);
+                    var ApprovedByHruserId = await UserList.FirstOrDefaultAsync(x => x.Id == item.ApprovedByHruserId);
+                    var ApprovedByReportingUserId = await UserList.FirstOrDefaultAsync(x => x.Id == item.ApprovedByReportingUserId);
                     var LeaveStatusList1 = await LeaveStatusList.FirstOrDefaultAsync(x => x.Id == item.LeaveStatusId);
                     var HrStatus = await LeaveStatusList.FirstOrDefaultAsync(x => x.Id == item.Hrstatus);
-                    var ProjectManagerStatus = await LeaveStatusList.FirstOrDefaultAsync(x => x.Id == item.ApprovedByReportingStatus);
+                    var ApprovedByReportingStatus = await LeaveStatusList.FirstOrDefaultAsync(x => x.Id == item.ApprovedByReportingStatus);
                     var LeaveTypeList1 = await LeaveTypeList.FirstOrDefaultAsync(x => x.Id == item.LeaveTypeId);
-                    var LeaveBalanceList1 = await LeaveBlanceList.FirstOrDefaultAsync(x => x.BalanceMonth == BalanceMonth);
+                    var LeaveBalanceList1 = LeaveBalanceList.Where(x => x.BalanceMonth == BalanceMonth).FirstOrDefault();
 
 
                     LeaveDetailsList leaveDetailsListModel = new LeaveDetailsList();
@@ -71,7 +125,8 @@ namespace ArcheOne.Controllers
                     leaveDetailsListModel.LeaveTypeName = LeaveTypeList1.LeaveTypeName;
                     leaveDetailsListModel.Id = item.Id;
                     leaveDetailsListModel.AppliedByUserName = AppliedByUserList1.UserName;
-                    leaveDetailsListModel.ApprovebyUserName = ApprovedByUserList.UserName;
+                    leaveDetailsListModel.ApprovedByReportingUserId = ApprovedByReportingUserId == null ? "" : ApprovedByReportingUserId.UserName;
+                    leaveDetailsListModel.ApprovedByHRUserId = ApprovedByHruserId == null ? "" : ApprovedByHruserId.UserName;
                     leaveDetailsListModel.StartDate = item.StartDate;
                     leaveDetailsListModel.EndDate = item.EndDate;
                     leaveDetailsListModel.StartTime = item.StartTime;
@@ -94,7 +149,7 @@ namespace ArcheOne.Controllers
                     leaveDetailsListModel.Details = LeaveBalanceList1.Detail;
                     leaveDetailsListModel.LeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.LeaveTaken));
                     leaveDetailsListModel.HrStatus = HrStatus == null ? "pending" : HrStatus.LeaveStatus;
-                    leaveDetailsListModel.ProjectManagerStatus = ProjectManagerStatus == null ? "pending" : ProjectManagerStatus.LeaveStatus;
+                    leaveDetailsListModel.ApprovedByReportingStatus = ApprovedByReportingStatus == null ? "pending" : ApprovedByReportingStatus.LeaveStatus;
 
 
                     leavesListResModel.LeaveDetailsLists.Add(leaveDetailsListModel);
@@ -134,53 +189,14 @@ namespace ArcheOne.Controllers
                 leaveAddEditReqModel.leaveDetails = new LeaveDetails();
                 leaveAddEditReqModel.leaveTypeList = await _dbRepo.LeaveTypeLists().Where(x => x.IsCurrentYear == true).ToListAsync();
                 bool LeaveStatusChangeView = false;
-                var userId = _commonHelper.GetLoggedInUserId();
-
-                var Permissions = await _dbRepo.PermissionList().ToListAsync();
-                var userPermissions = await _dbRepo.UserPermissionList().Where(x => x.UserId == userId).ToListAsync();
-
-
-                foreach (var permission in Permissions)
-                {
-                    foreach (var userpermission in userPermissions)
-                    {
-                        if (userpermission.PermissionId == permission.Id && permission.PermissionCode.ToLower() == "leave_status_change_view")
-                        {
-                            LeaveStatusChangeView = true;
-                            break;
-                        }
-                    }
-
-                    if (LeaveStatusChangeView)
-                    {
-                        break;
-                    }
-                }
-
-                var hrRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
-                var hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
-
-
-                var managerRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Manager")).ToList();
-                var managerroleIdList = managerRoleList.Select(x => x.Id).ToList();
-
-                var employeeRoleList = _dbRepo.RoleMstList().Where(x => !x.RoleCode.Contains("Manager") && !x.RoleCode.Contains("HR")).ToList();
-                var employeeroleIdList = employeeRoleList.Select(x => x.Id).ToList();
-
-                var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
-
-                var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
-                var IsUserManager = loginUserList.Where(x => managerroleIdList.Contains(x.RoleId.Value)).ToList();
-                var IsUserEmployee = loginUserList.Where(x => employeeroleIdList.Contains(x.RoleId.Value)).ToList();
 
 
 
 
-                bool IsUserHR1 = IsUserHR.Count > 0;
-                bool IsUserManager1 = IsUserManager.Count > 0 ? true : false;
-                bool IsUserEmployee1 = IsUserEmployee.Count > 0 ? true : false;
 
-                leaveAddEditReqModel.LeaveStatusChangeView = LeaveStatusChangeView;
+
+
+
                 var startTimeList = new List<KeyValueModel>();
                 startTimeList.Add(new KeyValueModel { Id = 1, Name = "09:30 AM" });
                 startTimeList.Add(new KeyValueModel { Id = 2, Name = "02:00 PM" });
@@ -189,6 +205,116 @@ namespace ArcheOne.Controllers
                 if (Id > 0)
                 {
                     var leaveDetails = await _dbRepo.LeaveLists().FirstOrDefaultAsync(x => x.Id == Id);
+                    var loginId = _commonHelper.GetLoggedInUserId();
+                    var reportingManager = new UserDetailsMst();
+
+                    if (leaveDetails.AppliedByUserId == loginId)
+                    {
+                        reportingManager = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == leaveDetails.AppliedByUserId);
+
+                        if (reportingManager.ReportingManager == loginId)
+                        {
+                            LeaveStatusChangeView = true;
+                        }
+                        {
+                            LeaveStatusChangeView = false;
+                        }
+
+
+                    }
+                    else
+                    {
+                        reportingManager = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == leaveDetails.AppliedByUserId);
+                        if (reportingManager.ReportingManager == loginId)
+                        {
+                            LeaveStatusChangeView = true;
+                        }
+                        else
+                        {
+                            LeaveStatusChangeView = false;
+                        }
+                    }
+
+
+
+                    var hrRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
+                    var hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
+
+                    var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
+                    var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
+
+
+                    if (IsUserHR.Count > 0)
+                    {
+                        foreach (var user in IsUserHR)
+                        {
+
+                            if (user.Id == loginId)
+                            {
+                                reportingManager = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == leaveDetails.AppliedByUserId);
+                                hrRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
+                                hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
+
+                                loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
+                                IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
+                                if (reportingManager.ReportingManager == loginId)
+                                {
+                                    LeaveStatusChangeView = true;
+                                }
+                                {
+                                    LeaveStatusChangeView = false;
+                                }
+
+
+                            }
+                            else
+                            {
+                                reportingManager = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == leaveDetails.AppliedByUserId);
+                                if (reportingManager.ReportingManager == loginId)
+                                {
+                                    LeaveStatusChangeView = true;
+                                }
+                                else
+                                {
+                                    LeaveStatusChangeView = false;
+                                }
+                            }
+
+
+                        }
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     if (leaveDetails != null)
                     {
                         leaveAddEditReqModel.leaveDetails.Id = leaveDetails.Id;
@@ -199,14 +325,14 @@ namespace ArcheOne.Controllers
                         leaveAddEditReqModel.leaveDetails.EndTime = leaveDetails.EndTime;
                         leaveAddEditReqModel.leaveDetails.Reason = leaveDetails.Reason;
                         leaveAddEditReqModel.leaveDetails.LeaveStatusId = leaveDetails.LeaveStatusId;
-                        if (IsUserHR1)
-                        {
-                            leaveAddEditReqModel.leaveDetails.HrStatus = leaveDetails.Hrstatus == null ? 0 : (int)leaveDetails.Hrstatus;
-                        }
-                        else if (IsUserManager1)
-                        {
-                            leaveAddEditReqModel.leaveDetails.ProjectManagerStatus = leaveDetails.ApprovedByReportingStatus == null ? 0 : (int)leaveDetails.ApprovedByReportingStatus;
-                        }
+                        //if (IsUserHR1)
+                        //{
+                        //    leaveAddEditReqModel.leaveDetails.HrStatus = leaveDetails.Hrstatus == null ? 0 : (int)leaveDetails.Hrstatus;
+                        //}
+                        //else if (ReportingManager1)
+                        //{
+                        //    leaveAddEditReqModel.leaveDetails.ApprovedByReportingStatus = leaveDetails.ApprovedByReportingStatus == null ? 0 : (int)leaveDetails.ApprovedByReportingStatus;
+                        //}
 
                     }
                 }
@@ -215,6 +341,7 @@ namespace ArcheOne.Controllers
                     leaveAddEditReqModel.leaveDetails.StartDate = DateTime.Now;
                     leaveAddEditReqModel.leaveDetails.EndDate = DateTime.Now;
                 }
+                leaveAddEditReqModel.LeaveStatusChangeView = LeaveStatusChangeView;
                 leaveAddEditReqModel.LeaveStatusList = await _dbRepo.LeaveStatusLists().Select(x => new KeyValueModel { Id = x.Id, Name = x.LeaveStatus }).ToListAsync();
 
                 commonResponse.Status = true;
@@ -702,41 +829,6 @@ namespace ArcheOne.Controllers
                                             response.Message = "Data Not Found!";
 
                                         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
