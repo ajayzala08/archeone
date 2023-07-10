@@ -49,10 +49,10 @@ namespace ArcheOne.Controllers
 				}).ToListAsync();
 				commonResponse.Data = salesLeadListResViewModels;*/
 
-                var salesContactPersonList = (from salesLeadList in _dbRepo.SalesLeadList()
-                                              join salescontactPersonList in _dbRepo.SalesContactPersonList()
-                                              on salesLeadList.Id equals salescontactPersonList.SalesLeadId
-                                              select new { salesLeadList, salescontactPersonList }
+                var salesContactPersonList = await (from salesLeadList in _dbRepo.SalesLeadList()
+                                                    join salescontactPersonList in _dbRepo.SalesContactPersonList()
+                                                    on salesLeadList.Id equals salescontactPersonList.SalesLeadId
+                                                    select new { salesLeadList, salescontactPersonList }
                                                    ).Select(x => new
                                                    {
                                                        Id = x.salesLeadList.Id,
@@ -63,7 +63,7 @@ namespace ArcheOne.Controllers
                                                        Email = x.salescontactPersonList.Email,
                                                        Designation = x.salescontactPersonList.Designation
 
-                                                   }).ToList();
+                                                   }).ToListAsync();
                 commonResponse.Status = true;
                 commonResponse.StatusCode = HttpStatusCode.OK;
                 commonResponse.Message = "Record Found";
@@ -329,11 +329,11 @@ namespace ArcheOne.Controllers
         public async Task<IActionResult> ActionTaken()
         {
             CommonResponse commonResponse = new CommonResponse();
-            var actionTakenList = _dbRepo.SalesLeadActionList().Select(x => new
+            var actionTakenList = await _dbRepo.SalesLeadActionList().Select(x => new
             {
                 Id = x.Id,
                 Action = x.SalesLeadActionName
-            }).ToList();
+            }).ToListAsync();
             commonResponse.Data = actionTakenList;
             commonResponse.Status = true;
             commonResponse.StatusCode = HttpStatusCode.OK;
@@ -371,6 +371,8 @@ namespace ArcheOne.Controllers
                 salesLeadFollowUpMst.Notes = salesLeadFollowUpReqModel.Notes;
                 salesLeadFollowUpMst.NextFollowUpNotes = salesLeadFollowUpReqModel.NextFollowUpNotes;
                 salesLeadFollowUpMst.SalesLeadStatusId = salesLeadFollowUpReqModel.SalesLeadStatusId;
+                salesLeadFollowUpMst.IsActive = true;
+                salesLeadFollowUpMst.IsDelete = false;
                 salesLeadFollowUpMst.CreatedDate = _commonHelper.GetCurrentDateTime();
                 salesLeadFollowUpMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
                 salesLeadFollowUpMst.CreatedBy = _commonHelper.GetLoggedInUserId();
@@ -432,13 +434,13 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
             try
             {
-                var salesLeadFollowUpList = (from followUp in _dbRepo.salesLeadFollowUpMst()
-                                             where followUp.Id == id
+                var salesLeadFollowUpList = (from followUp in _dbRepo.salesLeadFollowUpMst().ToList()
+                                             where followUp.SalesContactPersonId == id
                                              join followupAction in _dbRepo.SalesLeadActionList().ToList() on followUp.SalesLeadActionId equals followupAction.Id
-                                             join nextfolloupaction in _dbRepo.SalesLeadActionList() on followUp.NextFollowUpActionId equals nextfolloupaction.Id
-                                             join leadStatus in _dbRepo.SalesLeadStatusList() on followUp.SalesLeadStatusId equals leadStatus.Id
-                                             join lead in _dbRepo.SalesLeadList() on followUp.SalesLeadId equals lead.Id
-                                             join contactPerson in _dbRepo.SalesContactPersonList() on followUp.SalesContactPersonId equals contactPerson.Id
+                                             join nextfolloupaction in _dbRepo.SalesLeadActionList().ToList() on followUp.NextFollowUpActionId equals nextfolloupaction.Id
+                                             join leadStatus in _dbRepo.SalesLeadStatusList().ToList() on followUp.SalesLeadStatusId equals leadStatus.Id
+                                             join lead in _dbRepo.SalesLeadList().ToList() on followUp.SalesLeadId equals lead.Id
+                                             join contactPerson in _dbRepo.SalesContactPersonList().ToList() on followUp.SalesContactPersonId equals contactPerson.Id
                                              select new { followUp, followupAction, nextfolloupaction, leadStatus, lead, contactPerson }
                                                   ).Select(x => new
                                                   {
@@ -452,7 +454,7 @@ namespace ArcheOne.Controllers
                                                       Organization = x.lead.OrgName,
                                                       ContactPerson = $"{x.contactPerson.FirstName} {x.contactPerson.LastName}"
 
-                                                  }).FirstOrDefault();
+                                                  }).ToList();
                 commonResponse.Status = true;
                 commonResponse.StatusCode = HttpStatusCode.OK;
                 commonResponse.Message = "Record found";
@@ -465,5 +467,99 @@ namespace ArcheOne.Controllers
             }
             return Json(commonResponse);
         }
+
+        public async Task<IActionResult> DeleteFollowUpAction(int id)
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            try
+            {
+                var IsFollowUpActionExists = await _dbRepo.salesLeadFollowUpMst().FirstOrDefaultAsync(x => x.Id == id);
+                if (IsFollowUpActionExists != null)
+                {
+                    IsFollowUpActionExists.IsDelete = true;
+                    _dbContext.SalesLeadFollowUpMsts.Update(IsFollowUpActionExists);
+                    await _dbContext.SaveChangesAsync();
+                    commonResponse.Status = true;
+                    commonResponse.StatusCode = HttpStatusCode.OK;
+                    commonResponse.Message = "SalesLead Follow Up Action Deleted Successfully.";
+                }
+                else
+                {
+                    commonResponse.Message = "Fail To Delete SalesLead Follow Up Action";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message.ToString();
+                commonResponse.Data = ex.Data;
+            }
+            return Json(commonResponse);
+        }
+
+        public async Task<IActionResult> EditFollowUpAction(int id)
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            try
+            {
+                var IsFollowUpActionExists = await _dbRepo.salesLeadFollowUpMst().FirstOrDefaultAsync(x => x.Id == id);
+                if (IsFollowUpActionExists != null)
+                {
+                    commonResponse.Status = true;
+                    commonResponse.StatusCode = HttpStatusCode.OK;
+                    commonResponse.Message = "SalesLead Follow Up Action Found";
+                    commonResponse.Data = IsFollowUpActionExists;
+                }
+                else
+                {
+                    commonResponse.Message = "SalesLead Follow Up Action Not Found";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message.ToString();
+                commonResponse.Data = ex.Data;
+            }
+            return Json(commonResponse);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateAction([FromBody] SalesLeadFollowUpEditReqModel salesLeadFollowUpEditReqModel)
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            try
+            {
+                var isFolloUpExits = await _dbRepo.salesLeadFollowUpMst().FirstOrDefaultAsync(x => x.Id == salesLeadFollowUpEditReqModel.FollowUpId);
+                if (isFolloUpExits != null)
+                {
+                    isFolloUpExits.FollowUpDateTime = salesLeadFollowUpEditReqModel.FollowUpDate;
+                    isFolloUpExits.NextFollowUpDateTime = salesLeadFollowUpEditReqModel.NextFollowUpDate;
+                    isFolloUpExits.SalesLeadActionId = salesLeadFollowUpEditReqModel.SalesLeadActionId;
+                    isFolloUpExits.NextFollowUpActionId = salesLeadFollowUpEditReqModel.SalesLeadNextActionId;
+                    isFolloUpExits.Notes = salesLeadFollowUpEditReqModel.Notes;
+                    isFolloUpExits.NextFollowUpNotes = salesLeadFollowUpEditReqModel.NextFollowUpNotes;
+                    isFolloUpExits.SalesLeadStatusId = salesLeadFollowUpEditReqModel.SalesLeadStatusId;
+                    isFolloUpExits.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                    isFolloUpExits.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                    _dbContext.SalesLeadFollowUpMsts.Update(isFolloUpExits);
+                    await _dbContext.SaveChangesAsync();
+                    commonResponse.Status = true;
+                    commonResponse.StatusCode = HttpStatusCode.OK;
+                    commonResponse.Message = "FollowUp Action Updated Successfully";
+                }
+                else
+                {
+                    commonResponse.Message = "FollowUp Action Not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message.ToString();
+                commonResponse.Data = ex.ToString();
+            }
+            return Json(commonResponse);
+        }
+
     }
 }
