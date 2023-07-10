@@ -774,21 +774,21 @@ namespace ArcheOne.Controllers
                                             {
                                                 if (LeaveType.LeaveTypeName.ToLower() == "sickleave")
                                                 {
-                                                    BalanceList.SickLeaveTaken = leaveMst.PaidDays;
+                                                    BalanceList.SickLeaveTaken = noOfDay;
                                                     BalanceList.CasualLeaveTaken = 0;
                                                     BalanceList.EarnedLeaveTaken = 0;
                                                 }
                                                 else if (LeaveType.LeaveTypeName.ToLower() == "casualleave")
                                                 {
                                                     BalanceList.SickLeaveTaken = 0;
-                                                    BalanceList.CasualLeaveTaken = leaveMst.PaidDays;
+                                                    BalanceList.CasualLeaveTaken = noOfDay;
                                                     BalanceList.EarnedLeaveTaken = 0;
                                                 }
                                                 else if (LeaveType.LeaveTypeName.ToLower() == "earnedleave")
                                                 {
                                                     BalanceList.SickLeaveTaken = 0;
                                                     BalanceList.CasualLeaveTaken = 0;
-                                                    BalanceList.EarnedLeaveTaken = leaveMst.PaidDays;
+                                                    BalanceList.EarnedLeaveTaken = noOfDay;
 
                                                 }
                                                 _dbContext.Entry(BalanceList).State = EntityState.Modified;
@@ -965,6 +965,11 @@ namespace ArcheOne.Controllers
                                                 if (leaveType1.LeaveTypeName.ToLower() == "sickleave")
                                                 {
                                                     leaveBalanceList1.SickLeaveBalance = leaveBalanceList1.SickLeaveTaken == 0 ? leaveBalanceList1.SickLeaveBalance : leaveBalanceList1.SickLeaveBalance - leaveBalanceList1.SickLeaveTaken;
+                                                    if (leaveBalanceList1.SickLeaveBalance > 0)
+                                                    {
+                                                        leaveBalanceList1.SickLeaveBalance = 0.00M;
+                                                    }
+
                                                     leaveBalanceList1.ClosingLeaveBalance = leaveBalanceList1 == null ? 0 : leaveBalanceList1.ClosingLeaveBalance - leaveBalanceList1.SickLeaveTaken;
                                                     leaveBalanceList1.SickLeaveTaken = noOfDay;
                                                 }
@@ -976,6 +981,10 @@ namespace ArcheOne.Controllers
                                                 if (leaveType1.LeaveTypeName.ToLower() == "casualleave")
                                                 {
                                                     leaveBalanceList1.CasualLeaveBalance = leaveBalanceList1.CasualLeaveBalance == 0 ? leaveBalanceList1.CasualLeaveBalance : leaveBalanceList1.CasualLeaveBalance - leaveBalanceList1.CasualLeaveTaken;
+                                                    if (leaveBalanceList1.CasualLeaveBalance > 0)
+                                                    {
+                                                        leaveBalanceList1.CasualLeaveBalance = 0.00M;
+                                                    }
                                                     leaveBalanceList1.ClosingLeaveBalance = leaveBalanceList1 == null ? 0 : leaveBalanceList1.ClosingLeaveBalance - leaveBalanceList1.CasualLeaveTaken;
                                                 }
                                                 else
@@ -987,6 +996,10 @@ namespace ArcheOne.Controllers
                                                 if (leaveType1.LeaveTypeName.ToLower() == "earnedleave")
                                                 {
                                                     leaveBalanceList1.EarnedLeaveBalance = leaveBalanceList1.EarnedLeaveBalance == 0 ? leaveBalanceList1.EarnedLeaveBalance : leaveBalanceList1.EarnedLeaveBalance - leaveBalanceList1.EarnedLeaveTaken;
+                                                    if (leaveBalanceList1.EarnedLeaveBalance > 0)
+                                                    {
+                                                        leaveBalanceList1.EarnedLeaveBalance = 0.00M;
+                                                    }
                                                     leaveBalanceList1.ClosingLeaveBalance = leaveBalanceList1 == null ? 0 : leaveBalanceList1.ClosingLeaveBalance - leaveBalanceList1.EarnedLeaveTaken;
                                                 }
                                                 else
