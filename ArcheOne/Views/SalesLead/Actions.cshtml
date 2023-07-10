@@ -30,6 +30,7 @@
         </div>
         <input type="hidden" id="txtSalesLeadId" />
         <input type="hidden" id="txtSalesContactPersonId" />
+        <input type="hidden" id="txtFollowupId"/>
         <div class="card-body">
             <div class="row form-group">
                 <div class="col-md-4">
@@ -91,7 +92,7 @@
             </div>
         </div>
         <div class="card-body">
-            <table id="tblUser" class="table table-bordered table-striped" style="width:100%">
+            <table id="tblSalesLeadFolloup" class="table table-bordered table-striped" style="width:100%">
             </table>
         </div>
     </div>
@@ -127,7 +128,7 @@
                                 <span class="help-block d-none has-error" id="sddlActionPerformed">Please Select Action Performed</span>
                             </div>
                             <div class="col-md-6" id="dddlNextFollowupActionPerformed">
-                                <label class="form-label"><span class="has-error required">* </span>Next Followup Action Performed</label>  
+                                <label class="form-label"><span class="has-error required">* </span>Next Followup Action Performed</label>
                                 <select id="ddlActionPerformedNextFollowupActionPerformed" name="ddlNextFollowupActionPerformed" class="form-control" isrequired="1" divcontainer="dddlNextFollowupActionPerformed" errorspan="sddlNextFollowupActionPerformed" defaultvalue="0" style="width: 100%;">
                                     <option value="0">--- Select ---</option>
                                 </select>
@@ -137,7 +138,7 @@
                         <div class="row form-group">
                             <div class="col-md-6" id="dtxtActionComment">
                                 <label class="form-label"><span class="has-error required">* </span>Action Comment</label>
-                                <input type="text" id="txtActionComment" multiple="3" name="txtActionComment" class="form-control" isrequired="1" divcontainer="dtxtActionComment" errorspan="stxtActionComment" defaultvalue="" /> 
+                                <input type="text" id="txtActionComment" multiple="3" name="txtActionComment" class="form-control" isrequired="1" divcontainer="dtxtActionComment" errorspan="stxtActionComment" defaultvalue="" />
                                 <span class="help-block d-none has-error" id="stxtActionComment">Please Select Action Performed</span>
                             </div>
                             <div class="col-md-6" id="dtxtNextFollowupActionComment">
@@ -155,15 +156,17 @@
                                 <span class="help-block d-none has-error" id="sddlOrganizationStatus">Please Select Organization Status</span>
                             </div>
                             <div class="col-md-6 d-flex align-items-baseline">
-                                
-                                <input type="Checkbox" id="chbActive" name="chbActive" checked="checked" isrequired="0" divcontainer="dchbActive" /><span class="p-1">Is Active</span>
+                                @*<input type="Checkbox" id="chbActive" name="chbActive" checked="checked" isrequired="0" divcontainer="dchbActive" /><span class="p-1">Is Active</span>*@
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <input type="button" id="btnClose" name="btnClose" class="btn btn-danger float-right" data-dismiss="modal" value="Close" />
+
                     <input type="button" id="btnSubmitAction" name="btnSubmitAction" class="btn btn-success float-right" value="Add" />
+
+                    <input type="button" id="btnUpdateAction" name="btnUpdateAction" class="btn btn-warning float-right" value="Update" />
                 </div>
             </div>
         </div>
