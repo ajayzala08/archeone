@@ -40,7 +40,7 @@ function UserDocumentList() {
                         render: function (data, type, row) {
                             if (data) {
                                 debugger
-                                return '<i class="fa fa-pen pen btn-edit" style="cursor: pointer;" data-toggle="modal" data-target="#modalUserDocument" onclick="GetUserDocsDetails(' + row.id + ')"></i> | <i class="fa fa-trash trash btn-delete" style="cursor: pointer;" onclick="DeleteUserDocs(' + row.id + ')"></i> | <i class="fas fa-envelope-open offerEnvelop btn-delete" style="cursor: pointer;" onclick="downloadConfirmationLetter(' + data.id + ')"></i> | <i class="fas fa-envelope-open-text experienceEnvelop" style="cursor: pointer;" onclick="downloadExperienceLetter(' + data.id + ')"></i> | <i class="fas fa-mail-bulk email" style="cursor: pointer;" onclick="sendEmail(' + data.id + ')"></i>|<i class="fa fa-download btn-download" value=' + row.document + ' Id=' + row.id + ' onclick="GetUserDocs(' + row.id + ')" aria-hidden="true"></i>';
+                                return '<i class="fa fa-pen pen btn-edit" style="cursor: pointer;" data-toggle="modal" data-target="#modalUserDocument" onclick="GetUserDocsDetails(' + row.id + ')"></i> | <i class="fa fa-trash trash btn-delete" style="cursor: pointer;" onclick="DeleteUserDocs(' + row.id + ')"></i> | <i class="fa fa-download btn-download" value=' + row.document + ' Id=' + row.id + ' onclick="GetUserDocs(' + row.id + ')" aria-hidden="true"></i>';
 
                             }
 
@@ -114,7 +114,7 @@ function GetUserDocsDetails(Id) {
     $("#btnAddUpdateUserDocument").html("Update");
     $("#btnAddUpdateUserDocument").removeClass("btn-success").addClass("btn-warning");
     debugger
-    ajaxCall("Post", false, '/UserDocument/UserDocument?Id=' + Id, null, function (result) {
+    ajaxCall("Post", false, '/UserDocument/GetUserDocumentById?Id=' + Id, null, function (result) {
         if (result.status == true) {
             $("#txtuserDocumentId").val(result.data.id);
             $("#ddlUser").val(result.data.userId);
@@ -162,17 +162,17 @@ function DeleteUserDocs(id) {
     })
 };
 
-function loadFile(event) {
-    $("#txtDocument").html(event.target.files[0].name);
-}
+//function loadFile(event) {
+//    $("#txtDocument").html(event.target.files[0].name);
+//}
 
-function downloadConfirmationLetter(id) {
-    window.open('/UserDocument/DownloadConfirmationLetter?Id=' + id);
-}
-function downloadExperienceLetter(id) {
-    window.open('/UserDocument/DownloadExperienceLetter?Id=' + id);
-}
+//function downloadConfirmationLetter(id) {
+//    window.open('/UserDocument/DownloadConfirmationLetter?Id=' + id);
+//}
+//function downloadExperienceLetter(id) {
+//    window.open('/UserDocument/DownloadExperienceLetter?Id=' + id);
+//}
 
-function sendEmail() {
-    alert("Hii");
-}
+//function sendEmail() {
+//    alert("Hii");
+//}
