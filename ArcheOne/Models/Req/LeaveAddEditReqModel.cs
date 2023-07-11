@@ -29,6 +29,7 @@ namespace ArcheOne.Models.Req
         public int LeaveStatusId { get; set; }
         public int HrStatus { get; set; }
         public int ApprovedByReportingStatus { get; set; }
+        public DateTime JoiningDate { get; set; }
 
     }
 }

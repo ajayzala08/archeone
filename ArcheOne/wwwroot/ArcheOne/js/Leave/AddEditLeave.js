@@ -4,24 +4,7 @@ $(document).ready(function () {
 
     $("#txtEndDate").change();
     $('.select2').select2()
-    //let txtSelectedEndTime = $("#txtSelectedEndTime").val();
-    //if (txtSelectedEndTime != null && txtSelectedEndTime != 0 && EditMode == 1) {
-    //    $("#ddlEndTime").val(txtSelectedEndTime);
-    //    EditMode = 0;
-    //}
-
-
-    let txtSelectedEndTime = $("#txtSelectedEndTime").val();
-    
-    if (txtSelectedEndTime && EditMode === 1) {
-        let dropdown = $("#ddlEndTime");
-        let option = dropdown.find('option[value="' + txtSelectedEndTime + '"]');
-        
-        if (option.length > 0) {
-            dropdown.val(txtSelectedEndTime);
-            EditMode = 0;
-        }
-    }
+   
     $("#btnSaveAdd").click(function () {
         SaveUpdateLeave();
     });
@@ -131,6 +114,7 @@ function SaveUpdateLeave() {
             if (result.status == true) {
                 Toast.fire({ icon: 'success', title: result.message });
                 RedirectToPage("/Leaves/Leaves");
+                GetFilteredLeaveList()
             }
             else {
                 Toast.fire({ icon: 'error', title: result.message });
