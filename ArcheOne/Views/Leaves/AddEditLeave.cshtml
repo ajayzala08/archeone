@@ -1,11 +1,13 @@
 ﻿@using ArcheOne.Helper.CommonModels;
 @using ArcheOne.Models.Req;
+@using System.Globalization;
 
 @model CommonResponse
 
 @{
     Layout = "_MasterLayout";
     ViewBag.select2 = "true";
+    DateTime dateTime1 = DateTime.Today;
 }
 
 <section class="content-header">
@@ -29,6 +31,8 @@
         @if (Model.Status)
         {
             LeaveAddEditReqModel addEditRequirementResModel = Model.Data;
+            DateTime dateTimeValue = addEditRequirementResModel.leaveDetails.JoiningDate;
+            string joiningDate = dateTimeValue.ToString("yyyy-MM-dd");
             <div class="card-body">
                 <div class="row">
                     <input id="txtLeaveId" name="txtLeaveId" type="hidden" class="form-control col-sm-4" value="@addEditRequirementResModel.leaveDetails.Id" />
@@ -54,8 +58,10 @@
                         </div>
                     </div>
                     <div class="form-group col-sm-4" id="dtxtStartDate">
-                        <label><span class="has-error required">* </span>Start Date</label>
+                        <label><span class="has-error required">* </span>Start Date</label> <i class="fa fa-info-circle circle" value="" title="Your JoinngDate : @joiningDate"></i>
                         <input type="date" id="txtStartDate" name="txtStartDate" class="form-control" isRequired="1" divcontainer="dtxtStartDate" errorspan="stxtStartDate" defaultvalue="0" minlength="2" value="@addEditRequirementResModel.leaveDetails.StartDate.ToString("yyyy-MM-dd")" />
+                        
+
                         <span class="help-block d-none has-error" id="stxtStartDate">Please Select Start Date</span>
                     </div>
 
