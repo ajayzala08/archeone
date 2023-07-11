@@ -170,7 +170,7 @@ namespace ArcheOne.Controllers
 
 		[HttpPost]
 		public async Task<CommonResponse> UserDocumentList()
-	    {
+		{
 			CommonResponse commonResponse = new CommonResponse();
 			try
 			{
@@ -270,6 +270,31 @@ namespace ArcheOne.Controllers
 				commonResponse.Data = ex;
 			}
 			return File(FileBytes, "application/pdf");
+		}
+		public async Task<CommonResponse> GetUserDocumentById(int Id)
+		{
+			CommonResponse response = new CommonResponse();
+			try
+			{
+				var userDocsDetails = await _dbRepo.UserDocumentList().FirstOrDefaultAsync(x => x.Id == Id);
+				if (userDocsDetails != null)
+				{
+					response.Data = userDocsDetails;
+					response.Status = true;
+					response.StatusCode = System.Net.HttpStatusCode.OK;
+					response.Message = "UserDocument found successfully!";
+				}
+				else
+				{
+					response.StatusCode = System.Net.HttpStatusCode.NotFound;
+					response.Message = "UserDocument not found!";
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Message = ex.Message;
+			}
+			return response;
 		}
 
 		public async Task<FileResult> GetUserOfferLetter(int id)
