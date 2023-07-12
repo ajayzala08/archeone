@@ -5,6 +5,12 @@ $(document).ready(function () {
     $("#btnAddLeave").click(function () {
         AddEditLeave(0);
     });
+
+  
+    $("#btnUpdateCancelLeave").click(function () {
+       
+        UpdateCancelLeave();
+    });
    
 });
 
@@ -26,10 +32,37 @@ function GetFilteredLeaveList() {
             AddEditLeave(Id);
         });
 
-        //$(".btn-delete").click(function () {
-        //    Id = $(this).attr('Id');
-        //    DeleteSalesLead(Id);
-        //});
+        $(".fa-times").click(function () {
+            $('#modalActionCancle').modal('show');
+            var value = $(this).attr('data-value');
+            $('#txtCancelLeaveId').val(value);
+        });
+
+       
 
     });
 }
+function UpdateCancelLeave(value) {
+    console.log(value);
+    var data = {
+        "Id": parseInt($("#txtCancelLeaveId").val()),
+        "Reason" : $("#txtReason").val()
+    }
+    if (validateRequiredFields()) {
+       // console.log(Reason);
+        ajaxCall("Post", false, '/Leaves/UpdateCancelLeave/', JSON.stringify(data) ,function (result) {
+
+            if (result.status == true) {
+                Toast.fire({ icon: 'success', title: result.message });
+                RedirectToPage("/Leaves/Leaves");
+                GetFilteredLeaveList()
+            }
+            else {
+                Toast.fire({ icon: 'error', title: result.message });
+                $.unblockUI();
+            }
+        });
+    }
+}
+
+

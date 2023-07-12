@@ -1,7 +1,7 @@
 ﻿@using ArcheOne.Models.Req;
 @model UserAddEditReqViewModel;
 @{
-	int id = 0;
+	int id = 1;
 	ViewBag.datatable = "true";
 }
 @if (id > 0)
@@ -46,6 +46,37 @@
 		<!-- /.card-body -->
 		<!-- /.card -->
 	</section>
+
+
+	<div class="modal fade" id="modalActionCancle">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Cancel Leave</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="col-sm-12" id="modelAction">
+						<input id="txtCancelLeaveId" name="txtCancelLeaveId" type="hidden" />
+
+
+						<div class="form-group col-sm-12" id="dtxtReason">
+							<label><span class="has-error required">* </span>Enter Reason</label>
+							<textarea id="txtReason" name="txtReason" class="form-control" isrequired="1" divcontainer="dtxtReason" errorspan="stxtReason" defaultvalue="0" minlength="2"></textarea>
+							<span class="help-block d-none has-error" id="stxtReason">Please Enter Reason</span>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<input type="button" id="btnClose" name="btnClose" class="btn btn-danger float-right" data-dismiss="modal" value="Close" />
+
+					<input type="button" id="btnUpdateCancelLeave" name="btnUpdateCancelLeave" class="btn btn-warning float-right" value="Update" />
+				</div>
+			</div>
+		</div>
+	</div>
 }
 else
 {
@@ -53,5 +84,5 @@ else
 }
 
 @section Scripts{
-	<script src="~/archeone/js/leave/leave.js"></script>
+	<script src="~/archeone/js/leave/leave.js?_@DateTime.Now.Ticks"></script>
 }
