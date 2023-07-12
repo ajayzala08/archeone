@@ -1,27 +1,14 @@
 var EditMode = 1;
 $(document).ready(function () {
 
+    var selectedEndTime = $('#txtSelectedEndTime').val();
 
-    $("#txtEndDate").change();
+    var formattedEndTime = moment(selectedEndTime, 'HH:mm:ss').format('hh:mm A');
+  
+    $('#ddlEndTime').val(formattedEndTime);
+
+   
     $('.select2').select2()
-    //let txtSelectedEndTime = $("#txtSelectedEndTime").val();
-    //if (txtSelectedEndTime != null && txtSelectedEndTime != 0 && EditMode == 1) {
-    //    $("#ddlEndTime").val(txtSelectedEndTime);
-    //    EditMode = 0;
-    //}
-
-
-    let txtSelectedEndTime = $("#txtSelectedEndTime").val();
-    
-    if (txtSelectedEndTime && EditMode === 1) {
-        let dropdown = $("#ddlEndTime");
-        let option = dropdown.find('option[value="' + txtSelectedEndTime + '"]');
-        
-        if (option.length > 0) {
-            dropdown.val(txtSelectedEndTime);
-            EditMode = 0;
-        }
-    }
     $("#btnSaveAdd").click(function () {
         SaveUpdateLeave();
     });
@@ -29,8 +16,9 @@ $(document).ready(function () {
     $("#btnCancel").click(function () {
         window.location.href = '/Leaves/Leaves';
     });
-
     $("#txtEndDate").change(function () {
+
+        debugger
         let EndDateData = {
             "StartDate": $('#txtStartDate').val(),
             "EndDate": $("#txtEndDate").val(),
@@ -41,33 +29,32 @@ $(document).ready(function () {
 
         /*if (txtSelectedEndTime != "0") {*/
         //if (!isNaN(txtSelectedEndTime)) {
-            var ddlEndTime = $('#ddlEndTime');
-            ddlEndTime.empty();
-            ddlEndTime.append($("<option></option>").val('').html('Please wait ...'));
-            ajaxCall("Post", false, '/Leaves/EndTimeList', JSON.stringify(EndDateData), function (response) {
+        var ddlEndTime = $('#ddlEndTime');
+        ddlEndTime.empty();
+        ddlEndTime.append($("<option></option>").val('').html('Please wait ...'));
+        ajaxCall("Post", false, '/Leaves/EndTimeList', JSON.stringify(EndDateData), function (response) {
 
 
-                $("#ddlEndTime").html('');
-                $("#ddlEndTime").append('<option value="0">--- Select EndTime ---</option>');
-                $.each(response.data, function (i, endtime) {
-                    
-                    $("#ddlEndTime").append('<option  value="' + endtime.id + '">' +
-                        endtime.name + '</option>');
-                });
-                //$("#ddlEndTime").val(0);
-                
-               
+            $("#ddlEndTime").html('');
+            $("#ddlEndTime").append('<option value="0">--- Select EndTime ---</option>');
+            $.each(response.data, function (i, endtime) {
 
-                //$("#ddlState").change();
+                $("#ddlEndTime").append('<option  value="' + endtime.id + '">' +
+                    endtime.name + '</option>');
             });
+            //$("#ddlEndTime").val(0);
+
+
+
+            //$("#ddlState").change();
+        });
         //}
-    
+
         //} else {
         //    //$("#ddlEndTime").html('');
         //    $("#ddlEndTime").append('<option value="0">--- Select EndTime ---</option>');
         //}
     });
-
     $("#ddlStartTime").change(function () {
         LoadEndTime($(this).val());
         let EndDateData = {
@@ -131,6 +118,7 @@ function SaveUpdateLeave() {
             if (result.status == true) {
                 Toast.fire({ icon: 'success', title: result.message });
                 RedirectToPage("/Leaves/Leaves");
+                GetFilteredLeaveList()
             }
             else {
                 Toast.fire({ icon: 'error', title: result.message });
@@ -139,8 +127,6 @@ function SaveUpdateLeave() {
         });
     }
 }
-
-
 function LoadEndTime(EndDateData) {
     $("#ddlEndTime").empty();
     console.log(txtSelectedEndTime)
@@ -175,3 +161,4 @@ function LoadEndTime(EndDateData) {
     }
 
 }
+
