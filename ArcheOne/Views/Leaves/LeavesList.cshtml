@@ -15,16 +15,16 @@
         font-weight: bold;
     }
 
-   /* .circle1[title]:hover:after {
-        content: attr(title);
-        position: absolute;
-        background: #fff;
-        color: #000;
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-weight: bold;
-        font-size: 24;
-    }*/
+    /* .circle1[title]:hover:after {
+                content: attr(title);
+                position: absolute;
+                background: #fff;
+                color: #000;
+                padding: 5px 10px;
+                border-radius: 5px;
+                font-weight: bold;
+                font-size: 24;
+            }*/
 
 </style>
 <div class="row form-group">
@@ -73,6 +73,7 @@
                     @foreach (var item in list)
                     {
                         <tr style="white-space:nowrap;">
+
                             @if (item.EditDisable)
                             {
                                 <td>
@@ -82,12 +83,27 @@
                                     @* <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"></i>*@
                                 </td>
                             }
+
                             else
                             {
-                                <td>
-                                    <i class="fa fa-pen pen btn-edit" Id="@item.Id" style="cursor: pointer;"></i> &nbsp;
+                                @if (item.HREditDisable)
+                                {
+                                    <td>
+                                        <i class="fa fa-pen pen " style="cursor: pointer;"></i> | <i class="fa fa-info-circle circle" value="" title=" Approval required from reporting manager for editing access"></i>
 
-                                </td>
+
+                                        @* <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"></i>*@
+                                    </td>
+
+
+                                }
+                                else
+                                {
+                                    <td>
+                                        <i class="fa fa-pen pen btn-edit" Id="@item.Id" style="cursor: pointer;"></i> &nbsp;
+
+                                    </td>
+                                }
                             }
                             <td>@item.Id</td>
                             <td>@item.LeaveTypeName</td>
