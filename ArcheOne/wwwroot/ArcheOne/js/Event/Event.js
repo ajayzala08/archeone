@@ -87,20 +87,11 @@ function showCalender(data) {
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
         footerToolbar: {
-            start: 'custom1',
+            start: '',
             center: '',
             end: 'prev,next'
         },
-        customButtons: {
-            custom1: {
-                text: 'Add Event',
-                click: function () {
-                    $("#myModal").modal("show");
-
-                }
-            }
-            
-        },
+     
         events: data,
 
         dateClick: function (info) {
@@ -136,10 +127,10 @@ function showCalender(data) {
 
 $(document).ready(function () {
     GetEventList();
-    $('#AddEvent').click(function () {
-        /*    AddEditEvent(0);*/
-        window.location.href = '/Event/Event';
-    });
+    //$('#AddEvent').click(function () {
+       
+    //    window.location.href = '/Event/Event';
+    //});
 
 });
 
@@ -162,6 +153,7 @@ function GetEventList() {
 }
 
 function AddEditEvent(Id) {
+    debugger
     window.location.href = '/Event/AddEditEvent?Id=' + Id;
 }
 

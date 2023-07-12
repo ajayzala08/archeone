@@ -1,4 +1,5 @@
-﻿@using ArcheOne.Helper.CommonModels;
+﻿
+@using ArcheOne.Helper.CommonModels;
 @using ArcheOne.Models.Req;
 @model AddEditPolicyReqModel
 
@@ -7,6 +8,23 @@
     var Title = Model.Id > 0 ? "Edit Policy" : "Create Policy";
 }
 
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Policy</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Masters</a></li>
+                    <li class="breadcrumb-item active">Policy</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 <section class="content-header"></section>
 <section class="content">
     <div class="container-fluid">
@@ -14,11 +32,6 @@
             <div class="card-header">
                 @Title
                 <h3 class="card-title"></h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                </div>
             </div>
             <div class="card-body">
                 <div class="row" id="divUploadFile">
@@ -43,18 +56,18 @@
             </div>
 
             <div class="card-footer">
-                <div class="row mr-lg-n3 float-right">
-                    @if (Title == "Edit Policy")
-                    {
-                        <button type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success mr-2">Update</button>
-                    }
-                    else
-                    {
-                        <button type="button" id="btnSaveAdd" name="btnCancel" class="btn btn-success mr-2">Submit</button>
-                    }
-                    <button type="button" id="btnCancel" data-dismiss="modal" class="btn btn-danger float-right">Cancel</button>
-                </div>
+                @if (Title == "Edit Policy")
+                {
+                    <input type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-warning float-right ml-1" value="Update" />
+                }
+                else
+                {
+                    <input type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success float-right ml-1" value="Submit" />
+                }
+                <input type="button" id="btnCancel" name="btnCancel" class="btn btn-danger float-right" value="Cancel" />
+
             </div>
+
 
 
         </div>

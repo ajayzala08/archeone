@@ -22,19 +22,13 @@
             <thead>
                 <tr>
                     <td>
-                        <b>Id</b>
+                        <b>Actions</b>
                     </td>
                     <td>
                         <b>Team Lead</b>
                     </td>
                     <td>
                         <b>Team Member</b>
-                    </td>
-                    <td>
-                        <b>Edit</b>
-                    </td>
-                    <td>
-                        <b>Delete</b>
                     </td>
                 </tr>
             </thead>
@@ -43,19 +37,14 @@
                 {
                     <tr>
                         <td>
-                            @item.Id
+                            <i class="fa fa-pen pen btn-edit" TeamLeadId="@item.TeamLeadId" style="cursor: pointer;"></i> &nbsp; | &nbsp;
+                            <i class="fa fa-trash trash btn-delete" TeamLeadId="@item.TeamLeadId" style="cursor: pointer;"></i>
                         </td>
                         <td>
                             @item.TeamLead
                         </td>
                         <td>
                             @item.TeamName
-                        </td>
-                        <td>
-                            <button class="btn btn-info btn-edit" TeamLeadId="@item.TeamLeadId">Edit</button>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger btn-delete" TeamLeadId="@item.TeamLeadId">Delete</button>
                         </td>
                     </tr>
                 }

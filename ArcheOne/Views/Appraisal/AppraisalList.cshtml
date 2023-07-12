@@ -48,13 +48,16 @@
                                 <i class="fa fa-pen pen btn-edit" Id="@item.Id" style="cursor: pointer;"> | </i>
                                
                                 <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"> | </i>
-                              
+                              @*
+                                <i class="fa fa-info-circle circle btn-info" Id="@item.Id" onclick="AppraisalInfo(Id)"></i>*@
+
                                 <i class="fa fa-info-circle circle btn-info" Id="@item.Id" onclick="AppraisalInfo(Id)"></i>
+                                
 
                             }
                             else
                             {
-                                <i class="fa fa-info-circle circle btn-info" Id="@item.Id" onclick="AppraisalInfo(Id)"></i>
+                                <i class="fa fa-info-circle circle btninfo" Id="@item.Id" onclick="AppraisalInfo(Id)"></i>
                             }
 
 

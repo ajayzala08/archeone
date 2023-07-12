@@ -1,8 +1,5 @@
 ﻿$(document).ready(function () {
-    $('#txtHolidayDate').datepicker({
-        dateFormat: 'dd-mm-yy'
-    });
-
+ 
     $("#btnSaveAdd").click(function () {
         SaveUpdateHoliday();
     });
@@ -18,7 +15,7 @@ function SaveUpdateHoliday() {
     var saveHolidayData = {
         "Id": parseInt($("#txtHolidayId").val()),
         "HolidayName": $("#txtHolidayName").val(),
-        "HolidayDate": $.datepicker.formatDate("yy-mm-dd", $('#txtHolidayDate').datepicker('getDate')),
+        "HolidayDate": $('#txtHolidayDate').val(),
     }
     console.log(saveHolidayData);
     
