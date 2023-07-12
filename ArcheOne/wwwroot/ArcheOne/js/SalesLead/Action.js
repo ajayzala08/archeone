@@ -2,6 +2,7 @@
     $.blockUI();
     $("#btnSubmitAction").show();
     $("#btnUpdateAction").hide();
+    $(".modal-title").text("Add Action");
     FolloupActions();
     LoadActions();
     LoadStatus();
@@ -196,6 +197,7 @@ function EditFollowUpAction(ActionId) {
             $("#ddlActionPerformedNextFollowupActionPerformed").val(result.data.nextFollowUpActionId);
             $("#btnSubmitAction").hide();
             $("#btnUpdateAction").show();
+            $(".modal-title").text("Update Action");
         }
         else {
             Toast.fire({ icon: 'error', title: result.message });
@@ -231,3 +233,4 @@ $("#btnUpdateAction").click(function () {
     }
 
 });
+
