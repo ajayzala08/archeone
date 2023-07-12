@@ -1,6 +1,12 @@
 var EditMode = 1;
 $(document).ready(function () {
 
+    var selectedEndTime = $('#txtSelectedEndTime').val();
+
+    var formattedEndTime = moment(selectedEndTime, 'HH:mm:ss').format('hh:mm A');
+  
+    $('#ddlEndTime').val(formattedEndTime);
+
 
     $("#txtEndDate").change();
     $('.select2').select2()

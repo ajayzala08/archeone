@@ -57,6 +57,7 @@
                             <span class="help-block d-none has-error" id="sddlLeaveTypeId">Please select Leave Type</span>
                         </div>
                     </div>
+
                     <div class="form-group col-sm-4" id="dtxtStartDate">
                         <label><span class="has-error required">* </span>Start Date</label> <i class="fa fa-info-circle circle" value="" title="Your JoinngDate : @joiningDate"></i>
                         <input type="date" id="txtStartDate" name="txtStartDate" class="form-control" isRequired="1" divcontainer="dtxtStartDate" errorspan="stxtStartDate" defaultvalue="0" minlength="2" value="@addEditRequirementResModel.leaveDetails.StartDate.ToString("yyyy-MM-dd")" />
@@ -64,7 +65,6 @@
 
                         <span class="help-block d-none has-error" id="stxtStartDate">Please Select Start Date</span>
                     </div>
-
 
                     <div class="form-group col-sm-4" id="dddlStartTime">
                         <label><span class="has-error required">* </span>Start Time</label>
@@ -74,7 +74,23 @@
                             {
                                 if (addEditRequirementResModel.leaveDetails.Id > 0)
                                 {
-                                    <option value="@item.Id" selected>@item.Name</option>
+                                    string timeString = item.Name; // Example time string
+                                    TimeSpan timeSpan;
+                                    DateTime parsedDateTime;
+                                    if (DateTime.TryParseExact(timeString, "h:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDateTime))
+                                    {
+                                        timeSpan = parsedDateTime.TimeOfDay;
+                                        if (timeSpan == addEditRequirementResModel.leaveDetails.StartTime)
+                                        {
+                                            <option value="@item.Id" selected>@item.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+
+                                    }
+                                   
                                 }
                                 else
                                 {
@@ -108,35 +124,38 @@
                         <textarea id="txtReason" name="txtReason" class="form-control" isrequired="1" divcontainer="dtxtReason" errorspan="stxtReason" defaultvalue="0" minlength="2">@addEditRequirementResModel.leaveDetails.Reason</textarea>
                         <span class="help-block d-none has-error" id="stxtReason">Please Enter Reason</span>
                     </div>
+
                     @if (addEditRequirementResModel.leaveDetails.Id > 0)
                     {
 
                         @if (addEditRequirementResModel.LeaveStatusChangeView)
                         {
-                            <div class="col-sm-4" id="dddlLeaveStatusId">
-                                <div class="form-group">
-                                    <label><span class="has-error required">* </span>Leave Status</label>
-                                    <select id="ddlLeaveStatusId" name="ddlLeaveStatusId" class="form-control select2" isrequired="1" divcontainer="dddlLeaveStatusId" errorspan="sddlLeaveStatusId" defaultvalue="0" style="width: 100%;">
-                                        <option value="0">--- Select LeaveStatus ---</option>
-                                        @foreach (var item in addEditRequirementResModel.LeaveStatusList)
-                                        {
-                                            if (item.Id == addEditRequirementResModel.leaveDetails.HrStatus)
+                           
+                                <div class="col-sm-4" id="dddlLeaveStatusId">
+                                    <div class="form-group">
+                                        <label><span class="has-error required">* </span>Leave Status</label>
+                                        <select id="ddlLeaveStatusId" name="ddlLeaveStatusId" class="form-control select2" isrequired="1" divcontainer="dddlLeaveStatusId" errorspan="sddlLeaveStatusId" defaultvalue="0" style="width: 100%;">
+                                            <option value="0">--- Select LeaveStatus ---</option>
+                                            @foreach (var item in addEditRequirementResModel.LeaveStatusList)
                                             {
-                                                <option value="@item.Id" selected>@item.Name</option>
+                                                if (item.Id == addEditRequirementResModel.leaveDetails.HrStatus)
+                                                {
+                                                    <option value="@item.Id" selected>@item.Name</option>
+                                                }
+                                                else if (item.Id == addEditRequirementResModel.leaveDetails.ApprovedByReportingStatus)
+                                                {
+                                                    <option value="@item.Id" selected>@item.Name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Id">@item.Name</option>
+                                                }
                                             }
-                                            else if (item.Id == addEditRequirementResModel.leaveDetails.ApprovedByReportingStatus)
-                                            {
-                                                <option value="@item.Id" selected>@item.Name</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="@item.Id">@item.Name</option>
-                                            }
-                                        }
-                                    </select>
-                                    <span class="help-block d-none has-error" id="sddlLeaveStatusId">Please select Leave Status</span>
+                                        </select>
+                                        <span class="help-block d-none has-error" id="sddlLeaveStatusId">Please select Leave Status</span>
+                                    </div>
                                 </div>
-                            </div>
+                            
                         }
                     }
                 </div>

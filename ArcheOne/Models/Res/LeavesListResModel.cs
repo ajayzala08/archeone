@@ -38,5 +38,6 @@
         public string ApprovedByReportingStatus { get; set; }
         public decimal LeaveTaken { get; set; }
         public bool EditDisable { get; set; }
+        public bool HREditDisable { get; set; }
     }
 }
