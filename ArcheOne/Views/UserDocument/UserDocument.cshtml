@@ -3,8 +3,6 @@
 @{
     Layout = "_MasterLayout";
     ViewBag.datatable = "true";
-    string Title = "";
-    Title = Model.AddEditUserDocuments.Id > 0 ? "Edit UserDocument" : "Add UserDocument";
     var UserId = Model.AddEditUserDocuments.UserId;
     var DocumentTypeId = Model.AddEditUserDocuments.DocumentTypeId;
 }
@@ -34,7 +32,7 @@
         <div class="card-header d-flex p-0">
             <h3 class="card-title p-3">UserDocuments List</h3>
             <div class="card-tools ml-auto mr-2 p-2">
-                <button type="button" id="btnAddUserDocument" data-toggle="modal" data-target="#modalUserDocument" class="btn btn-primary float-right" onclick="OpenUserDocumentModel()">@Title</button>
+                <button type="button" id="btnAddUserDocument" data-toggle="modal" data-target="#modalUserDocument" class="btn btn-primary float-right" onclick="OpenUserDocumentModel()">Add UserDocument</button>
             </div>
         </div>
         <div class="card-body">
@@ -51,13 +49,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">@Title</h5>
+                  <h5 class="modal-title">Add UserDocument</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" id="modalAddUpdateUserDocument">
-               @*     <input type="hidden" id="txtuserDocumentId" name="txtuserDocumentId" />*@
                     <div class="row" id="divUploadFile">
                         <div class="form-group col-sm-12" id="dddlUser">
                             <label><span class="has-error required">* </span>User</label>
@@ -116,14 +113,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="row mr-lg-n3 float-right">
-                        @if (Title == "Edit UserDocument")
-                        {
-                            <button type="button" id="btnAddUpdateUserDocument" class="btn btn-success mr-2">Update</button>
-                        }
-                        else
-                        {
-                            <button type="button" id="btnAddUpdateUserDocument" class="btn btn-success mr-2">Submit</button>
-                        }
+                        <button type="button" id="btnAddUpdateUserDocument" class="btn btn-success mr-2">Submit</button>
                         <button type="button" id="btnCancel" data-dismiss="modal" class="btn btn-danger float-right" onclick="CancelDocument()">Cancel</button>
                     </div>
                 </div>

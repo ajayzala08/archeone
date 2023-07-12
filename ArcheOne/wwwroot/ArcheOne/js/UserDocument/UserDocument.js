@@ -97,12 +97,7 @@ function AddUpdateUserDocument() {
                 }
             });
         }
-        //else {
-        //    $.unblockUI();
-        //    Toast.fire({ icon: 'success', title: result.message });
-        //    $("#clearAll").click();
-        //    ClearAll();
-        //}
+        
     }
     else {
         Toast.fire({ icon: 'error', title: "Please Select ." });
@@ -111,8 +106,9 @@ function AddUpdateUserDocument() {
 
 function GetUserDocsDetails(Id) {
     debugger
-    $("#btnAddUpdateUserDocument").html("Update");
+    $(".modal-title").text("Edit UserDocument");
     $("#btnAddUpdateUserDocument").removeClass("btn-success").addClass("btn-warning");
+    $("#btnAddUpdateUserDocument").html("Update");
     debugger
     ajaxCall("Post", false, '/UserDocument/GetUserDocumentById?Id=' + Id, null, function (result) {
         if (result.status == true) {
