@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    Countries();
     $("#btnSaveUpdateSalesLead").click(function () {
         SaveUpdateSalesLead();
     });
@@ -130,3 +131,39 @@ function validate() {
     }
     return isValid;
 }
+
+function Countries() {
+    ajaxCallWithoutDataType("GET", false, '/SalesLead/Countries', null, function (result) {
+        if (result.status == true) {
+            $.each(result.data, function (data, value) {
+                $("#ddlCountry").append($("<option></option>").val(value.id).html(value.countryName));
+            })
+        }
+    });
+}
+
+$("#ddlCountry").change(function () {
+    let countryId = $("#ddlCountry option:selected").val();
+    ajaxCallWithoutDataType("GET", false, '/SalesLead/States?id=' + countryId, null, function (result) {
+        if (result.status == true) {
+            $.each(result.data, function (data, value) {
+                $("#ddlState").append($("<option></option>").val(value.id).html(value.stateName));
+            })
+        }
+    });
+
+});
+
+$("#ddlState").change(function () {
+    let stateId = $("#ddlState option:selected").val();
+    ajaxCallWithoutDataType("GET", false, '/SalesLead/Cities?id=' + stateId, null, function (result) {
+        if (result.status == true) {
+            $.each(result.data, function (data, value) {
+                $("#ddlCity").append($("<option></option>").val(value.id).html(value.cityName));
+            })
+        }
+    });
+
+});
+
+

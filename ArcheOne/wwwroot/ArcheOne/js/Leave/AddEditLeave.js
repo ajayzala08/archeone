@@ -7,10 +7,8 @@ $(document).ready(function () {
   
     $('#ddlEndTime').val(formattedEndTime);
 
-
-    $("#txtEndDate").change();
-    $('.select2').select2()
    
+    $('.select2').select2()
     $("#btnSaveAdd").click(function () {
         SaveUpdateLeave();
     });
@@ -18,8 +16,9 @@ $(document).ready(function () {
     $("#btnCancel").click(function () {
         window.location.href = '/Leaves/Leaves';
     });
-
     $("#txtEndDate").change(function () {
+
+        debugger
         let EndDateData = {
             "StartDate": $('#txtStartDate').val(),
             "EndDate": $("#txtEndDate").val(),
@@ -30,33 +29,32 @@ $(document).ready(function () {
 
         /*if (txtSelectedEndTime != "0") {*/
         //if (!isNaN(txtSelectedEndTime)) {
-            var ddlEndTime = $('#ddlEndTime');
-            ddlEndTime.empty();
-            ddlEndTime.append($("<option></option>").val('').html('Please wait ...'));
-            ajaxCall("Post", false, '/Leaves/EndTimeList', JSON.stringify(EndDateData), function (response) {
+        var ddlEndTime = $('#ddlEndTime');
+        ddlEndTime.empty();
+        ddlEndTime.append($("<option></option>").val('').html('Please wait ...'));
+        ajaxCall("Post", false, '/Leaves/EndTimeList', JSON.stringify(EndDateData), function (response) {
 
 
-                $("#ddlEndTime").html('');
-                $("#ddlEndTime").append('<option value="0">--- Select EndTime ---</option>');
-                $.each(response.data, function (i, endtime) {
-                    
-                    $("#ddlEndTime").append('<option  value="' + endtime.id + '">' +
-                        endtime.name + '</option>');
-                });
-                //$("#ddlEndTime").val(0);
-                
-               
+            $("#ddlEndTime").html('');
+            $("#ddlEndTime").append('<option value="0">--- Select EndTime ---</option>');
+            $.each(response.data, function (i, endtime) {
 
-                //$("#ddlState").change();
+                $("#ddlEndTime").append('<option  value="' + endtime.id + '">' +
+                    endtime.name + '</option>');
             });
+            //$("#ddlEndTime").val(0);
+
+
+
+            //$("#ddlState").change();
+        });
         //}
-    
+
         //} else {
         //    //$("#ddlEndTime").html('');
         //    $("#ddlEndTime").append('<option value="0">--- Select EndTime ---</option>');
         //}
     });
-
     $("#ddlStartTime").change(function () {
         LoadEndTime($(this).val());
         let EndDateData = {
@@ -129,8 +127,6 @@ function SaveUpdateLeave() {
         });
     }
 }
-
-
 function LoadEndTime(EndDateData) {
     $("#ddlEndTime").empty();
     console.log(txtSelectedEndTime)
@@ -165,3 +161,4 @@ function LoadEndTime(EndDateData) {
     }
 
 }
+

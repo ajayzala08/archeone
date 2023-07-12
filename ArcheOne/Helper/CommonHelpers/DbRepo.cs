@@ -235,6 +235,18 @@ namespace ArcheOne.Helper.CommonHelpers
         {
             return _db.SalesLeadFollowUpMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
+        public IQueryable<CountryMst> CountryList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.CountryMsts.AsQueryable();
+        }
+        public IQueryable<StateMst> StateList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.StateMsts.AsQueryable();
+        }
+        public IQueryable<CityMst> CityList(bool IsDeleted = false, bool IsActive = true)
+        {
+            return _db.CityMsts.AsQueryable();
+        }
 
     }
 }
