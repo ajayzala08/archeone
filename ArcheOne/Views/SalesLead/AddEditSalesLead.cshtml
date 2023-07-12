@@ -40,7 +40,7 @@
                     <div class="col-md-3" id="dddlCountry">
                         <label><span class="has-error required">* </span>Country</label>
                         <select id="ddlCountry" name="ddlCountry" class="form-control" isrequired="1" divcontainer="dddlCountry" errorspan="sddlCountry" defaultvalue="0" style="width: 100%;">
-                            <option value="1">--- Select ---</option>
+                            <option value="0">--- Select ---</option>
                             @*  @foreach (var Model.SalesLeadContactPersonDetailes in Model.CountryList)
                             {
                             if (CountryId == Model.SalesLeadContactPersonDetailes.CountryId)

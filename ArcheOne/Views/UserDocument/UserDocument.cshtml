@@ -30,11 +30,11 @@
 
     <!-- Default box -->
     <div class="card">
-        <input type="hidden" id="requirementId" value="@Model" />
+        <input type="hidden" id="requirementId" value="@Model.AddEditUserDocuments.Id" />
         <div class="card-header d-flex p-0">
             <h3 class="card-title p-3">UserDocuments List</h3>
             <div class="card-tools ml-auto mr-2 p-2">
-                <button type="button" id="btnAddUserDocument" data-toggle="modal" data-target="#modalUserDocument" class="btn btn-primary float-right" onclick="OpenUserDocumentModel()">Add UserDocument</button>
+                <button type="button" id="btnAddUserDocument" data-toggle="modal" data-target="#modalUserDocument" class="btn btn-primary float-right" onclick="OpenUserDocumentModel()">@Title</button>
             </div>
         </div>
         <div class="card-body">
@@ -47,6 +47,7 @@
 
 
     <div class="modal fade" id="modalUserDocument" data-keyboard="false" data-backdrop="static">
+        <input type="hidden" id="txtuserDocumentId" name="txtuserDocumentId" />
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -56,15 +57,15 @@
                     </button>
                 </div>
                 <div class="modal-body" id="modalAddUpdateUserDocument">
-                    <input type="hidden" id="txtuserDocumentId" name="txtuserDocumentId" />
+               @*     <input type="hidden" id="txtuserDocumentId" name="txtuserDocumentId" />*@
                     <div class="row" id="divUploadFile">
                         <div class="form-group col-sm-12" id="dddlUser">
                             <label><span class="has-error required">* </span>User</label>
                             <select id="ddlUser" name="ddlUser" class="form-control" isrequired="1" divcontainer="dddlUser" errorspan="sddlUser" defaultvalue="0" style="width: 100%;">
                                 <option value="0">--- Select ---</option>
-                                @foreach (var item in Model.UserList)
+                                @foreach (var item  in Model.UserList)
                                 {
-                                    if (item.Id == UserId)
+                                    if (item.Id == Model.AddEditUserDocuments.UserId)
                                     {
                                         <option value="@item.Id" selected">@item.FirstName @item.LastName</option>
                                     }
@@ -87,7 +88,7 @@
                                 <option value="0">--- Select ---</option>
                                 @foreach (var item in Model.DocumentTypeList)
                                 {
-                                    if (item.Id == DocumentTypeId)
+                                    if (item.Id == Model.AddEditUserDocuments.DocumentTypeId)
                                     {
                                         <option value="@item.Id" selected">@item.DocumentType</option>
                                     }

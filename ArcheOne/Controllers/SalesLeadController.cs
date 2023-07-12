@@ -561,5 +561,75 @@ namespace ArcheOne.Controllers
             return Json(commonResponse);
         }
 
+        public async Task<IActionResult> Countries()
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            try
+            {
+                var countries = await _dbRepo.CountryList().Select(x => new
+                {
+                    Id = x.CountryId,
+                    CountryName = x.CountryName
+
+                }).ToListAsync();
+                commonResponse.Status = true;
+                commonResponse.StatusCode = HttpStatusCode.OK;
+                commonResponse.Message = "Country List Found";
+                commonResponse.Data = countries;
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message.ToString();
+                commonResponse.Data = ex.ToString();
+            }
+            return Json(commonResponse);
+        }
+        public async Task<IActionResult> States(int id)
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            try
+            {
+                var states = await _dbRepo.StateList().Where(x => x.CountryId == id).Select(x => new
+                {
+                    Id = x.StateId,
+                    StateName = x.StateName
+
+                }).ToListAsync();
+                commonResponse.Status = true;
+                commonResponse.StatusCode = HttpStatusCode.OK;
+                commonResponse.Message = "State List Found";
+                commonResponse.Data = states;
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message.ToString();
+                commonResponse.Data = ex.ToString();
+            }
+            return Json(commonResponse);
+        }
+        public async Task<IActionResult> Cities(int id)
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            try
+            {
+                var cities = await _dbRepo.CityList().Where(x => x.StateId == id).Select(x => new
+                {
+                    Id = x.CityId,
+                    CityName = x.CityName
+
+                }).ToListAsync();
+                commonResponse.Status = true;
+                commonResponse.StatusCode = HttpStatusCode.OK;
+                commonResponse.Message = "City List Found";
+                commonResponse.Data = cities;
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message.ToString();
+                commonResponse.Data = ex.ToString();
+            }
+            return Json(commonResponse);
+        }
+
     }
 }
