@@ -22,12 +22,44 @@ insert into dbo.CompanyMst values('Arche Softronix','Vadodara','390019','0265-44
 'www.Archesoftronix.com','logo.png',1,0,0,0,getdate(),getdate())
 
 ------------------------------------SetUp Roles----------------------------
-Insert into dbo.RoleMst values ('Super Admin', 'Super_Admin', 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into dbo.RoleMst values ('Admin', 'Admin', 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into dbo.RoleMst values ('Project Manager', 'Project_Manager', 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into dbo.RoleMst values ('Project Team Lead', 'Project_Team_Lead', 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into dbo.RoleMst values ('Developer', 'Developer', 1, 0, 0, 0, GETDATE(), GETDATE());
-Insert into dbo.RoleMst values ('Sales Team Lead', 'Sales_Team_Lead', 1, 0, 0, 0, GETDATE(), GETDATE());
+
+Insert into RoleMst values ('Super Admin', 'Super_Admin', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into RoleMst values ('Admin', 'Admin', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into RoleMst values ('Manager', 'Manager', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into RoleMst values ('Team Lead', 'Team_Lead', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into RoleMst values ('Professional', 'Professional', 1, 0, 0, 0, GETDATE(), GETDATE());
+
+------------------------------------SetUp Departments----------------------------
+
+Insert into DepartmentMst values ('Administration', 'Administration', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DepartmentMst values ('Research and Development', 'Research_And_Development', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DepartmentMst values ('System Administration', 'System_Administration', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DepartmentMst values ('Software Development', 'Software_Development', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DepartmentMst values ('Quality Analyst', 'Quality_Analyst', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DepartmentMst values ('Human Resource', 'Human_Resource', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DepartmentMst values ('Marketing', 'Marketing', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DepartmentMst values ('Designer', 'Designer', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DepartmentMst values ('Content', 'Content', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DepartmentMst values ('Finance', 'Finance', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DepartmentMst values ('Sales', 'Sales', 1, 0, 0, 0, GETDATE(), GETDATE());
+
+------------------------------------SetUp Designation----------------------------
+
+Insert into DesignationMst values ('Director', 2, 1, 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DesignationMst values ('Vice Director', 2, 1, 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DesignationMst values ('Senior Manager', 3, '', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DesignationMst values ('Associate Manager', 3, '', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DesignationMst values ('Junior Manager', 3, '', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DesignationMst values ('Senior Team Lead', 4, '', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DesignationMst values ('Associate Team Lead', 4, '', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DesignationMst values ('Junior Team Lead', 4, '', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DesignationMst values ('Senior Software Developer', 5, 4, 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DesignationMst values ('Associate Software Developer', 5, 4, 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DesignationMst values ('Junior Software Development', 5, 4, 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DesignationMst values ('Business Developer', 5, 11, 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DesignationMst values ('Accountant', 5, 10, 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DesignationMst values ('System Engineer', 5, 3, 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DesignationMst values ('Technical Writer', 5, 9, 1, 0, 0, 0, GETDATE(), GETDATE());
 
 --------------------------------------SetUp Permissions-----------------------------
 

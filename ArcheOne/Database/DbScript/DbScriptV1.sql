@@ -950,6 +950,8 @@ BEGIN
 	Create table dbo.DesignationMst(
 			Id int identity(1,1) primary key,
 			Designation nvarchar(100) not null,
+			RoleId int not null,
+			DepartmentId int not null,
 			IsActive bit default(1) not null,
 			IsDelete bit default(0) not null,
 			CreatedBy int not null,
