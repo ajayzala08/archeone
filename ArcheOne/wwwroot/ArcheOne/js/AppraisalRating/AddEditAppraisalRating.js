@@ -13,6 +13,12 @@
         window.location.href = '/Appraisal/Appraisal';
     });
 
+    $('#chbIsApprove').click(function () {
+      
+        var AppraisalId = $(this).attr('AppraisalId');
+        AppraisalRatingApproval(AppraisalId);
+    });
+
 
 });
 
@@ -56,4 +62,19 @@ function SaveUpdateAppraisalRating() {
     else {
         Toast.fire({ icon: 'error', title: "Please Select ." });
     }
+}
+
+function AppraisalRatingApproval(AppraisalId) {
+
+    ajaxCall("Post", false, '/AppraisalRating/AppraisalRatingApproval?AppraisalId=' + AppraisalId, null, function (result) {
+        if (result.status == true) {
+            Toast.fire({ icon: 'success', title: result.message });
+            RedirectToPage("/Appraisal/Appraisal");
+        }
+        else {
+            Toast.fire({ icon: 'error', title: result.message });
+            $.unblockUI();
+        }
+    });
+    
 }

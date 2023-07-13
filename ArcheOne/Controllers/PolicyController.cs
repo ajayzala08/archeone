@@ -296,7 +296,7 @@ namespace ArcheOne.Controllers
 
                     string ReportURL = policyList.PolicyDocumentName;
                   
-                    FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), DefaultPolicy));
+                    FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), ReportURL));
                 }
                 else
                 {

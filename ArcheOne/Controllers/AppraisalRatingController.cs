@@ -6,6 +6,7 @@ using ArcheOne.Models.Res;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using System.Security.Cryptography.Xml;
 
 namespace ArcheOne.Controllers
 {
@@ -75,6 +76,7 @@ namespace ArcheOne.Controllers
                         addEditAppraisalRatingResModel.reportingManagetDetail.ReportingManagerId = appraisal.ReportingManagerId;
                         addEditAppraisalRatingResModel.reportingManagetDetail.EmployeeDetail.EmployeeId = appraisal.EmployeeId;
                         addEditAppraisalRatingResModel.Id = appraisal.Id;
+                        addEditAppraisalRatingResModel.IsApprove = appraisal.IsApprove;
                         addEditAppraisalRatingResModel.Date = appraisal.CreatedDate.Date.ToString("dd-MM-yyyy");
                         addEditAppraisalRatingResModel.ReviewDate = appraisal.UpdatedDate.Date.ToString("dd-MM-yyyy");
                         if (addEditAppraisalRatingResModel.IsUserHR == true || addEditAppraisalRatingResModel.IsUserReportManager == true)
@@ -118,7 +120,11 @@ namespace ArcheOne.Controllers
 
                             }
                         }
+                        if (addEditAppraisalRatingResModel.EmployeeRating != null && addEditAppraisalRatingResModel.reportingManagetDetail != null)
+                        {
+                            addEditAppraisalRatingResModel.IsApprove = appraisal.IsApprove;
 
+                        }
                         commonResponse.Status = true;
                         commonResponse.StatusCode = System.Net.HttpStatusCode.OK;
                         commonResponse.Message = "Get Appraisal Rating Successfully";
@@ -222,6 +228,56 @@ namespace ArcheOne.Controllers
             }
 
             return Json(commonResponse);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AppraisalRatingApproval(int AppraisalId)
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            try
+            {
+                if (AppraisalId > 0)
+                {
+                    var appraisalList = _dbRepo.AppraisalList().FirstOrDefault(x => x.Id == AppraisalId);
+                    if (appraisalList != null)
+                    {
+                        appraisalList.IsApprove = true;
+
+                        _dbContext.Entry(appraisalList).State = EntityState.Modified;
+                        _dbContext.SaveChanges();
+
+
+                        commonResponse.Status = true;
+                        commonResponse.StatusCode = HttpStatusCode.OK;
+                        commonResponse.Message = "Appraisal Approved Successfully";
+                        
+                    }
+                    else
+                    {
+                        commonResponse.Status = false;
+                        commonResponse.StatusCode = HttpStatusCode.NotFound;
+                        commonResponse.Message = "Data Not Found";
+
+
+                    }
+                }
+                else
+                {
+                    commonResponse.Status = false;
+                    commonResponse.StatusCode = HttpStatusCode.NotFound;
+                    commonResponse.Message = "Data Not Found";
+
+                }
+            
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message;
+                commonResponse.StatusCode = System.Net.HttpStatusCode.BadRequest;
+            }
+            return Json(commonResponse);
+
         }
 
 
