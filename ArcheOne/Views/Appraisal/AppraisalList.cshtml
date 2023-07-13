@@ -48,13 +48,14 @@
                                 <i class="fa fa-pen pen btn-edit" Id="@item.Id" style="cursor: pointer;"> | </i>
                                
                                 <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"> | </i>
-                              
-                                <i class="fa fa-info-circle circle btn-info" Id="@item.Id" onclick="AppraisalInfo(Id)"></i>
 
+                                <i class="fa fa-info-circle circle btn-info" Id="@item.Id" style="cursor: pointer;"></i>
+                                
                             }
                             else
                             {
-                                <i class="fa fa-info-circle circle btn-info" Id="@item.Id" onclick="AppraisalInfo(Id)"></i>
+                                <i class="fa fa-info-circle circle btn-info" Id="@item.Id" style="cursor: pointer;"></i>
+
                             }
 
 
@@ -76,3 +77,7 @@
 
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/archeone/js/appraisal/appraisal.js?_@DateTime.Now.Ticks"></script>
+}

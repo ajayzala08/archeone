@@ -1580,3 +1580,11 @@ ADD ApprovedByReportingUserId int;
 ALTER TABLE LeaveMst
 ADD ApprovedByReportingStatus int;
 ----------------------------------------Added by PP on 07-07-23-----------------------------------End--------
+
+
+----------------------------------------Added by SP on 13-07-23-----------------------------------Start--------
+
+Alter table AppraisalMst
+Add IsApprove bit null
+
+----------------------------------------Added by SP on 13-07-23-----------------------------------End--------

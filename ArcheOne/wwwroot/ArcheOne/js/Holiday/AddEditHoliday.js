@@ -1,8 +1,5 @@
 ﻿$(document).ready(function () {
-    $('#txtHolidayDate').datepicker({
-        dateFormat: 'dd-mm-yy'
-    });
-
+ 
     $("#btnSaveAdd").click(function () {
         SaveUpdateHoliday();
     });
@@ -11,15 +8,21 @@
     $("#btnCancel").click(function () {
         window.location.href = '/Holiday/Holiday';
     });
+
+   
 });
 
 function SaveUpdateHoliday() {
- 
+
+    debugger
     var saveHolidayData = {
         "Id": parseInt($("#txtHolidayId").val()),
         "HolidayName": $("#txtHolidayName").val(),
-        "HolidayDate": $.datepicker.formatDate("yy-mm-dd", $('#txtHolidayDate').datepicker('getDate')),
+        "HolidayDate": $('#txtHolidayDate').val(),
+      
+    /*    "HolidayDate": $.datepicker.formatDate("yy-mm-dd", $('#txtHolidayDate').datepicker('getDate')),*/
     }
+    debugger
     console.log(saveHolidayData);
     
 

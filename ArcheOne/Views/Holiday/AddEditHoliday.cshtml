@@ -5,8 +5,22 @@
 @{
     Layout = "_MasterLayout";
     string Title = Model.Id > 0 ? "Edit Holiday" : "Create Holiday";
-    //ViewBag.datepicker = "true";
 }
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Holiday</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Masters</a></li>
+                    <li class="breadcrumb-item active">Holiday</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
 
 <section class="content-header"></section>
 <section class="content">
@@ -15,11 +29,6 @@
             <div class="card-header">
                 @Title
                 <h3 class="card-title"></h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                </div>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -36,30 +45,34 @@
                     <div class="col-md-4">
                         <div class="form-group col-sm-12" id="dtxtHolidayDate">
                             <label><span class="has-error required">* </span>Holiday Date</label>
-                            <input id="txtHolidayDate" data-format="dd/MM/yyyy" name="txtHolidayDate" type="text" class="form-control" value="@Model.HolidayDate" isrequired="1" divcontainer="dtxtHolidayDate" errorspan="stxtHolidayDate" defaultvalue="">
+                            <input id="txtHolidayDate" data-format="dd/MM/yyyy hh:mm:ss" name="txtHolidayDate" type="date" class="form-control datepicker" value="@Model.HolidayDate" isrequired="1" divcontainer="dtxtHolidayDate" errorspan="stxtHolidayDate" defaultvalue="1">
+                          
+                         @*   <label><span class="has-error required">* </span>Start Date</label> <i class="fa fa-info-circle circle" value="" title="Your JoinngDate : @joiningDate"></i>
+                            <input type="date" id="txtStartDate" name="txtStartDate" class="form-control" isRequired="1" divcontainer="dtxtStartDate" errorspan="stxtStartDate" defaultvalue="0" minlength="2" value="@addEditRequirementResModel.leaveDetails.StartDate.ToString("yyyy-MM-dd")" />
+*@
+
                             <span class="help-block d-none has-error" id="stxtHolidayDate">Please Select Holiday Date</span>
                         </div>
                     </div>
 
-                    </div>
-
-                    <div class="card-footer">
-                        <div class="row mr-lg-n3 float-right">
-                            @if (Title == "Edit Holiday")
-                            {
-                                <button type="button" id="btnSaveAdd" class="btn btn-success mr-2">Update</button>
-                            }
-                            else
-                            {
-                                <button type="button" id="btnSaveAdd" class="btn btn-success mr-2">Submit</button>
-                            }
-                            <button type="button" id="btnCancel" data-dismiss="modal" class="btn btn-danger float-right">Cancel</button>
-                        </div>
-                    </div>
-
-
                 </div>
+
             </div>
+            <div class="card-footer">
+                @if (Title == "Edit Holiday")
+                {
+                    <input type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-warning float-right ml-1" value="Update" />
+                }
+                else
+                {
+                    <input type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success float-right ml-1" value="Submit" />
+                }
+                <input type="button" id="btnCancel" name="btnCancel" class="btn btn-danger float-right" value="Cancel" />
+
+            </div>
+
+
+        </div>
 </section>
 
 @section Scripts {
