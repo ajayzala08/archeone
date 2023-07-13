@@ -27,34 +27,18 @@ namespace ArcheOne.Controllers
 
 		public async Task<IActionResult> User()
 		{
-			//List<CompanyMst> companies = new List<CompanyMst>();
-			//companies.Add(new CompanyMst { Id = 0, CompanyName = "---Select---" });
-			//var companyList = _dbRepo.CompanyMstList().Select(x => new CompanyMst { Id = x.Id, CompanyName = x.CompanyName }).ToList();
-			//companies.AddRange(companyList);
-			//ViewBag.Company = companies;
-
-			//List<RoleMst> roles = new List<RoleMst>();
-			//roles.Add(new RoleMst { Id = 0, RoleName = "---Select---" });
-			//var roleList = _dbRepo.RoleMstList().Select(x => new RoleMst { Id = x.Id, RoleName = x.RoleName }).ToList();
-			//roles.AddRange(roleList);
-			//ViewBag.Role = roles;
-
-			//CommonResponse commonResponse = new CommonResponse();
-			//         UserAddEditReqViewModel userAddEditReqViewModel = new UserAddEditReqViewModel();
-			//         userAddEditReqViewModel.RoleList = _dbRepo.RoleMstList().ToList();
-
-			//commonResponse.Data = userAddEditReqViewModel;
 			return View();
 		}
 
 		public async Task<IActionResult> AddEditUser(int Id)
 		{
-			CommonResponse commonResponse = new CommonResponse();
+			CommonResponse response = new CommonResponse();
 			try
 			{
 				UserAddEditReqViewModel userAddEditReqViewModel = new UserAddEditReqViewModel();
 				userAddEditReqViewModel.UserDetails = new UserDetail();
 				userAddEditReqViewModel.RoleList = _dbRepo.RoleMstList().ToList();
+				userAddEditReqViewModel.DepartmentList = _dbRepo.DepartmentList().ToList();
 				if (Id > 0)
 				{
 					var userDetails = await _dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.Id == Id);
@@ -72,27 +56,37 @@ namespace ArcheOne.Controllers
 						userAddEditReqViewModel.UserDetails.Mobile2 = userDetails.Mobile2;
 						userAddEditReqViewModel.UserDetails.Email = userDetails.Email;
 						userAddEditReqViewModel.UserDetails.PhotoUrl = userDetails.PhotoUrl;
-						userAddEditReqViewModel.UserDetails.RoleId = userDetails.RoleId.Value;
-						userAddEditReqViewModel.UserDetails.IsActive = userDetails.IsActive.Value;
+						userAddEditReqViewModel.UserDetails.RoleId = userDetails.RoleId;
+						userAddEditReqViewModel.UserDetails.DepartmentId = userDetails.DepartmentId;
+						userAddEditReqViewModel.UserDetails.DesignationId = userDetails.DesignationId;
+						userAddEditReqViewModel.UserDetails.IsActive = userDetails.IsActive;
 					}
+
+
+					response.Status = true;
+					response.StatusCode = HttpStatusCode.OK;
+					response.Message = "Data found successfully!";
+					response.Data = userAddEditReqViewModel;
 				}
-				commonResponse.Status = true;
-				commonResponse.StatusCode = HttpStatusCode.OK;
-				commonResponse.Message = "Success!";
-				commonResponse.Data = userAddEditReqViewModel;
+				else
+				{
+					response.StatusCode = HttpStatusCode.NotFound;
+					response.Message = "Data not found!";
+				}
+
+				response.Data = userAddEditReqViewModel;
 			}
 			catch (Exception ex)
 			{
-				commonResponse.Message = ex.Message;
-				commonResponse.Data = ex;
+				response.Message = ex.Message;
 			}
-			return View(commonResponse.Data);
+			return View(response.Data);
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> SaveUpdateUser(UserSaveUpdateReqModel userSaveUpdateReq)
+		public async Task<IActionResult> SaveUpdateUser(UserSaveUpdateReqModel request)
 		{
-			CommonResponse commonResponse = new CommonResponse();
+			CommonResponse response = new CommonResponse();
 			try
 			{
 				IFormFile file;
@@ -101,9 +95,9 @@ namespace ArcheOne.Controllers
 				bool validateFileSize = false;
 				string filePath = string.Empty;
 				UserMst userMst = new UserMst();
-				if (userSaveUpdateReq.PhotoUrl != null)
+				if (request.PhotoUrl != null)
 				{
-					file = userSaveUpdateReq.PhotoUrl;
+					file = request.PhotoUrl;
 					fileName = file.FileName;
 					FileInfo fileInfo = new FileInfo(fileName);
 					string fileExtension = fileInfo.Extension;
@@ -113,107 +107,110 @@ namespace ArcheOne.Controllers
 					long allowedFileSize = 1 * 1024 * 1024 * 10; // 10MB
 					validateFileExtension = allowedFileExtensions.Contains(fileExtension) ? true : false;
 					validateFileSize = fileSize <= allowedFileSize ? true : false;
-					fileName = userSaveUpdateReq.UserName + userSaveUpdateReq.Id + fileExtension;
+					fileName = request.UserName + request.Id + fileExtension;
 					if (validateFileExtension && validateFileSize)
 					{
-						var imageFile = _commonHelper.UploadFile(userSaveUpdateReq.PhotoUrl, @"UserProfile", fileName, false, true, false);
+						var imageFile = _commonHelper.UploadFile(request.PhotoUrl, @"UserProfile", fileName, false, true, false);
 						filePath = imageFile.Data.RelativePath;
 					}
 					else
 					{
-						commonResponse.Message = "Only jpg and png files are Allowed !";
+						response.Message = "Only jpg and png files are Allowed !";
 					}
 				}
-				//var userDetail = await _dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.Id == userSaveUpdateReq.Id && x.Email != userSaveUpdateReq.Email && x.Mobile1 != userSaveUpdateReq.Mobile1);
-				var userDetail = await _dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.Id == userSaveUpdateReq.Id);
+				//var userDetail = await _dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.Id == request.Id && x.Email != request.Email && x.Mobile1 != request.Mobile1);
+				var userDetail = await _dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.Id == request.Id);
 				if (userDetail != null && userDetail.Id > 0)
 				{
-					bool duplicateCheck = await _dbRepo.AllUserMstList().Where(x => (x.Id != userSaveUpdateReq.Id) && (x.UserName == userSaveUpdateReq.UserName || x.Email == userSaveUpdateReq.Email || x.Mobile1 == userSaveUpdateReq.Mobile1)).AnyAsync();
+					bool duplicateCheck = await _dbRepo.AllUserMstList().Where(x => (x.Id != request.Id) && (x.UserName == request.UserName || x.Email == request.Email || x.Mobile1 == request.Mobile1)).AnyAsync();
 					if (!duplicateCheck)
 					{
 						//Edit Mode
-						userDetail.RoleId = userSaveUpdateReq.RoleId;
+						userDetail.RoleId = request.RoleId;
+						userDetail.DepartmentId = request.DepartmentId;
+						userDetail.DesignationId = request.DesignationId;
 						userDetail.CompanyId = _dbRepo.GetLoggedInUserDetails().CompanyId;
-						userDetail.FirstName = userSaveUpdateReq.FirstName;
-						userDetail.MiddleName = userSaveUpdateReq.MiddleName;
-						userDetail.LastName = userSaveUpdateReq.LastName;
-						userDetail.Address = (Convert.ToString(userSaveUpdateReq.Address) != "" && userSaveUpdateReq.Address != null) ? userSaveUpdateReq.Address : "NA";
-						userDetail.Pincode = userSaveUpdateReq.Pincode;
-						userDetail.Mobile1 = userSaveUpdateReq.Mobile1;
-						userDetail.Mobile2 = (Convert.ToString(userSaveUpdateReq.Mobile2) != "" && userSaveUpdateReq.Mobile2 != null) ? userSaveUpdateReq.Mobile2 : "NA";
-						userDetail.Email = userSaveUpdateReq.Email;
+						userDetail.FirstName = request.FirstName;
+						userDetail.MiddleName = request.MiddleName;
+						userDetail.LastName = request.LastName;
+						userDetail.Address = (Convert.ToString(request.Address) != "" && request.Address != null) ? request.Address : "NA";
+						userDetail.Pincode = request.Pincode;
+						userDetail.Mobile1 = request.Mobile1;
+						userDetail.Mobile2 = (Convert.ToString(request.Mobile2) != "" && request.Mobile2 != null) ? request.Mobile2 : "NA";
+						userDetail.Email = request.Email;
 						if (!string.IsNullOrEmpty(filePath))
 						{
 							userDetail.PhotoUrl = filePath;
 						}
 						userDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
-						userDetail.UpdatedBy = _commonHelper.GetLoggedInUserId(); ;
+						userDetail.UpdatedBy = _commonHelper.GetLoggedInUserId();
 
 						_dbContext.Entry(userDetail).State = EntityState.Modified;
 						await _dbContext.SaveChangesAsync();
 
-						commonResponse.Status = true;
-						commonResponse.StatusCode = HttpStatusCode.OK;
-						commonResponse.Message = "User Updated Successfully!";
+						response.Status = true;
+						response.StatusCode = HttpStatusCode.OK;
+						response.Message = "User Updated Successfully!";
 					}
 					else
 					{
-						commonResponse.Message = "UserName, Email OR Contact Already Exist";
+						response.Message = "UserName, Email OR Contact Already Exist";
 					}
 				}
 				else
 				{
 					//Add Mode
-					var duplicateCheck = await _dbRepo.AllUserMstList().Where(x => x.UserName == userSaveUpdateReq.UserName || x.Email == userSaveUpdateReq.Email || x.Mobile1 == userSaveUpdateReq.Mobile1).ToListAsync();
+					var duplicateCheck = await _dbRepo.AllUserMstList().Where(x => x.UserName == request.UserName || x.Email == request.Email || x.Mobile1 == request.Mobile1).ToListAsync();
 					if (duplicateCheck.Count == 0)
 					{
-						var encryptedPassword = _commonHelper.EncryptString(userSaveUpdateReq.Password);
+						var encryptedPassword = _commonHelper.EncryptString(request.Password);
 
-						userMst.RoleId = userSaveUpdateReq.RoleId;
-						userMst.CompanyId = 1;
-						userMst.FirstName = userSaveUpdateReq.FirstName;
-						userMst.MiddleName = userSaveUpdateReq.MiddleName;
-						userMst.LastName = userSaveUpdateReq.LastName;
-						userMst.UserName = userSaveUpdateReq.UserName;
+						userMst.RoleId = request.RoleId;
+						userMst.DepartmentId = request.DepartmentId;
+						userMst.DesignationId = request.DesignationId;
+						userMst.CompanyId = _dbRepo.GetLoggedInUserDetails().CompanyId;
+						userMst.FirstName = request.FirstName;
+						userMst.MiddleName = request.MiddleName;
+						userMst.LastName = request.LastName;
+						userMst.UserName = request.UserName;
 						userMst.Password = encryptedPassword;
-						userMst.Address = (Convert.ToString(userSaveUpdateReq.Address) != "" && userSaveUpdateReq.Address != null) ? userSaveUpdateReq.Address : "NA";
-						userMst.Pincode = userSaveUpdateReq.Pincode;
-						userMst.Mobile1 = userSaveUpdateReq.Mobile1;
-						userMst.Mobile2 = (Convert.ToString(userSaveUpdateReq.Mobile2) != "" && userSaveUpdateReq.Mobile2 != null) ? userSaveUpdateReq.Mobile2 : "NA";
-						userMst.Email = userSaveUpdateReq.Email;
+						userMst.Address = (Convert.ToString(request.Address) != "" && request.Address != null) ? request.Address : "NA";
+						userMst.Pincode = request.Pincode;
+						userMst.Mobile1 = request.Mobile1;
+						userMst.Mobile2 = (Convert.ToString(request.Mobile2) != "" && request.Mobile2 != null) ? request.Mobile2 : "NA";
+						userMst.Email = request.Email;
 						userMst.PhotoUrl = filePath;
 						userMst.CreatedDate = _commonHelper.GetCurrentDateTime();
 						userMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
-						userMst.CreatedBy = 1;
-						userMst.UpdatedBy = 1;
+						userMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+						userMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
 						userMst.IsActive = true;
 						userMst.IsDelete = false;
 
 						await _dbContext.AddAsync(userMst);
 						await _dbContext.SaveChangesAsync();
 
-						commonResponse.Status = true;
-						commonResponse.StatusCode = HttpStatusCode.OK;
-						commonResponse.Message = "User Added Successfully!";
+						response.Status = true;
+						response.StatusCode = HttpStatusCode.OK;
+						response.Message = "User Added Successfully!";
 					}
 					else
 					{
-						commonResponse.Message = "UserName, Email OR Contact Already Exist";
+						response.Message = "UserName, Email OR Contact Already Exist";
 					}
 				}
-				commonResponse.Data = userMst;
+				response.Data = userMst;
 			}
 			catch (Exception ex)
 			{
-				commonResponse.Message = ex.Message;
-				commonResponse.Data = ex;
+				response.Message = ex.Message;
 			}
-			return Json(commonResponse);
+			return Json(response);
 		}
 
 		public async Task<IActionResult> DeleteUser(int id)
 		{
-			CommonResponse commonResponse = new CommonResponse();
+			CommonResponse response = new CommonResponse();
 			try
 			{
 				var isUserExist = await _dbRepo.AllUserMstList().FirstOrDefaultAsync(x => x.Id == id);
@@ -226,22 +223,21 @@ namespace ArcheOne.Controllers
 					_dbContext.Entry(isUserExist).State = EntityState.Modified;
 					await _dbContext.SaveChangesAsync();
 
-					commonResponse.Status = true;
-					commonResponse.Message = "User Deleted Successfully!";
-					commonResponse.StatusCode = HttpStatusCode.OK;
+					response.Status = true;
+					response.Message = "User Deleted Successfully!";
+					response.StatusCode = HttpStatusCode.OK;
 				}
 				else
 				{
-					commonResponse.Message = "User not found!";
-					commonResponse.StatusCode = HttpStatusCode.NotFound;
+					response.Message = "User not found!";
+					response.StatusCode = HttpStatusCode.NotFound;
 				}
 			}
 			catch (Exception ex)
 			{
-				commonResponse.Message = ex.Message;
-				commonResponse.Data = ex;
+				response.Message = ex.Message;
 			}
-			return Json(commonResponse);
+			return Json(response);
 		}
 
 		public async Task<IActionResult> UserList()
@@ -329,5 +325,46 @@ namespace ArcheOne.Controllers
 			}
 			return Json(response);
 		}
+
+		public async Task<IActionResult> GetDesignationByRoleAndDepartment(int RoleId, int? DepartmentId)
+		{
+			CommonResponse response = new CommonResponse();
+			try
+			{
+				var designationListByRoleId = await _dbRepo.DesignationList().Where(x => x.RoleId == RoleId).Select(x => new
+				{
+					x.Id,
+					x.Designation,
+					x.RoleId,
+					x.DepartmentId
+				}).ToListAsync();
+
+				var designationList = designationListByRoleId.Where(x => DepartmentId != null && DepartmentId != 0 ? x.DepartmentId == DepartmentId : true).ToList();
+
+				if (designationList == null || (designationList != null && designationList.Count <= 0))
+				{
+					designationList = designationListByRoleId.Where(x => x.DepartmentId == 0).ToList();
+				}
+
+				if (designationList != null && designationList.Count > 0)
+				{
+					response.Data = designationList;
+					response.Status = true;
+					response.StatusCode = HttpStatusCode.OK;
+					response.Message = "Data found successfully!";
+				}
+				else
+				{
+					response.Message = "Data not found!";
+					response.StatusCode = HttpStatusCode.NotFound;
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Message = ex.Message;
+			}
+			return Json(response);
+		}
+
 	}
 }

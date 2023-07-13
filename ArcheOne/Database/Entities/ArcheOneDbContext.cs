@@ -119,13 +119,13 @@ public partial class ArcheOneDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;");
+        => optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;user=sa;password=sa@123;Database=ArcheOneDB;Encrypt=False;Trusted_Connection=false;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AppraisalMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Appraisa__3214EC07F88330DD");
+            entity.HasKey(e => e.Id).HasName("PK__Appraisa__3214EC07CBE5C078");
 
             entity.ToTable("AppraisalMst");
 
@@ -138,7 +138,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<AppraisalRatingMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Appraisa__3214EC07E9AA009B");
+            entity.HasKey(e => e.Id).HasName("PK__Appraisa__3214EC07F0702698");
 
             entity.ToTable("AppraisalRatingMst");
 
@@ -149,7 +149,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<CalenderYearMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Calender__3214EC07A0CA3F11");
+            entity.HasKey(e => e.Id).HasName("PK__Calender__3214EC07F4275DD5");
 
             entity.ToTable("CalenderYearMst");
 
@@ -161,7 +161,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<CandidateMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Candidat__3214EC077B83A013");
+            entity.HasKey(e => e.Id).HasName("PK__Candidat__3214EC07384B4A9F");
 
             entity.ToTable("CandidateMst");
 
@@ -224,7 +224,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<ClientMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ClientMs__3214EC07DC9E4578");
+            entity.HasKey(e => e.Id).HasName("PK__ClientMs__3214EC074F026FC4");
 
             entity.ToTable("ClientMst");
 
@@ -256,7 +256,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<CompanyMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__CompanyM__3214EC0797341D38");
+            entity.HasKey(e => e.Id).HasName("PK__CompanyM__3214EC07C8049860");
 
             entity.ToTable("CompanyMst");
 
@@ -303,7 +303,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<DailyTaskMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__DailyTas__3214EC079C280D87");
+            entity.HasKey(e => e.Id).HasName("PK__DailyTas__3214EC07867C7916");
 
             entity.ToTable("DailyTaskMst");
 
@@ -317,7 +317,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<DefaultPermission>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__DefaultP__3214EC0727B6322F");
+            entity.HasKey(e => e.Id).HasName("PK__DefaultP__3214EC07ADED7D62");
 
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
@@ -325,7 +325,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<DepartmentMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Departme__3214EC073453B577");
+            entity.HasKey(e => e.Id).HasName("PK__Departme__3214EC07111E1072");
 
             entity.ToTable("DepartmentMst");
 
@@ -340,7 +340,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<DesignationMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Designat__3214EC075FB2E8AD");
+            entity.HasKey(e => e.Id).HasName("PK__Designat__3214EC07A30B5E02");
 
             entity.ToTable("DesignationMst");
 
@@ -354,7 +354,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<DocumentTypeMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Document__3214EC0734E26190");
+            entity.HasKey(e => e.Id).HasName("PK__Document__3214EC07FC8B1F07");
 
             entity.ToTable("DocumentTypeMst");
 
@@ -365,7 +365,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<EmploymentTypeMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Employme__3214EC07835A6743");
+            entity.HasKey(e => e.Id).HasName("PK__Employme__3214EC0766200991");
 
             entity.ToTable("EmploymentTypeMst");
 
@@ -377,7 +377,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<EventMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__EventMst__3214EC07B5BD4FE0");
+            entity.HasKey(e => e.Id).HasName("PK__EventMst__3214EC077F8CE9B3");
 
             entity.ToTable("EventMst");
 
@@ -391,7 +391,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<FinancialYearMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Financia__3214EC0750C50CAD");
+            entity.HasKey(e => e.Id).HasName("PK__Financia__3214EC0778BD2B70");
 
             entity.ToTable("FinancialYearMst");
 
@@ -403,7 +403,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<HireStatusMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__HireStat__3214EC07D5B3310A");
+            entity.HasKey(e => e.Id).HasName("PK__HireStat__3214EC07528890E1");
 
             entity.ToTable("HireStatusMst");
 
@@ -415,7 +415,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<HolidayMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__HolidayM__3214EC0744F1A126");
+            entity.HasKey(e => e.Id).HasName("PK__HolidayM__3214EC07FE8EDCE6");
 
             entity.ToTable("HolidayMst");
 
@@ -427,7 +427,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<InterviewMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Intervie__3214EC07926A24E8");
+            entity.HasKey(e => e.Id).HasName("PK__Intervie__3214EC0719EE90F1");
 
             entity.ToTable("InterviewMst");
 
@@ -437,7 +437,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<InterviewRoundMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Intervie__3214EC079B799760");
+            entity.HasKey(e => e.Id).HasName("PK__Intervie__3214EC075C02F26D");
 
             entity.ToTable("InterviewRoundMst");
 
@@ -450,7 +450,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<InterviewRoundStatusMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Intervie__3214EC07649CE71A");
+            entity.HasKey(e => e.Id).HasName("PK__Intervie__3214EC071A6E8B01");
 
             entity.ToTable("InterviewRoundStatusMst");
 
@@ -462,7 +462,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<InterviewRoundTypeMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Intervie__3214EC07A68331B2");
+            entity.HasKey(e => e.Id).HasName("PK__Intervie__3214EC079C73D0F9");
 
             entity.ToTable("InterviewRoundTypeMst");
 
@@ -474,7 +474,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<LeaveBalanceMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__LeaveBal__3214EC071ADC44C1");
+            entity.HasKey(e => e.Id).HasName("PK__LeaveBal__3214EC070F467DEF");
 
             entity.ToTable("LeaveBalanceMst");
 
@@ -497,7 +497,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<LeaveMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__LeaveMst__3214EC07D193D08C");
+            entity.HasKey(e => e.Id).HasName("PK__LeaveMst__3214EC07EA06F52A");
 
             entity.ToTable("LeaveMst");
 
@@ -515,7 +515,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<LeaveStatusMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__LeaveSta__3214EC077F8BB32C");
+            entity.HasKey(e => e.Id).HasName("PK__LeaveSta__3214EC070C51A322");
 
             entity.ToTable("LeaveStatusMst");
 
@@ -526,7 +526,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<LeaveTypeMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__LeaveTyp__3214EC07A30DAF6B");
+            entity.HasKey(e => e.Id).HasName("PK__LeaveTyp__3214EC07E409FB3B");
 
             entity.ToTable("LeaveTypeMst");
 
@@ -538,7 +538,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<LinkMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__LinkMst__3214EC078FAB29B8");
+            entity.HasKey(e => e.Id).HasName("PK__LinkMst__3214EC079AEDA0D4");
 
             entity.ToTable("LinkMst");
 
@@ -548,7 +548,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<OfferStatusMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__OfferSta__3214EC0770B547B3");
+            entity.HasKey(e => e.Id).HasName("PK__OfferSta__3214EC07DF276649");
 
             entity.ToTable("OfferStatusMst");
 
@@ -560,19 +560,20 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<PermissionMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Permissi__3214EC0739E77E55");
+            entity.HasKey(e => e.Id).HasName("PK__Permissi__3214EC0799A5F459");
 
             entity.ToTable("PermissionMst");
 
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.PermissionCode).HasMaxLength(100);
             entity.Property(e => e.PermissionName).HasMaxLength(100);
+            entity.Property(e => e.PermissionRoute).HasMaxLength(100);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<PolicyMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__PolicyMs__3214EC077BBDF40E");
+            entity.HasKey(e => e.Id).HasName("PK__PolicyMs__3214EC078AE3CA16");
 
             entity.ToTable("PolicyMst");
 
@@ -584,7 +585,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<PositionTypeMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Position__3214EC078B131D10");
+            entity.HasKey(e => e.Id).HasName("PK__Position__3214EC07E1071306");
 
             entity.ToTable("PositionTypeMst");
 
@@ -596,7 +597,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<ProjectMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ProjectM__3214EC07CA345D17");
+            entity.HasKey(e => e.Id).HasName("PK__ProjectM__3214EC077E976311");
 
             entity.ToTable("ProjectMst");
 
@@ -608,7 +609,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<ReportingManagerMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Reportin__3214EC07A9AB32E0");
+            entity.HasKey(e => e.Id).HasName("PK__Reportin__3214EC074400454D");
 
             entity.ToTable("ReportingManagerMst");
 
@@ -622,7 +623,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<RequirementForMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Requirem__3214EC0797DE3239");
+            entity.HasKey(e => e.Id).HasName("PK__Requirem__3214EC073F23A7A2");
 
             entity.ToTable("RequirementForMst");
 
@@ -634,7 +635,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<RequirementMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Requirem__3214EC078F3066B5");
+            entity.HasKey(e => e.Id).HasName("PK__Requirem__3214EC07502EE50F");
 
             entity.ToTable("RequirementMst");
 
@@ -656,7 +657,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<RequirementStatusMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Requirem__3214EC07F369ACC5");
+            entity.HasKey(e => e.Id).HasName("PK__Requirem__3214EC0765EA3D9E");
 
             entity.ToTable("RequirementStatusMst");
 
@@ -668,7 +669,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<RequirementTypeMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Requirem__3214EC0753EB6895");
+            entity.HasKey(e => e.Id).HasName("PK__Requirem__3214EC071F287CF5");
 
             entity.ToTable("RequirementTypeMst");
 
@@ -680,7 +681,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<ResumeFileUploadDetailMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ResumeFi__3214EC070FB9A8A2");
+            entity.HasKey(e => e.Id).HasName("PK__ResumeFi__3214EC071A5047C6");
 
             entity.ToTable("ResumeFileUploadDetailMst");
 
@@ -742,7 +743,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<RoleMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__RoleMst__3214EC07C7BEF5BC");
+            entity.HasKey(e => e.Id).HasName("PK__RoleMst__3214EC0792724262");
 
             entity.ToTable("RoleMst");
 
@@ -754,7 +755,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<SalaryMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__SalaryMs__3214EC0744E331E9");
+            entity.HasKey(e => e.Id).HasName("PK__SalaryMs__3214EC072731C659");
 
             entity.ToTable("SalaryMst");
 
@@ -816,7 +817,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<SalesContactPersonMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__SalesCon__3214EC07A27E58D0");
+            entity.HasKey(e => e.Id).HasName("PK__SalesCon__3214EC070FCA6718");
 
             entity.ToTable("SalesContactPersonMst");
 
@@ -833,7 +834,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<SalesLeadActionMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__SalesLea__3214EC072F502257");
+            entity.HasKey(e => e.Id).HasName("PK__SalesLea__3214EC07774E31CC");
 
             entity.ToTable("SalesLeadActionMst");
 
@@ -845,7 +846,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<SalesLeadFollowUpMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__SalesLea__3214EC0743D47331");
+            entity.HasKey(e => e.Id).HasName("PK__SalesLea__3214EC07274B641F");
 
             entity.ToTable("SalesLeadFollowUpMst");
 
@@ -857,7 +858,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<SalesLeadMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__SalesLea__3214EC0765DF9F38");
+            entity.HasKey(e => e.Id).HasName("PK__SalesLea__3214EC073AC0CA3D");
 
             entity.ToTable("SalesLeadMst");
 
@@ -874,7 +875,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<SalesLeadStatusMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__SalesLea__3214EC072DDA280B");
+            entity.HasKey(e => e.Id).HasName("PK__SalesLea__3214EC07AD9496E9");
 
             entity.ToTable("SalesLeadStatusMst");
 
@@ -898,7 +899,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<TeamMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__TeamMst__3214EC075C655D55");
+            entity.HasKey(e => e.Id).HasName("PK__TeamMst__3214EC07C5180BD4");
 
             entity.ToTable("TeamMst");
 
@@ -908,12 +909,12 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<UserDetailsMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserDeta__3214EC0701FA4FE6");
+            entity.HasKey(e => e.Id).HasName("PK__UserDeta__3214EC074B15578F");
 
             entity.ToTable("UserDetailsMst");
 
+            entity.Property(e => e.AadharCardNumber).HasMaxLength(12);
             entity.Property(e => e.AccountNumber).HasMaxLength(500);
-            entity.Property(e => e.AdharCardNumber).HasMaxLength(12);
             entity.Property(e => e.BankName).HasMaxLength(500);
             entity.Property(e => e.BloodGroup).HasMaxLength(100);
             entity.Property(e => e.Branch).HasMaxLength(100);
@@ -924,13 +925,10 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.EmployeePersonalEmailId).HasMaxLength(100);
             entity.Property(e => e.Gender).HasMaxLength(100);
             entity.Property(e => e.IfscCode).HasMaxLength(20);
-            entity.Property(e => e.IsActive)
-                .IsRequired()
-                .HasDefaultValueSql("((1))");
             entity.Property(e => e.JoinDate).HasColumnType("datetime");
             entity.Property(e => e.Location).HasMaxLength(100);
             entity.Property(e => e.OfferDate).HasColumnType("datetime");
-            entity.Property(e => e.PancardNumber).HasMaxLength(10);
+            entity.Property(e => e.PanCardNumber).HasMaxLength(10);
             entity.Property(e => e.PfaccountNumber).HasMaxLength(30);
             entity.Property(e => e.PostCode).HasMaxLength(100);
             entity.Property(e => e.ProbationPeriod).HasMaxLength(20);
@@ -940,7 +938,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<UserDocumentMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserDocu__3214EC0703CE8ACB");
+            entity.HasKey(e => e.Id).HasName("PK__UserDocu__3214EC07F163C0C8");
 
             entity.ToTable("UserDocumentMst");
 
@@ -950,7 +948,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<UserMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserMst__3214EC07721E0996");
+            entity.HasKey(e => e.Id).HasName("PK__UserMst__3214EC07C9E31EA7");
 
             entity.ToTable("UserMst");
 
@@ -958,14 +956,11 @@ public partial class ArcheOneDbContext : DbContext
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.Email).HasMaxLength(50);
             entity.Property(e => e.FirstName).HasMaxLength(100);
-            entity.Property(e => e.IsActive)
-                .IsRequired()
-                .HasDefaultValueSql("((1))");
             entity.Property(e => e.LastName).HasMaxLength(100);
             entity.Property(e => e.MiddleName).HasMaxLength(100);
             entity.Property(e => e.Mobile1).HasMaxLength(20);
             entity.Property(e => e.Mobile2).HasMaxLength(20);
-            entity.Property(e => e.Password).HasMaxLength(100);
+            entity.Property(e => e.Password).HasMaxLength(200);
             entity.Property(e => e.PhotoUrl).HasColumnName("PhotoURL");
             entity.Property(e => e.Pincode).HasMaxLength(10);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
@@ -974,7 +969,7 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<UserPermission>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserPerm__3214EC0754C03AE1");
+            entity.HasKey(e => e.Id).HasName("PK__UserPerm__3214EC0799765C5A");
 
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");

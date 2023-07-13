@@ -4,11 +4,8 @@ using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models;
 using ArcheOne.Models.Req;
 using ArcheOne.Models.Res;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 using System.Net;
 
 namespace ArcheOne.Controllers
@@ -33,7 +30,7 @@ namespace ArcheOne.Controllers
         [HttpGet]
         public async Task<IActionResult> RequirementList(RequirementListReqModel getRequirementListReqModel)
         {
-            CommonResponse commonResponse = new CommonResponse();
+            CommonResponse response = new CommonResponse();
             RequirementListResModel requirementListResModel = new RequirementListResModel();
             try
             {
@@ -117,23 +114,22 @@ namespace ArcheOne.Controllers
                     requirementListResModel.RequirementList.Add(requirementListModel);
                 }
 
-                commonResponse.Status = true;
-                commonResponse.StatusCode = HttpStatusCode.OK;
-                commonResponse.Message = "Success!";
-                commonResponse.Data = requirementListResModel;
+                response.Status = true;
+                response.StatusCode = HttpStatusCode.OK;
+                response.Message = "Success!";
+                response.Data = requirementListResModel;
             }
             catch (Exception ex)
             {
-                commonResponse.Message = ex.Message;
-                commonResponse.Data = ex.StackTrace;
+                response.Message = ex.Message;
             }
-            return View(commonResponse);
+            return View(response);
         }
 
         [HttpGet]
         public async Task<IActionResult> AddEditRequirement(int RequirementId)
         {
-            CommonResponse commonResponse = new CommonResponse();
+            CommonResponse response = new CommonResponse();
             AddEditRequirementResModel addEditRequirementResModel = new AddEditRequirementResModel();
             try
             {
@@ -176,23 +172,22 @@ namespace ArcheOne.Controllers
                 addEditRequirementResModel.RequirementStatusList = await _dbRepo.RequirementStatusList().Select(x => new KeyValueModel { Id = x.Id, Name = x.RequirementStatusName }).ToListAsync();
                 addEditRequirementResModel.UserList = await _dbRepo.UserMstList().Select(x => new KeyValueModel { Id = x.Id, Name = x.FirstName + x.LastName }).ToListAsync();
 
-                commonResponse.Data = addEditRequirementResModel;
-                commonResponse.Message = "Success!";
-                commonResponse.StatusCode = HttpStatusCode.OK;
-                commonResponse.Status = true;
+                response.Data = addEditRequirementResModel;
+                response.Message = "Success!";
+                response.StatusCode = HttpStatusCode.OK;
+                response.Status = true;
             }
             catch (Exception ex)
             {
-                commonResponse.Message = ex.Message;
-                commonResponse.Data = ex.StackTrace;
+                response.Message = ex.Message;
             }
-            return View(commonResponse);
+            return View(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> SaveUpdateRequirement([FromBody] SaveUpdateRequirementReqModel saveUpdateRequirementReqModel)
         {
-            CommonResponse commonResponse = new CommonResponse();
+            CommonResponse response = new CommonResponse();
             try
             {
                 RequirementMst requirementMst = new RequirementMst();
@@ -234,7 +229,7 @@ namespace ArcheOne.Controllers
                     requirementMst.UpdatedDate = currentDateTime;
 
                     _dbContext.Entry(requirementMst).State = EntityState.Modified;
-                    commonResponse.Message = "Requirement Updated Successfully!";
+                    response.Message = "Requirement Updated Successfully!";
                 }
                 else
                 {
@@ -246,25 +241,24 @@ namespace ArcheOne.Controllers
                     requirementMst.UpdatedDate = currentDateTime;
 
                     await _dbContext.AddAsync(requirementMst);
-                    commonResponse.Message = "Requirement Added Successfully!";
+                    response.Message = "Requirement Added Successfully!";
                 }
                 await _dbContext.SaveChangesAsync();
 
-                commonResponse.Data = requirementMst.Id;
-                commonResponse.StatusCode = HttpStatusCode.OK;
-                commonResponse.Status = true;
+                response.Data = requirementMst.Id;
+                response.StatusCode = HttpStatusCode.OK;
+                response.Status = true;
             }
             catch (Exception ex)
             {
-                commonResponse.Message = ex.Message;
-                commonResponse.Data = ex.StackTrace;
+                response.Message = ex.Message;
             }
-            return Json(commonResponse);
+            return Json(response);
         }
 
         public async Task<IActionResult> DeleteRequirement(int RequirementId)
         {
-            CommonResponse commonResponse = new CommonResponse();
+            CommonResponse response = new CommonResponse();
             try
             {
                 var requirementDetail = await _dbRepo.RequirementList().FirstOrDefaultAsync(x => x.Id == RequirementId);
@@ -278,27 +272,27 @@ namespace ArcheOne.Controllers
                     _dbContext.Entry(requirementMst).State = EntityState.Modified;
                     await _dbContext.SaveChangesAsync();
 
-                    commonResponse.Status = true;
-                    commonResponse.StatusCode = HttpStatusCode.OK;
-                    commonResponse.Message = "Requirement deleted successfully!";
-                    commonResponse.Data = requirementMst.Id;
+                    response.Status = true;
+                    response.StatusCode = HttpStatusCode.OK;
+                    response.Message = "Requirement deleted successfully!";
+                    response.Data = requirementMst.Id;
                 }
                 else
                 {
-                    commonResponse.Message = "Data not found!";
-                    commonResponse.StatusCode = HttpStatusCode.NotFound;
+                    response.Message = "Data not found!";
+                    response.StatusCode = HttpStatusCode.NotFound;
                 }
             }
             catch (Exception ex)
             {
-                commonResponse.Message = ex.Message;
+                response.Message = ex.Message;
             }
-            return Json(commonResponse);
+            return Json(response);
         }
 
         public async Task<IActionResult> GetJobCode(int ClientId)
         {
-            CommonResponse commonResponse = new CommonResponse();
+            CommonResponse response = new CommonResponse();
             try
             {
                 string jobCode = "";
@@ -309,21 +303,21 @@ namespace ArcheOne.Controllers
                     jobCode = jobCode + clientDetail.ClientName.ToUpper().Substring(0, 2) + "-" + requirementCount;
                 }
 
-                commonResponse.Status = true;
-                commonResponse.StatusCode = HttpStatusCode.OK;
-                commonResponse.Message = "Success!";
-                commonResponse.Data = jobCode;
+                response.Status = true;
+                response.StatusCode = HttpStatusCode.OK;
+                response.Message = "Success!";
+                response.Data = jobCode;
             }
             catch (Exception ex)
             {
-                commonResponse.Message = ex.Message;
+                response.Message = ex.Message;
             }
-            return Json(commonResponse);
+            return Json(response);
         }
 
         public async Task<IActionResult> ChangeStatus(int RequirementId, int RequirementStatusId)
         {
-            CommonResponse commonResponse = new CommonResponse();
+            CommonResponse response = new CommonResponse();
             try
             {
                 var requirementDetail = await _dbRepo.RequirementList().FirstOrDefaultAsync(x => x.Id == RequirementId);
@@ -337,22 +331,22 @@ namespace ArcheOne.Controllers
                     _dbContext.Entry(requirementMst).State = EntityState.Modified;
                     await _dbContext.SaveChangesAsync();
 
-                    commonResponse.Status = true;
-                    commonResponse.StatusCode = HttpStatusCode.OK;
-                    commonResponse.Message = "Requirement status updated successfully!";
-                    commonResponse.Data = requirementMst.Id;
+                    response.Status = true;
+                    response.StatusCode = HttpStatusCode.OK;
+                    response.Message = "Requirement status updated successfully!";
+                    response.Data = requirementMst.Id;
                 }
                 else
                 {
-                    commonResponse.Message = "Data not found!";
-                    commonResponse.StatusCode = HttpStatusCode.NotFound;
+                    response.Message = "Data not found!";
+                    response.StatusCode = HttpStatusCode.NotFound;
                 }
             }
             catch (Exception ex)
             {
-                commonResponse.Message = ex.Message;
+                response.Message = ex.Message;
             }
-            return Json(commonResponse);
+            return Json(response);
         }
     }
 }

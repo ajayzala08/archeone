@@ -76,6 +76,10 @@ Insert into PermissionMst values('Default Permissions Edit', 'Default_Permission
 Insert into PermissionMst values('User Permissions View', 'User_Permissions_View', 'Permission/UserPermission, Role/RoleList, User/UserListByRoleId, Permission/GetUserPermissions', 1, 0, 0, 0, GETDATE(), GETDATE());
 Insert into PermissionMst values('User Permissions Edit', 'User_Permissions_Edit', 'Permission/UpdateUserPermission', 1, 0, 0, 0, GETDATE(), GETDATE());
 Insert into PermissionMst values('Requirements View', 'Requirements_View', 'Requirement/Index', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Requirements Add', 'Requirements_Add', 'Requirement/AddEditRequirement', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Requirements Edit', 'Requirements_Edit', 'Requirement/AddEditRequirement', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Requirements Delete', 'Requirements_Delete', 'Requirement/DeleteRequirement', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst values('Uploaded Resume View', 'Uploaded_Resume_View', 'UploadedResume/UploadedResume, UploadedResume/GetUploadedResumeList', 1, 0, 0, 0, GETDATE(), GETDATE());
 Insert into PermissionMst values('Policy View', 'Policy_View', 'Policy/Policy Policy/PolicyList', 1, 0, 0, 0, GETDATE(), GETDATE());
 Insert into PermissionMst values('Leaves View', 'Leaves_View', 'Leaves/Leaves', 1, 0, 0, 0, GETDATE(), GETDATE());
 Insert into PermissionMst values('Appraisal View', 'Appraisal_View', 'Appraisal/Appraisal, Appraisal/AppraisalList', 1, 0, 0, 0, GETDATE(), GETDATE());

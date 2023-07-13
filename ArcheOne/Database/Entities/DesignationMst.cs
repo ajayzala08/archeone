@@ -9,6 +9,10 @@ public partial class DesignationMst
 
     public string Designation { get; set; } = null!;
 
+    public int RoleId { get; set; }
+
+    public int DepartmentId { get; set; }
+
     public bool? IsActive { get; set; }
 
     public bool IsDelete { get; set; }

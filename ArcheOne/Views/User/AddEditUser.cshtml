@@ -7,6 +7,8 @@
 	var UserId = Model.UserDetails.Id;
 	var CompanyId = Model.UserDetails.CompanyId;
 	var RoleId = Model.UserDetails.RoleId;
+	var DepartmentId = Model.UserDetails.DepartmentId;
+	var DesignationId = Model.UserDetails.DesignationId;
 }
 <style>
 	.preview img {
@@ -77,6 +79,44 @@
 										}
 									</select>
 									<span class="help-block d-none has-error" id="sddlRole">Please select any role</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dddlDepartment">
+								<div class="form-group">
+									<label>Department *</label>
+									<select id="ddlDepartment" name="ddlDepartment" class="form-control" isrequired="1" divcontainer="dddlDepartment" errorspan="sddlDepartment" defaultvalue="0" style="width: 100%;">
+										@foreach (var item in Model.DepartmentList)
+										{
+											if (item.Id == DepartmentId)
+											{
+												<option value="@item.Id" selected">@item.DepartmentName</option>
+											}
+											else
+											{
+												<option value="@item.Id">@item.DepartmentName</option>
+											}
+										}
+									</select>
+									<span class="help-block d-none has-error" id="sddlDepartment">Please select any department</span>
+								</div>
+							</div>
+							<div class="col-sm-4" id="dddlDesignation">
+								<div class="form-group">
+									<label>Designation *</label>
+									<select id="ddlDesignation" name="ddlDesignation" class="form-control" isrequired="1" divcontainer="dddlDesignation" errorspan="sddlDesignation" defaultvalue="0" style="width: 100%;">
+										@*@foreach (var item in Model.DepartmentList)
+										{
+											if (item.Id == DesignationId)
+											{
+												<option value="@item.Id" selected">@item.DepartmentName</option>
+											}
+											else
+											{
+												<option value="@item.Id">@item.DepartmentName</option>
+											}
+										}*@
+									</select>
+									<span class="help-block d-none has-error" id="sddlDesignation">Please select any role</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtFirstName">

@@ -740,14 +740,11 @@ namespace ArcheOne.Helper.CommonHelpers
         public List<IndexDashboardResModel> GetPermissionList()
         {
             List<IndexDashboardResModel> permissionList = new List<IndexDashboardResModel>();
-            byte[] serializedData = _httpContextAccessor.HttpContext.Session.Get("PermissionList");
+            var serializedData = _httpContextAccessor.HttpContext.Session.GetString("PermissionList");
 
             if (serializedData != null)
             {
-                using (MemoryStream memoryStream = new MemoryStream(serializedData))
-                {
-                    permissionList = JsonSerializer.Deserialize<List<IndexDashboardResModel>>(memoryStream) ?? new List<IndexDashboardResModel>();
-                }
+                permissionList = JsonSerializer.Deserialize<List<IndexDashboardResModel>>(serializedData) ?? new List<IndexDashboardResModel>();
             }
             return permissionList;
         }
