@@ -107,7 +107,8 @@ function showCalender(data) {
         navLinks: true, // can click day/week names to navigate views
         selectable: true,
         nowIndicator: true,
-        now: '2023-06-02T02:45:00',
+        now: new Date(),
+       /* now: '2023-06-02T02:45:00',*/
 
         click: function () {
 

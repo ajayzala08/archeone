@@ -8,15 +8,21 @@
     $("#btnCancel").click(function () {
         window.location.href = '/Holiday/Holiday';
     });
+
+   
 });
 
 function SaveUpdateHoliday() {
- 
+
+    debugger
     var saveHolidayData = {
         "Id": parseInt($("#txtHolidayId").val()),
         "HolidayName": $("#txtHolidayName").val(),
         "HolidayDate": $('#txtHolidayDate').val(),
+      
+    /*    "HolidayDate": $.datepicker.formatDate("yy-mm-dd", $('#txtHolidayDate').datepicker('getDate')),*/
     }
+    debugger
     console.log(saveHolidayData);
     
 
