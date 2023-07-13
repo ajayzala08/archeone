@@ -5,6 +5,27 @@ $(document).ready(function () {
     $("#btnAddLeave").click(function () {
         AddEditLeave(0);
     });
+    $("#btnShowLeave").click(function () {
+        $('#modalShowLeave').modal('show');
+        ajaxCall("GET", false, '/Leaves/ShowLeavesDetails/', null, function (result) {
+            console.log(result);
+            if (result.status == true) {
+
+                $("#lblOpeningLeaveBalance").text(result.data.openingLeaveBalance);
+                $("#lblClosingLeaveBalance").text(result.data.closingLeaveBalance);
+                $("#lblSickLeaveBalance").text(result.data.sickLeaveBalance);
+                $("#lblSickLeaveTaken").text(result.data.sickLeaveTaken);
+                $("#lblCasualLeaveTaken").text(result.data.casualLeaveTaken);
+                $("#lblCasualLeaveBalance").text(result.data.casualLeaveBalance);
+                $("#lblEarnedLeaveTaken").text(result.data.earnedLeaveTaken);
+                $("#lblEarnedLeaveBalance").text(result.data.earnedLeaveBalance);
+                $("#lblBalanceMonth").text(result.data.balanceMonth);
+                $("#lblBalanceYear").text(result.data.balanceYear);
+
+            }
+        });
+    });
+
 
   
     $("#btnUpdateCancelLeave").click(function () {

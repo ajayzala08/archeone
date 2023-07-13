@@ -1,88 +1,175 @@
 ﻿@using ArcheOne.Models.Req;
 @model UserAddEditReqViewModel;
 @{
-	int id = 1;
-	ViewBag.datatable = "true";
+    int id = 1;
+    ViewBag.datatable = "true";
 }
 @if (id > 0)
 {
-	<section class="content-header">
-		<div class="container-fluid">
-			<div class="row mb-2">
-				<div class="col-sm-6">
-					 <h1>Leave</h1> 
-				</div>
-				<div class="col-sm-6">
-					<ol class="breadcrumb float-sm-right">
-						<li class="breadcrumb-item"><a href="#">Leave</a></li>
-						<li class="breadcrumb-item active">Leave List</li>
-					</ol>
-				</div>
-			</div>
-		</div><!-- /.container-fluid -->
-	</section>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Leave</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Leave</a></li>
+                        <li class="breadcrumb-item active">Leave List</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
 
-	<section class="content">
-		<div class="card">
-			<input type="hidden" id="userId" value="@Model" />
-			<div class="card-header d-flex p-0">
-				<h3 class="card-title p-3">Leave List</h3>
-				<div class="card-tools ml-auto mr-2 p-2">
-					<button type="button" id="btnAddLeave" class="btn btn-primary float-right">Add Leave</button>
-				</div>
-			</div>
-			<!-- /.card-header -->
-			<div class="card-body">
-				@*<div class="md-12">
-				</div>
-				<table id="tblLeave" class="table table-bordered table-striped" style="width:100%"></table>
-				
-				<div id="AddLeaveForm">
-				</div>*@
+    <section class="content">
+        <div class="card">
+            <input type="hidden" id="userId" value="@Model" />
+            <div class="card-header d-flex p-0">
+                <h3 class="card-title p-3">Leave List</h3>
 
-				<div id="divLeaveList"> </div>
-			</div>
-		</div>
-		<!-- /.card-body -->
-		<!-- /.card -->
-	</section>
+                <div class="card-tools ml-auto mr-2 p-2">
+                    <button type="button" id="btnShowLeave" class="btn btn-primary" style="margin-left: 890px;">
+                        Show Leave Balance
+                    </button>
+                </div>
+                <div class="card-tools ml-auto mr-2 p-2">
+                    <button type="button" id="btnAddLeave" class="btn btn-primary float-right">Add Leave</button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                @*<div class="md-12">
+            </div>
+            <table id="tblLeave" class="table table-bordered table-striped" style="width:100%"></table>
 
+            <div id="AddLeaveForm">
+            </div>*@
 
-	<div class="modal fade" id="modalActionCancle">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">Cancel Leave</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="col-sm-12" id="modelAction">
-						<input id="txtCancelLeaveId" name="txtCancelLeaveId" type="hidden" />
+                <div id="divLeaveList"> </div>
+            </div>
+        </div>
+        <!-- /.card-body -->
+        <!-- /.card -->
+    </section>
 
 
-						<div class="form-group col-sm-12" id="dtxtReason">
-							<label><span class="has-error required">* </span>Enter Reason</label>
-							<textarea id="txtReason" name="txtReason" class="form-control" isrequired="1" divcontainer="dtxtReason" errorspan="stxtReason" defaultvalue="0" minlength="2"></textarea>
-							<span class="help-block d-none has-error" id="stxtReason">Please Enter Reason</span>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<input type="button" id="btnClose" name="btnClose" class="btn btn-danger float-right" data-dismiss="modal" value="Close" />
+    <div class="modal fade" id="modalActionCancle">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Cancel Leave</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-sm-12" id="modelAction">
+                        <input id="txtCancelLeaveId" name="txtCancelLeaveId" type="hidden" />
 
-					<input type="button" id="btnUpdateCancelLeave" name="btnUpdateCancelLeave" class="btn btn-warning float-right" value="Update" />
-				</div>
-			</div>
-		</div>
-	</div>
+
+                        <div class="form-group col-sm-12" id="dtxtReason">
+                            <label><span class="has-error required">* </span>Enter Reason</label>
+                            <textarea id="txtReason" name="txtReason" class="form-control" isrequired="1" divcontainer="dtxtReason" errorspan="stxtReason" defaultvalue="0" minlength="2"></textarea>
+                            <span class="help-block d-none has-error" id="stxtReason">Please Enter Reason</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" id="btnClose" name="btnClose" class="btn btn-danger float-right" data-dismiss="modal" value="Close" />
+
+                    <input type="button" id="btnUpdateCancelLeave" name="btnUpdateCancelLeave" class="btn btn-warning float-right" value="Update" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modalShowLeave">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">show Leave</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-sm-12" id="modelAction">
+                        <div class="card-body">
+                            <div class="row form-group">
+                                <div class="col-md-4">
+                                    <label class="text-dark">Opening LeaveBalance: </label>
+                                    <label id="lblOpeningLeaveBalance" class="text-secondary"></label>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="text-dark">ClosingLeaveBalance : </label>
+                                    <label id="lblClosingLeaveBalance" class="text-secondary"></label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="text-dark">SickLeaveBalance : </label>
+                                    <label id="lblSickLeaveBalance" class="text-secondary"></label>
+                                </div>
+
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-md-4">
+                                    <label class="text-dark">SickLeaveTaken : </label>
+                                    <label id="lblSickLeaveTaken" class="text-secondary"></label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="text-dark">CasualLeaveTaken : </label>
+                                    <label id="lblCasualLeaveTaken" class="text-secondary"></label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="text-dark">CasualLeaveBalance : </label>
+                                    <label id="lblCasualLeaveBalance" class="text-secondary"></label>
+                                </div>
+
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-4">
+                                    <label class="text-dark">EarnedLeaveTaken : </label>
+                                    <label id="lblEarnedLeaveTaken" class="text-secondary"></label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="text-dark">EarnedLeaveBalance : </label>
+                                    <label id="lblEarnedLeaveBalance" class="text-secondary"></label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="text-dark">BalanceMonth : </label>
+                                    <label id="lblBalanceMonth" class="text-secondary"></label>
+                                </div>
+
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-4">
+                                    <label class="text-dark">BalanceYear : </label>
+                                    <label id="lblBalanceYear" class="text-secondary"></label>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" id="btnClose" name="btnClose" class="btn btn-danger float-right" data-dismiss="modal" value="Close" />
+                </div>
+            </div>
+        </div>
+    </div>
 }
 else
 {
-	<h1 style="color:red">Page is under Progress</h1>
+    <h1 style="color:red">Page is under Progress</h1>
 }
 
 @section Scripts{
-	<script src="~/archeone/js/leave/leave.js?_@DateTime.Now.Ticks"></script>
+    <script src="~/archeone/js/leave/leave.js?_@DateTime.Now.Ticks"></script>
 }
