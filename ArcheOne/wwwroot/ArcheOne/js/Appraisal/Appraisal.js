@@ -23,12 +23,6 @@ function GetAppraisalList() {
             Id = $(this).attr('Id');
             DeleteAppraisal(Id);
         });
-       
-        $(".btn-info").click(function () {
-          
-            Id = $(this).attr('Id');
-            AppraisalInfo(Id);
-        });
 
     });
 }

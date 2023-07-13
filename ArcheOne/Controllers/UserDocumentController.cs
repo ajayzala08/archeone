@@ -297,34 +297,6 @@ namespace ArcheOne.Controllers
 			return response;
 		}
 
-		//public async Task<FileResult> GetUserOfferLetter(int id)
-		//{
-		//	CommonResponse commonResponse = new CommonResponse();
-		//	string userDocument = "Files\\DefaultPolicyDocument\\HRPolicy0.pdf";
-		//	byte[] FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), userDocument));
-		//	try
-		//	{
-		//		if (id > 0)
-		//		{
-		//			var docsList = await _dbRepo.UserDocumentList().FirstOrDefaultAsync(x => x.Id == id);
-
-		//			string ReportURL = docsList.Document;
-		//			FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), ReportURL));
-		//		}
-		//		else
-		//		{
-		//			commonResponse.StatusCode = HttpStatusCode.NotFound;
-		//			commonResponse.Message = "Data Not Found";
-		//		}
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		commonResponse.Message = ex.Message;
-		//		commonResponse.Data = ex;
-		//	}
-		//	return File(FileBytes, "application/pdf");
-		//}
-
 		[HttpGet]
 		public async Task<IActionResult> DownloadConfirmationLetter(int id)
 		{
@@ -457,6 +429,35 @@ namespace ArcheOne.Controllers
 				return File(bytes, "application/pdf", filePath);
 			}
 		}
+
+
+		//public async Task<FileResult> GetUserOfferLetter(int id)
+		//{
+		//	CommonResponse commonResponse = new CommonResponse();
+		//	string userDocument = "Files\\DefaultPolicyDocument\\HRPolicy0.pdf";
+		//	byte[] FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), userDocument));
+		//	try
+		//	{
+		//		if (id > 0)
+		//		{
+		//			var docsList = await _dbRepo.UserDocumentList().FirstOrDefaultAsync(x => x.Id == id);
+
+		//			string ReportURL = docsList.Document;
+		//			FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), ReportURL));
+		//		}
+		//		else
+		//		{
+		//			commonResponse.StatusCode = HttpStatusCode.NotFound;
+		//			commonResponse.Message = "Data Not Found";
+		//		}
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		commonResponse.Message = ex.Message;
+		//		commonResponse.Data = ex;
+		//	}
+		//	return File(FileBytes, "application/pdf");
+		//}
 
 		//[HttpGet]
 		//public async Task<IActionResult> DownloadExperienceLetter(int id)
