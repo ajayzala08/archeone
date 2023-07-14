@@ -1588,3 +1588,14 @@ Alter table AppraisalMst
 Add IsApprove bit null
 
 ----------------------------------------Added by SP on 13-07-23-----------------------------------End--------
+
+----------------------------------------Added by AZ on 14-07-23-----------------------------------Start--------
+
+SET IDENTITY_INSERT [dbo].[DocumentTypeMst] ON
+INSERT INTO DocumentTypeMst (Id, DocumentType, IsActive, IsDelete, CreatedBy, UpdatedBy, CreatedDate, UpdatedDate) VALUES(1, N'Experience Letter', 1, 0, 1, 1, GETDATE(), GETDATE());
+INSERT INTO DocumentTypeMst (Id, DocumentType, IsActive, IsDelete, CreatedBy, UpdatedBy, CreatedDate, UpdatedDate) VALUES(2, N'Previos Company Salary Slip', 1, 0, 1, 1, GETDATE(), GETDATE());
+INSERT INTO DocumentTypeMst (Id, DocumentType, IsActive, IsDelete, CreatedBy, UpdatedBy, CreatedDate, UpdatedDate) VALUES(3, N'PAN Card', 1, 0, 1, 1, GETDATE(), GETDATE());
+INSERT INTO DocumentTypeMst (Id, DocumentType, IsActive, IsDelete, CreatedBy, UpdatedBy, CreatedDate, UpdatedDate) VALUES(4, N'AdharCard', 1, 0, 1, 1, GETDATE(), GETDATE());
+SET IDENTITY_INSERT [dbo].[DocumentTypeMst] OFF
+----------------------------------------Added by AZ on 14-07-23-----------------------------------End--------
+----------------------------------------Executed On Dev Environment-------------------------------------------

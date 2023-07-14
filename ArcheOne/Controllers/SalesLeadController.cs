@@ -49,21 +49,38 @@ namespace ArcheOne.Controllers
 				}).ToListAsync();
 				commonResponse.Data = salesLeadListResViewModels;*/
 
-				var salesContactPersonList = await (from salesLeadList in _dbRepo.SalesLeadList()
-													join salescontactPersonList in _dbRepo.SalesContactPersonList()
-													on salesLeadList.Id equals salescontactPersonList.SalesLeadId
-													select new { salesLeadList, salescontactPersonList }
-												   ).Select(x => new
-												   {
-													   Id = x.salesLeadList.Id,
-													   OrgName = x.salesLeadList.OrgName,
-													   ContactPersonId = x.salescontactPersonList.Id,
-													   FullName = $"{x.salescontactPersonList.FirstName} {x.salescontactPersonList.LastName}",
-													   Mobile = x.salescontactPersonList.Mobile1,
-													   Email = x.salescontactPersonList.Email,
-													   Designation = x.salescontactPersonList.Designation
+				var salesLeadListing = await (from salesLeadList in _dbRepo.SalesLeadList()
+											  join salescontactPersonList in _dbRepo.SalesContactPersonList()
+											  on salesLeadList.Id equals salescontactPersonList.SalesLeadId
+											  select new { salesLeadList, salescontactPersonList }
+												   ).ToListAsync();
+				List<SalesLeadResModel> salesContactPersonList = new List<SalesLeadResModel>();
+				foreach (var item in salesLeadListing)
+				{
+					string salesLeadStatus = string.Empty;
+					var salesLeadFollowUp = _dbRepo.salesLeadFollowUpMst().OrderBy(x => x.Id).LastOrDefault(x => x.SalesLeadId == item.salesLeadList.Id);
+					if (salesLeadFollowUp != null)
+					{
+						salesLeadStatus = _dbRepo.SalesLeadStatusList().FirstOrDefault(x => x.Id == salesLeadFollowUp.SalesLeadStatusId).SalesLeadStatusName;
+					}
+					else
+					{
+						salesLeadStatus = null;
+					}
+					salesContactPersonList.Add(new SalesLeadResModel
+					{
+						Id = item.salesLeadList.Id,
+						OrgName = item.salesLeadList.OrgName,
+						ContactPersonId = item.salescontactPersonList.Id,
+						FullName = $"{item.salescontactPersonList.FirstName} {item.salescontactPersonList.LastName}",
+						Mobile = item.salescontactPersonList.Mobile1,
+						Email = item.salescontactPersonList.Email,
+						Designation = item.salescontactPersonList.Designation,
+						LeadStatus = salesLeadStatus
 
-												   }).ToListAsync();
+					});
+				}
+
 				commonResponse.Status = true;
 				commonResponse.StatusCode = HttpStatusCode.OK;
 				commonResponse.Message = "Record Found";
@@ -388,6 +405,10 @@ namespace ArcheOne.Controllers
 						{
 							transactionScope.Complete();
 						}
+					}
+					else
+					{
+						transactionScope.Complete();
 					}
 					commonResponse.Status = true;
 					commonResponse.StatusCode = HttpStatusCode.OK;
