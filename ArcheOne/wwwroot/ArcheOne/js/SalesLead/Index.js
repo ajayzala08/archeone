@@ -138,8 +138,11 @@ function GetFilteredSalesLeadList() {
 
                 ], "createdRow": function (row, data, dataIndex) {
                     
-                    if (data.orgName == "Arche Softronix") {
+                    if (data.leadStatus == "DNC") {
                         $(row).addClass("table-danger");
+                    }
+                    else if (data.leadStatus == "Opportunity") {
+                        $(row).addClass("table-success");
                     }
                 }
             }).buttons().container().appendTo('#tblUser_wrapper .col-md-6:eq(0)');
