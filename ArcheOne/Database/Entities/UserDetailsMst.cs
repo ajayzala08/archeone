@@ -21,10 +21,6 @@ public partial class UserDetailsMst
 
     public int EmploymentType { get; set; }
 
-    public int Department { get; set; }
-
-    public int Designation { get; set; }
-
     public string Location { get; set; } = null!;
 
     public string BloodGroup { get; set; } = null!;
@@ -43,9 +39,9 @@ public partial class UserDetailsMst
 
     public string PfaccountNumber { get; set; } = null!;
 
-    public string PancardNumber { get; set; } = null!;
+    public string PanCardNumber { get; set; } = null!;
 
-    public string AdharCardNumber { get; set; } = null!;
+    public string AadharCardNumber { get; set; } = null!;
 
     public decimal Salary { get; set; }
 
@@ -57,7 +53,7 @@ public partial class UserDetailsMst
 
     public string ProbationPeriod { get; set; } = null!;
 
-    public bool? IsActive { get; set; }
+    public bool IsActive { get; set; }
 
     public bool IsDelete { get; set; }
 

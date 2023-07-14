@@ -133,22 +133,22 @@ namespace ArcheOne.Controllers
 						var duplicateUserDocs = await _dbRepo.UserDocumentList().FirstOrDefaultAsync(x => x.Id == saveUpdateUserDocumentsReqModel.Id);
 						if (duplicateUserDocs != null)
 						{
-								duplicateUserDocs.UserId = saveUpdateUserDocumentsReqModel.UserId;
-								duplicateUserDocs.DocumentTypeId = saveUpdateUserDocumentsReqModel.DocumentTypeId;
-								if (!string.IsNullOrEmpty(filePath))
-								{
-									duplicateUserDocs.Document = filePath;
-								}
-								duplicateUserDocs.UpdatedDate = _commonHelper.GetCurrentDateTime();
-								duplicateUserDocs.UpdatedBy = _commonHelper.GetLoggedInUserId();
+							duplicateUserDocs.UserId = saveUpdateUserDocumentsReqModel.UserId;
+							duplicateUserDocs.DocumentTypeId = saveUpdateUserDocumentsReqModel.DocumentTypeId;
+							if (!string.IsNullOrEmpty(filePath))
+							{
+								duplicateUserDocs.Document = filePath;
+							}
+							duplicateUserDocs.UpdatedDate = _commonHelper.GetCurrentDateTime();
+							duplicateUserDocs.UpdatedBy = _commonHelper.GetLoggedInUserId();
 
-								_dbContext.Entry(duplicateUserDocs).State = EntityState.Modified;
-								await _dbContext.SaveChangesAsync();
+							_dbContext.Entry(duplicateUserDocs).State = EntityState.Modified;
+							await _dbContext.SaveChangesAsync();
 
-								commonResponse.Status = true;
-								commonResponse.StatusCode = System.Net.HttpStatusCode.OK;
-								commonResponse.Message = "Document updated successfully!";
-					
+							commonResponse.Status = true;
+							commonResponse.StatusCode = System.Net.HttpStatusCode.OK;
+							commonResponse.Message = "Document updated successfully!";
+
 						}
 						else
 						{
@@ -181,11 +181,11 @@ namespace ArcheOne.Controllers
 									join D in _dbRepo.DocumentTypeList()
 									on UD.DocumentTypeId equals D.Id
 									join f in _dbRepo.UserDetailList() on U.Id equals f.UserId
-									select new { UD, U, D,f })
+									select new { UD, U, D, f })
 					 .Select(x => new UserDocumentResModel
 					 {
 						 Id = x.UD.Id,
-						 EmployeeName = x.U.FirstName +" "+x.U.LastName,
+						 EmployeeName = x.U.FirstName + " " + x.U.LastName,
 						 EmployeeCode = x.f.EmployeeCode,
 						 DocumentTypeId = x.D.DocumentType,
 						 Document = System.IO.File.Exists(Path.Combine(_commonHelper.GetPhysicalRootPath(false), x.UD.Document)) ? Path.Combine(@"\", x.UD.Document) :
@@ -362,7 +362,7 @@ namespace ArcheOne.Controllers
 				cell.PaddingRight = 0;
 				table.AddCell(cell);
 
-				cell = new PdfPCell(new Phrase("With reference to the review of your performance during the probation period from  " + userDetails.JoinDate + ' ' + "to" + userDetails.JoinDate.AddDays(60) + "We are grateful to inform you that your employment is being confirmed as " + userDetails.Designation + "effective from " + userDetails.JoinDate.AddDays(60)));
+				cell = new PdfPCell(new Phrase("With reference to the review of your performance during the probation period from  " + userDetails.JoinDate + ' ' + "to" + userDetails.JoinDate.AddDays(60) + "We are grateful to inform you that your employment is being confirmed as " + user.DesignationId + "effective from " + userDetails.JoinDate.AddDays(60)));
 				cell.Colspan = 12;
 				cell.Border = Rectangle.NO_BORDER;
 				cell.PaddingLeft = 0;

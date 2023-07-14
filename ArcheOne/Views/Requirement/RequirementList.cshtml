@@ -1,10 +1,14 @@
-﻿@using ArcheOne.Helper.CommonModels;
+﻿@using ArcheOne.Helper.CommonHelpers;
+@using ArcheOne.Helper.CommonModels;
 @using ArcheOne.Models.Res;
+@inject CommonHelper CommonHelperInstance
 @model CommonResponse
 @{
     Layout = "_BlankLayout";
     ViewBag.dataTable = "true";
     ViewBag.select2 = "true";
+
+    List<IndexDashboardResModel> permissionList = CommonHelperInstance.GetPermissionList();
 }
 <style>
     td {
@@ -36,12 +40,6 @@
                         <td>Relevant Max Experience</td>
                         <td>No Of Position</td>
                         <td>Location</td>
-                       @* <td>Job Description</td>*@
-                       @* <td>End Client</td>
-                        <td>POC Name</td>
-                        <td>Client Bill Rate</td>
-                        <td>Candidate Pay Rate</td>
-                        <td>Requirement Status</td>*@
                         <td>Is Active</td>
                     </tr>
                 </thead>
@@ -51,24 +49,44 @@
                     {
                         <tr style="white-space:nowrap;">
                             <td>
-                                <i class="fa fa-file-word btn-resumes" RequirementId="@item.RequirementId" style="cursor: pointer; color:darkblue"></i> &nbsp; | &nbsp;
-                                <i class="fa fa-pen pen btn-edit" RequirementId="@item.RequirementId" style="cursor: pointer;"></i> &nbsp; | &nbsp;
-                                <i class="fa fa-trash trash btn-delete" RequirementId="@item.RequirementId" style="cursor: pointer;"></i>
+                                <i class="fa fa-file-word btn-resumes" RequirementId="@item.RequirementId" style="cursor: pointer; color:darkblue"></i>
+                                @if (permissionList.Any(x => x.PermissionCode.Contains(CommonEnums.PermissionMst.Requirements_Edit.ToString())))
+                                {
+                                    <span>|</span>
+                                    <i class="fa fa-pen pen btn-edit" RequirementId="@item.RequirementId" style="cursor: pointer;"></i>
+                                }
+                                @if (permissionList.Any(x => x.PermissionCode.Contains(CommonEnums.PermissionMst.Requirements_Delete.ToString())))
+                                {
+                                    <span>|</span>
+                                    <i class="fa fa-trash trash btn-delete" RequirementId="@item.RequirementId" style="cursor: pointer;"></i>
+                                }
                             </td>
                             <td>
-                                <select id="ddlRequirementStatus" name="ddlRequirementStatus" class="form-control select2 ddl-status" isRequired="1" divcontainer="dddlRequirementStatus" errorspan="sddlRequirementStatus" defaultvalue="0" style="width:110px;" requirementId="@item.RequirementId">
-                                    @foreach (var statusItem in Model.Data.RequirementStatusList)
+                                @if (permissionList.Any(x => x.PermissionCode.Contains(CommonEnums.PermissionMst.Requirements_Edit.ToString())))
+                                {
+                                    <select id="ddlRequirementStatus" name="ddlRequirementStatus" class="form-control select2 ddl-status" isRequired="1" divcontainer="dddlRequirementStatus" errorspan="sddlRequirementStatus" defaultvalue="0" style="width:110px;" requirementId="@item.RequirementId">
+                                        @foreach (var statusItem in Model.Data.RequirementStatusList)
+                                        {
+                                            if (statusItem.Id == item.RequirementStatusId)
+                                            {
+                                                <option value="@statusItem.Id" selected>@statusItem.Name</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@statusItem.Id">@statusItem.Name</option>
+                                            }
+                                        }
+                                    </select>
+                                } else
+                                {
+                                    foreach (var statusItem in Model.Data.RequirementStatusList)
                                     {
                                         if (statusItem.Id == item.RequirementStatusId)
                                         {
-                                            <option value="@statusItem.Id" selected>@statusItem.Name</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@statusItem.Id">@statusItem.Name</option>
+                                            <span>@statusItem.Name</span>
                                         }
                                     }
-                                </select>
+                                }
                             </td>
                             <td>@item.RequirementId</td>
                             <td>@item.JobCode</td>
@@ -81,12 +99,6 @@
                             <td>@item.RelevantMaxExperience</td>
                             <td>@item.NoOfPosition</td>
                             <td>@item.Location</td>
-                            @*<td>@Html.Raw(item.JobDescription)</td>*@
-                           @* <td>@item.EndClient</td>
-                            <td>@item.Pocname</td>
-                            <td>@item.ClientBillRate</td>
-                            <td>@item.CandidatePayRate</td>
-                            <td>@item.RequirementStatusName</td>*@
                             <td>@item.IsActive</td>
                         </tr>
                     }

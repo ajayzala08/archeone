@@ -24,11 +24,20 @@
 <section class="content">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Appraisal List</h3>
-            @if (Model.IsUserHR == true)
+          @*  <h3 class="card-title">Appraisal List</h3>*@
+            <div class="col-md-3 float-left">
+                <label>Appraisal Status</label>
+                <select id="ddlAppraisalStatus" name="ddlAppraisalStatus" class="form-control data-filter select2 ">
+                    <option value="1">InProgres</option>
+                    <option value="2">Completed</option>
+                </select>
+            </div>
+          
+          @if (Model.IsUserHR == true)
             {
                 <input type="button" id="AddAppraisal" class="btn btn-primary float-right" value="Add Appraisal" />
             }
+           
         </div>
         <div class="card-body">
             <div id="divAppraisalList">

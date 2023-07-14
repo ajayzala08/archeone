@@ -20,37 +20,41 @@
         <table id="tblPolicy" class="table table-bordered table-striped" style="width:100%">
             <thead>
                 <tr>
-                    @if (Model.Count > 1)
-                    {
-                        <td>
-                            <b>Action</b>
-                        </td>
-                    }
+                    <td>
+                        <b>Action</b>
+                    </td>
                     <td>
                         <b>Policy Name</b>
                     </td>
-                    <td>
+                 @*   <td>
                         <b>Policy Document</b>
-                    </td>
-                   
+                    </td>*@
+
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
-                        @if (item.IsUserHR == true)
-                        {
                             <td>
-                                <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"></i>
+                            @if (item.IsUserHR == true)
+                            {
+                                <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"> | </i>
+                              
+                                <i class="fa fa-download btn-download" Id="@item.Id" aria-hidden="true"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-download btn-download" Id="@item.Id" aria-hidden="true"></i>
+                            }
+                      
                             </td>
-                        }
                         <td>
                             @item.PolicyName
                         </td>
-                        <td>
+@*                        <td>
                             <i class="fa fa-download btn-download" Id="@item.Id" aria-hidden="true"></i>
-                        </td>
+                        </td>*@
                     </tr>
                 }
             </tbody>

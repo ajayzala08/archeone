@@ -3,7 +3,6 @@ using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models.Req;
 using ArcheOne.Models.Res;
-using DocumentFormat.OpenXml.Office2016.Presentation.Command;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -35,9 +34,9 @@ namespace ArcheOne.Controllers
 
 
             var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
-            var IsUserHr = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
+            var IsUserHr = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId)).ToList();
 
-            policyResModel.IsUserHR = IsUserHr.Count >0 ? true: false;
+            policyResModel.IsUserHR = IsUserHr.Count > 0 ? true : false;
 
             return View(policyResModel);
         }
@@ -54,7 +53,7 @@ namespace ArcheOne.Controllers
 
             var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
 
-            var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
+            var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId)).ToList();
 
             try
             {
@@ -195,7 +194,7 @@ namespace ArcheOne.Controllers
                         policyDetail.PolicyDocumentName = filePath;
                     }
                     policyDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                    policyDetail.UpdatedBy = _commonHelper.GetLoggedInUserId(); 
+                    policyDetail.UpdatedBy = _commonHelper.GetLoggedInUserId();
 
                     _dbContext.Entry(policyDetail).State = EntityState.Modified;
                     _dbContext.SaveChanges();
@@ -295,14 +294,14 @@ namespace ArcheOne.Controllers
                     var policyList = _dbRepo.PolicyList().FirstOrDefault(x => x.Id == Id);
 
                     string ReportURL = policyList.PolicyDocumentName;
-                  
-                    FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), DefaultPolicy));
+
+                    FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), ReportURL));
                 }
                 else
                 {
                     commonResponse.StatusCode = HttpStatusCode.NotFound;
                     commonResponse.Message = "Data Not Found";
-                    
+
                 }
             }
             catch (Exception ex)

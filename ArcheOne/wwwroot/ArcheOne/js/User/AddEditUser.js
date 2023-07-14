@@ -1,10 +1,9 @@
 ﻿$(document).ready(function () {
-    
 
 
 });
 function SaveUser() {
-    
+
     $.blockUI();
     var saveData = new FormData();
     var file = $("#txtPhotoUrl").get(0).files[0];
@@ -12,6 +11,8 @@ function SaveUser() {
     saveData.append("PhotoUrl", file);
     saveData.append("CompanyId", $("#ddlCompany").val());
     saveData.append("RoleId", $("#ddlRole").val());
+    saveData.append("DepartmentId", $("#ddlDepartment").val());
+    saveData.append("DesignationId", $("#ddlDesignation").val());
     saveData.append("FirstName", $("#txtFirstName").val());
     saveData.append("MiddleName", $("#txtMiddleName").val());
     saveData.append("LastName", $("#txtLastName").val());
@@ -25,9 +26,8 @@ function SaveUser() {
     saveData.append("IsActive", false);
     if (validateRequiredFields()) {
 
-        
+
         ajaxCallWithoutDataType("Post", false, '/User/SaveUpdateUser', saveData, function (result) {
-            console.log(result);
             if (result.status == true) {
                 Toast.fire({ icon: 'success', title: result.message });
                 RedirectToPage("/User/User");
@@ -40,16 +40,13 @@ function SaveUser() {
         });
     }
     else {
-        $.unblockUI();     
+        $.unblockUI();
     }
 }
-
 
 $("#btnCloseUser").click(function () {
     RedirectToPage("/User/User");
 });
-
-
 
 $("#btnSaveUpdateUser").click(function () {
     applyRequiredValidation();
@@ -58,5 +55,33 @@ $("#btnSaveUpdateUser").click(function () {
 
 });
 
+$("#ddlRole").change(function () {
+    GetDesignationByRoleAndDepartment();
+});
 
-                                                                                            
+$("#ddlDepartment").change(function () {
+    GetDesignationByRoleAndDepartment();
+});
+
+function GetDesignationByRoleAndDepartment() {
+    var roleId = $("#ddlRole").val() ?? 0;
+    var departmentId = $("#ddlDepartment").val() ?? 0;
+
+    $.blockUI();
+
+
+    $("#ddlDesignation").empty();
+    $("#ddlDesignation").append($("<option selected value='0'>Select Designation</option>"));
+    ajaxCallWithoutDataType("Post", false, '/User/GetDesignationByRoleAndDepartment?RoleId=' + roleId + '&DepartmentId=' + departmentId, null, function (result) {
+        if (result.status == true) {
+            $.each(result.data, function (data, value) {
+                $("#ddlDesignation").append($("<option></option>").val(value.id).html(value.designation));
+            });
+        }
+        else {
+            Toast.fire({ icon: 'error', title: result.message });
+        }
+        $.unblockUI();
+    });
+}
+

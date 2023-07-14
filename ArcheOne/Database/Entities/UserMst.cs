@@ -9,6 +9,12 @@ public partial class UserMst
 
     public int CompanyId { get; set; }
 
+    public int RoleId { get; set; }
+
+    public int DepartmentId { get; set; }
+
+    public int DesignationId { get; set; }
+
     public string FirstName { get; set; } = null!;
 
     public string MiddleName { get; set; } = null!;
@@ -17,7 +23,7 @@ public partial class UserMst
 
     public string UserName { get; set; } = null!;
 
-    public string? Password { get; set; }
+    public string Password { get; set; } = null!;
 
     public string Address { get; set; } = null!;
 
@@ -31,7 +37,7 @@ public partial class UserMst
 
     public string PhotoUrl { get; set; } = null!;
 
-    public bool? IsActive { get; set; }
+    public bool IsActive { get; set; }
 
     public bool IsDelete { get; set; }
 
@@ -42,6 +48,4 @@ public partial class UserMst
     public DateTime CreatedDate { get; set; }
 
     public DateTime UpdatedDate { get; set; }
-
-    public int? RoleId { get; set; }
 }

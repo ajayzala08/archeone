@@ -5,6 +5,9 @@ namespace ArcheOne.Models.Res
     public class AddEditAppraisalRatingResModel
     {
         public int Id { get; set; }
+
+        public int AppraisalId { get; set; }
+        public bool? IsApprove { get; set; }
         public List<UserMst> ReportingManagerId { get; set; }
         public List<UserMst> EmployeeId { get; set; }
         public ManagetDetail reportingManagetDetail { get; set; }

@@ -33,7 +33,7 @@
                 <h3 class="card-title">Appraisal Rating</h3>
                 <input type="button" id="AppraisalList" class="btn btn-primary float-right" value="Back To Appraisal" />
             </div>
-           
+
             <div class="row">
                 <input id="txtAppraisalId" name="txtAppraisalId" type="hidden" class="form-control col-sm-4" value="@Model.Id" />
                 <input id="txtReportingManagerId" name="txtReportingManagerId" type="hidden" class="form-control col-sm-4" value="@Model.reportingManagetDetail.ReportingManagerId" />
@@ -203,7 +203,7 @@
                                         {
                                             <input id="txtTotal" type="text" name="Total" class="form-control text-length" placeholder=" " value="@Model.appraisalRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" autocomplete="off" minlength="1" readonly style="color:limegreen">
                                         }
-                                        @if (Model.EmployeeRating.Total <= 50)
+                                        @if (Model.EmployeeRating.Total <= 60)
                                         {
                                             <input id="txtTotal" type="text" name="Total" class="form-control text-length" placeholder=" " value="@Model.EmployeeRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" a
                                                    utocomplete="off" minlength="1" readonly style="color:gold">
@@ -240,7 +240,7 @@
                     </div>
                     <div class="col-md-2">
                         <center>
-                            <div class="vr" style="height: 1000px; outline-style: solid; color: gray; width:0px;">
+                            <div class="vr" style="height: 950px; outline-style: solid; color: gray; width:0px;">
                             </div>
                         </center>
                     </div>
@@ -329,7 +329,7 @@
                                         {
                                             <input id="txtTotal" type="text" name="Total" class="form-control text-length" placeholder=" " value="@Model.appraisalRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" autocomplete="off" minlength="1" readonly style="color:limegreen">
                                         }
-                                        @if (Model.appraisalRating.Total <= 50)
+                                        @if (Model.appraisalRating.Total <= 60)
                                         {
                                             <input id="txtTotal" type="text" name="Total" class="form-control text-length" placeholder=" " value="@Model.appraisalRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" a
                                                    utocomplete="off" minlength="1" readonly style="color:gold">
@@ -365,242 +365,262 @@
                     </div>
                 </div>
 
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
+                @if (Model.appraisalRating.Total > 0 && Model.EmployeeRating.Total > 0)
+                {
                     <div class="col-sm-12">
-                        <div class="col-sm-4">
-                            <label> <i class="fas fa-square" style="color: limegreen" ; font-weight:1000;></i>  Rating > 60 Outstanding Performance</label>
+                        <div class="form-group float-right">
+                            <label for="form_name">Is this Appraisal Approve</label>
+                            @if (Model.IsApprove == true)
+                            {
+                                <input id="chbIsApprove" type="checkbox" checked="true" class="onoffswitch-checkbox" AppraisalId="@Model.Id" name="isApprove" />
+                            }
+                            else
+                            {
+                                <input id="chbIsApprove" type="checkbox" AppraisalId="@Model.Id" name="isApprove" />
+                            }
+                            <span class="txtValidation"></span>
                         </div>
-                        <div class="col-sm-4">
-                            <label><i class="fas fa-square" style="color: orange" ; font-weight:1000;></i> @Message</label>
-                        </div>
-                        <div class="col-sm-4">
-                            <label> <i class="fas fa-square" style="color:gold" ; font-weight:1000;></i> @Message1</label>
-                        </div>
-                        <div class="col-sm-4">
-                            <label><i class="fas fa-square" style="color: red" ; font-weight:1000;></i> @Message2</label>
-                        </div>
+
                     </div>
+                }
+
 
                 </div>
             </div>
-        </div>
-
-
-    }
-
-    @if (Model.IsUserEmployee == true)
-    {
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-
-                    <div class="col-md-12">
-                        <div class="card-header">
-                            <h3 style="font-weight: bold;"> SELF RATING</h3>
-                        </div><br>
-                        <input id="txtAppraisalId" name="txtAppraisalId" type="hidden" class="form-control col-sm-4" value="@Model.EmployeeId" />
-                        <div class="row">
-                            <div class="col-sm-3" id="dtxtQualityOfWork">
-                                <div class="form-group">
-                                    <label class="form-label"><span class="has-error required">* </span>Quality of Work and Task Completion</label>
-                                    <input id="txtQualityOfWork" type="text" name="QualityOfWork" class="form-control text-length" placeholder="Please Enter your Quality" value="@Model.EmployeeRating.QualityOfWork" isrequired="1" divcontainer="dtxtQualityOfWork" errorspan="stxtQualityOfWork" defaultvalue="" autocomplete="off" minlength="1">
-                                    <span class="help-block d-none has-error" id="stxtQualityOfWork">Please Enter Valid Rating</span>
-                                </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-4">
+                                <label> <i class="fas fa-square" style="color: limegreen" ; font-weight:1000;></i>  Rating > 60 Outstanding Performance</label>
                             </div>
-
-                            <div class="col-sm-3" id="dtxtGoalsNachievement">
-                                <div class="form-group">
-                                    <label class="form-label"><span class="has-error required">* </span>Goals And Target Achievement</label>
-                                    <input id="txtGoalsNachievement" type="text" name="GoalsNachievement" class="form-control text-length" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.GoalNtarget" isrequired="1" divcontainer="dtxtGoalsNachievement" errorspan="stxtGoalsNachievement" defaultvalue="" autocomplete="off" minlength="1">
-                                    <span class="help-block d-none has-error" id="stxtGoalsNachievement">Please Enter Valid Rating</span>
-                                </div>
+                            <div class="col-sm-4">
+                                <label><i class="fas fa-square" style="color: orange" ; font-weight:1000;></i> @Message</label>
                             </div>
-
-                            <div class="col-sm-3" id="dtxtWrittenNVerbalSkill">
-                                <div class="form-group">
-                                    <label class="form-label"><span class="has-error required">* </span>Written and Verbal Skill</label>
-                                    <input id="txtWrittenNVerbalSkill" type="text" name="WrittenNVerbalSkill" class="form-control text-length" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.WrittenVerbalSkill" isrequired="1" divcontainer="dtxtWrittenNVerbalSkill" errorspan="stxtWrittenNVerbalSkill" defaultvalue="" autocomplete="off" minlength="1">
-                                    <span class="help-block d-none has-error" id="stxtWrittenNVerbalSkill">Please Enter Valid Rating</span>
-                                </div>
+                            <div class="col-sm-4">
+                                <label> <i class="fas fa-square" style="color:gold" ; font-weight:1000;></i> @Message1</label>
                             </div>
-
-                            <div class="col-sm-3" id="dtxtInitiative">
-                                <div class="form-group">
-                                    <label class="form-label"><span class="has-error required">* </span>Initiative And Motivation</label>
-                                    <input id="txtInitiative" type="text" name="Initiative" class="form-control text-length datepicker" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.InitiativeMotivation" isrequired="1" divcontainer="dtxtInitiative" errorspan="stxtInitiative" defaultvalue="" autocomplete="off" minlength="1">
-                                    <span class="help-block d-none has-error" id="stxtInitiative">Please Enter Valid Rating</span>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3" id="dtxtTeamWorkNLeaderShip">
-                                <div class="form-group">
-                                    <label class="form-label"><span class="has-error required">* </span>TeamWork And Leadership Skills</label>
-                                    <input id="txtTeamWorkNLeaderShip" type="text" name="TeamWorkNLeadership" class="form-control text-length" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.TeamWork" isrequired="1" divcontainer="dtxtTeamWorkNLeaderShip" errorspan="stxtTeamWorkNLeaderShip" defaultvalue="" autocomplete="off" minlength="1">
-                                    <span class="help-block d-none has-error" id="stxtTeamWorkNLeaderShip">Please Enter Valid Rating</span>
-                                </div>
-                            </div>
-
-
-
-                            <div class="col-sm-3" id="dtxtProblemsolveAbility">
-                                <div class="form-group">
-                                    <label class="form-label"><span class="has-error required">* </span>Ability To Problem Solve</label>
-                                    <input id="txtProblemsolveAbility" type="text" name="ProblemsolveAbility" class="form-control text-length" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.ProblemSolvingAbillity" isrequired="1" divcontainer="dtxtProblemsolveAbility" errorspan="stxtProblemsolveAbility" defaultvalue="" autocomplete="off" minlength="1">
-                                    <span class="help-block d-none has-error" id="stxtProblemsolveAbility">Please Enter Valid Rating</span>
-                                </div>
-                            </div>
-
-
-                            <div class="col-sm-3" id="dtxtAttendanceRegularization">
-                                <div class="form-group">
-                                    <label class="form-label"><span class="has-error required">* </span>Attendance & Regularization</label>
-                                    <input id="txtAttendanceRegularization" type="text" name="AttendanceRegularization" class="form-control text-length" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.GoalNtarget" isrequired="1" divcontainer="dtxtAttendanceRegularization" errorspan="stxtAttendanceRegularization" defaultvalue="" autocomplete="off" minlength="1">
-                                    <span class="help-block d-none has-error" id="stxtAttendanceRegularization">Please Enter Valid Rating</span>
-                                </div>
-                            </div>
-
-
-
-                            <div class="col-md-3" id="dtxtTotal">
-                                <div class="form-group">
-                                    <label class="form-label"><span class="has-error required">* </span>Total</label>
-                                    <input id="txtTotal" type="text" name="Total" class="form-control text-length" placeholder=" " value="@Model.EmployeeRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" autocomplete="off" minlength="1">
-                                    <span class="help-block d-none has-error" id="stxtTotal"> </span>
-                                </div>
+                            <div class="col-sm-4">
+                                <label><i class="fas fa-square" style="color: red" ; font-weight:1000;></i> @Message2</label>
                             </div>
                         </div>
 
-                        <div class="col-md-8" id="dtxtEmployeeComment">
-                            <div class="form-group">
-                                <label class="form-label"><span class="has-error required">* </span>Employee's Comments:</label>
-                                <input id="txtEmployeeComment" type="text" name="EmployeeComment" class="form-control text-length" placeholder="Please Enter your Comment" value="@Model.EmployeeRating.Comment" isrequired="1" divcontainer="dtxtEmployeeComment" errorspan="stxtEmployeeComment" defaultvalue="" autocomplete="off" minlength="0">
-                                <span class="help-block d-none has-error" id="stxtEmployeeComment">Please Enter Valid Comment</span>
-                            </div>
-                        </div>
+                    </div>
+                </div>
+            </div>
 
-                        <div class="modal-footer">
+
+                }
+
+                @if (Model.IsUserEmployee == true)
+                {
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="card-header">
+                                <h3 style="font-weight: bold;"> SELF RATING</h3>
+                            </div><br>
+                            <input id="txtAppraisalId" name="txtAppraisalId" type="hidden" class="form-control col-sm-4" value="@Model.EmployeeId" />
                             <div class="row">
-                                <button type="button" id="btnSaveAdd" class="btn btn-success mr-2">Submit</button>
-                                <button type="button" id="btnCancel" data-dismiss="modal" class="btn btn-danger">Cancel</button>
+                                <div class="col-sm-3" id="dtxtQualityOfWork">
+                                    <div class="form-group">
+                                        <label class="form-label"><span class="has-error required">* </span>Quality of Work and Task Completion</label>
+                                        <input id="txtQualityOfWork" type="text" name="QualityOfWork" class="form-control text-length" placeholder="Please Enter your Quality" value="@Model.EmployeeRating.QualityOfWork" isrequired="1" divcontainer="dtxtQualityOfWork" errorspan="stxtQualityOfWork" defaultvalue="" autocomplete="off" minlength="1">
+                                        <span class="help-block d-none has-error" id="stxtQualityOfWork">Please Enter Valid Rating</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3" id="dtxtGoalsNachievement">
+                                    <div class="form-group">
+                                        <label class="form-label"><span class="has-error required">* </span>Goals And Target Achievement</label>
+                                        <input id="txtGoalsNachievement" type="text" name="GoalsNachievement" class="form-control text-length" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.GoalNtarget" isrequired="1" divcontainer="dtxtGoalsNachievement" errorspan="stxtGoalsNachievement" defaultvalue="" autocomplete="off" minlength="1">
+                                        <span class="help-block d-none has-error" id="stxtGoalsNachievement">Please Enter Valid Rating</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3" id="dtxtWrittenNVerbalSkill">
+                                    <div class="form-group">
+                                        <label class="form-label"><span class="has-error required">* </span>Written and Verbal Skill</label>
+                                        <input id="txtWrittenNVerbalSkill" type="text" name="WrittenNVerbalSkill" class="form-control text-length" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.WrittenVerbalSkill" isrequired="1" divcontainer="dtxtWrittenNVerbalSkill" errorspan="stxtWrittenNVerbalSkill" defaultvalue="" autocomplete="off" minlength="1">
+                                        <span class="help-block d-none has-error" id="stxtWrittenNVerbalSkill">Please Enter Valid Rating</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3" id="dtxtInitiative">
+                                    <div class="form-group">
+                                        <label class="form-label"><span class="has-error required">* </span>Initiative And Motivation</label>
+                                        <input id="txtInitiative" type="text" name="Initiative" class="form-control text-length datepicker" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.InitiativeMotivation" isrequired="1" divcontainer="dtxtInitiative" errorspan="stxtInitiative" defaultvalue="" autocomplete="off" minlength="1">
+                                        <span class="help-block d-none has-error" id="stxtInitiative">Please Enter Valid Rating</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3" id="dtxtTeamWorkNLeaderShip">
+                                    <div class="form-group">
+                                        <label class="form-label"><span class="has-error required">* </span>TeamWork And Leadership Skills</label>
+                                        <input id="txtTeamWorkNLeaderShip" type="text" name="TeamWorkNLeadership" class="form-control text-length" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.TeamWork" isrequired="1" divcontainer="dtxtTeamWorkNLeaderShip" errorspan="stxtTeamWorkNLeaderShip" defaultvalue="" autocomplete="off" minlength="1">
+                                        <span class="help-block d-none has-error" id="stxtTeamWorkNLeaderShip">Please Enter Valid Rating</span>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-sm-3" id="dtxtProblemsolveAbility">
+                                    <div class="form-group">
+                                        <label class="form-label"><span class="has-error required">* </span>Ability To Problem Solve</label>
+                                        <input id="txtProblemsolveAbility" type="text" name="ProblemsolveAbility" class="form-control text-length" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.ProblemSolvingAbillity" isrequired="1" divcontainer="dtxtProblemsolveAbility" errorspan="stxtProblemsolveAbility" defaultvalue="" autocomplete="off" minlength="1">
+                                        <span class="help-block d-none has-error" id="stxtProblemsolveAbility">Please Enter Valid Rating</span>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-3" id="dtxtAttendanceRegularization">
+                                    <div class="form-group">
+                                        <label class="form-label"><span class="has-error required">* </span>Attendance & Regularization</label>
+                                        <input id="txtAttendanceRegularization" type="text" name="AttendanceRegularization" class="form-control text-length" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.GoalNtarget" isrequired="1" divcontainer="dtxtAttendanceRegularization" errorspan="stxtAttendanceRegularization" defaultvalue="" autocomplete="off" minlength="1">
+                                        <span class="help-block d-none has-error" id="stxtAttendanceRegularization">Please Enter Valid Rating</span>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-3" id="dtxtTotal">
+                                    <div class="form-group">
+                                        <label class="form-label"><span class="has-error required">* </span>Total</label>
+                                        <input id="txtTotal" type="text" name="Total" class="form-control text-length" placeholder=" " value="@Model.EmployeeRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" autocomplete="off" minlength="1">
+                                        <span class="help-block d-none has-error" id="stxtTotal"> </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8" id="dtxtEmployeeComment">
+                                <div class="form-group">
+                                    <label class="form-label"><span class="has-error required">* </span>Employee's Comments:</label>
+                                    <input id="txtEmployeeComment" type="text" name="EmployeeComment" class="form-control text-length" placeholder="Please Enter your Comment" value="@Model.EmployeeRating.Comment" isrequired="1" divcontainer="dtxtEmployeeComment" errorspan="stxtEmployeeComment" defaultvalue="" autocomplete="off" minlength="0">
+                                    <span class="help-block d-none has-error" id="stxtEmployeeComment">Please Enter Valid Comment</span>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <div class="row">
+                                    <button type="button" id="btnSaveAdd" class="btn btn-success mr-2">Submit</button>
+                                    <button type="button" id="btnCancel" data-dismiss="modal" class="btn btn-danger">Cancel</button>
+                                </div>
                             </div>
                         </div>
+
                     </div>
 
                 </div>
-
             </div>
-        </div>
-    }
-    @if (Model.IsUserReportManager == true && Model.IsUserHR != true)
-    {
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card-header">
-                            <h3 style="font-weight: bold;"> APPRAISER'S RATING</h3>
-                        </div><br>
-                        <input id="txtAppraisalId" name="txtAppraisalId" type="hidden" class="form-control col-sm-4" value="@Model.EmployeeId" />
-                        <div class="row">
-                            <div class="col-sm-3" id="dtxtQualityOfWork">
-                                <div class="form-group">
-                                    <label class="form-label"><span class="has-error required">* </span>Quality of Work and Task Completion</label>
-                                    <input id="txtQualityOfWork" type="text" name="QualityOfWork" class="form-control text-length" placeholder="Please Enter your Quality" value="@Model.appraisalRating.QualityOfWork" isrequired="1" divcontainer="dtxtQualityOfWork" errorspan="stxtQualityOfWork" defaultvalue="" autocomplete="off" minlength="1">
-                                    <span class="help-block d-none has-error" id="stxtQualityOfWork">Please Enter Valid Rating</span>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3" id="dtxtGoalsNachievement">
-                                <div class="form-group">
-                                    <label class="form-label"><span class="has-error required">* </span>Goals And Target Achievement</label>
-                                    <input id="txtGoalsNachievement" type="text" name="GoalsNachievement" class="form-control text-length" placeholder="Please Enter your Rating" value="@Model.appraisalRating.GoalNtarget" isrequired="1" divcontainer="dtxtGoalsNachievement" errorspan="stxtGoalsNachievement" defaultvalue="" autocomplete="off" minlength="1">
-                                    <span class="help-block d-none has-error" id="stxtGoalsNachievement">Please Enter Valid Rating</span>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3" id="dtxtWrittenNVerbalSkill">
-                                <div class="form-group">
-                                    <label class="form-label"><span class="has-error required">* </span>Written and Verbal Skill</label>
-                                    <input id="txtWrittenNVerbalSkill" type="text" name="WrittenNVerbalSkill" class="form-control text-length" placeholder="Please Enter your Rating" value="@Model.appraisalRating.WrittenVerbalSkill" isrequired="1" divcontainer="dtxtWrittenNVerbalSkill" errorspan="stxtWrittenNVerbalSkill" defaultvalue="" autocomplete="off" minlength="1">
-                                    <span class="help-block d-none has-error" id="stxtWrittenNVerbalSkill">Please Enter Valid Rating</span>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3" id="dtxtInitiative">
-                                <div class="form-group">
-                                    <label class="form-label"><span class="has-error required">* </span>Initiative And Motivation</label>
-                                    <input id="txtInitiative" type="text" name="Initiative" class="form-control text-length datepicker" placeholder="Please Enter your Rating" value="@Model.appraisalRating.InitiativeMotivation" isrequired="1" divcontainer="dtxtInitiative" errorspan="stxtInitiative" defaultvalue="" autocomplete="off" minlength="1">
-                                    <span class="help-block d-none has-error" id="stxtInitiative">Please Enter Valid Rating</span>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3" id="dtxtTeamWorkNLeaderShip">
-                                <div class="form-group">
-                                    <label class="form-label"><span class="has-error required">* </span>TeamWork And Leadership Skills</label>
-                                    <input id="txtTeamWorkNLeaderShip" type="text" name="TeamWorkNLeadership" class="form-control text-length" placeholder="Please Enter your Rating" value="@Model.appraisalRating.TeamWork" isrequired="1" divcontainer="dtxtTeamWorkNLeaderShip" errorspan="stxtTeamWorkNLeaderShip" defaultvalue="" autocomplete="off" minlength="1">
-                                    <span class="help-block d-none has-error" id="stxtTeamWorkNLeaderShip">Please Enter Valid Rating</span>
-                                </div>
-                            </div>
-
-
-
-                            <div class="col-sm-3" id="dtxtProblemsolveAbility">
-                                <div class="form-group">
-                                    <label class="form-label"><span class="has-error required">* </span>Ability To Problem Solve</label>
-                                    <input id="txtProblemsolveAbility" type="text" name="ProblemsolveAbility" class="form-control text-length" placeholder="Please Enter your Rating" value="@Model.appraisalRating.ProblemSolvingAbillity" isrequired="1" divcontainer="dtxtProblemsolveAbility" errorspan="stxtProblemsolveAbility" defaultvalue="" autocomplete="off" minlength="1">
-                                    <span class="help-block d-none has-error" id="stxtProblemsolveAbility">Please Enter Valid Rating</span>
-                                </div>
-                            </div>
-
-
-
-                            <div class="col-sm-3" id="dtxtAttendanceRegularization">
-                                <div class="form-group">
-                                    <label class="form-label"><span class="has-error required">* </span>Attendance & Regularization</label>
-                                    <input id="txtAttendanceRegularization" type="text" name="AttendanceRegularization" class="form-control text-length" placeholder="Please Enter your Rating" value="@Model.appraisalRating.GoalNtarget" isrequired="1" divcontainer="dtxtAttendanceRegularization" errorspan="stxtAttendanceRegularization" defaultvalue="" autocomplete="off" minlength="1">
-                                    <span class="help-block d-none has-error" id="stxtAttendanceRegularization">Please Enter Valid Rating</span>
-                                </div>
-                            </div>
-
-
-
-                            <div class="col-md-3" id="dtxtTotal">
-                                <div class="form-group">
-                                    <label class="form-label"><span class="has-error required">* </span>Total</label>
-                                    <input id="txtTotal" type="text" name="Total" class="form-control text-length" placeholder=" " value="@Model.appraisalRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" autocomplete="off" minlength="1">
-                                    <span class="help-block d-none has-error" id="stxtTotal"> </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-8" id="dtxtEmployeeComment">
-                            <div class="form-group">
-                                <label class="form-label"><span class="has-error required">* </span>Employee's Comments:</label>
-                                <input id="txtEmployeeComment" type="text" name="EmployeeComment" class="form-control text-length" placeholder="Please Enter your Comment" value="@Model.appraisalRating.Comment" isrequired="1" divcontainer="dtxtEmployeeComment" errorspan="stxtEmployeeComment" defaultvalue="" autocomplete="off" minlength="0">
-                                <span class="help-block d-none has-error" id="stxtEmployeeComment">Please Enter Valid Comment</span>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
+                }
+                @if (Model.IsUserReportManager == true && Model.IsUserHR != true)
+                {
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card-header">
+                                <h3 style="font-weight: bold;"> APPRAISER'S RATING</h3>
+                            </div><br>
+                            <input id="txtAppraisalId" name="txtAppraisalId" type="hidden" class="form-control col-sm-4" value="@Model.EmployeeId" />
                             <div class="row">
-                                <button type="button" id="btnSaveAdd" class="btn btn-success mr-2">Submit</button>
-                                <button type="button" id="btnCancel" data-dismiss="modal" class="btn btn-danger">Cancel</button>
+                                <div class="col-sm-3" id="dtxtQualityOfWork">
+                                    <div class="form-group">
+                                        <label class="form-label"><span class="has-error required">* </span>Quality of Work and Task Completion</label>
+                                        <input id="txtQualityOfWork" type="text" name="QualityOfWork" class="form-control text-length" placeholder="Please Enter your Quality" value="@Model.appraisalRating.QualityOfWork" isrequired="1" divcontainer="dtxtQualityOfWork" errorspan="stxtQualityOfWork" defaultvalue="" autocomplete="off" minlength="1">
+                                        <span class="help-block d-none has-error" id="stxtQualityOfWork">Please Enter Valid Rating</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3" id="dtxtGoalsNachievement">
+                                    <div class="form-group">
+                                        <label class="form-label"><span class="has-error required">* </span>Goals And Target Achievement</label>
+                                        <input id="txtGoalsNachievement" type="text" name="GoalsNachievement" class="form-control text-length" placeholder="Please Enter your Rating" value="@Model.appraisalRating.GoalNtarget" isrequired="1" divcontainer="dtxtGoalsNachievement" errorspan="stxtGoalsNachievement" defaultvalue="" autocomplete="off" minlength="1">
+                                        <span class="help-block d-none has-error" id="stxtGoalsNachievement">Please Enter Valid Rating</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3" id="dtxtWrittenNVerbalSkill">
+                                    <div class="form-group">
+                                        <label class="form-label"><span class="has-error required">* </span>Written and Verbal Skill</label>
+                                        <input id="txtWrittenNVerbalSkill" type="text" name="WrittenNVerbalSkill" class="form-control text-length" placeholder="Please Enter your Rating" value="@Model.appraisalRating.WrittenVerbalSkill" isrequired="1" divcontainer="dtxtWrittenNVerbalSkill" errorspan="stxtWrittenNVerbalSkill" defaultvalue="" autocomplete="off" minlength="1">
+                                        <span class="help-block d-none has-error" id="stxtWrittenNVerbalSkill">Please Enter Valid Rating</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3" id="dtxtInitiative">
+                                    <div class="form-group">
+                                        <label class="form-label"><span class="has-error required">* </span>Initiative And Motivation</label>
+                                        <input id="txtInitiative" type="text" name="Initiative" class="form-control text-length datepicker" placeholder="Please Enter your Rating" value="@Model.appraisalRating.InitiativeMotivation" isrequired="1" divcontainer="dtxtInitiative" errorspan="stxtInitiative" defaultvalue="" autocomplete="off" minlength="1">
+                                        <span class="help-block d-none has-error" id="stxtInitiative">Please Enter Valid Rating</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3" id="dtxtTeamWorkNLeaderShip">
+                                    <div class="form-group">
+                                        <label class="form-label"><span class="has-error required">* </span>TeamWork And Leadership Skills</label>
+                                        <input id="txtTeamWorkNLeaderShip" type="text" name="TeamWorkNLeadership" class="form-control text-length" placeholder="Please Enter your Rating" value="@Model.appraisalRating.TeamWork" isrequired="1" divcontainer="dtxtTeamWorkNLeaderShip" errorspan="stxtTeamWorkNLeaderShip" defaultvalue="" autocomplete="off" minlength="1">
+                                        <span class="help-block d-none has-error" id="stxtTeamWorkNLeaderShip">Please Enter Valid Rating</span>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-sm-3" id="dtxtProblemsolveAbility">
+                                    <div class="form-group">
+                                        <label class="form-label"><span class="has-error required">* </span>Ability To Problem Solve</label>
+                                        <input id="txtProblemsolveAbility" type="text" name="ProblemsolveAbility" class="form-control text-length" placeholder="Please Enter your Rating" value="@Model.appraisalRating.ProblemSolvingAbillity" isrequired="1" divcontainer="dtxtProblemsolveAbility" errorspan="stxtProblemsolveAbility" defaultvalue="" autocomplete="off" minlength="1">
+                                        <span class="help-block d-none has-error" id="stxtProblemsolveAbility">Please Enter Valid Rating</span>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-sm-3" id="dtxtAttendanceRegularization">
+                                    <div class="form-group">
+                                        <label class="form-label"><span class="has-error required">* </span>Attendance & Regularization</label>
+                                        <input id="txtAttendanceRegularization" type="text" name="AttendanceRegularization" class="form-control text-length" placeholder="Please Enter your Rating" value="@Model.appraisalRating.GoalNtarget" isrequired="1" divcontainer="dtxtAttendanceRegularization" errorspan="stxtAttendanceRegularization" defaultvalue="" autocomplete="off" minlength="1">
+                                        <span class="help-block d-none has-error" id="stxtAttendanceRegularization">Please Enter Valid Rating</span>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-3" id="dtxtTotal">
+                                    <div class="form-group">
+                                        <label class="form-label"><span class="has-error required">* </span>Total</label>
+                                        <input id="txtTotal" type="text" name="Total" class="form-control text-length" placeholder=" " value="@Model.appraisalRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" autocomplete="off" minlength="1">
+                                        <span class="help-block d-none has-error" id="stxtTotal"> </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8" id="dtxtEmployeeComment">
+                                <div class="form-group">
+                                    <label class="form-label"><span class="has-error required">* </span>Employee's Comments:</label>
+                                    <input id="txtEmployeeComment" type="text" name="EmployeeComment" class="form-control text-length" placeholder="Please Enter your Comment" value="@Model.appraisalRating.Comment" isrequired="1" divcontainer="dtxtEmployeeComment" errorspan="stxtEmployeeComment" defaultvalue="" autocomplete="off" minlength="0">
+                                    <span class="help-block d-none has-error" id="stxtEmployeeComment">Please Enter Valid Comment</span>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <div class="row">
+                                    <button type="button" id="btnSaveAdd" class="btn btn-success mr-2">Submit</button>
+                                    <button type="button" id="btnCancel" data-dismiss="modal" class="btn btn-danger">Cancel</button>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
-
             </div>
-        </div>
-    }
+                }
 
 
-</section>
+    </section>
 
-@section Scripts {
+        @section Scripts {
     <script src="~/archeone/js/appraisalrating/addeditappraisalrating.js?_@DateTime.Now.Ticks"></script>
 }

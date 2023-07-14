@@ -34,8 +34,6 @@ function SaveUserDetails() {
     saveData.append("Dob", $("#txtDob").val());
     saveData.append("PostCode", $("#txtPostCode").val());
     saveData.append("EmploymentType", $("#ddlEmploymentType").val());
-    saveData.append("Department", $("#ddlDepartment").val());
-    saveData.append("Designation", $("#ddlDesignation").val());
     saveData.append("Location", $("#txtLocation").val());
     saveData.append("BloodGroup", $("#txtBloodGroup").val());
     saveData.append("OfferDate", $("#txtOfferDate").val());
