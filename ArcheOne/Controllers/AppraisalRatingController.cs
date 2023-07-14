@@ -72,10 +72,10 @@ namespace ArcheOne.Controllers
                     var appraisalManagerRating = _dbRepo.AppraisalRatingList().FirstOrDefault(x => x.RatingFromUserId == _commonHelper.GetLoggedInUserId() && x.AppraisalId == Id);
                     if (appraisal != null)
                     {
+                        addEditAppraisalRatingResModel.IsApprove = appraisal.IsApprove;
                         addEditAppraisalRatingResModel.reportingManagetDetail.ReportingManagerId = appraisal.ReportingManagerId;
                         addEditAppraisalRatingResModel.reportingManagetDetail.EmployeeDetail.EmployeeId = appraisal.EmployeeId;
                         addEditAppraisalRatingResModel.Id = appraisal.Id;
-                        addEditAppraisalRatingResModel.IsApprove = appraisal.IsApprove;
                         addEditAppraisalRatingResModel.Date = appraisal.CreatedDate.Date.ToString("dd-MM-yyyy");
                         addEditAppraisalRatingResModel.ReviewDate = appraisal.UpdatedDate.Date.ToString("dd-MM-yyyy");
                         if (addEditAppraisalRatingResModel.IsUserHR == true || addEditAppraisalRatingResModel.IsUserReportManager == true)
@@ -83,6 +83,10 @@ namespace ArcheOne.Controllers
                             if (addEditAppraisalRatingResModel.IsUserHR == true)
                             {
                                 appraisalManagerRating = _dbRepo.AppraisalRatingList().FirstOrDefault(x => x.AppraisalId == Id && x.RatingFromUserId == appraisal.ReportingManagerId);
+                            }
+                            else
+                            {
+                                appraisalManagerRating = _dbRepo.AppraisalRatingList().FirstOrDefault(x => x.RatingFromUserId == _commonHelper.GetLoggedInUserId() && x.AppraisalId == Id && appraisal.IsApprove != true);
                             }
                             if (appraisalManagerRating != null)
                             {
@@ -97,6 +101,11 @@ namespace ArcheOne.Controllers
                                 addEditAppraisalRatingResModel.appraisalRating.Comment = appraisalManagerRating.Comment;
 
                             }
+                            else
+                            {
+                                commonResponse.Message = "Data Not Found";
+                                commonResponse.StatusCode = System.Net.HttpStatusCode.NotFound;
+                            }
                         }
                         if (addEditAppraisalRatingResModel.IsUserHR == true || addEditAppraisalRatingResModel.IsUserEmployee == true)
                         {
@@ -104,6 +113,10 @@ namespace ArcheOne.Controllers
                             if (addEditAppraisalRatingResModel.IsUserHR == true)
                             {
                                 appraisalEmployeeRating = _dbRepo.AppraisalRatingList().FirstOrDefault(x => x.AppraisalId == Id && x.RatingFromUserId == appraisal.EmployeeId);
+                            }
+                            else
+                            {
+                                appraisalManagerRating = _dbRepo.AppraisalRatingList().FirstOrDefault(x => x.RatingFromUserId == _commonHelper.GetLoggedInUserId() && x.AppraisalId == Id && appraisal.IsApprove != true);
                             }
                             if (appraisalEmployeeRating != null)
                             {
@@ -118,6 +131,11 @@ namespace ArcheOne.Controllers
                                 addEditAppraisalRatingResModel.EmployeeRating.Comment = appraisalEmployeeRating.Comment;
 
                             }
+                            else
+                            {
+                                commonResponse.Message = "Data Not Found";
+                                commonResponse.StatusCode = System.Net.HttpStatusCode.NotFound;
+                            }
                         }
                         if (addEditAppraisalRatingResModel.EmployeeRating != null && addEditAppraisalRatingResModel.reportingManagetDetail != null)
                         {
@@ -128,6 +146,7 @@ namespace ArcheOne.Controllers
                         commonResponse.StatusCode = System.Net.HttpStatusCode.OK;
                         commonResponse.Message = "Get Appraisal Rating Successfully";
                         commonResponse.Data = addEditAppraisalRatingResModel;
+
 
                     }
                     else
@@ -174,6 +193,8 @@ namespace ArcheOne.Controllers
                     appraisalRatingDetail.Attendance = appraisalRatingSaveUpdateReqModel.Attendance;
                     appraisalRatingDetail.TeamWork = appraisalRatingSaveUpdateReqModel.TeamWork;
                     appraisalRatingDetail.Comment = appraisalRatingSaveUpdateReqModel.Comment;
+                    appraisalRatingDetail.Total = appraisalRatingSaveUpdateReqModel.Total; 
+
 
                     appraisalRatingDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
                     appraisalRatingDetail.UpdatedBy = _commonHelper.GetLoggedInUserId();
