@@ -6,6 +6,8 @@
         public string EmployeeName { get; set; }
         public string ReportingManagerName { get; set; }
         public string Year { get; set; }
+
+        public string AppraisalStaus { get; set; }
         public bool IsUserHR { get; set; }
 
     }

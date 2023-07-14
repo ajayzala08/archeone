@@ -1,5 +1,8 @@
 ﻿$(document).ready(function () {
+
+    debugger
     UserDocumentList();
+
     $("#btnAddUpdateUserDocument").click(function () {
         AddUpdateUserDocument();
     });
