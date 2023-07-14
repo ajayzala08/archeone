@@ -1,6 +1,10 @@
-﻿@{
+﻿@using ArcheOne.Helper.CommonHelpers;
+@using ArcheOne.Models.Res;
+@inject CommonHelper CommonHelperInstance
+@{
     Layout = "_MasterLayout";
     ViewBag.select2 = "true";
+    List<IndexDashboardResModel> permissionList = CommonHelperInstance.GetPermissionList();
 }
 
 @if (1 == 0)
@@ -61,9 +65,12 @@ else
                         <select id="ddlRequirementStatus" name="ddlRequirementStatus" class="form-control data-filter select2">
                         </select>
                     </div>
-                    <div class="col-md-6" align="right">
-                        <input type="button" id="btnAddRequirement" class="btn btn-success" value="Add Requirement" style="margin-top:32px;" />
-                    </div>
+                    @if (permissionList.Any(x => x.PermissionCode.Contains(CommonEnums.PermissionMst.Requirements_Add.ToString())))
+                    {
+                        <div class="col-md-6" align="right">
+                            <input type="button" id="btnAddRequirement" class="btn btn-success" value="Add Requirement" style="margin-top:32px;" />
+                        </div>
+                    }
                 </div>
             </div>
             <div class="card-body">

@@ -33,19 +33,22 @@ BEGIN
 	Create table dbo.UserMst(
 			Id int identity(1,1) primary key,
 			CompanyId int not null,
+			RoleId int not null, 
+			DepartmentId int not null, 
+			DesignationId int not null,
 			FirstName nvarchar(100) not null,
 			MiddleName nvarchar(100) not null,
 			LastName nvarchar(100) not null,
 			UserName nvarchar(50) not null,
-			[Password] nvarchar(20) not null,
-			[Address] nvarchar(500) not null,
+			Password nvarchar(200) not null,
+			Address nvarchar(500) not null,
 			Pincode nvarchar(10) not null,
 			Mobile1 nvarchar(20) not null,
 			Mobile2 nvarchar(20) not null,
 			Email nvarchar(50) not null,
 			PhotoURL nvarchar(max) not null,
-			IsActive bit default(1) not null,
-			IsDelete bit default(0) not null,
+			IsActive bit not null,
+			IsDelete bit not null,
 			CreatedBy int not null,
 			UpdatedBy int not null,
 			CreatedDate datetime not null,
@@ -58,10 +61,9 @@ BEGIN
 	PRINT 'UserMst Table Already Exist' 
 END
 
-insert into dbo.CompanyMst values('Arche Softronix','Vadodara','390019','0265-446687','9878990654','7896546733',N'Arche@gmail.com',
-'www.Archesoftronix.com','logo.png',1,0,0,0,getdate(),getdate())
+insert into dbo.CompanyMst values('Arche Softronix','Vadodara','390019','0265-446687','9878990654','7896546733',N'Arche@gmail.com', 'www.Archesoftronix.com','logo.png',1,0,0,0,getdate(),getdate())
 
-insert into dbo.usermst values(1,'Admin','','Super','S_Admin','12345','Vadodara','390015','8878964532','9976536725','SuperAdmin@gmail.com','photoURL',1,0,0,0,getdate(),getdate())
+insert into dbo.usermst values(1, 1, 0, 0,'Admin','','Super','S_Admin','1lo5OLz+GwC4ocaqa2Nt+Q==','Vadodara','390015','8878964532','9976536725','SuperAdmin@gmail.com','photoURL',1,0,0,0,getdate(),getdate())
 
 ----------------------------------------Added by NP on 25-05-23-----------------------------------End--------
 ---------------------------------------Executed on Local Server on 25-05-23------------------by NP-----------
@@ -118,7 +120,7 @@ BEGIN
 			Id int identity(1,1) primary key,
 			PermissionName nvarchar(100) not null,
 			PermissionCode nvarchar(100) not null,
-			PermissionRoute nvarchar(100) not null,
+			PermissionRoute nvarchar(max) not null,
 			IsActive bit not null,
 			IsDelete bit not null,
 			CreatedBy int not null,
@@ -177,11 +179,6 @@ END
 ----------------------------------------Added by NP on 29-05-23-----------------------------------End--------
 ---------------------------------------Executed on Local Server on 29-05-23------------------by NP-----------
 
-----------------------------------------Added by DS on 01-06-23-----------------------------------Start--------
-
-Alter table UserMst add RoleId int
-
-----------------------------------------Added by DS on 01-06-23-----------------------------------End--------
 ---------------------------------------Executed on Local Server on 01-06-23------------------by DS-----------
 
 ----------------------------------------Added by TS on 11-06-23-----------------------------------Start--------
@@ -837,8 +834,6 @@ BEGIN
 	PRINT 'HolidayMst Table Already Exist' 
 END
 
-
-
 ----------------------------------------Added by PP on 15-06-23-----------------------------------END--------
 ---------------------------------------Executed on Local Server on 15-06-23------------------by SP-----------
 
@@ -856,8 +851,6 @@ BEGIN
 			Dob DateTime not null,
 			PostCode nvarchar(100) not null,
 			EmploymentType int not null,
-			Department int not null,
-			Designation int not null,
 			Location nvarchar(100) not null,
 			BloodGroup nvarchar(100) not null,
 			OfferDate DateTime not null,
@@ -867,15 +860,15 @@ BEGIN
 			Branch nvarchar(100) not null,
 			IfscCode nvarchar(20) not null,
 			PfaccountNumber nvarchar(30) not null,
-			PancardNumber nvarchar(10) not null,
-			AdharCardNumber nvarchar(12) not null,
+			PanCardNumber nvarchar(10) not null,
+			AadharCardNumber nvarchar(12) not null,
 			Salary decimal(38,18) not null,
 			ReportingManager int not null,
 			Reason nvarchar(Max) not null,
 			EmployeePersonalEmailId nvarchar(100) not null,
 			ProbationPeriod nvarchar(20) not null,
-			IsActive bit default(1) not null,
-			IsDelete bit default(0) not null,
+			IsActive bit not null,
+			IsDelete bit not null,
 			CreatedBy int not null,
 			UpdatedBy int not null,
 			CreatedDate datetime not null,
@@ -950,6 +943,8 @@ BEGIN
 	Create table dbo.DesignationMst(
 			Id int identity(1,1) primary key,
 			Designation nvarchar(100) not null,
+			RoleId int not null,
+			DepartmentId int not null,
 			IsActive bit default(1) not null,
 			IsDelete bit default(0) not null,
 			CreatedBy int not null,
@@ -1234,10 +1229,7 @@ BEGIN
 END
 ----------------------------------------Added by AZ on 23-06-23-----------------------------------End--------
 ---------------------------------------Executed on Local Server on 23-06-23------------------by AZ-----------
-----------------------------------------Added by PP on 26-06-23-----------------------------------Start--------
-ALTER TABLE Usermst  
-ALTER COLUMN Password nvarchar(100);  
-----------------------------------------Added by PP on 26-06-23-----------------------------------End--------
+
 ---------------------------------------Executed on Local Server on 26-06-23------------------by PP-----------
 ----------------------------------------Added by AZ on 26-06-23-----------------------------------Start--------
 alter table dbo.SalaryMst
@@ -1596,3 +1588,14 @@ Alter table AppraisalMst
 Add IsApprove bit null
 
 ----------------------------------------Added by SP on 13-07-23-----------------------------------End--------
+
+----------------------------------------Added by AZ on 14-07-23-----------------------------------Start--------
+
+SET IDENTITY_INSERT [dbo].[DocumentTypeMst] ON
+INSERT INTO DocumentTypeMst (Id, DocumentType, IsActive, IsDelete, CreatedBy, UpdatedBy, CreatedDate, UpdatedDate) VALUES(1, N'Experience Letter', 1, 0, 1, 1, GETDATE(), GETDATE());
+INSERT INTO DocumentTypeMst (Id, DocumentType, IsActive, IsDelete, CreatedBy, UpdatedBy, CreatedDate, UpdatedDate) VALUES(2, N'Previos Company Salary Slip', 1, 0, 1, 1, GETDATE(), GETDATE());
+INSERT INTO DocumentTypeMst (Id, DocumentType, IsActive, IsDelete, CreatedBy, UpdatedBy, CreatedDate, UpdatedDate) VALUES(3, N'PAN Card', 1, 0, 1, 1, GETDATE(), GETDATE());
+INSERT INTO DocumentTypeMst (Id, DocumentType, IsActive, IsDelete, CreatedBy, UpdatedBy, CreatedDate, UpdatedDate) VALUES(4, N'AdharCard', 1, 0, 1, 1, GETDATE(), GETDATE());
+SET IDENTITY_INSERT [dbo].[DocumentTypeMst] OFF
+----------------------------------------Added by AZ on 14-07-23-----------------------------------End--------
+----------------------------------------Executed On Dev Environment-------------------------------------------

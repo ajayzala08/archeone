@@ -89,7 +89,7 @@ function GetFilteredSalesLeadList() {
 
     ajaxCall("Get", false, '/SalesLead/SalesList', null, function (result) {
 
-     
+
 
         if (result.status == true) {
 
@@ -109,18 +109,21 @@ function GetFilteredSalesLeadList() {
                         class: 'clsWrap',
                         data: "id",
                         title: 'Action',
-                        name:"second",
+                        name: "second",
                         render: function (data, type, row) {
                             if (data) {
                                 return '<i class="fa fa-pen pen" value="' + data.id + '" onclick="AddEditSalesLead(' + row.id + ')"></i> | <i class="fa fa-trash trash btn-delete" value="' + data.id + '" onclick="DeleteSalesLead(' + row.id + ')"></i>';
-                            } 
+                            }
                         }
                     },
-                    { data: "orgName", title: "Lead", name:"first" },
+                    { data: "orgName", title: "Lead", name: "first" },
                     {
                         data: null,
                         title: "Contact Person",
                         render: function (data) {
+                            if (data.fullName == "Jigar Jadhav") {
+                                $('td', data).css('background-color', 'Red');
+                            }
                             return '<a href=/SalesLead/Actions?id=' + data.contactPersonId + '>' + data.fullName + ' </a> ';
                         }
 
@@ -133,7 +136,15 @@ function GetFilteredSalesLeadList() {
                     "first:name",
                     "second:name"
 
-                ]
+                ], "createdRow": function (row, data, dataIndex) {
+                    
+                    if (data.leadStatus == "DNC") {
+                        $(row).addClass("table-danger");
+                    }
+                    else if (data.leadStatus == "Opportunity") {
+                        $(row).addClass("table-success");
+                    }
+                }
             }).buttons().container().appendTo('#tblUser_wrapper .col-md-6:eq(0)');
         }
         else {

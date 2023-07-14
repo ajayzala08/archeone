@@ -6,7 +6,6 @@ using ArcheOne.Models.Res;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
-using System.Security.Cryptography.Xml;
 
 namespace ArcheOne.Controllers
 {
@@ -49,12 +48,12 @@ namespace ArcheOne.Controllers
             var userList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null);
             var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
 
-            var reportingManagerList = userList.Where(x => managerroleIdList.Contains(x.RoleId.Value)).ToList();
-            var employeeList = userList.Where(x => !managerroleIdList.Contains(x.RoleId.Value) && !hrroleIdList.Contains(x.RoleId.Value) && !adminroleIdList.Contains(x.RoleId.Value)).ToList();
+            var reportingManagerList = userList.Where(x => managerroleIdList.Contains(x.RoleId)).ToList();
+            var employeeList = userList.Where(x => !managerroleIdList.Contains(x.RoleId) && !hrroleIdList.Contains(x.RoleId) && !adminroleIdList.Contains(x.RoleId)).ToList();
 
-            var IsUserManager = loginUserList.Where(x => managerroleIdList.Contains(x.RoleId.Value)).ToList();
-            var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
-            var IsUserEmployee = loginUserList.Where(x => employeeroleIdList.Contains(x.RoleId.Value)).ToList();
+            var IsUserManager = loginUserList.Where(x => managerroleIdList.Contains(x.RoleId)).ToList();
+            var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId)).ToList();
+            var IsUserEmployee = loginUserList.Where(x => employeeroleIdList.Contains(x.RoleId)).ToList();
 
 
             addEditAppraisalRatingResModel.EmployeeId = employeeList;
@@ -251,7 +250,7 @@ namespace ArcheOne.Controllers
                         commonResponse.Status = true;
                         commonResponse.StatusCode = HttpStatusCode.OK;
                         commonResponse.Message = "Appraisal Approved Successfully";
-                        
+
                     }
                     else
                     {
@@ -269,7 +268,7 @@ namespace ArcheOne.Controllers
                     commonResponse.Message = "Data Not Found";
 
                 }
-            
+
             }
             catch (Exception ex)
             {

@@ -49,13 +49,8 @@ namespace ArcheOne.Controllers
 
                 if (permissionList.Count > 0)
                 {
-                    byte[] serializedData;
-                    using (MemoryStream memoryStream = new MemoryStream())
-                    {
-                        JsonSerializer.Serialize(memoryStream, permissionList);
-                        serializedData = memoryStream.ToArray();
-                    }
-                    _httpContextAccessor.HttpContext.Session.Set("PermissionList", serializedData);
+                    var serializedPermissionList = JsonSerializer.Serialize(permissionList);
+                    _httpContextAccessor.HttpContext.Session.SetString("PermissionList", serializedPermissionList);
                 }
             }
             catch (Exception ex) { }

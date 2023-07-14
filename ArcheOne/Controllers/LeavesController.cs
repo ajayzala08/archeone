@@ -65,8 +65,8 @@ namespace ArcheOne.Controllers
                 var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == userId);
 
 
-                var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
-                var IsUserEmployee = loginUserList.Where(x => employeeroleIdList.Contains(x.RoleId.Value)).ToList();
+                var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId)).ToList();
+                var IsUserEmployee = loginUserList.Where(x => employeeroleIdList.Contains(x.RoleId)).ToList();
 
                 bool IsUserHR1 = IsUserHR.Count > 0;
                 bool ReportingManager1 = ReportingManager != null;
@@ -309,7 +309,7 @@ namespace ArcheOne.Controllers
                 var hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
 
                 var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
-                var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
+                var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId)).ToList();
 
                 if (Id > 0)
                 {
@@ -371,7 +371,7 @@ namespace ArcheOne.Controllers
 
 
                                     loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == leaveDetails.AppliedByUserId);
-                                    var IsUserEmployee = loginUserList.Where(x => employeeroleIdList.Contains(x.RoleId.Value)).ToList();
+                                    var IsUserEmployee = loginUserList.Where(x => employeeroleIdList.Contains(x.RoleId)).ToList();
 
 
                                     if (reportingManager.ReportingManager == userId)
@@ -764,9 +764,9 @@ namespace ArcheOne.Controllers
 
                         var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
 
-                        var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId.Value)).ToList();
-                        var IsUserManager = loginUserList.Where(x => managerroleIdList.Contains(x.RoleId.Value)).ToList();
-                        var IsUserEmployee = loginUserList.Where(x => employeeroleIdList.Contains(x.RoleId.Value)).ToList();
+                        var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId)).ToList();
+                        var IsUserManager = loginUserList.Where(x => managerroleIdList.Contains(x.RoleId)).ToList();
+                        var IsUserEmployee = loginUserList.Where(x => employeeroleIdList.Contains(x.RoleId)).ToList();
 
 
 

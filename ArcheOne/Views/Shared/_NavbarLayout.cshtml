@@ -3,15 +3,12 @@
 @using ArcheOne.Models.Res;
 @using System.Text.Json;
 @{
-    List<IndexDashboardResModel> permissionList = ViewBag.PermissionList;
-    byte[] serializedData = HttpContextAccessor.HttpContext.Session.Get("PermissionList");
+    List<IndexDashboardResModel> permissionList = new List<IndexDashboardResModel>();
+    var serializedData = HttpContextAccessor.HttpContext.Session.GetString("PermissionList");
 
     if (serializedData != null)
     {
-        using (MemoryStream memoryStream = new MemoryStream(serializedData))
-        {
-            permissionList = JsonSerializer.Deserialize<List<IndexDashboardResModel>>(memoryStream) ?? new List<IndexDashboardResModel>();
-        }
+        permissionList = JsonSerializer.Deserialize<List<IndexDashboardResModel>>(serializedData) ?? new List<IndexDashboardResModel>();
     }
 }
 
@@ -124,8 +121,7 @@
                 }
 
                 @if (permissionList.Any(x
-               => x.PermissionCode == CommonEnums.PermissionMst.Requirements_View.ToString()
-               || x.PermissionCode == CommonEnums.PermissionMst.Policy_View.ToString()
+               => x.PermissionCode == CommonEnums.PermissionMst.Policy_View.ToString()
                || x.PermissionCode == CommonEnums.PermissionMst.Leaves_View.ToString()
                || x.PermissionCode == CommonEnums.PermissionMst.Salary_View.ToString()
                || x.PermissionCode == CommonEnums.PermissionMst.Appraisal_View.ToString()))
@@ -138,17 +134,7 @@
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
-                        <ul class="nav nav-treeview">
-                            @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Requirements_View.ToString()))
-                            {
-                                <li class="nav-item">
-                                    <a href="~/Requirement/Index" class="nav-link">
-                                        <i class="nav-icon fas fa-book"></i>
-                                        <p>Requirements</p>
-                                    </a>
-                                </li>
-                            }
-
+                        <ul class="nav nav-treeview">                            
                             @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Policy_View.ToString()))
                             {
                                 <li class="nav-item">
@@ -193,7 +179,9 @@
                     </li>
                 }
 
-                @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Leads_View.ToString()))
+                @if (permissionList.Any(x
+               => x.PermissionCode == CommonEnums.PermissionMst.Requirements_View.ToString()
+               || x.PermissionCode == CommonEnums.PermissionMst.Leads_View.ToString()))
                 {
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
@@ -210,6 +198,16 @@
                                     <a href="~/SalesLead/Index" class="nav-link">
                                         <i class="nav-icon fas fa-magnet"></i>
                                         <p>Leads</p>
+                                    </a>
+                                </li>
+                            }
+                            
+                            @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Requirements_View.ToString()))
+                            {
+                                <li class="nav-item">
+                                    <a href="~/Requirement/Index" class="nav-link">
+                                        <i class="nav-icon fas fa-book"></i>
+                                        <p>Requirements</p>
                                     </a>
                                 </li>
                             }
