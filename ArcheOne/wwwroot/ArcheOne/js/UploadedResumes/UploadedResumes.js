@@ -70,14 +70,26 @@ function GetUploadedResumes(ResumeFileUploadId) {
                         data: null,
                         title: 'Action',
                         render: function (data, type, row) {
-                            if (row.flowStatus == "Interview_Info") {
+                            if (row.resumeStatus == "Pending") {
+                                if (row.uploadedResumeStatusUpdate) {
+                                    return '<button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Pending</button><div class="dropdown-menu"><a class="dropdown-item text-success" id="2" onclick="ShowUpdateResumeStatusAlert(this, ' + row.id + ')">Approve</a><a class="dropdown-item text-danger" id="3" onclick="ShowUpdateResumeStatusAlert(this, ' + row.id + ')">Reject</a></div>';
+                                } else {
+                                    return '<button type="button" class="btn btn-warning">Pending</button>';
+                                }
+                            } else if (row.resumeStatus == "Rejected") {
+                                return '<button type="button" class="btn btn-danger">Rejected</button>';
+                            } else if (row.flowStatus == "Interview_Info") {
                                 return '<button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#modalInterviewInfo" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\',true, false)"><i class="fa fa-user-tie"></i> Interview Info</button>';
                             } else if (row.flowStatus == "Cleared") {
                                 return '<div class="btn-group"><button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalInterviewInfo" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\',false, false)"><i class="fa fa-check-circle"></i> Interview(s) Cleared</button><button type="button" class="btn btn-success dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu" role="menu" style=""><a id="2" class="dropdown-item text-info" data-toggle="modal" data-target="#modalOfferGive" onclick="ShowOfferGivenModel(' + row.id + ', false)">Offer Given</a></div></div>';
                             } else if (row.flowStatus == "Offer") {
                                 return '<div class="btn-group"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalInterviewInfo" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\',false, true)"><i class="fa fa-box-open"></i> Offer Given</button><button type="button" class="btn btn-primary dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu" role="menu" style=""><a id="1" class="dropdown-item text-info" data-toggle="modal" data-target="#modalOfferGive" onclick="ShowOfferGivenModel(' + row.id + ',true)">To Be Join</a></div></div>';
                             } else if (row.flowStatus == "To_Be_Join") {
-                                return '<div class="btn-group"><button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modalInterviewInfo" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\',false, true)"><i class="fa fa-clock"></i> To Be Join</button><button type="button" class="btn btn-secondary dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu" role="menu" style=""><a id="2" class="dropdown-item text-success" onclick="ShowUpdateHireStatusAlert(this, ' + row.id + ')">Join</a><a id="3" class="dropdown-item text-danger" onclick="ShowUpdateHireStatusAlert(this, ' + row.id + ')">No Show</a><a id="4" class="dropdown-item text-danger" onclick="ShowUpdateHireStatusAlert(this, ' + row.id + ')">Bad Delivery</a></div></div>';
+                                if () {
+                                    return '<div class="btn-group"><button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modalInterviewInfo" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\',false, true)"><i class="fa fa-clock"></i> To Be Join</button><button type="button" class="btn btn-secondary dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu" role="menu" style=""><a id="2" class="dropdown-item text-success" onclick="ShowUpdateHireStatusAlert(this, ' + row.id + ')">Join</a><a id="3" class="dropdown-item text-danger" onclick="ShowUpdateHireStatusAlert(this, ' + row.id + ')">No Show</a><a id="4" class="dropdown-item text-danger" onclick="ShowUpdateHireStatusAlert(this, ' + row.id + ')">Bad Delivery</a></div></div>';
+
+                                } else {
+                                }
                             } else if (row.flowStatus == "No_Show") {
                                 return '<button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#modalInterviewInfo" onclick="ShowScheduleInterview(' + row.id + ',\'' + row.fullName + '\',false, true)"><i class="fa fa-user-slash"></i> No Show</button>';
                             } else if (row.flowStatus == "Join") {
@@ -340,7 +352,6 @@ function ShowUpdateHireStatusAlert(element, uploadedResumeId) {
         cancelButtonText: 'Cancel',
     })
         .then((result) => {
-            console.log(result)
             if (result.isDismissed === false) {
                 if (result.isConfirmed) {
                     UpdateHireStatus(element.id, 0, uploadedResumeId);
@@ -455,4 +466,43 @@ function UploadNewResume() {
 
 function loadFile(event) {
     $('#lblResumeUpload').html(event.target.files[0].name);
+}
+
+function ShowUpdateResumeStatusAlert(element, uploadedResumeId) {
+    swal.fire({
+        title: "Update Resume Status",
+        html: "Are you sure you want to update the resume status to <br><b>'" + $(element).text() + "'</b>?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'Cancel',
+    })
+        .then((result) => {
+            if (result.isDismissed === false) {
+                if (result.isConfirmed) {
+                    UpdateResumeStatus(element.id, uploadedResumeId);
+                }
+            } else {
+                Toast.fire({ icon: 'warning', title: "Resume status update abort!" });
+            }
+        });
+}
+
+function UpdateResumeStatus(resumeStatus, uploadedResumeId) {
+    var requestModel = {
+        "ResumeStatus": resumeStatus,
+        "UploadedResumeId": uploadedResumeId
+    }
+
+    ajaxCall("Post", false, '/UploadedResume/UpdateResumeStatus', JSON.stringify(requestModel), function (result) {
+        if (result.status == true) {
+            Toast.fire({ icon: 'success', title: result.message });
+            setInterval(function () {
+                window.location.reload();
+            }, 1500)
+        } else {
+            Toast.fire({ icon: 'error', title: result.message });
+        }
+        $.unblockUI();
+    });
 }

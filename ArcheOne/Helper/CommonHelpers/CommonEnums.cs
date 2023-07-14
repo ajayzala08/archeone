@@ -34,7 +34,8 @@
             Projects_View,
             Task_Report_View,
             Event_View,
-            Salary_View
+            Salary_View,
+            Uploaded_Resume_Status_Update
         }
 
         public enum InterviewRoundStatusMst
@@ -83,6 +84,13 @@
             InProgress,
             OnHold,
             Completed
+        }
+
+        public enum ResumeStatus
+        {
+            Pending = 1,
+            Approved,
+            Rejected
         }
     }
 }

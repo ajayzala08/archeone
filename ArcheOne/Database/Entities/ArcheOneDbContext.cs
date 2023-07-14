@@ -560,14 +560,13 @@ public partial class ArcheOneDbContext : DbContext
 
         modelBuilder.Entity<PermissionMst>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Permissi__3214EC0799A5F459");
+            entity.HasKey(e => e.Id).HasName("PK__Permissi__3214EC071834C183");
 
             entity.ToTable("PermissionMst");
 
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.PermissionCode).HasMaxLength(100);
             entity.Property(e => e.PermissionName).HasMaxLength(100);
-            entity.Property(e => e.PermissionRoute).HasMaxLength(100);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 

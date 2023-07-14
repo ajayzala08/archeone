@@ -102,4 +102,6 @@ public partial class ResumeFileUploadDetailMst
     public DateTime CreatedDate { get; set; }
 
     public DateTime UpdatedDate { get; set; }
+
+    public int? ResumeStatus { get; set; }
 }

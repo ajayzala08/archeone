@@ -31,6 +31,9 @@ namespace ArcheOne.Controllers
             CommonResponse response = new CommonResponse();
             try
             {
+                var permissionList = _commonHelper.GetPermissionList();
+                var uploadedResumeStatusUpdate = permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.Uploaded_Resume_Status_Update.ToString());
+
                 var data = await (from resumeFileUploadDetail in _dbRepo.ResumeFileUploadDetailList()
                                   where resumeFileUploadDetail.RequirementId == ResumeFileUploadId
                                   join interview in _dbRepo.InterviewList() on resumeFileUploadDetail.Id equals interview.ResumeFileUploadDetailId into interviewGroup
@@ -50,6 +53,8 @@ namespace ArcheOne.Controllers
                                       resumeFileUploadDetail.RelevantExperienceYear,
                                       resumeFileUploadDetail.CurrentDesignation,
                                       resumeFileUploadDetail.Skills,
+                                      uploadedResumeStatusUpdate,
+                                      ResumeStatus = Convert.ToString((CommonEnums.ResumeStatus)resumeFileUploadDetail.ResumeStatus),
                                       FlowStatus = interviewItem == null || interviewItem.OfferStatusId == 0 ? CommonEnums.UploadedResumeTableFlowStatus.Interview_Info.ToString() : interviewItem.OfferStatusId == 1 ? CommonEnums.UploadedResumeTableFlowStatus.Cleared.ToString() : interviewItem.OfferStatusId == 2 ? CommonEnums.UploadedResumeTableFlowStatus.Offer.ToString() : hireStatusItem.HireStatusCode
                                   }).ToListAsync();
                 if (data != null && data.Count > 0)
@@ -405,6 +410,37 @@ namespace ArcheOne.Controllers
             return response;
         }
 
+        public async Task<CommonResponse> UpdateResumeStatus([FromBody] UpdateResumeStatusStatusReqModel request)
+        {
+            CommonResponse response = new CommonResponse();
+            try
+            {
+                var resumeFileUploadDetailMst = await _dbRepo.ResumeFileUploadDetailList().FirstOrDefaultAsync(x => x.Id == request.UploadedResumeId);
+                if (resumeFileUploadDetailMst != null)
+                {
+                    resumeFileUploadDetailMst.ResumeStatus = request.ResumeStatus;
+                    resumeFileUploadDetailMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                    resumeFileUploadDetailMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+
+
+                    _dbContext.Entry(resumeFileUploadDetailMst).State = EntityState.Modified;
+                    await _dbContext.SaveChangesAsync();
+
+                    response.Status = true;
+                    response.StatusCode = System.Net.HttpStatusCode.OK;
+                    response.Message = "Resume status updated successfully!";
+                }
+                else
+                {
+                    response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                    response.Message = "Resume details not found!";
+                }
+
+            }
+            catch { throw; }
+            return response;
+        }
+
         public async Task<CommonResponse> GetOfferedDetails(int ResumeId)
         {
             CommonResponse response = new CommonResponse();
@@ -461,6 +497,7 @@ namespace ArcheOne.Controllers
                             resumeFileUploadDetailMst.RequirementId = request.RequirementId;
                             resumeFileUploadDetailMst.FilePath = filePath;
                             resumeFileUploadDetailMst.FileName = filePath.Split("\\").Last();
+                            resumeFileUploadDetailMst.ResumeStatus = Convert.ToInt32(CommonEnums.ResumeStatus.Pending);
 
                             resumeFileUploadDetailMst.IsActive = true;
                             resumeFileUploadDetailMst.IsDelete = false;

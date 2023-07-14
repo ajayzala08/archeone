@@ -453,6 +453,7 @@ BEGIN
 			JoinInDate date null,
 			OfferedPackageInLac decimal(38,17) null,
 			JoinInNote nvarchar(max) null,
+			ResumeStatus bit not null,
 			IsActive bit not null,
 			IsDelete bit not null,
 			CreatedBy int not null,

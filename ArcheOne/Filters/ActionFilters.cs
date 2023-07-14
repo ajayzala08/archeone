@@ -21,12 +21,25 @@ namespace ArcheOne.Filters
                 string controllerName = filterContext.ActionDescriptor.RouteValues["controller"] ?? "";
                 string actionName = filterContext.ActionDescriptor.RouteValues["action"] ?? "";
 
-                string[] validControllers = new string[] { "LogIn", "Dashboard", "Error" };
+                string[] validControllers = new string[] { "LogIn", "Dashboard", "Error", "Profile" };
 
                 if (!validControllers.Any(x => x == controllerName))
                 {
                     bool isAjaxRequest = filterContext.HttpContext.Request.Headers.ContainsKey("X-Requested-With");
-                    if (!_commonHelper.GetPermissionList().Any(x => x.PermissionRoute.Contains($"{controllerName}/{actionName}")))
+                    var permissionList = _commonHelper.GetPermissionList();
+                    if (permissionList.Count == 0)
+                    {
+                        var routeValues = new RouteValueDictionary(new
+                        {
+                            controller = "Login",
+                            action = "Login",
+                            isAjax = isAjaxRequest // Set the value of isAjax parameter
+                        });
+
+                        // Redirect to the new controller, action, and pass the route values
+                        filterContext.Result = new RedirectToActionResult("LogIn", "LogIn", routeValues);
+                    }
+                    else if (!permissionList.Any(x => x.PermissionRoute.Contains($"{controllerName}/{actionName}")))
                     {
                         // Create a RouteValueDictionary to store the route values
                         var routeValues = new RouteValueDictionary(new
