@@ -140,7 +140,7 @@ namespace ArcheOne.Controllers
                         leaveDetailsListModel.EndTime = Convert.ToString(item.EndTime);
                         leaveDetailsListModel.OpeningBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.OpeningLeaveBalance));
                         leaveDetailsListModel.ClosingBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.ClosingLeaveBalance));
-                        leaveDetailsListModel.NoOfDays = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)item.NoOfDays));
+                        leaveDetailsListModel.NoOfDays = item.NoOfDays == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)item.NoOfDays));
                         leaveDetailsListModel.PaidDays = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)item.PaidDays));
                         leaveDetailsListModel.UnPaidDays = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)item.UnPaidDays));
                         leaveDetailsListModel.Reason = item.Reason;
@@ -241,9 +241,9 @@ namespace ArcheOne.Controllers
                     leaveDetailsListModel.EndTime = "";
                     leaveDetailsListModel.OpeningBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.OpeningLeaveBalance));
                     leaveDetailsListModel.ClosingBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.ClosingLeaveBalance));
-                    leaveDetailsListModel.NoOfDays = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.NoOfDays));
-                    leaveDetailsListModel.PaidDays = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.NoOfDays));
-                    leaveDetailsListModel.UnPaidDays = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.NoOfDays));
+                    leaveDetailsListModel.NoOfDays = LeaveBalanceList1.NoOfDays == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.NoOfDays));
+                    leaveDetailsListModel.PaidDays = LeaveBalanceList1.NoOfDays == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.NoOfDays));
+                    leaveDetailsListModel.UnPaidDays = LeaveBalanceList1.NoOfDays == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.NoOfDays));
                     leaveDetailsListModel.Reason = "";
                     leaveDetailsListModel.LeaveStatus = "Approve";
                     leaveDetailsListModel.BalanceMonth = LeaveBalanceList1.BalanceMonth;
@@ -776,7 +776,8 @@ namespace ArcheOne.Controllers
                         bool IsUserEmployee1 = IsUserEmployee.Count > 0 ? true : false;
 
 
-                        var userJoiningDate = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == userId);
+                        var AppliedByUserDetails = _dbRepo.LeaveLists().Where(x => x.Id == request.Id).OrderBy(x => x.Id).LastOrDefault();
+                        var userJoiningDate = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == AppliedByUserDetails.AppliedByUserId);
                         if (userJoiningDate != null)
                         {
 
@@ -1049,7 +1050,7 @@ namespace ArcheOne.Controllers
 
                                                     leaveBalanceList1.SickLeaveTaken = 0.00M;
 
-                                                    leaveBalanceList1.SickLeaveBalance = leaveBalanceList1.SickLeaveTaken == 0 ? leaveBalanceList1.SickLeaveBalance : leaveBalanceList1.SickLeaveBalance - noOfDay;
+                                                    leaveBalanceList1.SickLeaveBalance = leaveBalanceList1.SickLeaveBalance == 0 ? 0 : leaveBalanceList1.SickLeaveBalance - noOfDay;
                                                     if (leaveBalanceList1.SickLeaveBalance < 0)
                                                     {
                                                         leaveBalanceList1.SickLeaveBalance = 0.00M;
@@ -1100,7 +1101,7 @@ namespace ArcheOne.Controllers
 
                                                 leaveBalanceList1.ClosingLeaveBalance = leaveBalanceList1 == null ? 0 : leaveBalanceList1.EarnedLeaveBalance + leaveBalanceList1.SickLeaveBalance + leaveBalanceList1.CasualLeaveBalance;
 
-                                                leaveBalanceList1.OpeningLeaveBalance = leaveBalanceList1 == null ? 0 : leaveBalanceList1.ClosingLeaveBalance;
+                                                leaveBalanceList1.OpeningLeaveBalance = leaveBalanceList1 == null ? 0 : leaveBalanceList1.OpeningLeaveBalance;
 
 
                                                 leaveBalanceList1.LeaveTaken = requestmonth == leaveBalanceList1.BalanceMonth ? noOfDay : 0;
@@ -1267,10 +1268,27 @@ namespace ArcheOne.Controllers
                     }
                 }
             }
+            var holiDayList = _dbRepo.HolidayDayList().ToList();
+            if (holiDayList.Count > 0)
+            {
+                foreach (var item in holiDayList)
+                {
+                    for (DateTime i = StartDate; i <= EndDate; i = i.Date.AddDays(1))
+                    {
+                        if (item.HolidayDate == i.Date)
+                        {
+                            isGetNoOfDays -= decimal.Parse("1");
+                        }
+                        else
+                        {
 
+                        }
+                    }
+                }
+            }
             return isGetNoOfDays;
-        }
 
+        }
         public decimal GetProbationPeriod(DateTime StartDate, DateTime EndDate)
         {
             decimal isProbationPeriodDays = 0;
@@ -1305,6 +1323,7 @@ namespace ArcheOne.Controllers
                 {
                     for (DateTime i = model.StartDate.Date; i <= model.EndDate.Date; i = i.Date.AddDays(1))
                     {
+
                         if (i.Date == model.StartDate.Date)
                         {
                             if (model.StartTime == "09:30 AM")
@@ -1337,16 +1356,67 @@ namespace ArcheOne.Controllers
             #endregion
 
 
+            var holiDayList = _dbRepo.HolidayDayList().ToList();
+            if (holiDayList.Count > 0)
+            {
+                foreach (var item in holiDayList)
+                {
+                    for (DateTime i = model.StartDate.Date; i <= model.EndDate.Date; i = i.Date.AddDays(1))
+                    {
+                        if (item.HolidayDate == i.Date)
+                        {
+                            if (i.Date.DayOfWeek.ToString() != "Saturday" || item.HolidayDate.DayOfWeek.ToString() != "Sunday")
+                            {
+                                if (item.HolidayDate.DayOfWeek.ToString() == "Friday" || item.HolidayDate.DayOfWeek.ToString() == "Monday")
+                                {
+                                    if (i.Date == model.StartDate.Date)
+                                    {
+                                        if (model.StartTime == "09:30 AM")
+                                        {
+                                            noOfDays += decimal.Parse("1");
+                                        }
+                                        else
+                                        {
+                                            noOfDays += decimal.Parse("0.5");
+                                        }
+                                    }
+                                    else if (i.Date == model.EndDate.Date)
+                                    {
+                                        if (model.EndTime == "02:00 PM")
+                                        {
+                                            noOfDays += decimal.Parse("0.5");
+                                        }
+                                        else
+                                        {
+                                            noOfDays += decimal.Parse("1");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        noOfDays += decimal.Parse("1");
+                                    }
+                                }
+                                else
+                                {
 
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
             var leaveMaster = _dbRepo.LeaveLists().Where(x => x.AppliedByUserId == userId).FirstOrDefault();
             if (noOfDays > 1)
             {
+
                 if (model.StartDate.DayOfWeek.ToString() == "Friday" && model.StartTime == "09:30 AM" && model.EndDate.DayOfWeek.ToString() == "Monday" && model.EndTime == "06:30 PM")
                 {
                     noOfDays = 4;
 
                     if (noOfDays >= 4)
                     {
+
                         //code if apply leave for 4 or more than 4 days
                         var BalanceList = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId).OrderByDescending(x => x.Id).FirstOrDefault();
 
@@ -1447,13 +1517,16 @@ namespace ArcheOne.Controllers
                     var userJoiningDate = _dbRepo.UserDetailList().FirstOrDefault(x => x.UserId == loginUserId);
                     int pastYear = _commonHelper.GetCurrentDateTime().AddYears(-1).Year;
 
+
                     DateTime dt2 = new DateTime(DateTime.Now.Year, 01, 01); // current year date 
 
                     DateTime perviousdt = new DateTime(pastYear, 12, 31);
+                    int pastmonth = userJoiningDate.JoinDate.AddMonths(5).Month;
+                    DateTime nextMonthDate = new DateTime(userJoiningDate.JoinDate.Year, pastmonth, 1);
 
                     DateTime dtNow = _commonHelper.GetCurrentDateTime();
                     var LeaveBalanceList = _dbRepo.LeaveBalanceLists().ToList();
-                    for (DateTime i = userJoiningDate.JoinDate; i <= dtNow; i = i.Date.AddMonths(1))
+                    for (DateTime i = userJoiningDate.JoinDate; i <= nextMonthDate; i = i.Date.AddMonths(1))
                     {
                         var BalanceMonth = i.Date.ToString("MMMM");
 
@@ -1548,7 +1621,7 @@ namespace ArcheOne.Controllers
                                     tbl.OpeningLeaveBalance = 0;
                                     tbl.SickLeaveBalance = 0.5m;
                                     tbl.CasualLeaveBalance = 0.5m;
-                                    tbl.EarnedLeaveBalance = 0.5m + LeaveBalancedetails.EarnedLeaveBalance;
+                                    tbl.EarnedLeaveBalance = LeaveBalancedetails == null ? 0.5m : 0.5m + LeaveBalancedetails.EarnedLeaveBalance;
                                     tbl.SickLeaveTaken = 0;
                                     tbl.CasualLeaveTaken = 0;
                                     tbl.EarnedLeaveTaken = 0;
