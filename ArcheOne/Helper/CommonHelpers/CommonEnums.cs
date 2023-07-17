@@ -13,6 +13,7 @@
         {
             Dashboard_View = 1,
             Users_View,
+            User_Document_View,
             User_Detail_View,
             User_Edit,
             User_Delete,

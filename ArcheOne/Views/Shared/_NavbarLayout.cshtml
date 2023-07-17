@@ -38,6 +38,8 @@
 
                 @if (permissionList.Any(x
                => x.PermissionCode == CommonEnums.PermissionMst.Users_View.ToString()
+               || x.PermissionCode == CommonEnums.PermissionMst.User_Document_View.ToString()
+               || x.PermissionCode == CommonEnums.PermissionMst.Default_Permissions_View.ToString()
                || x.PermissionCode == CommonEnums.PermissionMst.Default_Permissions_View.ToString()
                || x.PermissionCode == CommonEnums.PermissionMst.User_Permissions_View.ToString()
                || x.PermissionCode == CommonEnums.PermissionMst.Teams_View.ToString()
@@ -58,6 +60,16 @@
                                     <a href="~/User/User" class="nav-link">
                                         <i class="nav-icon fa fa-user"></i>
                                         <p>Users</p>
+                                    </a>
+                                </li>
+                            }
+
+                            @if (permissionList.Any(x => x.PermissionCode == CommonEnums.PermissionMst.User_Document_View.ToString()))
+                            {
+                                <li class="nav-item">
+                                    <a href="~/UserDocument/UserDocument" class="nav-link">
+                                        <i class="nav-icon fa fa-file-alt"></i>
+                                        <p>User Document</p>
                                     </a>
                                 </li>
                             }
