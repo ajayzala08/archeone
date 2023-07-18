@@ -1,5 +1,7 @@
-﻿@{
+﻿@using ArcheOne.Database.Entities;
+@{
     Layout = "_MasterLayout";
+    List<UserMst> userList = new List<UserMst>();
 }
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -22,27 +24,104 @@
 <section class="content">
 
     <!-- Default box -->
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Title</h3>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Work Anniversaries</h3>
+                    <div class="card-tools">
+                        <span class="badge badge-danger">8 New Members</span>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
 
-            <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                    <i class="fas fa-times"></i>
-                </button>
+                <div class="card-body p-0">
+                    <ul class="users-list clearfix">
+                        @foreach (var item in userList)
+                        {
+                            <li>
+                                <img src="..\@item.PhotoUrl" alt="User Image">
+                                <a class="users-list-name" href="#">@item.FirstName @item.LastName</a>
+                                <span class="users-list-date">@item.CreatedDate</span>
+                            </li>
+                        }
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="card-body">
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Birthdays</h3>
+                    <div class="card-tools">
+                        <span class="badge badge-danger">8 New Members</span>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card-body p-0">
+                    <ul class="users-list clearfix">
+                        @foreach (var item in userList)
+                        {
+                            <li>
+                                <img src="..\@item.PhotoUrl" alt="User Image">
+                                <a class="users-list-name" href="#">@item.FirstName @item.LastName</a>
+                                <span class="users-list-date">@item.CreatedDate</span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
         </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-            Footer
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header border-0">
+                    <h3 class="card-title">Holidays</h3>
+                </div>
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-striped table-valign-middle">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Diwali
+                                </td>
+                                <td>Thursday, 26th October 2023</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Diwali
+                                </td>
+                                <td>Thursday, 26th October 2023</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Diwali
+                                </td>
+                                <td>Thursday, 26th October 2023</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Diwali
+                                </td>
+                                <td>Thursday, 26th October 2023</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Diwali
+                                </td>
+                                <td>Thursday, 26th October 2023</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <!-- /.card-footer-->
     </div>
+
     <!-- /.card -->
 
 </section>
