@@ -186,7 +186,7 @@ namespace ArcheOne.Controllers
 					 {
 						 Id = x.UD.Id,
 						 EmployeeName = x.U.FirstName + " " + x.U.LastName,
-						 EmployeeCode = x.f.EmployeeCode != null?"0":"1",
+						 EmployeeCode = x.f.EmployeeCode, //!= null?"0":"1",
 						 DocumentTypeId = x.D.DocumentType,
 						 Document = System.IO.File.Exists(Path.Combine(_commonHelper.GetPhysicalRootPath(false), x.UD.Document)) ? Path.Combine(@"\", x.UD.Document) :
 						 @"\Theme\Logo\default_user_profile.png"

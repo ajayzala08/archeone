@@ -60,7 +60,7 @@ function GetUserPermissions(UserId) {
                 "lengthChange": false,
                 "paging": false,
                 "processing": true, // for show progress bar
-                "filter": true, // this is for disable filter (search box)
+                "filter": false, // this is for disable filter (search box)
 
                 "data": result.data,
                 "columns": [

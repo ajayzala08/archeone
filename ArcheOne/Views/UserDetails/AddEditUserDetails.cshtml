@@ -40,7 +40,13 @@
                             <div class="col-sm-4" id="dtxtEmployeeCode">
                                 <div class="form-group">
                                     <label for="form_name">Employee Code *</label>
-                                    <input id="txtEmployeeCode" type="text" name="txtEmployeeCode" class="form-control onlynumeric text-length" placeholder="Please enter employeecode" value="@Model.UserDetail.EmployeeCode" isrequired="1" divcontainer="dtxtEmployeeCode" errorspan="stxtEmployeeCode" defaultvalue="" autocomplete="off" minlength="1" maxlength="10">
+                                    @if (Id > 0)
+                                    {
+                                        <input id="txtEmployeeCode" type="text" name="txtEmployeeCode" class="form-control onlynumeric text-length" disabled placeholder="Please enter employeecode" value="@Model.UserDetail.EmployeeCode" isrequired="1" divcontainer="dtxtEmployeeCode" errorspan="stxtEmployeeCode" defaultvalue="" autocomplete="off" minlength="1" maxlength="10">
+                                    } else
+                                    {
+                                        <input id="txtEmployeeCode" type="text" name="txtEmployeeCode" class="form-control onlynumeric text-length" placeholder="Please enter employeecode" value="@Model.UserDetail.EmployeeCode" isrequired="1" divcontainer="dtxtEmployeeCode" errorspan="stxtEmployeeCode" defaultvalue="" autocomplete="off" minlength="1" maxlength="10">
+                                    }
                                     <span class="help-block d-none has-error" id="stxtEmployeeCode">Please Enter Valid EmployeeCode</span>
                                 </div>
                             </div>
