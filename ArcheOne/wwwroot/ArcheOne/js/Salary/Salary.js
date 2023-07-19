@@ -125,10 +125,7 @@ function SalaryDataFill() {
             "SalaryMonth": $("#ddlmonth option:selected").text()
         }
         ajaxCall("Post", false, '/Salary/SearchSalary', JSON.stringify(salaryReqModel), function (result) {
-            debugger
             if (result.status == true) {
-                debugger
-                
                 $('#tblSalary').DataTable({
                     "destroy": true,
                     "responsive": true,

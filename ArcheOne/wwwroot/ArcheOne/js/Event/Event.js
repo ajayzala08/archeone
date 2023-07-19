@@ -9,7 +9,6 @@ $.ajax({
             showCalender(response.data);
         }
         else {
-            debugger
             showCalender(response.data);
         }
 
@@ -154,7 +153,6 @@ function GetEventList() {
 }
 
 function AddEditEvent(Id) {
-    debugger
     window.location.href = '/Event/AddEditEvent?Id=' + Id;
 }
 
