@@ -1,5 +1,17 @@
-﻿$(document).ready(function () {
-    Countries();
+﻿var isPageLoad = 0;
+$(document).ready(function () {
+    /* EditMode = ($('#txtSalesLeadId').val() != undefined && $('#txtSalesLeadId').val() > 0) ? 1 : 0;*/
+    LoadCountry();
+
+    $("#ddlCountry").change(function () {
+        LoadStateByCountryId($(this).val());
+
+    });
+
+    $("#ddlState").change(function () {
+        LoadCityByStateId($(this).val());
+    });
+
     $("#btnSaveUpdateSalesLead").click(function () {
         SaveUpdateSalesLead();
     });
@@ -132,38 +144,60 @@ function validate() {
     return isValid;
 }
 
-function Countries() {
+
+
+
+
+
+function LoadCountry() {
     ajaxCallWithoutDataType("GET", false, '/SalesLead/Countries', null, function (result) {
         if (result.status == true) {
+            $("#ddlCountry").html('');
+            $("#ddlCountry").append($("<option></option>").val(0).html('---Select---'));
             $.each(result.data, function (data, value) {
                 $("#ddlCountry").append($("<option></option>").val(value.id).html(value.countryName));
             })
         }
+        var selectedCountryId = ($("#txtSelectedCountyId").val() != undefined && $("#txtSelectedCountyId").val() > 0 && isPageLoad <= 0) ? $("#txtSelectedCountyId").val() : 0;
+        $("#ddlCountry").val(selectedCountryId);
+        $("#ddlCountry").change();
     });
-}
 
-$("#ddlCountry").change(function () {
-    let countryId = $("#ddlCountry option:selected").val();
+}
+function LoadStateByCountryId(countryId) {
+
+
     ajaxCallWithoutDataType("GET", false, '/SalesLead/States?id=' + countryId, null, function (result) {
         if (result.status == true) {
+
+            $("#ddlState").html('');
+            $("#ddlState").append('<option value="0">--- Select ---</option>');
             $.each(result.data, function (data, value) {
                 $("#ddlState").append($("<option></option>").val(value.id).html(value.stateName));
             })
         }
+        var selectedStateId = ($("#txtSelectedStateId").val() != undefined && $("#txtSelectedStateId").val() > 0 && isPageLoad <= 0) ? $("#txtSelectedStateId").val() : 0;
+        
+        $("#ddlState").val(selectedStateId);
+        $("#ddlState").change();
+
+
+
     });
+}
+function LoadCityByStateId(StateId) {
 
-});
-
-$("#ddlState").change(function () {
-    let stateId = $("#ddlState option:selected").val();
-    ajaxCallWithoutDataType("GET", false, '/SalesLead/Cities?id=' + stateId, null, function (result) {
+    $("#ddlCity").html('');
+    $("#ddlCity").append($("<option></option>").val(0).html('---Select---'));
+    ajaxCallWithoutDataType("GET", false, '/SalesLead/Cities?id=' + StateId, null, function (result) {
         if (result.status == true) {
+
             $.each(result.data, function (data, value) {
                 $("#ddlCity").append($("<option></option>").val(value.id).html(value.cityName));
             })
         }
+        var selectedCityId = ($("#txtSelectedCityId").val() != undefined && $("#txtSelectedCityId").val() > 0 && isPageLoad <= 0) ? $("#txtSelectedCityId").val() : 0;
+        $("#ddlCity").val(selectedCityId);
+        isPageLoad = 1;
     });
-
-});
-
-
+}

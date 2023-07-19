@@ -70,7 +70,7 @@
 										{
 											if (item.Id == RoleId)
 											{
-												<option value="@item.Id" selected">@item.RoleName</option>
+												<option value="@item.Id" selected>@item.RoleName</option>
 											}
 											else
 											{
@@ -89,7 +89,7 @@
 										{
 											if (item.Id == DepartmentId)
 											{
-												<option value="@item.Id" selected">@item.DepartmentName</option>
+												<option value="@item.Id" selected>@item.DepartmentName</option>
 											}
 											else
 											{
@@ -104,19 +104,19 @@
 								<div class="form-group">
 									<label>Designation *</label>
 									<select id="ddlDesignation" name="ddlDesignation" class="form-control" isrequired="1" divcontainer="dddlDesignation" errorspan="sddlDesignation" defaultvalue="0" style="width: 100%;">
-										@*@foreach (var item in Model.DepartmentList)
+										@foreach (var item in Model.DesignationList)
 										{
 											if (item.Id == DesignationId)
 											{
-												<option value="@item.Id" selected">@item.DepartmentName</option>
+												<option value="@item.Id" selected>@item.Designation</option>
 											}
 											else
 											{
-												<option value="@item.Id">@item.DepartmentName</option>
+												<option value="@item.Id">@item.Designation</option>
 											}
-										}*@
+										}
 									</select>
-									<span class="help-block d-none has-error" id="sddlDesignation">Please select any role</span>
+									<span class="help-block d-none has-error" id="sddlDesignation">Please select any designation</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtFirstName">

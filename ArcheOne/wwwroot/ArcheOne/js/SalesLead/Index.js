@@ -4,8 +4,7 @@ $(document).ready(function () {
 
     $("#btnAddSaleLead").click(function () {
         AddEditSalesLead(0);
-        //ApplyDatatableResponsive('tblSalesConatactLead');
-        //window.location.href = '/SalesLead/AddEditSalesLead'
+        
     });
 
 
@@ -14,8 +13,7 @@ $(document).ready(function () {
 
 function AddEditSalesLead(salesLeadId) {
     RedirectToPage('/SalesLead/AddEditSalesLead?SalesLeadId=' + salesLeadId);
-    //window.location.href = '/SalesLead/AddEditSalesLead?id=' + Id;
-    //ApplyDatatableResponsive('tblSalesConatactLead')
+ 
 }
 
 function SaveSalesLead() {

@@ -223,7 +223,6 @@ namespace ArcheOne.Controllers
             catch (Exception ex)
             {
                 commonResponse.Message = ex.Message;
-                commonResponse.Data = ex.ToString();
             }
             return Json(commonResponse);
         }
