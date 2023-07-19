@@ -26,10 +26,8 @@ namespace ArcheOne.Controllers
         }
         public IActionResult Leaves()
         {
-
             return View();
         }
-
         public async Task<IActionResult> LeavesList()
         {
             CommonResponse response = new CommonResponse();
@@ -45,9 +43,6 @@ namespace ArcheOne.Controllers
                 var UserList = _dbRepo.UserMstList();
                 var LeaveStatusList = _dbRepo.LeaveStatusLists();
                 var LeaveTypeList = _dbRepo.LeaveTypeLists();
-
-
-
 
                 leavesListResModel.LeaveDetailsLists = new List<LeaveDetailsList>();
 
@@ -72,20 +67,13 @@ namespace ArcheOne.Controllers
                 bool ReportingManager1 = ReportingManager != null;
                 bool IsUserEmployee1 = IsUserEmployee.Count > 0;
 
-
-
-
                 var list = await LeaveList.ToListAsync();
-
-
                 if (IsUserHR1)
                 {
-
                     list = await LeaveList.OrderBy(x => x.Id).ToListAsync();
                 }
                 else if (ReportingManager1)
                 {
-
                     list = await LeaveList.OrderBy(x => x.Id).ToListAsync();
                 }
                 else if (IsUserEmployee1)
@@ -94,81 +82,71 @@ namespace ArcheOne.Controllers
                 }
                 if (list.Count > 0)
                 {
-
                     foreach (var item in list)
                     {
-                        var LeaveBalanceList11 = new LeaveBalanceMst();
-                        var LeaveBalanceList12 = new List<LeaveBalanceMst>();
-
+                        //var LeaveBalance = new LeaveBalanceMst();
+                        var LeaveBalanceList = new List<LeaveBalanceMst>();
 
                         if (IsUserHR1)
                         {
-
-                            LeaveBalanceList12 = LeaveBlanceList.Where(x => x.UserId == item.AppliedByUserId).OrderByDescending(x => x.Id).ToList();
+                            LeaveBalanceList = LeaveBlanceList.Where(x => x.UserId == item.AppliedByUserId).OrderByDescending(x => x.Id).ToList();
                         }
                         else if (ReportingManager1)
                         {
-                            LeaveBalanceList12 = LeaveBlanceList.Where(x => x.UserId == item.AppliedByUserId).OrderByDescending(x => x.Id).ToList();
+                            LeaveBalanceList = LeaveBlanceList.Where(x => x.UserId == item.AppliedByUserId).OrderByDescending(x => x.Id).ToList();
                         }
                         else if (IsUserEmployee1)
                         {
-                            LeaveBalanceList12 = LeaveBlanceList.Where(x => x.UserId == userId).OrderByDescending(x => x.Id).ToList();
+                            LeaveBalanceList = LeaveBlanceList.Where(x => x.UserId == userId).OrderByDescending(x => x.Id).ToList();
                         }
 
                         var BalanceMonth = item.StartDate.ToString("MMMM");
-                        var AppliedByUserList1 = await UserList.FirstOrDefaultAsync(x => x.Id == item.AppliedByUserId);
-                        var ApprovedByHruserId = await UserList.FirstOrDefaultAsync(x => x.Id == item.ApprovedByHruserId);
-                        var ApprovedByReportingUserId = await UserList.FirstOrDefaultAsync(x => x.Id == item.ApprovedByReportingUserId);
-                        var LeaveStatusList1 = await LeaveStatusList.FirstOrDefaultAsync(x => x.Id == item.LeaveStatusId);
+                        var AppliedByUser = await UserList.FirstOrDefaultAsync(x => x.Id == item.AppliedByUserId);
+                        var ApprovedByHrUserName = await UserList.FirstOrDefaultAsync(x => x.Id == item.ApprovedByHruserId);
+                        var ApprovedByReportingUserName = await UserList.FirstOrDefaultAsync(x => x.Id == item.ApprovedByReportingUserId);
+                        var LeaveStatusName = await LeaveStatusList.FirstOrDefaultAsync(x => x.Id == item.LeaveStatusId);
                         var CancelLeaveStatus = await LeaveStatusList.FirstOrDefaultAsync(x => x.Id == item.LeaveStatusId);
                         var HrStatus = await LeaveStatusList.FirstOrDefaultAsync(x => x.Id == item.Hrstatus);
                         var ApprovedByReportingStatus = await LeaveStatusList.FirstOrDefaultAsync(x => x.Id == item.ApprovedByReportingStatus);
-                        var LeaveTypeList1 = await LeaveTypeList.FirstOrDefaultAsync(x => x.Id == item.LeaveTypeId);
-
-
-                        var LeaveBalanceList1 = LeaveBalanceList12.OrderByDescending(x => x.Id).FirstOrDefault(x => x.BalanceMonth == BalanceMonth && x.LeaveTypeId == item.LeaveTypeId);
+                        var LeaveTypeName = await LeaveTypeList.FirstOrDefaultAsync(x => x.Id == item.LeaveTypeId);
+                        var LeaveBalanceDetails = LeaveBalanceList.OrderByDescending(x => x.Id).FirstOrDefault(x => x.BalanceMonth == BalanceMonth && x.LeaveTypeId == item.LeaveTypeId);
 
                         LeaveDetailsList leaveDetailsListModel = new LeaveDetailsList();
 
-
-                        leaveDetailsListModel.LeaveTypeName = LeaveTypeList1.LeaveTypeName;
+                        leaveDetailsListModel.LeaveTypeName = LeaveTypeName.LeaveTypeName;
                         leaveDetailsListModel.Id = item.Id;
-                        leaveDetailsListModel.AppliedByUserName = AppliedByUserList1.UserName;
-                        leaveDetailsListModel.ApprovedByReportingUserId = ApprovedByReportingUserId == null ? "" : ApprovedByReportingUserId.UserName;
-                        leaveDetailsListModel.ApprovedByHRUserId = ApprovedByHruserId == null ? "" : ApprovedByHruserId.UserName;
+                        leaveDetailsListModel.AppliedByUserName = AppliedByUser.UserName;
+                        leaveDetailsListModel.ApprovedByReportingUserId = ApprovedByReportingUserName == null ? "" : ApprovedByReportingUserName.UserName;
+                        leaveDetailsListModel.ApprovedByHRUserId = ApprovedByHrUserName == null ? "" : ApprovedByHrUserName.UserName;
                         leaveDetailsListModel.StartDate = item.StartDate.ToString("yyyy/MM/dd");
                         leaveDetailsListModel.EndDate = item.EndDate.ToString("yyyy/MM/dd");
                         leaveDetailsListModel.StartTime = Convert.ToString(item.StartTime);
                         leaveDetailsListModel.EndTime = Convert.ToString(item.EndTime);
                         leaveDetailsListModel.OpeningBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)item.OpeningLeaveBalance));
-                        leaveDetailsListModel.ClosingBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.ClosingLeaveBalance));
+                        leaveDetailsListModel.ClosingBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.ClosingLeaveBalance));
                         leaveDetailsListModel.NoOfDays = item.NoOfDays == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)item.NoOfDays));
                         leaveDetailsListModel.PaidDays = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)item.PaidDays));
                         leaveDetailsListModel.UnPaidDays = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)item.UnPaidDays));
                         leaveDetailsListModel.Reason = item.Reason;
-                        leaveDetailsListModel.LeaveStatus = LeaveStatusList1 == null ? "Pending" : LeaveStatusList1.LeaveStatus;
-                        leaveDetailsListModel.BalanceMonth = LeaveBalanceList1.BalanceMonth;
-                        leaveDetailsListModel.BalanceYear = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.BalanceYear));
-                        leaveDetailsListModel.SickLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.SickLeaveBalance));
-                        leaveDetailsListModel.SickLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.SickLeaveTaken));
-                        leaveDetailsListModel.CasualLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.CasualLeaveBalance));
-                        leaveDetailsListModel.CasualLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.CasualLeaveTaken));
-                        leaveDetailsListModel.EarnedLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.EarnedLeaveBalance));
-                        leaveDetailsListModel.EarnedLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.EarnedLeaveTaken));
-                        leaveDetailsListModel.Details = LeaveBalanceList1.Detail;
-                        leaveDetailsListModel.LeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.LeaveTaken));
+                        leaveDetailsListModel.LeaveStatus = LeaveStatusName == null ? "Pending" : LeaveStatusName.LeaveStatus;
+                        leaveDetailsListModel.BalanceMonth = LeaveBalanceDetails.BalanceMonth;
+                        leaveDetailsListModel.BalanceYear = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.BalanceYear));
+                        leaveDetailsListModel.SickLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.SickLeaveBalance));
+                        leaveDetailsListModel.SickLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.SickLeaveTaken));
+                        leaveDetailsListModel.CasualLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.CasualLeaveBalance));
+                        leaveDetailsListModel.CasualLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.CasualLeaveTaken));
+                        leaveDetailsListModel.EarnedLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.EarnedLeaveBalance));
+                        leaveDetailsListModel.EarnedLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.EarnedLeaveTaken));
+                        leaveDetailsListModel.Details = LeaveBalanceDetails.Detail;
+                        leaveDetailsListModel.LeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.LeaveTaken));
                         leaveDetailsListModel.HrStatus = HrStatus == null ? "pending" : HrStatus.LeaveStatus;
                         leaveDetailsListModel.ApprovedByReportingStatus = ApprovedByReportingStatus == null ? "pending" : ApprovedByReportingStatus.LeaveStatus;
-
-
 
                         if (leaveDetailsListModel.HrStatus.ToLower() == "approve" && leaveDetailsListModel.ApprovedByReportingStatus.ToLower() == "approve")
                         {
                             leaveDetailsListModel.EditDisable = true;
 
                         }
-
-
                         if (IsUserHR1)
                         {
                             if (leaveDetailsListModel.ApprovedByReportingStatus.ToLower() == "approve")
@@ -179,7 +157,6 @@ namespace ArcheOne.Controllers
                             else
                             {
                                 leaveDetailsListModel.HREditDisable = true;
-
                             }
                         }
                         if (item.AppliedByUserId == userId)
@@ -199,7 +176,6 @@ namespace ArcheOne.Controllers
                                 }
                                 else
                                 {
-
                                     leaveDetailsListModel.CancelbtnDisable = true;
                                 }
                             }
@@ -209,19 +185,13 @@ namespace ArcheOne.Controllers
                             leaveDetailsListModel.CancelbtnDisable = true;
                         }
                         leavesListResModel.LeaveDetailsLists.Add(leaveDetailsListModel);
-
-
                     }
                 }
                 else
                 {
-
                     var LeaveBalanceList = new LeaveBalanceMst();
-
-
                     if (IsUserHR1)
                     {
-
                         LeaveBalanceList = LeaveBlanceList.Where(x => x.UserId == userId).OrderByDescending(x => x.Id).FirstOrDefault();
                     }
                     else if (ReportingManager1)
@@ -233,15 +203,12 @@ namespace ArcheOne.Controllers
                         LeaveBalanceList = LeaveBlanceList.Where(x => x.UserId == userId).OrderByDescending(x => x.Id).FirstOrDefault();
                     }
                     var BalanceMonth = DateTime.Now.ToString("MMMM");
-
-                    var LeaveTypeList1 = await LeaveTypeList.FirstOrDefaultAsync(x => x.Id == LeaveBalanceList.LeaveTypeId);
-                    var LeaveBalanceList1 = LeaveBalanceList;
-
+                    var LeaveTypeDetail = await LeaveTypeList.FirstOrDefaultAsync(x => x.Id == LeaveBalanceList.LeaveTypeId);
                     var AppliedByUserList1 = await UserList.FirstOrDefaultAsync(x => x.Id == userId);
-
                     LeaveDetailsList leaveDetailsListModel = new LeaveDetailsList();
-                    leaveDetailsListModel.LeaveTypeName = LeaveTypeList1 == null ? "-" : LeaveTypeList1.LeaveTypeName;
-                    leaveDetailsListModel.Id = LeaveBalanceList1.Id;
+
+                    leaveDetailsListModel.LeaveTypeName = LeaveTypeDetail == null ? "-" : LeaveTypeDetail.LeaveTypeName;
+                    leaveDetailsListModel.Id = LeaveBalanceList.Id;
                     leaveDetailsListModel.AppliedByUserName = AppliedByUserList1.UserName;
                     leaveDetailsListModel.ApprovedByReportingUserId = null;
                     leaveDetailsListModel.ApprovedByHRUserId = null;
@@ -249,23 +216,23 @@ namespace ArcheOne.Controllers
                     leaveDetailsListModel.EndDate = "";
                     leaveDetailsListModel.StartTime = "";
                     leaveDetailsListModel.EndTime = "";
-                    leaveDetailsListModel.OpeningBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.OpeningLeaveBalance));
-                    leaveDetailsListModel.ClosingBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.ClosingLeaveBalance));
-                    leaveDetailsListModel.NoOfDays = LeaveBalanceList1.NoOfDays == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.NoOfDays));
-                    leaveDetailsListModel.PaidDays = LeaveBalanceList1.NoOfDays == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.NoOfDays));
-                    leaveDetailsListModel.UnPaidDays = LeaveBalanceList1.NoOfDays == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.NoOfDays));
+                    leaveDetailsListModel.OpeningBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.OpeningLeaveBalance));
+                    leaveDetailsListModel.ClosingBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.ClosingLeaveBalance));
+                    leaveDetailsListModel.NoOfDays = LeaveBalanceList.NoOfDays == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.NoOfDays));
+                    leaveDetailsListModel.PaidDays = LeaveBalanceList.NoOfDays == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.NoOfDays));
+                    leaveDetailsListModel.UnPaidDays = LeaveBalanceList.NoOfDays == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.NoOfDays));
                     leaveDetailsListModel.Reason = "";
                     leaveDetailsListModel.LeaveStatus = "Approve";
-                    leaveDetailsListModel.BalanceMonth = LeaveBalanceList1.BalanceMonth;
-                    leaveDetailsListModel.BalanceYear = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.BalanceYear));
-                    leaveDetailsListModel.SickLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.SickLeaveBalance));
-                    leaveDetailsListModel.SickLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.SickLeaveTaken));
-                    leaveDetailsListModel.CasualLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.CasualLeaveBalance));
-                    leaveDetailsListModel.CasualLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.CasualLeaveTaken));
-                    leaveDetailsListModel.EarnedLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.EarnedLeaveBalance));
-                    leaveDetailsListModel.EarnedLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.EarnedLeaveTaken));
-                    leaveDetailsListModel.Details = LeaveBalanceList1.Detail;
-                    leaveDetailsListModel.LeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList1.LeaveTaken));
+                    leaveDetailsListModel.BalanceMonth = LeaveBalanceList.BalanceMonth;
+                    leaveDetailsListModel.BalanceYear = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.BalanceYear));
+                    leaveDetailsListModel.SickLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.SickLeaveBalance));
+                    leaveDetailsListModel.SickLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.SickLeaveTaken));
+                    leaveDetailsListModel.CasualLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.CasualLeaveBalance));
+                    leaveDetailsListModel.CasualLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.CasualLeaveTaken));
+                    leaveDetailsListModel.EarnedLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.EarnedLeaveBalance));
+                    leaveDetailsListModel.EarnedLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.EarnedLeaveTaken));
+                    leaveDetailsListModel.Details = LeaveBalanceList.Detail;
+                    leaveDetailsListModel.LeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.LeaveTaken));
                     leaveDetailsListModel.HrStatus = "Approve";
                     leaveDetailsListModel.ApprovedByReportingStatus = "Approve";
                     leaveDetailsListModel.EditDisable = true;
@@ -274,14 +241,10 @@ namespace ArcheOne.Controllers
 
                     leavesListResModel.LeaveDetailsLists.Add(leaveDetailsListModel);
                 }
-
-
-
                 if (leavesListResModel != null)
                 {
                     response.Data = leavesListResModel;
                     response.Status = true;
-                    response.StatusCode = HttpStatusCode.OK;
                     response.Message = "Data found successfully!";
                 }
                 else
@@ -296,7 +259,6 @@ namespace ArcheOne.Controllers
             }
             return View(response);
         }
-
         public async Task<IActionResult> AddEditLeave(int Id)
         {
             CommonResponse commonResponse = new CommonResponse();
@@ -307,9 +269,8 @@ namespace ArcheOne.Controllers
                 leaveAddEditReqModel.leaveDetails = new LeaveDetails();
                 leaveAddEditReqModel.leaveTypeList = await _dbRepo.LeaveTypeLists().Where(x => x.IsCurrentYear == true).ToListAsync();
                 bool LeaveStatusChangeView = false;
-
-
                 var joiningDate = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == userId);
+
                 var startTimeList = new List<KeyValueModel>();
                 startTimeList.Add(new KeyValueModel { Id = 1, Name = "09:30 AM" });
                 startTimeList.Add(new KeyValueModel { Id = 2, Name = "02:00 PM" });
@@ -317,7 +278,6 @@ namespace ArcheOne.Controllers
 
                 var hrRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
                 var hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
-
                 var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
                 var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId)).ToList();
 
@@ -325,7 +285,6 @@ namespace ArcheOne.Controllers
                 {
                     var leaveDetails = await _dbRepo.LeaveLists().FirstOrDefaultAsync(x => x.Id == Id);
                     var reportingManager = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == leaveDetails.AppliedByUserId);
-
                     if (leaveDetails.AppliedByUserId == userId)
                     {
                         if (reportingManager.ReportingManager == userId)
@@ -339,7 +298,6 @@ namespace ArcheOne.Controllers
                     }
                     else
                     {
-
                         if (reportingManager.ReportingManager == userId)
                         {
                             LeaveStatusChangeView = true;
@@ -370,19 +328,15 @@ namespace ArcheOne.Controllers
                         {
                             foreach (var user in IsUserHR)
                             {
-
                                 if (user.Id == userId)
                                 {
                                     reportingManager = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == leaveDetails.AppliedByUserId);
 
-
                                     var employeeRoleList = _dbRepo.RoleMstList().Where(x => !x.RoleCode.Contains("HR")).ToList();
                                     var employeeroleIdList = employeeRoleList.Select(x => x.Id).ToList();
 
-
                                     loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == leaveDetails.AppliedByUserId);
                                     var IsUserEmployee = loginUserList.Where(x => employeeroleIdList.Contains(x.RoleId)).ToList();
-
 
                                     if (reportingManager.ReportingManager == userId)
                                     {
@@ -412,8 +366,6 @@ namespace ArcheOne.Controllers
                                         LeaveStatusChangeView = false;
                                     }
                                 }
-
-
                             }
                         }
                         else
@@ -421,29 +373,23 @@ namespace ArcheOne.Controllers
                             LeaveStatusChangeView = false;
                         }
                     }
-
-
                 }
                 else
                 {
                     leaveAddEditReqModel.leaveDetails.StartDate = DateTime.Now;
                     leaveAddEditReqModel.leaveDetails.EndDate = DateTime.Now;
-
-
                 }
                 leaveAddEditReqModel.leaveDetails.JoiningDate = joiningDate == null ? DateTime.Now : joiningDate.JoinDate;
                 leaveAddEditReqModel.LeaveStatusChangeView = LeaveStatusChangeView;
                 leaveAddEditReqModel.LeaveStatusList = await _dbRepo.LeaveStatusLists().Select(x => new KeyValueModel { Id = x.Id, Name = x.LeaveStatus }).ToListAsync();
 
                 commonResponse.Status = true;
-                commonResponse.StatusCode = HttpStatusCode.OK;
                 commonResponse.Message = "Success!";
                 commonResponse.Data = leaveAddEditReqModel;
             }
             catch (Exception ex)
             {
                 commonResponse.Message = ex.Message;
-                commonResponse.Data = ex;
             }
             return View(commonResponse);
         }
@@ -497,7 +443,6 @@ namespace ArcheOne.Controllers
             }
             return Json(response);
         }
-
         [HttpPost]
         public async Task<CommonResponse> SaveUpdateLeave([FromBody] AddUpdateLeaveReqModel request)
         {
@@ -506,12 +451,10 @@ namespace ArcheOne.Controllers
             {
                 if (ModelState.IsValid)
                 {
-
                     if (request.StartDate >= DateTime.Now.Date)
                     {
                         decimal noOfDay = 0;
                         var requestmonth = request.StartDate.ToString("MMMM");
-
 
                         LeaveMst leaveMst = new LeaveMst();
                         LeaveBalanceMst leaveBalanceMst = new LeaveBalanceMst();
@@ -585,20 +528,16 @@ namespace ArcheOne.Controllers
                                                         {
                                                             leaveMst.PaidDays = noOfDay;
                                                             leaveMst.UnPaidDays = decimal.Parse("0");
-
                                                         }
                                                         else
                                                         {
                                                             leaveMst.PaidDays = BalanceList.SickLeaveBalance;
                                                             leaveMst.UnPaidDays = noOfDay - leaveMst.PaidDays;
-
                                                         }
                                                     }
                                                     else if (LeaveType.LeaveTypeName.ToLower() == "casualleave")
                                                     {
-
                                                         if (BalanceList.CasualLeaveBalance >= noOfDay)
-
                                                         {
                                                             leaveMst.PaidDays = noOfDay;
                                                             leaveMst.UnPaidDays = decimal.Parse("0");
@@ -611,23 +550,17 @@ namespace ArcheOne.Controllers
                                                     }
                                                     else if (LeaveType.LeaveTypeName.ToLower() == "earnedleave")
                                                     {
-
                                                         if (BalanceList.EarnedLeaveBalance >= noOfDay)
-
                                                         {
                                                             leaveMst.PaidDays = noOfDay;
                                                             leaveMst.UnPaidDays = decimal.Parse("0");
-
                                                         }
                                                         else
                                                         {
                                                             leaveMst.PaidDays = BalanceList.EarnedLeaveBalance;
                                                             leaveMst.UnPaidDays = noOfDay - leaveMst.PaidDays;
-
                                                         }
                                                     }
-
-
                                                 }
                                                 else
                                                 {
@@ -637,25 +570,19 @@ namespace ArcheOne.Controllers
                                                         {
                                                             leaveMst.PaidDays = noOfDay;
                                                             leaveMst.UnPaidDays = decimal.Parse("0");
-
                                                         }
                                                         else
                                                         {
                                                             leaveMst.PaidDays = BalanceList.SickLeaveBalance;
                                                             leaveMst.UnPaidDays = noOfDay - leaveMst.PaidDays;
-
                                                         }
                                                     }
                                                     else if (LeaveType.LeaveTypeName.ToLower() == "casualleave")
                                                     {
-
                                                         if (BalanceList.CasualLeaveBalance >= noOfDay)
-
                                                         {
                                                             leaveMst.PaidDays = noOfDay;
                                                             leaveMst.UnPaidDays = decimal.Parse("0");
-
-
                                                         }
                                                         else
                                                         {
@@ -665,49 +592,29 @@ namespace ArcheOne.Controllers
                                                     }
                                                     else if (LeaveType.LeaveTypeName.ToLower() == "earnedleave")
                                                     {
-
                                                         if (BalanceList.EarnedLeaveBalance >= noOfDay)
-
                                                         {
                                                             leaveMst.PaidDays = noOfDay;
                                                             leaveMst.UnPaidDays = decimal.Parse("0");
-
                                                         }
                                                         else
                                                         {
                                                             leaveMst.PaidDays = BalanceList.EarnedLeaveBalance;
                                                             leaveMst.UnPaidDays = noOfDay - leaveMst.PaidDays;
-
                                                         }
                                                     }
-
                                                 }
-
                                                 if (isProbationPeriod)
                                                 {
-                                                    if (LeaveType.LeaveTypeName.ToLower() == "sickleave")
+                                                    if (LeaveType.LeaveTypeName.ToLower() == "sickleave" || LeaveType.LeaveTypeName.ToLower() == "casualleave" || LeaveType.LeaveTypeName.ToLower() == "earnedleave")
                                                     {
                                                         BalanceList.SickLeaveTaken = 0;
                                                         BalanceList.CasualLeaveTaken = 0;
                                                         BalanceList.EarnedLeaveTaken = 0;
-                                                    }
-                                                    else if (LeaveType.LeaveTypeName.ToLower() == "casualleave")
-                                                    {
-                                                        BalanceList.SickLeaveTaken = 0;
-                                                        BalanceList.CasualLeaveTaken = 0;
-                                                        BalanceList.EarnedLeaveTaken = 0;
-                                                    }
-                                                    else if (LeaveType.LeaveTypeName.ToLower() == "earnedleave")
-                                                    {
-                                                        BalanceList.SickLeaveTaken = 0;
-                                                        BalanceList.CasualLeaveTaken = 0;
-                                                        BalanceList.EarnedLeaveTaken = 0;
-
                                                     }
                                                     BalanceList.LeaveTypeId = request.LeaveTypeId;
                                                     _dbContext.Entry(BalanceList).State = EntityState.Modified;
                                                     await _dbContext.SaveChangesAsync();
-
                                                 }
                                             }
                                             else
@@ -715,7 +622,6 @@ namespace ArcheOne.Controllers
                                                 response.Message = "Data Not Found!";
 
                                             }
-
                                             if (isProbationPeriod == false)
                                             {
                                                 if (BalanceList.ClosingLeaveBalance > BalanceList.LeaveTaken)
@@ -728,17 +634,11 @@ namespace ArcheOne.Controllers
                                                     leaveMst.PaidDays = 0;
                                                     leaveMst.UnPaidDays = noOfDay;
                                                 }
-
                                             }
-
-
                                             leaveMst.OpeningLeaveBalance = BalanceList == null ? 0 : BalanceList.ClosingLeaveBalance;
                                             await _dbContext.LeaveMsts.AddAsync(leaveMst);
                                             await _dbContext.SaveChangesAsync();
-
                                             var sandwichleave = SandwichLeave(request);
-
-
 
                                             transactionScope.Complete();
                                             response.Status = true;
@@ -747,9 +647,7 @@ namespace ArcheOne.Controllers
                                         else
                                         {
                                             response.Message = "Please select valid startdate!";
-
                                         }
-
                                     }
                                     else
                                     {
@@ -762,13 +660,9 @@ namespace ArcheOne.Controllers
                         else // updated
                         {
                             #region Updated Region
-                            //using (TransactionScope transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                            //{
-
                             noOfDay = GetNoOfDays(request.StartDate, request.EndDate, request.StartTime, request.EndTime);
                             var hrRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
                             var hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
-
 
                             var managerRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Project_Manager")).ToList();
                             var managerroleIdList = managerRoleList.Select(x => x.Id).ToList();
@@ -782,22 +676,16 @@ namespace ArcheOne.Controllers
                             var IsUserManager = loginUserList.Where(x => managerroleIdList.Contains(x.RoleId)).ToList();
                             var IsUserEmployee = loginUserList.Where(x => employeeroleIdList.Contains(x.RoleId)).ToList();
 
-
-
-
                             bool IsUserHR1 = IsUserHR.Count > 0 ? true : false;
                             bool IsUserManager1 = IsUserManager.Count > 0 ? true : false;
                             bool IsUserEmployee1 = IsUserEmployee.Count > 0 ? true : false;
-
 
                             var AppliedByUserDetails = _dbRepo.LeaveLists().Where(x => x.Id == request.Id).OrderBy(x => x.Id).LastOrDefault();
                             var userJoiningDate = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == AppliedByUserDetails.AppliedByUserId);
                             if (userJoiningDate != null)
                             {
-
                                 decimal isProbationPeriodDays = 0;
                                 bool isProbationPeriod = false;
-
 
                                 if (userJoiningDate.JoinDate < request.StartDate)
                                 {
@@ -815,14 +703,9 @@ namespace ArcheOne.Controllers
                                         }
                                     }
                                 }
-
                                 var LeaveDetails = await _dbRepo.LeaveLists().FirstOrDefaultAsync(x => x.Id == request.Id);
                                 if (LeaveDetails != null)
                                 {
-
-
-                                    #region remove all leave balance and new entry 
-
                                     if (IsUserEmployee1)
                                     {
                                         if (LeaveDetails.StartDate != request.StartDate || LeaveDetails.EndDate != request.EndDate)
@@ -830,14 +713,9 @@ namespace ArcheOne.Controllers
                                             var LeaveBalanceList = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId).OrderBy(x => x.Id).LastOrDefault();
                                         }
                                     }
-                                    #endregion
-
 
                                     #region Calculation of paid leave
-
-
                                     var BalanceList = await _dbRepo.LeaveBalanceLists().Where(x => x.UserId == LeaveDetails.AppliedByUserId).OrderByDescending(x => x.Id).FirstOrDefaultAsync();
-
                                     var LeaveType = await _dbRepo.LeaveTypeLists().Where(x => x.Id == request.LeaveTypeId).OrderByDescending(x => x.Id).FirstOrDefaultAsync();
                                     if (BalanceList != null && LeaveType != null)
                                     {
@@ -846,24 +724,19 @@ namespace ArcheOne.Controllers
                                             if (LeaveType.LeaveTypeName.ToLower() == "sickleave")
                                             {
                                                 if (BalanceList.SickLeaveBalance >= noOfDay)
-
                                                 {
                                                     LeaveDetails.PaidDays = noOfDay;
                                                     LeaveDetails.UnPaidDays = decimal.Parse("0");
-
                                                 }
                                                 else
                                                 {
                                                     LeaveDetails.PaidDays = BalanceList.SickLeaveBalance;
                                                     LeaveDetails.UnPaidDays = noOfDay - LeaveDetails.PaidDays;
-
                                                 }
                                             }
                                             else if (LeaveType.LeaveTypeName.ToLower() == "casualleave")
                                             {
-
                                                 if (BalanceList.CasualLeaveBalance >= noOfDay)
-
                                                 {
                                                     LeaveDetails.PaidDays = noOfDay;
                                                     LeaveDetails.UnPaidDays = decimal.Parse("0");
@@ -876,22 +749,17 @@ namespace ArcheOne.Controllers
                                             }
                                             else if (LeaveType.LeaveTypeName.ToLower() == "earnedleave")
                                             {
-
                                                 if (BalanceList.EarnedLeaveBalance >= noOfDay)
-
                                                 {
                                                     LeaveDetails.PaidDays = noOfDay;
                                                     LeaveDetails.UnPaidDays = decimal.Parse("0");
-
                                                 }
                                                 else
                                                 {
                                                     LeaveDetails.PaidDays = BalanceList.EarnedLeaveBalance;
                                                     LeaveDetails.UnPaidDays = noOfDay - LeaveDetails.PaidDays;
-
                                                 }
                                             }
-
 
                                         }
                                         else
@@ -902,25 +770,19 @@ namespace ArcheOne.Controllers
                                                 {
                                                     LeaveDetails.PaidDays = noOfDay;
                                                     LeaveDetails.UnPaidDays = decimal.Parse("0");
-
                                                 }
                                                 else
                                                 {
                                                     LeaveDetails.PaidDays = BalanceList.SickLeaveBalance;
                                                     LeaveDetails.UnPaidDays = noOfDay - LeaveDetails.PaidDays;
-
                                                 }
                                             }
                                             else if (LeaveType.LeaveTypeName.ToLower() == "casualleave")
                                             {
-
                                                 if (BalanceList.CasualLeaveBalance >= noOfDay)
-
                                                 {
                                                     LeaveDetails.PaidDays = noOfDay;
                                                     LeaveDetails.UnPaidDays = decimal.Parse("0");
-
-
                                                 }
                                                 else
                                                 {
@@ -930,13 +792,10 @@ namespace ArcheOne.Controllers
                                             }
                                             else if (LeaveType.LeaveTypeName.ToLower() == "earnedleave")
                                             {
-
                                                 if (BalanceList.EarnedLeaveBalance >= noOfDay)
-
                                                 {
                                                     LeaveDetails.PaidDays = noOfDay;
                                                     LeaveDetails.UnPaidDays = decimal.Parse("0");
-
                                                 }
                                                 else
                                                 {
@@ -945,28 +804,19 @@ namespace ArcheOne.Controllers
 
                                                 }
                                             }
-
                                         }
-
-
                                     }
                                     else
                                     {
                                         response.Message = "Data Not Found!";
-
                                     }
-
                                     if (isProbationPeriod == false)
                                     {
                                         LeaveDetails.PaidDays = 0;
                                         LeaveDetails.UnPaidDays = noOfDay;
-
                                     }
-
                                     #endregion
-
                                     #region edit LeaveMst 
-
                                     LeaveDetails.LeaveTypeId = request.LeaveTypeId;
                                     LeaveDetails.StartDate = request.StartDate;
                                     LeaveDetails.EndDate = request.EndDate;
@@ -977,7 +827,6 @@ namespace ArcheOne.Controllers
                                     LeaveDetails.LeaveStatusId = 3;
                                     LeaveDetails.UpdatedBy = userId;
                                     LeaveDetails.UpdatedDate = _commonHelper.GetCurrentDateTime();
-
 
                                     if (IsUserManager1)
                                     {
@@ -1001,7 +850,6 @@ namespace ArcheOne.Controllers
                                     await _dbContext.SaveChangesAsync();
 
                                     #region Calculation of deduction leave as approve 
-
                                     var LeaveStatusApproved = await _dbRepo.LeaveStatusLists().FirstOrDefaultAsync(x => x.Id == LeaveDetails.LeaveStatusId);
                                     var HrStatusStatusApproved = await _dbRepo.LeaveStatusLists().FirstOrDefaultAsync(x => x.Id == LeaveDetails.Hrstatus);
                                     var ProjectManagerStatusApproved = await _dbRepo.LeaveStatusLists().FirstOrDefaultAsync(x => x.Id == LeaveDetails.ApprovedByReportingStatus);
@@ -1010,7 +858,6 @@ namespace ArcheOne.Controllers
                                     {
                                         if (HrStatusStatusApproved.LeaveStatus.ToLower() == "approve" && ProjectManagerStatusApproved.LeaveStatus.ToLower() == "approve")
                                         {
-
                                             var leaveBalanceLastList1 = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == LeaveDetails.AppliedByUserId).OrderByDescending(x => x.Id).FirstOrDefault();
 
                                             LeaveBalanceMst tbl = new LeaveBalanceMst();
@@ -1040,30 +887,19 @@ namespace ArcheOne.Controllers
                                             await _dbContext.LeaveBalanceMsts.AddAsync(tbl);
                                             _dbContext.SaveChanges();
 
-
                                             var leaveBalanceList1 = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == LeaveDetails.AppliedByUserId).OrderByDescending(x => x.Id).FirstOrDefault();
-
-
                                             if (leaveBalanceList1 != null)
                                             {
                                                 if (isProbationPeriod)
                                                 {
-
-
                                                     var leaveType1 = await _dbRepo.LeaveTypeLists().Where(x => x.Id == request.LeaveTypeId).OrderByDescending(x => x.Id).FirstOrDefaultAsync();
-
-
-                                                    //leaveBalanceList1.UserId = userId;
                                                     leaveBalanceList1.LeaveTypeId = request.LeaveTypeId;
                                                     leaveBalanceList1.BalanceMonth = leaveBalanceList1.BalanceMonth;
                                                     leaveBalanceList1.BalanceYear = leaveBalanceList1.BalanceYear;
                                                     leaveBalanceList1.NoOfDays = noOfDay;
-
                                                     if (leaveType1.LeaveTypeName.ToLower() == "sickleave")
                                                     {
-
                                                         leaveBalanceList1.SickLeaveTaken = 0.00M;
-
                                                         leaveBalanceList1.SickLeaveBalance = leaveBalanceList1.SickLeaveBalance == 0 ? 0 : leaveBalanceList1.SickLeaveBalance - noOfDay;
                                                         if (leaveBalanceList1.SickLeaveBalance < 0)
                                                         {
@@ -1078,46 +914,34 @@ namespace ArcheOne.Controllers
 
                                                     if (leaveType1.LeaveTypeName.ToLower() == "casualleave")
                                                     {
-
                                                         leaveBalanceList1.CasualLeaveTaken = 0.00M;
-
-
                                                         leaveBalanceList1.CasualLeaveBalance = leaveBalanceList1.CasualLeaveBalance == 0 ? leaveBalanceList1.CasualLeaveBalance : leaveBalanceList1.CasualLeaveBalance - noOfDay;
                                                         if (leaveBalanceList1.CasualLeaveBalance < 0)
                                                         {
                                                             leaveBalanceList1.CasualLeaveBalance = 0.00M;
                                                         }
-
                                                     }
                                                     else
                                                     {
                                                         leaveBalanceList1.CasualLeaveBalance = leaveBalanceList1 == null ? 0 : leaveBalanceList1.CasualLeaveBalance;
                                                         leaveBalanceList1.CasualLeaveTaken = leaveBalanceList1.CasualLeaveTaken;
                                                     }
-
-
                                                     if (leaveType1.LeaveTypeName.ToLower() == "earnedleave")
                                                     {
-
                                                         leaveBalanceList1.EarnedLeaveTaken = 0.00M;
                                                         leaveBalanceList1.EarnedLeaveBalance = leaveBalanceList1.EarnedLeaveBalance == 0 ? leaveBalanceList1.EarnedLeaveBalance : leaveBalanceList1.EarnedLeaveBalance - noOfDay;
                                                         if (leaveBalanceList1.EarnedLeaveBalance < 0)
                                                         {
                                                             leaveBalanceList1.EarnedLeaveBalance = 0.00M;
                                                         }
-
                                                     }
                                                     else
                                                     {
                                                         leaveBalanceList1.EarnedLeaveBalance = leaveBalanceList1 == null ? 0 : leaveBalanceList1.EarnedLeaveBalance;
                                                         leaveBalanceList1.EarnedLeaveTaken = leaveBalanceList1.EarnedLeaveTaken;
                                                     }
-
                                                     leaveBalanceList1.ClosingLeaveBalance = leaveBalanceList1 == null ? 0 : leaveBalanceList1.EarnedLeaveBalance + leaveBalanceList1.SickLeaveBalance + leaveBalanceList1.CasualLeaveBalance;
-
                                                     leaveBalanceList1.OpeningLeaveBalance = leaveBalanceList1 == null ? 0 : leaveBalanceList1.OpeningLeaveBalance;
-
-
                                                     leaveBalanceList1.LeaveTaken = requestmonth == leaveBalanceList1.BalanceMonth ? noOfDay : 0;
                                                     leaveBalanceList1.BalanceDate = DateTime.Now;
                                                     leaveBalanceList1.Detail = "Monthly Leave Balance";
@@ -1128,23 +952,16 @@ namespace ArcheOne.Controllers
                                                     leaveBalanceList1.CreatedDate = _commonHelper.GetCurrentDateTime();
                                                     leaveBalanceList1.UpdatedDate = _commonHelper.GetCurrentDateTime();
 
-
-
-
                                                     if (IsUserHR1)
                                                     {
                                                         LeaveDetails.Hrstatus = request.LeaveStatusId;
                                                         LeaveDetails.ApprovedByHruserId = userId;
-
                                                     }
                                                     else if (IsUserManager1)
                                                     {
                                                         LeaveDetails.ApprovedByReportingStatus = request.LeaveStatusId;
                                                         LeaveDetails.ApprovedByReportingUserId = userId;
                                                     }
-
-
-
                                                     if (LeaveType.LeaveTypeName.ToLower() == "sickleave")
                                                     {
                                                         leaveBalanceList1.SickLeaveTaken = noOfDay;
@@ -1162,10 +979,7 @@ namespace ArcheOne.Controllers
                                                         leaveBalanceList1.SickLeaveTaken = 0;
                                                         leaveBalanceList1.CasualLeaveTaken = 0;
                                                         leaveBalanceList1.EarnedLeaveTaken = noOfDay;
-
                                                     }
-
-
 
                                                     _dbContext.Entry(leaveBalanceList1).State = EntityState.Modified;
                                                     await _dbContext.SaveChangesAsync();
@@ -1175,50 +989,35 @@ namespace ArcheOne.Controllers
 
                                                     _dbContext.Entry(LeaveDetails).State = EntityState.Modified;
                                                     await _dbContext.SaveChangesAsync();
-                                                    //transactionScope.Complete();
                                                 }
-
                                             }
                                             else
                                             {
                                                 response.Message = "Data Not Found!";
 
                                             }
-
-
                                         }
                                         else
                                         {
                                             response.Message = "Your Leave Not Approve";
                                         }
-
                                     }
                                     #endregion
-
                                 }
-
-
-
-
-                                //transactionScope.Complete();
                                 response.Status = true;
-                                response.StatusCode = System.Net.HttpStatusCode.OK;
-                                response.Message = "Leave updated successfully!";
 
+                                response.Message = "Leave updated successfully!";
                             }
                             else
                             {
                                 response.Message = "Leave not found!";
-                                response.StatusCode = System.Net.HttpStatusCode.NotFound;
                             }
                             #endregion
-
                         }
                     }
                     else
                     {
                         response.Message = "Do not allows pastDate!";
-
                     }
                 }
                 else
@@ -1232,12 +1031,9 @@ namespace ArcheOne.Controllers
             }
             return response;
         }
-
         public decimal GetNoOfDays(DateTime StartDate, DateTime EndDate, string StartTime, string EndTime)
         {
             decimal isGetNoOfDays = 0;
-
-
             if (StartDate == EndDate) // leave days count for single day
             {
                 if ((StartTime == "09:30 AM") && (EndTime == "06:30 PM"))
@@ -1288,9 +1084,7 @@ namespace ArcheOne.Controllers
                     }
                 }
             }
-
             return isGetNoOfDays;
-
         }
         public decimal GetProbationPeriod(DateTime StartDate, DateTime EndDate)
         {
@@ -1326,7 +1120,6 @@ namespace ArcheOne.Controllers
                 {
                     for (DateTime i = model.StartDate.Date; i <= model.EndDate.Date; i = i.Date.AddDays(1))
                     {
-
                         if (i.Date == model.StartDate.Date)
                         {
                             if (model.StartTime == "09:30 AM")
@@ -1357,20 +1150,14 @@ namespace ArcheOne.Controllers
                 }
             }
             #endregion
-
-
-
             var leaveMaster = _dbRepo.LeaveLists().Where(x => x.AppliedByUserId == userId).FirstOrDefault();
             if (noOfDays > 1)
             {
-
                 if (model.StartDate.DayOfWeek.ToString() == "Friday" && model.StartTime == "09:30 AM" && model.EndDate.DayOfWeek.ToString() == "Monday" && model.EndTime == "06:30 PM")
                 {
                     noOfDays = 4;
-
                     if (noOfDays >= 4)
                     {
-
                         //code if apply leave for 4 or more than 4 days
                         var BalanceList = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId).OrderByDescending(x => x.Id).FirstOrDefault();
 
@@ -1387,24 +1174,19 @@ namespace ArcheOne.Controllers
                     }
                 }
                 response.Data = leaveMaster;
-
             }
-
             return response;
         }
-
         [HttpPost]
         public async Task<CommonResponse> UpdateCancelLeave([FromBody] UpdateCancleLeaveReqModel request)
         {
             CommonResponse response = new CommonResponse();
-
             try
             {
                 var userId = _commonHelper.GetLoggedInUserId();
                 #region calculation of cancel leave  in Leave-balance  
                 var leaveStatus = await _dbRepo.LeaveStatusLists().ToListAsync();
                 var leavebalance = await _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId).OrderByDescending(x => x.Id).FirstOrDefaultAsync();
-
                 if (leavebalance != null)
                 {
                     var leavemst = await _dbRepo.LeaveLists().Where(x => x.Id == request.Id).OrderByDescending(x => x.Id).FirstOrDefaultAsync();
@@ -1416,7 +1198,6 @@ namespace ArcheOne.Controllers
 
                         if (leaveApprovedByhrStatus != null && leaveApprovedByReportingStatus != null && leaveApprovedByReportingStatus.LeaveStatus.ToLower() == "approve" && leaveApprovedByhrStatus.LeaveStatus.ToLower() == "approve")
                         {
-
                             leavebalance.IsActive = false;
                             leavebalance.IsDelete = true;
 
@@ -1425,14 +1206,11 @@ namespace ArcheOne.Controllers
                             leavemst.IsActive = false;
                             leavemst.IsDelete = true;
 
-
                             _dbContext.Entry(leavebalance).State = EntityState.Modified;
                             await _dbContext.SaveChangesAsync();
 
                             _dbContext.Entry(leavemst).State = EntityState.Modified;
                             await _dbContext.SaveChangesAsync();
-
-
                         }
                         else
                         {
@@ -1446,10 +1224,8 @@ namespace ArcheOne.Controllers
                     }
                 }
                 #endregion
-
                 response.Status = true;
                 response.Message = "Data updated successfully!";
-
             }
             catch (Exception e)
             {
@@ -1457,23 +1233,17 @@ namespace ArcheOne.Controllers
             }
             return response;
         }
-
         public CommonResponse GetPerMonthBalanceAsync()
         {
             CommonResponse commonResponse = new CommonResponse();
             using (TransactionScope transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-
                 try
                 {
-
                     var loginUserId = _commonHelper.GetLoggedInUserId();
                     var userJoiningDate = _dbRepo.UserDetailList().FirstOrDefault(x => x.UserId == loginUserId);
                     int pastYear = _commonHelper.GetCurrentDateTime().AddYears(-1).Year;
-
-
-                    DateTime dt2 = new DateTime(DateTime.Now.Year, 01, 01); // current year date 
-
+                    DateTime dt2 = new DateTime(DateTime.Now.Year, 01, 01);
                     DateTime perviousdt = new DateTime(pastYear, 12, 31);
                     // int pastmonth = userJoiningDate.JoinDate.AddMonths(15).Month;
                     // DateTime nextMonthDate = new DateTime(DateTime.Now.Year, pastmonth, 1);
@@ -1483,17 +1253,14 @@ namespace ArcheOne.Controllers
                     for (DateTime i = userJoiningDate.JoinDate; i <= DateTime.Now; i = i.Date.AddMonths(1))
                     {
                         var BalanceMonth = i.Date.ToString("MMMM");
-
                         if (i.Date > perviousdt)
                         {
                             var LeaveBalanceDetail = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == loginUserId).OrderByDescending(x => x.Id).FirstOrDefault();
                             if (LeaveBalanceDetail != null)
                             {
                                 var LeaveBalance1 = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == loginUserId && x.BalanceMonth == BalanceMonth && x.BalanceYear == i.Date.Year).OrderByDescending(x => x.Id).FirstOrDefault();
-
                                 if (LeaveBalance1 == null && BalanceMonth.ToLower() == "january")
                                 {
-
                                     LeaveBalanceMst tbl = new LeaveBalanceMst();
                                     tbl.UserId = loginUserId;
                                     tbl.LeaveTypeId = 0;
@@ -1519,15 +1286,10 @@ namespace ArcheOne.Controllers
 
                                     _dbContext.LeaveBalanceMsts.Add(tbl);
                                     _dbContext.SaveChanges();
-
-
-
-
                                 }
                                 else
                                 {
                                     var LeaveBalance4 = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == loginUserId && x.BalanceMonth == BalanceMonth && x.BalanceYear == i.Date.Year).OrderByDescending(x => x.Id).FirstOrDefault();
-
                                     if (LeaveBalance4 == null)
                                     {
                                         LeaveBalanceMst tbl = new LeaveBalanceMst();
@@ -1600,7 +1362,6 @@ namespace ArcheOne.Controllers
                                 var LeaveBalanceDetails = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == loginUserId).OrderByDescending(x => x.Id).FirstOrDefault();
                                 if (LeaveBalanceDetails != null)
                                 {
-
                                     var LeaveBalance1 = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == loginUserId && x.BalanceMonth == BalanceMonth).OrderByDescending(x => x.Id).FirstOrDefault();
 
                                     if (LeaveBalance1 == null)
@@ -1673,9 +1434,7 @@ namespace ArcheOne.Controllers
                                 var LeaveBalanceDetails = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == loginUserId).OrderByDescending(x => x.Id).FirstOrDefault();
                                 if (LeaveBalanceDetails != null)
                                 {
-
                                     var LeaveBalance = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == loginUserId && x.BalanceMonth == BalanceMonth).OrderByDescending(x => x.Id).FirstOrDefault();
-
                                     if (LeaveBalance == null)
                                     {
                                         LeaveBalanceMst tbl = new LeaveBalanceMst();
@@ -1708,11 +1467,7 @@ namespace ArcheOne.Controllers
                                 }
                             }
                         }
-
-
-
                     }
-
                     transactionScope.Complete();
                 }
                 catch (Exception e)
@@ -1722,7 +1477,6 @@ namespace ArcheOne.Controllers
             }
             return commonResponse;
         }
-
         [HttpGet]
         public async Task<IActionResult> ShowLeavesDetails()
         {
@@ -1761,6 +1515,5 @@ namespace ArcheOne.Controllers
             }
             return Json(commonResponse);
         }
-
     }
 }
