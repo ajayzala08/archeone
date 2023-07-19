@@ -6,6 +6,6 @@
 
         public string HolidayName { get; set; } = null!;
 
-        public string HolidayDate { get; set; }
+        public DateTime HolidayDate { get; set; }
     }
 }

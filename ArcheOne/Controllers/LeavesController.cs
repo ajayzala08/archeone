@@ -123,7 +123,7 @@ namespace ArcheOne.Controllers
                         leaveDetailsListModel.StartTime = Convert.ToString(item.StartTime);
                         leaveDetailsListModel.EndTime = Convert.ToString(item.EndTime);
                         leaveDetailsListModel.OpeningBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)item.OpeningLeaveBalance));
-                        leaveDetailsListModel.ClosingBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.ClosingLeaveBalance));
+                        leaveDetailsListModel.ClosingBalance = LeaveBalanceDetails == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.ClosingLeaveBalance));
                         leaveDetailsListModel.NoOfDays = item.NoOfDays == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)item.NoOfDays));
                         leaveDetailsListModel.PaidDays = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)item.PaidDays));
                         leaveDetailsListModel.UnPaidDays = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)item.UnPaidDays));
@@ -1249,8 +1249,10 @@ namespace ArcheOne.Controllers
                     // DateTime nextMonthDate = new DateTime(DateTime.Now.Year, pastmonth, 1);
 
                     DateTime dtNow = _commonHelper.GetCurrentDateTime();
+                    DateTime userJoiningDatemodify = new DateTime(userJoiningDate.JoinDate.Year, userJoiningDate.JoinDate.Month, dtNow.Day);
                     var LeaveBalanceList = _dbRepo.LeaveBalanceLists().ToList();
-                    for (DateTime i = userJoiningDate.JoinDate; i <= DateTime.Now; i = i.Date.AddMonths(1))
+
+                    for (DateTime i = userJoiningDatemodify; i <= dtNow.Date; i = i.Date.AddMonths(1))
                     {
                         var BalanceMonth = i.Date.ToString("MMMM");
                         if (i.Date > perviousdt)
