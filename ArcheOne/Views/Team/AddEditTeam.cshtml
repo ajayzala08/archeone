@@ -69,7 +69,10 @@
                                         {
                                             if (!addEditTeamReqViewModel.TeamLeadDetails.TeamMemberDetails.Any(x => x.TeamMemberId == item.Id))
                                             {
-                                                <option value="@item.Id">@item.FirstName @item.LastName</option>
+                                                if (!addEditTeamReqViewModel.TeamMemberIdList.Any(x => x.TeamMemberId == item.Id))
+                                                {
+                                                    <option value="@item.Id">@item.FirstName @item.LastName</option>
+                                                }
                                             }
                                             else
                                             {
