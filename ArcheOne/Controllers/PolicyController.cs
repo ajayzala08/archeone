@@ -176,6 +176,53 @@ namespace ArcheOne.Controllers
                             var policyFile = _commonHelper.UploadFile(policySaveUpdateReqModel.PolicyDocumentName, @"PolicyDocument", fileName, false, true, false);
                             filePath = policyFile.Data.RelativePath;
                         }
+                        var policyDetail = await _dbRepo.PolicyList().FirstOrDefaultAsync(x => x.Id == policySaveUpdateReqModel.Id);
+                        if (policyDetail != null)
+                        {
+                            //Edit Mode
+                            policyDetail.PolicyName = policySaveUpdateReqModel.PolicyName;
+                            if (!string.IsNullOrEmpty(filePath))
+                            {
+                                policyDetail.PolicyDocumentName = filePath;
+                            }
+                            policyDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                            policyDetail.UpdatedBy = _commonHelper.GetLoggedInUserId();
+
+                            _dbContext.Entry(policyDetail).State = EntityState.Modified;
+                            _dbContext.SaveChanges();
+
+                            commonResponse.Status = true;
+                            commonResponse.StatusCode = HttpStatusCode.OK;
+                            commonResponse.Message = "Policy Updated Successfully!";
+                        }
+                        else
+                        {
+                            //Add Mode
+                            var duplicateCheck = await _dbRepo.PolicyList().Where(x => x.PolicyName == policySaveUpdateReqModel.PolicyName).ToListAsync();
+                            if (duplicateCheck.Count == 0)
+                            {
+                                policyMst.PolicyName = policySaveUpdateReqModel.PolicyName;
+
+                                policyMst.PolicyDocumentName = filePath;
+                                policyMst.CreatedDate = _commonHelper.GetCurrentDateTime();
+                                policyMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                                policyMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+                                policyMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                                policyMst.IsActive = true;
+                                policyMst.IsDelete = false;
+
+                                _dbContext.Add(policyMst);
+                                _dbContext.SaveChanges();
+
+                                commonResponse.Status = true;
+                                commonResponse.StatusCode = HttpStatusCode.OK;
+                                commonResponse.Message = "Policy Added Successfully!";
+                            }
+                            else
+                            {
+                                commonResponse.Message = "Policy Is Already Exist";
+                            }
+                        }
 
                     }
                     else
@@ -184,53 +231,7 @@ namespace ArcheOne.Controllers
                         commonResponse.Message = "Only PDF files are Allowed !";
                     }
                 }
-                var policyDetail = await _dbRepo.PolicyList().FirstOrDefaultAsync(x => x.Id == policySaveUpdateReqModel.Id);
-                if (policyDetail != null)
-                {
-                    //Edit Mode
-                    policyDetail.PolicyName = policySaveUpdateReqModel.PolicyName;
-                    if (!string.IsNullOrEmpty(filePath))
-                    {
-                        policyDetail.PolicyDocumentName = filePath;
-                    }
-                    policyDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                    policyDetail.UpdatedBy = _commonHelper.GetLoggedInUserId();
 
-                    _dbContext.Entry(policyDetail).State = EntityState.Modified;
-                    _dbContext.SaveChanges();
-
-                    commonResponse.Status = true;
-                    commonResponse.StatusCode = HttpStatusCode.OK;
-                    commonResponse.Message = "Policy Updated Successfully!";
-                }
-                else
-                {
-                    //Add Mode
-                    var duplicateCheck = await _dbRepo.PolicyList().Where(x => x.PolicyName == policySaveUpdateReqModel.PolicyName).ToListAsync();
-                    if (duplicateCheck.Count == 0)
-                    {
-                        policyMst.PolicyName = policySaveUpdateReqModel.PolicyName;
-
-                        policyMst.PolicyDocumentName = filePath;
-                        policyMst.CreatedDate = _commonHelper.GetCurrentDateTime();
-                        policyMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                        policyMst.CreatedBy = _commonHelper.GetLoggedInUserId();
-                        policyMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
-                        policyMst.IsActive = true;
-                        policyMst.IsDelete = false;
-
-                        _dbContext.Add(policyMst);
-                        _dbContext.SaveChanges();
-
-                        commonResponse.Status = true;
-                        commonResponse.StatusCode = HttpStatusCode.OK;
-                        commonResponse.Message = "Policy Added Successfully!";
-                    }
-                    else
-                    {
-                        commonResponse.Message = "Policy Is Already Exist";
-                    }
-                }
                 commonResponse.Data = policyMst;
             }
             catch (Exception ex)

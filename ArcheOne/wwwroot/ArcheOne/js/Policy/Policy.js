@@ -11,23 +11,18 @@ function GetPolicyList() {
     ajaxCall("Get", false, '/Policy/PolicyList', null, function (result) {
         $("#divPolicyList").html(result.responseText);
         ApplyDatatableResponsive('tblPolicy');
-
-        $(".btn-edit").click(function () {
-
-            var Id = $(this).attr('Id');
+        $('#tblPolicy').on('click', '.btn-edit', function () {
+            Id = $(this).attr('Id');
             AddEditPolicy(Id);
         });
-
-        $(".btn-delete").click(function () {
+        $('#tblPolicy').on('click', '.btn-delete', function () {
             Id = $(this).attr('Id');
             DeletePolicy(Id);
         });
-
-        $(".btn-download").click(function () {
+        $('#tblPolicy').on('click', '.btn-download', function () {
             Id = $(this).attr('Id');
             GetPolicyReport(Id);
         });
-
 
     });
 }

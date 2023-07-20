@@ -14,6 +14,7 @@
 
 function SaveUpdateHoliday() {
 
+    
     var saveHolidayData = {
         "Id": parseInt($("#txtHolidayId").val()),
         "HolidayName": $("#txtHolidayName").val(),
@@ -21,6 +22,7 @@ function SaveUpdateHoliday() {
       
     /*    "HolidayDate": $.datepicker.formatDate("yy-mm-dd", $('#txtHolidayDate').datepicker('getDate')),*/
     }
+    
     console.log(saveHolidayData);
     
 
