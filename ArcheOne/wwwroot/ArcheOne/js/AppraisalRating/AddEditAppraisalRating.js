@@ -1,7 +1,6 @@
 ﻿$(document).ready(function () {
 
     $("#btnSaveAdd").click(function () {
-        
         SaveUpdateAppraisalRating();
     });
 
@@ -24,7 +23,6 @@
 
 function SaveUpdateAppraisalRating() {
     if (window.FormData !== undefined) {
-        
         var saveAppraisalRatingData = {
             "Id": parseInt($("#txtAppraisalId").val()),
             "ReportingManagerId": $("#txtReportingManagerId").val(),
@@ -40,7 +38,6 @@ function SaveUpdateAppraisalRating() {
             "Comment": $("#txtEmployeeComment").val(),
           
         }
-        
 
         console.log(saveAppraisalRatingData);
 

@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
 
-    debugger
+    
     UserDocumentList();
 
     $("#btnAddUpdateUserDocument").click(function () {
@@ -42,7 +42,7 @@ function UserDocumentList() {
 
                         render: function (data, type, row) {
                             if (data) {
-                                debugger
+                                
                                 return '<i class="fa fa-pen pen btn-edit" style="cursor: pointer;" data-toggle="modal" data-target="#modalUserDocument" onclick="GetUserDocsDetails(' + row.id + ')"></i> | <i class="fa fa-trash trash btn-delete" style="cursor: pointer;" onclick="DeleteUserDocs(' + row.id + ')"></i> | <i class="fa fa-download btn-download" value=' + row.document + ' Id=' + row.id + ' onclick="GetUserDocs(' + row.id + ')" aria-hidden="true"></i>';
 
                             }
@@ -70,7 +70,7 @@ function UserDocumentList() {
 }
 
 function GetUserDocs(id) {
-    debugger
+    
     window.open('/UserDocument/GetUserDocument?Id=' + id, "_blank");
 };
 
@@ -108,11 +108,11 @@ function AddUpdateUserDocument() {
 }
 
 function GetUserDocsDetails(Id) {
-    debugger
+    
     $(".modal-title").text("Edit UserDocument");
     $("#btnAddUpdateUserDocument").removeClass("btn-success").addClass("btn-warning");
     $("#btnAddUpdateUserDocument").html("Update");
-    debugger
+    
     ajaxCall("Post", false, '/UserDocument/GetUserDocumentById?Id=' + Id, null, function (result) {
         if (result.status == true) {
             $("#txtuserDocumentId").val(result.data.id);

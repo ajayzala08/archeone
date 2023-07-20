@@ -150,7 +150,6 @@ function GetFilteredSalesLeadList() {
         }
 
         $(".btn-edit").click(function (Id) {
-            debugger
             EditMode = 1;
             AddEditSalesLead(Id);
         });

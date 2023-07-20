@@ -47,7 +47,7 @@
                     <div class="col-sm-4" id="dtxtPolicyFile">
                         <div class="form-group">
                             <label class="form-label"><span class="has-error required">* </span>Policy Docuemnt(.pdf)</label>
-                            <input id="txtPolicyFile" type="file" name="PolicyFile" class="form-control text-length" placeholder="Please Select Valid File" value="@Model.PolicyDocumentName" isrequired="1" divcontainer="dtxtPolicyFile" errorspan="stxtPolicyFile" defaultvalue="" autocomplete="off" onchange="loadFile(event)" accept="file/*" />
+                            <input id="txtPolicyFile" type="file" name="PolicyFile" class="form-control text-length" placeholder="Please Select Valid File" value="@Model.PolicyDocumentName" isrequired="1" divcontainer="dtxtPolicyFile" errorspan="stxtPolicyFile" defaultvalue="" autocomplete="off" onchange="loadFile(event)" accept="application/pdf" />
                             <span class="help-block d-none has-error" id="stxtPolicyFile">Please Select Valid File</span>
                         </div>
                     </div>
