@@ -7,7 +7,7 @@
 }
 <style>
     td {
-        text-align: center;
+        text-align: left;
     }
 
     thead {
@@ -17,9 +17,9 @@
 
 
 <div class="row form-group">
-   
+
     <div class="col-md-12">
-        
+
         <table id="tblAppraisal" class="table table-bordered table-striped" style="width:100%">
             <thead>
                 <tr>
@@ -42,27 +42,31 @@
                 </tr>
             </thead>
             <tbody>
-                    @foreach (var item in Model)
+                @foreach (var item in Model)
                 {
                     <tr>
                         <td>
-                            @if (item.IsUserHR == true)
+                            @if (item.IsEditable)
                             {
-                                <i class="fa fa-pen pen btn-edit" Id="@item.Id" style="cursor: pointer;"> | </i>
-                               
-                                <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"> | </i>
+                                @if (item.IsUserHR == true)
+                                {
+                                    <i class="fa fa-pen pen btn-edit" Id="@item.Id" style="cursor: pointer;"> | </i>
 
-                                <i class="fa fa-info-circle circle btn-info" Id="@item.Id" style="cursor: pointer;"></i>
-                                
+                                    <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"> | </i>
+
+                                    <i class="fa fa-info-circle circle btn-info" Id="@item.Id" style="cursor: pointer;"></i>
+
+                                }
+                                else
+                                {
+                                    <i class="fa fa-info-circle circle btn-info" Id="@item.Id" style="cursor: pointer;"></i>
+
+                                }
                             }
                             else
                             {
-                                <i class="fa fa-info-circle circle btn-info" Id="@item.Id" style="cursor: pointer;"></i>
-
+                                <i class="fa fa-info-circle circle btn-info" style="cursor: pointer;" title="Your appraisal is completed"></i>
                             }
-
-
-                        
                         </td>
                         <td>
                             @item.EmployeeName
@@ -74,7 +78,7 @@
                             @item.Year
                         </td>
                         <td>
-                           @item.AppraisalStaus
+                            @item.AppraisalStaus
                         </td>
                     </tr>
                 }

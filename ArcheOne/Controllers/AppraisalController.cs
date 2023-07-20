@@ -6,6 +6,7 @@ using ArcheOne.Models.Res;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using System.Text.RegularExpressions;
 
 namespace ArcheOne.Controllers
 {
@@ -95,11 +96,11 @@ namespace ArcheOne.Controllers
                 {
                     if (AppraisalStatusId == 1 || AppraisalStatusId == null)
                     {
-                        appraisalList = _dbRepo.AppraisalList().Where(x =>x.IsApprove == false).ToList();
+                        appraisalList = _dbRepo.AppraisalList().Where(x => x.IsApprove == false).ToList();
                     }
                     else
                     {
-                        appraisalList = _dbRepo.AppraisalList().Where(x =>x.IsApprove == true).ToList();
+                        appraisalList = _dbRepo.AppraisalList().Where(x => x.IsApprove == true).ToList();
                     }
                 }
 
@@ -118,8 +119,9 @@ namespace ArcheOne.Controllers
                                                     EmployeeName = x.r.FirstName + " " + x.r.LastName,
                                                     ReportingManagerName = x.i.FirstName + " " + x.i.LastName,
                                                     Year = x.u.Year,
-                                                    AppraisalStaus = x.u.IsApprove == true? "Completed" :"InProgress",
-                                                    IsUserHR = IsUserHR.Count > 0 ? true : false
+                                                    AppraisalStaus = x.u.IsApprove == true ? "Completed" : "InProgress",
+                                                    IsUserHR = IsUserHR.Count > 0 ? true : false,
+                                                    IsEditable = x.u.IsApprove == true ? false : true,
                                                 }).ToList();
 
 
@@ -193,11 +195,11 @@ namespace ArcheOne.Controllers
 
                     }
                 }
-                else
-                {
-                    response.Message = "Data Not Found";
-                    response.StatusCode = System.Net.HttpStatusCode.NotFound;
-                }
+                //else
+                //{
+                //    response.Message = "Data Not Found";
+                //    response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                //}
                 response.Data = addEditAppraisalResModel;
 
             }
@@ -213,64 +215,87 @@ namespace ArcheOne.Controllers
             CommonResponse response = new CommonResponse();
             try
             {
-                AppraisalMst appraisalMst = new AppraisalMst();
-                var appraisalDetail = await _dbRepo.AppraisalList().FirstOrDefaultAsync(x => x.Id == appraisalSaveUpdateReqModel.Id);
-                var duplicateCheck = await _dbRepo.AppraisalList().Where(x => x.EmployeeId == appraisalSaveUpdateReqModel.EmployeeId && x.Year == appraisalSaveUpdateReqModel.Year).ToListAsync();
-                if (appraisalDetail != null)
+                Regex validateDateRegex1 = new Regex("^[2]{1}[0]{1}[0-8]{1}[0-9]{1}-[2]{1}[0]{1}[0-8]{1}[0-9]{1}");
+
+                if (validateDateRegex1.IsMatch(appraisalSaveUpdateReqModel.Year))
                 {
-                    if (duplicateCheck.Count == 0)
+                    string firstYear = appraisalSaveUpdateReqModel.Year.Substring(0, appraisalSaveUpdateReqModel.Year.IndexOf("-")).Trim();
+                    int nextyear = int.Parse(firstYear) + 1;
+
+                    string finalYear = firstYear + "-" + nextyear;
+
+                    if (appraisalSaveUpdateReqModel.Year == finalYear)
                     {
+                        AppraisalMst appraisalMst = new AppraisalMst();
+                        var appraisalDetail = await _dbRepo.AppraisalList().FirstOrDefaultAsync(x => x.Id == appraisalSaveUpdateReqModel.Id);
+                        var duplicateCheck = await _dbRepo.AppraisalList().Where(x => x.EmployeeId == appraisalSaveUpdateReqModel.EmployeeId && x.Year == appraisalSaveUpdateReqModel.Year && x.ReportingManagerId == appraisalSaveUpdateReqModel.ReportingManagerId).ToListAsync();
+                        if (appraisalDetail != null)
+                        {
+                            if (duplicateCheck.Count == 0)
+                            {
 
-                        //Edit Mode
-                        appraisalDetail.EmployeeId = appraisalSaveUpdateReqModel.EmployeeId;
-                        appraisalDetail.ReportingManagerId = appraisalSaveUpdateReqModel.ReportingManagerId;
-                        appraisalDetail.Year = appraisalSaveUpdateReqModel.Year;
-                        appraisalDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                        appraisalDetail.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                                //Edit Mode
+                                appraisalDetail.EmployeeId = appraisalSaveUpdateReqModel.EmployeeId;
+                                appraisalDetail.ReportingManagerId = appraisalSaveUpdateReqModel.ReportingManagerId;
+                                appraisalDetail.Year = appraisalSaveUpdateReqModel.Year;
+                                appraisalDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                                appraisalDetail.UpdatedBy = _commonHelper.GetLoggedInUserId();
 
 
-                        _dbContext.Entry(appraisalDetail).State = EntityState.Modified;
-                        _dbContext.SaveChanges();
+                                _dbContext.Entry(appraisalDetail).State = EntityState.Modified;
+                                _dbContext.SaveChanges();
 
-                        response.Status = true;
-                        response.StatusCode = HttpStatusCode.OK;
-                        response.Message = "Appraisal Updated Successfully!";
+                                response.Status = true;
+                                response.StatusCode = HttpStatusCode.OK;
+                                response.Message = "Appraisal Updated Successfully!";
+                            }
+                            else
+                            {
+                                response.Message = "Appraisal Is Already Exist";
+                            }
+                        }
+                        else
+                        {
+                            //Add Mode
+                            duplicateCheck = await _dbRepo.AppraisalList().Where(x => x.EmployeeId == appraisalSaveUpdateReqModel.EmployeeId && x.Year == appraisalSaveUpdateReqModel.Year).ToListAsync();
+                            if (duplicateCheck.Count == 0)
+                            {
+                                appraisalMst.EmployeeId = appraisalSaveUpdateReqModel.EmployeeId;
+                                appraisalMst.ReportingManagerId = appraisalSaveUpdateReqModel.ReportingManagerId;
+                                appraisalMst.Year = appraisalSaveUpdateReqModel.Year;
+                                appraisalMst.IsApprove = false;
+                                appraisalMst.CreatedDate = _commonHelper.GetCurrentDateTime();
+                                appraisalMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                                appraisalMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+                                appraisalMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                                appraisalMst.IsActive = true;
+                                appraisalMst.IsDelete = false;
+
+
+                                _dbContext.Add(appraisalMst);
+                                _dbContext.SaveChanges();
+
+                                response.Status = true;
+                                response.StatusCode = HttpStatusCode.OK;
+                                response.Message = "Appraisal Added Successfully!";
+                            }
+                            else
+                            {
+                                response.Message = "Appraisal Is Already Exist";
+                            }
+                        }
+                        response.Data = appraisalMst;
                     }
                     else
                     {
-                        response.Message = "Appraisal Is Already Exist";
+                        response.Message = "Please enter valid year " + finalYear!;
+
                     }
                 }
                 else
                 {
-                    //Add Mode
-                    duplicateCheck = await _dbRepo.AppraisalList().Where(x => x.EmployeeId == appraisalSaveUpdateReqModel.EmployeeId && x.Year == appraisalSaveUpdateReqModel.Year).ToListAsync();
-                    if (duplicateCheck.Count == 0)
-                    {
-                        appraisalMst.EmployeeId = appraisalSaveUpdateReqModel.EmployeeId;
-                        appraisalMst.ReportingManagerId = appraisalSaveUpdateReqModel.ReportingManagerId;
-                        appraisalMst.Year = appraisalSaveUpdateReqModel.Year;
-                        appraisalMst.CreatedDate = _commonHelper.GetCurrentDateTime();
-                        appraisalMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                        appraisalMst.CreatedBy = _commonHelper.GetLoggedInUserId();
-                        appraisalMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
-                        appraisalMst.IsActive = true;
-                        appraisalMst.IsDelete = false;
-
-
-                        _dbContext.Add(appraisalMst);
-                        _dbContext.SaveChanges();
-
-                        response.Status = true;
-                        response.StatusCode = HttpStatusCode.OK;
-                        response.Message = "Appraisal Added Successfully!";
-                    }
-                    else
-                    {
-                        response.Message = "Appraisal Is Already Exist";
-                    }
+                    response.Message = "Please enter valid year (yyyy-yyyy)!";
                 }
-                response.Data = appraisalMst;
             }
             catch (Exception ex)
             {
@@ -318,6 +343,5 @@ namespace ArcheOne.Controllers
             return Json(response);
 
         }
-
     }
 }

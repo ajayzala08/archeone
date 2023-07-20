@@ -9,6 +9,7 @@
 
         public string AppraisalStaus { get; set; }
         public bool IsUserHR { get; set; }
+        public bool IsEditable { get; set; }
 
     }
 
