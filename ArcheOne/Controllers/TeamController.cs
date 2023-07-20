@@ -6,6 +6,7 @@ using ArcheOne.Models.Res;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using System.Transactions;
 
 namespace ArcheOne.Controllers
 {
@@ -155,123 +156,147 @@ namespace ArcheOne.Controllers
         {
             CommonResponse commonResponse = new CommonResponse();
             List<TeamMst> addTeamReqModelList = new List<TeamMst>();
-
-            try
+            using (TransactionScope transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                #region sonal
-
-                ////Edit Mode
-                //var teamDetails = await _dbRepo.TeamList().FirstOrDefaultAsync(x => x.TeamLeadId == saveUpdateTeamReqModel.TeamLeadId);
-                //if (teamDetails != null)
-                //{
-                //    TeamMst teamMst = new TeamMst();
-                //    foreach (var teamMember in saveUpdateTeamReqModel.TeamMemberId)
-                //    {
-                //        //TeamMst teamMst = new TeamMst();
-                //        teamMst.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
-                //        teamMst.TeamMemberId = teamMember;
-                //        teamMst.IsActive = true;
-                //        teamMst.IsDelete = false;
-                //        teamMst.CreatedDate = DateTime.Now;
-                //        teamMst.UpdatedDate = DateTime.Now;
-                //        teamMst.CreatedBy = _commonHelper.GetLoggedInUserId();
-                //        teamMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
-
-
-                //        //_dbContext.Entry(teamDetails).State = EntityState.Added;
-                //        //_dbContext.SaveChanges();
-                //    }
-
-                //    await _dbContext.TeamMsts.AddRangeAsync(teamMst);
-                //    _dbContext.SaveChangesAsync();
-
-
-                //    commonResponse.Status = true;
-                //    commonResponse.StatusCode = HttpStatusCode.OK;
-                //    commonResponse.Message = "Team Edited Successfully";
-                //}
-                //else
-                //{
-                //    //Add Mode
-                //    foreach (var teamMember in saveUpdateTeamReqModel.TeamMemberId)
-                //    {
-                //        var teamList = _dbRepo.TeamList().Where(x => x.TeamMemberId == teamMember).ToList();
-
-                //        if (teamList.Count > 0)
-                //        {
-                //            commonResponse.Status = false;
-                //            //commonResponse.StatusCode = HttpStatusCode.NotFound;
-                //            commonResponse.Message = "TeamMember Is Already Exist";
-                //        }
-                //        else
-                //        {
-                //            TeamMst teamMst = new TeamMst();
-                //            teamMst.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
-                //            teamMst.TeamMemberId = teamMember;
-                //            teamMst.IsActive = true;
-                //            teamMst.IsDelete = false;
-                //            teamMst.CreatedDate = DateTime.Now;
-                //            teamMst.UpdatedDate = DateTime.Now;
-                //            teamMst.CreatedBy = _commonHelper.GetLoggedInUserId();
-                //            teamMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
-                //            addTeamReqModelList.Add(teamMst);
-                //        }
-                //    }
-
-                //    await _dbContext.TeamMsts.AddRangeAsync(addTeamReqModelList);
-                //    _dbContext.SaveChangesAsync();
-
-                //    commonResponse.Status = true;
-                //    commonResponse.StatusCode = HttpStatusCode.OK;
-                //    commonResponse.Message = "Team Added Successfully";
-                //}
-
-
-                #endregion
-
-                #region Preyansi
-                //Edit Mode
-                var isExistteamLead = _dbRepo.TeamList().Where(x => x.TeamLeadId == saveUpdateTeamReqModel.TeamId).ToList();
-                if (isExistteamLead.Count > 0)
+                try
                 {
-                    if (saveUpdateTeamReqModel.TeamId == saveUpdateTeamReqModel.TeamLeadId)
+                    #region sonal
+
+                    ////Edit Mode
+                    //var teamDetails = await _dbRepo.TeamList().FirstOrDefaultAsync(x => x.TeamLeadId == saveUpdateTeamReqModel.TeamLeadId);
+                    //if (teamDetails != null)
+                    //{
+                    //    TeamMst teamMst = new TeamMst();
+                    //    foreach (var teamMember in saveUpdateTeamReqModel.TeamMemberId)
+                    //    {
+                    //        //TeamMst teamMst = new TeamMst();
+                    //        teamMst.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
+                    //        teamMst.TeamMemberId = teamMember;
+                    //        teamMst.IsActive = true;
+                    //        teamMst.IsDelete = false;
+                    //        teamMst.CreatedDate = DateTime.Now;
+                    //        teamMst.UpdatedDate = DateTime.Now;
+                    //        teamMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+                    //        teamMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+
+
+                    //        //_dbContext.Entry(teamDetails).State = EntityState.Added;
+                    //        //_dbContext.SaveChanges();
+                    //    }
+
+                    //    await _dbContext.TeamMsts.AddRangeAsync(teamMst);
+                    //    _dbContext.SaveChangesAsync();
+
+
+                    //    commonResponse.Status = true;
+                    //    commonResponse.StatusCode = HttpStatusCode.OK;
+                    //    commonResponse.Message = "Team Edited Successfully";
+                    //}
+                    //else
+                    //{
+                    //    //Add Mode
+                    //    foreach (var teamMember in saveUpdateTeamReqModel.TeamMemberId)
+                    //    {
+                    //        var teamList = _dbRepo.TeamList().Where(x => x.TeamMemberId == teamMember).ToList();
+
+                    //        if (teamList.Count > 0)
+                    //        {
+                    //            commonResponse.Status = false;
+                    //            //commonResponse.StatusCode = HttpStatusCode.NotFound;
+                    //            commonResponse.Message = "TeamMember Is Already Exist";
+                    //        }
+                    //        else
+                    //        {
+                    //            TeamMst teamMst = new TeamMst();
+                    //            teamMst.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
+                    //            teamMst.TeamMemberId = teamMember;
+                    //            teamMst.IsActive = true;
+                    //            teamMst.IsDelete = false;
+                    //            teamMst.CreatedDate = DateTime.Now;
+                    //            teamMst.UpdatedDate = DateTime.Now;
+                    //            teamMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+                    //            teamMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                    //            addTeamReqModelList.Add(teamMst);
+                    //        }
+                    //    }
+
+                    //    await _dbContext.TeamMsts.AddRangeAsync(addTeamReqModelList);
+                    //    _dbContext.SaveChangesAsync();
+
+                    //    commonResponse.Status = true;
+                    //    commonResponse.StatusCode = HttpStatusCode.OK;
+                    //    commonResponse.Message = "Team Added Successfully";
+                    //}
+
+
+                    #endregion
+
+                    #region Preyansi
+                    //Edit Mode
+                    var isExistteamLead = _dbRepo.TeamList().Where(x => x.TeamLeadId == saveUpdateTeamReqModel.TeamId).ToList();
+                    if (isExistteamLead.Count > 0)
                     {
-
-
-                        var teamDetails = await _dbRepo.TeamList().FirstOrDefaultAsync(x => x.TeamLeadId == saveUpdateTeamReqModel.TeamLeadId);
-                        if (teamDetails != null)
+                        if (saveUpdateTeamReqModel.TeamId == saveUpdateTeamReqModel.TeamLeadId)
                         {
-                            var TeamList = await _dbRepo.TeamList().Where(x => x.TeamLeadId == saveUpdateTeamReqModel.TeamLeadId).ToListAsync();
-                            foreach (var item in TeamList)
+
+
+                            var teamDetails = await _dbRepo.TeamList().FirstOrDefaultAsync(x => x.TeamLeadId == saveUpdateTeamReqModel.TeamLeadId);
+                            if (teamDetails != null)
                             {
-                                _dbContext.TeamMsts.RemoveRange(item);
+                                var TeamList = await _dbRepo.TeamList().Where(x => x.TeamLeadId == saveUpdateTeamReqModel.TeamLeadId).ToListAsync();
+                                foreach (var item in TeamList)
+                                {
+                                    _dbContext.TeamMsts.RemoveRange(item);
+                                    _dbContext.SaveChangesAsync();
+                                }
+
+
+                                List<TeamMst> teamMstList = new List<TeamMst>();
+
+
+                                foreach (var teamMember in saveUpdateTeamReqModel.TeamMemberId)
+                                {
+                                    TeamMst teamMst = new TeamMst();
+                                    teamMst.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
+                                    teamMst.TeamMemberId = teamMember;
+                                    teamMst.IsActive = true;
+                                    teamMst.IsDelete = false;
+                                    teamMst.CreatedDate = DateTime.Now;
+                                    teamMst.UpdatedDate = DateTime.Now;
+                                    teamMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+                                    teamMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                                    teamMstList.Add(teamMst);
+                                }
+                                await _dbContext.TeamMsts.AddRangeAsync(teamMstList);
                                 _dbContext.SaveChangesAsync();
+                                transactionScope.Complete();
+
+                                commonResponse.Status = true;
+                                commonResponse.StatusCode = HttpStatusCode.OK;
+                                commonResponse.Message = "Team Edited Successfully";
                             }
-
-
-                            List<TeamMst> teamMstList = new List<TeamMst>();
-
-
-                            foreach (var teamMember in saveUpdateTeamReqModel.TeamMemberId)
+                            else
                             {
-                                TeamMst teamMst = new TeamMst();
-                                teamMst.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
-                                teamMst.TeamMemberId = teamMember;
-                                teamMst.IsActive = true;
-                                teamMst.IsDelete = false;
-                                teamMst.CreatedDate = DateTime.Now;
-                                teamMst.UpdatedDate = DateTime.Now;
-                                teamMst.CreatedBy = _commonHelper.GetLoggedInUserId();
-                                teamMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
-                                teamMstList.Add(teamMst);
+                                foreach (var item in isExistteamLead)
+                                {
+                                    var teamDetails1 = _dbRepo.TeamList().FirstOrDefault(x => x.TeamLeadId == item.TeamLeadId);
+                                    if (teamDetails1 != null)
+                                    {
+                                        teamDetails1.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
+                                        teamDetails1.UpdatedDate = DateTime.Now;
+                                        teamDetails1.UpdatedBy = _commonHelper.GetLoggedInUserId();
+
+                                        _dbContext.Entry(teamDetails1).State = EntityState.Modified;
+                                        _dbContext.SaveChanges();
+
+                                    }
+
+                                }
+                                transactionScope.Complete();
+                                commonResponse.Status = true;
+                                commonResponse.StatusCode = HttpStatusCode.OK;
+                                commonResponse.Message = "Team Edited Successfully";
                             }
-                            await _dbContext.TeamMsts.AddRangeAsync(teamMstList);
-                            _dbContext.SaveChangesAsync();
-
-
-                            commonResponse.Status = true;
-                            commonResponse.StatusCode = HttpStatusCode.OK;
-                            commonResponse.Message = "Team Edited Successfully";
                         }
                         else
                         {
@@ -289,79 +314,22 @@ namespace ArcheOne.Controllers
                                 }
 
                             }
+                            transactionScope.Complete();
                             commonResponse.Status = true;
                             commonResponse.StatusCode = HttpStatusCode.OK;
                             commonResponse.Message = "Team Edited Successfully";
                         }
+
                     }
                     else
                     {
-                        foreach (var item in isExistteamLead)
+                        var teamDetails = await _dbRepo.TeamList().FirstOrDefaultAsync(x => x.TeamLeadId == saveUpdateTeamReqModel.TeamLeadId);
+                        if (teamDetails != null)
                         {
-                            var teamDetails1 = _dbRepo.TeamList().FirstOrDefault(x => x.TeamLeadId == item.TeamLeadId);
-                            if (teamDetails1 != null)
+                            TeamMst teamMst = new TeamMst();
+                            foreach (var teamMember in saveUpdateTeamReqModel.TeamMemberId)
                             {
-                                teamDetails1.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
-                                teamDetails1.UpdatedDate = DateTime.Now;
-                                teamDetails1.UpdatedBy = _commonHelper.GetLoggedInUserId();
-
-                                _dbContext.Entry(teamDetails1).State = EntityState.Modified;
-                                _dbContext.SaveChanges();
-                            }
-
-                        }
-                        commonResponse.Status = true;
-                        commonResponse.StatusCode = HttpStatusCode.OK;
-                        commonResponse.Message = "Team Edited Successfully";
-                    }
-
-                }
-                else
-                {
-                    var teamDetails = await _dbRepo.TeamList().FirstOrDefaultAsync(x => x.TeamLeadId == saveUpdateTeamReqModel.TeamLeadId);
-                    if (teamDetails != null)
-                    {
-                        TeamMst teamMst = new TeamMst();
-                        foreach (var teamMember in saveUpdateTeamReqModel.TeamMemberId)
-                        {
-                            //TeamMst teamMst = new TeamMst();
-                            teamMst.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
-                            teamMst.TeamMemberId = teamMember;
-                            teamMst.IsActive = true;
-                            teamMst.IsDelete = false;
-                            teamMst.CreatedDate = DateTime.Now;
-                            teamMst.UpdatedDate = DateTime.Now;
-                            teamMst.CreatedBy = _commonHelper.GetLoggedInUserId();
-                            teamMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
-
-
-                            //_dbContext.Entry(teamDetails).State = EntityState.Added;
-                            //_dbContext.SaveChanges();
-                        }
-
-                        await _dbContext.TeamMsts.AddRangeAsync(teamMst);
-                        _dbContext.SaveChangesAsync();
-
-
-                        commonResponse.Status = true;
-                        commonResponse.StatusCode = HttpStatusCode.OK;
-                        commonResponse.Message = "Team Edited Successfully";
-                    }
-                    else
-                    {
-                        //Add Mode
-                        foreach (var teamMember in saveUpdateTeamReqModel.TeamMemberId)
-                        {
-                            var teamList = _dbRepo.TeamList().Where(x => x.TeamMemberId == teamMember).ToList();
-
-                            if (teamList.Count > 0)
-                            {
-                                commonResponse.Status = false;
-                                commonResponse.Message = "TeamMember Is Already Exist";
-                            }
-                            else
-                            {
-                                TeamMst teamMst = new TeamMst();
+                                //TeamMst teamMst = new TeamMst();
                                 teamMst.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
                                 teamMst.TeamMemberId = teamMember;
                                 teamMst.IsActive = true;
@@ -370,28 +338,67 @@ namespace ArcheOne.Controllers
                                 teamMst.UpdatedDate = DateTime.Now;
                                 teamMst.CreatedBy = _commonHelper.GetLoggedInUserId();
                                 teamMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
-                                addTeamReqModelList.Add(teamMst);
+
+
+                                //_dbContext.Entry(teamDetails).State = EntityState.Added;
+                                //_dbContext.SaveChanges();
                             }
+
+                            await _dbContext.TeamMsts.AddRangeAsync(teamMst);
+                            _dbContext.SaveChangesAsync();
+
+                            transactionScope.Complete();
+                            commonResponse.Status = true;
+                            commonResponse.StatusCode = HttpStatusCode.OK;
+                            commonResponse.Message = "Team Edited Successfully";
                         }
+                        else
+                        {
+                            //Add Mode
+                            foreach (var teamMember in saveUpdateTeamReqModel.TeamMemberId)
+                            {
+                                var teamList = _dbRepo.TeamList().Where(x => x.TeamMemberId == teamMember).ToList();
 
-                        await _dbContext.TeamMsts.AddRangeAsync(addTeamReqModelList);
-                        _dbContext.SaveChangesAsync();
+                                if (teamList.Count > 0)
+                                {
+                                    commonResponse.Status = false;
+                                    commonResponse.Message = "TeamMember Is Already Exist";
+                                }
+                                else
+                                {
+                                    TeamMst teamMst = new TeamMst();
+                                    teamMst.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
+                                    teamMst.TeamMemberId = teamMember;
+                                    teamMst.IsActive = true;
+                                    teamMst.IsDelete = false;
+                                    teamMst.CreatedDate = DateTime.Now;
+                                    teamMst.UpdatedDate = DateTime.Now;
+                                    teamMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+                                    teamMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                                    addTeamReqModelList.Add(teamMst);
+                                }
+                            }
 
-                        commonResponse.Status = true;
-                        commonResponse.StatusCode = HttpStatusCode.OK;
-                        commonResponse.Message = "Team Added Successfully";
+                            await _dbContext.TeamMsts.AddRangeAsync(addTeamReqModelList);
+                            _dbContext.SaveChangesAsync();
+
+                            transactionScope.Complete();
+                            commonResponse.Status = true;
+                            commonResponse.StatusCode = HttpStatusCode.OK;
+                            commonResponse.Message = "Team Added Successfully";
+                        }
                     }
+
+
+                    #endregion
+
+                    commonResponse.Data = addTeamReqModelList;
+
                 }
-
-
-                #endregion
-
-                commonResponse.Data = addTeamReqModelList;
-
-            }
-            catch (Exception ex)
-            {
-                commonResponse.Message = ex.Message;
+                catch (Exception ex)
+                {
+                    commonResponse.Message = ex.Message;
+                }
             }
             return commonResponse;
 
