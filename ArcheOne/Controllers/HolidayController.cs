@@ -108,85 +108,101 @@ namespace ArcheOne.Controllers
         {
             CommonResponse commonResponse = new CommonResponse();
             HolidayMst holidayMst = new HolidayMst();
-            var holidayDetails = await _dbRepo.HolidayDayList().FirstOrDefaultAsync(x => x.Id == saveUpdateHolidayReqModel.Id);
+
             try
             {
-
-                if (holidayDetails != null)
+                if (saveUpdateHolidayReqModel != null)
                 {
-                    //Edit Mode
-                    var checkHolidayName = await _dbRepo.HolidayDayList().Where(x => x.HolidayName == saveUpdateHolidayReqModel.HolidayName && x.Id != saveUpdateHolidayReqModel.Id).ToListAsync();
-                    if (checkHolidayName.Count() > 0)
+
+                    if (DateTime.Now.Year == saveUpdateHolidayReqModel.HolidayDate.Year)
                     {
-                        commonResponse.Message = "Holiday Is Already Exist";
-                        commonResponse.StatusCode = HttpStatusCode.BadRequest;
+                        var holidayDetails = await _dbRepo.HolidayDayList().FirstOrDefaultAsync(x => x.Id == saveUpdateHolidayReqModel.Id);
+                        if (holidayDetails != null)
+                        {
+                            //Edit Mode
+                            var checkHolidayName = await _dbRepo.HolidayDayList().Where(x => x.HolidayName == saveUpdateHolidayReqModel.HolidayName && x.Id != saveUpdateHolidayReqModel.Id).ToListAsync();
+                            if (checkHolidayName.Count() > 0)
+                            {
+                                commonResponse.Message = "Holiday Is Already Exist";
+                                commonResponse.StatusCode = HttpStatusCode.BadRequest;
+                            }
+                            else
+                            {
+
+                                holidayDetails.HolidayName = saveUpdateHolidayReqModel.HolidayName;
+                                holidayDetails.HolidayDate = saveUpdateHolidayReqModel.HolidayDate;
+                                holidayDetails.IsActive = true;
+                                holidayDetails.IsDelete = false;
+                                holidayDetails.CreatedDate = DateTime.Now;
+                                holidayDetails.UpdatedDate = DateTime.Now;
+                                holidayDetails.CreatedBy = _commonHelper.GetLoggedInUserId();
+                                holidayDetails.UpdatedBy = _commonHelper.GetLoggedInUserId();
+
+                                _dbContext.Entry(holidayDetails).State = EntityState.Modified;
+                                await _dbContext.SaveChangesAsync();
+
+                                commonResponse.Status = true;
+                                commonResponse.StatusCode = HttpStatusCode.OK;
+                                commonResponse.Message = "Holiday Edited Successfully";
+                            }
+
+                        }
+                        else
+                        {
+                            //Add Mode
+                            var checkHolidayName = await _dbRepo.HolidayDayList().Where(x => x.HolidayName == saveUpdateHolidayReqModel.HolidayName).ToListAsync();
+                            if (checkHolidayName.Count() > 0)
+                            {
+                                commonResponse.Message = "Holiday Is Already Exist";
+                                commonResponse.StatusCode = HttpStatusCode.BadRequest;
+                            }
+                            else
+                            {
+                                holidayMst.HolidayName = saveUpdateHolidayReqModel.HolidayName;
+                                holidayMst.HolidayDate = saveUpdateHolidayReqModel.HolidayDate;
+                                holidayMst.IsActive = true;
+                                holidayMst.IsDelete = false;
+                                holidayMst.CreatedDate = DateTime.Now;
+                                holidayMst.UpdatedDate = DateTime.Now;
+                                holidayMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+                                holidayMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+
+                                _dbContext.HolidayMsts.Add(holidayMst);
+                                _dbContext.SaveChanges();
+                                /*
+                                 *Add Holiday into events
+                                AddEventReqModel addEventReqModel = new AddEventReqModel()
+                                {
+                                    Subject = saveUpdateHolidayReqModel.HolidayName,
+                                    Start = saveUpdateHolidayReqModel.HolidayDate,
+                                    End = saveUpdateHolidayReqModel.HolidayDate,
+                                    Description = saveUpdateHolidayReqModel.HolidayName,
+                                    IsFullDay = true,
+                                    EventType = "Holiday",
+                                    TheamColor = "Red"
+                                };
+                                var addEventResponse = _commonController.AddEvent(addEventReqModel);*/
+
+
+                                commonResponse.Status = true;
+                                commonResponse.StatusCode = HttpStatusCode.OK;
+                                commonResponse.Message = "Holiday Added Successfully";
+                            }
+
+                        }
+                        commonResponse.Data = holidayMst;
                     }
                     else
                     {
-
-                        holidayDetails.HolidayName = saveUpdateHolidayReqModel.HolidayName;
-                        holidayDetails.HolidayDate = saveUpdateHolidayReqModel.HolidayDate;
-                        holidayDetails.IsActive = true;
-                        holidayDetails.IsDelete = false;
-                        holidayDetails.CreatedDate = DateTime.Now;
-                        holidayDetails.UpdatedDate = DateTime.Now;
-                        holidayDetails.CreatedBy = _commonHelper.GetLoggedInUserId();
-                        holidayDetails.UpdatedBy = _commonHelper.GetLoggedInUserId();
-
-                        _dbContext.Entry(holidayDetails).State = EntityState.Modified;
-                        await _dbContext.SaveChangesAsync();
-
-                        commonResponse.Status = true;
-                        commonResponse.StatusCode = HttpStatusCode.OK;
-                        commonResponse.Message = "Holiday Edited Successfully";
+                        commonResponse.Status = false;
+                        commonResponse.Message = "Not allows to past and future date";
                     }
-
                 }
                 else
                 {
-                    //Add Mode
-                    var checkHolidayName = await _dbRepo.HolidayDayList().Where(x => x.HolidayName == saveUpdateHolidayReqModel.HolidayName).ToListAsync();
-                    if (checkHolidayName.Count() > 0)
-                    {
-                        commonResponse.Message = "Holiday Is Already Exist";
-                        commonResponse.StatusCode = HttpStatusCode.BadRequest;
-                    }
-                    else
-                    {
-                        holidayMst.HolidayName = saveUpdateHolidayReqModel.HolidayName;
-                        holidayMst.HolidayDate = saveUpdateHolidayReqModel.HolidayDate;
-                        holidayMst.IsActive = true;
-                        holidayMst.IsDelete = false;
-                        holidayMst.CreatedDate = DateTime.Now;
-                        holidayMst.UpdatedDate = DateTime.Now;
-                        holidayMst.CreatedBy = _commonHelper.GetLoggedInUserId();
-                        holidayMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
-
-                        _dbContext.HolidayMsts.Add(holidayMst);
-                        _dbContext.SaveChanges();
-                        /*
-						 *Add Holiday into events
-						AddEventReqModel addEventReqModel = new AddEventReqModel()
-						{
-							Subject = saveUpdateHolidayReqModel.HolidayName,
-							Start = saveUpdateHolidayReqModel.HolidayDate,
-							End = saveUpdateHolidayReqModel.HolidayDate,
-							Description = saveUpdateHolidayReqModel.HolidayName,
-							IsFullDay = true,
-							EventType = "Holiday",
-							TheamColor = "Red"
-						};
-						var addEventResponse = _commonController.AddEvent(addEventReqModel);*/
-
-
-                        commonResponse.Status = true;
-                        commonResponse.StatusCode = HttpStatusCode.OK;
-                        commonResponse.Message = "Holiday Added Successfully";
-                    }
-
+                    commonResponse.Status = false;
+                    commonResponse.Message = "Please enter the valid Date formatted!";
                 }
-                commonResponse.Data = holidayMst;
-
             }
             catch (Exception ex)
             {

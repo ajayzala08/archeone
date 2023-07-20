@@ -247,7 +247,7 @@ namespace ArcheOne.Controllers
                                 foreach (var item in TeamList)
                                 {
                                     _dbContext.TeamMsts.RemoveRange(item);
-                                    _dbContext.SaveChangesAsync();
+                                    await _dbContext.SaveChangesAsync();
                                 }
 
 
@@ -268,7 +268,7 @@ namespace ArcheOne.Controllers
                                     teamMstList.Add(teamMst);
                                 }
                                 await _dbContext.TeamMsts.AddRangeAsync(teamMstList);
-                                _dbContext.SaveChangesAsync();
+                                await _dbContext.SaveChangesAsync();
                                 transactionScope.Complete();
 
                                 commonResponse.Status = true;
@@ -287,7 +287,8 @@ namespace ArcheOne.Controllers
                                         teamDetails1.UpdatedBy = _commonHelper.GetLoggedInUserId();
 
                                         _dbContext.Entry(teamDetails1).State = EntityState.Modified;
-                                        _dbContext.SaveChanges();
+                                        await _dbContext.SaveChangesAsync();
+
 
                                     }
 
@@ -310,7 +311,7 @@ namespace ArcheOne.Controllers
                                     teamDetails1.UpdatedBy = _commonHelper.GetLoggedInUserId();
 
                                     _dbContext.Entry(teamDetails1).State = EntityState.Modified;
-                                    _dbContext.SaveChanges();
+                                    await _dbContext.SaveChangesAsync();
                                 }
 
                             }
@@ -345,7 +346,7 @@ namespace ArcheOne.Controllers
                             }
 
                             await _dbContext.TeamMsts.AddRangeAsync(teamMst);
-                            _dbContext.SaveChangesAsync();
+                            await _dbContext.SaveChangesAsync();
 
                             transactionScope.Complete();
                             commonResponse.Status = true;
@@ -380,7 +381,7 @@ namespace ArcheOne.Controllers
                             }
 
                             await _dbContext.TeamMsts.AddRangeAsync(addTeamReqModelList);
-                            _dbContext.SaveChangesAsync();
+                            await _dbContext.SaveChangesAsync();
 
                             transactionScope.Complete();
                             commonResponse.Status = true;
