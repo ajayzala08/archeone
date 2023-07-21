@@ -143,12 +143,6 @@ function validate() {
     }
     return isValid;
 }
-
-
-
-
-
-
 function LoadCountry() {
     ajaxCallWithoutDataType("GET", false, '/SalesLead/Countries', null, function (result) {
         if (result.status == true) {
