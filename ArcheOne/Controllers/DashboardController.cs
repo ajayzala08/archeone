@@ -94,7 +94,8 @@ namespace ArcheOne.Controllers
                                        select new { userDetails, userMsts }
                                      ).Select(x => new WorkAnniversary
                                      {
-                                         EmployeeImagePath = x.userMsts.PhotoUrl,
+                                         EmployeeImagePath = x.userMsts.PhotoUrl != "" ? Path.Combine(@"\", x.userMsts.PhotoUrl) :
+                          @"\Theme\Logo\default_user_profile.png",
                                          EmployeeName = $"{x.userMsts.FirstName} {x.userMsts.LastName}",
                                          JoinDate = x.userDetails.JoinDate.ToString("M")
                                      }).ToListAsync();
@@ -110,6 +111,8 @@ namespace ArcheOne.Controllers
                                select new { userDetails, userMsts }
                                      ).Select(x => new Birthday
                                      {
+                                         EmployeeImagePath = x.userMsts.PhotoUrl != "" ? Path.Combine(@"\", x.userMsts.PhotoUrl) :
+                          @"\Theme\Logo\default_user_profile.png",
                                          EmployeeName = $"{x.userMsts.FirstName} {x.userMsts.LastName}",
                                          Birthdate = x.userDetails.Dob.ToString("M")
                                      }).ToListAsync();

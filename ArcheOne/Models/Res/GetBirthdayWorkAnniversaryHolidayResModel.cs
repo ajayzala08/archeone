@@ -14,6 +14,7 @@
     }
     public class Birthday
     {
+        public string EmployeeImagePath { get; set; }
         public string EmployeeName { get; set; }
         public string Birthdate { get; set; }
     }
