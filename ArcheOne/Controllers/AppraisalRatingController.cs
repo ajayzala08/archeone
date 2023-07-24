@@ -233,7 +233,7 @@ namespace ArcheOne.Controllers
                         appraisalRatingMst.IsDelete = false;
 
 
-                        _dbContext.Add(appraisalRatingMst);
+                        _dbContext.AppraisalRatingMsts.Add(appraisalRatingMst);
                         _dbContext.SaveChanges();
 
                         commonResponse.Status = true;
