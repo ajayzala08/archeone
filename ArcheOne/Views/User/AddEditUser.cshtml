@@ -104,7 +104,7 @@
 								<div class="form-group">
 									<label>Designation *</label>
 									<select id="ddlDesignation" name="ddlDesignation" class="form-control" isrequired="1" divcontainer="dddlDesignation" errorspan="sddlDesignation" defaultvalue="0" style="width: 100%;">
-										@foreach (var item in Model.DesignationList)
+										@foreach (var item in Model.DesignationList ?? new List<DesignationDetails>())
 										{
 											if (item.Id == DesignationId)
 											{
