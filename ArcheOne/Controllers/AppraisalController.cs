@@ -152,7 +152,7 @@ namespace ArcheOne.Controllers
             addEditAppraisalResModel.reportingManagetDetail = new ReportingManagetDetail();
             addEditAppraisalResModel.reportingManagetDetail.EmployeeDetail = new EmployeeDetail();
 
-            var roleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Manager")).ToList();
+            var roleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Project_Manager")).ToList();
             var roleIdList = roleList.Select(x => x.Id).ToList();
 
             var hrroleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR") || x.RoleCode.Contains("Manager")).ToList();

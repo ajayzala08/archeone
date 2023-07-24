@@ -178,68 +178,75 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
             try
             {
-                AppraisalRatingMst appraisalRatingMst = new AppraisalRatingMst();
-                var appraisalRatingDetail = await _dbRepo.AppraisalRatingList().FirstOrDefaultAsync(x => x.RatingFromUserId == _commonHelper.GetLoggedInUserId() && x.AppraisalId == appraisalRatingSaveUpdateReqModel.Id);
-
-                if (appraisalRatingDetail != null)
+                if (ModelState.IsValid)
                 {
-                    //Edit Mode
-                    appraisalRatingDetail.QualityOfWork = appraisalRatingSaveUpdateReqModel.QualityOfWork;
-                    appraisalRatingDetail.GoalNtarget = appraisalRatingSaveUpdateReqModel.GoalNtarget;
-                    appraisalRatingDetail.WrittenVerbalSkill = appraisalRatingSaveUpdateReqModel.WrittenVerbalSkill;
-                    appraisalRatingDetail.InitiativeMotivation = appraisalRatingSaveUpdateReqModel.InitiativeMotivation;
-                    appraisalRatingDetail.TeamWork = appraisalRatingSaveUpdateReqModel.TeamWork;
-                    appraisalRatingDetail.ProblemSolvingAbillity = appraisalRatingSaveUpdateReqModel.ProblemSolvingAbillity;
-                    appraisalRatingDetail.Attendance = appraisalRatingSaveUpdateReqModel.Attendance;
-                    appraisalRatingDetail.TeamWork = appraisalRatingSaveUpdateReqModel.TeamWork;
-                    appraisalRatingDetail.Comment = appraisalRatingSaveUpdateReqModel.Comment;
-                    appraisalRatingDetail.Total = appraisalRatingSaveUpdateReqModel.Total; 
+                    AppraisalRatingMst appraisalRatingMst = new AppraisalRatingMst();
+                    var appraisalRatingDetail = await _dbRepo.AppraisalRatingList().FirstOrDefaultAsync(x => x.RatingFromUserId == _commonHelper.GetLoggedInUserId() && x.AppraisalId == appraisalRatingSaveUpdateReqModel.Id);
+
+                    if (appraisalRatingDetail != null)
+                    {
+                        //Edit Mode
+                        appraisalRatingDetail.QualityOfWork = appraisalRatingSaveUpdateReqModel.QualityOfWork;
+                        appraisalRatingDetail.GoalNtarget = appraisalRatingSaveUpdateReqModel.GoalNtarget;
+                        appraisalRatingDetail.WrittenVerbalSkill = appraisalRatingSaveUpdateReqModel.WrittenVerbalSkill;
+                        appraisalRatingDetail.InitiativeMotivation = appraisalRatingSaveUpdateReqModel.InitiativeMotivation;
+                        appraisalRatingDetail.TeamWork = appraisalRatingSaveUpdateReqModel.TeamWork;
+                        appraisalRatingDetail.ProblemSolvingAbillity = appraisalRatingSaveUpdateReqModel.ProblemSolvingAbillity;
+                        appraisalRatingDetail.Attendance = appraisalRatingSaveUpdateReqModel.Attendance;
+                        appraisalRatingDetail.TeamWork = appraisalRatingSaveUpdateReqModel.TeamWork;
+                        appraisalRatingDetail.Comment = appraisalRatingSaveUpdateReqModel.Comment;
+                        appraisalRatingDetail.Total = appraisalRatingSaveUpdateReqModel.Total;
 
 
-                    appraisalRatingDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                    appraisalRatingDetail.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                        appraisalRatingDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                        appraisalRatingDetail.UpdatedBy = _commonHelper.GetLoggedInUserId();
 
 
-                    _dbContext.Entry(appraisalRatingDetail).State = EntityState.Modified;
-                    _dbContext.SaveChanges();
+                        _dbContext.Entry(appraisalRatingDetail).State = EntityState.Modified;
+                        _dbContext.SaveChanges();
 
-                    commonResponse.Status = true;
-                    commonResponse.StatusCode = HttpStatusCode.OK;
-                    commonResponse.Message = "Appraisal Rating Updated Successfully!";
+                        commonResponse.Status = true;
+                        commonResponse.StatusCode = HttpStatusCode.OK;
+                        commonResponse.Message = "Appraisal Rating Updated Successfully!";
+                    }
+                    else
+                    {
+                        //Add Mode
+                        appraisalRatingMst.AppraisalId = appraisalRatingSaveUpdateReqModel.Id;
+                        appraisalRatingMst.RatingFromUserId = _commonHelper.GetLoggedInUserId();
+                        appraisalRatingMst.RatingToUserId = appraisalRatingSaveUpdateReqModel.ReportingManagerId;
+                        appraisalRatingMst.QualityOfWork = appraisalRatingSaveUpdateReqModel.QualityOfWork;
+                        appraisalRatingMst.GoalNtarget = appraisalRatingSaveUpdateReqModel.GoalNtarget;
+                        appraisalRatingMst.WrittenVerbalSkill = appraisalRatingSaveUpdateReqModel.WrittenVerbalSkill;
+                        appraisalRatingMst.InitiativeMotivation = appraisalRatingSaveUpdateReqModel.InitiativeMotivation;
+                        appraisalRatingMst.TeamWork = appraisalRatingSaveUpdateReqModel.TeamWork;
+                        appraisalRatingMst.ProblemSolvingAbillity = appraisalRatingSaveUpdateReqModel.ProblemSolvingAbillity;
+                        appraisalRatingMst.Attendance = appraisalRatingSaveUpdateReqModel.Attendance;
+                        appraisalRatingMst.TeamWork = appraisalRatingSaveUpdateReqModel.TeamWork;
+                        appraisalRatingMst.Total = appraisalRatingSaveUpdateReqModel.Total;
+                        appraisalRatingMst.Comment = appraisalRatingSaveUpdateReqModel.Comment;
+                        appraisalRatingMst.CreatedDate = _commonHelper.GetCurrentDateTime();
+                        appraisalRatingMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                        appraisalRatingMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+                        appraisalRatingMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                        appraisalRatingMst.IsActive = true;
+                        appraisalRatingMst.IsDelete = false;
+
+
+                        _dbContext.Add(appraisalRatingMst);
+                        _dbContext.SaveChanges();
+
+                        commonResponse.Status = true;
+                        commonResponse.StatusCode = HttpStatusCode.OK;
+                        commonResponse.Message = "Appraisal Rating Added Successfully!";
+
+                    }
+                    commonResponse.Data = appraisalRatingMst;
                 }
                 else
                 {
-                    //Add Mode
-                    appraisalRatingMst.AppraisalId = appraisalRatingSaveUpdateReqModel.Id;
-                    appraisalRatingMst.RatingFromUserId = _commonHelper.GetLoggedInUserId();
-                    appraisalRatingMst.RatingToUserId = appraisalRatingSaveUpdateReqModel.ReportingManagerId;
-                    appraisalRatingMst.QualityOfWork = appraisalRatingSaveUpdateReqModel.QualityOfWork;
-                    appraisalRatingMst.GoalNtarget = appraisalRatingSaveUpdateReqModel.GoalNtarget;
-                    appraisalRatingMst.WrittenVerbalSkill = appraisalRatingSaveUpdateReqModel.WrittenVerbalSkill;
-                    appraisalRatingMst.InitiativeMotivation = appraisalRatingSaveUpdateReqModel.InitiativeMotivation;
-                    appraisalRatingMst.TeamWork = appraisalRatingSaveUpdateReqModel.TeamWork;
-                    appraisalRatingMst.ProblemSolvingAbillity = appraisalRatingSaveUpdateReqModel.ProblemSolvingAbillity;
-                    appraisalRatingMst.Attendance = appraisalRatingSaveUpdateReqModel.Attendance;
-                    appraisalRatingMst.TeamWork = appraisalRatingSaveUpdateReqModel.TeamWork;
-                    appraisalRatingMst.Total = appraisalRatingSaveUpdateReqModel.Total;
-                    appraisalRatingMst.Comment = appraisalRatingSaveUpdateReqModel.Comment;
-                    appraisalRatingMst.CreatedDate = _commonHelper.GetCurrentDateTime();
-                    appraisalRatingMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                    appraisalRatingMst.CreatedBy = _commonHelper.GetLoggedInUserId();
-                    appraisalRatingMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
-                    appraisalRatingMst.IsActive = true;
-                    appraisalRatingMst.IsDelete = false;
-
-
-                    _dbContext.Add(appraisalRatingMst);
-                    _dbContext.SaveChanges();
-
-                    commonResponse.Status = true;
-                    commonResponse.StatusCode = HttpStatusCode.OK;
-                    commonResponse.Message = "Appraisal Rating Added Successfully!";
-
+                    commonResponse.Message = "Please enter the valid data!";
                 }
-                commonResponse.Data = appraisalRatingMst;
             }
             catch (Exception ex)
             {
