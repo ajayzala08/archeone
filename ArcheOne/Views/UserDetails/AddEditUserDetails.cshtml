@@ -15,12 +15,24 @@
         display: none;
     }
 </style>
-<div class="modal-header">
-    <h5 class="modal-title">@Title1</h5>
-</div>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>@Title1</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Masters</a></li>
+                    <li class="breadcrumb-item active">@Title1</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
 <section class="content">
     <div class="container-fluid">
-        <div class="card card-outline card-primary">
+        <div class="card">
             <div class="card-header">
                 User Details
                 <h3 class="card-title"></h3>
@@ -93,7 +105,7 @@
                             <div class="col-sm-4" id="dtxtDob">
                                 <div class="form-group">
                                     <label for="form_name">Date Of Birth *</label>
-                                    <input id="txtDob" type="text" name="txtDob" class="form-control text-length" placeholder="Please enter your Dob" autocomplete="off" value="@Model.UserDetail.Dob" isrequired="1" divcontainer="dtxtDob" errorspan="stxtDob" defaultvalue="">
+                                    <input id="txtDob" type="date" name="txtDob" class="form-control text-length" placeholder="Please enter your Dob" autocomplete="off" value="@Model.UserDetail.Dob.ToString("yyyy-MM-dd")" isrequired="1" divcontainer="dtxtDob" errorspan="stxtDob" defaultvalue="" onkeypress="keyPress(event)">
                                     <span class="help-block d-none has-error" id="stxtDob">Please Enter Valid Dob</span>
                                 </div>
                             </div>
@@ -133,14 +145,14 @@
                             <div class="col-sm-4" id="dtxtOfferDate">
                                 <div class="form-group">
                                     <label for="form_name">Offer Date *</label>
-                                    <input id="txtOfferDate" type="text" name="txtOfferDate" class="form-control text-length" placeholder="Please enter your Offer Date" autocomplete="off" value="@Model.UserDetail.OfferDate" isrequired="1" divcontainer="dtxtOfferDate" errorspan="stxtOfferDate" defaultvalue="">
+                                    <input id="txtOfferDate" type="date" name="txtOfferDate" class="form-control text-length" placeholder="Please enter your Offer Date" autocomplete="off" value="@Model.UserDetail.OfferDate.ToString("yyyy-MM-dd")" isrequired="1" divcontainer="dtxtOfferDate" errorspan="stxtOfferDate" defaultvalue="" onkeypress="keyPress(event)">
                                     <span class="help-block d-none has-error" id="stxtOfferDate">Please Enter Valid Offer Date</span>
                                 </div>
                             </div>
                             <div class="col-sm-4" id="dtxtJoinDate">
                                 <div class="form-group">
                                     <label for="form_name">Join Date *</label>
-                                    <input id="txtJoinDate" type="text" name="txtJoinDate" class="form-control text-length" placeholder="Please enter your Join Date" autocomplete="off" value="@Model.UserDetail.JoinDate" isrequired="1" divcontainer="dtxtJoinDate" errorspan="stxtJoinDate" defaultvalue="">
+                                    <input id="txtJoinDate" type="date" name="txtJoinDate" class="form-control text-length" placeholder="Please enter your Join Date" autocomplete="off" value="@Model.UserDetail.JoinDate.ToString("yyyy-MM-dd")" isrequired="1" divcontainer="dtxtJoinDate" errorspan="stxtJoinDate" defaultvalue="" onkeypress="keyPress(event)">
                                     <span class="help-block d-none has-error" id="stxtJoinDate">Please Enter Valid Join Date</span>
                                 </div>
                             </div>

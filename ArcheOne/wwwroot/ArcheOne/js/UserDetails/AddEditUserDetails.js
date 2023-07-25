@@ -5,25 +5,45 @@
     });
 });
 var minDate = new Date();
-minDate.setFullYear(minDate.getFullYear() - 18);
+//minDate.setFullYear(minDate.getFullYear() - 18);
 
-$('#txtDob').datepicker({
-    dateFormat: 'dd-mm-yy',
-    maxDate: minDate
+//$('#txtDob').datepicker({
+//    dateFormat: 'dd-mm-yy',
+//    maxDate: minDate
 
 
-});
+//});
 
-$('#txtOfferDate').datepicker({
-    dateFormat: 'dd-mm-yy',
-    minDate: 0
-});
+var dtToday = new Date();
+var month = dtToday.getMonth() + 1;// jan=0; feb=1 .......
+var day = dtToday.getDate();
+var year = dtToday.getFullYear() - 18;
+if (month < 10)
+    month = '0' + month.toString();
+if (day < 10)
+    day = '0' + day.toString();
+var minDate1 = year + '-' + month + '-' + day;
+var maxDate1 = year + '-' + month + '-' + day;
+$('#txtDob').attr('max', maxDate1);
+//$('#txtDob').val(maxDate1);
 
-$('#txtJoinDate').datepicker({
-    dateFormat: 'dd-mm-yy',
-    minDate: 0
-});
 
+/*const [today] = new Date().toISOString().split('T');*/
+const maxDate = new Date();
+maxDate.setDate(maxDate.getDate() - 30);
+const [maxDateFormatted] = maxDate.toISOString().split('T');
+const dateInput = document.getElementById('txtOfferDate');
+dateInput.setAttribute('min', maxDateFormatted);
+//$('#txtOfferDate').val(maxDateFormatted);
+
+
+
+const maxDateJoin = new Date();
+maxDateJoin.setDate(maxDateJoin.getDate() - 29);
+const [maxDateFormatted1] = maxDateJoin.toISOString().split('T');
+const dateInput1 = document.getElementById('txtJoinDate');
+dateInput1.setAttribute('min', maxDateFormatted1);
+//$('#txtJoinDate').val(maxDateFormatted1);
 function SaveUserDetails() {
     var saveData = new FormData();
     saveData.append("Id", parseInt($("#txtId").val()));
@@ -115,3 +135,7 @@ $("#txtEmployeeCode").keypress(function (e) {
     if ($(this).val().length >= 10) return false;
 });
 
+function keyPress(event) {
+    event.preventDefault();
+    return false;
+}

@@ -187,60 +187,7 @@ namespace ArcheOne.Controllers
                         leavesListResModel.LeaveDetailsLists.Add(leaveDetailsListModel);
                     }
                 }
-                else
-                {
-                    var LeaveBalanceList = new LeaveBalanceMst();
-                    if (IsUserHR1)
-                    {
-                        LeaveBalanceList = LeaveBlanceList.Where(x => x.UserId == userId).OrderByDescending(x => x.Id).FirstOrDefault();
-                    }
-                    else if (ReportingManager1)
-                    {
-                        LeaveBalanceList = LeaveBlanceList.Where(x => x.UserId == userId).OrderByDescending(x => x.Id).FirstOrDefault();
-                    }
-                    else if (IsUserEmployee1)
-                    {
-                        LeaveBalanceList = LeaveBlanceList.Where(x => x.UserId == userId).OrderByDescending(x => x.Id).FirstOrDefault();
-                    }
-                    var BalanceMonth = DateTime.Now.ToString("MMMM");
-                    var LeaveTypeDetail = await LeaveTypeList.FirstOrDefaultAsync(x => x.Id == LeaveBalanceList.LeaveTypeId);
-                    var AppliedByUserList1 = await UserList.FirstOrDefaultAsync(x => x.Id == userId);
-                    LeaveDetailsList leaveDetailsListModel = new LeaveDetailsList();
 
-                    leaveDetailsListModel.LeaveTypeName = LeaveTypeDetail == null ? "-" : LeaveTypeDetail.LeaveTypeName;
-                    leaveDetailsListModel.Id = LeaveBalanceList.Id;
-                    leaveDetailsListModel.AppliedByUserName = AppliedByUserList1.UserName;
-                    leaveDetailsListModel.ApprovedByReportingUserId = null;
-                    leaveDetailsListModel.ApprovedByHRUserId = null;
-                    leaveDetailsListModel.StartDate = "";
-                    leaveDetailsListModel.EndDate = "";
-                    leaveDetailsListModel.StartTime = "";
-                    leaveDetailsListModel.EndTime = "";
-                    leaveDetailsListModel.OpeningBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.OpeningLeaveBalance));
-                    leaveDetailsListModel.ClosingBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.ClosingLeaveBalance));
-                    leaveDetailsListModel.NoOfDays = LeaveBalanceList.NoOfDays == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.NoOfDays));
-                    leaveDetailsListModel.PaidDays = LeaveBalanceList.NoOfDays == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.NoOfDays));
-                    leaveDetailsListModel.UnPaidDays = LeaveBalanceList.NoOfDays == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.NoOfDays));
-                    leaveDetailsListModel.Reason = "";
-                    leaveDetailsListModel.LeaveStatus = "Approve";
-                    leaveDetailsListModel.BalanceMonth = LeaveBalanceList.BalanceMonth;
-                    leaveDetailsListModel.BalanceYear = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.BalanceYear));
-                    leaveDetailsListModel.SickLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.SickLeaveBalance));
-                    leaveDetailsListModel.SickLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.SickLeaveTaken));
-                    leaveDetailsListModel.CasualLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.CasualLeaveBalance));
-                    leaveDetailsListModel.CasualLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.CasualLeaveTaken));
-                    leaveDetailsListModel.EarnedLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.EarnedLeaveBalance));
-                    leaveDetailsListModel.EarnedLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.EarnedLeaveTaken));
-                    leaveDetailsListModel.Details = LeaveBalanceList.Detail;
-                    leaveDetailsListModel.LeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceList.LeaveTaken));
-                    leaveDetailsListModel.HrStatus = "Approve";
-                    leaveDetailsListModel.ApprovedByReportingStatus = "Approve";
-                    leaveDetailsListModel.EditDisable = true;
-                    leaveDetailsListModel.HREditDisable = true;
-                    leaveDetailsListModel.CancelbtnDisable = true;
-
-                    leavesListResModel.LeaveDetailsLists.Add(leaveDetailsListModel);
-                }
                 if (leavesListResModel != null)
                 {
                     response.Data = leavesListResModel;

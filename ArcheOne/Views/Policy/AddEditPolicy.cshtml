@@ -1,5 +1,4 @@
-﻿
-@using ArcheOne.Helper.CommonModels;
+﻿@using ArcheOne.Helper.CommonModels;
 @using ArcheOne.Models.Req;
 @model AddEditPolicyReqModel
 
@@ -7,70 +6,66 @@
     Layout = "_MasterLayout";
     var Title = Model.Id > 0 ? "Edit Policy" : "Create Policy";
 }
-
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Policy</h1>
+                <h1>@Title</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Masters</a></li>
-                    <li class="breadcrumb-item active">Policy</li>
+                    <li class="breadcrumb-item active">@Title</li>
                 </ol>
             </div>
         </div>
     </div>
 </section>
 
-
-<section class="content-header"></section>
 <section class="content">
-    <div class="container-fluid">
-        <div class="card card-outline card-primary">
-            <div class="card-header">
-                @Title
-                <h3 class="card-title"></h3>
-            </div>
-            <div class="card-body">
-                <div class="row" id="divUploadFile">
-                    <input id="txtPolicyId" name="txtPolicyId" type="hidden" class="form-control col-sm-4" value="@Model.Id" />
-                    <div class="col-sm-4" id="dtxtPolicyName">
-                        <div class="form-group">
-                            <label class="form-label"><span class="has-error required">* </span>Policy Name</label>
-                            <input id="txtPolicyName" type="text" name="PolicyName" class="form-control text-length" placeholder="Please enter your PolicyName" value="@Model.PolicyName" isrequired="1" divcontainer="dtxtPolicyName" errorspan="stxtPolicyName" defaultvalue="" autocomplete="off" minlength="2">
-                            <span class="help-block d-none has-error" id="stxtPolicyName">Please Enter Valid PolicyName</span>
-                        </div>
+    <div class="card">
+        <div class="card-header">
+            @Title
+            <h3 class="card-title"></h3>
+        </div>
+        <div class="card-body">
+            <div class="row" id="divUploadFile">
+                <input id="txtPolicyId" name="txtPolicyId" type="hidden" class="form-control col-sm-4" value="@Model.Id" />
+                <div class="col-sm-4" id="dtxtPolicyName">
+                    <div class="form-group">
+                        <label class="form-label"><span class="has-error required">* </span>Policy Name</label>
+                        <input id="txtPolicyName" type="text" name="PolicyName" class="form-control text-length" placeholder="Please enter your PolicyName" value="@Model.PolicyName" isrequired="1" divcontainer="dtxtPolicyName" errorspan="stxtPolicyName" defaultvalue="" autocomplete="off" minlength="2">
+                        <span class="help-block d-none has-error" id="stxtPolicyName">Please Enter Valid PolicyName</span>
                     </div>
-
-                    <div class="col-sm-4" id="dtxtPolicyFile">
-                        <div class="form-group">
-                            <label class="form-label"><span class="has-error required">* </span>Policy Docuemnt(.pdf)</label>
-                            <input id="txtPolicyFile" type="file" name="PolicyFile" class="form-control text-length" placeholder="Please Select Valid File" value="@Model.PolicyDocumentName" isrequired="1" divcontainer="dtxtPolicyFile" errorspan="stxtPolicyFile" defaultvalue="" autocomplete="off" onchange="loadFile(event)" accept="application/pdf" />
-                            <span class="help-block d-none has-error" id="stxtPolicyFile">Please Select Valid File</span>
-                        </div>
-                    </div>
-
                 </div>
-            </div>
 
-            <div class="card-footer">
-                @if (Title == "Edit Policy")
-                {
-                    <input type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-warning float-right ml-1" value="Update" />
-                }
-                else
-                {
-                    <input type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success float-right ml-1" value="Submit" />
-                }
-                <input type="button" id="btnCancel" name="btnCancel" class="btn btn-danger float-right" value="Cancel" />
+                <div class="col-sm-4" id="dtxtPolicyFile">
+                    <div class="form-group">
+                        <label class="form-label"><span class="has-error required">* </span>Policy Docuemnt(.pdf)</label>
+                        <input id="txtPolicyFile" type="file" name="PolicyFile" class="form-control text-length" placeholder="Please Select Valid File" value="@Model.PolicyDocumentName" isrequired="1" divcontainer="dtxtPolicyFile" errorspan="stxtPolicyFile" defaultvalue="" autocomplete="off" onchange="loadFile(event)" accept="application/pdf" />
+                        <span class="help-block d-none has-error" id="stxtPolicyFile">Please Select Valid File</span>
+                    </div>
+                </div>
 
             </div>
+        </div>
 
-
+        <div class="card-footer">
+            @if (Title == "Edit Policy")
+            {
+                <input type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-warning float-right ml-1" value="Update" />
+            }
+            else
+            {
+                <input type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success float-right ml-1" value="Submit" />
+            }
+            <input type="button" id="btnCancel" name="btnCancel" class="btn btn-danger float-right" value="Cancel" />
 
         </div>
+
+
+
+    </div>
     </div>
 </section>
 
