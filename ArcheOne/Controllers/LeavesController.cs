@@ -118,8 +118,8 @@ namespace ArcheOne.Controllers
                         leaveDetailsListModel.AppliedByUserName = AppliedByUser.UserName;
                         leaveDetailsListModel.ApprovedByReportingUserId = ApprovedByReportingUserName == null ? "" : ApprovedByReportingUserName.UserName;
                         leaveDetailsListModel.ApprovedByHRUserId = ApprovedByHrUserName == null ? "" : ApprovedByHrUserName.UserName;
-                        leaveDetailsListModel.StartDate = item.StartDate.ToString("yyyy/MM/dd");
-                        leaveDetailsListModel.EndDate = item.EndDate.ToString("yyyy/MM/dd");
+                        leaveDetailsListModel.StartDate = item.StartDate.ToString("dd-MM-yyyy");
+                        leaveDetailsListModel.EndDate = item.EndDate.ToString("dd-MM-yyyy");
                         leaveDetailsListModel.StartTime = Convert.ToString(item.StartTime);
                         leaveDetailsListModel.EndTime = Convert.ToString(item.EndTime);
                         leaveDetailsListModel.OpeningBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)item.OpeningLeaveBalance));

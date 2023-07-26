@@ -4,7 +4,6 @@
 });
 function SaveUser() {
 
-    $.blockUI();
     var saveData = new FormData();
     var file = $("#txtPhotoUrl").get(0).files[0];
     saveData.append("Id", parseInt($("#txtUserId").val()));
@@ -24,9 +23,9 @@ function SaveUser() {
     saveData.append("Mobile2", $("#txtMobile2").val());
     saveData.append("Email", $("#txtEmail").val());
     saveData.append("IsActive", false);
+  
     if (validateRequiredFields()) {
-
-
+        $.blockUI();
         ajaxCallWithoutDataType("Post", false, '/User/SaveUpdateUser', saveData, function (result) {
             if (result.status == true) {
                 Toast.fire({ icon: 'success', title: result.message });

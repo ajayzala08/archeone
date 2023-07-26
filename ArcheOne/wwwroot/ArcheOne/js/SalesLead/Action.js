@@ -89,7 +89,7 @@ function FolloupActions() {
                             render: function (followUpDate) {
                                 let date = new Date(followUpDate);
                                 let month = date.getMonth() + 1;
-                                return  date.getDate()+ "/" + (month.length > 1 ? month : "0" + month) + "/" + date.getFullYear() ;//dd/MM/yyyy format
+                                return  date.getDate()+ "-" + (month.length > 1 ? month : "0" + month) + "-" + date.getFullYear() ;//dd/MM/yyyy format
                                 //date formate with time dd/MM/yyyy hh:mm return (month.length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear() + "&nbsp;&nbsp;" + (date.getHours() < 10 ? ("0" + date.getHours()) : date.getHours()) + ":" + (date.getMinutes() < 10 ? ("0" + date.getMinutes()) : date.getMinutes());
                             }
                         },
@@ -101,7 +101,7 @@ function FolloupActions() {
                             render: function (nextFollowUpDate) {
                                 let date = new Date(nextFollowUpDate);
                                 let month = date.getMonth() + 1;
-                                return date.getDate() + "/" + (month.length > 1 ? month : "0" + month) + "/" + date.getFullYear();
+                                return date.getDate() + "-" + (month.length > 1 ? month : "0" + month) + "-" + date.getFullYear();
                             }
                         },
                         { data: "status", title: "Status" },
@@ -233,4 +233,6 @@ $("#btnUpdateAction").click(function () {
     }
 
 });
-
+$("#btnBackToLead").click(function () {
+    window.location.href = '/SalesLead/Index';
+});
