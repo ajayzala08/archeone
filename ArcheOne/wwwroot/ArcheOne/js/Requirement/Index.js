@@ -30,7 +30,9 @@ function GetFilteredRequirementList() {
     ajaxCall("Get", false, '/Requirement/RequirementList', reqData, function (result) {
         $("#divRequirementList").html(result.responseText);
         ApplyDatatableResponsive('tblRequirement');
-
+        //$(".ddl-status").each(function (index) {
+        //    $(this).select2();
+        //});
         $(".btn-resumes").click(function () {
             RedirectToPage('/UploadedResume/UploadedResume?RequirementId=' + $(this).attr('RequirementId'));
         });

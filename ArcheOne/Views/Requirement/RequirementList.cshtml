@@ -64,7 +64,7 @@
                             <td>
                                 @if (permissionList.Any(x => x.PermissionCode.Contains(CommonEnums.PermissionMst.Requirements_Edit.ToString())))
                                 {
-                                    <select id="ddlRequirementStatus" name="ddlRequirementStatus" class="form-control select2 ddl-status" isRequired="1" divcontainer="dddlRequirementStatus" errorspan="sddlRequirementStatus" defaultvalue="0" style="width:110px;" requirementId="@item.RequirementId">
+                                    <select id="ddlRequirementStatus" name="ddlRequirementStatus" class="form-control" isRequired="1" divcontainer="dddlRequirementStatus" errorspan="sddlRequirementStatus" defaultvalue="0" style="width:110px;" requirementId="@item.RequirementId">
                                         @foreach (var statusItem in Model.Data.RequirementStatusList)
                                         {
                                             if (statusItem.Id == item.RequirementStatusId)
