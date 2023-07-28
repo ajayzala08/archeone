@@ -15,12 +15,27 @@
 		display: none;
 	}
 </style>
-<div class="modal-header">
+@*<div class="modal-header">
 	<h5 class="modal-title">@Title1</h5>
-</div>
+</div>*@
+<section class="content-header">
+	<div class="container-fluid">
+		<div class="row mb-2">
+			<div class="col-sm-6">
+				<h1>@Title1</h1>
+			</div>
+			<div class="col-sm-6">
+				<ol class="breadcrumb float-sm-right">
+					<li class="breadcrumb-item"><a href="#">Masters</a></li>
+					<li class="breadcrumb-item active">@Title1</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</section>
 <section class="content">
 	<div class="container-fluid">
-		<div class="card card-outline card-primary">
+		<div class="card">
 			<div class="card-header">
 				@Title1
 				<h3 class="card-title"></h3>
@@ -64,7 +79,7 @@
 						<div class="row">
 							<div class="col-sm-4" id="dddlRole">
 								<div class="form-group">
-									<label>Role *</label>
+									<label><span class="has-error required">* </span>Role</label>
 									<select id="ddlRole" name="ddlRole" class="form-control" isrequired="1" divcontainer="dddlRole" errorspan="sddlRole" defaultvalue="0" style="width: 100%;">
 										@foreach (var item in Model.RoleList)
 										{
@@ -83,7 +98,7 @@
 							</div>
 							<div class="col-sm-4" id="dddlDepartment">
 								<div class="form-group">
-									<label>Department *</label>
+									<label><span class="has-error required">* </span>Department</label>
 									<select id="ddlDepartment" name="ddlDepartment" class="form-control" isrequired="1" divcontainer="dddlDepartment" errorspan="sddlDepartment" defaultvalue="0" style="width: 100%;">
 										@foreach (var item in Model.DepartmentList)
 										{
@@ -102,9 +117,10 @@
 							</div>
 							<div class="col-sm-4" id="dddlDesignation">
 								<div class="form-group">
-									<label>Designation *</label>
+									<label><span class="has-error required">* </span>Designation</label>
 									<select id="ddlDesignation" name="ddlDesignation" class="form-control" isrequired="1" divcontainer="dddlDesignation" errorspan="sddlDesignation" defaultvalue="0" style="width: 100%;">
-										@foreach (var item in Model.DesignationList)
+										<option value="0">Select Designation</option>
+										@foreach (var item in Model.DesignationList ?? new List<DesignationDetails>())
 										{
 											if (item.Id == DesignationId)
 											{
@@ -121,21 +137,21 @@
 							</div>
 							<div class="col-sm-4" id="dtxtFirstName">
 								<div class="form-group">
-									<label for="form_name">FirstName *</label>
+									<label for="form_name"><span class="has-error required">* </span>FirstName </label>
 									<input id="txtFirstName" type="text" name="FirstName" class="form-control text-length" placeholder="Please enter your Firstname" value="@Model.UserDetails.FirstName" isrequired="1" divcontainer="dtxtFirstName" errorspan="stxtFirstName" defaultvalue="" autocomplete="off" minlength="2">
 									<span class="help-block d-none has-error" id="stxtFirstName">Please Enter Valid FirstName</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtMiddleName">
 								<div class="form-group">
-									<label for="form_name">MiddleName *</label>
+									<label for="form_name"> <span class="has-error required">* </span>MiddleName</label>
 									<input id="txtMiddleName" type="text" name="MiddleName" class="form-control text-length" placeholder="Please enter your MiddleName" value="@Model.UserDetails.MiddleName" isrequired="1" divcontainer="dtxtMiddleName" errorspan="stxtMiddleName" defaultvalue="" autocomplete="off" minlength="2">
 									<span class="help-block d-none has-error" id="stxtMiddleName">Please Enter Valid MiddleName</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtLastName">
 								<div class="form-group">
-									<label for="form_name">LastName *</label>
+									<label for="form_name"><span class="has-error required">* </span>LastName </label>
 									<input id="txtLastName" type="text" name="LastName" class="form-control text-length" placeholder="Please enter your LastName" autocomplete="off" value="@Model.UserDetails.LastName" isrequired="1" divcontainer="dtxtLastName" errorspan="stxtLastName" defaultvalue="" minlength="2">
 									<span class="help-block d-none has-error" id="stxtLastName">Please Enter Valid LastName</span>
 								</div>
@@ -144,14 +160,14 @@
 							{
 								<div class="col-sm-4" id="dtxtUserName">
 									<div class="form-group">
-										<label for="form_name">UserName *</label>
+										<label for="form_name"><span class="has-error required">* </span>UserName </label>
 										<input id="txtUserName" type="text" name="UserName" class="form-control text-length" placeholder="Please enter your UserName" value="@Model.UserDetails.UserName" isrequired="1" divcontainer="dtxtUserName" errorspan="stxtUserName" defaultvalue="" autocomplete="off" minlength="2">
 										<span class="help-block d-none has-error" id="stxtUserName">Please Enter Valid UserName</span>
 									</div>
 								</div>
 								<div class="col-sm-4" id="dtxtPassword">
 									<div class="form-group">
-										<label for="form_name">Password *</label>
+										<label for="form_name"><span class="has-error required">* </span>Password </label>
 										<input id="txtPassword" type="password" name="Password" class="form-control text-length" placeholder="Please enter your Password" value="@Model.UserDetails.Password" isrequired="1" divcontainer="dtxtPassword" errorspan="stxtPassword" defaultvalue="" autocomplete="off" minlength="3">
 										<span class="help-block d-none has-error" id="stxtPassword">Please Enter Valid Password</span>
 									</div>
@@ -161,7 +177,7 @@
 							{
 								<div class="col-sm-4" id="dtxtUserName">
 									<div class="form-group">
-										<label for="form_name">UserName *</label>
+										<label for="form_name"><span class="has-error required">* </span>UserName </label>
 										<input id="txtUserName" name="UserName" class="form-control text-length" value="@Model.UserDetails.UserName" readonly>
 										<span class="help-block d-none has-error" id="stxtUserName">Please Enter Valid UserName</span>
 									</div>
@@ -175,14 +191,14 @@
 							</div>
 							<div class="col-sm-4" id="dtxtPincode">
 								<div class="form-group">
-									<label for="form_name">Pincode *</label>
+									<label for="form_name"><span class="has-error required">* </span>Pincode </label>
 									<input id="txtPincode" type="text" name="Pincode" class="form-control onlyNumeric text-length" placeholder="Please enter your Pincode" value="@Model.UserDetails.Pincode" isrequired="1" divcontainer="dtxtPincode" errorspan="stxtPincode" defaultvalue="" autocomplete="off" minlength="4" maxlength="6">
 									<span class="help-block d-none has-error" id="stxtPincode">Please Enter Valid Pincode</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtMobile1">
 								<div class="form-group">
-									<label for="form_mobile1">Mobile No.1 *</label>
+									<label for="form_mobile1"> <span class="has-error required">* </span>Mobile No.1</label>
 									<input id="txtMobile1" type="tel" name="Mobile1" class="form-control onlyNumeric text-length" placeholder="Please enter your Mobile Number" value="@Model.UserDetails.Mobile1" isrequired="1" divcontainer="dtxtMobile1" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
 									<span class="help-block d-none has-error" id="stxtMobile1">Please Enter Valid Mobile1</span>
 								</div>
@@ -195,7 +211,7 @@
 							</div>
 							<div class="col-sm-4" id="dtxtEmail">
 								<div class="form-group">
-									<label for="form_email">Email *</label>
+									<label for="form_email"> <span class="has-error required">* </span>Email </label>
 									<input id="txtEmail" type="email" name="Email" class="form-control text-length" placeholder="Please enter your Email" value="@Model.UserDetails.Email" isrequired="1" divcontainer="dtxtEmail" errorspan="stxtEmail" defaultvalue="" autocomplete="off" minlength="5">
 									<span class="help-block d-none has-error" id="stxtEmail">Please Enter Valid Email</span>
 								</div>

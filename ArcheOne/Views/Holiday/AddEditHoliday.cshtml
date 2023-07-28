@@ -4,77 +4,67 @@
 
 @{
     Layout = "_MasterLayout";
-    string Title = Model.Id > 0 ? "Edit Holiday" : "Create Holiday";
+    string Title = Model.Id > 0 ? "Edit Holiday" : "Add Holiday";
 }
+
+
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Holiday</h1>
+                <h1>@Title</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Masters</a></li>
-                    <li class="breadcrumb-item active">Holiday</li>
+                    <li class="breadcrumb-item active">@Title</li>
                 </ol>
             </div>
         </div>
     </div>
 </section>
 
-<section class="content-header"></section>
+
+
 <section class="content">
-    <div class="container-fluid">
-        <div class="card card-outline card-primary">
-            <div class="card-header">
-                @Title
-                <h3 class="card-title"></h3>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <input id="txtHolidayId" name="txtHolidayId" type="hidden" class="form-control col-sm-4" value="@Model.Id" />
+    <div class="card">
+        <div class="card-header">
+            @Title
+            <h3 class="card-title"></h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <input id="txtHolidayId" name="txtHolidayId" type="hidden" class="form-control col-sm-4" value="@Model.Id" />
 
-                    <div class="col-md-4" id="dtxtHolidayName">
-                        <div class="form-group">
-                            <label class="form-label"><span class="has-error required">* </span>Holiday Name</label>
-                            <input id="txtHolidayName" type="text" name="HolidayName" class="form-control text-length datepicker" placeholder="Please enter your HolidayName" value="@Model.HolidayName" isrequired="1" divcontainer="dtxtHolidayName" errorspan="stxtHolidayName" defaultvalue="" autocomplete="off" minlength="2">
-                            <span class="help-block d-none has-error" id="stxtHolidayName">Please Enter Valid HolidayName</span>
-                        </div>
+                <div class="col-md-4" id="dtxtHolidayName">
+                    <div class="form-group">
+                        <label class="form-label"><span class="has-error required">* </span>Holiday Name</label>
+                        <input id="txtHolidayName" type="text" name="HolidayName" class="form-control text-length datepicker" placeholder="Please enter your HolidayName" value="@Model.HolidayName" isrequired="1" divcontainer="dtxtHolidayName" errorspan="stxtHolidayName" defaultvalue="" autocomplete="off" minlength="2">
+                        <span class="help-block d-none has-error" id="stxtHolidayName">Please Enter Valid HolidayName</span>
                     </div>
-
-                    <div class="col-md-4">
-                        <div class="form-group col-sm-12" id="dtxtHolidayDate">
-                            <label><span class="has-error required">* </span>Holiday Date</label>
-                           @* <input id="txtHolidayDate" data-format="dd/MM/yyyy hh:mm:ss" name="txtHolidayDate" type="date" class="form-control datepicker" value=@Model.HolidayDate.ToString("yyyy-MM-dd") isrequired="1" divcontainer="dtxtHolidayDate" errorspan="stxtHolidayDate" defaultvalue="1">*@
-
-                            <input type="date" id="txtHolidayDate" name="txtHolidayDate" class="form-control" isRequired="1" divcontainer="dtxtHolidayDate" errorspan="stxtHolidayDate" defaultvalue="0" minlength="2" value="@Model.HolidayDate.ToString("yyyy-MM-dd")" />
-
-                            @*   <label><span class="has-error required">* </span>Start Date</label> <i class="fa fa-info-circle circle" value="" title="Your JoinngDate : @joiningDate"></i>
-                            <input type="date" id="txtStartDate" name="txtStartDate" class="form-control" isRequired="1" divcontainer="dtxtStartDate" errorspan="stxtStartDate" defaultvalue="0" minlength="2" value="@addEditRequirementResModel.leaveDetails.StartDate.ToString("yyyy-MM-dd")" />
-*@
-
-                            <span class="help-block d-none has-error" id="stxtHolidayDate">Please Select Holiday Date</span>
-                        </div>
-                    </div>
-
                 </div>
 
+                <div class="col-md-4">
+                    <div class="form-group col-sm-12" id="dtxtHolidayDate">
+                        <label><span class="has-error required">* </span>Holiday Date</label>
+                        <input type="date" id="txtHolidayDate" name="txtHolidayDate" class="form-control" isRequired="1" divcontainer="dtxtHolidayDate" errorspan="stxtHolidayDate" defaultvalue="0" minlength="2" value="@Model.HolidayDate.ToString("yyyy-MM-dd")" />
+                        <span class="help-block d-none has-error" id="stxtHolidayDate">Please Select Holiday Date</span>
+                    </div>
+                </div>
             </div>
-            <div class="card-footer">
-                @if (Title == "Edit Holiday")
-                {
-                    <input type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-warning float-right ml-1" value="Update" />
-                }
-                else
-                {
-                    <input type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success float-right ml-1" value="Submit" />
-                }
-                <input type="button" id="btnCancel" name="btnCancel" class="btn btn-danger float-right" value="Cancel" />
-
-            </div>
-
-
         </div>
+        <div class="card-footer">
+            @if (Title == "Edit Holiday")
+            {
+                <input type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-warning float-right ml-1" value="Update" />
+            }
+            else
+            {
+                <input type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success float-right ml-1" value="Submit" />
+            }
+            <input type="button" id="btnCancel" name="btnCancel" class="btn btn-danger float-right" value="Cancel" />
+        </div>
+    </div>
 </section>
 
 @section Scripts {

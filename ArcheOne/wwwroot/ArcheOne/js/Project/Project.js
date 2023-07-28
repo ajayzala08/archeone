@@ -47,7 +47,7 @@ function GetProjectList() {
                     {
                         data: null, title: "Created Date", render: function (data, type, row) {
                             var datetime = new Date(row.createdDate);
-                            return datetime.toLocaleString('en-US', { day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit' });
+                            return datetime.toLocaleDateString('en-GB').replaceAll("/", "-");
                         }
                     }]
             }).buttons().container().appendTo('#tblProjects_wrapper .col-md-6:eq(0)');

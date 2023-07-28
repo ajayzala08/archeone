@@ -18,6 +18,7 @@ function UserDocumentList() {
     $.blockUI({ message: "<h2>Please wait</p>" });
 
     ajaxCall("post", false, '/UserDocument/UserDocumentList', null, function (result) {
+        console.log(result);
         if (result.status == true) {
 
             if (tblUserDocument !== null) {
@@ -41,10 +42,12 @@ function UserDocumentList() {
                         title: 'Action',
 
                         render: function (data, type, row) {
-                            if (data) {
-                                
-                                return '<i class="fa fa-pen pen btn-edit" style="cursor: pointer;" data-toggle="modal" data-target="#modalUserDocument" onclick="GetUserDocsDetails(' + row.id + ')"></i> | <i class="fa fa-trash trash btn-delete" style="cursor: pointer;" onclick="DeleteUserDocs(' + row.id + ')"></i> | <i class="fa fa-download btn-download" value=' + row.document + ' Id=' + row.id + ' onclick="GetUserDocs(' + row.id + ')" aria-hidden="true"></i>';
+                            if (data.document == null) {
 
+                                return '<i class="fa fa-pen pen btn-edit" style="cursor: pointer;" data-toggle="modal" data-target="#modalUserDocument" onclick="GetUserDocsDetails(' + row.id + ')"></i> | <i class="fa fa-trash trash btn-delete" style="cursor: pointer;" onclick="DeleteUserDocs(' + row.id + ')"></i>';
+
+                            } else {
+                                return '<i class="fa fa-pen pen btn-edit" style="cursor: pointer;" data-toggle="modal" data-target="#modalUserDocument" onclick="GetUserDocsDetails(' + row.id + ')"></i> | <i class="fa fa-trash trash btn-delete" style="cursor: pointer;" onclick="DeleteUserDocs(' + row.id + ')"></i> | <i class="fa fa-download btn-download" style="cursor: pointer;" value=' + row.document + ' Id=' + row.id + ' onclick="GetUserDocs(' + row.id + ')" aria-hidden="true"></i>';
                             }
 
                         }

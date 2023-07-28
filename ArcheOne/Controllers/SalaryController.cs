@@ -185,10 +185,12 @@ namespace ArcheOne.Controllers
 					{
 						// Read the the Table
 						DataTable salaryDataTable = ds.Tables[0];
-						string? companyName = !string.IsNullOrEmpty(salaryDataTable.Rows[0][1].ToString()) ? salaryDataTable.Rows[0][1].ToString() : "";
+						string companyName = !string.IsNullOrEmpty(salaryDataTable.Rows[0][1].ToString()) ? salaryDataTable.Rows[0][1].ToString() : "";
 						if (companyName != null && companyName != "")
 						{
-							int comnpayId = companyName != "" && companyName != null ? _dbRepo.CompanyMstList().FirstOrDefault(x => x.CompanyName == companyName).Id : 0;
+							var compneyDetailes = _dbRepo.CompanyMstList().FirstOrDefault(x => x.CompanyName.ToLower() == companyName.ToLower());
+
+							int comnpayId = companyName != "" && companyName != null ? compneyDetailes.Id : 0;
 							if (salaryDataTable.Rows[1][5] != null && Convert.ToString(salaryDataTable.Rows[1][5]) != "")
 							{
 								string[] yearMonth = Convert.ToString(salaryDataTable.Rows[1][5]).Split('-');
@@ -321,7 +323,8 @@ namespace ArcheOne.Controllers
 								userDetail in _dbRepo.UserDetailList() on salaryList.EmployeeCode.ToString() equals userDetail.EmployeeCode
 								join
 								userMst in _dbRepo.UserMstList() on userDetail.UserId equals userMst.Id
-								select new { salaryList, userDetail, userMst }).FirstOrDefault();
+								join leavebalance in _dbRepo.LeaveBalanceLists() on userDetail.UserId equals leavebalance.UserId
+								select new { salaryList, userDetail, userMst, leavebalance }).FirstOrDefault();
 
 			using (System.IO.MemoryStream memoryStream = new System.IO.MemoryStream())
 			{
@@ -900,31 +903,31 @@ namespace ArcheOne.Controllers
 				#endregion
 
 				#region Value
-				PdfPCell leaveTypeCellvalue = new PdfPCell(new Phrase(" ", fontTableRow));
+				PdfPCell leaveTypeCellvalue = new PdfPCell(new Phrase("Leave", fontTableRow));
 				leaveTypeCellvalue.Border = Rectangle.BOX;
 				tblLeave.AddCell(leaveTypeCellvalue);
 
-				PdfPCell opbalCellvalue = new PdfPCell(new Phrase(" ", fontTableRow));
+				PdfPCell opbalCellvalue = new PdfPCell(new Phrase(_commonHelper.GetFormattedDecimal((decimal)salaryDetail.leavebalance.OpeningLeaveBalance), fontTableRow));
 				opbalCellvalue.Border = Rectangle.BOX;
 				tblLeave.AddCell(opbalCellvalue);
 
-				PdfPCell allotCellvalue = new PdfPCell(new Phrase(" ", fontTableRow));
+				PdfPCell allotCellvalue = new PdfPCell(new Phrase("1.5 ", fontTableRow));
 				allotCellvalue.Border = Rectangle.BOX;
 				tblLeave.AddCell(allotCellvalue);
 
-				PdfPCell availCellvalue = new PdfPCell(new Phrase(" ", fontTableRow));
+				PdfPCell availCellvalue = new PdfPCell(new Phrase("0 ", fontTableRow));
 				availCellvalue.Border = Rectangle.BOX;
 				tblLeave.AddCell(availCellvalue);
 
-				PdfPCell encashCellvalue = new PdfPCell(new Phrase(" ", fontTableRow));
+				PdfPCell encashCellvalue = new PdfPCell(new Phrase("0", fontTableRow));
 				encashCellvalue.Border = Rectangle.BOX;
 				tblLeave.AddCell(encashCellvalue);
 
-				PdfPCell adjCellvalue = new PdfPCell(new Phrase(" ", fontTableRow));
+				PdfPCell adjCellvalue = new PdfPCell(new Phrase("0", fontTableRow));
 				adjCellvalue.Border = Rectangle.BOX;
 				tblLeave.AddCell(adjCellvalue);
 
-				PdfPCell clBalCellvalue = new PdfPCell(new Phrase(" ", fontTableRow));
+				PdfPCell clBalCellvalue = new PdfPCell(new Phrase(_commonHelper.GetFormattedDecimal((decimal)salaryDetail.leavebalance.ClosingLeaveBalance), fontTableRow));
 				clBalCellvalue.Border = Rectangle.BOX;
 				tblLeave.AddCell(clBalCellvalue);
 				#endregion
@@ -963,6 +966,11 @@ namespace ArcheOne.Controllers
 
 
 				#endregion
+
+
+
+
+
 
 				paragraphAdvance.Add(tblAdvance);
 				document.Add(paragraphAdvance);

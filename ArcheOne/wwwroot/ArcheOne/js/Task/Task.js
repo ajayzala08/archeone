@@ -112,14 +112,14 @@ function GetTaskList() {
             {
                 data: null, title: "Task Date", name: "TaskDate", render: function (data, type, row) {
                     var datetime = new Date(row.taskDate);
-                    return datetime.toLocaleString('en-US', { day: '2-digit', month: 'short', year: '2-digit' });
+                    return datetime.toLocaleDateString('en-GB').replaceAll("/", "-");
                 }
             },
             {
                 data: null, title: "Due Date", name: "DueDate", render: function (data, type, row) {
                     if (row.dueDate != null && row.dueDate != "") {
                         var datetime = new Date(row.dueDate);
-                        return datetime.toLocaleString('en-US', { day: '2-digit', month: 'short', year: '2-digit' });
+                        return datetime.toLocaleDateString('en-GB').replaceAll("/", "-");
                     } else return "";
                 }
             },

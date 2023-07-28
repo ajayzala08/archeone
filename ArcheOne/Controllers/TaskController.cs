@@ -199,62 +199,69 @@ namespace ArcheOne.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    int userId = _commonHelper.GetLoggedInUserId();
-                    if (request.Id == 0) // Add Daily Task
+                    if (request.DueDate == null || (request.DueDate != null && Convert.ToDateTime(request.DueDate).Date >= request.TaskDate.Date))
                     {
-                        DailyTaskMst dailyTaskMst = new DailyTaskMst()
+                        int userId = _commonHelper.GetLoggedInUserId();
+                        if (request.Id == 0) // Add Daily Task
                         {
-                            ProjectId = request.ProjectId,
-                            TaskDate = request.TaskDate,
-                            TaskStatus = request.TaskStatus,
-                            TaskModule = request.TaskModule,
-                            TaskDescription = request.TaskDescription,
-                            TimeSpent = $"{request.TimeSpentHH}:{request.TimeSpentMM}",
-                            IsActive = true,
-                            IsDelete = false,
-                            CreatedBy = userId,
-                            UpdatedBy = userId,
-                            CreatedDate = _commonHelper.GetCurrentDateTime(),
-                            UpdatedDate = _commonHelper.GetCurrentDateTime(),
-                            DueDate = request.TaskStatus == CommonEnums.ProjectStatus.InProgress.ToString() ? request.DueDate ?? request.TaskDate : null,
-                            TaskName = request.TaskName
-                        };
+                            DailyTaskMst dailyTaskMst = new DailyTaskMst()
+                            {
+                                ProjectId = request.ProjectId,
+                                TaskDate = request.TaskDate,
+                                TaskStatus = request.TaskStatus,
+                                TaskModule = request.TaskModule,
+                                TaskDescription = request.TaskDescription,
+                                TimeSpent = $"{request.TimeSpentHH}:{request.TimeSpentMM}",
+                                IsActive = true,
+                                IsDelete = false,
+                                CreatedBy = userId,
+                                UpdatedBy = userId,
+                                CreatedDate = _commonHelper.GetCurrentDateTime(),
+                                UpdatedDate = _commonHelper.GetCurrentDateTime(),
+                                DueDate = request.TaskStatus == CommonEnums.ProjectStatus.InProgress.ToString() ? request.DueDate ?? request.TaskDate : null,
+                                TaskName = request.TaskName
+                            };
 
-                        await _dbContext.AddAsync(dailyTaskMst);
-                        await _dbContext.SaveChangesAsync();
-
-                        response.Status = true;
-                        response.StatusCode = System.Net.HttpStatusCode.OK;
-                        response.Message = "Task added successfully!";
-                    }
-                    else // updated
-                    {
-                        var dailyTask = await _dbRepo.DailyTaskList().FirstOrDefaultAsync(x => x.Id == request.Id);
-                        if (dailyTask != null)
-                        {
-                            dailyTask.ProjectId = request.ProjectId;
-                            dailyTask.TaskDate = request.TaskDate;
-                            dailyTask.TaskStatus = request.TaskStatus;
-                            dailyTask.TaskModule = request.TaskModule;
-                            dailyTask.TaskDescription = request.TaskDescription;
-                            dailyTask.TimeSpent = $"{request.TimeSpentHH}:{request.TimeSpentMM}";
-                            dailyTask.UpdatedBy = userId;
-                            dailyTask.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                            dailyTask.DueDate = request.TaskStatus == CommonEnums.ProjectStatus.InProgress.ToString() ? request.DueDate ?? request.TaskDate : null;
-                            dailyTask.TaskName = request.TaskName;
-
-                            _dbContext.Entry(dailyTask).State = EntityState.Modified;
+                            await _dbContext.AddAsync(dailyTaskMst);
                             await _dbContext.SaveChangesAsync();
 
                             response.Status = true;
                             response.StatusCode = System.Net.HttpStatusCode.OK;
-                            response.Message = "Task updated successfully!";
+                            response.Message = "Task added successfully!";
                         }
-                        else
+                        else // updated
                         {
-                            response.Message = "Task not found!";
-                            response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                            var dailyTask = await _dbRepo.DailyTaskList().FirstOrDefaultAsync(x => x.Id == request.Id);
+                            if (dailyTask != null)
+                            {
+                                dailyTask.ProjectId = request.ProjectId;
+                                dailyTask.TaskDate = request.TaskDate;
+                                dailyTask.TaskStatus = request.TaskStatus;
+                                dailyTask.TaskModule = request.TaskModule;
+                                dailyTask.TaskDescription = request.TaskDescription;
+                                dailyTask.TimeSpent = $"{request.TimeSpentHH}:{request.TimeSpentMM}";
+                                dailyTask.UpdatedBy = userId;
+                                dailyTask.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                                dailyTask.DueDate = request.TaskStatus == CommonEnums.ProjectStatus.InProgress.ToString() ? request.DueDate ?? request.TaskDate : null;
+                                dailyTask.TaskName = request.TaskName;
+
+                                _dbContext.Entry(dailyTask).State = EntityState.Modified;
+                                await _dbContext.SaveChangesAsync();
+
+                                response.Status = true;
+                                response.StatusCode = System.Net.HttpStatusCode.OK;
+                                response.Message = "Task updated successfully!";
+                            }
+                            else
+                            {
+                                response.Message = "Task not found!";
+                                response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                            }
                         }
+                    }
+                    else
+                    {
+                        response.Message = "Please enter the valid duedate!";
                     }
                 }
             }

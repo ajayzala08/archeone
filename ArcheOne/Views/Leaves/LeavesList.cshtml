@@ -5,6 +5,7 @@
     Layout = "_BlankLayout";
     ViewBag.dataTable = "true";
     ViewBag.select2 = "true";
+    List<LeaveDetailsList> list = Model.Data.LeaveDetailsLists;
 }
 <style>
     td {
@@ -29,15 +30,14 @@
 </style>
 <div class="row form-group">
     <div class="col-md-12">
-        @if (Model.Status)
-        {
-            List<LeaveDetailsList> list = Model.Data.LeaveDetailsLists;
+      @*  @if (Model.Status)
+        {*@
+           
             <table id="tblLeave" class="table table-responsive table-bordered table-hover" style="width:100%;">
                 <thead>
                     <tr>
                         <td>Actions</td>
                         <td>Cancel Leave</td>
-                        <td>Id</td>
                         <td>LeaveTypeName</td>
                         <td>AppliedByUserName</td>
                         <td>ApprovedByHRUserId</td>
@@ -121,7 +121,6 @@
                                 </td>
                             }
 
-                            <td>@item.Id</td>
                             <td>@item.LeaveTypeName</td>
                             <td>@item.AppliedByUserName</td>
                             <td>@item.ApprovedByHRUserId</td>
@@ -157,11 +156,11 @@
                 </tbody>
             </table>
 
-        }
+       @* }
         else
         {
            // <p style="color:red">@Model.Message</p>
-        }
+        }*@
 
 
 

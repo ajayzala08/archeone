@@ -57,13 +57,13 @@ namespace ArcheOne.Controllers
                     userDetailsAddEditResModel.UserDetail.EmployeeCode = isUserDetailsExist.EmployeeCode;
                     userDetailsAddEditResModel.UserDetail.Gender = isUserDetailsExist.Gender;
                     userDetailsAddEditResModel.UserDetail.EmergencyContact = isUserDetailsExist.EmergencyContact;
-                    userDetailsAddEditResModel.UserDetail.Dob = isUserDetailsExist.Dob.ToString("dd-MM-yyyy");
+                    userDetailsAddEditResModel.UserDetail.Dob = isUserDetailsExist.Dob;
                     userDetailsAddEditResModel.UserDetail.PostCode = isUserDetailsExist.PostCode;
                     userDetailsAddEditResModel.UserDetail.EmploymentType = isUserDetailsExist.EmploymentType;
                     userDetailsAddEditResModel.UserDetail.Location = isUserDetailsExist.Location;
                     userDetailsAddEditResModel.UserDetail.BloodGroup = isUserDetailsExist.BloodGroup;
-                    userDetailsAddEditResModel.UserDetail.OfferDate = isUserDetailsExist.OfferDate.ToString("dd-MM-yyyy");
-                    userDetailsAddEditResModel.UserDetail.JoinDate = isUserDetailsExist.JoinDate.ToString("dd-MM-yyyy");
+                    userDetailsAddEditResModel.UserDetail.OfferDate = isUserDetailsExist.OfferDate;
+                    userDetailsAddEditResModel.UserDetail.JoinDate = isUserDetailsExist.JoinDate;
                     userDetailsAddEditResModel.UserDetail.BankName = isUserDetailsExist.BankName;
                     userDetailsAddEditResModel.UserDetail.AccountNumber = isUserDetailsExist.AccountNumber;
                     userDetailsAddEditResModel.UserDetail.Branch = isUserDetailsExist.Branch;
@@ -77,6 +77,14 @@ namespace ArcheOne.Controllers
                     userDetailsAddEditResModel.UserDetail.EmployeePersonalEmailId = isUserDetailsExist.EmployeePersonalEmailId;
                     userDetailsAddEditResModel.UserDetail.ProbationPeriod = isUserDetailsExist.ProbationPeriod;
                     userDetailsAddEditResModel.UserDetail.IsActive = isUserDetailsExist.IsActive;
+                }
+                else
+                {
+                    DateTime todayDate = _commonHelper.GetCurrentDateTime();
+                    DateTime eighteenYearsAgo = todayDate.AddYears(-18);
+                    userDetailsAddEditResModel.UserDetail.OfferDate = todayDate;
+                    userDetailsAddEditResModel.UserDetail.JoinDate = todayDate.AddDays(1);
+                    userDetailsAddEditResModel.UserDetail.Dob = eighteenYearsAgo;
                 }
                 commonResponse.Status = true;
                 commonResponse.StatusCode = HttpStatusCode.OK;

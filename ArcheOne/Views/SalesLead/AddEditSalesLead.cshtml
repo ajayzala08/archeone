@@ -5,6 +5,7 @@
     Layout = "_MasterLayout";
     ViewBag.datatable = "true";
     SalesLeadAddEditResModel salesLeadAddEditResModel = Model.Data;
+    var Title = salesLeadAddEditResModel.salesLeadDetail.SalesLeadId > 0 ? "Edit Lead" : "Add Lead";
     int ContactPersonCount = 1;
 }
 
@@ -12,21 +13,22 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Leads</h1>
+                <h1>@Title</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Sales Lead</a></li>
-                    <li class="breadcrumb-item active">Add Lead</li>
+                    <li class="breadcrumb-item"><a href="#">Sales</a></li>
+                    <li class="breadcrumb-item active">@Title</li>
                 </ol>
             </div>
         </div>
-    </div><!-- /.container-fluid -->
+    </div>
 </section>
+
 <section class="content">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Add Lead</h3>
+            <h3 class="card-title">@Title</h3>
         </div>
         <div class="card-body">
             <div id="divSalesLead">

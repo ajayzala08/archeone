@@ -386,38 +386,45 @@ namespace ArcheOne.Controllers
                 try
                 {
                     SalesLeadFollowUpMst salesLeadFollowUpMst = new SalesLeadFollowUpMst();
-                    salesLeadFollowUpMst.SalesLeadId = salesLeadFollowUpReqModel.SalesLeadId;
-                    salesLeadFollowUpMst.SalesContactPersonId = salesLeadFollowUpReqModel.SalesContactPersonId;
-                    salesLeadFollowUpMst.FollowUpDateTime = salesLeadFollowUpReqModel.FollowUpDate;
-                    salesLeadFollowUpMst.NextFollowUpDateTime = salesLeadFollowUpReqModel.NextFollowUpDate;
-                    salesLeadFollowUpMst.SalesLeadActionId = salesLeadFollowUpReqModel.SalesLeadActionId;
-                    salesLeadFollowUpMst.NextFollowUpActionId = salesLeadFollowUpReqModel.SalesLeadNextActionId;
-                    salesLeadFollowUpMst.Notes = salesLeadFollowUpReqModel.Notes;
-                    salesLeadFollowUpMst.NextFollowUpNotes = salesLeadFollowUpReqModel.NextFollowUpNotes;
-                    salesLeadFollowUpMst.SalesLeadStatusId = salesLeadFollowUpReqModel.SalesLeadStatusId;
-                    salesLeadFollowUpMst.IsActive = true;
-                    salesLeadFollowUpMst.IsDelete = false;
-                    salesLeadFollowUpMst.CreatedDate = _commonHelper.GetCurrentDateTime();
-                    salesLeadFollowUpMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                    salesLeadFollowUpMst.CreatedBy = _commonHelper.GetLoggedInUserId();
-                    salesLeadFollowUpMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
-                    _dbContext.SalesLeadFollowUpMsts.Add(salesLeadFollowUpMst);
-                    await _dbContext.SaveChangesAsync();
-                    if (salesLeadFollowUpReqModel.SalesLeadStatusId == 5)
+                    if (salesLeadFollowUpReqModel.NextFollowUpDate.Date >= salesLeadFollowUpReqModel.FollowUpDate.Date)
                     {
-                        bool result = await ConvertToOppertunity(salesLeadFollowUpReqModel.SalesLeadId);
-                        if (result)
+                        salesLeadFollowUpMst.SalesLeadId = salesLeadFollowUpReqModel.SalesLeadId;
+                        salesLeadFollowUpMst.SalesContactPersonId = salesLeadFollowUpReqModel.SalesContactPersonId;
+                        salesLeadFollowUpMst.FollowUpDateTime = salesLeadFollowUpReqModel.FollowUpDate;
+                        salesLeadFollowUpMst.NextFollowUpDateTime = salesLeadFollowUpReqModel.NextFollowUpDate;
+                        salesLeadFollowUpMst.SalesLeadActionId = salesLeadFollowUpReqModel.SalesLeadActionId;
+                        salesLeadFollowUpMst.NextFollowUpActionId = salesLeadFollowUpReqModel.SalesLeadNextActionId;
+                        salesLeadFollowUpMst.Notes = salesLeadFollowUpReqModel.Notes;
+                        salesLeadFollowUpMst.NextFollowUpNotes = salesLeadFollowUpReqModel.NextFollowUpNotes;
+                        salesLeadFollowUpMst.SalesLeadStatusId = salesLeadFollowUpReqModel.SalesLeadStatusId;
+                        salesLeadFollowUpMst.IsActive = true;
+                        salesLeadFollowUpMst.IsDelete = false;
+                        salesLeadFollowUpMst.CreatedDate = _commonHelper.GetCurrentDateTime();
+                        salesLeadFollowUpMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                        salesLeadFollowUpMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+                        salesLeadFollowUpMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                        _dbContext.SalesLeadFollowUpMsts.Add(salesLeadFollowUpMst);
+                        await _dbContext.SaveChangesAsync();
+                        if (salesLeadFollowUpReqModel.SalesLeadStatusId == 5)
+                        {
+                            bool result = await ConvertToOppertunity(salesLeadFollowUpReqModel.SalesLeadId);
+                            if (result)
+                            {
+                                transactionScope.Complete();
+                            }
+                        }
+                        else
                         {
                             transactionScope.Complete();
                         }
+                        commonResponse.Status = true;
+                        commonResponse.StatusCode = HttpStatusCode.OK;
+                        commonResponse.Message = "FollowUp Action Added Successfully";
                     }
                     else
                     {
-                        transactionScope.Complete();
+                        commonResponse.Message = "Please valid enter the next followup date";
                     }
-                    commonResponse.Status = true;
-                    commonResponse.StatusCode = HttpStatusCode.OK;
-                    commonResponse.Message = "FollowUp Action Added Successfully";
 
                 }
                 catch (Exception ex)
@@ -565,40 +572,51 @@ namespace ArcheOne.Controllers
         public async Task<IActionResult> UpdateAction([FromBody] SalesLeadFollowUpEditReqModel salesLeadFollowUpEditReqModel)
         {
             CommonResponse commonResponse = new CommonResponse();
-            using (TransactionScope transactionScope = new TransactionScope())
+            using (TransactionScope transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 try
                 {
-                    var isFolloUpExits = await _dbRepo.salesLeadFollowUpMst().FirstOrDefaultAsync(x => x.Id == salesLeadFollowUpEditReqModel.FollowUpId);
-                    if (isFolloUpExits != null)
+                    if (salesLeadFollowUpEditReqModel.NextFollowUpDate.Date >= salesLeadFollowUpEditReqModel.FollowUpDate.Date)
                     {
-                        isFolloUpExits.FollowUpDateTime = salesLeadFollowUpEditReqModel.FollowUpDate;
-                        isFolloUpExits.NextFollowUpDateTime = salesLeadFollowUpEditReqModel.NextFollowUpDate;
-                        isFolloUpExits.SalesLeadActionId = salesLeadFollowUpEditReqModel.SalesLeadActionId;
-                        isFolloUpExits.NextFollowUpActionId = salesLeadFollowUpEditReqModel.SalesLeadNextActionId;
-                        isFolloUpExits.Notes = salesLeadFollowUpEditReqModel.Notes;
-                        isFolloUpExits.NextFollowUpNotes = salesLeadFollowUpEditReqModel.NextFollowUpNotes;
-                        isFolloUpExits.SalesLeadStatusId = salesLeadFollowUpEditReqModel.SalesLeadStatusId;
-                        isFolloUpExits.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                        isFolloUpExits.UpdatedBy = _commonHelper.GetLoggedInUserId();
-                        _dbContext.SalesLeadFollowUpMsts.Update(isFolloUpExits);
-                        await _dbContext.SaveChangesAsync();
-                        commonResponse.Status = true;
-                        commonResponse.StatusCode = HttpStatusCode.OK;
-                        commonResponse.Message = "FollowUp Action Updated Successfully";
-                        if (salesLeadFollowUpEditReqModel.SalesLeadStatusId == 5)
+                        var isFolloUpExits = await _dbRepo.salesLeadFollowUpMst().FirstOrDefaultAsync(x => x.Id == salesLeadFollowUpEditReqModel.FollowUpId);
+                        if (isFolloUpExits != null)
                         {
-                            bool result = await ConvertToOppertunity(isFolloUpExits.SalesLeadId);
-                            if (result)
+                            isFolloUpExits.FollowUpDateTime = salesLeadFollowUpEditReqModel.FollowUpDate;
+                            isFolloUpExits.NextFollowUpDateTime = salesLeadFollowUpEditReqModel.NextFollowUpDate;
+                            isFolloUpExits.SalesLeadActionId = salesLeadFollowUpEditReqModel.SalesLeadActionId;
+                            isFolloUpExits.NextFollowUpActionId = salesLeadFollowUpEditReqModel.SalesLeadNextActionId;
+                            isFolloUpExits.Notes = salesLeadFollowUpEditReqModel.Notes;
+                            isFolloUpExits.NextFollowUpNotes = salesLeadFollowUpEditReqModel.NextFollowUpNotes;
+                            isFolloUpExits.SalesLeadStatusId = salesLeadFollowUpEditReqModel.SalesLeadStatusId;
+                            isFolloUpExits.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                            isFolloUpExits.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                            _dbContext.SalesLeadFollowUpMsts.Update(isFolloUpExits);
+                            await _dbContext.SaveChangesAsync();
+                            commonResponse.Status = true;
+                            commonResponse.StatusCode = HttpStatusCode.OK;
+                            commonResponse.Message = "FollowUp Action Updated Successfully";
+                            if (salesLeadFollowUpEditReqModel.SalesLeadStatusId == 5)
+                            {
+                                bool result = await ConvertToOppertunity(isFolloUpExits.SalesLeadId);
+                                if (result)
+                                {
+                                    transactionScope.Complete();
+                                }
+
+                            }
+                            else
                             {
                                 transactionScope.Complete();
                             }
-
+                        }
+                        else
+                        {
+                            commonResponse.Message = "FollowUp Action Not Found";
                         }
                     }
                     else
                     {
-                        commonResponse.Message = "FollowUp Action Not Found";
+                        commonResponse.Message = "Please valid enter the next followup date";
                     }
                 }
                 catch (Exception ex)

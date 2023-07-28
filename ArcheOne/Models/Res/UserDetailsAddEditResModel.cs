@@ -23,7 +23,7 @@ namespace ArcheOne.Models.Res
 
         public string EmergencyContact { get; set; } = null!;
 
-        public string Dob { get; set; } = null!;
+        public DateTime Dob { get; set; }
 
         public string PostCode { get; set; } = null!;
 
@@ -37,10 +37,9 @@ namespace ArcheOne.Models.Res
 
         public string BloodGroup { get; set; } = null!;
 
-        public string OfferDate { get; set; } = null!;
+        public DateTime OfferDate { get; set; }
 
-        public string JoinDate { get; set; } = null!;
-
+        public DateTime JoinDate { get; set; }
         public string BankName { get; set; } = null!;
 
         public string AccountNumber { get; set; } = null!;
