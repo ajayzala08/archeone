@@ -106,8 +106,11 @@ namespace ArcheOne.Controllers
                                                                   from rl in rls.DefaultIfEmpty()
                                                                   where rfl.RequirementStatusCode.ToLower() == "closed"
                                                                   select rl).Count();
-
-                commonResponse.Data = dashboardDetailsResModel;
+                if (dashboardDetailsResModel != null)
+                {
+                    commonResponse.Status = true;
+                    commonResponse.Data = dashboardDetailsResModel;
+                }
 
 
             }

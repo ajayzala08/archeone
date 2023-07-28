@@ -23,8 +23,9 @@
         </div>
     </div><!-- /.container-fluid -->
 </section>
-
-<!-- Main content -->
+@if (Model.Status)
+{
+    <!-- Main content -->
 <section class="content">
 
     <!-- Default box -->
@@ -510,6 +511,7 @@
 
 </section>
 <!-- /.content -->
+}
 @section Scripts {
     <script src="~/archeone/js/dashboard/index.js?_@DateTime.Now.Ticks"></script>
 }
