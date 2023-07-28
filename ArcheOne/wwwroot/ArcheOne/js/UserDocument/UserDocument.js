@@ -42,7 +42,7 @@ function UserDocumentList() {
                         title: 'Action',
 
                         render: function (data, type, row) {
-                            if (data.document) {
+                            if (data.document == null) {
 
                                 return '<i class="fa fa-pen pen btn-edit" style="cursor: pointer;" data-toggle="modal" data-target="#modalUserDocument" onclick="GetUserDocsDetails(' + row.id + ')"></i> | <i class="fa fa-trash trash btn-delete" style="cursor: pointer;" onclick="DeleteUserDocs(' + row.id + ')"></i>';
 

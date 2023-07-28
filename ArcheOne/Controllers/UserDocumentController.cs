@@ -191,7 +191,7 @@ namespace ArcheOne.Controllers
                          EmployeeName = x.U.FirstName + " " + x.U.LastName,
                          EmployeeCode = x.f.EmployeeCode, //!= null?"0":"1",
                          DocumentTypeId = x.D.DocumentType,
-                         Document = System.IO.File.Exists(Path.Combine(_commonHelper.GetPhysicalRootPath(false), x.UD.Document)) ? Path.Combine(@"\", x.UD.Document) : string.Empty,
+                         Document = System.IO.File.Exists(Path.Combine(_commonHelper.GetPhysicalRootPath(false), x.UD.Document)) ? Path.Combine(@"\", x.UD.Document) : null,
 
                      }).ToList();
 
@@ -262,7 +262,7 @@ namespace ArcheOne.Controllers
                     string ReportURL = docsList.Document;
 
                     string filePath = Path.Combine(_commonHelper.GetPhysicalRootPath(false), ReportURL);
-                    if (!System.IO.File.Exists(filePath))
+                    if (System.IO.File.Exists(filePath))
                     {
                         FileBytes = System.IO.File.ReadAllBytes(filePath);
                         FileInfo fileInfo = new FileInfo(filePath);
