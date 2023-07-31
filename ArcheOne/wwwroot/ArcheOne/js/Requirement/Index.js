@@ -29,7 +29,7 @@ function GetFilteredRequirementList() {
     }
     ajaxCall("Get", false, '/Requirement/RequirementList', reqData, function (result) {
         $("#divRequirementList").html(result.responseText);
-        ApplyDatatableResponsive('tblRequirement');
+        ApplyDatatable('tblRequirement');
         //$(".ddl-status").each(function (index) {
         //    $(this).select2();
         //});
@@ -55,7 +55,6 @@ function GetFilteredRequirementList() {
                     $.blockUI();
                     var requirementId = parseInt($(this).attr('RequirementId'));
                     ajaxCall("Post", false, '/Requirement/DeleteRequirement?RequirementId=' + requirementId, null, function (result) {
-                        console.log(result)
                         if (result.status == true) {
                             Toast.fire({ icon: 'success', title: result.message });
                             RedirectToPage("/Requirement/Index");
@@ -87,7 +86,6 @@ function GetFilteredRequirementList() {
                     var requirementId = parseInt($(this).attr('requirementId'));
                     var requirementStatusId = parseInt($(this).val());
                     ajaxCall("Post", false, '/Requirement/ChangeStatus?RequirementId=' + requirementId + "&RequirementStatusId=" + requirementStatusId, null, function (result) {
-                        console.log(result)
                         if (result.status == true) {
                             Toast.fire({ icon: 'success', title: result.message });
                             RedirectToPage("/Requirement/Index");

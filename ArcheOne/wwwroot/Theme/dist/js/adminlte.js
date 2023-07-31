@@ -1462,7 +1462,7 @@
       if (usingDefTab) {
         var $el = $__default["default"]("" + SELECTOR_TAB_PANE).first(); // eslint-disable-next-line no-console
 
-        console.log($el);
+       console.log($el);
         var uniqueName = $el.attr('id').replace('panel-', '');
         var navId = "#tab-" + uniqueName;
         this.switchTab(navId, true);

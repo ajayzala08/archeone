@@ -39,8 +39,6 @@ function SaveUpdateLeave() {
 
 
     }
-
-    console.log(saveLeavesData);
     if (validateRequiredFields()) {
         ajaxCall("Post", false, '/Leaves/SaveUpdateLeave', JSON.stringify(saveLeavesData), function (result) {
 
@@ -58,7 +56,6 @@ function SaveUpdateLeave() {
 }
 function LoadEndTime(EndDateData) {
     $("#ddlEndTime").empty();
-    console.log(txtSelectedEndTime)
     if (txtSelectedEndTime != "0") {
         if (!isNaN(txtSelectedEndTime)) {
             var ddlEndTime = $('#ddlEndTime');
@@ -70,7 +67,6 @@ function LoadEndTime(EndDateData) {
                 $("#ddlEndTime").html('');
                 $("#ddlEndTime").append('<option value="0">--- Select EndTime ---</option>');
                 $.each(response.data, function (i, states) {
-                    console.log(response.data);
                     $("#ddlEndTime").append('<option  value="' + states.id + '">' +
                         states.name + '</option>');
                 });

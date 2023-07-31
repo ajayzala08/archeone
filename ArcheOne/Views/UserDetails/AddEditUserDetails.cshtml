@@ -51,7 +51,7 @@
                             <input id="txtUserId" type="hidden" name="txtUserId" value="@userid">
                             <div class="col-sm-4" id="dtxtEmployeeCode">
                                 <div class="form-group">
-                                    <label for="form_name">Employee Code *</label>
+                                   <label><span class="has-error required">* </span>Employee Code </label>
                                     @if (Id > 0)
                                     {
                                         <input id="txtEmployeeCode" type="text" name="txtEmployeeCode" class="form-control onlynumeric text-length" disabled placeholder="Please enter employeecode" value="@Model.UserDetail.EmployeeCode" isrequired="1" divcontainer="dtxtEmployeeCode" errorspan="stxtEmployeeCode" defaultvalue="" autocomplete="off" minlength="1" maxlength="10">
@@ -64,7 +64,7 @@
                             </div>
                             <div class="col-sm-4" id="dddlGender">
                                 <div class="form-group">
-                                    <label><span class="has-error required"></span>Gender</label>
+                                    <label><span class="has-error required">*</span>Gender</label>
                                     <select id="ddlGender" name="ddlGender" class="form-control" isrequired="1" divcontainer="dddlGender" errorspan="sddlGender" defaultvalue="0" style="width: 100%;" value="@Model.UserDetail.Gender">
                                         @if (Gender == "male")
                                         {
@@ -97,14 +97,14 @@
                             </div>
                             <div class="col-sm-4" id="dtxtEmergencyContact">
                                 <div class="form-group">
-                                    <label for="form_name">Emergency Contact *</label>
+                                   <label><span class="has-error required">* </span>Emergency Contact </label>
                                     <input id="txtEmergencyContact" type="tel" name="txtEmergencyContact" class="form-control onlyNumeric text-length" placeholder="Please enter your Emergency Contact" autocomplete="off" value="@Model.UserDetail.EmergencyContact" isrequired="1" divcontainer="dtxtEmergencyContact" errorspan="stxtEmergencyContact" defaultvalue="" minlength="10" maxlength="10">
                                     <span class="help-block d-none has-error" id="stxtEmergencyContact">Please Enter Valid Emergency Contact</span>
                                 </div>
                             </div>
                             <div class="col-sm-4" id="dtxtDob">
                                 <div class="form-group">
-                                    <label for="form_name">Date Of Birth *</label>
+                                   <label><span class="has-error required">* </span>Date Of Birth </label>
                                     <input id="txtDob" type="date" name="txtDob" class="form-control text-length" placeholder="Please enter your Dob" autocomplete="off" value="@Model.UserDetail.Dob.ToString("yyyy-MM-dd")" isrequired="1" divcontainer="dtxtDob" errorspan="stxtDob" defaultvalue="" onkeypress="keyPress(event)">
                                     <span class="help-block d-none has-error" id="stxtDob">Please Enter Valid Dob</span>
                                 </div>
@@ -130,84 +130,84 @@
                             </div>
                             <div class="col-sm-4" id="dtxtLocation">
                                 <div class="form-group">
-                                    <label for="form_name">Location *</label>
+                                   <label><span class="has-error required">* </span>Location </label>
                                     <input id="txtLocation" type="text" name="txtLocation" class="form-control text-length" placeholder="Please enter your Location" autocomplete="off" value="@Model.UserDetail.Location" isrequired="1" divcontainer="dtxtLocation" errorspan="stxtLocation" defaultvalue="" minlength="2">
                                     <span class="help-block d-none has-error" id="stxtLocation">Please Enter Valid Location</span>
                                 </div>
                             </div>
                             <div class="col-sm-4" id="dtxtBloodGroup">
                                 <div class="form-group">
-                                    <label for="form_name">BloodGroup *</label>
+                                   <label><span class="has-error required">* </span>BloodGroup </label>
                                     <input id="txtBloodGroup" type="text" name="txtBloodGroup" class="form-control text-length" placeholder="Please enter your BloodGroup" autocomplete="off" value="@Model.UserDetail.BloodGroup" isrequired="1" divcontainer="dtxtBloodGroup" errorspan="stxtBloodGroup" defaultvalue="" minlength="2" maxlength="3">
                                     <span class="help-block d-none has-error" id="stxtBloodGroup">Please Enter Valid BloodGroup</span>
                                 </div>
                             </div>
                             <div class="col-sm-4" id="dtxtOfferDate">
                                 <div class="form-group">
-                                    <label for="form_name">Offer Date *</label>
+                                   <label><span class="has-error required">* </span>Offer Date </label>
                                     <input id="txtOfferDate" type="date" name="txtOfferDate" class="form-control text-length" placeholder="Please enter your Offer Date" autocomplete="off" value="@Model.UserDetail.OfferDate.ToString("yyyy-MM-dd")" isrequired="1" divcontainer="dtxtOfferDate" errorspan="stxtOfferDate" defaultvalue="" onkeypress="keyPress(event)">
                                     <span class="help-block d-none has-error" id="stxtOfferDate">Please Enter Valid Offer Date</span>
                                 </div>
                             </div>
                             <div class="col-sm-4" id="dtxtJoinDate">
                                 <div class="form-group">
-                                    <label for="form_name">Join Date *</label>
+                                   <label><span class="has-error required">* </span>Join Date </label>
                                     <input id="txtJoinDate" type="date" name="txtJoinDate" class="form-control text-length" placeholder="Please enter your Join Date" autocomplete="off" value="@Model.UserDetail.JoinDate.ToString("yyyy-MM-dd")" isrequired="1" divcontainer="dtxtJoinDate" errorspan="stxtJoinDate" defaultvalue="" onkeypress="keyPress(event)">
                                     <span class="help-block d-none has-error" id="stxtJoinDate">Please Enter Valid Join Date</span>
                                 </div>
                             </div>
                             <div class="col-sm-4" id="dtxtBankName">
                                 <div class="form-group">
-                                    <label for="form_name">Bank Name *</label>
+                                   <label><span class="has-error required">* </span>Bank Name </label>
                                     <input id="txtBankName" type="text" name="txtBankName" class="form-control text-length" placeholder="Please enter your BankName" autocomplete="off" value="@Model.UserDetail.BankName" isrequired="1" divcontainer="dtxtBankName" errorspan="stxtBankName" defaultvalue="" minlength="2">
                                     <span class="help-block d-none has-error" id="stxtBankName">Please Enter Valid BankName</span>
                                 </div>
                             </div>
                             <div class="col-sm-4" id="dtxtAccountNumber">
                                 <div class="form-group">
-                                    <label for="form_name">Account Number *</label>
+                                   <label><span class="has-error required">* </span>Account Number </label>
                                     <input id="txtAccountNumber" type="tel" name="txtAccountNumber" class="form-control onlyNumeric text-length" placeholder="Please enter your Account Number" autocomplete="off" value="@Model.UserDetail.AccountNumber" isrequired="1" divcontainer="dtxtAccountNumber" errorspan="stxtAccountNumber" defaultvalue="" minlength="11" maxlength="15">
                                     <span class="help-block d-none has-error" id="stxtAccountNumber">Please Enter Valid Account Number</span>
                                 </div>
                             </div>
                             <div class="col-sm-4" id="dtxtBranch">
                                 <div class="form-group">
-                                    <label for="form_name">Branch *</label>
+                                   <label><span class="has-error required">* </span>Branch </label>
                                     <input id="txtBranch" type="text" name="txtBranch" class="form-control text-length" placeholder="Please enter your Branch" autocomplete="off" value="@Model.UserDetail.Branch" isrequired="1" divcontainer="dtxtBranch" errorspan="stxtBranch" defaultvalue="" minlength="2">
                                     <span class="help-block d-none has-error" id="stxtBranch">Please Enter Valid Branch</span>
                                 </div>
                             </div>
                             <div class="col-sm-4" id="dtxtIfscCode">
                                 <div class="form-group">
-                                    <label for="form_name">IFSC Code *</label>
+                                   <label><span class="has-error required">* </span>IFSC Code </label>
                                     <input id="txtIfscCode" type="text" name="txtIfscCode" class="form-control text-length" placeholder="Please enter your IFSC Code" autocomplete="off" value="@Model.UserDetail.IfscCode" isrequired="1" divcontainer="dtxtIfscCode" errorspan="stxtIfscCode" defaultvalue="" minlength="11" maxlength="15">
                                     <span class="help-block d-none has-error" id="stxtIfscCode">Please Enter Valid IFSC Code</span>
                                 </div>
                             </div>
                             <div class="col-sm-4" id="dtxtPfaccountNumber">
                                 <div class="form-group">
-                                    <label for="form_name">PF Account Number</label>
+                                   <label>PF Account Number</label>
                                     <input id="txtPfaccountNumber" type="tel" name="txtPfaccountNumber" class="form-control text-length" placeholder="Please enter your Pf Account Number" autocomplete="off" value="@Model.UserDetail.PfaccountNumber" isrequired="0" divcontainer="dtxtPfaccountNumber" errorspan="stxtPfaccountNumber" defaultvalue="">
                                     <span class="help-block d-none has-error" id="stxtPfaccountNumber">Please Enter Valid Pf Account Number</span>
                                 </div>
                             </div>
                             <div class="col-sm-4" id="dtxtPancardNumber">
                                 <div class="form-group">
-                                    <label for="form_name">PAN Number *</label>
+                                   <label><span class="has-error required">* </span>PAN Number </label>
                                     <input id="txtPancardNumber" type="tel" name="txtPancardNumber" class="form-control text-length" placeholder="Please enter your Pan Number" autocomplete="off" value="@Model.UserDetail.PancardNumber" isrequired="1" divcontainer="dtxtPancardNumber" errorspan="stxtPancardNumber" defaultvalue="" minlength="10" maxlength="10">
                                     <span class="help-block d-none has-error" id="stxtPancardNumber">Please Enter Valid Pan Number</span>
                                 </div>
                             </div>
                             <div class="col-sm-4" id="dtxtAdharCardNumber">
                                 <div class="form-group">
-                                    <label for="form_name">Aadhar Number *</label>
+                                   <label><span class="has-error required">* </span>Aadhar Number </label>
                                     <input id="txtAdharCardNumber" type="tel" name="txtAdharCardNumber" class="form-control onlyNumeric text-length" placeholder="Please enter your Adhar Number" autocomplete="off" value="@Model.UserDetail.AdharCardNumber" isrequired="1" divcontainer="dtxtAdharCardNumber" errorspan="stxtAdharCardNumber" defaultvalue="" minlength="12" maxlength="12">
                                     <span class="help-block d-none has-error" id="stxtAdharCardNumber">Please Enter Valid Aadhar Number</span>
                                 </div>
                             </div>
                             <div class="col-sm-4" id="dtxtSalary">
                                 <div class="form-group">
-                                    <label for="form_name">Salary[Annual] *</label>
+                                   <label><span class="has-error required">* </span>Salary[Annual] </label>
                                     <input id="txtSalary" type="tel" name="txtSalary" class="form-control onlyNumeric text-length" placeholder="Please enter your Salary" autocomplete="off" value="@Model.UserDetail.Salary" isrequired="1" divcontainer="dtxtSalary" errorspan="stxtSalary" defaultvalue="" minlength="3">
                                     <span class="help-block d-none has-error" id="stxtSalary">Please Enter Valid Salary</span>
                                 </div>
@@ -236,14 +236,14 @@
                             }
                             <div class="col-sm-4" id="dtxtEmployeePersonalEmailId">
                                 <div class="form-group">
-                                    <label for="form_name">Employee Personal EmailId *</label>
+                                   <label><span class="has-error required">* </span>Employee Personal EmailId </label>
                                     <input id="txtEmployeePersonalEmailId" type="email" name="txtEmployeePersonalEmailId" class="form-control text-length" placeholder="Please enter your Employee Personal EmailId" autocomplete="off" value="@Model.UserDetail.EmployeePersonalEmailId" isrequired="1" divcontainer="dtxtEmployeePersonalEmailId" errorspan="stxtEmployeePersonalEmailId" defaultvalue="" minlength="3">
                                     <span class="help-block d-none has-error" id="stxtEmployeePersonalEmailId">Please Enter Valid Employee Personal EmailId</span>
                                 </div>
                             </div>
                             <div class="col-sm-4" id="dtxtProbationPeriod">
                                 <div class="form-group">
-                                    <label for="form_name">Probation Period[In-Days] *</label>
+                                   <label><span class="has-error required">* </span>Probation Period[In-Days] </label>
                                     <input id="txtProbationPeriod" type="tel" name="txtProbationPeriod" class="form-control onlyNumeric text-length" placeholder="Please enter your Probation Period" autocomplete="off" value="@Model.UserDetail.ProbationPeriod" isrequired="1" divcontainer="dtxtProbationPeriod" errorspan="stxtProbationPeriod" defaultvalue="" minlength="1" maxlength="2">
                                     <span class="help-block d-none has-error" id="stxtProbationPeriod">Please Enter Valid Probation Period</span>
                                 </div>

@@ -18,14 +18,14 @@ $("#sendButton").click(function () {
 });
 
 connection.start().then(function () {
-    console.log("Connected!");
+    /*console.log("Connected!");*/
 }).catch(function (err) {
-    console.error(err.toString());
+    //console.error(err.toString());
 });
 
 function GetUserList() {
     ajaxCall("Get", false, '/Chat/GetUserList', null, function (result) {
-        console.log(result);
+      
         if (result.status == true) {
             $("#ddlUsers").html('');
             //$("#ddlUsers").append('<option value="0">--- Select ---</option>');

@@ -8,7 +8,6 @@ $(document).ready(function () {
     $("#btnShowLeave").click(function () {
         $('#modalShowLeave').modal('show');
         ajaxCall("GET", false, '/Leaves/ShowLeavesDetails/', null, function (result) {
-            console.log(result);
             if (result.status == true) {
 
                 $("#lblOpeningLeaveBalance").text(result.data.openingLeaveBalance);
@@ -44,7 +43,7 @@ function GetFilteredLeaveList() {
     ajaxCall("Get", false, '/Leaves/LeavesList', null, function (result) {
 
         $("#divLeaveList").html(result.responseText);
-        ApplyDatatableResponsive('tblLeave');
+        ApplyDatatable('tblLeave');
 
         $(".btn-edit").click(function () {
 
@@ -64,13 +63,13 @@ function GetFilteredLeaveList() {
     });
 }
 function UpdateCancelLeave(value) {
-    console.log(value);
+   
     var data = {
         "Id": parseInt($("#txtCancelLeaveId").val()),
         "Reason" : $("#txtReason").val()
     }
     if (validateRequiredFields()) {
-       // console.log(Reason);
+     
         ajaxCall("Post", false, '/Leaves/UpdateCancelLeave/', JSON.stringify(data) ,function (result) {
 
             if (result.status == true) {

@@ -4,7 +4,7 @@ $.ajax({
     url: '/Event/EventData',
     cache: false,
     success: function (response) {
-        console.log(response);
+        
         if (response.status == true) {
             showCalender(response.data);
         }
@@ -53,7 +53,6 @@ $("#addNewEvent").click(function () {
                 if (response.status == true) {
                 
                     Toast.fire({ icon: 'success', title: response.message });
-                    console.log(response);
                     location.reload();
                     showCalender(response.Data);
 
@@ -139,7 +138,7 @@ $(document).ready(function () {
 function GetEventList() {
     ajaxCall("Get", false, '/Event/Event', null, function (result) {
         $("#divEventList").html(result.responseText);
-        ApplyDatatableResponsive('tblEvent');
+        ApplyDatatable('tblEvent');
 
         $(".btn-edit").click(function () {
             var Id = $(this).attr('Id');

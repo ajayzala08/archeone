@@ -197,7 +197,7 @@ function ShowDeleteProjectAlert(projectId) {
         cancelButtonText: 'Cancel',
     })
         .then((result) => {
-            console.log(result)
+           
             if (result.isDismissed === false) {
                 if (result.isConfirmed) {
                     DeleteProject(projectId);

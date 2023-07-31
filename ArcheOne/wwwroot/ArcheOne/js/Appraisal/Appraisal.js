@@ -17,7 +17,7 @@ function GetAppraisalList() {
 
     ajaxCall("Get", false, '/Appraisal/AppraisalList', reqData, function (result) {
         $("#divAppraisalList").html(result.responseText);
-        ApplyDatatableResponsive('tblAppraisal');
+        ApplyDatatable('tblAppraisal'); 
 
 
         $(".btn-edit").click(function () {

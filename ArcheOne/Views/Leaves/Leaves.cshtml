@@ -2,6 +2,7 @@
 @model UserAddEditReqViewModel;
 @{
     int id = 1;
+    Layout = "_MasterLayout";
     ViewBag.datatable = "true";
 }
 @if (id > 0)
@@ -152,4 +153,5 @@ else
 
 @section Scripts{
     <script src="~/archeone/js/leave/leave.js?_@DateTime.Now.Ticks"></script>
+    
 }

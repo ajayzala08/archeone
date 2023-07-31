@@ -9,7 +9,7 @@
 function GetFilteredHolidayList() {
     ajaxCall("Get", false, '/Holiday/HolidayList', null, function (result) {
         $("#divHolidayList").html(result.responseText);
-        ApplyDatatableResponsive('tblHoliday');
+        ApplyDatatable('tblHoliday');
         $('#tblHoliday').on('click', '.btn-edit', function () {
             Id = $(this).attr('Id');
             AddEditHoliday(Id);

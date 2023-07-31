@@ -106,101 +106,108 @@ namespace ArcheOne.Controllers
             UserDetailsMst userDetailsMst = new UserDetailsMst();
             try
             {
-                var isUserExist = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == addEditUserDetailsReqModel.UserId);
-                if (isUserExist != null)
+                if (addEditUserDetailsReqModel.JoinDate.Date >= addEditUserDetailsReqModel.OfferDate.Date)
                 {
-                    // Edit Mode
-                    //var editUserDetails = _dbRepo.UserDetailList().FirstOrDefault(x => x.Id == addEditUserDetailsReqModel.Id && x.EmployeeCode != addEditUserDetailsReqModel.EmployeeCode && x.EmployeePersonalEmailId != addEditUserDetailsReqModel.EmployeePersonalEmailId);
-
-                    if (isUserExist.EmployeeCode == addEditUserDetailsReqModel.EmployeeCode)
+                    var isUserExist = await _dbRepo.UserDetailList().FirstOrDefaultAsync(x => x.UserId == addEditUserDetailsReqModel.UserId);
+                    if (isUserExist != null)
                     {
-                        isUserExist.EmployeeCode = addEditUserDetailsReqModel.EmployeeCode;
-                        isUserExist.Gender = addEditUserDetailsReqModel.Gender;
-                        isUserExist.EmergencyContact = addEditUserDetailsReqModel.EmergencyContact;
-                        isUserExist.Dob = addEditUserDetailsReqModel.Dob;
-                        isUserExist.PostCode = addEditUserDetailsReqModel.PostCode;
-                        isUserExist.EmploymentType = addEditUserDetailsReqModel.EmploymentType;
-                        isUserExist.Location = addEditUserDetailsReqModel.Location;
-                        isUserExist.BloodGroup = addEditUserDetailsReqModel.BloodGroup;
-                        isUserExist.OfferDate = addEditUserDetailsReqModel.OfferDate;
-                        isUserExist.JoinDate = addEditUserDetailsReqModel.JoinDate;
-                        isUserExist.BankName = addEditUserDetailsReqModel.BankName;
-                        isUserExist.AccountNumber = addEditUserDetailsReqModel.AccountNumber;
-                        isUserExist.Branch = addEditUserDetailsReqModel.Branch;
-                        isUserExist.IfscCode = addEditUserDetailsReqModel.IfscCode;
-                        isUserExist.PfaccountNumber = addEditUserDetailsReqModel.PfaccountNumber != null ? addEditUserDetailsReqModel.PfaccountNumber : "NA";
-                        isUserExist.PanCardNumber = addEditUserDetailsReqModel.PancardNumber;
-                        isUserExist.AadharCardNumber = addEditUserDetailsReqModel.AdharCardNumber;
-                        isUserExist.Salary = addEditUserDetailsReqModel.Salary;
-                        isUserExist.ReportingManager = addEditUserDetailsReqModel.ReportingManager;
-                        isUserExist.Reason = addEditUserDetailsReqModel.Reason != null ? addEditUserDetailsReqModel.Reason : "NA";
-                        isUserExist.EmployeePersonalEmailId = addEditUserDetailsReqModel.EmployeePersonalEmailId;
-                        isUserExist.ProbationPeriod = addEditUserDetailsReqModel.ProbationPeriod;
-                        isUserExist.UpdatedBy = _commonHelper.GetLoggedInUserId();
-                        isUserExist.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                        // Edit Mode
+                        //var editUserDetails = _dbRepo.UserDetailList().FirstOrDefault(x => x.Id == addEditUserDetailsReqModel.Id && x.EmployeeCode != addEditUserDetailsReqModel.EmployeeCode && x.EmployeePersonalEmailId != addEditUserDetailsReqModel.EmployeePersonalEmailId);
 
-                        _dbContext.Entry(isUserExist).State = EntityState.Modified;
-                        _dbContext.SaveChanges();
+                        if (isUserExist.EmployeeCode == addEditUserDetailsReqModel.EmployeeCode)
+                        {
+                            isUserExist.EmployeeCode = addEditUserDetailsReqModel.EmployeeCode;
+                            isUserExist.Gender = addEditUserDetailsReqModel.Gender;
+                            isUserExist.EmergencyContact = addEditUserDetailsReqModel.EmergencyContact;
+                            isUserExist.Dob = addEditUserDetailsReqModel.Dob;
+                            isUserExist.PostCode = addEditUserDetailsReqModel.PostCode;
+                            isUserExist.EmploymentType = addEditUserDetailsReqModel.EmploymentType;
+                            isUserExist.Location = addEditUserDetailsReqModel.Location;
+                            isUserExist.BloodGroup = addEditUserDetailsReqModel.BloodGroup;
+                            isUserExist.OfferDate = addEditUserDetailsReqModel.OfferDate;
+                            isUserExist.JoinDate = addEditUserDetailsReqModel.JoinDate;
+                            isUserExist.BankName = addEditUserDetailsReqModel.BankName;
+                            isUserExist.AccountNumber = addEditUserDetailsReqModel.AccountNumber;
+                            isUserExist.Branch = addEditUserDetailsReqModel.Branch;
+                            isUserExist.IfscCode = addEditUserDetailsReqModel.IfscCode;
+                            isUserExist.PfaccountNumber = addEditUserDetailsReqModel.PfaccountNumber != null ? addEditUserDetailsReqModel.PfaccountNumber : "NA";
+                            isUserExist.PanCardNumber = addEditUserDetailsReqModel.PancardNumber;
+                            isUserExist.AadharCardNumber = addEditUserDetailsReqModel.AdharCardNumber;
+                            isUserExist.Salary = addEditUserDetailsReqModel.Salary;
+                            isUserExist.ReportingManager = addEditUserDetailsReqModel.ReportingManager;
+                            isUserExist.Reason = addEditUserDetailsReqModel.Reason != null ? addEditUserDetailsReqModel.Reason : "NA";
+                            isUserExist.EmployeePersonalEmailId = addEditUserDetailsReqModel.EmployeePersonalEmailId;
+                            isUserExist.ProbationPeriod = addEditUserDetailsReqModel.ProbationPeriod;
+                            isUserExist.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                            isUserExist.UpdatedDate = _commonHelper.GetCurrentDateTime();
 
-                        commonResponse.Message = "UserDetails updated successfully!";
-                        commonResponse.Status = true;
-                        commonResponse.StatusCode = HttpStatusCode.OK;
+                            _dbContext.Entry(isUserExist).State = EntityState.Modified;
+                            _dbContext.SaveChanges();
+
+                            commonResponse.Message = "UserDetails updated successfully!";
+                            commonResponse.Status = true;
+                            commonResponse.StatusCode = HttpStatusCode.OK;
+                        }
+                        else
+                        {
+                            commonResponse.Message = "EmployeeCode already exist!";
+                        }
                     }
                     else
                     {
-                        commonResponse.Message = "EmployeeCode already exist!";
+                        //Add Mode
+                        var userDetails = await _dbRepo.UserDetailList().Where(x => x.EmployeeCode == addEditUserDetailsReqModel.EmployeeCode || x.EmployeePersonalEmailId.ToLower() == addEditUserDetailsReqModel.EmployeePersonalEmailId.ToLower()).ToListAsync();
+                        if (userDetails.Count == 0)
+                        {
+                            userDetailsMst.UserId = addEditUserDetailsReqModel.UserId;
+                            userDetailsMst.EmployeeCode = addEditUserDetailsReqModel.EmployeeCode;
+                            userDetailsMst.Gender = addEditUserDetailsReqModel.Gender;
+                            userDetailsMst.EmergencyContact = addEditUserDetailsReqModel.EmergencyContact;
+                            userDetailsMst.Dob = addEditUserDetailsReqModel.Dob;
+                            userDetailsMst.PostCode = addEditUserDetailsReqModel.PostCode;
+                            userDetailsMst.EmploymentType = addEditUserDetailsReqModel.EmploymentType;
+                            userDetailsMst.Location = addEditUserDetailsReqModel.Location;
+                            userDetailsMst.BloodGroup = addEditUserDetailsReqModel.BloodGroup;
+                            userDetailsMst.OfferDate = addEditUserDetailsReqModel.OfferDate;
+                            userDetailsMst.JoinDate = addEditUserDetailsReqModel.JoinDate;
+                            userDetailsMst.BankName = addEditUserDetailsReqModel.BankName;
+                            userDetailsMst.AccountNumber = addEditUserDetailsReqModel.AccountNumber;
+                            userDetailsMst.Branch = addEditUserDetailsReqModel.Branch;
+                            userDetailsMst.IfscCode = addEditUserDetailsReqModel.IfscCode;
+                            userDetailsMst.PfaccountNumber = addEditUserDetailsReqModel.PfaccountNumber != null ? addEditUserDetailsReqModel.PfaccountNumber : "NA";
+                            userDetailsMst.PanCardNumber = addEditUserDetailsReqModel.PancardNumber;
+                            userDetailsMst.AadharCardNumber = addEditUserDetailsReqModel.AdharCardNumber;
+                            userDetailsMst.Salary = addEditUserDetailsReqModel.Salary;
+                            userDetailsMst.ReportingManager = addEditUserDetailsReqModel.ReportingManager;
+                            userDetailsMst.Reason = addEditUserDetailsReqModel.Reason != null ? addEditUserDetailsReqModel.Reason : "NA";
+                            userDetailsMst.EmployeePersonalEmailId = addEditUserDetailsReqModel.EmployeePersonalEmailId;
+                            userDetailsMst.ProbationPeriod = addEditUserDetailsReqModel.ProbationPeriod;
+                            userDetailsMst.IsActive = true;
+                            userDetailsMst.IsDelete = false;
+                            userDetailsMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+                            userDetailsMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                            userDetailsMst.CreatedDate = _commonHelper.GetCurrentDateTime();
+                            userDetailsMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+
+                            await _dbContext.AddAsync(userDetailsMst);
+                            await _dbContext.SaveChangesAsync();
+
+                            commonResponse.Message = "UserDetails added successfully!";
+                            commonResponse.Status = true;
+                            commonResponse.StatusCode = HttpStatusCode.OK;
+                        }
+                        else
+                        {
+                            commonResponse.Message = "UserDetails already exist!";
+                            commonResponse.StatusCode = HttpStatusCode.NotFound;
+                        }
                     }
+                    commonResponse.Data = userDetailsMst;
                 }
                 else
                 {
-                    //Add Mode
-                    var userDetails = await _dbRepo.UserDetailList().Where(x => x.EmployeeCode == addEditUserDetailsReqModel.EmployeeCode || x.EmployeePersonalEmailId.ToLower() == addEditUserDetailsReqModel.EmployeePersonalEmailId.ToLower()).ToListAsync();
-                    if (userDetails.Count == 0)
-                    {
-                        userDetailsMst.UserId = addEditUserDetailsReqModel.UserId;
-                        userDetailsMst.EmployeeCode = addEditUserDetailsReqModel.EmployeeCode;
-                        userDetailsMst.Gender = addEditUserDetailsReqModel.Gender;
-                        userDetailsMst.EmergencyContact = addEditUserDetailsReqModel.EmergencyContact;
-                        userDetailsMst.Dob = addEditUserDetailsReqModel.Dob;
-                        userDetailsMst.PostCode = addEditUserDetailsReqModel.PostCode;
-                        userDetailsMst.EmploymentType = addEditUserDetailsReqModel.EmploymentType;
-                        userDetailsMst.Location = addEditUserDetailsReqModel.Location;
-                        userDetailsMst.BloodGroup = addEditUserDetailsReqModel.BloodGroup;
-                        userDetailsMst.OfferDate = addEditUserDetailsReqModel.OfferDate;
-                        userDetailsMst.JoinDate = addEditUserDetailsReqModel.JoinDate;
-                        userDetailsMst.BankName = addEditUserDetailsReqModel.BankName;
-                        userDetailsMst.AccountNumber = addEditUserDetailsReqModel.AccountNumber;
-                        userDetailsMst.Branch = addEditUserDetailsReqModel.Branch;
-                        userDetailsMst.IfscCode = addEditUserDetailsReqModel.IfscCode;
-                        userDetailsMst.PfaccountNumber = addEditUserDetailsReqModel.PfaccountNumber != null ? addEditUserDetailsReqModel.PfaccountNumber : "NA";
-                        userDetailsMst.PanCardNumber = addEditUserDetailsReqModel.PancardNumber;
-                        userDetailsMst.AadharCardNumber = addEditUserDetailsReqModel.AdharCardNumber;
-                        userDetailsMst.Salary = addEditUserDetailsReqModel.Salary;
-                        userDetailsMst.ReportingManager = addEditUserDetailsReqModel.ReportingManager;
-                        userDetailsMst.Reason = addEditUserDetailsReqModel.Reason != null ? addEditUserDetailsReqModel.Reason : "NA";
-                        userDetailsMst.EmployeePersonalEmailId = addEditUserDetailsReqModel.EmployeePersonalEmailId;
-                        userDetailsMst.ProbationPeriod = addEditUserDetailsReqModel.ProbationPeriod;
-                        userDetailsMst.IsActive = true;
-                        userDetailsMst.IsDelete = false;
-                        userDetailsMst.CreatedBy = _commonHelper.GetLoggedInUserId();
-                        userDetailsMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
-                        userDetailsMst.CreatedDate = _commonHelper.GetCurrentDateTime();
-                        userDetailsMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
-
-                        await _dbContext.AddAsync(userDetailsMst);
-                        await _dbContext.SaveChangesAsync();
-
-                        commonResponse.Message = "UserDetails added successfully!";
-                        commonResponse.Status = true;
-                        commonResponse.StatusCode = HttpStatusCode.OK;
-                    }
-                    else
-                    {
-                        commonResponse.Message = "UserDetails already exist!";
-                        commonResponse.StatusCode = HttpStatusCode.NotFound;
-                    }
+                    commonResponse.Message = "Please enter the valid joindate!";
                 }
-                commonResponse.Data = userDetailsMst;
             }
             catch (Exception ex)
             {

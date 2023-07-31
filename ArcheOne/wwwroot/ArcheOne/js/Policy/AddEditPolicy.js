@@ -18,9 +18,6 @@ function SaveUpdatePolicy() {
         savePolicyData.append("Id", parseInt($("#txtPolicyId").val()));
         savePolicyData.append("PolicyName", ($("#txtPolicyName").val()));
         savePolicyData.append("PolicyDocumentName", file);
-
-        console.log(savePolicyData);
-
         if (validateRequiredFieldsByGroup('divUploadFile')) {
             $.blockUI();
             ajaxCallWithoutDataType("Post", false, '/Policy/SaveUpdatePolicy', savePolicyData, function (result) {
