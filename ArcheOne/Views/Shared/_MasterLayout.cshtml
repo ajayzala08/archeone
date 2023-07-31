@@ -288,12 +288,16 @@
     <!--Navbar highlight menu selection-->
     <script>
         $(document).ready(function () {
-            // Get the current page URL
+            //debugger;
             var currentPageUrl = window.location.href;
 
-            // Find the menu item with the matching URL
             var $selectedMenuItem = $('ul.nav-sidebar a.nav-link').filter(function () {
-                return this.href === currentPageUrl;
+                if (this.href === currentPageUrl) {
+                    document.cookie = currentPageUrl;
+                    return true;
+                } else if (this.href == document.cookie) {
+                    return true;
+                } else { return false; }
             });
 
             // Add the active class to the selected menu item
