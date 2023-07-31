@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
     LoadBirthdayWorkAniversaryHoliday();
+    Showcharts();
 });
 
 function LoadBirthdayWorkAniversaryHoliday() {
@@ -28,4 +29,114 @@ function LoadBirthdayWorkAniversaryHoliday() {
         }
     });
 }
+
+
+$.ajax({
+    type: 'GET',
+    url: '/Event/EventData',
+    cache: false,
+    success: function (response) {
+        console.log(response);
+        if (response.status == true) {
+            showCalender(response.data);
+        }
+        else {
+            showCalender(response.data);
+        }
+
+    },
+
+});
+
+function showCalender(data) {
+
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        themeSystem: 'bootstrap',
+   
+        contentHeight: 450,
+/*        headerToolbar: {
+            left: 'prev,next,today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        footerToolbar: {
+            start: '',
+            center: '',
+            end: 'prev,next'
+        },*/
+
+        events: data,
+
+        dateClick: function (info) {
+
+        },
+        eventClick: function (info) {
+
+            // change the border color just for fun
+            info.el.style.borderColor = 'red';
+        },
+        editable: false,
+        dayMaxEvents: false,
+        navLinks: false, // can click day/week names to navigate views
+        selectable: false,
+        nowIndicator: false,
+        now: new Date(),
+        /* now: '2023-06-02T02:45:00',*/
+
+        click: function () {
+
+        },
+        eventDrop: function (info) {
+
+            if (!confirm("Are you sure about this change?")) {
+                info.revert();
+            }
+        }
+
+
+    });
+
+    calendar.render();
+};
+
+function Showcharts() {
+   
+        var chart = new CanvasJS.Chart("chartContainer", {
+            title: {
+                text: "Recruitment Chart"
+            },
+            animationEnabled: true,
+            legend: {
+                fontSize: 15,
+                fontFamily: "Helvetica"
+            },
+            theme: "light2",
+            data: [
+                {
+                    type: "doughnut",
+                    indexLabelFontFamily: "Garamond",
+                    indexLabelFontSize: 15,
+                    indexLabel: "{label} {y}%",
+                    startAngle: -20,
+                    showInLegend: true,
+                    toolTipContent: "{legendText} {y}%",
+                    dataPoints: [
+                        { y: 72.48, legendText: "Google", label: "Google" },
+                        { y: 10.39, legendText: "Bing", label: "Bing" },
+                        { y: 7.78, legendText: "Yahoo!", label: "Yahoo!" },
+                        { y: 7.14, legendText: "Baidu", label: "Baidu" },
+                        { y: 0.22, legendText: "Ask", label: "Ask" },
+                        { y: 0.15, legendText: "AOL", label: "AOL" },
+                        { y: 1.84, legendText: "Others", label: "Others" }
+                    ],
+
+                    //dataPoints: @Html.Raw(ViewBag.DataPoints),
+                }
+            ]
+        });
+        chart.render();
+    
+};
 

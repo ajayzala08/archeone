@@ -6,6 +6,7 @@ using ArcheOne.Models.Res;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using Document = iTextSharp.text.Document;
@@ -83,7 +84,7 @@ namespace ArcheOne.Controllers
                     string fileExtension = fileInfo.Extension;
                     long fileSize = file.Length;
 
-                    string[] allowedFileExtensions = { CommonConstant.pdf };
+                    string[] allowedFileExtensions = { CommonConstant.pdf, CommonConstant.jpeg, CommonConstant.jpg };
                     long allowedFileSize = 1 * 1024 * 1024 * 10; // 10MB
                     validateFileExtension = allowedFileExtensions.Contains(fileExtension) ? true : false;
                     validateFileSize = fileSize <= allowedFileSize ? true : false;
@@ -175,27 +176,28 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
             try
             {
+                List<UserDocumentResModel> userDocumentResModelList = new List<UserDocumentResModel>();
                 dynamic userDocumentList;
-                userDocumentList = (from UD in await _dbRepo.UserDocumentList().ToListAsync()
-                                    join U in _dbRepo.AllUserMstList()
-                                                       on UD.UserId equals U.Id
-                                    join D in _dbRepo.DocumentTypeList()
-                                    on UD.DocumentTypeId equals D.Id
-                                    join f in _dbRepo.UserDetailList() on U.Id equals f.UserId
-                                    select new { UD, U, D, f })
+                userDocumentResModelList = (from UD in await _dbRepo.UserDocumentList().ToListAsync()
+                                            join U in _dbRepo.AllUserMstList()
+                                                               on UD.UserId equals U.Id
+                                            join D in _dbRepo.DocumentTypeList()
+                                            on UD.DocumentTypeId equals D.Id
+                                            join f in _dbRepo.UserDetailList() on U.Id equals f.UserId
+                                            select new { UD, U, D, f })
                      .Select(x => new UserDocumentResModel
                      {
                          Id = x.UD.Id,
                          EmployeeName = x.U.FirstName + " " + x.U.LastName,
                          EmployeeCode = x.f.EmployeeCode, //!= null?"0":"1",
                          DocumentTypeId = x.D.DocumentType,
-                         Document = System.IO.File.Exists(Path.Combine(_commonHelper.GetPhysicalRootPath(false), x.UD.Document)) ? Path.Combine(@"\", x.UD.Document) :
-                         @"\Theme\Logo\default_user_profile.png"
+                         Document = System.IO.File.Exists(Path.Combine(_commonHelper.GetPhysicalRootPath(false), x.UD.Document)) ? Path.Combine(@"\", x.UD.Document) : null,
+
                      }).ToList();
 
-                if (userDocumentList != null && userDocumentList.Count > 0)
+                if (userDocumentResModelList != null && userDocumentResModelList.Count > 0)
                 {
-                    commonResponse.Data = userDocumentList;
+                    commonResponse.Data = userDocumentResModelList;
                     commonResponse.Status = true;
                     commonResponse.StatusCode = System.Net.HttpStatusCode.OK;
                     commonResponse.Message = "Data found successfully!";
@@ -250,6 +252,7 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
             string userDocument = "Files\\DefaultPolicyDocument\\HRPolicy0.pdf";
             byte[] FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), userDocument));
+            string contentType = "application/*";
             try
             {
                 if (id > 0)
@@ -257,7 +260,16 @@ namespace ArcheOne.Controllers
                     var docsList = await _dbRepo.UserDocumentList().FirstOrDefaultAsync(x => x.Id == id);
 
                     string ReportURL = docsList.Document;
-                    FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), ReportURL));
+
+                    string filePath = Path.Combine(_commonHelper.GetPhysicalRootPath(false), ReportURL);
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        FileBytes = System.IO.File.ReadAllBytes(filePath);
+                        FileInfo fileInfo = new FileInfo(filePath);
+                        string fileName = fileInfo.Name;
+                        contentType = _commonHelper.GetMimeTypeOnly(fileName);
+                    }
+
                 }
                 else
                 {
@@ -268,9 +280,10 @@ namespace ArcheOne.Controllers
             catch (Exception ex)
             {
                 commonResponse.Message = ex.Message;
-                commonResponse.Data = ex;
+                //commonResponse.Data = ex;
             }
-            return File(FileBytes, "application/pdf");
+            return File(FileBytes, contentType);
+
         }
         public async Task<CommonResponse> GetUserDocumentById(int Id)
         {

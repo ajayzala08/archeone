@@ -21,8 +21,10 @@ namespace ArcheOne.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            CommonResponse commonResponse = new CommonResponse();
             try
             {
+
                 int userId = _commonHelper.GetLoggedInUserId();
 
                 var roleDetailsResponse = await new RoleController(_dbRepo).GetRoleByUserId(userId);
@@ -54,10 +56,67 @@ namespace ArcheOne.Controllers
                     var serializedPermissionList = JsonSerializer.Serialize(permissionList);
                     _httpContextAccessor.HttpContext.Session.SetString("PermissionList", serializedPermissionList);
                 }
+
+
+                DashboardDetailsResModel dashboardDetailsResModel = new DashboardDetailsResModel();
+                dashboardDetailsResModel.InterviewRoundCount = _dbRepo.InterviewList().ToList().Count();
+                dashboardDetailsResModel.UserCount = _dbRepo.AllUserMstList().ToList().Count();
+                dashboardDetailsResModel.SalesLeadsCount = _dbRepo.SalesLeadList().ToList().Count();
+                dashboardDetailsResModel.ProjectCount = _dbRepo.ProjectList().ToList().Count();
+                dashboardDetailsResModel.ProjectCompletedCount = _dbRepo.ProjectList().Where(x => x.ProjectStatus.ToLower() == "completed").ToList().Count();
+                dashboardDetailsResModel.ProjectInProgressCount = _dbRepo.ProjectList().Where(x => x.ProjectStatus.ToLower() == "InProgress").ToList().Count();
+                dashboardDetailsResModel.ProjectToDoCount = _dbRepo.ProjectList().Where(x => x.ProjectStatus.ToLower() == "ToDo").ToList().Count();
+                dashboardDetailsResModel.SalesOpportunityCount = _dbRepo.salesLeadFollowUpMst().Where(x => x.SalesLeadStatusId == 5).ToList().Count();
+                dashboardDetailsResModel.ClosureCount = _dbRepo.ResumeFileUploadDetailList().Where(x => x.ResumeStatus == 3).ToList().Count();
+                dashboardDetailsResModel.SubmissionCount = _dbRepo.ResumeFileUploadDetailList().Where(x => x.ResumeStatus == 2).ToList().Count();
+                dashboardDetailsResModel.BDCount = _dbRepo.InterviewList().Where(x => x.HireStatusId == 4).ToList().Count();
+                dashboardDetailsResModel.TeamCount = _dbRepo.TeamList().ToList().Count();
+                dashboardDetailsResModel.PendingLeaveCount = _dbRepo.LeaveLists().Where(x => x.ApprovedByReportingStatus == null || x.ApprovedByReportingStatus == 0).ToList().Count();
+                dashboardDetailsResModel.PendingResumeApprovalCount = _dbRepo.ResumeFileUploadDetailList().Where(x => x.ResumeStatus == 1).ToList().Count();
+                dashboardDetailsResModel.InHouseRequirementCount = (from rfl in _dbRepo.RequirementForList()
+                                                                    join rl in _dbRepo.RequirementList() on rfl.Id equals rl.RequirementForId into rls
+                                                                    from rl in rls.DefaultIfEmpty()
+                                                                    where rfl.RequirementForCode.ToLower() == "in_house"
+                                                                    select rl).Count();
+
+
+
+                dashboardDetailsResModel.ClientRequirementCount = (from rfl in _dbRepo.RequirementForList()
+                                                                   join rl in _dbRepo.RequirementList() on rfl.Id equals rl.RequirementForId into rls
+                                                                   from rl in rls.DefaultIfEmpty()
+                                                                   where rfl.RequirementForCode.ToLower() == "for_client"
+                                                                   select rl).Count();
+                dashboardDetailsResModel.ActiveRequirementCount = (from rfl in _dbRepo.RequirementStatusList()
+                                                                   join rl in _dbRepo.RequirementList() on rfl.Id equals rl.RequirementStatusId into rls
+                                                                   from rl in rls.DefaultIfEmpty()
+                                                                   where rfl.RequirementStatusCode.ToLower() == "active"
+                                                                   select rl).Count();
+                dashboardDetailsResModel.InActiveRequirementCount = (from rfl in _dbRepo.RequirementStatusList()
+                                                                     join rl in _dbRepo.RequirementList() on rfl.Id equals rl.RequirementStatusId into rls
+                                                                     from rl in rls.DefaultIfEmpty()
+                                                                     where rfl.RequirementStatusCode.ToLower() == "in_active"
+                                                                     select rl).Count();
+                dashboardDetailsResModel.OnHoldRequirementCount = (from rfl in _dbRepo.RequirementStatusList()
+                                                                   join rl in _dbRepo.RequirementList() on rfl.Id equals rl.RequirementStatusId into rls
+                                                                   from rl in rls.DefaultIfEmpty()
+                                                                   where rfl.RequirementStatusCode.ToLower() == "on_hold"
+                                                                   select rl).Count();
+                dashboardDetailsResModel.CloseRequirementCount = (from rfl in _dbRepo.RequirementStatusList()
+                                                                  join rl in _dbRepo.RequirementList() on rfl.Id equals rl.RequirementStatusId into rls
+                                                                  from rl in rls.DefaultIfEmpty()
+                                                                  where rfl.RequirementStatusCode.ToLower() == "closed"
+                                                                  select rl).Count();
+                if (dashboardDetailsResModel != null)
+                {
+                    commonResponse.Status = true;
+                    commonResponse.Data = dashboardDetailsResModel;
+                }
+
+
             }
             catch (Exception) { }
 
-            return View();
+            return View(commonResponse);
         }
 
         public async Task<IActionResult> GetBirthdayWorkAniversaryHoliday()
@@ -129,5 +188,7 @@ namespace ArcheOne.Controllers
             }).ToListAsync();
             return holidays;
         }
+
+
     }
 }

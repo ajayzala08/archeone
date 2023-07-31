@@ -210,26 +210,26 @@
                                     {
                                         @if (Model.EmployeeRating.Total >= 60)
                                         {
-                                            <input id="txtTotal" type="text" name="Total" class="form-control text-length" placeholder=" " value="@Model.appraisalRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" autocomplete="off" minlength="1" readonly style="color:limegreen">
+                                            <input id="txtTotal" type="text" name="Total" class="form-control" placeholder=" " value="@Model.EmployeeRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" autocomplete="off" minlength="1" readonly style="color:limegreen">
                                         }
                                         @if (Model.EmployeeRating.Total <= 60)
                                         {
-                                            <input id="txtTotal" type="text" name="Total" class="form-control text-length" placeholder=" " value="@Model.EmployeeRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" a
+                                            <input id="txtTotal" type="text" name="Total" class="form-control" placeholder=" " value="@Model.EmployeeRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" a
                                                    utocomplete="off" minlength="1" readonly style="color:gold">
                                         }
                                         @if (Model.EmployeeRating.Total <= 40)
                                         {
-                                            <input id="txtTotal" type="text" name="Total" class="form-control text-length" placeholder=" " value="@Model.EmployeeRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" autocomplete="off" minlength="1" readonly style="color:orange">
+                                            <input id="txtTotal" type="text" name="Total" class="form-control" placeholder=" " value="@Model.EmployeeRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" autocomplete="off" minlength="1" readonly style="color:orange">
                                         }
                                         @if (Model.EmployeeRating.Total <= 30)
                                         {
-                                            <input id="txtTotal" type="text" name="Total" class="form-control text-length" placeholder=" " value="@Model.EmployeeRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" autocomplete="off" minlength="1" readonly style="color:red">
+                                            <input id="txtTotal" type="text" name="Total" class="form-control" placeholder=" " value="@Model.EmployeeRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" autocomplete="off" minlength="1" readonly style="color:red">
                                         }
 
                                     }
                                     else
                                     {
-                                        <input id="txtTotal" type="text" name="Total" class="form-control text-length" placeholder=" " value="@Model.EmployeeRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" autocomplete="off" minlength="1" readonly>
+                                        <input id="txtTotal" type="text" name="Total" class="form-control" placeholder=" " value="@Model.EmployeeRating.Total" isrequired="1" divcontainer="dtxtTotal" errorspan="stxtTotal" defaultvalue="" autocomplete="off" minlength="1" readonly>
                                         <span class="help-block d-none has-error" id="stxtTotal" readonly> </span>
                                     }
 
