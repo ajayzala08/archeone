@@ -18,7 +18,6 @@ function UserDocumentList() {
     $.blockUI({ message: "<h2>Please wait</p>" });
 
     ajaxCall("post", false, '/UserDocument/UserDocumentList', null, function (result) {
-        console.log(result);
         if (result.status == true) {
 
             if (tblUserDocument !== null) {
@@ -87,12 +86,11 @@ function AddUpdateUserDocument() {
         saveUserDocumentData.append("DocumentTypeId", parseInt($("#ddlDocumentType").val()));
         saveUserDocumentData.append("Document", file);
 
-        console.log(saveUserDocumentData);
-
+    
         if (validateRequiredFieldsByGroup('divUploadFile')) {
             $.blockUI();
             ajaxCallWithoutDataType("Post", false, '/UserDocument/SaveUpdateUserDocument', saveUserDocumentData, function (result) {
-                console.log(result);
+               
                 if (result.status == true) {
                     Toast.fire({ icon: 'success', title: result.message });
                     RedirectToPage("/UserDocument/UserDocument");

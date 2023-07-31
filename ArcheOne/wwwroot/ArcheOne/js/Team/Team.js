@@ -9,7 +9,7 @@
 function GetFilteredTeamList() {
     ajaxCall("Get", false, '/Team/TeamList', null, function (result) {
         $("#divTeamList").html(result.responseText);
-        ApplyDatatableResponsive('tblTeam');
+        ApplyDatatable('tblTeam');
 
         $(".btn-edit").click(function () {
             var TeamLeadId = $(this).attr('TeamLeadId');
@@ -50,8 +50,7 @@ function SaveUpdateTeam() {
         "TeamMemberId": parseInt($("#ddlTeamMemberId").multiselect())
 
     }
-    console.log(saveTeamData);
-
+    
     if (validateRequiredFields()) {
         ajaxCall("Post", false, '/Team/SaveUpdateTeam', JSON.stringify(saveTeamData), function (result) {
             if (result.status == true) {

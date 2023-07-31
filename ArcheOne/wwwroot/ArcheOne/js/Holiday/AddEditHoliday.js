@@ -23,8 +23,6 @@ function SaveUpdateHoliday() {
     /*    "HolidayDate": $.datepicker.formatDate("yy-mm-dd", $('#txtHolidayDate').datepicker('getDate')),*/
     }
     
-    console.log(saveHolidayData);
-    
 
     if (validateRequiredFields()) {
         ajaxCall("Post", false, '/Holiday/SaveUpdateHoliday', JSON.stringify(saveHolidayData), function (result) {

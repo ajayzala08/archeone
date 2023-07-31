@@ -34,7 +34,7 @@ namespace ArcheOne.Controllers
             try
             {
                 LeavesListResModel leavesListResModel = new LeavesListResModel();
-                var BalanceList = GetPerMonthBalanceAsync();
+                var BalanceList = await GetPerMonthBalanceAsync();
 
 
                 var userId = _commonHelper.GetLoggedInUserId();
@@ -1188,7 +1188,7 @@ namespace ArcheOne.Controllers
             }
             return response;
         }
-        public CommonResponse GetPerMonthBalanceAsync()
+        public async Task<CommonResponse> GetPerMonthBalanceAsync()
         {
             CommonResponse commonResponse = new CommonResponse();
             using (TransactionScope transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
@@ -1217,7 +1217,7 @@ namespace ArcheOne.Controllers
                                 var LeaveBalanceDetail = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == loginUserId).OrderByDescending(x => x.Id).FirstOrDefault();
                                 if (LeaveBalanceDetail != null)
                                 {
-                                    var LeaveBalance1 = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == loginUserId && x.BalanceMonth == BalanceMonth && x.BalanceYear == i.Date.Year).OrderByDescending(x => x.Id).FirstOrDefault();
+                                    var LeaveBalance1 = await _dbRepo.LeaveBalanceLists().Where(x => x.UserId == loginUserId && x.BalanceMonth == BalanceMonth && x.BalanceYear == i.Date.Year).OrderByDescending(x => x.Id).FirstOrDefaultAsync();
                                     if (LeaveBalance1 == null && BalanceMonth.ToLower() == "january")
                                     {
                                         LeaveBalanceMst tbl = new LeaveBalanceMst();
@@ -1243,12 +1243,12 @@ namespace ArcheOne.Controllers
                                         tbl.CreatedDate = dtNow;
                                         tbl.UpdatedDate = dtNow;
 
-                                        _dbContext.LeaveBalanceMsts.Add(tbl);
-                                        _dbContext.SaveChanges();
+                                        await _dbContext.LeaveBalanceMsts.AddAsync(tbl);
+                                        await _dbContext.SaveChangesAsync();
                                     }
                                     else
                                     {
-                                        var LeaveBalance4 = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == loginUserId && x.BalanceMonth == BalanceMonth && x.BalanceYear == i.Date.Year).OrderByDescending(x => x.Id).FirstOrDefault();
+                                        var LeaveBalance4 = await _dbRepo.LeaveBalanceLists().Where(x => x.UserId == loginUserId && x.BalanceMonth == BalanceMonth && x.BalanceYear == i.Date.Year).OrderByDescending(x => x.Id).FirstOrDefaultAsync();
                                         if (LeaveBalance4 == null)
                                         {
                                             LeaveBalanceMst tbl = new LeaveBalanceMst();
@@ -1275,8 +1275,8 @@ namespace ArcheOne.Controllers
                                             tbl.CreatedDate = _commonHelper.GetCurrentDateTime();
                                             tbl.UpdatedDate = _commonHelper.GetCurrentDateTime();
 
-                                            _dbContext.LeaveBalanceMsts.Add(tbl);
-                                            _dbContext.SaveChanges();
+                                            await _dbContext.LeaveBalanceMsts.AddAsync(tbl);
+                                            await _dbContext.SaveChangesAsync();
                                         }
                                     }
                                 }

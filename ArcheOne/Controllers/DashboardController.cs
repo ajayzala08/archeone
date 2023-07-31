@@ -153,11 +153,16 @@ namespace ArcheOne.Controllers
                                        select new { userDetails, userMsts }
                                      ).Select(x => new WorkAnniversary
                                      {
-                                         EmployeeImagePath = x.userMsts.PhotoUrl != "" ? Path.Combine(@"\", x.userMsts.PhotoUrl) :
-                          @"\Theme\Logo\default_user_profile.png",
+
                                          EmployeeName = $"{x.userMsts.FirstName} {x.userMsts.LastName}",
-                                         JoinDate = x.userDetails.JoinDate.ToString("M")
+                                         JoinDate = x.userDetails.JoinDate.ToString("M"),
+                                         EmployeeImagePath = System.IO.File.Exists(Path.Combine(_commonHelper.GetPhysicalRootPath(false), x.userMsts.PhotoUrl)) ? Path.Combine(@"\", x.userMsts.PhotoUrl) : Path.Combine(_commonHelper.GetPhysicalRootPath(false), @"\Theme\Logo\UserDefault.jpg"),
                                      }).ToListAsync();
+
+
+            //EmployeeImagePath = x.userMsts.PhotoUrl != "" ? Path.Combine(@"\", x.userMsts.PhotoUrl) :
+            //@"\Theme\Logo\default_user_profile.png",
+
             return workAnniversaries;
         }
 
@@ -170,8 +175,7 @@ namespace ArcheOne.Controllers
                                select new { userDetails, userMsts }
                                      ).Select(x => new Birthday
                                      {
-                                         EmployeeImagePath = x.userMsts.PhotoUrl != "" ? Path.Combine(@"\", x.userMsts.PhotoUrl) :
-                          @"\Theme\Logo\default_user_profile.png",
+                                         EmployeeImagePath = System.IO.File.Exists(Path.Combine(_commonHelper.GetPhysicalRootPath(false), x.userMsts.PhotoUrl)) ? Path.Combine(@"\", x.userMsts.PhotoUrl) : Path.Combine(_commonHelper.GetPhysicalRootPath(false), @"\Theme\Logo\UserDefault.jpg"),
                                          EmployeeName = $"{x.userMsts.FirstName} {x.userMsts.LastName}",
                                          Birthdate = x.userDetails.Dob.ToString("M")
                                      }).ToListAsync();

@@ -77,7 +77,7 @@ function DeleteUser(Id) {
 function GetFilteredUserList() {
     ajaxCall("Get", false, '/User/UserList', null, function (result) {
         $("#divUserList").html(result.responseText);
-        ApplyDatatableResponsive('tblUser');
+        ApplyDatatable('tblUser');
         $(".btn-edit").click(function () {
             EditMode = 1;
             Id = $(this).attr('Id');

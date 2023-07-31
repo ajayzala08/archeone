@@ -12,11 +12,11 @@ $(document).ready(function () {
     ClassicEditor
         .create(document.querySelector('#txtJobDescription'))
         .then(editor => {
-            //console.log('Editor was initialized', editor);
+           
             myEditor = editor;
         })
         .catch(err => {
-            //console.error(err.stack);
+          
         });
 
     applyRequiredValidation();
@@ -52,7 +52,7 @@ $(document).ready(function () {
                     "IsActive": $("#chkIsActive").is(':checked'),
                 }
                 ajaxCall("Post", false, '/Requirement/SaveUpdateRequirement', JSON.stringify(reqData), function (result) {
-                    console.log(result)
+                    
                     if (result.status == true) {
                         Toast.fire({ icon: 'success', title: result.message });
                         RedirectToPage("/Requirement/Index");

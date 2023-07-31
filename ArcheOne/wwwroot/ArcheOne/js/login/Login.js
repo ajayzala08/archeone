@@ -28,11 +28,11 @@ $(document).ready(function () {
         var dataModel = {
             "Email": $('#txtEmail').val()
         }
-        console.log(dataModel);
+        
         if (validateRequiredFields()) {
             ajaxCall("Post", false, '/LogIn/ForgotPassword', JSON.stringify(dataModel), function (result) {
                 if (result.status == true) {
-                    console.log(result);
+                  
                     Toast.fire({ icon: 'success', title: result.message });
                     RedirectToPage("/LogIn/LogIn");
                 }
@@ -57,7 +57,7 @@ $(document).ready(function () {
         if (validateRequiredFields()) {
             ajaxCall("Post", false, '/LogIn/ResetPassword', JSON.stringify(dataModel), function (result) {
                 if (result.status == true) {
-                    console.log(result);
+                    
                     Toast.fire({ icon: 'success', title: result.message });
                     RedirectToPage("/LogIn/LogIn");
                 }
@@ -82,7 +82,7 @@ $(document).ready(function () {
         if (validateRequiredFields()) {
             ajaxCall("Post", false, '/LogIn/ChangePassword', JSON.stringify(dataModel), function (result) {
                 if (result.status == true) {
-                    console.log(result);
+                    
                     Toast.fire({ icon: 'success', title: result.message });
                     RedirectToPage("/LogIn/LogIn");
                 }

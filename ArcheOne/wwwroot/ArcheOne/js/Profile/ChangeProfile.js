@@ -19,10 +19,10 @@ function ChangeProfileImage() {
         var saveData = new FormData();
         var file = $("#fileProfileImage").get(0).files[0];
         saveData.append("UserImage", file);
-        console.log(saveData);
+     
         if (validateRequiredFields()) {
             ajaxCallWithoutDataType("Post", false, '/Profile/ChangeProfileImage', saveData, function (result) {
-                console.log(result);
+               
                 if (result.status == true) {
                     Toast.fire({ icon: 'success', title: result.message });
                     $("#modalProfileImageUpload").hide();

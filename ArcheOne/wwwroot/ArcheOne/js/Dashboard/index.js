@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
     LoadBirthdayWorkAniversaryHoliday();
     Showcharts();
+    showCalenderData();
 });
 
 function LoadBirthdayWorkAniversaryHoliday() {
@@ -30,24 +31,24 @@ function LoadBirthdayWorkAniversaryHoliday() {
     });
 }
 
+function showCalenderData() {
+    $.ajax({
+        type: 'GET',
+        url: '/Event/EventData',
+        cache: false,
+        success: function (response) {
+            //console.log(response);
+            if (response.status == true) {
+                showCalender(response.data);
+            }
+            else {
+                showCalender(response.data);
+            }
 
-$.ajax({
-    type: 'GET',
-    url: '/Event/EventData',
-    cache: false,
-    success: function (response) {
-        console.log(response);
-        if (response.status == true) {
-            showCalender(response.data);
-        }
-        else {
-            showCalender(response.data);
-        }
+        },
 
-    },
-
-});
-
+    });
+}
 function showCalender(data) {
 
     var calendarEl = document.getElementById('calendar');

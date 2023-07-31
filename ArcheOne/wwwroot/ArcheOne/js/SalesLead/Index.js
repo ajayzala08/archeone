@@ -31,7 +31,6 @@ function SaveSalesLead() {
         "Email2": $("#txtEmail2").val(),
         "WebsiteUrl": $("#txtWebsite").val()
     }
-    console.log(saveData);
     if (validateRequiredFields()) {
         ajaxCall("Post", false, '/SalesLead/SaveUpdateSalesLead', JSON.stringify(saveData), function (result) {
 
@@ -195,9 +194,8 @@ function DeleteSalesLead(Id) {
 function GetFilteredSalesConatactPersonList() {
 
     ajaxCall("Get", false, '/SalesLead/SalesConatactPersonList', null, function (result) {
-        console.log(result.responseText);
         $("#divSalesConatactPersondata").html(result.responseText);
-        ApplyDatatableResponsive('tblSalesConatactLead');
+        ApplyDatatable('tblSalesConatactLead');
 
         //$(".btn-edit").click(function () {
 

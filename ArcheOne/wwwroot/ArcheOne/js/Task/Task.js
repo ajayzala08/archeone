@@ -25,7 +25,6 @@ $(document).ready(function () {
             }
         })
         .catch(error => {
-            console.log(error);
         });
 });
 
@@ -341,7 +340,6 @@ function ShowDeleteTaskAlert(taskId) {
         cancelButtonText: 'Cancel',
     })
         .then((result) => {
-            console.log(result)
             if (result.isDismissed === false) {
                 if (result.isConfirmed) {
                     DeleteTask(taskId);

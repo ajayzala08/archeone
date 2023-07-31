@@ -69,10 +69,9 @@ function SaveUserDetails() {
     saveData.append("ReportingManager", $("#ddlReportingManager").val());
     saveData.append("EmployeePersonalEmailId", $("#txtEmployeePersonalEmailId").val());
     saveData.append("ProbationPeriod", $("#txtProbationPeriod").val());
-    console.log(saveData);
+    
     if (validateRequiredFields()) {
         ajaxCallWithoutDataType("Post", false, '/UserDetails/SaveUpdateUserDetails', saveData, function (result) {
-            console.log(result);
             if (result.status == true) {
                 Toast.fire({ icon: 'success', title: result.message });
                 RedirectToPage("/User/User");
