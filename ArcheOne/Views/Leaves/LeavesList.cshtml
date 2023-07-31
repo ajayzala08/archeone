@@ -17,60 +17,60 @@
     }
 
     /* .circle1[title]:hover:after {
-                        content: attr(title);
-                        position: absolute;
-                        background: #fff;
-                        color: #000;
-                        padding: 5px 10px;
-                        border-radius: 5px;
-                        font-weight: bold;
-                        font-size: 24;
-                    }*/
+                            content: attr(title);
+                            position: absolute;
+                            background: #fff;
+                            color: #000;
+                            padding: 5px 10px;
+                            border-radius: 5px;
+                            font-weight: bold;
+                            font-size: 24;
+                        }*/
 
 </style>
 <div class="row form-group">
     <div class="col-md-12">
-      @*  @if (Model.Status)
+        @*  @if (Model.Status)
         {*@
-           
-            <table id="tblLeave" class="table table-responsive table-bordered table-hover" style="width:100%;">
-                <thead>
-                    <tr>
-                        <td>Actions</td>
-                        <td>Cancel Leave</td>
-                        <td>LeaveTypeName</td>
-                        <td>AppliedByUserName</td>
-                        <td>ApprovedByHRUserId</td>
-                        <td>ApprovedByReportingUserId</td>
-                        <td>StartDate</td>
-                        <td>EndDate</td>
-                        <td>StartTime</td>
-                        <td>EndTime</td>
-                        <td>Opening Balance</td>
-                        <td>Closing Balance</td>
-                        <td>No Of Days</td>
-                        <td>PaidDays</td>
-                        <td>UnPaidDays</td>
-                        <td>Reason</td>
-                        <td>Leave Status</td>
-                        <td>Balance Month</td>
-                        <td>Balance Year</td>
-                        <td>SickLeave Balance</td>
-                        <td>SickLeave Taken</td>
-                        <td>CasualLeave Balance</td>
-                        <td>CasualLeave Taken</td>
-                        <td>EarnedLeave Balance</td>
-                        <td>EarnedLeave Taken</td>
-                        <td>Details</td>
-                        <td>Leave Taken</td>
-                        <td>Hr Status</td>
-                        <td>Reporting Manager Status</td>
+
+        <table id="tblLeave" class="table table-responsive table-bordered table-hover" style="width:100%;">
+            <thead>
+                <tr>
+                    <td>Actions</td>
+                    <td>Cancel Leave</td>
+                    <td>LeaveTypeName</td>
+                    <td>AppliedByUserName</td>
+                    <td>ApprovedByHRUserId</td>
+                    <td>ApprovedByReportingUserId</td>
+                    <td>StartDate</td>
+                    <td>EndDate</td>
+                    <td>StartTime</td>
+                    <td>EndTime</td>
+                    <td>Opening Balance</td>
+                    <td>Closing Balance</td>
+                    <td>No Of Days</td>
+                    <td>PaidDays</td>
+                    <td>UnPaidDays</td>
+                    <td>Reason</td>
+                    <td>Leave Status</td>
+                    <td>Balance Month</td>
+                    <td>Balance Year</td>
+                    <td>SickLeave Balance</td>
+                    <td>SickLeave Taken</td>
+                    <td>CasualLeave Balance</td>
+                    <td>CasualLeave Taken</td>
+                    <td>EarnedLeave Balance</td>
+                    <td>EarnedLeave Taken</td>
+                    <td>Details</td>
+                    <td>Leave Taken</td>
+                    <td>Hr Status</td>
+                    <td>Reporting Manager Status</td>
 
 
-                    </tr>
-                </thead>
-                <tbody>
-
+                </tr>
+            </thead>
+            <tbody>
+                @if (list != null)
                     @foreach (var item in list)
                     {
                         <tr style="white-space:nowrap;">
@@ -153,13 +153,13 @@
 
                         </tr>
                     }
-                </tbody>
-            </table>
+            </tbody>
+        </table>
 
-       @* }
+        @* }
         else
         {
-           // <p style="color:red">@Model.Message</p>
+        // <p style="color:red">@Model.Message</p>
         }*@
 
 

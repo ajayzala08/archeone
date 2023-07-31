@@ -6,7 +6,22 @@
         {
             Super_Admin = 1,
             Admin,
-            Project_Manager
+            Manager,
+            Team_Lead,
+            Professional,
+        }
+
+        public enum DepartmentMst
+        {
+            System_Administration = 1,
+            Software_Development,
+            Quality_Analyst,
+            Human_Resource,
+            Marketing,
+            Designer,
+            Content,
+            Finance,
+            Sales
         }
 
         public enum PermissionMst
