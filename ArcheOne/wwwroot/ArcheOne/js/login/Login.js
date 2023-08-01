@@ -105,7 +105,14 @@ $(document).ready(function () {
 
 
 
+function runScript(e) {
+    if (e.keyCode == 13) {
 
+        $("#btnLogin").click();
+
+        return false;
+    }
+}
 
 
 

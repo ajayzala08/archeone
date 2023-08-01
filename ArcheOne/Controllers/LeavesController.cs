@@ -110,11 +110,16 @@ namespace ArcheOne.Controllers
                 }
                 if (leaveList.Count > 0)
                 {
+                    leavesListResModel.LeaveDetailsLists = new List<LeaveDetailsList>();
                     foreach (var item in leaveList)
                     {
                         var LeaveBalanceList = new List<LeaveBalanceMst>();
                         // who can check leave balance? manager
-                        if (IsUserHR || userListByReportingManagerId.Count > 0)
+                        if (userListByReportingManagerId.Count > 0)
+                        {
+                            LeaveBalanceList = await _dbRepo.LeaveBalanceLists().Where(x => x.UserId == item.AppliedByUserId).OrderByDescending(x => x.Id).ToListAsync();
+                        }
+                        else if (IsUserHR)
                         {
                             LeaveBalanceList = await _dbRepo.LeaveBalanceLists().Where(x => x.UserId == item.AppliedByUserId).OrderByDescending(x => x.Id).ToListAsync();
                         }
@@ -122,6 +127,7 @@ namespace ArcheOne.Controllers
                         {
                             LeaveBalanceList = await _dbRepo.LeaveBalanceLists().Where(x => x.UserId == userId).OrderByDescending(x => x.Id).ToListAsync();
                         }
+
 
                         var BalanceMonth = item.StartDate.ToString("MMMM");
                         var AppliedByUser = await _dbRepo.UserMstList().FirstOrDefaultAsync(x => x.Id == item.AppliedByUserId);
@@ -153,15 +159,15 @@ namespace ArcheOne.Controllers
                         leaveDetailsListModel.Reason = item.Reason;
                         leaveDetailsListModel.LeaveStatus = LeaveStatusName == null ? "Pending" : LeaveStatusName.LeaveStatus;
                         leaveDetailsListModel.BalanceMonth = LeaveBalanceDetails == null ? " " : LeaveBalanceDetails.BalanceMonth;
-                        leaveDetailsListModel.BalanceYear = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.BalanceYear));
-                        leaveDetailsListModel.SickLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.SickLeaveBalance));
-                        leaveDetailsListModel.SickLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.SickLeaveTaken));
-                        leaveDetailsListModel.CasualLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.CasualLeaveBalance));
-                        leaveDetailsListModel.CasualLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.CasualLeaveTaken));
-                        leaveDetailsListModel.EarnedLeaveBalance = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.EarnedLeaveBalance));
-                        leaveDetailsListModel.EarnedLeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.EarnedLeaveTaken));
-                        leaveDetailsListModel.Details = LeaveBalanceDetails.Detail;
-                        leaveDetailsListModel.LeaveTaken = Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.LeaveTaken));
+                        leaveDetailsListModel.BalanceYear = LeaveBalanceDetails == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.BalanceYear));
+                        leaveDetailsListModel.SickLeaveBalance = LeaveBalanceDetails == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.SickLeaveBalance));
+                        leaveDetailsListModel.SickLeaveTaken = LeaveBalanceDetails == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.SickLeaveTaken));
+                        leaveDetailsListModel.CasualLeaveBalance = LeaveBalanceDetails == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.CasualLeaveBalance));
+                        leaveDetailsListModel.CasualLeaveTaken = LeaveBalanceDetails == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.CasualLeaveTaken));
+                        leaveDetailsListModel.EarnedLeaveBalance = LeaveBalanceDetails == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.EarnedLeaveBalance));
+                        leaveDetailsListModel.EarnedLeaveTaken = LeaveBalanceDetails == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.EarnedLeaveTaken));
+                        leaveDetailsListModel.Details = LeaveBalanceDetails == null ? " " : LeaveBalanceDetails.Detail;
+                        leaveDetailsListModel.LeaveTaken = LeaveBalanceDetails == null ? 0 : Convert.ToDecimal(_commonHelper.GetFormattedDecimal((decimal)LeaveBalanceDetails.LeaveTaken));
                         leaveDetailsListModel.HrStatus = HrStatus == null ? "pending" : HrStatus.LeaveStatus;
                         leaveDetailsListModel.ApprovedByReportingStatus = ApprovedByReportingStatus == null ? "pending" : ApprovedByReportingStatus.LeaveStatus;
 
@@ -207,7 +213,7 @@ namespace ArcheOne.Controllers
                         {
                             leaveDetailsListModel.CancelbtnDisable = true;
                         }
-                        leavesListResModel.LeaveDetailsLists = new List<LeaveDetailsList>() { leaveDetailsListModel };
+                        leavesListResModel.LeaveDetailsLists.Add(leaveDetailsListModel);
                     }
                 }
 
@@ -764,6 +770,10 @@ namespace ArcheOne.Controllers
                                     {
                                         leaveDetails.ApprovedByReportingStatus = request.LeaveStatusId;
                                         leaveDetails.ApprovedByReportingUserId = userId;
+
+                                        leaveDetails.Hrstatus = 1;
+                                        leaveDetails.ApprovedByHruserId = userId;
+
                                     }
 
                                     else if (IsUserHR)
@@ -1215,7 +1225,7 @@ namespace ArcheOne.Controllers
             return response;
         }
 
-        private CommonResponse GetPerMonthBalanceAsync()
+        private async Task<CommonResponse> GetPerMonthBalanceAsync()
         {
             CommonResponse response = new CommonResponse();
             CommonResponse commonResponse = new CommonResponse();

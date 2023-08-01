@@ -31,7 +31,7 @@
                     <!-- Password input -->
                     <div class="form-outline mb-4" id="dtxtPassword">
                         <label class="form-label"><span class="has-error required">*</span> Password</label>
-                        <input id="txtPassword" name="Password" type="password" class="form-control text-length" placeholder="Password" value=@password isRequired="1" divcontainer="dtxtPassword" errorspan="stxtPassword" defaultvalue="" autocomplete="off" minlength="3" maxlength="10">
+                        <input id="txtPassword" name="Password" type="password" class="form-control text-length" placeholder="Password" value=@password isRequired="1" divcontainer="dtxtPassword" errorspan="stxtPassword" defaultvalue="" autocomplete="off" minlength="3" maxlength="10" onkeypress="return runScript(event)">
                         <span class="help-block d-none has-error" id="stxtPassword">Please Enter Valid Password</span>
                     </div>
                     <div class="d-flex justify-content-around align-items-center mb-3">

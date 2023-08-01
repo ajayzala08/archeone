@@ -30,9 +30,6 @@
 </style>
 <div class="row form-group">
     <div class="col-md-12">
-        @*  @if (Model.Status)
-        {*@
-                        <td>Reporting Manager Status</td>
 
         <table id="tblLeave" class="table table-responsive table-bordered table-hover" style="width:100%;">
             <thead>
@@ -121,7 +118,6 @@
 
                                 </td>
                             }
-
                             <td>@item.LeaveTypeName</td>
                             <td>@item.AppliedByUserName</td>
                             <td>@item.ApprovedByHRUserId</td>
@@ -149,22 +145,9 @@
                             <td>@item.LeaveTaken</td>
                             <td>@item.HrStatus</td>
                             <td>@item.ApprovedByReportingStatus</td>
-
-
-
                         </tr>
                     }
             </tbody>
         </table>
-
-        @* }
-        else
-        {
-        // <p style="color:red">@Model.Message</p>
-        }*@
-
-
-
-
     </div>
 </div>
