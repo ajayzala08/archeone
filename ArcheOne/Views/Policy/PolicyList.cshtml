@@ -1,6 +1,6 @@
 ﻿@using ArcheOne.Helper.CommonModels;
 @using ArcheOne.Models.Res;
-@model List<GetPolicyListResModel>
+@model GetPolicyListResModel
 @{
     Layout = "_BlankLayout";
     ViewBag.dataTable = "true";
@@ -26,35 +26,24 @@
                     <td>
                         <b>Policy Name</b>
                     </td>
-                 @*   <td>
-                        <b>Policy Document</b>
-                    </td>*@
 
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in Model.PolicyDetails)
                 {
                     <tr>
-                            <td>
-                            @if (item.IsUserHR == true)
+                        <td>
+                            @if (Model.IsDeletable)
                             {
-                                <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"> | </i>
-
-                                <i class="fa fa-download btn-download" Id="@item.Id" aria-hidden="true" style="cursor: pointer;></i>
+                                <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"></i>
+                                <span>&nbsp;|&nbsp;</span>
                             }
-                            else
-                            {
-                                <i class="fa fa-download btn-download" Id="@item.Id" aria-hidden="true"></i>
-                            }
-                      
-                            </td>
+                            <i class="fa fa-download btn-download" Id="@item.Id" aria-hidden="true" style="cursor: pointer;"></i>
+                        </td>
                         <td>
                             @item.PolicyName
                         </td>
-@*                        <td>
-                            <i class="fa fa-download btn-download" Id="@item.Id" aria-hidden="true"></i>
-                        </td>*@
                     </tr>
                 }
             </tbody>

@@ -2,6 +2,7 @@
     Layout = "_MasterLayout";
     int id = 0;
 }
+@model bool;
 
 <section class="content-header">
     <div class="container-fluid">
@@ -23,7 +24,10 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Holiday List</h3>
-            <input type="button" id="AddHoliday" class="btn btn-primary float-right" value="Add Holiday" />
+            @if (Model)
+            {
+                <input type="button" id="AddHoliday" class="btn btn-primary float-right" value="Add Holiday" />
+            }
         </div>
         <div class="card-body">
             <div id="divHolidayList">

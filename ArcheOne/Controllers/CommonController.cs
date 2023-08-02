@@ -202,7 +202,7 @@ namespace ArcheOne.Controllers
             return Json(commonResponse);
         }
 
-        public async Task<CommonResponse> GetDeparmentByUserId(int UserId)
+        public async Task<CommonResponse> GetDepartmentByUserId(int UserId)
         {
             CommonResponse response = new CommonResponse();
             try

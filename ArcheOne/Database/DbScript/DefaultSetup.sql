@@ -103,6 +103,13 @@ Insert into PermissionMst values('Event Delete View','Event_Delete_View','', 1, 
 Insert into PermissionMst values('Salary View','Salary_View','', 1, 0, 1, 1, GETDATE(), GETDATE())
 Insert into PermissionMst values('Upload Salary Sheet View','Upload_Salary_Sheet_View','', 1, 0, 1, 1, GETDATE(), GETDATE())
 Insert into PermissionMst values('Uploaded Resume Status Update', 'Uploaded_Resume_Status_Update', '', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into PermissionMst Values ('Holidays Add View', 'Holidays_Add_View', '', 1, 0, 0, 0, GETDATE(), GETDATE())
+Insert into PermissionMst Values ('Holidays Edit View', 'Holidays_Edit_View', '', 1, 0, 0, 0, GETDATE(), GETDATE())
+Insert into PermissionMst Values ('Holidays Delete View', 'Holidays_Delete_View', '', 1, 0, 0, 0, GETDATE(), GETDATE())
+Insert into PermissionMst Values ('Policy Add View', 'Policy_Add_View', '', 1, 0, 0, 0, GETDATE(), GETDATE())
+Insert into PermissionMst Values ('Policy Edit View', 'Policy_Edit_View', '', 1, 0, 0, 0, GETDATE(), GETDATE())
+Insert into PermissionMst Values ('Policy Delete View', 'Policy_Delete_View', '', 1, 0, 0, 0, GETDATE(), GETDATE())
+
 
 ------------------------------------SetUp SuperAdmin User----------------------------
 insert into dbo.UserMst values(1, 1, 0, 0,'Admin','','Super','S_Admin','1lo5OLz+GwC4ocaqa2Nt+Q==','Vadodara','390015','8878964532','9976536725','SuperAdmin@gmail.com','photoURL',1,0,0,0,getdate(),getdate())
