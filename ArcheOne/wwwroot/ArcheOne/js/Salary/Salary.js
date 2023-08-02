@@ -133,7 +133,7 @@ function SalaryDataFill() {
                     "paging": true,
                     "searching": true,
                     "processing": true, // for show progress bar
-                    "dom": 'Blfrtip',
+                    //"dom": 'Blfrtip',
                     // "retrieve": true,
                     "filter": true, // this is for disable filter (search box)
                     "data": result.data,

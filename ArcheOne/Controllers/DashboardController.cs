@@ -1,4 +1,5 @@
-﻿using ArcheOne.Helper.CommonHelpers;
+﻿using ArcheOne.Database.Entities;
+using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models.Res;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +14,13 @@ namespace ArcheOne.Controllers
         private readonly CommonHelper _commonHelper;
         private readonly DbRepo _dbRepo;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public DashboardController(CommonHelper commonHelper, DbRepo dbRepo, IHttpContextAccessor httpContextAccessor)
+        private readonly ArcheOneDbContext _dbContext;
+        public DashboardController(CommonHelper commonHelper, DbRepo dbRepo, IHttpContextAccessor httpContextAccessor, ArcheOneDbContext dbContext)
         {
             _commonHelper = commonHelper;
             _dbRepo = dbRepo;
             _httpContextAccessor = httpContextAccessor;
+            _dbContext = dbContext;
         }
         public async Task<IActionResult> Index()
         {
@@ -58,31 +61,36 @@ namespace ArcheOne.Controllers
                 }
 
 
+                #region DashboardShowAndHide
+                //Preyansi Code
                 DashboardDetailsResModel dashboardDetailsResModel = new DashboardDetailsResModel();
-                dashboardDetailsResModel.InterviewRoundCount = _dbRepo.InterviewList().ToList().Count();
-                dashboardDetailsResModel.UserCount = _dbRepo.UserDetailList().ToList().Count();
-                dashboardDetailsResModel.SalesLeadsCount = _dbRepo.SalesLeadList().ToList().Count();
-                dashboardDetailsResModel.ProjectCount = _dbRepo.ProjectList().ToList().Count();
-                dashboardDetailsResModel.ProjectCompletedCount = _dbRepo.ProjectList().Where(x => x.ProjectStatus.ToLower() == "completed").ToList().Count();
-                dashboardDetailsResModel.ProjectInProgressCount = _dbRepo.ProjectList().Where(x => x.ProjectStatus.ToLower() == "InProgress").ToList().Count();
-                dashboardDetailsResModel.ProjectToDoCount = _dbRepo.ProjectList().Where(x => x.ProjectStatus.ToLower() == "ToDo").ToList().Count();
-                dashboardDetailsResModel.SalesOpportunityCount = _dbRepo.salesLeadFollowUpMst().Where(x => x.SalesLeadStatusId == 5).ToList().Count();
-                dashboardDetailsResModel.ClosureCount = _dbRepo.ResumeFileUploadDetailList().Where(x => x.ResumeStatus == 3).ToList().Count();
-                dashboardDetailsResModel.SubmissionCount = _dbRepo.ResumeFileUploadDetailList().Where(x => x.ResumeStatus == 2).ToList().Count();
-                dashboardDetailsResModel.BDCount = _dbRepo.InterviewList().Where(x => x.HireStatusId == 4).ToList().Count();
-                dashboardDetailsResModel.TeamCount = (from TL in _dbRepo.TeamList()
-                                                      join UM in _dbRepo.UserMstList() on TL.TeamLeadId equals UM.Id
-                                                      select TL).Select(TL => TL.TeamLeadId).Distinct().ToList().Count();
-                dashboardDetailsResModel.PendingLeaveCount = _dbRepo.LeaveLists().Where(x => x.ApprovedByReportingStatus == null || x.ApprovedByReportingStatus == 0).ToList().Count();
-                dashboardDetailsResModel.PendingResumeApprovalCount = _dbRepo.ResumeFileUploadDetailList().Where(x => x.ResumeStatus == 1).ToList().Count();
+                CommonResponse departmentResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDeparmentByUserId(userId);
+
+                string departmentCode = string.Empty;
+
+                if (departmentResponse.Status)
+                {
+                    departmentCode = departmentResponse.Data.DepartmentCode;
+                    dashboardDetailsResModel.IsUserHR = departmentCode == CommonEnums.DepartmentMst.Human_Resource.ToString();
+                    dashboardDetailsResModel.IsUserSD = departmentCode == CommonEnums.DepartmentMst.Software_Development.ToString();
+                    dashboardDetailsResModel.IsUserQA = departmentCode == CommonEnums.DepartmentMst.Quality_Analyst.ToString();
+                    dashboardDetailsResModel.IsUserDesigner = departmentCode == CommonEnums.DepartmentMst.Designer.ToString();
+                    dashboardDetailsResModel.IsUserSales = departmentCode == CommonEnums.DepartmentMst.Sales.ToString();
+                }
+                var userListByReportingManagerId = await _dbRepo.UserDetailList().Where(x => x.ReportingManager == userId).ToListAsync();
+                var projectList = _dbRepo.ProjectList().Select(x => new { x.Resources, x.ProjectStatus }).ToList();
+                dashboardDetailsResModel.InterviewRoundCount = _dbRepo.InterviewList().Count();
+                dashboardDetailsResModel.UserCount = _dbRepo.UserDetailList().Count();
+                dashboardDetailsResModel.SalesLeadsCount = _dbRepo.SalesLeadList().Count();
+                dashboardDetailsResModel.SalesLeadOpportunityCount = _dbRepo.salesLeadFollowUpMst().Where(x => x.SalesLeadStatusId == 5).Count();
+                dashboardDetailsResModel.ClosureCount = _dbRepo.ResumeFileUploadDetailList().Where(x => x.ResumeStatus == 3).Count();
+                dashboardDetailsResModel.SubmissionCount = _dbRepo.ResumeFileUploadDetailList().Where(x => x.ResumeStatus == 2).Count();
+                dashboardDetailsResModel.BDCount = _dbRepo.InterviewList().Where(x => x.HireStatusId == 4).Count();
                 dashboardDetailsResModel.InHouseRequirementCount = (from rfl in _dbRepo.RequirementForList()
                                                                     join rl in _dbRepo.RequirementList() on rfl.Id equals rl.RequirementForId into rls
                                                                     from rl in rls.DefaultIfEmpty()
                                                                     where rfl.RequirementForCode.ToLower() == "in_house"
                                                                     select rl).Count();
-
-
-
                 dashboardDetailsResModel.ClientRequirementCount = (from rfl in _dbRepo.RequirementForList()
                                                                    join rl in _dbRepo.RequirementList() on rfl.Id equals rl.RequirementForId into rls
                                                                    from rl in rls.DefaultIfEmpty()
@@ -108,13 +116,99 @@ namespace ArcheOne.Controllers
                                                                   from rl in rls.DefaultIfEmpty()
                                                                   where rfl.RequirementStatusCode.ToLower() == "closed"
                                                                   select rl).Count();
+                dashboardDetailsResModel.TeamCount = (from TL in _dbRepo.TeamList()
+                                                      join UM in _dbRepo.UserMstList() on TL.TeamLeadId equals UM.Id
+                                                      select TL).Select(TL => TL.TeamLeadId).Distinct().Count();
+
+
+                #region NewChanges 
+
+                dashboardDetailsResModel.SalesLeadNewCount = (from SlF in _dbRepo.salesLeadFollowUpMst()
+                                                              join rl in _dbRepo.SalesLeadStatusList().Where(x => x.SalesLeadStatusName.ToLower() == "new") on SlF.SalesLeadStatusId equals rl.Id
+                                                              select SlF).Count();
+                dashboardDetailsResModel.NextLevelFollowUpCount = _dbRepo.salesLeadFollowUpMst().Where(x => x.NextFollowUpDateTime == DateTime.Now.Date).Count();
+                dashboardDetailsResModel.TotalRequirmentCount = _dbRepo.RequirementList().Count();
+                dashboardDetailsResModel.OfferCount = _dbRepo.InterviewList().Where(x => x.OfferStatusId == 2).Count();
+                //dashboardDetailsResModel.JoiningCount
+                //dashboardDetailsResModel.TaskReportCount
+                //dashboardDetailsResModel.AppraisalRatingCompletedCount
+                //dashboardDetailsResModel.AppraisalRatingInprogressCount
+                //dashboardDetailsResModel.RecentJoiningCount
+                //dashboardDetailsResModel.PerviousDayTaskCount
+
+
+
+                #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                if (dashboardDetailsResModel.IsUserHR)
+                {
+
+
+                    dashboardDetailsResModel.ProjectCount = projectList.Count;
+                    dashboardDetailsResModel.ProjectCompletedCount = projectList.Where(x => x.ProjectStatus.ToLower() == "completed").Count();
+                    dashboardDetailsResModel.ProjectInProgressCount = projectList.Where(x => x.ProjectStatus.ToLower() == "InProgress").Count();
+                    dashboardDetailsResModel.ProjectToDoCount = projectList.Where(x => x.ProjectStatus.ToLower() == "ToDo").Count();
+                    dashboardDetailsResModel.UncheckedLeave = _dbRepo.LeaveLists().Where(x => x.ApprovedByReportingStatus == null || x.ApprovedByReportingStatus == 0).Count();
+                    dashboardDetailsResModel.PendingResumeApprovalCount = _dbRepo.ResumeFileUploadDetailList().Where(x => x.ResumeStatus == 1).Count();
+
+                }
+                else if (userListByReportingManagerId.Count > 0)
+                {
+                    foreach (var item in userListByReportingManagerId)
+                    {
+                        dashboardDetailsResModel.UncheckedLeave = _dbRepo.LeaveLists().Where(x => (x.ApprovedByReportingStatus == null || x.ApprovedByReportingStatus == 0) && (x.AppliedByUserId == userId) || x.AppliedByUserId == item.UserId).Count();
+                    }
+                }
+                else
+                {
+                    dashboardDetailsResModel.ProjectCount = projectList.Where(x => x.Resources == Convert.ToString(userId)).Count();
+                    dashboardDetailsResModel.ProjectCompletedCount = projectList.Where(x => x.ProjectStatus.ToLower() == "completed" && x.Resources == Convert.ToString(userId)).Count();
+                    dashboardDetailsResModel.ProjectInProgressCount = projectList.Where(x => x.ProjectStatus.ToLower() == "InProgress" && x.Resources == Convert.ToString(userId)).Count();
+                    dashboardDetailsResModel.ProjectToDoCount = projectList.Where(x => x.ProjectStatus.ToLower() == "ToDo" && x.Resources == Convert.ToString(userId)).Count();
+                    //dashboardDetailsResModel.TeamCount = (from TL in _dbRepo.TeamList()
+                    //                                      join UM in _dbRepo.UserMstList() on TL.TeamLeadId equals UM.Id
+                    //                                      select TL).Select(TL => TL.TeamLeadId).Distinct().Count();
+                    dashboardDetailsResModel.UncheckedLeave = _dbRepo.LeaveLists().Where(x => (x.ApprovedByReportingStatus == null || x.ApprovedByReportingStatus == 0) && (x.AppliedByUserId == userId)).Count();
+                    dashboardDetailsResModel.PendingResumeApprovalCount = _dbRepo.ResumeFileUploadDetailList().Where(x => x.ResumeStatus == 1).Count();
+                }
+
+
+
+                #endregion
+
+
                 if (dashboardDetailsResModel != null)
                 {
                     commonResponse.Status = true;
                     commonResponse.Data = dashboardDetailsResModel;
                 }
-
-
             }
             catch (Exception) { }
 
