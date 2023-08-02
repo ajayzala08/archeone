@@ -70,7 +70,9 @@ namespace ArcheOne.Controllers
                 dashboardDetailsResModel.ClosureCount = _dbRepo.ResumeFileUploadDetailList().Where(x => x.ResumeStatus == 3).ToList().Count();
                 dashboardDetailsResModel.SubmissionCount = _dbRepo.ResumeFileUploadDetailList().Where(x => x.ResumeStatus == 2).ToList().Count();
                 dashboardDetailsResModel.BDCount = _dbRepo.InterviewList().Where(x => x.HireStatusId == 4).ToList().Count();
-                dashboardDetailsResModel.TeamCount = _dbRepo.TeamList().Select(x => x.TeamLeadId).Distinct().ToList().Count();
+                dashboardDetailsResModel.TeamCount = (from TL in _dbRepo.TeamList()
+                                                      join UM in _dbRepo.UserMstList() on TL.TeamLeadId equals UM.Id
+                                                      select TL).Select(TL => TL.TeamLeadId).Distinct().ToList().Count();
                 dashboardDetailsResModel.PendingLeaveCount = _dbRepo.LeaveLists().Where(x => x.ApprovedByReportingStatus == null || x.ApprovedByReportingStatus == 0).ToList().Count();
                 dashboardDetailsResModel.PendingResumeApprovalCount = _dbRepo.ResumeFileUploadDetailList().Where(x => x.ResumeStatus == 1).ToList().Count();
                 dashboardDetailsResModel.InHouseRequirementCount = (from rfl in _dbRepo.RequirementForList()

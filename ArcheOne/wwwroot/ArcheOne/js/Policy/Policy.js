@@ -10,7 +10,7 @@ function GetPolicyList() {
    
     ajaxCall("Get", false, '/Policy/PolicyList', null, function (result) {
         $("#divPolicyList").html(result.responseText);
-        ApplyDatatable('tblPolicy');
+        ApplyDatatableForPolicy('tblPolicy');
         $('#tblPolicy').on('click', '.btn-edit', function () {
             Id = $(this).attr('Id');
             AddEditPolicy(Id);

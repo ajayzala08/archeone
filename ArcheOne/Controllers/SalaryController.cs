@@ -323,8 +323,10 @@ namespace ArcheOne.Controllers
                                 userDetail in _dbRepo.UserDetailList() on salaryList.EmployeeCode.ToString() equals userDetail.EmployeeCode
                                 join
                                 userMst in _dbRepo.UserMstList() on userDetail.UserId equals userMst.Id
+                                join dept in _dbRepo.DepartmentList() on userMst.DepartmentId equals dept.Id
+                                join designation in _dbRepo.DesignationList() on userMst.DesignationId equals designation.Id
 
-                                select new { salaryList, userDetail, userMst }).FirstOrDefault();
+                                select new { salaryList, userDetail, userMst, dept, designation }).FirstOrDefault();
 
             var leaveBalance = _dbRepo.LeaveBalanceLists().Where(x => x.UserId == salaryDetail.userMst.Id).OrderByDescending(x => x.Id).FirstOrDefault();
             using (System.IO.MemoryStream memoryStream = new System.IO.MemoryStream())
@@ -450,7 +452,7 @@ namespace ArcheOne.Controllers
                 designationTitleCell.PaddingLeft = 15f;
                 table.AddCell(designationTitleCell);
 
-                PdfPCell designationValueCell = new PdfPCell(new Phrase($"{salaryDetail.userMst.DesignationId}", fontTableRow));
+                PdfPCell designationValueCell = new PdfPCell(new Phrase($"{salaryDetail.designation.Designation}", fontTableRow));
                 designationValueCell.HorizontalAlignment = Rectangle.ALIGN_LEFT;
                 designationValueCell.Border = Rectangle.NO_BORDER;
                 table.AddCell(designationValueCell);
@@ -462,7 +464,7 @@ namespace ArcheOne.Controllers
                 departmentTitleCell.Border = Rectangle.NO_BORDER;
                 table.AddCell(departmentTitleCell);
 
-                PdfPCell departmentValueCell = new PdfPCell(new Phrase($"{salaryDetail.userMst.DepartmentId}", fontTableRow));
+                PdfPCell departmentValueCell = new PdfPCell(new Phrase($"{salaryDetail.dept.DepartmentName}", fontTableRow));
                 departmentValueCell.HorizontalAlignment = Rectangle.ALIGN_LEFT;
                 departmentValueCell.Border = Rectangle.NO_BORDER;
                 table.AddCell(departmentValueCell);
