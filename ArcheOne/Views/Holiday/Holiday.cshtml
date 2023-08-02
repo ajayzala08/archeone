@@ -1,6 +1,8 @@
 ﻿@{
+    ViewBag.datatable = "true";
+    ViewBag.boostrapdataload = "true";
     Layout = "_MasterLayout";
-    int id = 0;
+    //int id = 0;
 }
 @model bool;
 
@@ -37,6 +39,6 @@
 </section>
 
 @section Scripts{
-    <script src="~/archeone/js/holiday/holiday.js"></script>
+    <script src="~/archeone/js/holiday/holiday.js?_@DateTime.Now.Ticks"></script>
 }
 

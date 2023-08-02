@@ -137,7 +137,7 @@ function SalaryDataFill() {
                     // "retrieve": true,
                     "filter": true, // this is for disable filter (search box)
                     "data": result.data,
-                    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+                   // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
                     "columns": [
                         {
                             class: 'clsWrap',
