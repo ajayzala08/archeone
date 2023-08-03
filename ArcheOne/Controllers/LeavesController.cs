@@ -83,7 +83,7 @@ namespace ArcheOne.Controllers
                 }*/
                 var userId = _commonHelper.GetLoggedInUserId();
 
-                CommonResponse departmentResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDeparmentByUserId(userId);
+                CommonResponse departmentResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDepartmentByUserId(userId);
 
                 string departmentCode = string.Empty;
                 bool IsUserHR = false;
@@ -255,7 +255,7 @@ namespace ArcheOne.Controllers
                 };
                 leaveAddEditResModel.StartTimeList = startTimeList;
 
-                CommonResponse departmentResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDeparmentByUserId(userId);
+                CommonResponse departmentResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDepartmentByUserId(userId);
 
                 string departmentCode = string.Empty;
                 bool IsUserHR = false;
@@ -612,7 +612,7 @@ namespace ArcheOne.Controllers
 
                             bool IsUserManager = false, IsUserHR = false;
 
-                            CommonResponse departmentResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDeparmentByUserId(userId);
+                            CommonResponse departmentResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDepartmentByUserId(userId);
 
                             string departmentCode = string.Empty;
                             if (departmentResponse.Status)

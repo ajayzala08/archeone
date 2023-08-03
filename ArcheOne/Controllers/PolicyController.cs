@@ -24,40 +24,65 @@ namespace ArcheOne.Controllers
         }
 
 
-        public IActionResult Policy()
+        public async Task<IActionResult> Policy()
         {
-            PolicyResModel policyResModel = new PolicyResModel();
+            int userId = _commonHelper.GetLoggedInUserId();
+            bool showAddPolicyButton = false;
 
+            CommonResponse departmentDetailsResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDepartmentByUserId(userId);
 
-            var hrRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
-            var hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
+            if (departmentDetailsResponse.Status)
+            {
+                showAddPolicyButton = departmentDetailsResponse.Data.DepartmentCode == CommonEnums.DepartmentMst.Human_Resource.ToString();
+            }
+            showAddPolicyButton = !showAddPolicyButton ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Policy_Add_View) : showAddPolicyButton;
 
-
-            var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
-            var IsUserHr = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId)).ToList();
-
-            policyResModel.IsUserHR = IsUserHr.Count > 0 ? true : false;
-
-            return View(policyResModel);
+            return View(showAddPolicyButton);
         }
 
-        public IActionResult PolicyList()
+        public async Task<IActionResult> PolicyList()
         {
             CommonResponse commonResponse = new CommonResponse();
 
-            List<GetPolicyListResModel> getPolicyListResModel = new List<GetPolicyListResModel>();
+            GetPolicyListResModel getPolicyListResModel = new GetPolicyListResModel();
 
-            var hrRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
-            var hrroleIdList = hrRoleList.Select(x => x.Id).ToList();
+            int userId = _commonHelper.GetLoggedInUserId();
+            bool isUserHR = false;
 
+            CommonResponse departmentDetailsResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDepartmentByUserId(userId);
 
-            var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
-
-            var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId)).ToList();
+            if (departmentDetailsResponse.Status)
+            {
+                isUserHR = departmentDetailsResponse.Data.DepartmentCode == CommonEnums.DepartmentMst.Human_Resource.ToString();
+            }
+            isUserHR = !isUserHR ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Policy_Delete_View) : isUserHR;
 
             try
             {
-                var policyList = _dbRepo.PolicyList().ToList();
+                getPolicyListResModel.IsDeletable = isUserHR;
+
+                getPolicyListResModel.PolicyDetails = new List<GetPolicyListResModel.PolicyDetail>();
+                getPolicyListResModel.PolicyDetails = await _dbRepo.PolicyList().Where(x => !isUserHR ? x.PolicyName == "HRPolicy" : true).Select(x => new GetPolicyListResModel.PolicyDetail
+                {
+                    Id = x.Id,
+                    PolicyName = x.PolicyName,
+                    PolicyDocument = x.PolicyDocumentName,
+                }).ToListAsync();
+
+                commonResponse.Data = getPolicyListResModel;
+                if (getPolicyListResModel != null)
+                {
+                    commonResponse.Status = true;
+                    commonResponse.StatusCode = HttpStatusCode.OK;
+                    commonResponse.Message = "Data found successfully!";
+                }
+                else
+                {
+                    commonResponse.StatusCode = HttpStatusCode.NotFound;
+                    commonResponse.Message = "Data not found!";
+                }
+
+                /*var policyList = _dbRepo.PolicyList().ToList();
                 if (policyList.Count > 0)
                 {
                     if (IsUserHR.Count > 0)
@@ -94,7 +119,7 @@ namespace ArcheOne.Controllers
                 {
                     commonResponse.Message = "No Data Found";
                     commonResponse.StatusCode = System.Net.HttpStatusCode.NotFound;
-                }
+                }*/
             }
             catch (Exception ex)
             {

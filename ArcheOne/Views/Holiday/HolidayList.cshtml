@@ -1,5 +1,5 @@
 ﻿@using ArcheOne.Models.Res;
-@model List<GetHolidayListResModel>
+@model GetHolidayListResModel
 @{
     Layout = "_BlankLayout";
     ViewBag.dataTable = "true";
@@ -19,9 +19,12 @@
         <table id="tblHoliday" class="table table-bordered table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <td>
-                        <b>Action</b>
-                    </td>
+                    @if (Model.IsEditable || Model.IsDeletable)
+                    {
+                        <td>
+                            <b>Action</b>
+                        </td>
+                    }
                     <td>
                         <b>Holiday Name</b>
                     </td>
@@ -34,13 +37,26 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in Model.HolidayDetails)
                 {
                     <tr>
-                        <td>
-                            <i class="fa fa-pen pen btn-edit" Id="@item.Id" style="cursor: pointer;"></i> &nbsp; | &nbsp;
-                            <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"></i>
-                        </td>
+                        @if (Model.IsEditable || Model.IsDeletable)
+                        {
+                            <td>
+                                @if (Model.IsEditable)
+                                {
+                                    <i class="fa fa-pen pen btn-edit" Id="@item.Id" style="cursor: pointer;"></i>
+                                }
+                                @if (Model.IsDeletable)
+                                {
+                                    if (@Model.IsEditable)
+                                    {
+                                        <span>&nbsp;|&nbsp;</span>
+                                    }
+                                    <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"></i>
+                                }<i class="fa fa-pen pen btn-edit" Id="@item.Id" style="cursor: pointer;"></i>
+                            </td>
+                        }
                         <td>
                             @item.HolidayName
                         </td>
