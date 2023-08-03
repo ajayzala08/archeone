@@ -64,7 +64,7 @@ namespace ArcheOne.Controllers
                 #region DashboardShowAndHide
                 //Preyansi Code
                 DashboardDetailsResModel dashboardDetailsResModel = new DashboardDetailsResModel();
-                CommonResponse departmentResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDeparmentByUserId(userId);
+                CommonResponse departmentResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDepartmentByUserId(userId);
 
                 string departmentCode = string.Empty;
 
