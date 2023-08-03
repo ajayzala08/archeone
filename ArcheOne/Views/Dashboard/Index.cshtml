@@ -3,11 +3,31 @@
 @using ArcheOne.Models.Res;
 @model CommonResponse
 @{
-   
+
     Layout = "_MasterLayout";
     List<UserMst> userList = new List<UserMst>();
     DashboardDetailsResModel dashboardDetailsResModel = @Model.Data;
 }
+<style>
+
+    .card-text {
+        height: 150px;
+        overflow-x: hidden;
+        width: 100%;
+        overflow-y: scroll;
+    }
+
+        .card-text p {
+            width: 650px;
+            word-break: break-word;
+        }
+
+    .card-Body {
+        height: 596px;
+        width: 100%;
+    }
+
+</style>
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
@@ -26,491 +46,1235 @@
 </section>
 @if (Model.Status)
 {
-    <!-- Main content -->
-    <section class="content">
+    @if (dashboardDetailsResModel.IsUserHR)
+    {
+        <input id="txtHrId" name="txtHrId" type="hidden" class="form-control col-sm-4" value="@dashboardDetailsResModel.IsUserHR.ToString()" />
+        <!-- Main content -->
+        <section class="content">
 
-        <!-- Default box -->
-    
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="card">
-                    @*    <div class="card-block" style="height:120px">*@
-                    <div class="row">
+            <!-- Default box -->
 
-                        <div class="col-xl-2 col-md-6 m-3">
-                            <h6>Closure</h6>
-                            <h5 class="m-b-30 f-w-700"><span class="text-c-green m-l-10">@dashboardDetailsResModel.ClosureCount</span></h5>
-                            <div class="progress">
-                                <div class="progress-bar bg-secondary" style="width:@dashboardDetailsResModel.ClosureCount%"></div>
-                            </div>
-                        </div>
-                        <div class="col-xl-2 col-md-6 m-3">
-                            <h6>Submission</h6>
-                            <h5 class="m-b-30 f-w-700"><span class="text-c-red m-l-10">@dashboardDetailsResModel.SubmissionCount</span></h5>
-                            <div class="progress">
-                                <div class="progress-bar bg-info" style="width:@dashboardDetailsResModel.SubmissionCount%"></div>
-                            </div>
-                        </div>
-                        <div class="col-xl-2 col-md-6 m-3">
-                            <h6>Interview</h6>
-                            <h5 class="m-b-30 f-w-700"><span class="text-c-green m-l-10">@dashboardDetailsResModel.InterviewRoundCount</span></h5>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning" style="width:@dashboardDetailsResModel.InterviewRoundCount%"></div>
-                            </div>
-                        </div>
-                        <div class="col-xl-2 col-md-6 m-3">
-                            <h6>Hire</h6>
-                            <h5 class="m-b-30 f-w-700"><span class="text-c-green m-l-10">@dashboardDetailsResModel.UserCount</span></h5>
-                            <div class="progress">
-                                <div class="progress-bar bg-success" style="width:@dashboardDetailsResModel.UserCount%"></div>
-                            </div>
-                        </div>
-                        <div class="col-xl-2 col-md-6 m-3">
-                            <h6>BD</h6>
-                            <h5 class="m-b-30 f-w-700"><span class="text-c-green m-l-10">@dashboardDetailsResModel.BDCount</span></h5>
-                            <div class="progress">
-                                <div class="progress-bar bg-danger" style="width:@dashboardDetailsResModel.BDCount%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    @*           </div>*@
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-body">
-                            <div class="media d-flex">
-                                <div class="align-self-center">
-                                    <h2> <i class="fa fa-users fa-1x" style="color:darkolivegreen"></i></h2>
-                                </div>
-                                <div class="media-body text-right">
-                                    <h3>@dashboardDetailsResModel.UserCount</h3>
-                                    <span>User List</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-body">
-                            <div class="media d-flex">
-                                <div class="align-self-center">
-                                    <h2> <h2><i class="fa fa-cart-plus fa-1x" style="color:steelblue"></i></h2></h2>
-                                </div>
-                                <div class="media-body text-right">
-                                    <h3>@dashboardDetailsResModel.SalesLeadsCount</h3>
-                                    <span>Sales Lead</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-body">
-                            <div class="media d-flex">
-                                <div class="align-self-center">
-                                    <h2><i class="fas fa-magnet fa-1x" style="color:turquoise"></i></h2>
-                                </div>
-                                <div class="media-body text-right">
-                                    <h3>@dashboardDetailsResModel.SalesLeadOpportunityCount</h3>
-                                    <span>New Opportunity</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-body">
-                            <div class="media d-flex">
-                                <div class="align-self-center">
-                                    <h2><i class="fa fa-project-diagram fa-1x" aria-hidden="true" style="color:peru"></i></h2>
-                                </div>
-                                <div class="media-body text-right">
-                                    <h3>@dashboardDetailsResModel.ProjectCount</h3>
-                                    <span>Project List</span>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-body">
-                            <div class="media d-flex">
-                                <div class="align-self-center">
-                                    <h2><i class="fas fa-check-circle fa-1x" style="color:darkslateblue"></i></h2>
-                                </div>
-                                <div class="media-body text-right">
-                                    <h3>@dashboardDetailsResModel.ProjectCompletedCount</h3>
-                                    <span>Project Completed</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-body">
-                            <div class="media d-flex">
-                                <div class="align-self-center">
-                                    <h2> <i class="fas fa-spinner fa-1x" style="color:tomato"></i></h2>
-                                </div>
-                                <div class="media-body text-right">
-                                    <h3>@dashboardDetailsResModel.ProjectInProgressCount</h3>
-                                    <span>Project Inprogress</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-body">
-                            <div class="media d-flex">
-                                <div class="align-self-center">
-                                    <h2> <i class="fas fa-tasks fa-1x" style="color:tomato"></i></h2>
-                                </div>
-                                <div class="media-body text-right">
-                                    <h3>@dashboardDetailsResModel.ProjectToDoCount</h3>
-                                    <span>Project ToDo</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-
-            <div class="col-xl-6">
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="card single_crm">
-                            <div class="card-header bg-cyan crm_head d-flex justify-content-between">
-                                <div class="thumb">
-                                    <img src="img/crm/businessman.svg" alt="">
-                                </div>
-                                <i class="fa fa-users white_text"></i>
-                            </div>
-                            <div class="card-body crm_body">
-                                <h5>@dashboardDetailsResModel.TeamCount</h5>
-                                <p><small>Teams</small></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card single_crm ">
-                            <div class="card-header bg-gradient-gray crm_head crm_bg_1 d-flex align-items-center justify-content-between">
-                                <div class="thumb">
-                                    <img src="img/crm/customer.svg" alt="">
-                                </div>
-                                <i class="fa fa-clock white_text"></i>
-                            </div>
-                            <div class="card-body crm_body">
-                                <h5>@dashboardDetailsResModel.UncheckedLeave</h5>
-                                <p><small>Pending Leave</small></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card single_crm">
-                            <div class="card-header bg-gradient-green crm_head crm_bg_2 d-flex align-items-center justify-content-between">
-                                <div class="thumb">
-                                    <img src="img/crm/infographic.svg" alt="">
-                                </div>
-                                <i class="fa fa-clock white_text"></i>
-                            </div>
-                            <div class="card-body crm_body">
-                                <h5>@dashboardDetailsResModel.PendingResumeApprovalCount</h5>
-                                <p><small>Pending Resume</small></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card single_crm">
-                            <div class="card-header bg-blue crm_head crm_bg_3 d-flex align-items-center justify-content-between">
-                                <div class="thumb">
-                                    <img src="img/crm/sqr.svg" alt="">
-                                </div>
-                                <i class="fas fa-warehouse white_text"></i>
-                            </div>
-                            <div class="card-body crm_body">
-                                <h5>@dashboardDetailsResModel.InHouseRequirementCount</h5>
-                                <p><small>InHouse Requirements</small></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card single_crm">
-                            <div class="card-header bg-danger crm_head crm_bg_2 d-flex align-items-center justify-content-between">
-                                <div class="thumb">
-                                    <img src="img/crm/infographic.svg" alt="">
-                                </div>
-                                <i class="fas fa-chalkboard-teacher white_text"></i>
-                            </div>
-                            <div class="card-body crm_body">
-                                <h5>@dashboardDetailsResModel.ClientRequirementCount</h5>
-                                <p><small>Client Requirements</small></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card single_crm">
-                            <div class="card-header bg-warning crm_head crm_bg_3 d-flex align-items-center justify-content-between">
-                                <div class="thumb">
-                                    <img src="img/crm/sqr.svg" alt="">
-                                </div>
-                                <i class="fas fa-toggle-on white_text"></i>
-                            </div>
-                            <div class="card-body crm_body">
-                                <h5>@dashboardDetailsResModel.ActiveRequirementCount</h5>
-                                <p><small>Active Requirements</small></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card single_crm">
-                            <div class="card-header bg-cyan crm_head d-flex justify-content-between">
-                                <div class="thumb">
-                                    <img src="img/crm/businessman.svg" alt="">
-                                </div>
-                                <i class="fas fa-toggle-off white_text"></i>
-                            </div>
-                            <div class="card-body crm_body">
-                                <h5>@dashboardDetailsResModel.InActiveRequirementCount</h5>
-                                <p><small>InActive Requirements</small></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card single_crm ">
-                            <div class="card-header bg-gradient-gray crm_head crm_bg_1 d-flex align-items-center justify-content-between">
-                                <div class="thumb">
-                                    <img src="img/crm/customer.svg" alt="">
-                                </div>
-                                <i class="fa fa-pause white_text"></i>
-                            </div>
-                            <div class="card-body crm_body">
-                                <h5>@dashboardDetailsResModel.OnHoldRequirementCount</h5>
-                                <p><small>OnHold Requirements</small></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card single_crm">
-                            <div class="card-header bg-gradient-green crm_head crm_bg_2 d-flex align-items-center justify-content-between">
-                                <div class="thumb">
-                                    <img src="img/crm/infographic.svg" alt="">
-                                </div>
-                                <i class="fa fa-times white_text"></i>
-                            </div>
-                            <div class="card-body crm_body">
-                                <h5>@dashboardDetailsResModel.CloseRequirementCount</h5>
-                                <p><small>Close Requirements</small></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-          
-        </div>
-        <div class="row">
-        <div class="col-xl-12">
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="card card-light">
+                <div class="col-xl-12">
+                    <div class="card">
+                        @*    <div class="card-block" style="height:120px">*@
+                        <div class="row">
+
+                            <div class="col-xl-2 col-md-6 m-3">
+                                <h6>Closure</h6>
+                                <h5 class="m-b-30 f-w-700"><span class="text-c-green m-l-10">@dashboardDetailsResModel.ClosureCount</span></h5>
+                                <div class="progress">
+                                    <div class="progress-bar bg-secondary" style="width:@dashboardDetailsResModel.ClosureCount%"></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-md-6 m-3">
+                                <h6>Submission</h6>
+                                <h5 class="m-b-30 f-w-700"><span class="text-c-red m-l-10">@dashboardDetailsResModel.SubmissionCount</span></h5>
+                                <div class="progress">
+                                    <div class="progress-bar bg-info" style="width:@dashboardDetailsResModel.SubmissionCount%"></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-md-6 m-3">
+                                <h6>Interview</h6>
+                                <h5 class="m-b-30 f-w-700"><span class="text-c-green m-l-10">@dashboardDetailsResModel.InterviewRoundCount</span></h5>
+                                <div class="progress">
+                                    <div class="progress-bar bg-warning" style="width:@dashboardDetailsResModel.InterviewRoundCount%"></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-md-6 m-3">
+                                <h6>Hire</h6>
+                                <h5 class="m-b-30 f-w-700"><span class="text-c-green m-l-10">@dashboardDetailsResModel.UserCount</span></h5>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" style="width:@dashboardDetailsResModel.UserCount%"></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-md-6 m-3">
+                                <h6>BD</h6>
+                                <h5 class="m-b-30 f-w-700"><span class="text-c-green m-l-10">@dashboardDetailsResModel.BDCount</span></h5>
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" style="width:@dashboardDetailsResModel.BDCount%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        @*           </div>*@
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2> <i class="fa fa-users fa-1x" style="color:darkolivegreen"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.UserCount</h3>
+                                        <span>User</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2> <h2><i class="fa fa-cart-plus fa-1x" style="color:steelblue"></i></h2></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.AppraisalRatingCompletedCount</h3>
+                                        <span>AppraisalRating Completed</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2><i class="fas fa-magnet fa-1x" style="color:turquoise"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.AppraisalRatingInprogressCount</h3>
+                                        <span>AppraisalRating Inprogress</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2><i class="fa fa-project-diagram fa-1x" aria-hidden="true" style="color:peru"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.ProjectCount</h3>
+                                        <span>Project</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2><i class="fas fa-check-circle fa-1x" style="color:darkslateblue"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.ProjectCompletedCount</h3>
+                                        <span>Project Completed</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2> <i class="fas fa-spinner fa-1x" style="color:tomato"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.ProjectInProgressCount</h3>
+                                        <span>Project Inprogress</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2> <i class="fas fa-tasks fa-1x" style="color:tomato"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.ProjectToDoCount</h3>
+                                        <span>Project ToDo</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2> <i class="fas fa-tasks fa-1x" style="color:tomato"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.RecentJoiningCount</h3>
+                                        <span>Recent Joining</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-xl-12">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="card single_crm">
+                                <div class="card-header bg-cyan crm_head d-flex justify-content-between">
+                                    <div class="thumb">
+                                        <img src="img/crm/businessman.svg" alt="">
+                                    </div>
+                                    <i class="fa fa-users white_text"></i>
+                                </div>
+                                <div class="card-body crm_body">
+                                    <h5>@dashboardDetailsResModel.TeamCount</h5>
+                                    <p><small>Teams</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="card single_crm ">
+                                <div class="card-header bg-gradient-gray crm_head crm_bg_1 d-flex align-items-center justify-content-between">
+                                    <div class="thumb">
+                                        <img src="img/crm/customer.svg" alt="">
+                                    </div>
+                                    <i class="fa fa-clock white_text"></i>
+                                </div>
+                                <div class="card-body crm_body">
+                                    <h5>@dashboardDetailsResModel.UncheckedLeave</h5>
+                                    <p><small>Pending Leave</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="card single_crm">
+                                <div class="card-header bg-gradient-green crm_head crm_bg_2 d-flex align-items-center justify-content-between">
+                                    <div class="thumb">
+                                        <img src="img/crm/infographic.svg" alt="">
+                                    </div>
+                                    <i class="fa fa-clock white_text"></i>
+                                </div>
+                                <div class="card-body crm_body">
+                                    <h5>@dashboardDetailsResModel.PendingResumeApprovalCount</h5>
+                                    <p><small>Pending Resume</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="card single_crm">
+                                <div class="card-header bg-blue crm_head crm_bg_3 d-flex align-items-center justify-content-between">
+                                    <div class="thumb">
+                                        <img src="img/crm/sqr.svg" alt="">
+                                    </div>
+                                    <i class="fas fa-warehouse white_text"></i>
+                                </div>
+                                <div class="card-body crm_body">
+                                    <h5>@dashboardDetailsResModel.InHouseRequirementCount</h5>
+                                    <p><small>InHouse Requirements</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="card single_crm">
+                                <div class="card-header bg-danger crm_head crm_bg_2 d-flex align-items-center justify-content-between">
+                                    <div class="thumb">
+                                        <img src="img/crm/infographic.svg" alt="">
+                                    </div>
+                                    <i class="fas fa-chalkboard-teacher white_text"></i>
+                                </div>
+                                <div class="card-body crm_body">
+                                    <h5>@dashboardDetailsResModel.ClientRequirementCount</h5>
+                                    <p><small>Client Requirements</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="card single_crm">
+                                <div class="card-header bg-warning crm_head crm_bg_3 d-flex align-items-center justify-content-between">
+                                    <div class="thumb">
+                                        <img src="img/crm/sqr.svg" alt="">
+                                    </div>
+                                    <i class="fas fa-toggle-on white_text"></i>
+                                </div>
+                                <div class="card-body crm_body">
+                                    <h5>@dashboardDetailsResModel.ActiveRequirementCount</h5>
+                                    <p><small>Active Requirements</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="card single_crm">
+                                <div class="card-header bg-cyan crm_head d-flex justify-content-between">
+                                    <div class="thumb">
+                                        <img src="img/crm/businessman.svg" alt="">
+                                    </div>
+                                    <i class="fas fa-toggle-off white_text"></i>
+                                </div>
+                                <div class="card-body crm_body">
+                                    <h5>@dashboardDetailsResModel.InActiveRequirementCount</h5>
+                                    <p><small>InActive Requirements</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="card single_crm ">
+                                <div class="card-header bg-gradient-gray crm_head crm_bg_1 d-flex align-items-center justify-content-between">
+                                    <div class="thumb">
+                                        <img src="img/crm/customer.svg" alt="">
+                                    </div>
+                                    <i class="fa fa-pause white_text"></i>
+                                </div>
+                                <div class="card-body crm_body">
+                                    <h5>@dashboardDetailsResModel.OnHoldRequirementCount</h5>
+                                    <p><small>OnHold Requirements</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="card single_crm">
+                                <div class="card-header bg-gradient-green crm_head crm_bg_2 d-flex align-items-center justify-content-between">
+                                    <div class="thumb">
+                                        <img src="img/crm/infographic.svg" alt="">
+                                    </div>
+                                    <i class="fa fa-times white_text"></i>
+                                </div>
+                                <div class="card-body crm_body">
+                                    <h5>@dashboardDetailsResModel.CloseRequirementCount</h5>
+                                    <p><small>Close Requirements</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-light card-Body">
+                        <div class="card-body text-white" style="margin-top: 100px;">
+                            <div class="row chart">
+                                @*<div id="chartContainer"></div>*@
+                                <div id="chartRequirmentContainer" style="height: 370px; width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-light card-Body">
                         <div class="card-body  text-white">
                             <div class="col-md-12 text-secondary text-bold" id="calendar"> </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        </div>
+            <!-- /.card -->
+
+        </section>
+        <!-- /.content -->
+    }
+    @if (dashboardDetailsResModel.IsUserSD || dashboardDetailsResModel.IsUserQA || dashboardDetailsResModel.IsUserDesigner)
+    {
+        <input id="txtsdId" name="txtsdId" type="hidden" class="form-control col-sm-4" value="@dashboardDetailsResModel.IsUserSD.ToString()" />
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Default box -->
+
+
+
+            <div class="row">
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2> <i class="fa fa-users fa-1x" style="color:darkolivegreen"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.UserCount</h3>
+                                        <span>User</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2> <h2><i class="fa fa-cart-plus fa-1x" style="color:steelblue"></i></h2></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.AppraisalRatingCompletedCount</h3>
+                                        <span>AppraisalRating Completed</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2><i class="fas fa-magnet fa-1x" style="color:turquoise"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.AppraisalRatingInprogressCount</h3>
+                                        <span>AppraisalRating Inprogress</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2><i class="fa fa-project-diagram fa-1x" aria-hidden="true" style="color:peru"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.ProjectCount</h3>
+                                        <span>Project</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2><i class="fas fa-check-circle fa-1x" style="color:darkslateblue"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.ProjectCompletedCount</h3>
+                                        <span>Project Completed</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2> <i class="fas fa-spinner fa-1x" style="color:tomato"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.ProjectInProgressCount</h3>
+                                        <span>Project Inprogress</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2> <i class="fas fa-tasks fa-1x" style="color:tomato"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.ProjectToDoCount</h3>
+                                        <span>Project ToDo</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2> <i class="fas fa-tasks fa-1x" style="color:tomato"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.UncheckedLeave</h3>
+                                        <span>Unchecked Leave</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-light card-Body">
+                        <div class="card-body text-white" style="margin-top: 100px;">
+                            <div class="row chart">
+                                @*<div id="chartContainer"></div>*@
+                                <div id="chartDeveloperContainer" style="height: 370px; width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-light card-Body">
+                        <div class="card-body  text-white">
+                            <div class="col-md-12 text-secondary text-bold" id="calendar"> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- /.card -->
+
+        </section>
+        <!-- /.content -->
+    }
+    @if (dashboardDetailsResModel.IsUserSales)
+    {
+        <input id="txtSalesId" name="txtSalesId" type="hidden" class="form-control col-sm-4" value="@dashboardDetailsResModel.IsUserSales.ToString()" />
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Default box -->
+
+
+            <div class="row">
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2> <i class="fa fa-users fa-1x" style="color:darkolivegreen"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.UserCount</h3>
+                                        <span>User</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2> <h2><i class="fa fa-cart-plus fa-1x" style="color:steelblue"></i></h2></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.NextFollowUpCount</h3>
+                                        <span>NextFollowUpCount</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2><i class="fa fa-project-diagram fa-1x" aria-hidden="true" style="color:peru"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.ProjectCount</h3>
+                                        <span>Project</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2><i class="fas fa-check-circle fa-1x" style="color:darkslateblue"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.ProjectCompletedCount</h3>
+                                        <span>Project Completed</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2> <i class="fas fa-spinner fa-1x" style="color:tomato"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.ProjectInProgressCount</h3>
+                                        <span>Project Inprogress</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2> <i class="fas fa-tasks fa-1x" style="color:tomato"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.ProjectToDoCount</h3>
+                                        <span>Project ToDo</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2> <i class="fas fa-tasks fa-1x" style="color:tomato"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.UncheckedLeave</h3>
+                                        <span>Unchecked Leave</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-light card-Body">
+                        <div class="card-body text-white" style="margin-top: 100px;">
+                            <div class="row chart">
+                                @*<div id="chartContainer"></div>*@
+                                <div id="chartSalesContainer" style="height: 370px; width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-light card-Body">
+                        <div class="card-body  text-white">
+                            <div class="col-md-12 text-secondary text-bold" id="calendar"> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.card -->
+
+        </section>
+        <!-- /.content -->
+    }
+    @if (dashboardDetailsResModel.IsUserRecruitment)
+    {
+        <input id="txtRecruitmentId" name="txtRecruitmentId" type="hidden" class="form-control col-sm-4" value="@dashboardDetailsResModel.IsUserRecruitment.ToString()" />
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Default box -->
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        @*    <div class="card-block" style="height:120px">*@
+                        <div class="row">
+
+                            <div class="col-xl-2 col-md-6 m-3">
+                                <h6>Closure</h6>
+                                <h5 class="m-b-30 f-w-700"><span class="text-c-green m-l-10">@dashboardDetailsResModel.ClosureCount</span></h5>
+                                <div class="progress">
+                                    <div class="progress-bar bg-secondary" style="width:@dashboardDetailsResModel.ClosureCount%"></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-md-6 m-3">
+                                <h6>Submission</h6>
+                                <h5 class="m-b-30 f-w-700"><span class="text-c-red m-l-10">@dashboardDetailsResModel.SubmissionCount</span></h5>
+                                <div class="progress">
+                                    <div class="progress-bar bg-info" style="width:@dashboardDetailsResModel.SubmissionCount%"></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-md-6 m-3">
+                                <h6>Interview</h6>
+                                <h5 class="m-b-30 f-w-700"><span class="text-c-green m-l-10">@dashboardDetailsResModel.InterviewRoundCount</span></h5>
+                                <div class="progress">
+                                    <div class="progress-bar bg-warning" style="width:@dashboardDetailsResModel.InterviewRoundCount%"></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-md-6 m-3">
+                                <h6>Hire</h6>
+                                <h5 class="m-b-30 f-w-700"><span class="text-c-green m-l-10">@dashboardDetailsResModel.UserCount</span></h5>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" style="width:@dashboardDetailsResModel.UserCount%"></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-md-6 m-3">
+                                <h6>BD</h6>
+                                <h5 class="m-b-30 f-w-700"><span class="text-c-green m-l-10">@dashboardDetailsResModel.BDCount</span></h5>
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" style="width:@dashboardDetailsResModel.BDCount%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        @*           </div>*@
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2> <i class="fa fa-users fa-1x" style="color:darkolivegreen"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.UserCount</h3>
+                                        <span>User</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2> <h2><i class="fa fa-cart-plus fa-1x" style="color:steelblue"></i></h2></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.OfferCount</h3>
+                                        <span>Given Offer</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2><i class="fas fa-magnet fa-1x" style="color:turquoise"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.JoiningCount</h3>
+                                        <span>User Join</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2><i class="fa fa-project-diagram fa-1x" aria-hidden="true" style="color:peru"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.ProjectCount</h3>
+                                        <span>Project</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2><i class="fas fa-check-circle fa-1x" style="color:darkslateblue"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.ProjectCompletedCount</h3>
+                                        <span>Project Completed</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2> <i class="fas fa-spinner fa-1x" style="color:tomato"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.ProjectInProgressCount</h3>
+                                        <span>Project Inprogress</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2> <i class="fas fa-tasks fa-1x" style="color:tomato"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.ProjectToDoCount</h3>
+                                        <span>Project ToDo</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="align-self-center">
+                                        <h2> <i class="fas fa-tasks fa-1x" style="color:tomato"></i></h2>
+                                    </div>
+                                    <div class="media-body text-right">
+                                        <h3>@dashboardDetailsResModel.RecentJoiningCount</h3>
+                                        <span>Recent Joining</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-xl-12">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="card single_crm">
+                                <div class="card-header bg-cyan crm_head d-flex justify-content-between">
+                                    <div class="thumb">
+                                        <img src="img/crm/businessman.svg" alt="">
+                                    </div>
+                                    <i class="fa fa-users white_text"></i>
+                                </div>
+                                <div class="card-body crm_body">
+                                    <h5>@dashboardDetailsResModel.TeamCount</h5>
+                                    <p><small>Teams</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="card single_crm ">
+                                <div class="card-header bg-gradient-gray crm_head crm_bg_1 d-flex align-items-center justify-content-between">
+                                    <div class="thumb">
+                                        <img src="img/crm/customer.svg" alt="">
+                                    </div>
+                                    <i class="fa fa-clock white_text"></i>
+                                </div>
+                                <div class="card-body crm_body">
+                                    <h5>@dashboardDetailsResModel.UncheckedLeave</h5>
+                                    <p><small>Pending Leave</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="card single_crm">
+                                <div class="card-header bg-gradient-green crm_head crm_bg_2 d-flex align-items-center justify-content-between">
+                                    <div class="thumb">
+                                        <img src="img/crm/infographic.svg" alt="">
+                                    </div>
+                                    <i class="fa fa-clock white_text"></i>
+                                </div>
+                                <div class="card-body crm_body">
+                                    <h5>@dashboardDetailsResModel.PendingResumeApprovalCount</h5>
+                                    <p><small>Pending Resume</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="card single_crm">
+                                <div class="card-header bg-blue crm_head crm_bg_3 d-flex align-items-center justify-content-between">
+                                    <div class="thumb">
+                                        <img src="img/crm/sqr.svg" alt="">
+                                    </div>
+                                    <i class="fas fa-warehouse white_text"></i>
+                                </div>
+                                <div class="card-body crm_body">
+                                    <h5>@dashboardDetailsResModel.InHouseRequirementCount</h5>
+                                    <p><small>InHouse Requirements</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="card single_crm">
+                                <div class="card-header bg-danger crm_head crm_bg_2 d-flex align-items-center justify-content-between">
+                                    <div class="thumb">
+                                        <img src="img/crm/infographic.svg" alt="">
+                                    </div>
+                                    <i class="fas fa-chalkboard-teacher white_text"></i>
+                                </div>
+                                <div class="card-body crm_body">
+                                    <h5>@dashboardDetailsResModel.ClientRequirementCount</h5>
+                                    <p><small>Client Requirements</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="card single_crm">
+                                <div class="card-header bg-warning crm_head crm_bg_3 d-flex align-items-center justify-content-between">
+                                    <div class="thumb">
+                                        <img src="img/crm/sqr.svg" alt="">
+                                    </div>
+                                    <i class="fas fa-toggle-on white_text"></i>
+                                </div>
+                                <div class="card-body crm_body">
+                                    <h5>@dashboardDetailsResModel.ActiveRequirementCount</h5>
+                                    <p><small>Active Requirements</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="card single_crm">
+                                <div class="card-header bg-cyan crm_head d-flex justify-content-between">
+                                    <div class="thumb">
+                                        <img src="img/crm/businessman.svg" alt="">
+                                    </div>
+                                    <i class="fas fa-toggle-off white_text"></i>
+                                </div>
+                                <div class="card-body crm_body">
+                                    <h5>@dashboardDetailsResModel.InActiveRequirementCount</h5>
+                                    <p><small>InActive Requirements</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="card single_crm ">
+                                <div class="card-header bg-gradient-gray crm_head crm_bg_1 d-flex align-items-center justify-content-between">
+                                    <div class="thumb">
+                                        <img src="img/crm/customer.svg" alt="">
+                                    </div>
+                                    <i class="fa fa-pause white_text"></i>
+                                </div>
+                                <div class="card-body crm_body">
+                                    <h5>@dashboardDetailsResModel.OnHoldRequirementCount</h5>
+                                    <p><small>OnHold Requirements</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="card single_crm">
+                                <div class="card-header bg-gradient-green crm_head crm_bg_2 d-flex align-items-center justify-content-between">
+                                    <div class="thumb">
+                                        <img src="img/crm/infographic.svg" alt="">
+                                    </div>
+                                    <i class="fa fa-times white_text"></i>
+                                </div>
+                                <div class="card-body crm_body">
+                                    <h5>@dashboardDetailsResModel.CloseRequirementCount</h5>
+                                    <p><small>Close Requirements</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-light card-Body">
+                        <div class="card-body text-white" style="margin-top: 100px;">
+                            <div class="row chart">
+                                @*<div id="chartContainer"></div>*@
+                                <div id="chartRequirmentContainer" style="height: 370px; width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-light card-Body">
+                        <div class="card-body  text-white">
+                            <div class="col-md-12 text-secondary text-bold" id="calendar"> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card -->
+
+        </section>
+        <!-- /.content -->
+    }
+    <section class="content">
+        @*<div class="row">
+    <div class="col-xl-12">
+    <div class="row">
+    <div class="col-md-12">
+    <div class="card card-light">
+    <div class="card-body  text-white">
+    <div class="col-md-12 text-secondary text-bold" id="calendar"> </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>*@
         <div class="row">
             <div class="col-lg-4">
                 <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Work Anniversaries</h3>
+                    <div class="card-header" style="background:#6b5b95">
+                        <h3 class="card-title" style="color:white;font-weight:bold">Work Anniversaries</h3>
                         <div class="card-tools">
-                            <span class="badge badge-danger" id="anniversaryCnt"></span>
+                            <span class="badge" style="background:#feb236" id="anniversaryCnt"></span>
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-minus"></i>
                             </button>
                         </div>
                     </div>
 
-                    <div class="card-body p-0">
+                    <div class="card-body p-0 card-text">
                         <ul class="users-list clearfix" id="liAnniversary">
-                            @*                      @foreach (var item in userList)
-                        {
-                        <li>
-                        <img src="..\@item.PhotoUrl" alt="User Image">
-                        <a class="users-list-name" href="#">@item.FirstName @item.LastName</a>
-                        <span class="users-list-date">@item.CreatedDate</span>
-                        </li>
-                        }*@
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4">
+
                 <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Birthdays</h3>
+                    <div class="card-header" style="background:#d64161">
+                        <h3 class="card-title" style="color:white;font-weight:bold">Birthdays</h3>
                         <div class="card-tools">
-                            <span class="badge badge-danger" id="birthdayCnt"></span>
+                            <span class="badge badge-warning" style="background: #b5e7a0" id="birthdayCnt"></span>
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-minus"></i>
                             </button>
                         </div>
                     </div>
 
-                    <div class="card-body p-0">
+                    <div class="card-body p-0 card-text">
                         <ul class="users-list clearfix" id="libirthday">
-                            @*                        @foreach (var item in userList)
-                        {
-                        <li>
-                        <img src="..\@item.PhotoUrl" alt="User Image">
-                        <a class="users-list-name" href="#">@item.FirstName @item.LastName</a>
-                        <span class="users-list-date">@item.CreatedDate</span>
-                        </li>
-                        }*@
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="card">
-                    <div class="card-header border-0">
-                        <h3 class="card-title">Holidays</h3>
+                    <div class="card-header border-0" style="background:#034f84">
+                        <h3 class="card-title" style="color:white;font-weight:bold">Holidays</h3>
                         <div class="card-tools">
-                            <span class="badge badge-danger" id="holidaycnt"></span>
+                            <span class="badge badge-info" style="background: #f7786b" id="holidaycnt"></span>
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-minus"></i>
                             </button>
                         </div>
 
                     </div>
-                    <div class="card-body table-responsive p-0">
-                        <table class="table table-striped table-valign-middle" id="tblHoliday">
+                    <div class="card-body table-responsive p-0 card-text">
+                        <table class="table table-valign-middle" id="tblHoliday">
                             <tbody>
                             </tbody>
-                            @*<tbody>
-                        <tr>
-                        <td>
-                        Diwali
-                        </td>
-                        <td>Thursday, 26th October 2023</td>
-                        </tr>
-                        <tr>
-                        <td>
-                        Diwali
-                        </td>
-                        <td>Thursday, 26th October 2023</td>
-                        </tr>
-                        <tr>
-                        <td>
-                        Diwali
-                        </td>
-                        <td>Thursday, 26th October 2023</td>
-                        </tr>
-                        <tr>
-                        <td>
-                        Diwali
-                        </td>
-                        <td>Thursday, 26th October 2023</td>
-                        </tr>
-                        <tr>
-                        <td>
-                        Diwali
-                        </td>
-                        <td>Thursday, 26th October 2023</td>
-                        </tr>
-                        </tbody>*@
                         </table>
                     </div>
                 </div>
             </div>
 
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="row chart">
-                    <div id="chartContainer"></div>
-                </div>
-            </div>
-        </div>
-
-        @*  <div class="row">
-    <div class="col-md-4">
-
-    <div class="card card-widget widget-user-2 shadow-sm">
-
-    <div class="widget-user-header bg-warning">
-    <div class="widget-user-image">
-    <img class="img-circle elevation-2" src="../dist/img/user7-128x128.jpg" alt="User Avatar">
-    </div>
-
-    <h3 class="widget-user-username">Nadia Carmichael</h3>
-    <h5 class="widget-user-desc">Lead Developer</h5>
-    </div>
-    <div class="card-footer p-0">
-    <ul class="nav flex-column">
-    <li class="nav-item">
-    <a href="#" class="nav-link">
-    Projects <span class="float-right badge bg-primary">31</span>
-    </a>
-    </li>
-    <li class="nav-item">
-    <a href="#" class="nav-link">
-    Tasks <span class="float-right badge bg-info">5</span>
-    </a>
-    </li>
-    <li class="nav-item">
-    <a href="#" class="nav-link">
-    Completed Projects <span class="float-right badge bg-success">12</span>
-    </a>
-    </li>
-    <li class="nav-item">
-    <a href="#" class="nav-link">
-    Followers <span class="float-right badge bg-danger">842</span>
-    </a>
-    </li>
-    </ul>
-    </div>
-    </div>
-
-    </div>
-    </div>*@
-
-        <!-- /.card -->
 
     </section>
-    <!-- /.content -->
 }
 @section Scripts {
     <script src="~/archeone/js/dashboard/index.js?_@DateTime.Now.Ticks"></script>
+    @*    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>*@
+    @*<script>
+        debugger
+        let hr = $("#txtHrId").val();
+        let Sd = $("#txtsdId").val();
+        let Sales = $("#txtSalesId").val();
+        let Recruitment = $("#txtRecruitmentId").val();
+        
+        if (Sd) {
+            //window.onload = function () {
+
+            var Developerchart = new CanvasJS.Chart("chartDeveloperContainer", {
+                exportEnabled: true,
+                animationEnabled: true,
+                theme: "light1",
+                title: {
+                    text: "Project"
+                },
+                legend: {
+                    //cursor: "pointer",
+                    //itemclick: explodePie,
+                    // verticalAlign: "center",
+                    horizontalAlign: "center"
+                },
+                data: [{
+                    type: "doughnut",
+                    indexLabelFontFamily: "Garamond",
+                    indexLabelFontSize: 15,
+                    startAngle: 180,
+                    toolTipContent: "<b>{label}</b>: {y}%",
+                    showInLegend: "true",
+                    legendText: "{label}",
+                    indexLabel: "{label} - {y}%",
+                    dataPoints: @Html.Raw(ViewBag.DataPoints)
+                                            }]
+            });
+            Developerchart.render();
+            //}
+
+        }
+        if (Sales) {
+            //window.onload = function () {
+
+            var chart = new CanvasJS.Chart("chartSalesContainer", {
+                exportEnabled: true,
+                animationEnabled: true,
+                theme: "light1",
+                title: {
+                    text: "Sales Lead"
+                },
+                legend: {
+                    //cursor: "pointer",
+                    //itemclick: explodePie,
+                    // verticalAlign: "center",
+                    horizontalAlign: "center"
+                },
+                data: [{
+                    type: "doughnut",
+                    indexLabelFontFamily: "Garamond",
+                    indexLabelFontSize: 15,
+                    startAngle: 180,
+                    toolTipContent: "<b>{label}</b>: {y}%",
+                    showInLegend: "true",
+                    legendText: "{label}",
+                    indexLabel: "{label} - {y}%",
+                    dataPoints: @Html.Raw(ViewBag.DataPoints)
+                            }]
+            });
+            chart.render();
+
+
+
+            //},
+        }
+        if (Recruitment || hr) {
+            //window.onload = function () {
+            debugger
+            var Requirmentchart = new CanvasJS.Chart("chartRequirmentContainer", {
+                exportEnabled: true,
+                animationEnabled: true,
+                theme: "light1",
+                title: {
+                    text: "Requirement"
+                },
+                legend: {
+                    //cursor: "pointer",
+                    //itemclick: explodePie,
+                    // verticalAlign: "center",
+                    horizontalAlign: "center"
+                },
+                data: [{
+                    type: "doughnut",
+                    indexLabelFontFamily: "Garamond",
+                    indexLabelFontSize: 15,
+                    startAngle: 180,
+                    toolTipContent: "<b>{label}</b>: {y}%",
+                    showInLegend: "true",
+                    legendText: "{label}",
+                    indexLabel: "{label} - {y}%",
+                    dataPoints: @Html.Raw(ViewBag.DataPoints)
+                                    }]
+            });
+            Requirmentchart.render();
+
+
+
+            //}
+        }
+
+    </script>*@
 }
 <link href='https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.css' rel='stylesheet'>
 <script type="text/javascript" src="https://cdn.canvasjs.com/canvasjs.min.js"></script>

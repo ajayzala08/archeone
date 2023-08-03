@@ -1,7 +1,13 @@
 ﻿$(document).ready(function () {
     LoadBirthdayWorkAniversaryHoliday();
-    Showcharts();
+
     showCalenderData();
+    debugger
+    let hr = $("#txtHrId").val();
+    debugger
+    if (hr) {
+        Showcharts();
+    }
 });
 
 function LoadBirthdayWorkAniversaryHoliday() {
@@ -10,14 +16,14 @@ function LoadBirthdayWorkAniversaryHoliday() {
             let holidayCnt = result.data.holidays.length;
             $('#holidaycnt').text(holidayCnt + ' Holidays');
             $.each(result.data.holidays, function (data, value) {
-                let strToAdd = '<tr><td>' + value.holidayName + '</td><td>' + value.holidayDate +'</td></tr>';
+                let strToAdd = '<tr><td>' + value.holidayName + '</td><td>' + value.holidayDate + '</td></tr>';
                 $('#tblHoliday').append(strToAdd);
             })
 
             let birthdayCnt = result.data.birthdays.length;
             $('#birthdayCnt').text(birthdayCnt + ' Birthday');
             $.each(result.data.birthdays, function (data, value) {
-                let strToAdd = '<li><img src=' + value.employeeImagePath + ' alt="User Image" style="height:75px;width:75px;"></img><a class=users-list-name href=#>' + value.employeeName + ' </a> <span class=users-list-date>' + value.birthdate +'</span></li>';
+                let strToAdd = '<li><img src=' + value.employeeImagePath + ' alt="User Image" style="height:75px;width:75px;"></img><a class=users-list-name href=#>' + value.employeeName + ' </a> <span class=users-list-date>' + value.birthdate + '</span></li>';
                 $('#libirthday').append(strToAdd);
             })
 
@@ -55,18 +61,18 @@ function showCalender(data) {
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         themeSystem: 'bootstrap',
-   
+
         contentHeight: 450,
-/*        headerToolbar: {
-            left: 'prev,next,today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        },
-        footerToolbar: {
-            start: '',
-            center: '',
-            end: 'prev,next'
-        },*/
+        /*        headerToolbar: {
+                    left: 'prev,next,today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                footerToolbar: {
+                    start: '',
+                    center: '',
+                    end: 'prev,next'
+                },*/
 
         events: data,
 
@@ -103,8 +109,14 @@ function showCalender(data) {
 };
 
 function Showcharts() {
+
+
+    debugger
+    ajaxCallWithoutDataType("GET", false, '/Dashboard/HRChart', null, function (result) {
    
-        var chart = new CanvasJS.Chart("chartContainer", {
+        debugger
+        console.log(result.data)
+        var chart = new CanvasJS.Chart("chartRequirmentContainer", {
             title: {
                 text: "Recruitment Chart"
             },
@@ -123,21 +135,20 @@ function Showcharts() {
                     startAngle: -20,
                     showInLegend: true,
                     toolTipContent: "{legendText} {y}%",
-                    dataPoints: [
-                        { y: 72.48, legendText: "Google", label: "Google" },
-                        { y: 10.39, legendText: "Bing", label: "Bing" },
-                        { y: 7.78, legendText: "Yahoo!", label: "Yahoo!" },
-                        { y: 7.14, legendText: "Baidu", label: "Baidu" },
-                        { y: 0.22, legendText: "Ask", label: "Ask" },
-                        { y: 0.15, legendText: "AOL", label: "AOL" },
-                        { y: 1.84, legendText: "Others", label: "Others" }
-                    ],
-
-                    //dataPoints: @Html.Raw(ViewBag.DataPoints),
-                }
-            ]
+                        dataPoints: [
+                            { y: 72.48, legendText: "Google", label: "Google" },
+                            { y: 10.39, legendText: "Bing", label: "Bing" },
+                            { y: 7.78, legendText: "Yahoo!", label: "Yahoo!" },
+                            { y: 7.14, legendText: "Baidu", label: "Baidu" },
+                            { y: 0.22, legendText: "Ask", label: "Ask" },
+                            { y: 0.15, legendText: "AOL", label: "AOL" },
+                            { y: 1.84, legendText: "Others", label: "Others" }
+                        ],
+                //dataPoints: @Html.Raw(ViewBag.DataPoints),
+            }],
+        
         });
         chart.render();
-    
-};
+    });
+}
 
