@@ -57,6 +57,8 @@
             Task_Report_View,
             Event_View,
             Salary_View,
+            Salary_Add_View,
+            Salary_Delete_View,
             Uploaded_Resume_Status_Update
         }
 
