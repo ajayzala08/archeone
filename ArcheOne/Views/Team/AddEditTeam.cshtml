@@ -5,7 +5,7 @@
     AddEditTeamReqViewModel addEditTeamReqViewModel = Model.Data;
     Layout = "_MasterLayout";
     ViewBag.select2 = "true";
-    string Title = addEditTeamReqViewModel.TeamLeadDetails.TeamLeadId > 0 ? "Edit Team" : "Add Team";
+    string Title = addEditTeamReqViewModel.TeamLeadId > 0 ? "Edit Team" : "Add Team";
 }
 
 <section class="content-header">
@@ -25,99 +25,88 @@
 </section>
 
 <section class="content">
-        <div class="card">
-            <div class="card-header">
-                @Title
-                <h3 class="card-title"></h3>
-            </div>
-            <div class="card-body">
-                @if (Model.Status)
-                {
-                    <div class="row">
-                        <input id="txtTeamId" name="txtTeamId" type="hidden" class="form-control col-sm-4" value="@addEditTeamReqViewModel.TeamLeadDetails.TeamLeadId" />
+    <div class="card">
+        <div class="card-header">
+            @Title
+            <h3 class="card-title"></h3>
+        </div>
+        <div class="card-body">
+            @if (Model.Status)
+            {
+                <div class="row">
+                    <input id="txtTeamId" name="txtTeamId" type="hidden" class="form-control col-sm-4" value="@addEditTeamReqViewModel.TeamLeadId" />
 
-                        <div class="col-sm-4" id="dddlTeamLeadId">
-                            <div class="form-group">
-                                <label><span class="has-error required">* </span>Team Lead</label>
-                                <select id="ddlTeamLeadId" name="ddlTeamLeadId" class="form-control select2" isrequired="1" divcontainer="dddlTeamLeadId" errorspan="sddlTeamLeadId" defaultvalue="0" style="width: 100%;">
-                                    <option value="0">--- Select ---</option>
-                                    @foreach (var item in addEditTeamReqViewModel.TeamLeadList)
+                    <div class="col-sm-4" id="dddlTeamLeadId">
+                        <div class="form-group">
+                            <label><span class="has-error required">* </span>Team Lead</label>
+                            <select id="ddlTeamLeadId" name="ddlTeamLeadId" class="form-control select2" isrequired="1" divcontainer="dddlTeamLeadId" errorspan="sddlTeamLeadId" defaultvalue="0" style="width: 100%;">
+                                <option value="0">--- Select ---</option>
+                                @foreach (var item in addEditTeamReqViewModel.TeamLeadList)
+                                {
+                                    if (item.Id == addEditTeamReqViewModel.TeamLeadId)
                                     {
-                                        if (item.Id == addEditTeamReqViewModel.TeamLeadDetails.TeamLeadId)
-                                        {
-                                            <option value="@item.Id" selected>@item.FirstName @item.LastName</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@item.Id">@item.FirstName @item.LastName</option>
-                                        }
-                                    }
-                                </select>
-                                <span class="help-block d-none has-error" id="sddlTeamLeadId">Please select any Team Lead</span>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-4" id="dddlTeamMemberId">
-                            <div class="form-group">
-                                <label><span class="has-error required" typeof="checkbox">* </span>Team Member</label>
-                                <select id="ddlTeamMemberId" name="ddlTeamMemberId" multiple="multiple" class="form-control select2" isrequired="1" divcontainer="dddlTeamMemberId" errorspan="sddlTeamMemberId" defaultvalue="0" style="width: 100%;">
-                                    <option value="0">--- Select ---</option>
-                                    @if (addEditTeamReqViewModel.TeamLeadDetails.TeamLeadId > 0)
-                                    {
-                                        @foreach (var item in addEditTeamReqViewModel.TeamMemberList)
-                                        {
-                                            if (!addEditTeamReqViewModel.TeamLeadDetails.TeamMemberDetails.Any(x => x.TeamMemberId == item.Id))
-                                            {
-                                                if (!addEditTeamReqViewModel.TeamMemberIdList.Any(x => x.TeamMemberId == item.Id))
-                                                {
-                                                    <option value="@item.Id">@item.FirstName @item.LastName</option>
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <option value="@item.Id" selected>@item.FirstName @item.LastName</option>
-                                            }
-                                        }
+                                        <option value="@item.Id" selected>@item.FullName</option>
                                     }
                                     else
                                     {
-                                        @foreach (var item in addEditTeamReqViewModel.TeamMemberList)
-                                        {
-                                            if (!addEditTeamReqViewModel.TeamLeadDetails.TeamMemberDetails.Any(x => x.TeamMemberId == item.Id))
-                                            {
-                                                <option value="@item.Id">@item.FirstName @item.LastName</option>
-                                            }
-                                        }
+                                        <option value="@item.Id">@item.FullName</option>
                                     }
-
-                                </select>
-                                <span class="help-block d-none has-error" id="sddlTeamMemberId">Please select any Team Member</span>
-                            </div>
+                                }
+                            </select>
+                            <span class="help-block d-none has-error" id="sddlTeamLeadId">Please select any Team Lead</span>
                         </div>
-
                     </div>
 
-                }
-                else
-                {
-                    <p style="color:red;">@Model.Message</p>
-                }
+                    <div class="col-sm-4" id="dddlTeamMemberId">
+                        <div class="form-group">
+                            <label><span class="has-error required" typeof="checkbox">* </span>Team Member</label>
+                            <select id="ddlTeamMemberId" name="ddlTeamMemberId" multiple="multiple" class="form-control select2" isrequired="1" divcontainer="dddlTeamMemberId" errorspan="sddlTeamMemberId" defaultvalue="0" style="width: 100%;">
+                                <option value="0">--- Select ---</option>
 
+                                @if (addEditTeamReqViewModel.TeamLeadId > 0)
+                                {
+                                    foreach (var item in addEditTeamReqViewModel.TeamMemberList)
+                                    {
+                                        if (addEditTeamReqViewModel.TeamMemberIds.Any(x => x == item.Id.ToString()))
+                                        {
+                                            <option value="@item.Id" selected>@item.FullName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Id">@item.FullName</option>
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    foreach (var item in addEditTeamReqViewModel.TeamMemberList)
+                                    {
+                                        <option value="@item.Id">@item.FullName</option>
+                                    }
+                                }
+                            </select>
+                            <span class="help-block d-none has-error" id="sddlTeamMemberId">Please select any Team Member</span>
+                        </div>
+                    </div>
 
-            </div>
-            <div class="card-footer">
-                @if (Title == "Edit Team")
-                {
-                    <input type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-warning float-right ml-1" value="Update" />
-                }
-                else
-                {
-                    <input type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success float-right ml-1" value="Submit" />
-                }
-                <input type="button" id="btnCancel" name="btnCancel" class="btn btn-danger float-right" value="Cancel" />
+                </div>
 
-            </div>
-
+            }
+            else
+            {
+                <p style="color:red;">@Model.Message</p>
+            }
+        </div>
+        <div class="card-footer">
+            @if (Title == "Edit Team")
+            {
+                <input type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-warning float-right ml-1" value="Update" />
+            }
+            else
+            {
+                <input type="button" id="btnSaveAdd" name="btnSubmit" class="btn btn-success float-right ml-1" value="Submit" />
+            }
+            <input type="button" id="btnCancel" name="btnCancel" class="btn btn-danger float-right" value="Cancel" />
 
         </div>
     </div>

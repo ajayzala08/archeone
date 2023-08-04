@@ -1600,3 +1600,6 @@ INSERT INTO DocumentTypeMst (Id, DocumentType, IsActive, IsDelete, CreatedBy, Up
 SET IDENTITY_INSERT [dbo].[DocumentTypeMst] OFF
 ----------------------------------------Added by AZ on 14-07-23-----------------------------------End--------
 ----------------------------------------Executed On Dev Environment-------------------------------------------
+
+ALTER TABLE TeamMst
+ALTER COLUMN TeamMemberId nvarchar(max);

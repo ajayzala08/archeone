@@ -46,20 +46,18 @@ namespace ArcheOne.Controllers
 
             GetPolicyListResModel getPolicyListResModel = new GetPolicyListResModel();
 
-            int userId = _commonHelper.GetLoggedInUserId();
-            bool isUserHR = false;
-
-            CommonResponse departmentDetailsResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDepartmentByUserId(userId);
-
-            if (departmentDetailsResponse.Status)
-            {
-                isUserHR = departmentDetailsResponse.Data.DepartmentCode == CommonEnums.DepartmentMst.Human_Resource.ToString();
-            }
-            isUserHR = !isUserHR ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Policy_Delete_View) : isUserHR;
-
             try
             {
-                getPolicyListResModel.IsDeletable = isUserHR;
+                int userId = _commonHelper.GetLoggedInUserId();
+                bool isUserHR = false;
+
+                CommonResponse departmentDetailsResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDepartmentByUserId(userId);
+
+                if (departmentDetailsResponse.Status)
+                {
+                    isUserHR = departmentDetailsResponse.Data.DepartmentCode == CommonEnums.DepartmentMst.Human_Resource.ToString();
+                }
+                getPolicyListResModel.IsDeletable = !isUserHR ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Policy_Delete_View) : isUserHR;
 
                 getPolicyListResModel.PolicyDetails = new List<GetPolicyListResModel.PolicyDetail>();
                 getPolicyListResModel.PolicyDetails = await _dbRepo.PolicyList().Where(x => !isUserHR ? x.PolicyName == "HRPolicy" : true).Select(x => new GetPolicyListResModel.PolicyDetail

@@ -1,6 +1,6 @@
 ﻿@using ArcheOne.Helper.CommonModels;
 @using ArcheOne.Models.Res;
-@model List<GetTeamListResModel>
+@model GetTeamListResModel
 
 @{
     Layout = "_BlankLayout";
@@ -21,9 +21,12 @@
         <table id="tblTeam" class="table table-bordered table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <td>
-                        <b>Actions</b>
-                    </td>
+                    @if (Model.IsEditable || Model.IsDeletable)
+                    {
+                        <td>
+                            <b>Actions</b>
+                        </td>
+                    }
                     <td>
                         <b>Team Lead</b>
                     </td>
@@ -33,18 +36,29 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in Model.TeamDetails)
                 {
                     <tr>
+                        @if (Model.IsEditable || Model.IsDeletable)
+                        {
+                            <td>
+                                @if (Model.IsEditable)
+                                {
+                                    <i class="fa fa-pen pen btn-edit" TeamLeadId="@item.Id" style="cursor: pointer;"></i>
+                                }
+                                @if (Model.IsDeletable) {
+                                    @if (Model.IsEditable) {
+                                        <span>&nbsp; | &nbsp;</span>                                        
+                                    }
+                                    <i class="fa fa-trash trash btn-delete" TeamLeadId="@item.Id" style="cursor: pointer;"></i>
+                                }
+                            </td>
+                        }
                         <td>
-                            <i class="fa fa-pen pen btn-edit" TeamLeadId="@item.TeamLeadId" style="cursor: pointer;"></i> &nbsp; | &nbsp;
-                            <i class="fa fa-trash trash btn-delete" TeamLeadId="@item.TeamLeadId" style="cursor: pointer;"></i>
+                            @item.TeamLeadName
                         </td>
                         <td>
-                            @item.TeamLead
-                        </td>
-                        <td>
-                            @item.TeamName
+                            @item.TeamMemebersNames
                         </td>
                     </tr>
                 }

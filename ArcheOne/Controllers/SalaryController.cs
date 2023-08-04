@@ -134,6 +134,8 @@ namespace ArcheOne.Controllers
             CommonResponse response = new CommonResponse();
             try
             {
+                SearchSalaryResModel searchSalaryResModels = new SearchSalaryResModel();
+
                 int userId = _commonHelper.GetLoggedInUserId();
                 bool isUserHR = false;
 
@@ -143,12 +145,7 @@ namespace ArcheOne.Controllers
                 {
                     isUserHR = departmentDetailsResponse.Data.DepartmentCode == CommonEnums.DepartmentMst.Human_Resource.ToString();
                 }
-                isUserHR = !isUserHR ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Policy_Delete_View) : isUserHR;
-
-
-                SearchSalaryResModel searchSalaryResModels = new SearchSalaryResModel();
-
-                searchSalaryResModels.IsDeletable = isUserHR;
+                searchSalaryResModels.IsDeletable = !isUserHR ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Policy_Delete_View) : isUserHR;
 
                 searchSalaryResModels.SalaryDetails = new List<SearchSalaryResModel.SalaryDetail>();
                 if (isUserHR)
