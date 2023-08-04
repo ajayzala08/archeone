@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     GetFilteredTeamList();
     $('#AddTeamPage').click(function () {
-        AddEditTeam(0);
+        RedirectToPage('/Team/AddEditTeam?TeamId=' + TeamLeadId)
     });
 
 });
@@ -13,7 +13,7 @@ function GetFilteredTeamList() {
 
         $(".btn-edit").click(function () {
             var TeamLeadId = $(this).attr('TeamLeadId');
-            AddEditTeam(TeamLeadId);
+            RedirectToPage('/Team/AddEditTeam?TeamId=' + TeamLeadId);
         });
 
         $(".btn-delete").click(function () {
@@ -23,20 +23,6 @@ function GetFilteredTeamList() {
 
     });
 }
-function AddEditTeam(TeamLeadId) {
-    ajaxCall("Get", false, '/Team/AddEditTeam?id=' + TeamLeadId, null, function (result) {
-        if (TeamLeadId > 0) {
-            RedirectToPage('/Team/AddEditTeam?id=' + TeamLeadId)
-            $(".preview img").attr('src');
-            $(".preview img").show();
-        }
-        else {
-            RedirectToPage("/Team/AddEditTeam?id=")
-        }
-    });
-}
-
-
 
 function SaveUpdateTeam() {
     var selected = [];

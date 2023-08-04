@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ArcheOne.Database.Entities;
+﻿namespace ArcheOne.Database.Entities;
 
 public partial class TeamMst
 {
@@ -9,7 +6,7 @@ public partial class TeamMst
 
     public int TeamLeadId { get; set; }
 
-    public int TeamMemberId { get; set; }
+    public string TeamMemberId { get; set; }
 
     public bool IsActive { get; set; }
 

@@ -42,6 +42,7 @@ Insert into DepartmentMst values ('Designer', 'Designer', 1, 0, 0, 0, GETDATE(),
 Insert into DepartmentMst values ('Content', 'Content', 1, 0, 0, 0, GETDATE(), GETDATE());
 Insert into DepartmentMst values ('Finance', 'Finance', 1, 0, 0, 0, GETDATE(), GETDATE());
 Insert into DepartmentMst values ('Sales', 'Sales', 1, 0, 0, 0, GETDATE(), GETDATE());
+Insert into DepartmentMSt values ('Recruitment', 'Recruitment', 1, 0, 0, 0, GETDATE(), GETDATE())
 
 ------------------------------------SetUp Designation----------------------------
 
