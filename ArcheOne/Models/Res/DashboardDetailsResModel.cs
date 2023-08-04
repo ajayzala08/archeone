@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace ArcheOne.Models.Res
+﻿namespace ArcheOne.Models.Res
 {
     public class DashboardDetailsResModel
     {
@@ -36,31 +34,27 @@ namespace ArcheOne.Models.Res
         public int SalesLeadInProgressCount { get; set; }
         public int SalesLeadNotInterestedCount { get; set; }
         public int NextFollowUpCount { get; set; }
-        public int TotalRequirmentCount { get; set; }
+        public int TotalRequirementCount { get; set; }
         public int OfferCount { get; set; }
         public int JoiningCount { get; set; }
         public int TaskReportCount { get; set; }
         public int AppraisalRatingCompletedCount { get; set; }
         public int AppraisalRatingInprogressCount { get; set; }
         public int RecentJoiningCount { get; set; }
-        public int PerviousDayTaskCount { get; set; }
+        public List<TaskDetails> PerviousDayTaskCount { get; set; }
         public List<DataPoint> DataPoint { get; set; }
     }
-    [DataContract]
+
     public class DataPoint
     {
-        public DataPoint(string label, double y)
-        {
-            this.Label = label;
-            this.Y = y;
-        }
-
-        //Explicitly setting the name to be used while serializing to JSON.
-        [DataMember(Name = "label")]
-        public string Label = "";
-
-        //Explicitly setting the name to be used while serializing to JSON.
-        [DataMember(Name = "y")]
-        public Nullable<double> Y = null;
+        public string Label { get; set; }
+        public string LegendText { get; set; }
+        public double Y { get; set; }
+    }
+    public class TaskDetails
+    {
+        public string UserName { get; set; }
+        public string Task { get; set; }
+        public string Date { get; set; }
     }
 }

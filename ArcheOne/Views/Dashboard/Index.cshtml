@@ -282,7 +282,7 @@
                                 </div>
                                 <div class="card-body crm_body">
                                     <h5>@dashboardDetailsResModel.PendingResumeApprovalCount</h5>
-                                    <p><small>Pending Resume</small></p>
+                                    <p><small>Pending Resume Approval</small></p>
                                 </div>
                             </div>
                         </div>
@@ -380,7 +380,7 @@
                     <div class="card card-light card-Body">
                         <div class="card-body text-white" style="margin-top: 100px;">
                             <div class="row chart">
-                                @*<div id="chartContainer"></div>*@
+                                @*<div id="chartContainer" style="height: 370px; width: 100%;"></div>*@
                                 <div id="chartRequirmentContainer" style="height: 370px; width: 100%;"></div>
                             </div>
                         </div>
@@ -402,6 +402,8 @@
     @if (dashboardDetailsResModel.IsUserSD || dashboardDetailsResModel.IsUserQA || dashboardDetailsResModel.IsUserDesigner)
     {
         <input id="txtsdId" name="txtsdId" type="hidden" class="form-control col-sm-4" value="@dashboardDetailsResModel.IsUserSD.ToString()" />
+        <input id="txtqaId" name="txtqaId" type="hidden" class="form-control col-sm-4" value="@dashboardDetailsResModel.IsUserQA.ToString()" />
+        <input id="txtDesignerId" name="txtDesignerId" type="hidden" class="form-control col-sm-4" value="@dashboardDetailsResModel.IsUserDesigner.ToString()" />
         <!-- Main content -->
         <section class="content">
 
@@ -410,23 +412,23 @@
 
 
             <div class="row">
-                <div class="col-xl-3 col-sm-6 col-12">
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="card-body">
-                                <div class="media d-flex">
-                                    <div class="align-self-center">
-                                        <h2> <i class="fa fa-users fa-1x" style="color:darkolivegreen"></i></h2>
-                                    </div>
-                                    <div class="media-body text-right">
-                                        <h3>@dashboardDetailsResModel.UserCount</h3>
-                                        <span>User</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @* <div class="col-xl-3 col-sm-6 col-12">
+        <div class="card">
+        <div class="card-content">
+        <div class="card-body">
+        <div class="media d-flex">
+        <div class="align-self-center">
+        <h2> <i class="fa fa-users fa-1x" style="color:darkolivegreen"></i></h2>
+        </div>
+        <div class="media-body text-right">
+        <h3>@dashboardDetailsResModel.UserCount</h3>
+        <span>User</span>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>*@
                 <div class="col-xl-3 col-sm-6 col-12">
                     <div class="card">
                         <div class="card-content">
@@ -569,8 +571,40 @@
                     </div>
                 </div>
             </div>
+            @if (dashboardDetailsResModel.PerviousDayTaskCount.Count > 0)
+            {
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="timeline">
+
+                            <div class="time-label">
+                                <span class="bg-gradient-gray"> <h4>Task</h4></span>
+                            </div>
+
+                            @foreach (var item in dashboardDetailsResModel.PerviousDayTaskCount)
+                            {
+
+                                <div>
+                                    <i class="fa fa-tasks bg-blue"></i>
+                                    <div class="timeline-item">
+                                        @*<span class="time"><i class="fas fa-clock"></i> </span>*@
+                                        <h3 class="timeline-header">@item.Date <a href="#">@item.UserName </a>  @item.Task</h3>
+                                    </div>
+                                </div>
 
 
+                            }
+
+                            <div>
+                                <i class="fas fa-clock bg-gray"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            }
             <!-- /.card -->
 
         </section>
@@ -969,7 +1003,7 @@
                                 </div>
                                 <div class="card-body crm_body">
                                     <h5>@dashboardDetailsResModel.PendingResumeApprovalCount</h5>
-                                    <p><small>Pending Resume</small></p>
+                                    <p><small>Pending Resume Approval</small></p>
                                 </div>
                             </div>
                         </div>
@@ -1165,117 +1199,8 @@
 }
 @section Scripts {
     <script src="~/archeone/js/dashboard/index.js?_@DateTime.Now.Ticks"></script>
-    @*    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>*@
-    @*<script>
-        debugger
-        let hr = $("#txtHrId").val();
-        let Sd = $("#txtsdId").val();
-        let Sales = $("#txtSalesId").val();
-        let Recruitment = $("#txtRecruitmentId").val();
-        
-        if (Sd) {
-            //window.onload = function () {
-
-            var Developerchart = new CanvasJS.Chart("chartDeveloperContainer", {
-                exportEnabled: true,
-                animationEnabled: true,
-                theme: "light1",
-                title: {
-                    text: "Project"
-                },
-                legend: {
-                    //cursor: "pointer",
-                    //itemclick: explodePie,
-                    // verticalAlign: "center",
-                    horizontalAlign: "center"
-                },
-                data: [{
-                    type: "doughnut",
-                    indexLabelFontFamily: "Garamond",
-                    indexLabelFontSize: 15,
-                    startAngle: 180,
-                    toolTipContent: "<b>{label}</b>: {y}%",
-                    showInLegend: "true",
-                    legendText: "{label}",
-                    indexLabel: "{label} - {y}%",
-                    dataPoints: @Html.Raw(ViewBag.DataPoints)
-                                            }]
-            });
-            Developerchart.render();
-            //}
-
-        }
-        if (Sales) {
-            //window.onload = function () {
-
-            var chart = new CanvasJS.Chart("chartSalesContainer", {
-                exportEnabled: true,
-                animationEnabled: true,
-                theme: "light1",
-                title: {
-                    text: "Sales Lead"
-                },
-                legend: {
-                    //cursor: "pointer",
-                    //itemclick: explodePie,
-                    // verticalAlign: "center",
-                    horizontalAlign: "center"
-                },
-                data: [{
-                    type: "doughnut",
-                    indexLabelFontFamily: "Garamond",
-                    indexLabelFontSize: 15,
-                    startAngle: 180,
-                    toolTipContent: "<b>{label}</b>: {y}%",
-                    showInLegend: "true",
-                    legendText: "{label}",
-                    indexLabel: "{label} - {y}%",
-                    dataPoints: @Html.Raw(ViewBag.DataPoints)
-                            }]
-            });
-            chart.render();
-
-
-
-            //},
-        }
-        if (Recruitment || hr) {
-            //window.onload = function () {
-            debugger
-            var Requirmentchart = new CanvasJS.Chart("chartRequirmentContainer", {
-                exportEnabled: true,
-                animationEnabled: true,
-                theme: "light1",
-                title: {
-                    text: "Requirement"
-                },
-                legend: {
-                    //cursor: "pointer",
-                    //itemclick: explodePie,
-                    // verticalAlign: "center",
-                    horizontalAlign: "center"
-                },
-                data: [{
-                    type: "doughnut",
-                    indexLabelFontFamily: "Garamond",
-                    indexLabelFontSize: 15,
-                    startAngle: 180,
-                    toolTipContent: "<b>{label}</b>: {y}%",
-                    showInLegend: "true",
-                    legendText: "{label}",
-                    indexLabel: "{label} - {y}%",
-                    dataPoints: @Html.Raw(ViewBag.DataPoints)
-                                    }]
-            });
-            Requirmentchart.render();
-
-
-
-            //}
-        }
-
-    </script>*@
+    <script src="~/archeone/js/canvasjs.min.js"></script>
 }
 <link href='https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.css' rel='stylesheet'>
-<script type="text/javascript" src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+@*<script type="text/javascript" src="https://cdn.canvasjs.com/canvasjs.min.js"></script>*@
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>

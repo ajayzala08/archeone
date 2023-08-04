@@ -30,136 +30,182 @@ namespace ArcheOne.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult Salary()
+        public async Task<IActionResult> Salary()
         {
-            return View();
+            int userId = _commonHelper.GetLoggedInUserId();
+            bool showAddPolicyButton = false;
+
+            CommonResponse departmentDetailsResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDepartmentByUserId(userId);
+
+            if (departmentDetailsResponse.Status)
+            {
+                showAddPolicyButton = departmentDetailsResponse.Data.DepartmentCode == CommonEnums.DepartmentMst.Human_Resource.ToString();
+            }
+            showAddPolicyButton = !showAddPolicyButton ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Policy_Add_View) : showAddPolicyButton;
+
+            return View(showAddPolicyButton);
         }
 
         [HttpGet]
         public async Task<IActionResult> Companies()
         {
-            CommonResponse commonResponse = new CommonResponse();
+            CommonResponse response = new CommonResponse();
             try
             {
                 var companyList = await _dbRepo.CompanyMstList().Select(x => new { x.Id, x.CompanyName }).ToListAsync();
                 if (companyList.Count > 0)
                 {
-                    commonResponse.Status = true;
-                    commonResponse.StatusCode = System.Net.HttpStatusCode.OK;
-                    commonResponse.Message = "Company list found";
-                    commonResponse.Data = companyList;
+                    response.Status = true;
+                    response.StatusCode = System.Net.HttpStatusCode.OK;
+                    response.Message = "Company list found";
+                    response.Data = companyList;
                 }
                 else
                 {
-                    commonResponse.Message = "Company list not found";
+                    response.Message = "Company list not found";
                 }
             }
             catch (Exception ex)
             {
-                commonResponse.Message = ex.Message.ToString();
+                response.Message = ex.Message.ToString();
             }
 
-            return Json(commonResponse);
+            return Json(response);
         }
 
         [HttpGet]
         public IActionResult Years()
         {
-            CommonResponse commonResponse = new CommonResponse();
+            CommonResponse response = new CommonResponse();
             try
             {
                 var yearList = Enumerable.Range(2010, (_commonHelper.GetCurrentDateTime().Year - 2010) + 1).Select((index, x) => new { Id = x + 1, SalaryYear = index }).ToList();
                 if (yearList.Count > 0)
                 {
-                    commonResponse.Status = true;
-                    commonResponse.StatusCode = System.Net.HttpStatusCode.OK;
-                    commonResponse.Message = "Year list found";
-                    commonResponse.Data = yearList;
+                    response.Status = true;
+                    response.StatusCode = System.Net.HttpStatusCode.OK;
+                    response.Message = "Year list found";
+                    response.Data = yearList;
                 }
                 else
                 {
-                    commonResponse.Message = "Year list not found";
+                    response.Message = "Year list not found";
                 }
             }
             catch (Exception ex)
             {
-                commonResponse.Message = ex.Message.ToString();
+                response.Message = ex.Message.ToString();
             }
 
-            return Json(commonResponse);
+            return Json(response);
         }
 
 
         [HttpGet]
         public IActionResult Months()
         {
-            CommonResponse commonResponse = new CommonResponse();
+            CommonResponse response = new CommonResponse();
             try
             {
                 var monthList = DateTimeFormatInfo.CurrentInfo.MonthNames.ToList().Select((x, index) => new { Id = index + 1, salaryMonth = x }).ToList();
                 if (monthList.Count > 0)
                 {
-                    commonResponse.Status = true;
-                    commonResponse.StatusCode = System.Net.HttpStatusCode.OK;
-                    commonResponse.Message = "Month list found";
-                    commonResponse.Data = monthList;
+                    response.Status = true;
+                    response.StatusCode = System.Net.HttpStatusCode.OK;
+                    response.Message = "Month list found";
+                    response.Data = monthList;
                 }
                 else
                 {
-                    commonResponse.Message = "Month list not found";
+                    response.Message = "Month list not found";
                 }
             }
             catch (Exception ex)
             {
-                commonResponse.Message = ex.Message.ToString();
+                response.Message = ex.Message.ToString();
             }
 
-            return Json(commonResponse);
+            return Json(response);
         }
 
         [HttpPost]
-        public IActionResult SearchSalary([FromBody] SalaryReqModel salaryReqModel)
+        public async Task<IActionResult> SearchSalary([FromBody] SalaryReqModel salaryReqModel)
         {
-            CommonResponse commonResponse = new CommonResponse();
+            CommonResponse response = new CommonResponse();
             try
             {
-                List<SearchSalaryResModel> searchSalaryResModels = new List<SearchSalaryResModel>();
-                searchSalaryResModels = (from salaryList in _dbRepo.SalaryList()
-                                         where salaryList.CompanyId == salaryReqModel.CompanyId && salaryList.SalartMonth == salaryReqModel.SalaryMonth && salaryList.SalaryYear == salaryReqModel.SalaryYear
-                                         join
-                                         userDetail in _dbRepo.UserDetailList() on salaryList.EmployeeCode.ToString() equals userDetail.EmployeeCode
-                                         join
-                                         userMst in _dbRepo.UserMstList() on userDetail.UserId equals userMst.Id
-                                         select new { salaryList, userDetail, userMst }).Select(x => new SearchSalaryResModel
-                                         {
-                                             SalaryId = x.salaryList.Id,
-                                             EmployeeCode = x.salaryList.EmployeeCode,
-                                             EmployeeName = x.userMst.FirstName + " " + x.userMst.MiddleName + " " + x.userMst.LastName
-                                         }).Distinct().ToList();
-                if (searchSalaryResModels.Count > 0)
+                int userId = _commonHelper.GetLoggedInUserId();
+                bool isUserHR = false;
+
+                CommonResponse departmentDetailsResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDepartmentByUserId(userId);
+
+                if (departmentDetailsResponse.Status)
                 {
-                    commonResponse.Status = true;
-                    commonResponse.StatusCode = HttpStatusCode.OK;
-                    commonResponse.Message = "Salary list found.";
-                    commonResponse.Data = searchSalaryResModels;
+                    isUserHR = departmentDetailsResponse.Data.DepartmentCode == CommonEnums.DepartmentMst.Human_Resource.ToString();
+                }
+                isUserHR = !isUserHR ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Policy_Delete_View) : isUserHR;
+
+
+                SearchSalaryResModel searchSalaryResModels = new SearchSalaryResModel();
+
+                searchSalaryResModels.IsDeletable = isUserHR;
+
+                searchSalaryResModels.SalaryDetails = new List<SearchSalaryResModel.SalaryDetail>();
+                if (isUserHR)
+                {
+                    searchSalaryResModels.SalaryDetails = await (from salaryList in _dbRepo.SalaryList()
+                                                                 where salaryList.CompanyId == salaryReqModel.CompanyId && salaryList.SalartMonth == salaryReqModel.SalaryMonth && salaryList.SalaryYear == salaryReqModel.SalaryYear
+                                                                 join userDetail in _dbRepo.UserDetailList() on salaryList.EmployeeCode equals Convert.ToInt32(userDetail.EmployeeCode) into userDetailGroup
+                                                                 from userDetailItem in userDetailGroup.DefaultIfEmpty()
+                                                                 join userMst in _dbRepo.UserMstList() on userDetailItem.UserId equals userMst.Id into userMstGroup
+                                                                 from userMstItem in userMstGroup.DefaultIfEmpty()
+                                                                 select new SearchSalaryResModel.SalaryDetail
+                                                                 {
+                                                                     SalaryId = salaryList.Id,
+                                                                     EmployeeCode = salaryList.EmployeeCode,
+                                                                     EmployeeName = userMstItem.FirstName + " " + userMstItem.MiddleName + " " + userMstItem.LastName
+                                                                 }).Distinct().ToListAsync();
                 }
                 else
                 {
-                    commonResponse.Message = "Search record not found.";
+                    searchSalaryResModels.SalaryDetails = await (from userMst in _dbRepo.UserMstList().Where(x => x.Id == userId)
+                                                                 join userDetail in _dbRepo.UserDetailList() on userMst.Id equals userDetail.UserId into userDetailGroup
+                                                                 from userDetailItem in userDetailGroup.DefaultIfEmpty()
+                                                                 join salary in _dbRepo.SalaryList().Where(x => x.CompanyId == salaryReqModel.CompanyId && x.SalartMonth == salaryReqModel.SalaryMonth && x.SalaryYear == salaryReqModel.SalaryYear)
+                                                                 on Convert.ToInt32(userDetailItem.EmployeeCode) equals salary.EmployeeCode into salaryGroup
+                                                                 from salaryItem in salaryGroup.DefaultIfEmpty()
+                                                                 select new SearchSalaryResModel.SalaryDetail
+                                                                 {
+                                                                     SalaryId = salaryItem.Id,
+                                                                     EmployeeCode = salaryItem.EmployeeCode,
+                                                                     EmployeeName = userMst.FirstName + " " + userMst.MiddleName + " " + userMst.LastName
+                                                                 }).Distinct().ToListAsync();
+                }
+
+                response.Data = searchSalaryResModels;
+                if (searchSalaryResModels.SalaryDetails.Count > 0)
+                {
+                    response.Status = true;
+                    response.StatusCode = HttpStatusCode.OK;
+                    response.Message = "Salary list found!";
+                }
+                else
+                {
+                    response.StatusCode = HttpStatusCode.NotFound;
+                    response.Message = "Search record not found!";
                 }
             }
             catch (Exception ex)
             {
-                commonResponse.Message = ex.Message.ToString();
-                commonResponse.Data = ex;
+                response.Message = ex.Message.ToString();
             }
-            return Json(commonResponse);
+            return Json(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> UploadSalarySheet(UploadSalarySheetReqModel uploadSalarySheetReqModel)
         {
-            CommonResponse commonResponse = new CommonResponse();
+            CommonResponse response = new CommonResponse();
             try
             {
                 IExcelDataReader reader;
@@ -248,39 +294,39 @@ namespace ArcheOne.Controllers
                                 }
                                 await _dbContext.SalaryMsts.AddRangeAsync(salaries);
                                 await _dbContext.SaveChangesAsync();
-                                commonResponse.Status = true;
-                                commonResponse.StatusCode = HttpStatusCode.OK;
-                                commonResponse.Data = salaries;
-                                commonResponse.Message = "Salary sheet uploaded successfully";
+                                response.Status = true;
+                                response.StatusCode = HttpStatusCode.OK;
+                                response.Data = salaries;
+                                response.Message = "Salary sheet uploaded successfully";
                             }
                             else
                             {
-                                commonResponse.Message = "Month-Year not exists in sheet";
+                                response.Message = "Month-Year not exists in sheet";
                             }
                         }
                         else
                         {
-                            commonResponse.Message = "Company Name not exists in sheet";
+                            response.Message = "Company Name not exists in sheet";
                         }
                     }
                     else
                     {
-                        commonResponse.Message = "No records found";
+                        response.Message = "No records found";
                     }
                 }
             }
             catch (Exception ex)
             {
-                commonResponse.Message = ex.Message;
-                commonResponse.Data = ex;
+                response.Message = ex.Message;
+                response.Data = ex;
             }
-            return Json(commonResponse);
+            return Json(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteSalary(int id)
         {
-            CommonResponse commonResponse = new CommonResponse();
+            CommonResponse response = new CommonResponse();
             try
             {
                 var salaryDetail = await _dbRepo.SalaryList().FirstOrDefaultAsync(x => x.Id == id);
@@ -289,23 +335,23 @@ namespace ArcheOne.Controllers
                     salaryDetail.IsDelete = true;
                     _dbContext.SalaryMsts.Update(salaryDetail);
                     _dbContext.SaveChanges();
-                    commonResponse.Status = true;
-                    commonResponse.Message = "Salary data deleted successfully";
-                    commonResponse.StatusCode = HttpStatusCode.OK;
+                    response.Status = true;
+                    response.Message = "Salary data deleted successfully";
+                    response.StatusCode = HttpStatusCode.OK;
                 }
                 else
                 {
-                    commonResponse.Message = "Salary data not found";
+                    response.Message = "Salary data not found";
                 }
 
 
             }
             catch (Exception ex)
             {
-                commonResponse.Message = ex.Message.ToString();
-                commonResponse.Data = ex;
+                response.Message = ex.Message.ToString();
+                response.Data = ex;
             }
-            return Json(commonResponse);
+            return Json(response);
 
         }
 

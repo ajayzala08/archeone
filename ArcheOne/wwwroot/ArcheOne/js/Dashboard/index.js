@@ -2,11 +2,23 @@
     LoadBirthdayWorkAniversaryHoliday();
 
     showCalenderData();
-    debugger
+
     let hr = $("#txtHrId").val();
-    debugger
+    let Sd = $("#txtsdId").val();
+    let Sales = $("#txtSalesId").val();
+    let Recruitment = $("#txtRecruitmentId").val();
+    let QA = $("#txtqaId").val();
+    let Designer = $("#txtDesignerId").val();
+    
     if (hr) {
-        Showcharts();
+        ShowHRcharts();
+    }
+    else if (Sd || QA || Designer) {
+        ShowSDcharts();
+    } else if (Sales) {
+        ShowSalescharts();
+    } else if (Recruitment) {
+        ShowHRcharts();
     }
 });
 
@@ -108,15 +120,10 @@ function showCalender(data) {
     calendar.render();
 };
 
-function Showcharts() {
-
-
+function ShowHRcharts() {
     debugger
-    ajaxCallWithoutDataType("GET", false, '/Dashboard/HRChart', null, function (result) {
-   
-        debugger
-        console.log(result.data)
-        var chart = new CanvasJS.Chart("chartRequirmentContainer", {
+    ajaxCall("GET", false, '/Dashboard/HRChart', null, function (result) {
+        var chartRequirmentContainer = new CanvasJS.Chart("chartRequirmentContainer", {
             title: {
                 text: "Recruitment Chart"
             },
@@ -129,26 +136,101 @@ function Showcharts() {
             data: [
                 {
                     type: "doughnut",
-                    indexLabelFontFamily: "Garamond",
-                    indexLabelFontSize: 15,
-                    indexLabel: "{label} {y}%",
+                    //indexLabelFontFamily: "Garamond",
+                    indexLabelFontSize: 20,
+                    indexLabel: "{label} {y}",
                     startAngle: -20,
                     showInLegend: true,
-                    toolTipContent: "{legendText} {y}%",
-                        dataPoints: [
-                            { y: 72.48, legendText: "Google", label: "Google" },
-                            { y: 10.39, legendText: "Bing", label: "Bing" },
-                            { y: 7.78, legendText: "Yahoo!", label: "Yahoo!" },
-                            { y: 7.14, legendText: "Baidu", label: "Baidu" },
-                            { y: 0.22, legendText: "Ask", label: "Ask" },
-                            { y: 0.15, legendText: "AOL", label: "AOL" },
-                            { y: 1.84, legendText: "Others", label: "Others" }
-                        ],
-                //dataPoints: @Html.Raw(ViewBag.DataPoints),
-            }],
-        
+                    toolTipContent: "{label} {y}",
+                    dataPoints: result.data
+                }],
+
         });
-        chart.render();
+        chartRequirmentContainer.render();
     });
 }
 
+function ShowSDcharts() {
+    ajaxCall("GET", false, '/Dashboard/SDChart', null, function (result) {
+        var chartDeveloperContainer = new CanvasJS.Chart("chartDeveloperContainer", {
+            title: {
+                text: "Project Chart"
+            },
+            animationEnabled: true,
+            legend: {
+                fontSize: 15,
+                fontFamily: "Helvetica"
+            },
+            theme: "light2",
+            data: [
+                {
+                    type: "doughnut",
+                    //indexLabelFontFamily: "Garamond",
+                    indexLabelFontSize: 20,
+                    indexLabel: "{label} {y}",
+                    startAngle: -20,
+                    showInLegend: true,
+                    toolTipContent: "{label} {y}",
+                    dataPoints: result.data
+                }],
+
+        });
+        chartDeveloperContainer.render();
+    });
+}
+function ShowSalescharts() {
+    ajaxCall("GET", false, '/Dashboard/SalesChart', null, function (result) {
+        var chartSalesContainer = new CanvasJS.Chart("chartSalesContainer", {
+            title: {
+                text: "Sales Chart"
+            },
+            animationEnabled: true,
+            legend: {
+                fontSize: 15,
+                fontFamily: "Helvetica"
+            },
+            theme: "light2",
+            data: [
+                {
+                    type: "doughnut",
+                    //indexLabelFontFamily: "Garamond",
+                    indexLabelFontSize: 20,
+                    indexLabel: "{label} {y}",
+                    startAngle:  -20,
+                    showInLegend: true,
+                    toolTipContent: "{label} {y}",
+                    dataPoints: result.data
+                }],
+
+        });
+        chartSalesContainer.render();
+    });
+}
+//function ShowRecruitmentcharts() {
+//    ajaxCall("GET", false, '/Dashboard/RecruitmentChart', null, function (result) {
+//        var chartRequirmentContainer = new CanvasJS.Chart("chartRequirmentContainer", {
+//            title: {
+//                text: "Recruitment Chart"
+//            },
+//            animationEnabled: true,
+//            legend: {
+//                fontSize: 15,
+//                fontFamily: "Helvetica"
+//            },
+//            theme: "light2",
+//            data: [
+//                {
+//                    type: "doughnut",
+//                    indexLabelFontFamily: "Garamond",
+//                    indexLabelFontSize: 15,
+//                    indexLabel: "{label} {y}%",
+//                    startAngle: -20,
+//                    showInLegend: true,
+//                    toolTipContent: "{label} {y}%",
+//                    dataPoints: result.data
+//                }],
+
+//        });
+//        chartRequirmentContainer.render();
+//    });
+//}

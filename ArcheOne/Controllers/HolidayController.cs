@@ -24,9 +24,18 @@ namespace ArcheOne.Controllers
             _commonController = commonController;
         }
 
-        public IActionResult Holiday()
+        public async Task<IActionResult> Holiday()
         {
-            bool showAddHolidayButton = _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Holidays_Add_View);
+            int userId = _commonHelper.GetLoggedInUserId();
+            bool showAddHolidayButton = false;
+
+            CommonResponse departmentDetailsResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDepartmentByUserId(userId);
+
+            if (departmentDetailsResponse.Status)
+            {
+                showAddHolidayButton = departmentDetailsResponse.Data.DepartmentCode == CommonEnums.DepartmentMst.Human_Resource.ToString();
+            }
+            showAddHolidayButton = !showAddHolidayButton ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Holidays_Add_View) : showAddHolidayButton;
 
             return View(showAddHolidayButton);
         }
@@ -35,12 +44,24 @@ namespace ArcheOne.Controllers
         {
             CommonResponse response = new CommonResponse();
             GetHolidayListResModel getHolidayListResModel = new GetHolidayListResModel();
+
+            int userId = _commonHelper.GetLoggedInUserId();
+            bool isUserHR = false;
+
+            CommonResponse departmentDetailsResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDepartmentByUserId(userId);
+
+            if (departmentDetailsResponse.Status)
+            {
+                isUserHR = departmentDetailsResponse.Data.DepartmentCode == CommonEnums.DepartmentMst.Human_Resource.ToString();
+            }
+            isUserHR = !isUserHR ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Policy_Delete_View) : isUserHR;
+
             try
             {
                 getHolidayListResModel.HolidayDetails = new List<GetHolidayListResModel.HolidayDetail>();
 
-                getHolidayListResModel.IsEditable = _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Holidays_Edit_View);
-                getHolidayListResModel.IsDeletable = _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Holidays_Delete_View);
+                getHolidayListResModel.IsEditable = isUserHR;
+                getHolidayListResModel.IsDeletable = isUserHR;
 
                 getHolidayListResModel.HolidayDetails = await _dbRepo.HolidayDayList().Select(x => new GetHolidayListResModel.HolidayDetail
                 {

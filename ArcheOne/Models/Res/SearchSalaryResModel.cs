@@ -2,8 +2,14 @@
 {
     public class SearchSalaryResModel
     {
-        public int SalaryId { get; set; }
-        public string EmployeeName { get; set; }
-        public int EmployeeCode { get; set; }
+        public bool IsDeletable { get; set; }
+
+        public List<SalaryDetail> SalaryDetails { get; set; }
+        public class SalaryDetail
+        {
+            public int? SalaryId { get; set; }
+            public string? EmployeeName { get; set; }
+            public int? EmployeeCode { get; set; }
+        }
     }
 }

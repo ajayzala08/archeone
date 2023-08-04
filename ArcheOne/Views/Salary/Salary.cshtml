@@ -1,8 +1,9 @@
 ﻿@{
-    
+
     Layout = "_MasterLayout";
     ViewBag.datatable = "true";
 }
+@model bool
 
 <section class="content-header">
     <div class="container-fluid">
@@ -24,7 +25,10 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Salary</h3>
-            <input type="button" id="btnUploadSalary" class="btn btn-primary float-right" data-toggle="modal" data-target="#modalSalaryUpload" value="Upload Salary" />
+            @if (Model)
+            {
+                <input type="button" id="btnUploadSalary" class="btn btn-primary float-right" data-toggle="modal" data-target="#modalSalaryUpload" value="Upload Salary" />
+            }
         </div>
         <div class="card-body">
 
@@ -70,7 +74,6 @@
                         <label><span>&nbsp; </span></label>
                         <input type="button" id="btnSearch" class="form-control btn btn-success float-left" value="Search" />
                     </div>
-
                 </div>
             </div>
             <div class="row">

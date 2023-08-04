@@ -125,19 +125,21 @@ function SalaryDataFill() {
             "SalaryMonth": $("#ddlmonth option:selected").text()
         }
         ajaxCall("Post", false, '/Salary/SearchSalary', JSON.stringify(salaryReqModel), function (result) {
+            var IsDeletable = false;
             if (result.status == true) {
+
+                IsDeletable = result.data.isDeletable;
+
                 $('#tblSalary').DataTable({
                     "destroy": true,
                     "responsive": true,
                     "lengthChange": true,
                     "paging": true,
-                    "searching": true,
-                    "processing": true, // for show progress bar
-                    //"dom": 'Blfrtip',
-                    // "retrieve": true,
-                    "filter": true, // this is for disable filter (search box)
-                    "data": result.data,
-                   // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+                    "processing": true,
+                    "filter": true,
+                    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+
+                    "data": result.data.salaryDetails,
                     "columns": [
                         {
                             class: 'clsWrap',
@@ -145,8 +147,12 @@ function SalaryDataFill() {
                             title: 'Action',
 
                             render: function (data, type, row) {
-
-                                return '<i class="fa fa-trash trash" value="' + data.salaryId + '" onclick="DeleteSalary(' + row.salaryId + ')"></i> | <i class="fa fa-download btn-download" value="' + data.salaryId + '" onclick="DownloadSalarySlip(' + row.salaryId + ')"></i>';
+                                var icons = '';
+                                if (IsDeletable) {
+                                    icons = '<i class="fa fa-trash trash" value="' + data.salaryId + '" onclick="DeleteSalary(' + row.salaryId + ')"></i> | ';
+                                }
+                                icons += '<i class="fa fa-download btn-download" value="' + data.salaryId + '" onclick="DownloadSalarySlip(' + row.salaryId + ')"></i>';
+                                return icons;
 
                             }
                         },
@@ -154,7 +160,7 @@ function SalaryDataFill() {
                         { data: "employeeCode", title: "Employee Code" },
                         { data: "employeeName", title: "Employee Name" }
                     ]
-                });
+                }).buttons().container().appendTo('#tblSalary_wrapper .col-md-6:eq(0)');;
                 $.unblockUI();
             }
             else {

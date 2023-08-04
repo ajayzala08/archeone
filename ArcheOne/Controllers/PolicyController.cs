@@ -27,22 +27,22 @@ namespace ArcheOne.Controllers
         public async Task<IActionResult> Policy()
         {
             int userId = _commonHelper.GetLoggedInUserId();
-            bool showAddPolicyButton = false;
+            bool showAddSalaryButton = false;
 
             CommonResponse departmentDetailsResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDepartmentByUserId(userId);
 
             if (departmentDetailsResponse.Status)
             {
-                showAddPolicyButton = departmentDetailsResponse.Data.DepartmentCode == CommonEnums.DepartmentMst.Human_Resource.ToString();
+                showAddSalaryButton = departmentDetailsResponse.Data.DepartmentCode == CommonEnums.DepartmentMst.Human_Resource.ToString();
             }
-            showAddPolicyButton = !showAddPolicyButton ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Policy_Add_View) : showAddPolicyButton;
+            showAddSalaryButton = !showAddSalaryButton ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Salary_Add_View) : showAddSalaryButton;
 
-            return View(showAddPolicyButton);
+            return View(showAddSalaryButton);
         }
 
         public async Task<IActionResult> PolicyList()
         {
-            CommonResponse commonResponse = new CommonResponse();
+            CommonResponse response = new CommonResponse();
 
             GetPolicyListResModel getPolicyListResModel = new GetPolicyListResModel();
 
@@ -69,69 +69,29 @@ namespace ArcheOne.Controllers
                     PolicyDocument = x.PolicyDocumentName,
                 }).ToListAsync();
 
-                commonResponse.Data = getPolicyListResModel;
+                response.Data = getPolicyListResModel;
                 if (getPolicyListResModel != null)
                 {
-                    commonResponse.Status = true;
-                    commonResponse.StatusCode = HttpStatusCode.OK;
-                    commonResponse.Message = "Data found successfully!";
+                    response.Status = true;
+                    response.StatusCode = HttpStatusCode.OK;
+                    response.Message = "Data found successfully!";
                 }
                 else
                 {
-                    commonResponse.StatusCode = HttpStatusCode.NotFound;
-                    commonResponse.Message = "Data not found!";
+                    response.StatusCode = HttpStatusCode.NotFound;
+                    response.Message = "Data not found!";
                 }
-
-                /*var policyList = _dbRepo.PolicyList().ToList();
-                if (policyList.Count > 0)
-                {
-                    if (IsUserHR.Count > 0)
-                    {
-                        getPolicyListResModel = _dbRepo.PolicyList().Where(x => x.IsActive == true && x.IsDelete == false).Select(x => new GetPolicyListResModel
-                        {
-                            Id = x.Id,
-                            PolicyName = x.PolicyName,
-                            PolicyDocument = x.PolicyDocumentName,
-                            IsUserHR = IsUserHR.Count > 0 ? true : false,
-
-                        }).ToList();
-                        commonResponse.Data = getPolicyListResModel;
-                    }
-                    else
-                    {
-                        getPolicyListResModel = _dbRepo.PolicyList().Where(x => x.PolicyName == "HRPolicy").Select(x => new GetPolicyListResModel
-                        {
-                            Id = x.Id,
-                            PolicyName = x.PolicyName,
-                            PolicyDocument = x.PolicyDocumentName,
-                            IsUserHR = IsUserHR.Count > 0 ? true : false,
-
-                        }).ToList();
-                        commonResponse.Data = getPolicyListResModel;
-                    }
-
-
-                    commonResponse.Status = true;
-                    commonResponse.StatusCode = System.Net.HttpStatusCode.OK;
-                    commonResponse.Message = "GetAll PolicyList Successfully";
-                }
-                else
-                {
-                    commonResponse.Message = "No Data Found";
-                    commonResponse.StatusCode = System.Net.HttpStatusCode.NotFound;
-                }*/
             }
             catch (Exception ex)
             {
-                commonResponse.Data = ex;
-                commonResponse.Message = ex.Message;
+                response.Message = ex.Message;
             }
             return View(getPolicyListResModel);
         }
 
         public IActionResult AddEditPolicy(int Id)
         {
-            CommonResponse commonResponse = new CommonResponse();
+            CommonResponse response = new CommonResponse();
             AddEditPolicyReqModel addEditPolicyReqModel = new AddEditPolicyReqModel();
             try
             {
@@ -143,31 +103,30 @@ namespace ArcheOne.Controllers
                     addEditPolicyReqModel.PolicyName = policyList.PolicyName;
                     addEditPolicyReqModel.PolicyDocumentName = policyList.PolicyDocumentName;
 
-                    commonResponse.Status = true;
-                    commonResponse.StatusCode = System.Net.HttpStatusCode.OK;
-                    commonResponse.Message = "GetAll PolicyList Successfully";
+                    response.Status = true;
+                    response.StatusCode = System.Net.HttpStatusCode.OK;
+                    response.Message = "GetAll PolicyList Successfully";
                 }
                 else
                 {
-                    commonResponse.Message = "No Data Found";
-                    commonResponse.StatusCode = System.Net.HttpStatusCode.NotFound;
+                    response.Message = "No Data Found";
+                    response.StatusCode = System.Net.HttpStatusCode.NotFound;
                 }
-                commonResponse.Data = addEditPolicyReqModel;
+                response.Data = addEditPolicyReqModel;
 
             }
             catch (Exception ex)
             {
-                commonResponse.Data = ex;
-                commonResponse.Message = ex.Message;
+                response.Message = ex.Message;
             }
 
-            return View(commonResponse.Data);
+            return View(response.Data);
         }
 
         [HttpPost]
         public async Task<IActionResult> SaveUpdatePolicy(PolicySaveUpdateReqModel policySaveUpdateReqModel)
         {
-            CommonResponse commonResponse = new CommonResponse();
+            CommonResponse response = new CommonResponse();
             try
             {
                 IFormFile file;
@@ -216,9 +175,9 @@ namespace ArcheOne.Controllers
                             _dbContext.Entry(policyDetail).State = EntityState.Modified;
                             _dbContext.SaveChanges();
 
-                            commonResponse.Status = true;
-                            commonResponse.StatusCode = HttpStatusCode.OK;
-                            commonResponse.Message = "Policy Updated Successfully!";
+                            response.Status = true;
+                            response.StatusCode = HttpStatusCode.OK;
+                            response.Message = "Policy Updated Successfully!";
                         }
                         else
                         {
@@ -239,13 +198,13 @@ namespace ArcheOne.Controllers
                                 _dbContext.Add(policyMst);
                                 _dbContext.SaveChanges();
 
-                                commonResponse.Status = true;
-                                commonResponse.StatusCode = HttpStatusCode.OK;
-                                commonResponse.Message = "Policy Added Successfully!";
+                                response.Status = true;
+                                response.StatusCode = HttpStatusCode.OK;
+                                response.Message = "Policy Added Successfully!";
                             }
                             else
                             {
-                                commonResponse.Message = "Policy Is Already Exist";
+                                response.Message = "Policy Is Already Exist";
                             }
                         }
 
@@ -253,24 +212,23 @@ namespace ArcheOne.Controllers
                     else
                     {
 
-                        commonResponse.Message = "Only PDF files are Allowed !";
+                        response.Message = "Only PDF files are Allowed !";
                     }
                 }
 
-                commonResponse.Data = policyMst;
+                response.Data = policyMst;
             }
             catch (Exception ex)
             {
-                commonResponse.Message = ex.Message;
-                commonResponse.Data = ex;
+                response.Message = ex.Message;
             }
 
-            return Json(commonResponse);
+            return Json(response);
         }
 
         public async Task<IActionResult> DeletePolicy(int Id)
         {
-            CommonResponse commonResponse = new CommonResponse();
+            CommonResponse response = new CommonResponse();
             try
             {
                 if (Id > 0)
@@ -281,43 +239,42 @@ namespace ArcheOne.Controllers
                         _dbContext.Remove(policyList);
                         _dbContext.SaveChanges();
 
-                        commonResponse.Status = true;
-                        commonResponse.StatusCode = HttpStatusCode.OK;
-                        commonResponse.Message = "Policy Deleted Successfully";
+                        response.Status = true;
+                        response.StatusCode = HttpStatusCode.OK;
+                        response.Message = "Policy Deleted Successfully";
                     }
                     else
                     {
-                        commonResponse.Message = "Data not found!";
-                        commonResponse.StatusCode = HttpStatusCode.NotFound;
+                        response.Message = "Data not found!";
+                        response.StatusCode = HttpStatusCode.NotFound;
                     }
                 }
                 else
                 {
-                    commonResponse.Message = "Data not found!";
-                    commonResponse.StatusCode = HttpStatusCode.NotFound;
+                    response.Message = "Data not found!";
+                    response.StatusCode = HttpStatusCode.NotFound;
                 }
 
             }
             catch (Exception ex)
             {
-                commonResponse.Data = ex;
-                commonResponse.Message = ex.Message;
+                response.Message = ex.Message;
             }
 
-            return Json(commonResponse);
+            return Json(response);
 
         }
 
-        public FileResult GetPolicyReport(int? Id)
+        public async Task<FileResult> GetPolicyReport(int? Id)
         {
-            CommonResponse commonResponse = new CommonResponse();
+            CommonResponse response = new CommonResponse();
             string DefaultPolicy = "Files\\DefaultPolicyDocument\\HRPolicy0.pdf";
             byte[] FileBytes = System.IO.File.ReadAllBytes(Path.Combine(_commonHelper.GetPhysicalRootPath(false), DefaultPolicy));
             try
             {
                 if (Id > 0)
                 {
-                    var policyList = _dbRepo.PolicyList().FirstOrDefault(x => x.Id == Id);
+                    var policyList = await _dbRepo.PolicyList().FirstOrDefaultAsync(x => x.Id == Id);
 
                     string ReportURL = policyList.PolicyDocumentName;
 
@@ -325,15 +282,14 @@ namespace ArcheOne.Controllers
                 }
                 else
                 {
-                    commonResponse.StatusCode = HttpStatusCode.NotFound;
-                    commonResponse.Message = "Data Not Found";
+                    response.StatusCode = HttpStatusCode.NotFound;
+                    response.Message = "Data not found!";
 
                 }
             }
             catch (Exception ex)
             {
-                commonResponse.Message = ex.Message;
-                commonResponse.Data = ex;
+                response.Message = ex.Message;
             }
             return File(FileBytes, "application/pdf");
 
