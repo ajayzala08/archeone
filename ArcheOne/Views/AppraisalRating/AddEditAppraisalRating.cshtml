@@ -52,7 +52,7 @@
                     <div class="form-group">
                         <label><span class="has-error required">* </span>Employee Name</label>
                         <select disabled id="ddlEmployeeId" name="ddlEmployeeId" class="form-control" isrequired="1" divcontainer="dddlEmployeeId" errorspan="sddlEmployeeId" defaultvalue="0" style="width: 100%;" readonly>
-                            <option value="0">--- Select ---</option>
+                            <option value="0">Select Employee</option>
                             @foreach (var item in Model.EmployeeId)
                             {
                                 if (item.Id == Model.reportingManagetDetail.EmployeeDetail.EmployeeId)
@@ -74,7 +74,7 @@
                     <div class="form-group">
                         <label><span class="has-error required">* </span>Reporting Manager</label>
                         <select disabled id="ddlReportingManagerId" name="ddlReportingManagerId" class="form-control" isrequired="1" divcontainer="dddlReportingManagerId" errorspan="sddlReportingManagerId" defaultvalue="0" style="width: 100%;" readonly>
-                            <option value="0">--- Select ---</option>
+                            <option value="0">Select Reporting Manager</option>
                             @foreach (var item in Model.ReportingManagerId)
                             {
                                 if (item.Id == Model.reportingManagetDetail.ReportingManagerId)

@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     GetFilteredTeamList();
     $('#AddTeamPage').click(function () {
-        RedirectToPage('/Team/AddEditTeam?TeamId=' + TeamLeadId)
+        RedirectToPage('/Team/AddEditTeam?TeamId=0')
     });
 
 });

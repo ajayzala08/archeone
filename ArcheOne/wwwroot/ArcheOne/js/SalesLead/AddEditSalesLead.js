@@ -165,7 +165,7 @@ function LoadStateByCountryId(countryId) {
         if (result.status == true) {
 
             $("#ddlState").html('');
-            $("#ddlState").append('<option value="0">--- Select ---</option>');
+            $("#ddlState").append('<option value="0">Select State</option>');
             $.each(result.data, function (data, value) {
                 $("#ddlState").append($("<option></option>").val(value.id).html(value.stateName));
             })

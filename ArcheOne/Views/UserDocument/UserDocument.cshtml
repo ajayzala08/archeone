@@ -60,7 +60,7 @@
                         <div class="form-group col-sm-12" id="dddlUser">
                             <label><span class="has-error required">* </span>User</label>
                             <select id="ddlUser" name="ddlUser" class="form-control" isrequired="1" divcontainer="dddlUser" errorspan="sddlUser" defaultvalue="0" style="width: 100%;">
-                                <option value="0">--- Select ---</option>
+                                <option value="0">Select User</option>
                                 @foreach (var item  in Model.UserList)
                                 {
                                     if (item.Id == Model.AddEditUserDocuments.UserId)
@@ -81,9 +81,9 @@
 
                     <div class="row" id="divUploadFile">
                         <div class="form-group col-sm-12" id="dddlDocumentType">
-                            <label><span class="has-error required">* </span>DocumentType</label>
+                            <label><span class="has-error required">* </span>Document Type</label>
                             <select id="ddlDocumentType" name="ddlDocumentType" class="form-control" isrequired="1" divcontainer="dddlDocumentType" errorspan="sddlDocumentType" defaultvalue="0" style="width: 100%;">
-                                <option value="0">--- Select ---</option>
+                                <option value="0">Select Document Type</option>
                                 @foreach (var item in Model.DocumentTypeList)
                                 {
                                     if (item.Id == Model.AddEditUserDocuments.DocumentTypeId)
@@ -96,7 +96,7 @@
                                     }
                                 }
                             </select>
-                            <span class="help-block d-none has-error" id="sddlDocumentType">Please Select DocumentType</span>
+                            <span class="help-block d-none has-error" id="sddlDocumentType">Please Select Document Type</span>
                         </div>
                     </div>
 

@@ -6,7 +6,6 @@ using ArcheOne.Models.Res;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
-using System.Transactions;
 
 namespace ArcheOne.Controllers
 {
@@ -118,24 +117,50 @@ namespace ArcheOne.Controllers
 
             try
             {
-
+                // Get TeamLead Role Id
                 var teamLeadRoleId = await _dbRepo.RoleMstList().Where(x => x.RoleCode == CommonEnums.RoleMst.Team_Lead.ToString()).Select(x => x.Id).FirstOrDefaultAsync();
+
+                // Get All User's (Id, FirstName + LastName, RoleId).
                 var userList = await _dbRepo.UserMstList().Select(x => new AddEditTeamReqViewModel.UserDetail { Id = x.Id, FullName = $"{x.FirstName} {x.LastName}", RoleId = x.RoleId }).ToListAsync();
 
-                addEditTeamReqViewModel.TeamLeadList = userList.Where(x => x.RoleId == teamLeadRoleId).ToList();
-                addEditTeamReqViewModel.TeamMemberList = userList.Where(x => x.RoleId != teamLeadRoleId).ToList();
+                // Get All Team's (Id, TeamLeadId, TeamMemberId).
+                var teamList = await _dbRepo.TeamList().Select(x => new { x.Id, x.TeamLeadId, x.TeamMemberId }).ToListAsync();
 
+                // Get All User's who is TeamLead AND not assigned in any team as TeamLead.
+                addEditTeamReqViewModel.TeamLeadList = userList.Where(x => x.RoleId == teamLeadRoleId && !teamList.Any(y => y.TeamLeadId == x.Id)).ToList();
+
+                // Get All TeamMemberIds by seperating after commas.
+                var teamMemberList = teamList.SelectMany(s => s.TeamMemberId.Split(',').Select(id => id.Trim())).ToList();
+
+                // Get All User's who is not TeamLead AND not assigned in any Team.
+                addEditTeamReqViewModel.TeamMemberList = userList.Where(x => x.RoleId != teamLeadRoleId && !teamMemberList.Any(y => y == x.Id.ToString())).ToList();
+
+                addEditTeamReqViewModel.TeamId = TeamId;
                 addEditTeamReqViewModel.TeamLeadId = 0;
 
-                if (TeamId > 0)
+                if (TeamId > 0) // Edit Team
                 {
-                    var teamDetails = await _dbRepo.TeamList().Where(x => x.Id == TeamId).Select(x => new { x.TeamLeadId, x.TeamMemberId }).FirstOrDefaultAsync();
+                    // Get Team Details by Id.
+                    var teamDetails = teamList.Where(x => x.Id == TeamId).Select(x => new { x.TeamLeadId, x.TeamMemberId }).FirstOrDefault();
                     if (teamDetails != null)
                     {
+                        // Append current TeamLead in TeamLead List.
                         addEditTeamReqViewModel.TeamLeadId = teamDetails.TeamLeadId;
+                        var teamLeadName = userList.FirstOrDefault(x => x.Id == teamDetails.TeamLeadId) ?? new AddEditTeamReqViewModel.UserDetail();
+
+                        addEditTeamReqViewModel.TeamLeadList.Add(new AddEditTeamReqViewModel.UserDetail { Id = teamDetails.TeamLeadId, FullName = teamLeadName.FullName });
 
                         List<string> teamMemberIds = teamDetails.TeamMemberId.Split(",").ToList();
 
+                        // Append current TeamMember in TeamMember List.
+                        AddEditTeamReqViewModel.UserDetail teamMemberName;
+                        foreach (var item in teamMemberIds)
+                        {
+                            teamMemberName = userList.FirstOrDefault(x => x.Id == Convert.ToInt32(item)) ?? new AddEditTeamReqViewModel.UserDetail();
+                            addEditTeamReqViewModel.TeamMemberList.Add(new AddEditTeamReqViewModel.UserDetail { Id = Convert.ToInt32(item), FullName = teamMemberName.FullName });
+                        }
+
+                        // Get current TeamMemberIds.
                         addEditTeamReqViewModel.TeamMemberIds = teamMemberIds;
                     }
                 }
@@ -166,322 +191,96 @@ namespace ArcheOne.Controllers
         {
             CommonResponse response = new CommonResponse();
             List<TeamMst> addTeamReqModelList = new List<TeamMst>();
-            using (TransactionScope transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            try
             {
-                try
+                int userId = _commonHelper.GetLoggedInUserId();
+                if (request.TeamId == 0)
                 {
-                    #region sonal
-
-                    ////Edit Mode
-                    //var teamDetails = await _dbRepo.TeamList().FirstOrDefaultAsync(x => x.TeamLeadId == saveUpdateTeamReqModel.TeamLeadId);
-                    //if (teamDetails != null)
-                    //{
-                    //    TeamMst teamMst = new TeamMst();
-                    //    foreach (var teamMember in saveUpdateTeamReqModel.TeamMemberId)
-                    //    {
-                    //        //TeamMst teamMst = new TeamMst();
-                    //        teamMst.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
-                    //        teamMst.TeamMemberId = teamMember;
-                    //        teamMst.IsActive = true;
-                    //        teamMst.IsDelete = false;
-                    //        teamMst.CreatedDate = DateTime.Now;
-                    //        teamMst.UpdatedDate = DateTime.Now;
-                    //        teamMst.CreatedBy = _commonHelper.GetLoggedInUserId();
-                    //        teamMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
-
-
-                    //        //_dbContext.Entry(teamDetails).State = EntityState.Added;
-                    //        //_dbContext.SaveChanges();
-                    //    }
-
-                    //    await _dbContext.TeamMsts.AddRangeAsync(teamMst);
-                    //    _dbContext.SaveChangesAsync();
-
-
-                    //    response.Status = true;
-                    //    response.StatusCode = HttpStatusCode.OK;
-                    //    response.Message = "Team Edited Successfully";
-                    //}
-                    //else
-                    //{
-                    //    //Add Mode
-                    //    foreach (var teamMember in saveUpdateTeamReqModel.TeamMemberId)
-                    //    {
-                    //        var teamList = _dbRepo.TeamList().Where(x => x.TeamMemberId == teamMember).ToList();
-
-                    //        if (teamList.Count > 0)
-                    //        {
-                    //            response.Status = false;
-                    //            //response.StatusCode = HttpStatusCode.NotFound;
-                    //            response.Message = "TeamMember Is Already Exist";
-                    //        }
-                    //        else
-                    //        {
-                    //            TeamMst teamMst = new TeamMst();
-                    //            teamMst.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
-                    //            teamMst.TeamMemberId = teamMember;
-                    //            teamMst.IsActive = true;
-                    //            teamMst.IsDelete = false;
-                    //            teamMst.CreatedDate = DateTime.Now;
-                    //            teamMst.UpdatedDate = DateTime.Now;
-                    //            teamMst.CreatedBy = _commonHelper.GetLoggedInUserId();
-                    //            teamMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
-                    //            addTeamReqModelList.Add(teamMst);
-                    //        }
-                    //    }
-
-                    //    await _dbContext.TeamMsts.AddRangeAsync(addTeamReqModelList);
-                    //    _dbContext.SaveChangesAsync();
-
-                    //    response.Status = true;
-                    //    response.StatusCode = HttpStatusCode.OK;
-                    //    response.Message = "Team Added Successfully";
-                    //}
-
-
-                    #endregion
-
-                    #region Preyansi
-                    //Edit Mode
-                    /*var isExistteamLead = _dbRepo.TeamList().Where(x => x.TeamLeadId == saveUpdateTeamReqModel.TeamId).ToList();
-                    if (isExistteamLead.Count > 0)
+                    if (await _dbRepo.TeamList().AnyAsync(x => x.TeamLeadId == request.TeamLeadId))
                     {
-                        if (saveUpdateTeamReqModel.TeamId == saveUpdateTeamReqModel.TeamLeadId)
-                        {
+                        response.Message = "This Team Lead is already having another team!";
+                    }
 
+                    // This code is simplified version of else if condition.
 
-                            var teamDetails = await _dbRepo.TeamList().FirstOrDefaultAsync(x => x.TeamLeadId == saveUpdateTeamReqModel.TeamLeadId);
-                            if (teamDetails != null)
-                            {
-                                var TeamList = await _dbRepo.TeamList().Where(x => x.TeamLeadId == saveUpdateTeamReqModel.TeamLeadId).ToListAsync();
-                                foreach (var item in TeamList)
-                                {
-                                    _dbContext.TeamMsts.RemoveRange(item);
-                                    await _dbContext.SaveChangesAsync();
-                                }
+                    /*List<string> userIdStrings = await _dbRepo.TeamList()..Select(u => u.TeamMemberId).ToListAsync();
+                    IEnumerable<string> userIdArray = userIdStrings.SelectMany(s => s.Split(',').Select(id => id.Trim()));
+                    IEnumerable<int> matchingUserIds = request.TeamMemberId.Intersect(userIdArray.Select(int.Parse));*/
 
-
-                                List<TeamMst> teamMstList = new List<TeamMst>();
-
-
-                                foreach (var teamMember in saveUpdateTeamReqModel.TeamMemberId)
-                                {
-                                    TeamMst teamMst = new TeamMst();
-                                    teamMst.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
-                                    teamMst.TeamMemberId = teamMember;
-                                    teamMst.IsActive = true;
-                                    teamMst.IsDelete = false;
-                                    teamMst.CreatedDate = DateTime.Now;
-                                    teamMst.UpdatedDate = DateTime.Now;
-                                    teamMst.CreatedBy = _commonHelper.GetLoggedInUserId();
-                                    teamMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
-                                    teamMstList.Add(teamMst);
-                                }
-                                await _dbContext.TeamMsts.AddRangeAsync(teamMstList);
-                                await _dbContext.SaveChangesAsync();
-                                transactionScope.Complete();
-
-                                response.Status = true;
-                                response.StatusCode = HttpStatusCode.OK;
-                                response.Message = "Team Edited Successfully";
-                            }
-                            else
-                            {
-                                foreach (var item in isExistteamLead)
-                                {
-                                    var teamDetails1 = _dbRepo.TeamList().FirstOrDefault(x => x.TeamLeadId == item.TeamLeadId);
-                                    if (teamDetails1 != null)
-                                    {
-                                        teamDetails1.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
-                                        teamDetails1.UpdatedDate = DateTime.Now;
-                                        teamDetails1.UpdatedBy = _commonHelper.GetLoggedInUserId();
-
-                                        _dbContext.Entry(teamDetails1).State = EntityState.Modified;
-                                        await _dbContext.SaveChangesAsync();
-
-
-                                    }
-
-                                }
-                                transactionScope.Complete();
-                                response.Status = true;
-                                response.StatusCode = HttpStatusCode.OK;
-                                response.Message = "Team Edited Successfully";
-                            }
-                        }
-                        else
-                        {
-                            foreach (var item in isExistteamLead)
-                            {
-                                var teamDetails1 = _dbRepo.TeamList().FirstOrDefault(x => x.TeamLeadId == item.TeamLeadId);
-                                if (teamDetails1 != null)
-                                {
-                                    teamDetails1.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
-                                    teamDetails1.UpdatedDate = DateTime.Now;
-                                    teamDetails1.UpdatedBy = _commonHelper.GetLoggedInUserId();
-
-                                    _dbContext.Entry(teamDetails1).State = EntityState.Modified;
-                                    await _dbContext.SaveChangesAsync();
-                                }
-
-                            }
-                            transactionScope.Complete();
-                            response.Status = true;
-                            response.StatusCode = HttpStatusCode.OK;
-                            response.Message = "Team Edited Successfully";
-                        }
-
+                    else if (request.TeamMemberId.Intersect((await _dbRepo.TeamList().Select(u => u.TeamMemberId).ToListAsync()).SelectMany(s => s.Split(',').Select(id => id.Trim())).Select(int.Parse)).ToArray().Length > 0)
+                    {
+                        response.Message = "A Team Member(s) is already assingned in another team(s)!";
                     }
                     else
                     {
-                        var teamDetails = await _dbRepo.TeamList().FirstOrDefaultAsync(x => x.TeamLeadId == saveUpdateTeamReqModel.TeamLeadId);
-                        if (teamDetails != null)
+                        TeamMst teamMst = new TeamMst()
                         {
-                            TeamMst teamMst = new TeamMst();
-                            foreach (var teamMember in saveUpdateTeamReqModel.TeamMemberId)
-                            {
-                                //TeamMst teamMst = new TeamMst();
-                                teamMst.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
-                                teamMst.TeamMemberId = teamMember;
-                                teamMst.IsActive = true;
-                                teamMst.IsDelete = false;
-                                teamMst.CreatedDate = DateTime.Now;
-                                teamMst.UpdatedDate = DateTime.Now;
-                                teamMst.CreatedBy = _commonHelper.GetLoggedInUserId();
-                                teamMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                            TeamLeadId = request.TeamLeadId,
+                            TeamMemberId = string.Join(",", request.TeamMemberId),
+                            IsActive = true,
+                            IsDelete = false,
+                            CreatedBy = userId,
+                            UpdatedBy = userId,
+                            CreatedDate = _commonHelper.GetCurrentDateTime(),
+                            UpdatedDate = _commonHelper.GetCurrentDateTime(),
+                        };
 
+                        await _dbContext.TeamMsts.AddAsync(teamMst);
+                        await _dbContext.SaveChangesAsync();
 
-                                //_dbContext.Entry(teamDetails).State = EntityState.Added;
-                                //_dbContext.SaveChanges();
-                            }
-
-                            await _dbContext.TeamMsts.AddRangeAsync(teamMst);
-                            await _dbContext.SaveChangesAsync();
-
-                            transactionScope.Complete();
-                            response.Status = true;
-                            response.StatusCode = HttpStatusCode.OK;
-                            response.Message = "Team Edited Successfully";
-                        }
-                        else
-                        {
-                            //Add Mode
-                            foreach (var teamMember in saveUpdateTeamReqModel.TeamMemberId)
-                            {
-                                var teamList = _dbRepo.TeamList().Where(x => x.TeamMemberId == teamMember).ToList();
-
-                                if (teamList.Count > 0)
-                                {
-                                    response.Status = false;
-                                    response.Message = "TeamMember Is Already Exist";
-                                }
-                                else
-                                {
-                                    TeamMst teamMst = new TeamMst();
-                                    teamMst.TeamLeadId = saveUpdateTeamReqModel.TeamLeadId;
-                                    teamMst.TeamMemberId = teamMember;
-                                    teamMst.IsActive = true;
-                                    teamMst.IsDelete = false;
-                                    teamMst.CreatedDate = DateTime.Now;
-                                    teamMst.UpdatedDate = DateTime.Now;
-                                    teamMst.CreatedBy = _commonHelper.GetLoggedInUserId();
-                                    teamMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
-                                    addTeamReqModelList.Add(teamMst);
-                                }
-                            }
-
-                            await _dbContext.TeamMsts.AddRangeAsync(addTeamReqModelList);
-                            await _dbContext.SaveChangesAsync();
-
-                            transactionScope.Complete();
-                            response.Status = true;
-                            response.StatusCode = HttpStatusCode.OK;
-                            response.Message = "Team Added Successfully";
-                        }
-                    }*/
-
-                    //response.Data = addTeamReqModelList;
-
-                    #endregion
-
-                    int userId = _commonHelper.GetLoggedInUserId();
-                    if (request.TeamId == 0)
+                        response.Status = true;
+                        response.StatusCode = HttpStatusCode.OK;
+                        response.Message = "Team added successfully!";
+                    }
+                }
+                else
+                {
+                    var teamData = await _dbRepo.TeamList().FirstOrDefaultAsync(x => x.Id == request.TeamId);
+                    if (teamData != null)
                     {
-                        if (await _dbRepo.TeamList().AnyAsync(x => x.TeamLeadId == request.TeamLeadId))
+
+                        if (await _dbRepo.TeamList().AnyAsync(x => x.TeamLeadId == request.TeamLeadId && x.Id != request.TeamId))
                         {
                             response.Message = "This Team Lead is already having another team!";
                         }
-                        else if (await _dbRepo.TeamList().AnyAsync(row => request.TeamMemberId.Any(id => row.TeamMemberId.Contains(id.ToString()))))
+
+                        // This code is simplified version of else if condition.
+                        /*List<string> userIdStrings = await _dbRepo.TeamList().Where(x => x.Id != request.TeamId).Select(u => u.TeamMemberId).ToListAsync();
+                        IEnumerable<string> userIdArray = userIdStrings.SelectMany(s => s.Split(',').Select(id => id.Trim()));
+                        IEnumerable<int> matchingUserIds = request.TeamMemberId.Intersect(userIdArray.Select(int.Parse));*/
+
+                        else if (request.TeamMemberId.Intersect((await _dbRepo.TeamList().Where(x => x.Id != request.TeamId).Select(u => u.TeamMemberId).ToListAsync()).SelectMany(s => s.Split(',').Select(id => id.Trim())).Select(int.Parse)).ToArray().Length > 0)
                         {
                             response.Message = "A Team Member(s) is already assingned in another team(s)!";
                         }
                         else
                         {
-                            TeamMst teamMst = new TeamMst()
-                            {
-                                TeamLeadId = request.TeamLeadId,
-                                TeamMemberId = string.Join(",", request.TeamMemberId),
-                                IsActive = true,
-                                IsDelete = false,
-                                CreatedBy = userId,
-                                UpdatedBy = userId,
-                                CreatedDate = _commonHelper.GetCurrentDateTime(),
-                                UpdatedDate = _commonHelper.GetCurrentDateTime(),
-                            };
+                            teamData.TeamLeadId = request.TeamLeadId;
+                            teamData.TeamMemberId = string.Join(",", request.TeamMemberId);
+                            teamData.UpdatedBy = userId;
+                            teamData.UpdatedDate = _commonHelper.GetCurrentDateTime();
 
-                            await _dbContext.TeamMsts.AddAsync(teamMst);
+                            _dbContext.Entry(teamData).State = EntityState.Modified;
                             await _dbContext.SaveChangesAsync();
 
                             response.Status = true;
                             response.StatusCode = HttpStatusCode.OK;
-                            response.Message = "Team added successfully!";
+                            response.Message = "Team updated successfully!";
                         }
+
                     }
                     else
                     {
-                        var teamData = await _dbRepo.TeamList().FirstOrDefaultAsync(x => x.Id == request.TeamId);
-                        if (teamData != null)
-                        {
-                            if (await _dbRepo.TeamList().AnyAsync(x => x.TeamLeadId == request.TeamLeadId && x.Id != request.TeamId))
-                            {
-                                response.Message = "This Team Lead is already having another team!";
-                            }
-                            else if (await _dbRepo.TeamList().AnyAsync(x => request.TeamMemberId.Any(id => x.TeamMemberId.Contains(id.ToString())) && x.Id != request.TeamId))
-                            {
-                                response.Message = "A Team Member(s) is already assingned in another team(s)!";
-                            }
-                            else
-                            {
-                                teamData.TeamLeadId = request.TeamLeadId;
-                                teamData.TeamMemberId = string.Join(",", request.TeamMemberId);
-                                teamData.UpdatedBy = userId;
-                                teamData.UpdatedDate = _commonHelper.GetCurrentDateTime();
-
-                                _dbContext.Entry(teamData).State = EntityState.Modified;
-                                await _dbContext.SaveChangesAsync();
-
-                                response.Status = true;
-                                response.StatusCode = HttpStatusCode.OK;
-                                response.Message = "Team updated successfully!";
-                            }
-
-                        }
-                        else
-                        {
-                            response.StatusCode = HttpStatusCode.NotFound;
-                            response.Message = "Data not found!";
-                        }
+                        response.StatusCode = HttpStatusCode.NotFound;
+                        response.Message = "Data not found!";
                     }
-
-
-                }
-                catch (Exception ex)
-                {
-                    response.Message = ex.Message;
                 }
             }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
             return response;
-
         }
 
         public async Task<IActionResult> DeleteTeam(int Id)

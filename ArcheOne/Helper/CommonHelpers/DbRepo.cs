@@ -180,11 +180,6 @@ namespace ArcheOne.Helper.CommonHelpers
             return _db.DesignationMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
         }
 
-        public IQueryable<ReportingManagerMst> ReportingManagerList(bool IsDeleted = false, bool IsActive = true)
-        {
-            return _db.ReportingManagerMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();
-        }
-
         public IQueryable<ProjectMst> ProjectList(bool IsDeleted = false, bool IsActive = true)
         {
             return _db.ProjectMsts.Where(x => x.IsDelete == IsDeleted && x.IsActive == IsActive).AsQueryable();

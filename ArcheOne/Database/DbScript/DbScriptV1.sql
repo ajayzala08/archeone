@@ -1601,5 +1601,14 @@ SET IDENTITY_INSERT [dbo].[DocumentTypeMst] OFF
 ----------------------------------------Added by AZ on 14-07-23-----------------------------------End--------
 ----------------------------------------Executed On Dev Environment-------------------------------------------
 
+
+----------------------------------------Added by TS on 04-08-23-----------------------------------Start--------
+
 ALTER TABLE TeamMst
 ALTER COLUMN TeamMemberId nvarchar(max);
+
+Drop table ReportingManagerMst;
+
+----------------------------------------Added by TS on 04-08-23-----------------------------------End----------
+
+----------------------------------------Executed On Dev Environment-------------------------------------------

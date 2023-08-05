@@ -34,13 +34,13 @@
             @if (Model.Status)
             {
                 <div class="row">
-                    <input id="txtTeamId" name="txtTeamId" type="hidden" class="form-control col-sm-4" value="@addEditTeamReqViewModel.TeamLeadId" />
+                    <input id="txtTeamId" name="txtTeamId" type="hidden" class="form-control col-sm-4" value="@addEditTeamReqViewModel.TeamId" />
 
                     <div class="col-sm-4" id="dddlTeamLeadId">
                         <div class="form-group">
                             <label><span class="has-error required">* </span>Team Lead</label>
                             <select id="ddlTeamLeadId" name="ddlTeamLeadId" class="form-control select2" isrequired="1" divcontainer="dddlTeamLeadId" errorspan="sddlTeamLeadId" defaultvalue="0" style="width: 100%;">
-                                <option value="0">--- Select ---</option>
+                                <option value="0" disabled>Select Team Lead</option>
                                 @foreach (var item in addEditTeamReqViewModel.TeamLeadList)
                                 {
                                     if (item.Id == addEditTeamReqViewModel.TeamLeadId)
@@ -61,7 +61,7 @@
                         <div class="form-group">
                             <label><span class="has-error required" typeof="checkbox">* </span>Team Member</label>
                             <select id="ddlTeamMemberId" name="ddlTeamMemberId" multiple="multiple" class="form-control select2" isrequired="1" divcontainer="dddlTeamMemberId" errorspan="sddlTeamMemberId" defaultvalue="0" style="width: 100%;">
-                                <option value="0">--- Select ---</option>
+                                <option value="0" disabled>Select Team Members</option>
 
                                 @if (addEditTeamReqViewModel.TeamLeadId > 0)
                                 {

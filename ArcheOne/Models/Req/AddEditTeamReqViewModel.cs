@@ -2,6 +2,7 @@
 {
     public class AddEditTeamReqViewModel
     {
+        public int TeamId { get; set; }
         public int TeamLeadId { get; set; }
         public List<string> TeamMemberIds { get; set; }
         public List<UserDetail> TeamLeadList { get; set; }

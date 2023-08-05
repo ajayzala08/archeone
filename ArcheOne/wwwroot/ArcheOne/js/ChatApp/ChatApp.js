@@ -28,7 +28,7 @@ function GetUserList() {
       
         if (result.status == true) {
             $("#ddlUsers").html('');
-            //$("#ddlUsers").append('<option value="0">--- Select ---</option>');
+            //$("#ddlUsers").append('<option value="0">Select User</option>');
             $.each(result.data, function (index, value) {
                 $("#ddlUsers").append('<option  value="' + value.id + '">' + value.fullName + '</option>');
             });
