@@ -1,7 +1,25 @@
 ﻿$(document).ready(function () {
     LoadBirthdayWorkAniversaryHoliday();
-    Showcharts();
+
     showCalenderData();
+
+    let hr = $("#txtHrId").val();
+    let Sd = $("#txtsdId").val();
+    let Sales = $("#txtSalesId").val();
+    let Recruitment = $("#txtRecruitmentId").val();
+    let QA = $("#txtqaId").val();
+    let Designer = $("#txtDesignerId").val();
+    
+    if (hr) {
+        ShowHRcharts();
+    }
+    else if (Sd || QA || Designer) {
+        ShowSDcharts();
+    } else if (Sales) {
+        ShowSalescharts();
+    } else if (Recruitment) {
+        ShowHRcharts();
+    }
 });
 
 function LoadBirthdayWorkAniversaryHoliday() {
@@ -10,14 +28,14 @@ function LoadBirthdayWorkAniversaryHoliday() {
             let holidayCnt = result.data.holidays.length;
             $('#holidaycnt').text(holidayCnt + ' Holidays');
             $.each(result.data.holidays, function (data, value) {
-                let strToAdd = '<tr><td>' + value.holidayName + '</td><td>' + value.holidayDate +'</td></tr>';
+                let strToAdd = '<tr><td>' + value.holidayName + '</td><td>' + value.holidayDate + '</td></tr>';
                 $('#tblHoliday').append(strToAdd);
             })
 
             let birthdayCnt = result.data.birthdays.length;
             $('#birthdayCnt').text(birthdayCnt + ' Birthday');
             $.each(result.data.birthdays, function (data, value) {
-                let strToAdd = '<li><img src=' + value.employeeImagePath + ' alt="User Image" style="height:75px;width:75px;"></img><a class=users-list-name href=#>' + value.employeeName + ' </a> <span class=users-list-date>' + value.birthdate +'</span></li>';
+                let strToAdd = '<li><img src=' + value.employeeImagePath + ' alt="User Image" style="height:75px;width:75px;"></img><a class=users-list-name href=#>' + value.employeeName + ' </a> <span class=users-list-date>' + value.birthdate + '</span></li>';
                 $('#libirthday').append(strToAdd);
             })
 
@@ -55,18 +73,18 @@ function showCalender(data) {
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         themeSystem: 'bootstrap',
-   
+
         contentHeight: 450,
-/*        headerToolbar: {
-            left: 'prev,next,today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        },
-        footerToolbar: {
-            start: '',
-            center: '',
-            end: 'prev,next'
-        },*/
+        /*        headerToolbar: {
+                    left: 'prev,next,today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                footerToolbar: {
+                    start: '',
+                    center: '',
+                    end: 'prev,next'
+                },*/
 
         events: data,
 
@@ -102,9 +120,10 @@ function showCalender(data) {
     calendar.render();
 };
 
-function Showcharts() {
-   
-        var chart = new CanvasJS.Chart("chartContainer", {
+function ShowHRcharts() {
+    debugger
+    ajaxCall("GET", false, '/Dashboard/HRChart', null, function (result) {
+        var chartRequirmentContainer = new CanvasJS.Chart("chartRequirmentContainer", {
             title: {
                 text: "Recruitment Chart"
             },
@@ -117,27 +136,101 @@ function Showcharts() {
             data: [
                 {
                     type: "doughnut",
-                    indexLabelFontFamily: "Garamond",
-                    indexLabelFontSize: 15,
-                    indexLabel: "{label} {y}%",
+                    //indexLabelFontFamily: "Garamond",
+                    indexLabelFontSize: 20,
+                    indexLabel: "{label} {y}",
                     startAngle: -20,
                     showInLegend: true,
-                    toolTipContent: "{legendText} {y}%",
-                    dataPoints: [
-                        { y: 72.48, legendText: "Google", label: "Google" },
-                        { y: 10.39, legendText: "Bing", label: "Bing" },
-                        { y: 7.78, legendText: "Yahoo!", label: "Yahoo!" },
-                        { y: 7.14, legendText: "Baidu", label: "Baidu" },
-                        { y: 0.22, legendText: "Ask", label: "Ask" },
-                        { y: 0.15, legendText: "AOL", label: "AOL" },
-                        { y: 1.84, legendText: "Others", label: "Others" }
-                    ],
+                    toolTipContent: "{label} {y}",
+                    dataPoints: result.data
+                }],
 
-                    //dataPoints: @Html.Raw(ViewBag.DataPoints),
-                }
-            ]
         });
-        chart.render();
-    
-};
+        chartRequirmentContainer.render();
+    });
+}
 
+function ShowSDcharts() {
+    ajaxCall("GET", false, '/Dashboard/SDChart', null, function (result) {
+        var chartDeveloperContainer = new CanvasJS.Chart("chartDeveloperContainer", {
+            title: {
+                text: "Project Chart"
+            },
+            animationEnabled: true,
+            legend: {
+                fontSize: 15,
+                fontFamily: "Helvetica"
+            },
+            theme: "light2",
+            data: [
+                {
+                    type: "doughnut",
+                    //indexLabelFontFamily: "Garamond",
+                    indexLabelFontSize: 20,
+                    indexLabel: "{label} {y}",
+                    startAngle: -20,
+                    showInLegend: true,
+                    toolTipContent: "{label} {y}",
+                    dataPoints: result.data
+                }],
+
+        });
+        chartDeveloperContainer.render();
+    });
+}
+function ShowSalescharts() {
+    ajaxCall("GET", false, '/Dashboard/SalesChart', null, function (result) {
+        var chartSalesContainer = new CanvasJS.Chart("chartSalesContainer", {
+            title: {
+                text: "Sales Chart"
+            },
+            animationEnabled: true,
+            legend: {
+                fontSize: 15,
+                fontFamily: "Helvetica"
+            },
+            theme: "light2",
+            data: [
+                {
+                    type: "doughnut",
+                    //indexLabelFontFamily: "Garamond",
+                    indexLabelFontSize: 20,
+                    indexLabel: "{label} {y}",
+                    startAngle:  -20,
+                    showInLegend: true,
+                    toolTipContent: "{label} {y}",
+                    dataPoints: result.data
+                }],
+
+        });
+        chartSalesContainer.render();
+    });
+}
+//function ShowRecruitmentcharts() {
+//    ajaxCall("GET", false, '/Dashboard/RecruitmentChart', null, function (result) {
+//        var chartRequirmentContainer = new CanvasJS.Chart("chartRequirmentContainer", {
+//            title: {
+//                text: "Recruitment Chart"
+//            },
+//            animationEnabled: true,
+//            legend: {
+//                fontSize: 15,
+//                fontFamily: "Helvetica"
+//            },
+//            theme: "light2",
+//            data: [
+//                {
+//                    type: "doughnut",
+//                    indexLabelFontFamily: "Garamond",
+//                    indexLabelFontSize: 15,
+//                    indexLabel: "{label} {y}%",
+//                    startAngle: -20,
+//                    showInLegend: true,
+//                    toolTipContent: "{label} {y}%",
+//                    dataPoints: result.data
+//                }],
+
+//        });
+//        chartRequirmentContainer.render();
+//    });
+//}

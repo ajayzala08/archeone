@@ -21,7 +21,8 @@
             Designer,
             Content,
             Finance,
-            Sales
+            Sales,
+            Recruitment
         }
 
         public enum PermissionMst
