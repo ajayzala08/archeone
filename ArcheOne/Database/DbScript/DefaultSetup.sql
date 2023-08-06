@@ -110,6 +110,10 @@ Insert into PermissionMst Values ('Holidays Delete View', 'Holidays_Delete_View'
 Insert into PermissionMst Values ('Policy Add View', 'Policy_Add_View', '', 1, 0, 0, 0, GETDATE(), GETDATE())
 Insert into PermissionMst Values ('Policy Edit View', 'Policy_Edit_View', '', 1, 0, 0, 0, GETDATE(), GETDATE())
 Insert into PermissionMst Values ('Policy Delete View', 'Policy_Delete_View', '', 1, 0, 0, 0, GETDATE(), GETDATE())
+Insert into PermissionMst Values ('Team Add View', 'Team_Add_View', '', 1, 0, 0, 0, GETDATE(), GETDATE())
+Insert into PermissionMst Values ('Team Edit View', 'Team_Edit_View', '', 1, 0, 0, 0, GETDATE(), GETDATE())
+Insert into PermissionMst Values ('Team Delete View', 'Team_Delete_View', '', 1, 0, 0, 0, GETDATE(), GETDATE())
+
 
 
 ------------------------------------SetUp SuperAdmin User----------------------------
