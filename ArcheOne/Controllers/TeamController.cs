@@ -45,31 +45,50 @@ namespace ArcheOne.Controllers
             try
             {
                 int userId = _commonHelper.GetLoggedInUserId();
-                bool isUserHR = false;
+                bool isUserHRORSuperAdmin = false;
 
                 CommonResponse departmentDetailsResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDepartmentByUserId(userId);
 
                 if (departmentDetailsResponse.Status)
                 {
-                    isUserHR = departmentDetailsResponse.Data.DepartmentCode == CommonEnums.DepartmentMst.Human_Resource.ToString();
+                    isUserHRORSuperAdmin = departmentDetailsResponse.Data.DepartmentCode == CommonEnums.DepartmentMst.Human_Resource.ToString();
                 }
 
-                getTeamListResModel.IsEditable = !isUserHR ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Teams_Edit_View) : isUserHR;
-                getTeamListResModel.IsDeletable = !isUserHR ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Teams_Delete_View) : isUserHR;
+                if (!isUserHRORSuperAdmin)
+                {
+                    CommonResponse roleDetailsResponse = await new RoleController(_dbRepo).GetRoleByUserId(userId);
+                    if (roleDetailsResponse.Status)
+                    {
+                        isUserHRORSuperAdmin = roleDetailsResponse.Data.RoleCode == CommonEnums.RoleMst.Super_Admin.ToString();
+                    }
+                }
 
-                var teamList = await _dbRepo.TeamList().ToListAsync();
+                getTeamListResModel.IsEditable = !isUserHRORSuperAdmin ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Teams_Edit_View) : isUserHRORSuperAdmin;
+                getTeamListResModel.IsDeletable = !isUserHRORSuperAdmin ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Teams_Delete_View) : isUserHRORSuperAdmin;
 
-                getTeamListResModel.TeamDetails = await (from team in _dbRepo.TeamList()
-                                                         join userMstLead in _dbRepo.UserMstList() on team.TeamLeadId equals userMstLead.Id into userMstLeadGroup
-                                                         from userMstLeadItem in userMstLeadGroup.DefaultIfEmpty()
-                                                         select new GetTeamListResModel.TeamDetail
-                                                         {
-                                                             Id = team.Id,
-                                                             TeamLeadId = team.TeamLeadId,
-                                                             TeamMemeberIds = team.TeamMemberId,
-                                                             TeamLeadName = $"{userMstLeadItem.FirstName} {userMstLeadItem.LastName}",
-                                                             TeamMemebersNames = string.Empty
-                                                         }).ToListAsync();
+                var teamList = await _dbRepo.TeamList().Select(x => new { x.Id, x.TeamLeadId, x.TeamMemberId }).ToListAsync();
+
+                if (teamList.Count > 0)
+                {
+                    // Get All TeamMemberIds by seperating after commas.
+                    var teamMemberList = teamList.Select(x => new { Members = x.TeamMemberId.Split(',').Select(id => id.Trim()), TeamId = x.Id }).ToList();
+
+                    var teamMember = teamMemberList.Where(x => x.Members.Any(y => y == userId.ToString())).Select(x => x.TeamId);
+
+                    teamList = teamList.Where(x => (!isUserHRORSuperAdmin ? x.TeamLeadId == userId || teamMember.Any(y => y == x.Id) : true)).ToList();
+                }
+
+                getTeamListResModel.TeamDetails = (from team in teamList
+                                                   join userMstLead in _dbRepo.UserMstList() on team.TeamLeadId equals userMstLead.Id into userMstLeadGroup
+                                                   from userMstLeadItem in userMstLeadGroup.DefaultIfEmpty()
+                                                   select new GetTeamListResModel.TeamDetail
+                                                   {
+                                                       Id = team.Id,
+                                                       TeamLeadId = team.TeamLeadId,
+                                                       TeamMemeberIds = team.TeamMemberId,
+                                                       TeamLeadName = $"{userMstLeadItem.FirstName} {userMstLeadItem.LastName}",
+                                                       TeamMemebersNames = string.Empty
+                                                   }).ToList();
 
                 foreach (var item in getTeamListResModel.TeamDetails)
                 {
