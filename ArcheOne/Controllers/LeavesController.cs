@@ -770,9 +770,11 @@ namespace ArcheOne.Controllers
                                     {
                                         leaveDetails.ApprovedByReportingStatus = request.LeaveStatusId;
                                         leaveDetails.ApprovedByReportingUserId = userId;
-
-                                        leaveDetails.Hrstatus = 1;
-                                        leaveDetails.ApprovedByHruserId = userId;
+                                        if (IsUserHR)
+                                        {
+                                            leaveDetails.Hrstatus = 1;
+                                            leaveDetails.ApprovedByHruserId = userId;
+                                        }
 
                                     }
 

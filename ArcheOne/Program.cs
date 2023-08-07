@@ -18,7 +18,7 @@ builder.Services.AddControllersWithViews(options =>
 
 builder.Services.AddDbContext<ArcheOneDbContext>(x => x.UseSqlServer(builder.Configuration["ConnectionStrings:EntitiesConnection"]));
 
-builder.Services.AddSession(x => x.IdleTimeout = TimeSpan.FromMinutes(10));//You can set Time   
+builder.Services.AddSession(x => x.IdleTimeout = TimeSpan.FromMinutes(30));//You can set Time   
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

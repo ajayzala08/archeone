@@ -39,7 +39,7 @@ dateInput.setAttribute('min', maxDateFormatted);
 
 
 const maxDateJoin = new Date();
-maxDateJoin.setDate(maxDateJoin.getDate() - 29);
+maxDateJoin.setDate(maxDateJoin.getDate() - 30);
 const [maxDateFormatted1] = maxDateJoin.toISOString().split('T');
 const dateInput1 = document.getElementById('txtJoinDate');
 dateInput1.setAttribute('min', maxDateFormatted1);

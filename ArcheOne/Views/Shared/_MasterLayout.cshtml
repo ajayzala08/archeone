@@ -12,7 +12,6 @@
     bool select2 = (!string.IsNullOrWhiteSpace(ViewBag.select2) && (ViewBag.select2 == "true" || ViewBag.select2 == "True")) ? true : false;
     bool ckeditor = (!string.IsNullOrWhiteSpace(ViewBag.ckeditor) && (ViewBag.ckeditor == "true" || ViewBag.ckeditor == "True")) ? true : false;
     bool inputTags = (!string.IsNullOrWhiteSpace(ViewBag.inputTags) && (ViewBag.inputTags == "true" || ViewBag.inputTags == "True")) ? true : false;
-    bool boostrapdataload = (!string.IsNullOrWhiteSpace(ViewBag.boostrapdataload) && (ViewBag.boostrapdataload == "true" || ViewBag.boostrapdataload == "True")) ? true : false;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -242,13 +241,6 @@
     <!-- ./wrapper -->
     <!-- jQuery -->
     <script src="~/theme/plugins/jquery/jquery.min.js"></script>
-
-    <script src="~/theme/plugins/bootstrap/js/bootstrap.min.js"></script>
-    @if (boostrapdataload)
-    {
-        <script src="~/theme/plugins/jquery/jquery.min.js"></script>
-        <script src="~/theme/plugins/bootstrap/js/bootstrap.min.js"></script>
-    }
     <!-- jQuery UI -->
     <script src="~/theme/dist/js/jquery.ui_1.13.2_jquery-ui.js"></script>
 

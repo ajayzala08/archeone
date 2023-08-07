@@ -121,7 +121,7 @@ function showCalender(data) {
 };
 
 function ShowHRcharts() {
-    debugger
+    
     ajaxCall("GET", false, '/Dashboard/HRChart', null, function (result) {
         var chartRequirmentContainer = new CanvasJS.Chart("chartRequirmentContainer", {
             title: {
