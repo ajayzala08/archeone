@@ -187,10 +187,34 @@ namespace ArcheOne.Controllers
                 }
                 else
                 {
-                    dashboardDetailsResModel.ProjectCount = projectList.Where(x => x.Resources == Convert.ToString(userId)).Count();
-                    dashboardDetailsResModel.ProjectCompletedCount = projectList.Where(x => x.ProjectStatus.ToLower() == "completed" && x.Resources == Convert.ToString(userId)).Count();
-                    dashboardDetailsResModel.ProjectInProgressCount = projectList.Where(x => x.ProjectStatus.ToLower() == "inprogress" && x.Resources == Convert.ToString(userId)).Count();
-                    dashboardDetailsResModel.ProjectToDoCount = projectList.Where(x => x.ProjectStatus.ToLower() == "todo" && x.Resources == Convert.ToString(userId)).Count();
+                    foreach (var item in projectList)
+                    {
+                        string[] pieces = item.Resources.Split(new string[] { "," },
+                                  StringSplitOptions.None);
+                        if (pieces.Length > 0)
+                        {
+                            foreach (var piece in pieces)
+                            {
+                                if (piece == Convert.ToString(userId))
+                                {
+                                    dashboardDetailsResModel.ProjectCount += projectList.Where(x => x.Resources == Convert.ToString(piece)).Count();
+                                }
+                                if (item.ProjectStatus.ToLower() == "completed" && piece == Convert.ToString(userId))
+                                {
+                                    dashboardDetailsResModel.ProjectCompletedCount += projectList.Where(x => x.ProjectStatus.ToLower() == "completed").Count();
+                                }
+                                else if (item.ProjectStatus.ToLower() == "inprogress" && piece == Convert.ToString(userId))
+                                {
+                                    dashboardDetailsResModel.ProjectInProgressCount += projectList.Where(x => x.ProjectStatus.ToLower() == "inprogress").Count();
+                                }
+                                else if (item.ProjectStatus.ToLower() == "todo" && piece == Convert.ToString(userId))
+                                {
+                                    dashboardDetailsResModel.ProjectToDoCount += projectList.Where(x => x.ProjectStatus.ToLower() == "todo").Count();
+                                }
+                            }
+                        }
+                    }
+
                     dashboardDetailsResModel.UncheckedLeave = _dbRepo.LeaveLists().Where(x => (x.ApprovedByReportingStatus == null || x.ApprovedByReportingStatus == 0) && (x.AppliedByUserId == userId)).Count();
                     dashboardDetailsResModel.PendingResumeApprovalCount = _dbRepo.ResumeFileUploadDetailList().Where(x => x.ResumeStatus == 1).Count();
                     dashboardDetailsResModel.AppraisalRatingCompletedCount = _dbRepo.AppraisalList().Where(x => x.IsApprove == true && x.EmployeeId == userId).Count();

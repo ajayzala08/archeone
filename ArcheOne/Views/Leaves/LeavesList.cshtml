@@ -9,7 +9,7 @@
 }
 <style>
     td {
-        text-align: center;
+        /*text-align: center;*/
     }
 
     thead {
@@ -36,35 +36,21 @@
                 <tr>
                     <td>Actions</td>
                     <td>Cancel Leave</td>
-                    <td>LeaveTypeName</td>
-                    <td>AppliedByUserName</td>
-                    <td>ApprovedByHRUserId</td>
-                    <td>ApprovedByReportingUserId</td>
-                    <td>StartDate</td>
-                    <td>EndDate</td>
+                    <td>LeaveType</td>
+                    <td>AppliedByUser</td>
+                    <td>Hr Status</td>
+                    <td>ApprovedBy HR</td>
+                    <td>Reporting Manager Status</td>
+                    <td>ApprovedBy ReportingManager</td>
+                    <td>Start Date</td>
+                    <td>End Date</td>
                     <td>StartTime</td>
                     <td>EndTime</td>
-                    <td>Opening Balance</td>
-                    <td>Closing Balance</td>
                     <td>No Of Days</td>
                     <td>PaidDays</td>
                     <td>UnPaidDays</td>
                     <td>Reason</td>
-                    <td>Leave Status</td>
-                    <td>Balance Month</td>
-                    <td>Balance Year</td>
-                    <td>SickLeave Balance</td>
-                    <td>SickLeave Taken</td>
-                    <td>CasualLeave Balance</td>
-                    <td>CasualLeave Taken</td>
-                    <td>EarnedLeave Balance</td>
-                    <td>EarnedLeave Taken</td>
-                    <td>Details</td>
-                    <td>Leave Taken</td>
-                    <td>Hr Status</td>
-                    <td>Reporting Manager Status</td>
-
-
+                   
                 </tr>
             </thead>
             <tbody>
@@ -120,31 +106,19 @@
                             }
                             <td>@item.LeaveTypeName</td>
                             <td>@item.AppliedByUserName</td>
+                            <td>@item.HrStatus</td>
                             <td>@item.ApprovedByHRUserId</td>
+                            <td>@item.ApprovedByReportingStatus</td>
                             <td>@item.ApprovedByReportingUserId</td>
                             <td>@item.StartDate</td>
                             <td>@item.EndDate</td>
                             <td>@item.StartTime</td>
                             <td>@item.EndTime</td>
-                            <td>@item.OpeningBalance</td>
-                            <td>@item.ClosingBalance</td>
                             <td>@item.NoOfDays</td>
                             <td>@item.PaidDays</td>
                             <td>@item.UnPaidDays</td>
                             <td>@item.Reason</td>
-                            <td>@item.LeaveStatus</td>
-                            <td>@item.BalanceMonth</td>
-                            <td>@item.BalanceYear</td>
-                            <td>@item.SickLeaveBalance</td>
-                            <td>@item.SickLeaveTaken</td>
-                            <td>@item.CasualLeaveBalance</td>
-                            <td>@item.CasualLeaveTaken</td>
-                            <td>@item.EarnedLeaveBalance</td>
-                            <td>@item.EarnedLeaveTaken</td>
-                            <td>@item.Details</td>
-                            <td>@item.LeaveTaken</td>
-                            <td>@item.HrStatus</td>
-                            <td>@item.ApprovedByReportingStatus</td>
+                           
                         </tr>
                     }
             </tbody>
