@@ -168,7 +168,7 @@ namespace ArcheOne.Controllers
                                                                      Date = x.DTL.TaskDate.ToString("dd MMM.yyyy"),
                                                                  }).ToList();
 
-                if (dashboardDetailsResModel.IsUserHR && dashboardDetailsResModel.IsUserRecruitment)
+                if (dashboardDetailsResModel.IsUserHR || dashboardDetailsResModel.IsUserRecruitment)
                 {
                     dashboardDetailsResModel.ProjectCount = projectList.Count;
                     dashboardDetailsResModel.ProjectCompletedCount = projectList.Where(x => x.ProjectStatus.ToLower() == "completed").Count();

@@ -35,7 +35,7 @@ namespace ArcheOne.Controllers
             {
                 showAddSalaryButton = departmentDetailsResponse.Data.DepartmentCode == CommonEnums.DepartmentMst.Human_Resource.ToString();
             }
-            showAddSalaryButton = !showAddSalaryButton ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Salary_Add_View) : showAddSalaryButton;
+            showAddSalaryButton = !showAddSalaryButton ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Policy_Add_View) : showAddSalaryButton;
 
             return View(showAddSalaryButton);
         }
