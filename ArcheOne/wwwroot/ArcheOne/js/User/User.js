@@ -96,6 +96,7 @@ function GetUserList(RoleId) {
     ajaxCall("Post", false, '/User/UserList', null, function (result) {
         if (result.status == true) {
             if (dataTable !== null) {
+                debugger
                 dataTable.destroy();
                 dataTable = null;
             }

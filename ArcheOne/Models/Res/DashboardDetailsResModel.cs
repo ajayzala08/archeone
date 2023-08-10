@@ -28,7 +28,8 @@
         public bool IsUserDesigner { get; set; }
         public bool IsUserSales { get; set; }
         public bool IsUserRecruitment { get; set; }
-
+        public bool ISSuperAdmin { get; set; }
+        public bool ISUserAdmin { get; set; }
         public int SalesLeadNewCount { get; set; }
         public int SalesLeadDNCCount { get; set; }
         public int SalesLeadInProgressCount { get; set; }

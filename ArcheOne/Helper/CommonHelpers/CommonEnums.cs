@@ -22,7 +22,8 @@
             Content,
             Finance,
             Sales,
-            Recruitment
+            Recruitment,
+            Administration
         }
 
         public enum PermissionMst

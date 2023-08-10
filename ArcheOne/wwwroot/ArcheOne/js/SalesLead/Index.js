@@ -81,17 +81,20 @@ function ClearAll() {
     $('#txtMobile22').val();
     $('#txtLinkedinurl2').val()
 }
-
+var dataTable = null;
 function GetFilteredSalesLeadList() {
-
+    
     ajaxCall("Get", false, '/SalesLead/SalesList', null, function (result) {
 
-
-
         if (result.status == true) {
-
+            if (dataTable !== null) {
+                debugger
+                dataTable.destroy();
+                dataTable = null;
+            }
             dataTable = $('#tblLeadContacts').DataTable({
                 "responsive": true,
+               // retrieve: true,
                 "lengthChange": true,
                 "paging": true,
                 "searching": true,
@@ -153,10 +156,10 @@ function GetFilteredSalesLeadList() {
             AddEditSalesLead(Id);
         });
 
-        $(".btn-delete").click(function () {
-            Id = $(this).attr('Id');
-            DeleteSalesLead(Id);
-        });
+        //$(".btn-delete").click(function () {
+        //    Id = $(this).attr('Id');
+        //    DeleteSalesLead(Id);
+        //});
 
     });
 }
@@ -165,7 +168,7 @@ function DeleteSalesLead(Id) {
     if ($("#txtSalesLeadId").value > 0) {
         Id = $("#txtSalesLeadId").value;
     }
-
+    
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -181,7 +184,7 @@ function DeleteSalesLead(Id) {
 
                 if (result.status == true) {
                     Toast.fire({ icon: 'success', title: result.message });
-                    GetFilteredSalesLeadList();
+                    RedirectToPage('/SalesLead/Index');
                 }
                 else {
                     Toast.fire({ icon: 'error', title: result.message });

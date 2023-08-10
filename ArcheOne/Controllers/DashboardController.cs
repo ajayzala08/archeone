@@ -26,6 +26,7 @@ namespace ArcheOne.Controllers
             CommonResponse commonResponse = new CommonResponse();
             try
             {
+                DashboardDetailsResModel dashboardDetailsResModel = new DashboardDetailsResModel();
 
                 int userId = _commonHelper.GetLoggedInUserId();
 
@@ -38,6 +39,7 @@ namespace ArcheOne.Controllers
                 List<IndexDashboardResModel> permissionList;
                 if (roleDetails!.RoleCode == CommonEnums.RoleMst.Super_Admin.ToString())
                 {
+                    dashboardDetailsResModel.ISSuperAdmin = true;
                     permissionList = await _dbRepo.PermissionList().Select(x => new IndexDashboardResModel { PermissionCode = x.PermissionCode, PermissionRoute = x.PermissionRoute }).ToListAsync();
                 }
                 else
@@ -63,7 +65,7 @@ namespace ArcheOne.Controllers
 
                 #region DashboardShowAndHide
                 //Preyansi Code
-                DashboardDetailsResModel dashboardDetailsResModel = new DashboardDetailsResModel();
+
                 CommonResponse departmentResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDepartmentByUserId(userId);
 
                 string departmentCode = string.Empty;
@@ -71,6 +73,8 @@ namespace ArcheOne.Controllers
                 if (departmentResponse.Status)
                 {
                     departmentCode = departmentResponse.Data.DepartmentCode;
+
+                    dashboardDetailsResModel.ISUserAdmin = departmentCode == CommonEnums.DepartmentMst.Administration.ToString();
                     dashboardDetailsResModel.IsUserHR = departmentCode == CommonEnums.DepartmentMst.Human_Resource.ToString();
                     dashboardDetailsResModel.IsUserSD = departmentCode == CommonEnums.DepartmentMst.Software_Development.ToString();
                     dashboardDetailsResModel.IsUserQA = departmentCode == CommonEnums.DepartmentMst.Quality_Analyst.ToString();
@@ -145,19 +149,6 @@ namespace ArcheOne.Controllers
 
                 #endregion
 
-                #region teamlead Task Show
-                //if (roleDetails.RoleCode == CommonEnums.RoleMst.Team_Lead.ToString())
-                //{
-                //    var teamList = _dbRepo.TeamList().Where(x => x.TeamLeadId == userId).ToList();
-
-                //    foreach (var team in teamList)
-                //    {
-
-                //        TaskDetails taskDetails = new TaskDetails();
-
-                //    }
-                //} 
-                #endregion
 
                 dashboardDetailsResModel.PerviousDayTaskCount = (from DTL in _dbRepo.DailyTaskList().Where(x => x.CreatedBy == userId)
                                                                  join UML in _dbRepo.UserMstList() on DTL.CreatedBy equals UML.Id
@@ -187,42 +178,21 @@ namespace ArcheOne.Controllers
                 }
                 else
                 {
-                    foreach (var item in projectList)
-                    {
-                        string[] pieces = item.Resources.Split(new string[] { "," },
-                                  StringSplitOptions.None);
-                        if (pieces.Length > 0)
-                        {
-                            foreach (var piece in pieces)
-                            {
-                                if (piece == Convert.ToString(userId))
-                                {
-                                    dashboardDetailsResModel.ProjectCount += projectList.Where(x => x.Resources == Convert.ToString(piece)).Count();
-                                }
-                                if (item.ProjectStatus.ToLower() == "completed" && piece == Convert.ToString(userId))
-                                {
-                                    dashboardDetailsResModel.ProjectCompletedCount += projectList.Where(x => x.ProjectStatus.ToLower() == "completed").Count();
-                                }
-                                else if (item.ProjectStatus.ToLower() == "inprogress" && piece == Convert.ToString(userId))
-                                {
-                                    dashboardDetailsResModel.ProjectInProgressCount += projectList.Where(x => x.ProjectStatus.ToLower() == "inprogress").Count();
-                                }
-                                else if (item.ProjectStatus.ToLower() == "todo" && piece == Convert.ToString(userId))
-                                {
-                                    dashboardDetailsResModel.ProjectToDoCount += projectList.Where(x => x.ProjectStatus.ToLower() == "todo").Count();
-                                }
-                            }
-                        }
-                    }
+                    var ProjectList = projectList.Select(x => new { Resources = x.Resources.Split(',').Select(id => id.Trim()), ProjectStatus = x.ProjectStatus }).ToList();
 
+                    var ProjectCompletedCount = ProjectList.Where(x => x.Resources.Any(y => y == userId.ToString()) && x.ProjectStatus.ToLower() == "completed").Count();
+                    var ProjectInProgressCount = ProjectList.Where(x => x.Resources.Any(y => y == userId.ToString()) && x.ProjectStatus.ToLower() == "inprogress").Count();
+                    var ProjectToDoCount = ProjectList.Where(x => x.Resources.Any(y => y == userId.ToString()) && x.ProjectStatus.ToLower() == "todo").Count();
+
+                    dashboardDetailsResModel.ProjectCount = ProjectList.Count;
+                    dashboardDetailsResModel.ProjectCompletedCount = ProjectCompletedCount;
+                    dashboardDetailsResModel.ProjectInProgressCount = ProjectInProgressCount;
+                    dashboardDetailsResModel.ProjectToDoCount = ProjectToDoCount;
                     dashboardDetailsResModel.UncheckedLeave = _dbRepo.LeaveLists().Where(x => (x.ApprovedByReportingStatus == null || x.ApprovedByReportingStatus == 0) && (x.AppliedByUserId == userId)).Count();
                     dashboardDetailsResModel.PendingResumeApprovalCount = _dbRepo.ResumeFileUploadDetailList().Where(x => x.ResumeStatus == 1).Count();
                     dashboardDetailsResModel.AppraisalRatingCompletedCount = _dbRepo.AppraisalList().Where(x => x.IsApprove == true && x.EmployeeId == userId).Count();
                     dashboardDetailsResModel.AppraisalRatingInprogressCount = _dbRepo.AppraisalList().Where(x => x.IsApprove == false && x.EmployeeId == userId).Count();
                 }
-
-
-
                 #endregion
 
                 #region pie chart

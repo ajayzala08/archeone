@@ -227,7 +227,7 @@ namespace ArcheOne.Controllers
                     else
                     {
                         response.Status = false;
-                        response.Message = "Not allows to past and future date";
+                        response.Message = "Not allows to past and future year";
                     }
                 }
                 else

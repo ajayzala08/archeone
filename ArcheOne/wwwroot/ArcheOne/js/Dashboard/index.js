@@ -9,6 +9,8 @@
     let Recruitment = $("#txtRecruitmentId").val();
     let QA = $("#txtqaId").val();
     let Designer = $("#txtDesignerId").val();
+    let SuperAdmin = $("#txtSuperAdminId").val();
+    let Admin = $("#txtISUserAdmin").val();
     
     if (hr) {
         ShowHRcharts();
@@ -19,6 +21,10 @@
         ShowSalescharts();
     } else if (Recruitment) {
         ShowHRcharts();
+    } else if (SuperAdmin || Admin) {
+        ShowHRcharts();
+        ShowSDcharts();
+        ShowSalescharts();
     }
 });
 

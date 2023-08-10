@@ -444,7 +444,8 @@ namespace ArcheOne.Controllers
                 var leadNContactPersonDetail = await (from contactPerson in _dbRepo.SalesContactPersonList()
                                                       where contactPerson.Id == id
                                                       join leadDetail in _dbRepo.SalesLeadList() on contactPerson.SalesLeadId equals leadDetail.Id
-                                                      select new { contactPerson, leadDetail }
+                                                      join country in _dbRepo.CountryList() on leadDetail.CountryId equals country.CountryId
+                                                      select new { contactPerson, leadDetail, country }
                                                 ).Select(x => new
                                                 {
                                                     LeadId = x.leadDetail.Id,
@@ -452,7 +453,7 @@ namespace ArcheOne.Controllers
                                                     Website = x.leadDetail.WebsiteUrl,
                                                     OfficePhone = x.leadDetail.Phone1,
                                                     Speciality = "-",
-                                                    Country = "-",
+                                                    Country = x.country.CountryName,
                                                     ContactPersonId = x.contactPerson.Id,
                                                     ContactPersonName = $"{x.contactPerson.FirstName} {x.contactPerson.LastName}",
                                                     Designation = x.contactPerson.Designation,
