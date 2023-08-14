@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     $("#btnAddSaleLead").click(function () {
         AddEditSalesLead(0);
-        
+
     });
 
 
@@ -13,7 +13,7 @@ $(document).ready(function () {
 
 function AddEditSalesLead(salesLeadId) {
     RedirectToPage('/SalesLead/AddEditSalesLead?SalesLeadId=' + salesLeadId);
- 
+
 }
 
 function SaveSalesLead() {
@@ -83,7 +83,7 @@ function ClearAll() {
 }
 var dataTable = null;
 function GetFilteredSalesLeadList() {
-    
+
     ajaxCall("Get", false, '/SalesLead/SalesList', null, function (result) {
 
         if (result.status == true) {
@@ -93,68 +93,75 @@ function GetFilteredSalesLeadList() {
                 dataTable = null;
             }
             dataTable = $('#tblLeadContacts').DataTable({
+
                 "responsive": true,
-               // retrieve: true,
+                "autoWidth": false,
+                // retrieve: true,
                 "lengthChange": true,
                 "paging": true,
                 "searching": true,
                 "processing": true, // for show progress bar
                 /*"dom": 'Blfrtip',*/
                 "filter": true, // this is for disable filter (search box)
-                "data": result.data,
+                "word-break": break-word,
+                "vertical - align"0: top,
+                "white - space": normal!important,
+            "data": result.data,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
 
-                "columns": [
-                    {
-                        class: 'clsWrap',
-                        data: "id",
-                        title: 'Action',
-                        name: "second",
-                        render: function (data, type, row) {
-                            if (data) {
-                                return '<i class="fa fa-pen pen" value="' + data.id + '" onclick="AddEditSalesLead(' + row.id + ')"></i> | <i class="fa fa-trash trash btn-delete" value="' + data.id + '" onclick="DeleteSalesLead(' + row.id + ')"></i>';
+                    "columns": [
+                        {
+                            class: 'clsWrap',
+                            data: "id",
+                            title: 'Action',
+                            name: "second",
+
+                            render: function (data, type, row) {
+                                if (data) {
+                                    return '<i class="fa fa-pen pen" value="' + data.id + '" onclick="AddEditSalesLead(' + row.id + ')"></i> | <i class="fa fa-trash trash btn-delete" value="' + data.id + '" onclick="DeleteSalesLead(' + row.id + ')"></i>';
+                                }
+                            }
+                        },
+                        { data: "orgName", title: "Lead", name: "first" },
+                        {
+                            data: null,
+                            title: "Contact Person",
+                            render: function (data) {
+                                if (data.fullName == "Jigar Jadhav") {
+                                    $('td', data).css('background-color', 'Red');
+                                }
+                                return '<a href=/SalesLead/Actions?id=' + data.contactPersonId + '>' + data.fullName + ' </a> ';
+                            }
+
+                        },
+                        { data: "mobile", title: "Mobile" },
+                        { data: "email", title: "Email" },
+                        { data: "designation", title: "Designation" }
+                    ],
+                        "rowsGroup": [
+                            "first:name",
+                            "second:name"
+
+                        ], "createdRow": function (row, data, dataIndex) {
+
+                            if (data.leadStatus == "DNC") {
+                                $(row).addClass("table-danger");
+                            }
+                            else if (data.leadStatus == "Opportunity") {
+                                $(row).addClass("table-success");
                             }
                         }
-                    },
-                    { data: "orgName", title: "Lead", name: "first" },
-                    {
-                        data: null,
-                        title: "Contact Person",
-                        render: function (data) {
-                            if (data.fullName == "Jigar Jadhav") {
-                                $('td', data).css('background-color', 'Red');
-                            }
-                            return '<a href=/SalesLead/Actions?id=' + data.contactPersonId + '>' + data.fullName + ' </a> ';
-                        }
+        }).buttons().container().appendTo('#tblLeadContacts_wrapper .col-md-6:eq(0)');
 
-                    },
-                    { data: "mobile", title: "Mobile" },
-                    { data: "email", title: "Email" },
-                    { data: "designation", title: "Designation" }
-                ],
-                "rowsGroup": [
-                    "first:name",
-                    "second:name"
-
-                ], "createdRow": function (row, data, dataIndex) {
-                    
-                    if (data.leadStatus == "DNC") {
-                        $(row).addClass("table-danger");
-                    }
-                    else if (data.leadStatus == "Opportunity") {
-                        $(row).addClass("table-success");
-                    }
-                }
-            }).buttons().container().appendTo('#tblUser_wrapper .col-md-6:eq(0)');
-        }
+}
         else {
-            Toast.fire({ icon: 'error', title: result.message });
-        }
+    Toast.fire({ icon: 'error', title: result.message });
+}
 
-        $(".btn-edit").click(function (Id) {
-            EditMode = 1;
-            AddEditSalesLead(Id);
-        });
+$(".btn-edit").click(function (Id) {
+    EditMode = 1;
+    AddEditSalesLead(Id);
+});
 
         //$(".btn-delete").click(function () {
         //    Id = $(this).attr('Id');
@@ -168,7 +175,7 @@ function DeleteSalesLead(Id) {
     if ($("#txtSalesLeadId").value > 0) {
         Id = $("#txtSalesLeadId").value;
     }
-    
+
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",

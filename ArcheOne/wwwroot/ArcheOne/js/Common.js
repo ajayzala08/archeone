@@ -103,13 +103,16 @@ function ApplyDatatable(id) {
     $(datatableId).DataTable({
         "responsive": true,
         "lengthChange": false,
-        "autoWidth": false,
+        "autoWidth": true,
         //"scrollX" : true,
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo(datatableWrapper + ' .col-md-6:eq(0)');
 }
 
 function ApplyEvents() {
+    $(".onlyNumeric").bind("paste", function () {
+        onlyNumbers(event);
+    });
     $(".onlyNumeric").keydown(function (e) {
         // Allow: backspace, delete, tab, escape, enter and .
         if ($.inArray(e.keyCode, [46, 8, 9, 27, 13]) !== -1 ||
@@ -130,6 +133,7 @@ function ApplyEvents() {
             e.preventDefault();
         }
     });
+
     $('.onlyletter').keydown(function (e) {
         if (e.altKey) {
             e.preventDefault();
@@ -359,6 +363,20 @@ function ApplyDatatableForPolicy(id) {
         "lengthChange": false,
         "autoWidth": false,
         //"scrollX" : true,
-       // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo(datatableWrapper + ' .col-md-6:eq(0)');
+}
+
+function onlyNumbers(event) {
+    debugger
+    if (event.type == "paste") {
+        var clipboardData = event.clipboardData || window.clipboardData;
+        var pastedData = clipboardData.getData('Text');
+        if (isNaN(pastedData)) {
+            event.preventDefault();
+
+        } else {
+            return;
+        }
+    }
 }

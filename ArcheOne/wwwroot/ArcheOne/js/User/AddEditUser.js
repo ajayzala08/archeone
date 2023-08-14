@@ -83,4 +83,3 @@ function GetDesignationByRoleAndDepartment() {
         $.unblockUI();
     });
 }
-
