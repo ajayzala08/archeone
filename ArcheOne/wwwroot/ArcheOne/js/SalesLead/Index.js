@@ -103,9 +103,9 @@ function GetFilteredSalesLeadList() {
                 "processing": true, // for show progress bar
                 /*"dom": 'Blfrtip',*/
                 "filter": true, // this is for disable filter (search box)
-                "word-break": break-word,
-                "vertical - align"0: top,
-                "white - space": normal!important,
+              /*  "word-break": break-word,*/
+                //"vertical - align"0: top,
+                //"white - space": normal!important,
             "data": result.data,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
 

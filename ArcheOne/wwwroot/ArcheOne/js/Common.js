@@ -133,7 +133,9 @@ function ApplyEvents() {
             e.preventDefault();
         }
     });
-
+    $(".onlyletter").bind("paste", function () {
+        onlyletter(event);
+    });
     $('.onlyletter').keydown(function (e) {
         if (e.altKey) {
             e.preventDefault();
@@ -376,6 +378,20 @@ function onlyNumbers(event) {
             event.preventDefault();
 
         } else {
+            return;
+        }
+    }
+}
+function onlyletter(event) {
+    if (event.type == "paste") {
+        var clipboardData = event.clipboardData || window.clipboardData;
+        var pastedData = clipboardData.getData('Text');
+        var regexp = /[^a-zA-Z]/g;
+        debugger
+        if (pastedData.test(regexp)) {
+            event.preventDefault();
+        }
+        else {
             return;
         }
     }

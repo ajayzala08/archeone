@@ -138,21 +138,21 @@
 							<div class="col-sm-4" id="dtxtFirstName">
 								<div class="form-group">
 									<label for="form_name"><span class="has-error required">* </span>FirstName </label>
-									<input id="txtFirstName" type="text" name="FirstName" class="form-control text-length" placeholder="Please enter your Firstname" value="@Model.UserDetails.FirstName" isrequired="1" divcontainer="dtxtFirstName" errorspan="stxtFirstName" defaultvalue="" autocomplete="off" minlength="2">
+									<input id="txtFirstName" type="text" name="FirstName" class="form-control text-length" placeholder="Please enter your Firstname" value="@Model.UserDetails.FirstName" isrequired="1" divcontainer="dtxtFirstName" errorspan="stxtFirstName" defaultvalue="" autocomplete="off" minlength="2" maxlength="25">
 									<span class="help-block d-none has-error" id="stxtFirstName">Please Enter Valid FirstName</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtMiddleName">
 								<div class="form-group">
 									<label for="form_name"> <span class="has-error required">* </span>MiddleName</label>
-									<input id="txtMiddleName" type="text" name="MiddleName" class="form-control text-length" placeholder="Please enter your MiddleName" value="@Model.UserDetails.MiddleName" isrequired="1" divcontainer="dtxtMiddleName" errorspan="stxtMiddleName" defaultvalue="" autocomplete="off" minlength="2">
+									<input id="txtMiddleName" type="text" name="MiddleName" class="form-control text-length" placeholder="Please enter your MiddleName" value="@Model.UserDetails.MiddleName" isrequired="1" divcontainer="dtxtMiddleName" errorspan="stxtMiddleName" defaultvalue="" autocomplete="off" minlength="2" maxlength="25">
 									<span class="help-block d-none has-error" id="stxtMiddleName">Please Enter Valid MiddleName</span>
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtLastName">
 								<div class="form-group">
 									<label for="form_name"><span class="has-error required">* </span>LastName </label>
-									<input id="txtLastName" type="text" name="LastName" class="form-control text-length" placeholder="Please enter your LastName" autocomplete="off" value="@Model.UserDetails.LastName" isrequired="1" divcontainer="dtxtLastName" errorspan="stxtLastName" defaultvalue="" minlength="2">
+									<input id="txtLastName" type="text" name="LastName" class="form-control text-length" placeholder="Please enter your LastName" autocomplete="off" value="@Model.UserDetails.LastName" isrequired="1" divcontainer="dtxtLastName" errorspan="stxtLastName" defaultvalue="" minlength="2" maxlength="25">
 									<span class="help-block d-none has-error" id="stxtLastName">Please Enter Valid LastName</span>
 								</div>
 							</div>
@@ -161,14 +161,14 @@
 								<div class="col-sm-4" id="dtxtUserName">
 									<div class="form-group">
 										<label for="form_name"><span class="has-error required">* </span>UserName </label>
-										<input id="txtUserName" type="text" name="UserName" class="form-control text-length" placeholder="Please enter your UserName" value="@Model.UserDetails.UserName" isrequired="1" divcontainer="dtxtUserName" errorspan="stxtUserName" defaultvalue="" autocomplete="off" minlength="2">
+										<input id="txtUserName" type="text" name="UserName" class="form-control text-length" placeholder="Please enter your UserName" value="@Model.UserDetails.UserName" isrequired="1" divcontainer="dtxtUserName" errorspan="stxtUserName" defaultvalue="" autocomplete="off" minlength="2" maxlength="25">
 										<span class="help-block d-none has-error" id="stxtUserName">Please Enter Valid UserName</span>
 									</div>
 								</div>
 								<div class="col-sm-4" id="dtxtPassword">
 									<div class="form-group">
 										<label for="form_name"><span class="has-error required">* </span>Password </label>
-										<input id="txtPassword" type="password" name="Password" class="form-control text-length" placeholder="Please enter your Password" value="@Model.UserDetails.Password" isrequired="1" divcontainer="dtxtPassword" errorspan="stxtPassword" defaultvalue="" autocomplete="off" minlength="3">
+										<input id="txtPassword" type="password" name="Password" class="form-control text-length" placeholder="Please enter your Password" value="@Model.UserDetails.Password" isrequired="1" divcontainer="dtxtPassword" errorspan="stxtPassword" defaultvalue="" autocomplete="off" minlength="3" maxlength="25">
 										<span class="help-block d-none has-error" id="stxtPassword">Please Enter Valid Password</span>
 									</div>
 								</div>
@@ -199,14 +199,14 @@
 							<div class="col-sm-4" id="dtxtMobile1">
 								<div class="form-group">
 									<label for="form_mobile1"> <span class="has-error required">* </span>Mobile No.1</label>
-									<input id="txtMobile1" type="tel" name="Mobile1" class="form-control onlyNumeric text-length" placeholder="Please enter your Mobile Number" value="@Model.UserDetails.Mobile1" isrequired="1" divcontainer="dtxtMobile1" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
+									<input id="txtMobile1" type="text" name="Mobile1" class="form-control onlyNumeric text-length" placeholder="Please enter your Mobile Number" value="@Model.UserDetails.Mobile1" isrequired="1" divcontainer="dtxtMobile1" errorspan="stxtMobile1" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
 									<span class="help-block d-none has-error" id="stxtMobile1">Please Enter Valid Mobile1</span>
 								</div>
 							</div>
 							<div class="col-sm-4">
 								<div class="form-group">
 									<label for="form_mobile1">Mobile No.2</label>
-									<input id="txtMobile2" type="tel" name="Mobile2" isrequired="0" class="form-control onlyNumeric text-length" placeholder="Please enter your Mobile Number" value="@Model.UserDetails.Mobile2" defaultvalue="" autocomplete="off">
+									<input id="txtMobile2" type="tel" name="Mobile2" isrequired="0" class="form-control onlyNumeric text-length" placeholder="Please enter your Mobile Number" value="@Model.UserDetails.Mobile2" defaultvalue="" autocomplete="off" minlength="10" maxlength="10">
 								</div>
 							</div>
 							<div class="col-sm-4" id="dtxtEmail">
