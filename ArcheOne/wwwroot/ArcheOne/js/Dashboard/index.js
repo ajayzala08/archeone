@@ -56,6 +56,7 @@ function LoadBirthdayWorkAniversaryHoliday() {
 }
 
 function showCalenderData() {
+    debugger
     $.ajax({
         type: 'GET',
         url: '/Event/EventData',
@@ -74,7 +75,7 @@ function showCalenderData() {
     });
 }
 function showCalender(data) {
-
+    debugger
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',

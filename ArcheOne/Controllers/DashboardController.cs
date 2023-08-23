@@ -148,16 +148,17 @@ namespace ArcheOne.Controllers
 
 
                 #endregion
-
-
-                dashboardDetailsResModel.PerviousDayTaskCount = (from DTL in _dbRepo.DailyTaskList().Where(x => x.CreatedBy == userId)
-                                                                 join UML in _dbRepo.UserMstList() on DTL.CreatedBy equals UML.Id
-                                                                 select new { DTL, UML }).Select(x => new TaskDetails
-                                                                 {
-                                                                     Task = x.DTL.TaskDescription,
-                                                                     UserName = x.UML.FirstName + " " + x.UML.LastName,
-                                                                     Date = x.DTL.TaskDate.ToString("dd MMM.yyyy"),
-                                                                 }).ToList();
+                if (dashboardDetailsResModel.IsUserSD || dashboardDetailsResModel.IsUserQA || dashboardDetailsResModel.IsUserDesigner)
+                {
+                    dashboardDetailsResModel.PerviousDayTaskCount = (from DTL in _dbRepo.DailyTaskList().Where(x => x.CreatedBy == userId)
+                                                                     join UML in _dbRepo.UserMstList() on DTL.CreatedBy equals UML.Id
+                                                                     select new { DTL, UML }).Select(x => new TaskDetails
+                                                                     {
+                                                                         Task = x.DTL.TaskDescription,
+                                                                         UserName = x.UML.FirstName + " " + x.UML.LastName,
+                                                                         Date = x.DTL.TaskDate.ToString("dd MMM.yyyy"),
+                                                                     }).ToList();
+                }
 
                 if (dashboardDetailsResModel.IsUserHR || dashboardDetailsResModel.IsUserRecruitment)
                 {
@@ -236,6 +237,7 @@ namespace ArcheOne.Controllers
                 //}
 
                 #endregion
+
                 if (dashboardDetailsResModel != null)
                 {
                     commonResponse.Status = true;

@@ -6,6 +6,32 @@ $(document).ready(function () {
         AddEditUser(0);
         /*manageUserDetails(0);*/
     });
+    $("#btnUploadUserSheet").click(function () {
+        if (validateRequiredFieldsByGroup("modelUpload")) {
+
+            if (window.FormData !== undefined) {
+                var saveData = new FormData();
+                var file = $("#fileUserSheet").get(0).files[0];
+                saveData.append("UserSheet", file);
+                ajaxCallWithoutDataType("Post", false, '/User/UploadUserSheet', saveData, function (result) {
+                    if (result.status == true) {
+                        Toast.fire({ icon: 'success', title: result.message });
+                        window.location.reload(); //window.location.href = window.location.href;
+                    }
+                    else {
+                        Toast.fire({ icon: 'error', title: result.message });
+
+                    }
+                });
+
+            }
+            else {
+                Toast.fire({ icon: 'error', title: "Please Select Usersheet" });
+            }
+
+        }
+    });
+
 });
 
 $('#AddUserPage').click(function () {
@@ -152,5 +178,6 @@ function GetUserList(RoleId) {
     });
 }
 
-
-
+function loadFile(event) {
+    $('#lblUserSheet').html(event.target.files[0].name);
+}
