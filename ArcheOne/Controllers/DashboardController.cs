@@ -27,12 +27,8 @@ namespace ArcheOne.Controllers
             try
             {
                 DashboardDetailsResModel dashboardDetailsResModel = new DashboardDetailsResModel();
-
                 int userId = _commonHelper.GetLoggedInUserId();
-
-
                 var roleDetailsResponse = await new RoleController(_dbRepo).GetRoleByUserId(userId);
-
                 dynamic roleDetails = null;
                 if (roleDetailsResponse != null) { roleDetails = roleDetailsResponse.Data; }
 
@@ -44,7 +40,6 @@ namespace ArcheOne.Controllers
                 }
                 else
                 {
-
                     permissionList = await (from userPermission in _dbRepo.UserPermissionList()
                                             where userPermission.UserId == userId
                                             join permissions in _dbRepo.PermissionList() on userPermission.PermissionId equals permissions.Id into permissionsGroup
@@ -62,14 +57,10 @@ namespace ArcheOne.Controllers
                     _httpContextAccessor.HttpContext.Session.SetString("PermissionList", serializedPermissionList);
                 }
 
-
                 #region DashboardShowAndHide
                 //Preyansi Code
-
                 CommonResponse departmentResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDepartmentByUserId(userId);
-
                 string departmentCode = string.Empty;
-
                 if (departmentResponse.Status)
                 {
                     departmentCode = departmentResponse.Data.DepartmentCode;
@@ -82,7 +73,6 @@ namespace ArcheOne.Controllers
                     dashboardDetailsResModel.IsUserSales = departmentCode == CommonEnums.DepartmentMst.Sales.ToString();
                     dashboardDetailsResModel.IsUserRecruitment = departmentCode == CommonEnums.DepartmentMst.Recruitment.ToString();
                 }
-
                 #region DashBoardCount
                 var userListByReportingManagerId = await _dbRepo.UserDetailList().Where(x => x.ReportingManager == userId).ToListAsync();
                 var projectList = _dbRepo.ProjectList().Select(x => new { x.Resources, x.ProjectStatus }).ToList();
@@ -117,10 +107,7 @@ namespace ArcheOne.Controllers
                 dashboardDetailsResModel.TeamCount = (from TL in _dbRepo.TeamList()
                                                       join UM in _dbRepo.UserMstList() on TL.TeamLeadId equals UM.Id
                                                       select TL).Select(TL => TL.TeamLeadId).Distinct().Count();
-
                 #endregion
-
-                #region NewChanges 
 
                 dashboardDetailsResModel.SalesLeadNewCount = (from SlF in _dbRepo.salesLeadFollowUpMst()
                                                               join rl in _dbRepo.SalesLeadStatusList().Where(x => x.SalesLeadStatusName.ToLower() == "new") on SlF.SalesLeadStatusId equals rl.Id
@@ -143,11 +130,8 @@ namespace ArcheOne.Controllers
                 dashboardDetailsResModel.SalesLeadNotInterestedCount = (from SlF in _dbRepo.salesLeadFollowUpMst()
                                                                         join rl in _dbRepo.SalesLeadStatusList().Where(x => x.SalesLeadStatusName.ToLower() == "notinterested") on SlF.SalesLeadStatusId equals rl.Id
                                                                         select SlF).Count();
-
                 dynamic roledata222 = roleDetailsResponse.Data;
 
-
-                #endregion
                 if (dashboardDetailsResModel.IsUserSD || dashboardDetailsResModel.IsUserQA || dashboardDetailsResModel.IsUserDesigner)
                 {
                     dashboardDetailsResModel.PerviousDayTaskCount = (from DTL in _dbRepo.DailyTaskList().Where(x => x.CreatedBy == userId)
@@ -194,47 +178,6 @@ namespace ArcheOne.Controllers
                     dashboardDetailsResModel.AppraisalRatingCompletedCount = _dbRepo.AppraisalList().Where(x => x.IsApprove == true && x.EmployeeId == userId).Count();
                     dashboardDetailsResModel.AppraisalRatingInprogressCount = _dbRepo.AppraisalList().Where(x => x.IsApprove == false && x.EmployeeId == userId).Count();
                 }
-                #endregion
-
-                #region pie chart
-                //if (dashboardDetailsResModel.IsUserSales)
-                //{
-                //    List<DataPoint> dataPoints = new List<DataPoint>();
-
-                //    dataPoints.Add(new DataPoint("Opportunity SalesLead", dashboardDetailsResModel.SalesLeadOpportunityCount));
-                //    dataPoints.Add(new DataPoint("InProgress SalesLead", dashboardDetailsResModel.SalesLeadInProgressCount));
-                //    dataPoints.Add(new DataPoint("NotInterested SalesLead", dashboardDetailsResModel.SalesLeadNotInterestedCount));
-                //    dataPoints.Add(new DataPoint("DNC ", dashboardDetailsResModel.SalesLeadDNCCount));
-                //    dataPoints.Add(new DataPoint("New SalesLead", dashboardDetailsResModel.SalesLeadNewCount));
-
-
-                //    ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
-                //}
-                //else if (dashboardDetailsResModel.IsUserQA || dashboardDetailsResModel.IsUserSD)
-                //{
-                //    List<DataPoint> dataPoints = new List<DataPoint>();
-
-                //    dataPoints.Add(new DataPoint("Project", dashboardDetailsResModel.ProjectCount));
-                //    dataPoints.Add(new DataPoint("Project Completed", dashboardDetailsResModel.ProjectCompletedCount));
-                //    dataPoints.Add(new DataPoint("Project ToDo", dashboardDetailsResModel.ProjectToDoCount));
-                //    dataPoints.Add(new DataPoint("Project InProgress ", dashboardDetailsResModel.ProjectInProgressCount));
-
-                //    ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
-                //}
-                //else if (dashboardDetailsResModel.IsUserRecruitment)
-                //{
-                //    List<DataPoint> dataPoints = new List<DataPoint>();
-
-                //    dataPoints.Add(new DataPoint("Total Requirment", dashboardDetailsResModel.TotalRequirementCount));
-                //    dataPoints.Add(new DataPoint("Active Requirement", dashboardDetailsResModel.ActiveRequirementCount));
-                //    dataPoints.Add(new DataPoint("InActive Requirement", dashboardDetailsResModel.InActiveRequirementCount));
-                //    dataPoints.Add(new DataPoint("Client Requirement", dashboardDetailsResModel.ClientRequirementCount));
-                //    dataPoints.Add(new DataPoint("Close Requirement", dashboardDetailsResModel.CloseRequirementCount));
-                //    dataPoints.Add(new DataPoint("InHouse Requirement", dashboardDetailsResModel.InHouseRequirementCount));
-                //    dataPoints.Add(new DataPoint("OnHold Requirement", dashboardDetailsResModel.OnHoldRequirementCount));
-
-                //    ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
-                //}
 
                 #endregion
 

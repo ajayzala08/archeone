@@ -16,6 +16,7 @@ $(document).ready(function () {
                 ajaxCallWithoutDataType("Post", false, '/User/UploadUserSheet', saveData, function (result) {
                     if (result.status == true) {
                         Toast.fire({ icon: 'success', title: result.message });
+                        GetUserList(null);
                         window.location.reload(); //window.location.href = window.location.href;
                     }
                     else {

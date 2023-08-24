@@ -431,30 +431,29 @@ namespace ArcheOne.Controllers
                     {
                         // Read the the Table
                         System.Data.DataTable userDataTable = ds.Tables[0];
-                        //string companyName = !string.IsNullOrEmpty(userDataTable.Rows[0][1].ToString()) ? userDataTable.Rows[0][1].ToString() : "";
-                        //if (companyName != null && companyName != "")
-                        //{
-                        //    var compneyDetailes = _dbRepo.CompanyMstList().FirstOrDefault(x => x.CompanyName.ToLower() == companyName.ToLower());
 
-                        //    int comnpayId = companyName != "" && companyName != null ? compneyDetailes.Id : 0;
-                        //    if (userDataTable.Rows[1][5] != null && Convert.ToString(userDataTable.Rows[1][5]) != "")
-                        //    {
-                        //        string[] yearMonth = Convert.ToString(userDataTable.Rows[1][5]).Split('-');
-                        //        string userMonth = yearMonth[0];
-                        //        int userYear = int.Parse(yearMonth[1]);
-                        string userName = !string.IsNullOrEmpty(userDataTable.Rows[0][3].ToString()) ? userDataTable.Rows[0][3].ToString() : "";
-                        string email = !string.IsNullOrEmpty(userDataTable.Rows[0][9].ToString()) ? userDataTable.Rows[0][9].ToString() : "";
-                        string Mobile = !string.IsNullOrEmpty(userDataTable.Rows[0][7].ToString()) ? userDataTable.Rows[0][7].ToString() : "";
-
-                        if (userName != null && userName != "" || email != null && email != "" || Mobile != null && Mobile != "")
+                        List<UserMst> users = new List<UserMst>();
+                        for (int i = 1; i < userDataTable.Rows.Count; i++)
                         {
-                            var duplicateCheck = await _dbRepo.AllUserMstList().Where(x => x.UserName == userName || x.Email == email || x.Mobile1 == Mobile).ToListAsync();
-                            if (duplicateCheck.Count == 0)
+                            string userName = !string.IsNullOrEmpty(userDataTable.Rows[i][3].ToString()) ? userDataTable.Rows[i][3].ToString() : "";
+                            string email = !string.IsNullOrEmpty(userDataTable.Rows[i][9].ToString()) ? userDataTable.Rows[i][9].ToString() : "";
+                            string Mobile = !string.IsNullOrEmpty(userDataTable.Rows[i][7].ToString()) ? userDataTable.Rows[i][7].ToString() : "";
+                            if (userName != null && userName != "" || email != null && email != "" || Mobile != null && Mobile != "")
                             {
-
-                                List<UserMst> users = new List<UserMst>();
-                                for (int i = 1; i < userDataTable.Rows.Count; i++)
+                                var duplicateCheck = await _dbRepo.AllUserMstList().Where(x => x.UserName == userName || x.Email == email || x.Mobile1 == Mobile).ToListAsync();
+                                if (duplicateCheck.Count == 0)
                                 {
+                                    string companyName = !string.IsNullOrEmpty(userDataTable.Rows[i][11].ToString()) ? userDataTable.Rows[i][11].ToString() : "";
+                                    string roleName = !string.IsNullOrEmpty(userDataTable.Rows[i][12].ToString()) ? userDataTable.Rows[i][12].ToString() : "";
+                                    string departmentName = !string.IsNullOrEmpty(userDataTable.Rows[i][13].ToString()) ? userDataTable.Rows[i][13].ToString() : "";
+
+                                    int companyId = _dbRepo.CompanyMstList().FirstOrDefault(x => x.CompanyName == companyName).Id;
+                                    int roleId = _dbRepo.RoleMstList().FirstOrDefault(x => x.RoleName == roleName).Id;
+                                    int departmentId = _dbRepo.DepartmentList().FirstOrDefault(x => x.DepartmentName == departmentName).Id;
+
+
+                                    var encryptedPassword = _commonHelper.EncryptString(Convert.ToString(userDataTable.Rows[i][4]));
+
                                     if (!string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][3])) && Convert.ToString(userDataTable.Rows[i][3]).All(char.IsDigit) || !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][9])) && Convert.ToString(userDataTable.Rows[i][9]).All(char.IsDigit) || !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][7])) && Convert.ToString(userDataTable.Rows[i][7]).All(char.IsDigit))
                                     {
                                         users.Add(new UserMst
@@ -463,13 +462,16 @@ namespace ArcheOne.Controllers
                                             MiddleName = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][1])) ? Convert.ToString(userDataTable.Rows[i][1]) : "",
                                             LastName = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][2])) ? Convert.ToString(userDataTable.Rows[i][2]) : "",
                                             UserName = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][3])) ? Convert.ToString(userDataTable.Rows[i][3]) : "",
-                                            Password = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][4])) ? Convert.ToString(userDataTable.Rows[i][4]) : "",
+                                            Password = !string.IsNullOrEmpty(encryptedPassword) ? Convert.ToString(encryptedPassword) : "",
                                             Address = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][5])) ? Convert.ToString(userDataTable.Rows[i][5]) : "",
                                             Pincode = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][6])) ? Convert.ToString(userDataTable.Rows[i][6]) : "",
                                             Mobile1 = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][7])) ? Convert.ToString(userDataTable.Rows[i][7]) : "",
                                             Mobile2 = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][8])) ? Convert.ToString(userDataTable.Rows[i][8]) : "",
                                             Email = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][9])) ? Convert.ToString(userDataTable.Rows[i][9]) : "",
                                             PhotoUrl = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][10])) ? Convert.ToString(userDataTable.Rows[i][10]) : "",
+                                            CompanyId = companyId > 0 ? companyId : 0,
+                                            RoleId = roleId > 0 ? roleId : 0,
+                                            DepartmentId = departmentId > 0 ? departmentId : 0,
                                             IsActive = true,
                                             IsDelete = false,
                                             CreatedBy = _commonHelper.GetLoggedInUserId(),
@@ -477,28 +479,32 @@ namespace ArcheOne.Controllers
                                             UpdatedBy = _commonHelper.GetLoggedInUserId(),
                                             UpdatedDate = _commonHelper.GetCurrentDateTime(),
                                         });
+
                                     }
                                     else
                                     {
                                         response.Message = "UserName, Email OR Contact Already Exist";
                                     }
                                 }
-                                await _dbContext.UserMsts.AddRangeAsync(users);
-                                await _dbContext.SaveChangesAsync();
-                                response.Status = true;
-                                response.StatusCode = HttpStatusCode.OK;
-                                response.Data = users;
-                                response.Message = "User sheet uploaded successfully";
+                                else
+                                {
+                                    response.Message = "UserName, Email OR Contact Already Exist";
+                                }
 
                             }
                             else
                             {
-                                response.Message = "UserName, Email OR Contact Already Exist";
+                                response.Message = "No records found";
                             }
                         }
-                        else
+                        if (users.Count > 0)
                         {
-                            response.Message = "No records found";
+                            await _dbContext.UserMsts.AddRangeAsync(users);
+                            await _dbContext.SaveChangesAsync();
+                            response.Status = true;
+                            response.StatusCode = HttpStatusCode.OK;
+                            response.Data = users;
+                            response.Message = "User sheet uploaded successfully";
                         }
                     }
                     else
@@ -514,6 +520,5 @@ namespace ArcheOne.Controllers
             }
             return Json(response);
         }
-
     }
 }
