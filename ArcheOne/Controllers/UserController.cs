@@ -3,7 +3,6 @@ using ArcheOne.Helper.CommonHelpers;
 using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models.Req;
 using ArcheOne.Models.Res;
-using ExcelDataReader;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
@@ -401,124 +400,126 @@ namespace ArcheOne.Controllers
             }
             return response;
         }
+        #region UploadUserSheet
 
-        [HttpPost]
-        public async Task<IActionResult> UploadUserSheet(UploadUserSheetReqModel uploadUserSheetReqModel)
-        {
-            CommonResponse response = new CommonResponse();
-            try
-            {
-                IExcelDataReader reader;
-                // string dataFileName = System.IO.Path.GetFileName(uploadUserSheetReqModel.UserSheet.FileName);
+        //[HttpPost]
+        //public async Task<IActionResult> UploadUserSheet(UploadUserSheetReqModel uploadUserSheetReqModel)
+        //{
+        //    CommonResponse response = new CommonResponse();
+        //    try
+        //    {
+        //        IExcelDataReader reader;
+        //        // string dataFileName = System.IO.Path.GetFileName(uploadUserSheetReqModel.UserSheet.FileName);
 
-                string extension = System.IO.Path.GetExtension(uploadUserSheetReqModel.UserSheet.FileName);
-                Stream stream = uploadUserSheetReqModel.UserSheet.OpenReadStream();
-                MemoryStream ms = new MemoryStream();
-                await stream.CopyToAsync(ms);
-                ms.Position = 0;
-                using (ms)
-                {
-                    if (extension == ".xls")
-                        reader = ExcelReaderFactory.CreateBinaryReader(stream);
-                    else
-                        reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+        //        string extension = System.IO.Path.GetExtension(uploadUserSheetReqModel.UserSheet.FileName);
+        //        Stream stream = uploadUserSheetReqModel.UserSheet.OpenReadStream();
+        //        MemoryStream ms = new MemoryStream();
+        //        await stream.CopyToAsync(ms);
+        //        ms.Position = 0;
+        //        using (ms)
+        //        {
+        //            if (extension == ".xls")
+        //                reader = ExcelReaderFactory.CreateBinaryReader(stream);
+        //            else
+        //                reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
 
-                    DataSet ds = new DataSet();
-                    ds = reader.AsDataSet();
+        //            DataSet ds = new DataSet();
+        //            ds = reader.AsDataSet();
 
-                    reader.Close();
-                    if (ds != null && ds.Tables.Count > 0)
-                    {
-                        // Read the the Table
-                        System.Data.DataTable userDataTable = ds.Tables[0];
+        //            reader.Close();
+        //            if (ds != null && ds.Tables.Count > 0)
+        //            {
+        //                // Read the the Table
+        //                System.Data.DataTable userDataTable = ds.Tables[0];
 
-                        List<UserMst> users = new List<UserMst>();
-                        for (int i = 1; i < userDataTable.Rows.Count; i++)
-                        {
-                            string userName = !string.IsNullOrEmpty(userDataTable.Rows[i][3].ToString()) ? userDataTable.Rows[i][3].ToString() : "";
-                            string email = !string.IsNullOrEmpty(userDataTable.Rows[i][9].ToString()) ? userDataTable.Rows[i][9].ToString() : "";
-                            string Mobile = !string.IsNullOrEmpty(userDataTable.Rows[i][7].ToString()) ? userDataTable.Rows[i][7].ToString() : "";
-                            if (userName != null && userName != "" || email != null && email != "" || Mobile != null && Mobile != "")
-                            {
-                                var duplicateCheck = await _dbRepo.AllUserMstList().Where(x => x.UserName == userName || x.Email == email || x.Mobile1 == Mobile).ToListAsync();
-                                if (duplicateCheck.Count == 0)
-                                {
-                                    string companyName = !string.IsNullOrEmpty(userDataTable.Rows[i][11].ToString()) ? userDataTable.Rows[i][11].ToString() : "";
-                                    string roleName = !string.IsNullOrEmpty(userDataTable.Rows[i][12].ToString()) ? userDataTable.Rows[i][12].ToString() : "";
-                                    string departmentName = !string.IsNullOrEmpty(userDataTable.Rows[i][13].ToString()) ? userDataTable.Rows[i][13].ToString() : "";
+        //                List<UserMst> users = new List<UserMst>();
+        //                for (int i = 1; i < userDataTable.Rows.Count; i++)
+        //                {
+        //                    string userName = !string.IsNullOrEmpty(userDataTable.Rows[i][3].ToString()) ? userDataTable.Rows[i][3].ToString() : "";
+        //                    string email = !string.IsNullOrEmpty(userDataTable.Rows[i][9].ToString()) ? userDataTable.Rows[i][9].ToString() : "";
+        //                    string Mobile = !string.IsNullOrEmpty(userDataTable.Rows[i][7].ToString()) ? userDataTable.Rows[i][7].ToString() : "";
+        //                    if (userName != null && userName != "" || email != null && email != "" || Mobile != null && Mobile != "")
+        //                    {
+        //                        var duplicateCheck = await _dbRepo.AllUserMstList().Where(x => x.UserName == userName || x.Email == email || x.Mobile1 == Mobile).ToListAsync();
+        //                        if (duplicateCheck.Count == 0)
+        //                        {
+        //                            string companyName = !string.IsNullOrEmpty(userDataTable.Rows[i][11].ToString()) ? userDataTable.Rows[i][11].ToString() : "";
+        //                            string roleName = !string.IsNullOrEmpty(userDataTable.Rows[i][12].ToString()) ? userDataTable.Rows[i][12].ToString() : "";
+        //                            string departmentName = !string.IsNullOrEmpty(userDataTable.Rows[i][13].ToString()) ? userDataTable.Rows[i][13].ToString() : "";
 
-                                    int companyId = _dbRepo.CompanyMstList().FirstOrDefault(x => x.CompanyName == companyName).Id;
-                                    int roleId = _dbRepo.RoleMstList().FirstOrDefault(x => x.RoleName == roleName).Id;
-                                    int departmentId = _dbRepo.DepartmentList().FirstOrDefault(x => x.DepartmentName == departmentName).Id;
+        //                            int companyId = _dbRepo.CompanyMstList().FirstOrDefault(x => x.CompanyName == companyName).Id;
+        //                            int roleId = _dbRepo.RoleMstList().FirstOrDefault(x => x.RoleName == roleName).Id;
+        //                            int departmentId = _dbRepo.DepartmentList().FirstOrDefault(x => x.DepartmentName == departmentName).Id;
 
 
-                                    var encryptedPassword = _commonHelper.EncryptString(Convert.ToString(userDataTable.Rows[i][4]));
+        //                            var encryptedPassword = _commonHelper.EncryptString(Convert.ToString(userDataTable.Rows[i][4]));
 
-                                    if (!string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][3])) && Convert.ToString(userDataTable.Rows[i][3]).All(char.IsDigit) || !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][9])) && Convert.ToString(userDataTable.Rows[i][9]).All(char.IsDigit) || !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][7])) && Convert.ToString(userDataTable.Rows[i][7]).All(char.IsDigit))
-                                    {
-                                        users.Add(new UserMst
-                                        {
-                                            FirstName = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][0])) ? Convert.ToString(userDataTable.Rows[i][0]) : "",
-                                            MiddleName = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][1])) ? Convert.ToString(userDataTable.Rows[i][1]) : "",
-                                            LastName = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][2])) ? Convert.ToString(userDataTable.Rows[i][2]) : "",
-                                            UserName = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][3])) ? Convert.ToString(userDataTable.Rows[i][3]) : "",
-                                            Password = !string.IsNullOrEmpty(encryptedPassword) ? Convert.ToString(encryptedPassword) : "",
-                                            Address = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][5])) ? Convert.ToString(userDataTable.Rows[i][5]) : "",
-                                            Pincode = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][6])) ? Convert.ToString(userDataTable.Rows[i][6]) : "",
-                                            Mobile1 = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][7])) ? Convert.ToString(userDataTable.Rows[i][7]) : "",
-                                            Mobile2 = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][8])) ? Convert.ToString(userDataTable.Rows[i][8]) : "",
-                                            Email = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][9])) ? Convert.ToString(userDataTable.Rows[i][9]) : "",
-                                            PhotoUrl = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][10])) ? Convert.ToString(userDataTable.Rows[i][10]) : "",
-                                            CompanyId = companyId > 0 ? companyId : 0,
-                                            RoleId = roleId > 0 ? roleId : 0,
-                                            DepartmentId = departmentId > 0 ? departmentId : 0,
-                                            IsActive = true,
-                                            IsDelete = false,
-                                            CreatedBy = _commonHelper.GetLoggedInUserId(),
-                                            CreatedDate = _commonHelper.GetCurrentDateTime(),
-                                            UpdatedBy = _commonHelper.GetLoggedInUserId(),
-                                            UpdatedDate = _commonHelper.GetCurrentDateTime(),
-                                        });
+        //                            if (!string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][3])) && Convert.ToString(userDataTable.Rows[i][3]).All(char.IsDigit) || !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][9])) && Convert.ToString(userDataTable.Rows[i][9]).All(char.IsDigit) || !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][7])) && Convert.ToString(userDataTable.Rows[i][7]).All(char.IsDigit))
+        //                            {
+        //                                users.Add(new UserMst
+        //                                {
+        //                                    FirstName = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][0])) ? Convert.ToString(userDataTable.Rows[i][0]) : "",
+        //                                    MiddleName = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][1])) ? Convert.ToString(userDataTable.Rows[i][1]) : "",
+        //                                    LastName = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][2])) ? Convert.ToString(userDataTable.Rows[i][2]) : "",
+        //                                    UserName = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][3])) ? Convert.ToString(userDataTable.Rows[i][3]) : "",
+        //                                    Password = !string.IsNullOrEmpty(encryptedPassword) ? Convert.ToString(encryptedPassword) : "",
+        //                                    Address = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][5])) ? Convert.ToString(userDataTable.Rows[i][5]) : "",
+        //                                    Pincode = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][6])) ? Convert.ToString(userDataTable.Rows[i][6]) : "",
+        //                                    Mobile1 = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][7])) ? Convert.ToString(userDataTable.Rows[i][7]) : "",
+        //                                    Mobile2 = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][8])) ? Convert.ToString(userDataTable.Rows[i][8]) : "",
+        //                                    Email = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][9])) ? Convert.ToString(userDataTable.Rows[i][9]) : "",
+        //                                    PhotoUrl = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][10])) ? Convert.ToString(userDataTable.Rows[i][10]) : "",
+        //                                    CompanyId = companyId > 0 ? companyId : 0,
+        //                                    RoleId = roleId > 0 ? roleId : 0,
+        //                                    DepartmentId = departmentId > 0 ? departmentId : 0,
+        //                                    IsActive = true,
+        //                                    IsDelete = false,
+        //                                    CreatedBy = _commonHelper.GetLoggedInUserId(),
+        //                                    CreatedDate = _commonHelper.GetCurrentDateTime(),
+        //                                    UpdatedBy = _commonHelper.GetLoggedInUserId(),
+        //                                    UpdatedDate = _commonHelper.GetCurrentDateTime(),
+        //                                });
 
-                                    }
-                                    else
-                                    {
-                                        response.Message = "UserName, Email OR Contact Already Exist";
-                                    }
-                                }
-                                else
-                                {
-                                    response.Message = "UserName, Email OR Contact Already Exist";
-                                }
+        //                            }
+        //                            else
+        //                            {
+        //                                response.Message = "UserName, Email OR Contact Already Exist";
+        //                            }
+        //                        }
+        //                        else
+        //                        {
+        //                            response.Message = "UserName, Email OR Contact Already Exist";
+        //                        }
 
-                            }
-                            else
-                            {
-                                response.Message = "No records found";
-                            }
-                        }
-                        if (users.Count > 0)
-                        {
-                            await _dbContext.UserMsts.AddRangeAsync(users);
-                            await _dbContext.SaveChangesAsync();
-                            response.Status = true;
-                            response.StatusCode = HttpStatusCode.OK;
-                            response.Data = users;
-                            response.Message = "User sheet uploaded successfully";
-                        }
-                    }
-                    else
-                    {
-                        response.Message = "No records found";
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Message = ex.Message;
-                response.Data = ex;
-            }
-            return Json(response);
-        }
+        //                    }
+        //                    else
+        //                    {
+        //                        response.Message = "No records found";
+        //                    }
+        //                }
+        //                if (users.Count > 0)
+        //                {
+        //                    await _dbContext.UserMsts.AddRangeAsync(users);
+        //                    await _dbContext.SaveChangesAsync();
+        //                    response.Status = true;
+        //                    response.StatusCode = HttpStatusCode.OK;
+        //                    response.Data = users;
+        //                    response.Message = "User sheet uploaded successfully";
+        //                }
+        //            }
+        //            else
+        //            {
+        //                response.Message = "No records found";
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        response.Message = ex.Message;
+        //        response.Data = ex;
+        //    }
+        //    return Json(response);
+        //} 
+        #endregion
     }
 }
