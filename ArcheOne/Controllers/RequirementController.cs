@@ -64,7 +64,7 @@ namespace ArcheOne.Controllers
                 }
                 if (getRequirementListReqModel.RequirementStatusId > 0)
                 {
-                    requirementList = requirementList.Where(x => x.RequirementStatusId == getRequirementListReqModel.RequirementStatusId);
+                    requirementList = requirementList.Where(x => x.CreatedDate.Date >= x.CreatedDate.Date.AddDays(3));
                 }
 
                 var list = await requirementList.ToListAsync();
@@ -77,7 +77,8 @@ namespace ArcheOne.Controllers
                     var positionTypeDetail = await positionTypeList.FirstOrDefaultAsync(x => x.Id == item.PositionTypeId);
                     var requirementTypeDetail = await requirementTypeList.FirstOrDefaultAsync(x => x.Id == item.RequirementTypeId);
                     var employmentTypeDetail = await employmentTypeList.FirstOrDefaultAsync(x => x.Id == item.EmploymentTypeId);
-                    var requirementStatusDetail = await requirementStatusList.FirstOrDefaultAsync(x => x.Id == item.RequirementStatusId);
+                    // var requirementStatusDetail = await requirementStatusList.FirstOrDefaultAsync(x => x.Id == item.RequirementStatusId);
+                    var requirementStatusDetail = await requirementList.FirstOrDefaultAsync(x => x.CreatedDate.Date >= x.CreatedDate.Date.AddDays(3));
 
                     RequirementListModel requirementListModel = new RequirementListModel();
                     requirementListModel.RequirementId = item.Id;
@@ -92,8 +93,8 @@ namespace ArcheOne.Controllers
                     requirementListModel.RequirementTypeName = requirementTypeDetail != null ? requirementTypeDetail.RequirementTypeName : "";
                     requirementListModel.EmploymentTypeId = employmentTypeDetail != null ? employmentTypeDetail.Id : 0;
                     requirementListModel.EmploymentTypeName = employmentTypeDetail != null ? employmentTypeDetail.EmploymentTypeName : "";
-                    requirementListModel.RequirementStatusId = requirementStatusDetail != null ? requirementStatusDetail.Id : 0;
-                    requirementListModel.RequirementStatusName = requirementStatusDetail != null ? requirementStatusDetail.RequirementStatusName : "";
+                    requirementListModel.RequirementStatusId = requirementStatusDetail != null ? "Active" : "InActive";
+                    //requirementListModel.RequirementStatusName = requirementStatusDetail != null ? requirementStatusDetail.RequirementStatusName : "";
                     requirementListModel.MainSkill = item.MainSkill;
                     requirementListModel.MandatorySkills = item.MandatorySkills;
                     requirementListModel.TotalMinExperience = item.TotalMinExperience;

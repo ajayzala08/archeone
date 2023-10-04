@@ -69,4 +69,8 @@ Scaffold-DbContext "Server=192.168.1.199,1433;user=sa;password=sa@2022;Database=
 
 --Added by TS-------------------05-08-2023-----------END------------------------------
 
+Scaffold-DbContext "Server=103.86.177.2;user=ArcheOneDB_DEV;password=Xe57^s10g;Database=ArcheOneDB_DEV;Encrypt=False;Trusted_Connection=false;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Database/Entities -Context ArcheOneDbContext -Tables CompanyMst, UserMst, RoleMst, PermissionMst, DefaultPermissions, UserPermissions, LinkMst, RequirementForMst, ClientMst, PositionTypeMst, RequirementTypeMst, EmploymentTypeMst, RequirementStatusMst, RequirementMst, ResumeFileUploadMst, ResumeFileUploadDetailMst, InterviewRoundStatusMst, InterviewRoundTypeMst, HireStatusMst, OfferStatusMst, InterviewMst, InterviewRoundMst, CandidateMst, TeamMst, SalesLeadMst, SalesContactPersonMst, SalesLeadStatusMst, SalesLeadActionMst, SalesLeadFollowUpMst, HolidayMst, UserDetailsMst,PolicyMst,AppraisalMst, DepartmentMst, DesignationMst, ProjectMst, DailyTaskMst, UserDocumentMst, DocumentTypeMst, AppraisalRatingMst, SalaryMst, LeaveTypeMst, LeaveMst, FinancialYearMst, CalenderYearMst, LeaveStatusMst, LeaveBalanceMst, EventMst, CityMst, CountryMst, StateMst -Force
+
+
+--Added by PP-------------------04-10-2023-----------END------------------------------
 

@@ -4,8 +4,10 @@ using ArcheOne.Helper.CommonModels;
 using ArcheOne.Models;
 using ArcheOne.Models.Req;
 using ArcheOne.Models.Res;
+using ExcelDataReader;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Net;
 using System.Transactions;
 
@@ -743,6 +745,152 @@ namespace ArcheOne.Controllers
             }
             return result;
         }
+        #region UploadSalesSheet
 
+        [HttpPost]
+        public async Task<IActionResult> UploadSalesSheet(UploadSalesSheetReqModel uploadSalesSheetReqModel)
+        {
+            CommonResponse response = new CommonResponse();
+            try
+            {
+                IExcelDataReader reader;
+                // string dataFileName = System.IO.Path.GetFileName(uploadSalesSheetReqModel.UserSheet.FileName);
+                var countrylist = _dbRepo.CountryList().ToList();
+                var statelist = _dbRepo.StateList().ToList();
+                // var cityist = _dbRepo.CityList().ToList();
+
+                string extension = System.IO.Path.GetExtension(uploadSalesSheetReqModel.SalesSheet.FileName);
+                Stream stream = uploadSalesSheetReqModel.SalesSheet.OpenReadStream();
+                MemoryStream ms = new MemoryStream();
+                await stream.CopyToAsync(ms);
+                ms.Position = 0;
+                using (ms)
+                {
+                    if (extension == ".xls")
+                        reader = ExcelReaderFactory.CreateBinaryReader(stream);
+                    else
+                        reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+
+                    DataSet ds = new DataSet();
+                    ds = reader.AsDataSet();
+
+                    reader.Close();
+                    if (ds != null && ds.Tables.Count > 0)
+                    {
+                        using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                        {
+                            // Read the the Table
+                            System.Data.DataTable salesDataTable = ds.Tables[0];
+                            SalesLeadMst salesLeadMst = new SalesLeadMst();
+                            List<SalesLeadMst> salesLeadslist = new List<SalesLeadMst>();
+                            List<SalesContactPersonMst> SalesContactPerson = new List<SalesContactPersonMst>();
+                            for (int i = 2; i < salesDataTable.Rows.Count; i++)
+                            {
+                                string orgName = !string.IsNullOrEmpty(salesDataTable.Rows[i][0].ToString()) ? salesDataTable.Rows[i][0].ToString() : "";
+                                string email = !string.IsNullOrEmpty(salesDataTable.Rows[i][7].ToString()) ? salesDataTable.Rows[i][7].ToString() : "";
+                                string Mobile = !string.IsNullOrEmpty(salesDataTable.Rows[i][5].ToString()) ? salesDataTable.Rows[i][5].ToString() : "";
+                                if (orgName != null && orgName != "" || email != null && email != "" || Mobile != null && Mobile != "")
+                                {
+                                    var duplicateCheck = await _dbRepo.SalesLeadList().Where(x => x.OrgName == orgName || x.Email1 == email || x.Phone1 == Mobile).ToListAsync();
+                                    if (duplicateCheck.Count == 0)
+                                    {
+
+                                        string countryName = !string.IsNullOrEmpty(salesDataTable.Rows[i][1].ToString()) ? salesDataTable.Rows[i][1].ToString() : "";
+                                        string stateName = !string.IsNullOrEmpty(salesDataTable.Rows[i][2].ToString()) ? salesDataTable.Rows[i][2].ToString() : "";
+                                        string cityName = !string.IsNullOrEmpty(salesDataTable.Rows[i][3].ToString()) ? salesDataTable.Rows[i][3].ToString() : "";
+
+
+                                        int countryId = (int)countrylist.FirstOrDefault(x => x.CountryName == countryName).CountryId;
+                                        int stateId = (int)statelist.FirstOrDefault(x => x.StateName == stateName).StateId;
+                                        int cityId = (int)_dbRepo.CityList().FirstOrDefault(x => x.CityName == cityName).CityId;
+
+
+
+
+                                        if (!string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][0])) && Convert.ToString(salesDataTable.Rows[i][0]).All(char.IsDigit) || !string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][5])) && Convert.ToString(salesDataTable.Rows[i][5]).All(char.IsDigit) || !string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][7])) && Convert.ToString(salesDataTable.Rows[i][7]).All(char.IsDigit) || !string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][10])) && Convert.ToString(salesDataTable.Rows[i][10]).All(char.IsDigit) || !string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][11])) && Convert.ToString(salesDataTable.Rows[i][11]).All(char.IsDigit) || !string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][12])) && Convert.ToString(salesDataTable.Rows[i][12]).All(char.IsDigit) || !string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][13])) && Convert.ToString(salesDataTable.Rows[i][13]).All(char.IsDigit) || !string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][14])) && Convert.ToString(salesDataTable.Rows[i][14]).All(char.IsDigit))
+                                        {
+                                            salesLeadMst = new SalesLeadMst();
+
+                                            salesLeadMst.CountryId = countryId > 0 ? countryId : 0;
+                                            salesLeadMst.StateId = stateId > 0 ? stateId : 0;
+                                            salesLeadMst.CityId = cityId > 0 ? cityId : 0;
+                                            salesLeadMst.OrgName = !string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][0])) ? Convert.ToString(salesDataTable.Rows[i][0]) : "";
+                                            salesLeadMst.Address = !string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][4])) ? Convert.ToString(salesDataTable.Rows[i][4]) : "";
+                                            salesLeadMst.Phone1 = !string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][5])) ? Convert.ToString(salesDataTable.Rows[i][5]) : "";
+                                            salesLeadMst.Phone2 = !string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][6])) ? Convert.ToString(salesDataTable.Rows[i][6]) : "";
+                                            salesLeadMst.Email1 = !string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][7])) ? Convert.ToString(salesDataTable.Rows[i][7]) : "";
+                                            salesLeadMst.Email2 = !string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][8])) ? Convert.ToString(salesDataTable.Rows[i][8]) : "";
+                                            salesLeadMst.WebsiteUrl = !string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][9])) ? Convert.ToString(salesDataTable.Rows[i][9]) : "";
+                                            salesLeadMst.IsActive = true;
+                                            salesLeadMst.IsDelete = false;
+                                            salesLeadMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+                                            salesLeadMst.CreatedDate = _commonHelper.GetCurrentDateTime();
+                                            salesLeadMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                                            salesLeadMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+
+                                            await _dbContext.SalesLeadMsts.AddAsync(salesLeadMst);
+                                            await _dbContext.SaveChangesAsync();
+
+                                            SalesContactPerson.Add(new SalesContactPersonMst
+                                            {
+                                                SalesLeadId = salesLeadMst.Id,
+                                                FirstName = !string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][10])) ? Convert.ToString(salesDataTable.Rows[i][10]) : "",
+                                                LastName = !string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][11])) ? Convert.ToString(salesDataTable.Rows[i][11]) : "",
+                                                Email = !string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][12])) ? Convert.ToString(salesDataTable.Rows[i][12]) : "",
+                                                Designation = !string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][13])) ? Convert.ToString(salesDataTable.Rows[i][13]) : "",
+                                                Mobile1 = !string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][14])) ? Convert.ToString(salesDataTable.Rows[i][14]) : "",
+                                                Linkedinurl = !string.IsNullOrEmpty(Convert.ToString(salesDataTable.Rows[i][15])) ? Convert.ToString(salesDataTable.Rows[i][15]) : "",
+                                                IsActive = true,
+                                                IsDelete = false,
+                                                CreatedBy = _commonHelper.GetLoggedInUserId(),
+                                                CreatedDate = _commonHelper.GetCurrentDateTime(),
+                                                UpdatedBy = _commonHelper.GetLoggedInUserId(),
+                                                UpdatedDate = _commonHelper.GetCurrentDateTime(),
+                                            });
+
+                                        }
+                                        else
+                                        {
+                                            response.Message = "Please Enter Valid Excel Data";
+                                        }
+                                    }
+                                    else
+                                    {
+
+                                        response.Message = "OrganizationName, Email OR Mobile Already Exist";
+                                    }
+
+                                }
+                                else
+                                {
+                                    response.Message = "No records found";
+                                }
+                            }
+                            if (SalesContactPerson.Count > 0)
+                            {
+                                await _dbContext.SalesContactPersonMsts.AddRangeAsync(SalesContactPerson);
+                                await _dbContext.SaveChangesAsync();
+                                scope.Complete();
+                                response.Status = true;
+                                response.StatusCode = HttpStatusCode.OK;
+                                response.Data = SalesContactPerson.Select(x => x.SalesLeadId).ToList();
+                                response.Message = "Sales sheet uploaded successfully";
+                            }
+                        }
+                    }
+                    else
+                    {
+                        response.Message = "No records found";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.Data = ex;
+            }
+            return Json(response);
+        }
+        #endregion
     }
 }

@@ -11,7 +11,7 @@
     let Designer = $("#txtDesignerId").val();
     let SuperAdmin = $("#txtSuperAdminId").val();
     let Admin = $("#txtISUserAdmin").val();
-    
+
     if (hr) {
         ShowHRcharts();
     }
@@ -26,6 +26,9 @@
         ShowSDcharts();
         ShowSalescharts();
     }
+    $("#Closemodel").click(function () {
+        $("#CalenderPopup").hide();
+    });
 });
 
 function LoadBirthdayWorkAniversaryHoliday() {
@@ -56,7 +59,7 @@ function LoadBirthdayWorkAniversaryHoliday() {
 }
 
 function showCalenderData() {
-    debugger
+
     $.ajax({
         type: 'GET',
         url: '/Event/EventData',
@@ -75,7 +78,7 @@ function showCalenderData() {
     });
 }
 function showCalender(data) {
-    debugger
+
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
@@ -98,10 +101,12 @@ function showCalender(data) {
         dateClick: function (info) {
 
         },
-        eventClick: function (info) {
 
-            // change the border color just for fun
-            info.el.style.borderColor = 'red';
+        eventClick: function (info) {
+            
+            showCalenderPopup(info.event._def.title);
+            $("#CalenderPopup").show();
+           
         },
         editable: false,
         dayMaxEvents: false,
@@ -128,7 +133,7 @@ function showCalender(data) {
 };
 
 function ShowHRcharts() {
-    
+
     ajaxCall("GET", false, '/Dashboard/HRChart', null, function (result) {
         var chartRequirmentContainer = new CanvasJS.Chart("chartRequirmentContainer", {
             title: {
@@ -203,7 +208,7 @@ function ShowSalescharts() {
                     //indexLabelFontFamily: "Garamond",
                     indexLabelFontSize: 20,
                     indexLabel: "{label} {y}",
-                    startAngle:  -20,
+                    startAngle: -20,
                     showInLegend: true,
                     toolTipContent: "{label} {y}",
                     dataPoints: result.data
@@ -241,3 +246,17 @@ function ShowSalescharts() {
 //        chartRequirmentContainer.render();
 //    });
 //}
+function showCalenderPopup(name) {
+    
+    ajaxCall("GET", false, '/Dashboard/CalenderPopupData?name=' + name, null, function (result) {
+        if (result.status == true) {
+            
+            $("#EventTitle").text(result.data.title);
+            $("#EventDescription").text(result.data.description);
+        }
+        else {
+            $("#CalenderPopup").hide();
+        }
+    });
+
+}

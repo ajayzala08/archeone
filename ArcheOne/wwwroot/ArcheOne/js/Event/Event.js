@@ -21,7 +21,9 @@ $(".close").click(function () {
 
 });
 
-
+$("#Closemodel").click(function () {
+    $("#CalenderPopup").hide();
+});
 
 $("#addNewEvent").click(function () {
    
@@ -100,7 +102,9 @@ function showCalender(data) {
         eventClick: function (info) {
 
             // change the border color just for fun
-            info.el.style.borderColor = 'red';
+           // info.el.style.borderColor = 'red';
+                showCalenderPopup(info.event._def.title);
+                $("#CalenderPopup").show();
         },
         editable: true,
         dayMaxEvents: true,
@@ -186,6 +190,19 @@ function DeleteEvent(Id) {
 
     })
 };
+function showCalenderPopup(name) {
 
+    ajaxCall("GET", false, '/Dashboard/CalenderPopupData?name=' + name, null, function (result) {
+        if (result.status == true) {
+
+            $("#EventTitle").text(result.data.title);
+            $("#EventDescription").text(result.data.description);
+        }
+        else {
+            $("#CalenderPopup").hide();
+        }
+    });
+
+}
 
 

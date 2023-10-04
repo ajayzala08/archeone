@@ -368,6 +368,35 @@ namespace ArcheOne.Controllers
             return Json(commonResponse);
         }
 
+        [HttpGet]
+        public IActionResult CalenderPopupData(string name)
+        {
+            CommonResponse commonResponse = new CommonResponse();
+            try
+            {
+                GetAllEventResModel getAllEventResModel = new GetAllEventResModel();
+                var list = _dbRepo.EventList().FirstOrDefault(x => x.Subject == name);
+                if (list != null)
+                {
+                    getAllEventResModel.title = list.Subject;
+                    getAllEventResModel.description = list.Description;
+                    getAllEventResModel.start = list.StartDate.Value;
+                    getAllEventResModel.end = list.EndDate.Value;
+                    getAllEventResModel.color = list.ThemeColour;
+                    getAllEventResModel.allDay = list.IsFullDay.Value;
+                }
+                commonResponse.Status = true;
+                commonResponse.Message = "Success!";
+                commonResponse.Data = getAllEventResModel;
+
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message;
+                commonResponse.Data = ex.StackTrace;
+            }
+            return Json(commonResponse);
+        }
 
     }
 }

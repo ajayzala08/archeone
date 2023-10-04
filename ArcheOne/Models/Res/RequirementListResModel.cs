@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-
-namespace ArcheOne.Models.Res
+﻿namespace ArcheOne.Models.Res
 {
     public class RequirementListResModel
     {
@@ -22,7 +20,7 @@ namespace ArcheOne.Models.Res
         public string RequirementTypeName { get; set; }
         public int EmploymentTypeId { get; set; }
         public string EmploymentTypeName { get; set; }
-        public int RequirementStatusId { get; set; }
+        public string RequirementStatusId { get; set; }
         public string RequirementStatusName { get; set; }
         public string MainSkill { get; set; }
         public string MandatorySkills { get; set; }

@@ -21,6 +21,7 @@
 function SaveUpdateTeam() {
     var saveTeamData = {
         "TeamId": parseInt($("#txtTeamId").val()),
+        "TeamName": $("#txtTeamName").val(),
         "TeamLeadId": parseInt($("#ddlTeamLeadId").val()),
         "TeamMemberId": $("#ddlTeamMemberId").val().map(Number)
     }

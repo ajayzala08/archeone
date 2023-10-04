@@ -113,9 +113,9 @@ public partial class ArcheOneDbContext : DbContext
 
     public virtual DbSet<UserPermission> UserPermissions { get; set; }
 
-    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("data source=103.86.177.2;Initial Catalog=ArcheOneDB_DEV;User Id=ArcheOneDB_DEV;Password=Xe57^s10g;Encrypt=true;TrustServerCertificate=true;");*/
+    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+    //        => optionsBuilder.UseSqlServer("Server=103.86.177.2;user=ArcheOneDB_DEV;password=Xe57^s10g;Database=ArcheOneDB_DEV;Encrypt=False;Trusted_Connection=false;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -889,6 +889,9 @@ public partial class ArcheOneDbContext : DbContext
             entity.ToTable("TeamMst", "dbo");
 
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.TeamName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 

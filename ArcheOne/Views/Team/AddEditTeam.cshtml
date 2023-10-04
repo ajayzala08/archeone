@@ -35,7 +35,13 @@
             {
                 <div class="row">
                     <input id="txtTeamId" name="txtTeamId" type="hidden" class="form-control col-sm-4" value="@addEditTeamReqViewModel.TeamId" />
-
+                    <div class="col-sm-4" id="dtxtTeamName">
+                        <div class="form-group">
+                            <label for="form_name"><span class="has-error required">* </span>TeamName </label>
+                            <input id="txtTeamName" type="text" name="TeamName" class="form-control text-length" placeholder="Please enter your TeamName" value="@addEditTeamReqViewModel.TeamName" isrequired="1" divcontainer="dtxtTeamName" errorspan="stxtTeamName" defaultvalue="" autocomplete="off" minlength="2" maxlength="25">
+                            <span class="help-block d-none has-error" id="stxtTeamName">Please Enter Valid TeamName</span>
+                        </div>
+                    </div>
                     <div class="col-sm-4" id="dddlTeamLeadId">
                         <div class="form-group">
                             <label><span class="has-error required">* </span>Team Lead</label>

@@ -66,7 +66,7 @@ namespace ArcheOne.Controllers
                 getTeamListResModel.IsEditable = !isUserHRORSuperAdmin ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Teams_Edit_View) : isUserHRORSuperAdmin;
                 getTeamListResModel.IsDeletable = !isUserHRORSuperAdmin ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Teams_Delete_View) : isUserHRORSuperAdmin;
 
-                var teamList = await _dbRepo.TeamList().Select(x => new { x.Id, x.TeamLeadId, x.TeamMemberId }).ToListAsync();
+                var teamList = await _dbRepo.TeamList().Select(x => new { x.Id, x.TeamLeadId, x.TeamMemberId, x.TeamName }).ToListAsync();
 
                 if (teamList.Count > 0)
                 {
@@ -84,6 +84,7 @@ namespace ArcheOne.Controllers
                                                    select new GetTeamListResModel.TeamDetail
                                                    {
                                                        Id = team.Id,
+                                                       TeamName = team.TeamName,
                                                        TeamLeadId = team.TeamLeadId,
                                                        TeamMemeberIds = team.TeamMemberId,
                                                        TeamLeadName = $"{userMstLeadItem.FirstName} {userMstLeadItem.LastName}",
@@ -143,7 +144,7 @@ namespace ArcheOne.Controllers
                 var userList = await _dbRepo.UserMstList().Select(x => new AddEditTeamReqViewModel.UserDetail { Id = x.Id, FullName = $"{x.FirstName} {x.LastName}", RoleId = x.RoleId }).ToListAsync();
 
                 // Get All Team's (Id, TeamLeadId, TeamMemberId).
-                var teamList = await _dbRepo.TeamList().Select(x => new { x.Id, x.TeamLeadId, x.TeamMemberId }).ToListAsync();
+                var teamList = await _dbRepo.TeamList().Select(x => new { x.Id, x.TeamLeadId, x.TeamMemberId, x.TeamName }).ToListAsync();
 
                 // Get All User's who is TeamLead AND not assigned in any team as TeamLead.
                 addEditTeamReqViewModel.TeamLeadList = userList.Where(x => x.RoleId == teamLeadRoleId && !teamList.Any(y => y.TeamLeadId == x.Id)).ToList();
@@ -157,13 +158,15 @@ namespace ArcheOne.Controllers
                 addEditTeamReqViewModel.TeamId = TeamId;
                 addEditTeamReqViewModel.TeamLeadId = 0;
 
+
                 if (TeamId > 0) // Edit Team
                 {
                     // Get Team Details by Id.
-                    var teamDetails = teamList.Where(x => x.Id == TeamId).Select(x => new { x.TeamLeadId, x.TeamMemberId }).FirstOrDefault();
+                    var teamDetails = teamList.Where(x => x.Id == TeamId).Select(x => new { x.TeamLeadId, x.TeamMemberId, x.TeamName }).FirstOrDefault();
                     if (teamDetails != null)
                     {
                         // Append current TeamLead in TeamLead List.
+                        addEditTeamReqViewModel.TeamName = teamDetails.TeamName;
                         addEditTeamReqViewModel.TeamLeadId = teamDetails.TeamLeadId;
                         var teamLeadName = userList.FirstOrDefault(x => x.Id == teamDetails.TeamLeadId) ?? new AddEditTeamReqViewModel.UserDetail();
 
@@ -234,6 +237,7 @@ namespace ArcheOne.Controllers
                     {
                         TeamMst teamMst = new TeamMst()
                         {
+                            TeamName = request.TeamName,
                             TeamLeadId = request.TeamLeadId,
                             TeamMemberId = string.Join(",", request.TeamMemberId),
                             IsActive = true,
@@ -275,6 +279,7 @@ namespace ArcheOne.Controllers
                         else
                         {
                             teamData.TeamLeadId = request.TeamLeadId;
+                            teamData.TeamName = request.TeamName;
                             teamData.TeamMemberId = string.Join(",", request.TeamMemberId);
                             teamData.UpdatedBy = userId;
                             teamData.UpdatedDate = _commonHelper.GetCurrentDateTime();

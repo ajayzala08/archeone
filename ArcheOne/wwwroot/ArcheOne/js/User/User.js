@@ -101,21 +101,21 @@ function DeleteUser(Id) {
     })
 };
 
-function GetFilteredUserList() {
-    ajaxCall("Get", false, '/User/UserList', null, function (result) {
-        $("#divUserList").html(result.responseText);
-        ApplyDatatable('tblUser');
-        $(".btn-edit").click(function () {
-            EditMode = 1;
-            Id = $(this).attr('Id');
-            AddEditUser(Id);
-        });
-        $(".btn-delete").click(function () {
-            Id = $(this).attr('Id');
-            DeleteUser(Id);
-        });
-    });
-}
+//function GetFilteredUserList() {
+//    ajaxCall("Get", false, '/User/UserList', null, function (result) {
+//        $("#divUserList").html(result.responseText);
+//        ApplyDatatable('tblUser');
+//        $(".btn-edit").click(function () {
+//            EditMode = 1;
+//            Id = $(this).attr('Id');
+//            AddEditUser(Id);
+//        });
+//        $(".btn-delete").click(function () {
+//            Id = $(this).attr('Id');
+//            DeleteUser(Id);
+//        });
+//    });
+//}
 
 var dataTable = null;
 
@@ -128,7 +128,7 @@ function GetUserList(RoleId) {
                 dataTable = null;
             }
             dataTable = $('#tblUser').DataTable({
-                "responsive": true,
+                 "responsive": true,
                 "lengthChange": true,
                 "paging": true,
                 "searching": true,
@@ -137,13 +137,13 @@ function GetUserList(RoleId) {
                 "filter": true, // this is for disable filter (search box)
                 "data": result.data,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-          
+
                 "columns": [
                     {
                         class: 'clsWrap',
                         data: null,
                         title: 'Action',
-                        
+
                         render: function (data, type, row) {
                             if (data) {
                                 var fullName = ' + data.fullName + '
@@ -171,7 +171,8 @@ function GetUserList(RoleId) {
                         }
                     }
                 ]
-            }).buttons().container().appendTo('#tblUser_wrapper .col-md-6:eq(0)');
+            });
+            //.buttons().container().appendTo('#tblUser_wrapper .col-md-6:eq(0)');
         }
         else {
             Toast.fire({ icon: 'error', title: result.message });
@@ -179,6 +180,6 @@ function GetUserList(RoleId) {
     });
 }
 
-function loadFile(event) {
+function UserloadFile(event) {
     $('#lblUserSheet').html(event.target.files[0].name);
 }

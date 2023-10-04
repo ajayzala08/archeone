@@ -7,6 +7,32 @@ $(document).ready(function () {
 
     });
 
+    $("#btnUploadSalesSheet").click(function () {
+        if (validateRequiredFieldsByGroup("modelUpload")) {
+
+            if (window.FormData !== undefined) {
+                var saveData = new FormData();
+                var file = $("#fileSalesSheet").get(0).files[0];
+                saveData.append("SalesSheet", file);
+                ajaxCallWithoutDataType("Post", false, '/SalesLead/UploadSalesSheet', saveData, function (result) {
+                    if (result.status == true) {
+                        Toast.fire({ icon: 'success', title: result.message });
+                        GetFilteredSalesLeadList();
+                        window.location.reload(); //window.location.href = window.location.href;
+                    }
+                    else {
+                        Toast.fire({ icon: 'error', title: result.message });
+
+                    }
+                });
+
+            }
+            else {
+                Toast.fire({ icon: 'error', title: "Please Select Salessheet" });
+            }
+
+        }
+    });
 
 });
 
@@ -151,7 +177,7 @@ function GetFilteredSalesLeadList() {
                                 $(row).addClass("table-success");
                             }
                         }
-        }).buttons().container().appendTo('#tblLeadContacts_wrapper .col-md-6:eq(0)');
+            }).buttons().container().appendTo('#tblLeadContacts_wrapper .col-md-6:eq(0)');
 
 }
         else {
@@ -222,7 +248,9 @@ function GetFilteredSalesConatactPersonList() {
     });
 }
 
-
+function SalesloadFile(event) {
+    $('#lblSalesSheet').html(event.target.files[0].name);
+}
 
 
 

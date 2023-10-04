@@ -4,6 +4,7 @@
     {
         public int TeamId { get; set; }
         public int TeamLeadId { get; set; }
+        public string TeamName { get; set; }
         public List<string> TeamMemberIds { get; set; }
         public List<UserDetail> TeamLeadList { get; set; }
         public List<UserDetail> TeamMemberList { get; set; }

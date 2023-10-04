@@ -26,6 +26,7 @@
             <h3 class="card-title">Leads List</h3>
 
             <div class="card-tools">
+                <input type="button" id="btnUploadExcelSales" class="btn btn-primary mr-2 float-left" data-toggle="modal" data-target="#modalSalesExcelUpload" value="Upload Excel" />
                 <button id="btnAddSaleLead" type="button" class="btn btn-primary float-right">Add Lead</button>
             </div>
         </div>
@@ -35,6 +36,34 @@
             <table id="tblLeadContacts" class="table table-bordered table-striped" style="width:100%">
             </table>
         </div>
+        <div class="modal fade" id="modalSalesExcelUpload">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Upload Sales Sheet</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-sm-12" id="modelUpload">
+                            <div class="form-group" id="dfileSalesSheet">
+                                <label><span class="has-error required">* </span>Sales Sheet</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input id="fileSalesSheet" type="file" name="fileSalesSheet" isrequired="1" divcontainer="dfileSalesSheet" errorspan="sfileSalesSheet" defaultvalue="" autocomplete="off" class="custom-file-input" onchange="SalesloadFile(event)" accept=".xls, .xlsx" />
+                                        <label id="lblSalesSheet" class="custom-file-label">Choose file</label>
+                                    </div>
+                                </div>
+                                <span class="help-block d-none has-error" id="sfileSalesSheet">Please select excel sheet only.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" id="btnUploadSalesSheet" name="btnUploadSalesSheet" class="btn btn-warning float-right" value="Upload" />
+                    </div>
+                </div>
+            </div>
     </div>
 </section>
 
