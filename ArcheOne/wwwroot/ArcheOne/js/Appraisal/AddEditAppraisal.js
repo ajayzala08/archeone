@@ -16,7 +16,8 @@ function SaveUpdateAppraisal() {
         var saveAppraisalData = {
             "Id": parseInt($("#txtAppraisalId").val()),
             "EmployeeId": parseInt($("#ddlEmployeeId").val()),
-            "ReportingManagerId": parseInt($("#ddlReportingManagerId").val()),
+            //"ReportingManagerId": parseInt($("#ddlReportingManagerId").val()),
+            "ReportingManagerId": parseInt($("#txtReportingManagerId").val()),
             "Year": $("#txtYear").val(),
         }
      
@@ -38,4 +39,18 @@ function SaveUpdateAppraisal() {
     {
         Toast.fire({ icon: 'error', title: "Please Select ." });
     }
+}
+
+function GetReportingManagerByUserId() {
+
+    var userId = $("#ddlEmployeeId").val();
+    ajaxCallWithoutDataType("GET", false, '/Appraisal/GetReportingManagerByUserId?UserId=' + userId, null, function (result) {
+        if (result.status == true) {
+            $("#txtReportingManagerId").val(result.data.id);
+            $("#txtReportingManager").val(result.data.fullName);
+        } else {
+            $("#txtReportingManagerId").val(0);
+            $("#txtReportingManager").val('');
+        }
+    });
 }

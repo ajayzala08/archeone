@@ -8,7 +8,9 @@ namespace ArcheOne.Models.Res
 
         public int AppraisalId { get; set; }
         public bool? IsApprove { get; set; }
-        public List<UserMst> ReportingManagerId { get; set; }
+        public int ReportingManagerId { get; set; }
+        public string ReportingManagerName { get; set; }
+        /*public List<UserMst> ReportingManagerId { get; set; }*/
         public List<UserMst> EmployeeId { get; set; }
         public ManagetDetail reportingManagetDetail { get; set; }
         public string Date { get; set; }
@@ -22,7 +24,7 @@ namespace ArcheOne.Models.Res
 
         public AppraisalRating appraisalRating { get; set; }
 
- 
+
     }
     public class ManagetDetail
     {
@@ -35,45 +37,45 @@ namespace ArcheOne.Models.Res
     }
     public class AppraisalRating
     {
-        public int? QualityOfWork { get; set; } 
+        public int? QualityOfWork { get; set; }
 
         public int? GoalNtarget { get; set; }
 
-        public int? WrittenVerbalSkill { get; set; } 
+        public int? WrittenVerbalSkill { get; set; }
 
-        public int? InitiativeMotivation { get; set; } 
+        public int? InitiativeMotivation { get; set; }
 
-        public int? TeamWork { get; set; } 
+        public int? TeamWork { get; set; }
 
-        public int? ProblemSolvingAbillity { get; set; } 
+        public int? ProblemSolvingAbillity { get; set; }
 
-        public int? Attendance { get; set; } 
+        public int? Attendance { get; set; }
 
         public int? Total { get; set; }
 
-        public string? Comment { get; set; } 
+        public string? Comment { get; set; }
 
 
     }
     public class EmployeeRating
     {
-        public int? QualityOfWork { get; set; } 
+        public int? QualityOfWork { get; set; }
 
         public int? GoalNtarget { get; set; }
 
-        public int? WrittenVerbalSkill { get; set; } 
+        public int? WrittenVerbalSkill { get; set; }
 
-        public int? InitiativeMotivation { get; set; } 
+        public int? InitiativeMotivation { get; set; }
 
-        public int? TeamWork { get; set; } 
+        public int? TeamWork { get; set; }
 
-        public int? ProblemSolvingAbillity { get; set; } 
+        public int? ProblemSolvingAbillity { get; set; }
 
         public int? Attendance { get; set; }
 
-        public int? Total { get; set; } 
+        public int? Total { get; set; }
 
-        public string? Comment { get; set; } 
+        public string? Comment { get; set; }
     }
 
 }

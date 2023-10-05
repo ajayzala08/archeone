@@ -38,7 +38,7 @@
                         <div class="col-sm-4" id="dddlEmployeeId">
                             <div class="form-group">
                                 <label><span class="has-error required">* </span>Employee Name</label>
-                                <select id="ddlEmployeeId" name="ddlEmployeeId" class="form-control" isrequired="1" divcontainer="dddlEmployeeId" errorspan="sddlEmployeeId" defaultvalue="0" style="width: 100%;">
+                                <select id="ddlEmployeeId" name="ddlEmployeeId" class="form-control" isrequired="1" divcontainer="dddlEmployeeId" errorspan="sddlEmployeeId" defaultvalue="0" style="width: 100%;" onchange="GetReportingManagerByUserId();">
                                     <option value="0">Select Employee</option>
                                     @foreach (var item in Model.EmployeeId)
                                     {
@@ -56,8 +56,15 @@
                                 <span class="help-block d-none has-error" id="sddlEmployeeId">Please select any Employee</span>
                             </div>
                         </div>
-
-                        <div class="col-sm-4" id="dddlReportingManagerId">
+                        <div class="col-sm-4" id="dtxtReportingManager">
+                            <div class="form-group">
+                                <label for="form_name"><span class="has-error required">* </span>ReportingManager </label>
+                                <input id="txtReportingManager" type="text" name="ReportingManager" class="form-control text-length" placeholder="Please select your ReportingManager" readonly isrequired="1" divcontainer="dtxtReportingManager" errorspan="stxtReportingManager" defaultvalue="" autocomplete="off" minlength="2" maxlength="50">
+                                <input type="hidden" id="txtReportingManagerId"/>
+                                <span class="help-block d-none has-error" id="stxtReportingManager">Please Select Reporting Manager</span>
+                            </div>
+                        </div>
+                        @* <div class="col-sm-4" id="dddlReportingManagerId">
                             <div class="form-group">
                                 <label><span class="has-error required">* </span>Reporting Manager</label>
                                 <select id="ddlReportingManagerId" name="ddlReportingManagerId" class="form-control" isrequired="1" divcontainer="dddlReportingManagerId" errorspan="sddlReportingManagerId" defaultvalue="0" style="width: 100%;">
@@ -77,7 +84,7 @@
                                 </select>
                                 <span class="help-block d-none has-error" id="sddlReportingManagerId">Please select any Reporting Manager</span>
                             </div>
-                        </div>
+                        </div> *@
 
                         <div class="col-sm-4" id="dtxtYear">
                             <div class="form-group">

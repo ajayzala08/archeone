@@ -24,7 +24,7 @@ namespace ArcheOne.Controllers
         }
 
 
-        public IActionResult AddEditAppraisalRating(int Id)
+        public async Task<IActionResult> AddEditAppraisalRating(int Id)
         {
             CommonResponse commonResponse = new CommonResponse();
             AddEditAppraisalRatingResModel addEditAppraisalRatingResModel = new AddEditAppraisalRatingResModel();
@@ -48,19 +48,30 @@ namespace ArcheOne.Controllers
             var userList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null);
             var loginUserList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null && x.Id == _commonHelper.GetLoggedInUserId());
 
-            var reportingManagerList = userList.Where(x => managerroleIdList.Contains(x.RoleId)).ToList();
+            int reportingManagerId = await userList.Where(x => managerroleIdList.Contains(x.RoleId)).Select(x => x.Id).FirstOrDefaultAsync();
+            var ReportingManagerName = await userList.Where(x => managerroleIdList.Contains(x.RoleId)).Select(x => $"{x.FirstName} {x.LastName}").FirstOrDefaultAsync();
             var employeeList = userList.Where(x => !managerroleIdList.Contains(x.RoleId) && !hrroleIdList.Contains(x.RoleId) && !adminroleIdList.Contains(x.RoleId)).ToList();
 
             var IsUserManager = loginUserList.Where(x => managerroleIdList.Contains(x.RoleId)).ToList();
-            var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId)).ToList();
+            //var IsUserHR = loginUserList.Where(x => hrroleIdList.Contains(x.RoleId)).ToList();
             var IsUserEmployee = loginUserList.Where(x => employeeroleIdList.Contains(x.RoleId)).ToList();
 
+            int userId = _commonHelper.GetLoggedInUserId();
+            bool isUserHR = false;
+
+            CommonResponse departmentDetailsResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDepartmentByUserId(userId);
+
+            if (departmentDetailsResponse.Status)
+            {
+                isUserHR = departmentDetailsResponse.Data.DepartmentCode == CommonEnums.DepartmentMst.Human_Resource.ToString();
+            };
 
             addEditAppraisalRatingResModel.EmployeeId = employeeList;
-            addEditAppraisalRatingResModel.ReportingManagerId = reportingManagerList;
+            addEditAppraisalRatingResModel.ReportingManagerId = reportingManagerId;
+            addEditAppraisalRatingResModel.ReportingManagerName = ReportingManagerName;
 
-            addEditAppraisalRatingResModel.IsUserHR = IsUserHR.Count > 0 ? true : false;
-            addEditAppraisalRatingResModel.IsUserReportManager = IsUserManager.Count > 0 ? true : false;
+            addEditAppraisalRatingResModel.IsUserHR = isUserHR;
+            //addEditAppraisalRatingResModel.IsUserReportManager = IsUserManager.Count > 0 ? true : false;
             addEditAppraisalRatingResModel.IsUserEmployee = IsUserEmployee.Count > 0 ? true : false;
 
             try
@@ -72,6 +83,9 @@ namespace ArcheOne.Controllers
                     var appraisalManagerRating = _dbRepo.AppraisalRatingList().FirstOrDefault(x => x.RatingFromUserId == _commonHelper.GetLoggedInUserId() && x.AppraisalId == Id);
                     if (appraisal != null)
                     {
+
+                        addEditAppraisalRatingResModel.IsUserReportManager = appraisal.ReportingManagerId == userId;
+
                         addEditAppraisalRatingResModel.IsApprove = appraisal.IsApprove;
                         addEditAppraisalRatingResModel.reportingManagetDetail.ReportingManagerId = appraisal.ReportingManagerId;
                         addEditAppraisalRatingResModel.reportingManagetDetail.EmployeeDetail.EmployeeId = appraisal.EmployeeId;

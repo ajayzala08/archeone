@@ -24,9 +24,21 @@ namespace ArcheOne.Controllers
             _dbContext = dbContext;
         }
 
-        public IActionResult Appraisal()
+        public async Task<IActionResult> Appraisal()
         {
-            AppraisalResModel appraisalResModel = new AppraisalResModel();
+            int userId = _commonHelper.GetLoggedInUserId();
+            bool showAddAppraisalButton = false;
+
+            CommonResponse departmentDetailsResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDepartmentByUserId(userId);
+
+            if (departmentDetailsResponse.Status)
+            {
+                showAddAppraisalButton = departmentDetailsResponse.Data.DepartmentCode == CommonEnums.DepartmentMst.Human_Resource.ToString();
+            }
+            showAddAppraisalButton = !showAddAppraisalButton ? _commonHelper.CheckHasPermission(CommonEnums.PermissionMst.Appraisal_Add_View) : showAddAppraisalButton;
+
+            return View(showAddAppraisalButton);
+            /*AppraisalResModel appraisalResModel = new AppraisalResModel();
 
             var managerRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Manager")).ToList();
             var managerroleIdList = managerRoleList.Select(x => x.Id).ToList();
@@ -52,18 +64,72 @@ namespace ArcheOne.Controllers
             appraisalResModel.IsUserEmployee = IsUserEmployee.Count > 0 ? true : false;
 
 
-            return View(appraisalResModel);
+            return View(appraisalResModel);*/
         }
 
-        public IActionResult AppraisalList(int? AppraisalStatusId)
+        public async Task<IActionResult> AppraisalList(int? AppraisalStatusId)
         {
             CommonResponse response = new CommonResponse();
             List<GetAppraisalListResModel> getAppraisalListResModel = new List<GetAppraisalListResModel>();
 
             try
             {
-                var appraisalList = _dbRepo.AppraisalList().ToList();
-                var appraisalRatingList = _dbRepo.AppraisalRatingList().ToList();
+                int userId = _commonHelper.GetLoggedInUserId();
+                bool isUserHR = false;
+
+                CommonResponse departmentDetailsResponse = await new CommonController(_dbRepo, _dbContext, _commonHelper).GetDepartmentByUserId(userId);
+
+                if (departmentDetailsResponse.Status)
+                {
+                    isUserHR = departmentDetailsResponse.Data.DepartmentCode == CommonEnums.DepartmentMst.Human_Resource.ToString();
+                };
+
+                if (isUserHR)
+                {
+                    getAppraisalListResModel = await (from a in _dbRepo.AppraisalList().Where(x => AppraisalStatusId != null ? AppraisalStatusId == 1 ? x.IsApprove == false : x.IsApprove == true : true)
+                                                      join b in _dbRepo.UserMstList() on a.EmployeeId equals b.Id
+                                                      join c in _dbRepo.UserMstList() on a.ReportingManagerId equals c.Id into cGroup
+                                                      from cItem in cGroup.DefaultIfEmpty()
+                                                      join d in _dbRepo.AppraisalRatingList() on a.EmployeeId equals d.RatingFromUserId into dGroup
+                                                      select new GetAppraisalListResModel
+                                                      {
+                                                          Id = a.Id,
+                                                          Year = a.Year,
+                                                          AppraisalStaus = a.IsApprove ?? false ? "Completed" : "InProgress",
+                                                          EmployeeName = $"{b.FirstName} {b.LastName}",
+                                                          ReportingManagerName = $"{cItem.FirstName} {cItem.LastName}",
+                                                          IsUserHR = isUserHR,
+                                                          IsEditable = !a.IsApprove ?? false,
+                                                          IsManagerEditable = false,
+                                                          IsHRManagerEditable = isUserHR && dGroup.Count() <= 0 ? false : true
+                                                      }).ToListAsync();
+                }
+                else
+                {
+                    getAppraisalListResModel = await (from a in _dbRepo.AppraisalList().Where(x => x.EmployeeId == userId || x.ReportingManagerId == userId)
+                                                      join b in _dbRepo.UserMstList() on a.EmployeeId equals b.Id
+                                                      join c in _dbRepo.UserMstList() on a.ReportingManagerId equals c.Id into cGroup
+                                                      from cItem in cGroup.DefaultIfEmpty()
+                                                      join d in _dbRepo.AppraisalRatingList() on a.EmployeeId equals d.RatingFromUserId into dGroup
+                                                      select new GetAppraisalListResModel
+                                                      {
+                                                          Id = a.Id,
+                                                          Year = a.Year,
+                                                          AppraisalStaus = a.IsApprove ?? false ? "Completed" : "InProgress",
+                                                          EmployeeName = $"{b.FirstName} {b.LastName}",
+                                                          ReportingManagerName = $"{cItem.FirstName} {cItem.LastName}",
+                                                          IsUserHR = isUserHR,
+                                                          IsEditable = !a.IsApprove ?? false,
+                                                          IsManagerEditable = a.EmployeeId == userId ? true : a.ReportingManagerId == userId ? dGroup.Count() <= 0 ? false : true : false,
+                                                          IsHRManagerEditable = false
+                                                      }).ToListAsync();
+                }
+
+
+
+
+                /*var appraisalList = _dbRepo.AppraisalList().ToList();
+                var appraisalRatingList1 = _dbRepo.AppraisalRatingList().ToList();
                 var AllUserList = _dbRepo.AllUserMstList().ToList();
 
                 var hrRoleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR")).ToList();
@@ -103,40 +169,40 @@ namespace ArcheOne.Controllers
                     {
                         appraisalList = _dbRepo.AppraisalList().Where(x => x.IsApprove == true).ToList();
                     }
-                }
+                }*/
 
 
-                if (appraisalList.Count > 0)
+                if (getAppraisalListResModel.Count > 0)
                 {
+                    /*
+                                        foreach (var item in appraisalList)
+                                        {
+                                            var EmployeeNamedetails = AllUserList.FirstOrDefault(x => x.Id == item.EmployeeId);
+                                            var ReportingManagerDetails = AllUserList.FirstOrDefault(x => x.Id == item.ReportingManagerId);
+                                            var IsManagerEditable = appraisalRatingList.FirstOrDefault(x => x.RatingFromUserId == item.EmployeeId);
 
-                    foreach (var item in appraisalList)
-                    {
-                        var EmployeeNamedetails = AllUserList.FirstOrDefault(x => x.Id == item.EmployeeId);
-                        var ReportingManagerDetails = AllUserList.FirstOrDefault(x => x.Id == item.ReportingManagerId);
-                        var IsManagerEditable = appraisalRatingList.FirstOrDefault(x => x.RatingFromUserId == item.EmployeeId);
-
-                        GetAppraisalListResModel getAppraisalListResModel1 = new GetAppraisalListResModel();
-                        getAppraisalListResModel1.Id = item.Id;
-                        getAppraisalListResModel1.EmployeeName = EmployeeNamedetails.FirstName + " " + EmployeeNamedetails.LastName;
-                        getAppraisalListResModel1.ReportingManagerName = ReportingManagerDetails.FirstName + " " + ReportingManagerDetails.LastName;
-                        getAppraisalListResModel1.Year = item.Year;
-                        getAppraisalListResModel1.AppraisalStaus = item.IsApprove == true ? "Completed" : "InProgress";
-                        getAppraisalListResModel1.IsUserHR = IsUserHR.Count > 0 ? true : false;
-                        getAppraisalListResModel1.IsEditable = item.IsApprove == true ? false : true;
-                        if (IsUserManager.Count > 0)
-                        {
-                            getAppraisalListResModel1.IsManagerEditable = IsManagerEditable == null ? false : true;
-                        }
-                        if (IsUserEmployee.Count > 0)
-                        {
-                            getAppraisalListResModel1.IsManagerEditable = true;
-                        }
-                        if (IsUserHR.Count > 0)
-                        {
-                            getAppraisalListResModel1.IsHRManagerEditable = IsManagerEditable == null ? false : true;
-                        }
-                        getAppraisalListResModel.Add(getAppraisalListResModel1);
-                    }
+                                            GetAppraisalListResModel getAppraisalListResModel1 = new GetAppraisalListResModel();
+                                            getAppraisalListResModel1.Id = item.Id;
+                                            getAppraisalListResModel1.EmployeeName = EmployeeNamedetails.FirstName + " " + EmployeeNamedetails.LastName;
+                                            getAppraisalListResModel1.ReportingManagerName = ReportingManagerDetails.FirstName + " " + ReportingManagerDetails.LastName;
+                                            getAppraisalListResModel1.Year = item.Year;
+                                            getAppraisalListResModel1.AppraisalStaus = item.IsApprove == true ? "Completed" : "InProgress";
+                                            getAppraisalListResModel1.IsUserHR = IsUserHR.Count > 0 ? true : false;
+                                            getAppraisalListResModel1.IsEditable = item.IsApprove == true ? false : true;
+                                            if (IsUserManager.Count > 0)
+                                            {
+                                                getAppraisalListResModel1.IsManagerEditable = IsManagerEditable == null ? false : true;
+                                            }
+                                            if (IsUserEmployee.Count > 0)
+                                            {
+                                                getAppraisalListResModel1.IsManagerEditable = true;
+                                            }
+                                            if (IsUserHR.Count > 0)
+                                            {
+                                                getAppraisalListResModel1.IsHRManagerEditable = IsManagerEditable == null ? false : true;
+                                            }
+                                            getAppraisalListResModel.Add(getAppraisalListResModel1);
+                                        }*/
 
 
 
@@ -165,23 +231,11 @@ namespace ArcheOne.Controllers
             addEditAppraisalResModel.reportingManagetDetail = new ReportingManagetDetail();
             addEditAppraisalResModel.reportingManagetDetail.EmployeeDetail = new EmployeeDetail();
 
-            var roleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Project_Manager")).ToList();
-            var roleIdList = roleList.Select(x => x.Id).ToList();
+            var userList = _dbRepo.AllUserMstList();
 
-            var hrroleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("HR") || x.RoleCode.Contains("Manager")).ToList();
-            var hrroleIdList = hrroleList.Select(x => x.Id).ToList();
-
-            var adminroleList = _dbRepo.RoleMstList().Where(x => x.RoleCode.Contains("Admin")).ToList();
-            var adminroleIdList = adminroleList.Select(x => x.Id).ToList();
-
-            var userList = _dbRepo.AllUserMstList().Where(x => x.RoleId != null);
-
-            var reportingManagerList = userList.Where(x => roleIdList.Contains(x.RoleId)).ToList();
-            var employeeList = userList.Where(x => !hrroleIdList.Contains(x.RoleId) && !adminroleIdList.Contains(x.RoleId)).ToList();
-
+            var employeeList = userList.Where(x => x.RoleId > 2 && x.Id != _commonHelper.GetLoggedInUserId()).ToList(); //Only Manager,Team Lead and Professional
 
             addEditAppraisalResModel.EmployeeId = employeeList;
-            addEditAppraisalResModel.ReportingManagerId = reportingManagerList;
 
             try
             {
@@ -208,11 +262,6 @@ namespace ArcheOne.Controllers
 
                     }
                 }
-                //else
-                //{
-                //    response.Message = "Data Not Found";
-                //    response.StatusCode = System.Net.HttpStatusCode.NotFound;
-                //}
                 response.Data = addEditAppraisalResModel;
 
             }
@@ -366,6 +415,41 @@ namespace ArcheOne.Controllers
 
             return Json(response);
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetReportingManagerByUserId(int UserId)
+        {
+            CommonResponse response = new CommonResponse();
+            try
+            {
+                var reportingManager = await (from userDetail in _dbRepo.UserDetailList().Where(x => x.UserId == UserId)
+                                              join userMst in _dbRepo.UserMstList() on userDetail.ReportingManager equals userMst.Id into userMstGroup
+                                              from userMstItem in userMstGroup.DefaultIfEmpty()
+                                              select new
+                                              {
+                                                  userMstItem.Id,
+                                                  FullName = $"{userMstItem.FirstName} {userMstItem.LastName}"
+                                              }).FirstOrDefaultAsync();
+
+                if (reportingManager != null)
+                {
+                    response.Status = true;
+                    response.StatusCode = HttpStatusCode.OK;
+                    response.Message = "Data found successfully!";
+                    response.Data = reportingManager;
+                }
+                else
+                {
+                    response.StatusCode = HttpStatusCode.NotFound;
+                    response.Message = "Data not found!";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return Json(response);
         }
     }
 }

@@ -64,7 +64,12 @@
             Salary_View,
             Salary_Add_View,
             Salary_Delete_View,
-            Uploaded_Resume_Status_Update
+            Uploaded_Resume_Status_Update,
+            Appraisal_Add_View,
+            Appraisal_Edit_View,
+            Appraisal_Delete_View,
+            Appraisal_Rating_Add_View,
+            Appraisal_Rating_Edit_View,
         }
 
         public enum InterviewRoundStatusMst
