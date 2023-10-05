@@ -6,6 +6,13 @@ $(document).ready(function () {
         AddEditUser(0);
         /*manageUserDetails(0);*/
     });
+    $("#UploadUserclose").click(function () {
+        $("#modalExcelUpload").hide();
+    });
+  
+    $("#fileUserSheet").change(function (event) {
+        UserloadFile(event);
+    });
     $("#btnUploadUserSheet").click(function () {
         if (validateRequiredFieldsByGroup("modelUpload")) {
 
@@ -15,12 +22,33 @@ $(document).ready(function () {
                 saveData.append("UserSheet", file);
                 ajaxCallWithoutDataType("Post", false, '/User/UploadUserSheet', saveData, function (result) {
                     if (result.status == true) {
-                        Toast.fire({ icon: 'success', title: result.message });
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: result.message,
+                            showConfirmButton: false,
+                            timer: 2000,
+                            toast: true
+                        });
+                        $("#UploadUserclose").click();
                         GetUserList(null);
-                        window.location.reload(); //window.location.href = window.location.href;
+                        $('#lblUserSheet').html('')
+                        $('#lblUserSheet').html('Choose file')
                     }
                     else {
-                        Toast.fire({ icon: 'error', title: result.message });
+                       
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: result.message,
+                            showConfirmButton: false,
+                            timer: 2000,
+                            toast: true
+                        });
+                        GetUserList(null);
+                        $("#UploadUserclose").click();
+                        $('#lblUserSheet').html('')
+                        $('#lblUserSheet').html('Choose file')
 
                     }
                 });
@@ -123,7 +151,7 @@ function GetUserList(RoleId) {
     ajaxCall("Post", false, '/User/UserList', null, function (result) {
         if (result.status == true) {
             if (dataTable !== null) {
-                debugger
+                
                 dataTable.destroy();
                 dataTable = null;
             }
@@ -182,4 +210,8 @@ function GetUserList(RoleId) {
 
 function UserloadFile(event) {
     $('#lblUserSheet').html(event.target.files[0].name);
+    
+}
+function ClearUserloadFile() {
+    window.location.reload();
 }

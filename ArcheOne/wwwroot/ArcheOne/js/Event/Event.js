@@ -102,7 +102,8 @@ function showCalender(data) {
         eventClick: function (info) {
 
             // change the border color just for fun
-           // info.el.style.borderColor = 'red';
+            // info.el.style.borderColor = 'red';
+            
                 showCalenderPopup(info.event._def.title);
                 $("#CalenderPopup").show();
         },

@@ -16,13 +16,30 @@ $(document).ready(function () {
                 saveData.append("SalesSheet", file);
                 ajaxCallWithoutDataType("Post", false, '/SalesLead/UploadSalesSheet', saveData, function (result) {
                     if (result.status == true) {
-                        Toast.fire({ icon: 'success', title: result.message });
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: result.message,
+                            showConfirmButton: false,
+                            timer: 3000,
+                            toast: true,
+
+                        })
+                        ClearUpload();
                         GetFilteredSalesLeadList();
-                        window.location.reload(); //window.location.href = window.location.href;
+                      
                     }
                     else {
-                        Toast.fire({ icon: 'error', title: result.message });
-
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: result.message,
+                            showConfirmButton: false,
+                            timer: 3000,
+                            toast: true
+                        })
+                        ClearUpload();
+                        GetFilteredSalesLeadList();
                     }
                 });
 
@@ -114,7 +131,7 @@ function GetFilteredSalesLeadList() {
 
         if (result.status == true) {
             if (dataTable !== null) {
-                debugger
+
                 dataTable.destroy();
                 dataTable = null;
             }
@@ -129,65 +146,65 @@ function GetFilteredSalesLeadList() {
                 "processing": true, // for show progress bar
                 /*"dom": 'Blfrtip',*/
                 "filter": true, // this is for disable filter (search box)
-              /*  "word-break": break-word,*/
+                /*  "word-break": break-word,*/
                 //"vertical - align"0: top,
                 //"white - space": normal!important,
-            "data": result.data,
+                "data": result.data,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
 
-                    "columns": [
-                        {
-                            class: 'clsWrap',
-                            data: "id",
-                            title: 'Action',
-                            name: "second",
+                "columns": [
+                    {
+                        class: 'clsWrap',
+                        data: "id",
+                        title: 'Action',
+                        name: "second",
 
-                            render: function (data, type, row) {
-                                if (data) {
-                                    return '<i class="fa fa-pen pen" value="' + data.id + '" onclick="AddEditSalesLead(' + row.id + ')"></i> | <i class="fa fa-trash trash btn-delete" value="' + data.id + '" onclick="DeleteSalesLead(' + row.id + ')"></i>';
-                                }
-                            }
-                        },
-                        { data: "orgName", title: "Lead", name: "first" },
-                        {
-                            data: null,
-                            title: "Contact Person",
-                            render: function (data) {
-                                if (data.fullName == "Jigar Jadhav") {
-                                    $('td', data).css('background-color', 'Red');
-                                }
-                                return '<a href=/SalesLead/Actions?id=' + data.contactPersonId + '>' + data.fullName + ' </a> ';
-                            }
-
-                        },
-                        { data: "mobile", title: "Mobile" },
-                        { data: "email", title: "Email" },
-                        { data: "designation", title: "Designation" }
-                    ],
-                        "rowsGroup": [
-                            "first:name",
-                            "second:name"
-
-                        ], "createdRow": function (row, data, dataIndex) {
-
-                            if (data.leadStatus == "DNC") {
-                                $(row).addClass("table-danger");
-                            }
-                            else if (data.leadStatus == "Opportunity") {
-                                $(row).addClass("table-success");
+                        render: function (data, type, row) {
+                            if (data) {
+                                return '<i class="fa fa-pen pen" value="' + data.id + '" onclick="AddEditSalesLead(' + row.id + ')"></i> | <i class="fa fa-trash trash btn-delete" value="' + data.id + '" onclick="DeleteSalesLead(' + row.id + ')"></i>';
                             }
                         }
+                    },
+                    { data: "orgName", title: "Lead", name: "first" },
+                    {
+                        data: null,
+                        title: "Contact Person",
+                        render: function (data) {
+                            if (data.fullName == "Jigar Jadhav") {
+                                $('td', data).css('background-color', 'Red');
+                            }
+                            return '<a href=/SalesLead/Actions?id=' + data.contactPersonId + '>' + data.fullName + ' </a> ';
+                        }
+
+                    },
+                    { data: "mobile", title: "Mobile" },
+                    { data: "email", title: "Email" },
+                    { data: "designation", title: "Designation" }
+                ],
+                "rowsGroup": [
+                    "first:name",
+                    "second:name"
+
+                ], "createdRow": function (row, data, dataIndex) {
+
+                    if (data.leadStatus == "DNC") {
+                        $(row).addClass("table-danger");
+                    }
+                    else if (data.leadStatus == "Opportunity") {
+                        $(row).addClass("table-success");
+                    }
+                }
             }).buttons().container().appendTo('#tblLeadContacts_wrapper .col-md-6:eq(0)');
 
-}
+        }
         else {
-    Toast.fire({ icon: 'error', title: result.message });
-}
+            Toast.fire({ icon: 'error', title: result.message });
+        }
 
-$(".btn-edit").click(function (Id) {
-    EditMode = 1;
-    AddEditSalesLead(Id);
-});
+        $(".btn-edit").click(function (Id) {
+            EditMode = 1;
+            AddEditSalesLead(Id);
+        });
 
         //$(".btn-delete").click(function () {
         //    Id = $(this).attr('Id');
@@ -252,5 +269,7 @@ function SalesloadFile(event) {
     $('#lblSalesSheet').html(event.target.files[0].name);
 }
 
-
+function ClearUpload() {
+    $("#lblSalesSheet").val('');
+}
 
