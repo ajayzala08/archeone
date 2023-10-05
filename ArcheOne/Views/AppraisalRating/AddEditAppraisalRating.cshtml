@@ -69,28 +69,36 @@
                         <span class="help-block d-none has-error" id="sddlEmployeeId">Please select any Employee</span>
                     </div>
                 </div>
-
-                <div class="col-sm-4" id="dddlReportingManagerId">
+                <div class="col-sm-4" id="dtxtReportingManager">
                     <div class="form-group">
-                        <label><span class="has-error required">* </span>Reporting Manager</label>
-                        <select disabled id="ddlReportingManagerId" name="ddlReportingManagerId" class="form-control" isrequired="1" divcontainer="dddlReportingManagerId" errorspan="sddlReportingManagerId" defaultvalue="0" style="width: 100%;" readonly>
-                            <option value="0">Select Reporting Manager</option>
-                            @foreach (var item in Model.ReportingManagerId)
-                            {
-                                if (item.Id == Model.reportingManagetDetail.ReportingManagerId)
-                                {
-                                    <option value="@item.Id" selected>@item.FirstName @item.LastName</option>
-                                }
-                                else
-                                {
-                                    <option value="@item.Id" readonly>@item.FirstName @item.LastName</option>
-                                }
-                            }
-
-                        </select>
-                        <span class="help-block d-none has-error" id="sddlReportingManagerId">Please select any Reporting Manager</span>
+                        <label for="form_name"><span class="has-error required">* </span>ReportingManager </label>
+                        <input id="txtReportingManager" type="text" name="ReportingManager" class="form-control text-length" placeholder="Please select your ReportingManager" readonly value="@Model.ReportingManagerName" isrequired="1" divcontainer="dtxtReportingManager" errorspan="stxtReportingManager" defaultvalue="" autocomplete="off" minlength="2" maxlength="50">
+                        <input type="hidden" id="txtReportingManagerId" value="@Model.ReportingManagerId" />
+                        <span class="help-block d-none has-error" id="stxtReportingManager">Please Select Reporting Manager</span>
                     </div>
                 </div>
+
+                @*<div class="col-sm-4" id="dddlReportingManagerId">
+                <div class="form-group">
+                <label><span class="has-error required">* </span>Reporting Manager</label>
+                <select disabled id="ddlReportingManagerId" name="ddlReportingManagerId" class="form-control" isrequired="1" divcontainer="dddlReportingManagerId" errorspan="sddlReportingManagerId" defaultvalue="0" style="width: 100%;" readonly>
+                <option value="0">Select Reporting Manager</option>
+                @foreach (var item in Model.ReportingManagerId)
+                {
+                if (item.Id == Model.reportingManagetDetail.ReportingManagerId)
+                {
+                <option value="@item.Id" selected>@item.FirstName @item.LastName</option>
+                }
+                else
+                {
+                <option value="@item.Id" readonly>@item.FirstName @item.LastName</option>
+                }
+                }
+
+                </select>
+                <span class="help-block d-none has-error" id="sddlReportingManagerId">Please select any Reporting Manager</span>
+                </div>
+                </div> *@
 
                 <div class="col-sm-4">
                     <div class="row">
@@ -417,8 +425,6 @@
                 </div>
             </div>
         </div>
-
-
     }
     @if (Model.IsUserEmployee == true)
     {
@@ -435,7 +441,7 @@
                             <div class="col-sm-3" id="dtxtQualityOfWork">
                                 <div class="form-group">
                                     <label class="form-label"><span class="has-error required">* </span>Quality of Work and Task Completion</label>
-                                    <input id="txtQualityOfWork" type="text" name="QualityOfWork"class="form-control onlyNumeric" placeholder="Please Enter your Quality" value="@Model.EmployeeRating.QualityOfWork" isrequired="1" divcontainer="dtxtQualityOfWork" errorspan="stxtQualityOfWork" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
+                                    <input id="txtQualityOfWork" type="text" name="QualityOfWork" class="form-control onlyNumeric" placeholder="Please Enter your Quality" value="@Model.EmployeeRating.QualityOfWork" isrequired="1" divcontainer="dtxtQualityOfWork" errorspan="stxtQualityOfWork" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
                                     <span class="help-block d-none has-error" id="stxtQualityOfWork">Please Enter Valid Rating (1 to 10)</span>
                                 </div>
                             </div>
@@ -443,7 +449,7 @@
                             <div class="col-sm-3" id="dtxtGoalsNachievement">
                                 <div class="form-group">
                                     <label class="form-label"><span class="has-error required">* </span>Goals And Target Achievement</label>
-                                    <input id="txtGoalsNachievement" type="text" name="GoalsNachievement"class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.GoalNtarget" isrequired="1" divcontainer="dtxtGoalsNachievement" errorspan="stxtGoalsNachievement" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
+                                    <input id="txtGoalsNachievement" type="text" name="GoalsNachievement" class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.GoalNtarget" isrequired="1" divcontainer="dtxtGoalsNachievement" errorspan="stxtGoalsNachievement" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
                                     <span class="help-block d-none has-error" id="stxtGoalsNachievement">Please Enter Valid Rating (1 to 10)</span>
                                 </div>
                             </div>
@@ -451,7 +457,7 @@
                             <div class="col-sm-3" id="dtxtWrittenNVerbalSkill">
                                 <div class="form-group">
                                     <label class="form-label"><span class="has-error required">* </span>Written and Verbal Skill</label>
-                                    <input id="txtWrittenNVerbalSkill" type="text" name="WrittenNVerbalSkill"class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.WrittenVerbalSkill" isrequired="1" divcontainer="dtxtWrittenNVerbalSkill" errorspan="stxtWrittenNVerbalSkill" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
+                                    <input id="txtWrittenNVerbalSkill" type="text" name="WrittenNVerbalSkill" class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.WrittenVerbalSkill" isrequired="1" divcontainer="dtxtWrittenNVerbalSkill" errorspan="stxtWrittenNVerbalSkill" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
                                     <span class="help-block d-none has-error" id="stxtWrittenNVerbalSkill">Please Enter Valid Rating (1 to 10)</span>
                                 </div>
                             </div>
@@ -459,7 +465,7 @@
                             <div class="col-sm-3" id="dtxtInitiative">
                                 <div class="form-group">
                                     <label class="form-label"><span class="has-error required">* </span>Initiative And Motivation</label>
-                                    <input id="txtInitiative" type="text" name="Initiative"class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.InitiativeMotivation" isrequired="1" divcontainer="dtxtInitiative" errorspan="stxtInitiative" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
+                                    <input id="txtInitiative" type="text" name="Initiative" class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.InitiativeMotivation" isrequired="1" divcontainer="dtxtInitiative" errorspan="stxtInitiative" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
                                     <span class="help-block d-none has-error" id="stxtInitiative">Please Enter Valid Rating (1 to 10)</span>
                                 </div>
                             </div>
@@ -467,7 +473,7 @@
                             <div class="col-sm-3" id="dtxtTeamWorkNLeaderShip">
                                 <div class="form-group">
                                     <label class="form-label"><span class="has-error required">* </span>TeamWork And Leadership Skills</label>
-                                    <input id="txtTeamWorkNLeaderShip" type="text" name="TeamWorkNLeadership"class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.TeamWork" isrequired="1" divcontainer="dtxtTeamWorkNLeaderShip" errorspan="stxtTeamWorkNLeaderShip" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
+                                    <input id="txtTeamWorkNLeaderShip" type="text" name="TeamWorkNLeadership" class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.TeamWork" isrequired="1" divcontainer="dtxtTeamWorkNLeaderShip" errorspan="stxtTeamWorkNLeaderShip" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
                                     <span class="help-block d-none has-error" id="stxtTeamWorkNLeaderShip">Please Enter Valid Rating (1 to 10)</span>
                                 </div>
                             </div>
@@ -477,7 +483,7 @@
                             <div class="col-sm-3" id="dtxtProblemsolveAbility">
                                 <div class="form-group">
                                     <label class="form-label"><span class="has-error required">* </span>Ability To Problem Solve</label>
-                                    <input id="txtProblemsolveAbility" type="text" name="ProblemsolveAbility"class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.ProblemSolvingAbillity" isrequired="1" divcontainer="dtxtProblemsolveAbility" errorspan="stxtProblemsolveAbility" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
+                                    <input id="txtProblemsolveAbility" type="text" name="ProblemsolveAbility" class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.ProblemSolvingAbillity" isrequired="1" divcontainer="dtxtProblemsolveAbility" errorspan="stxtProblemsolveAbility" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
                                     <span class="help-block d-none has-error" id="stxtProblemsolveAbility">Please Enter Valid Rating (1 to 10)</span>
                                 </div>
                             </div>
@@ -486,12 +492,12 @@
                             <div class="col-sm-3" id="dtxtAttendanceRegularization">
                                 <div class="form-group">
                                     <label class="form-label"><span class="has-error required">* </span>Attendance & Regularization</label>
-                                    <input id="txtAttendanceRegularization" type="text" name="AttendanceRegularization"class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.Attendance" isrequired="1" divcontainer="dtxtAttendanceRegularization" errorspan="stxtAttendanceRegularization" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
+                                    <input id="txtAttendanceRegularization" type="text" name="AttendanceRegularization" class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.EmployeeRating.Attendance" isrequired="1" divcontainer="dtxtAttendanceRegularization" errorspan="stxtAttendanceRegularization" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
                                     <span class="help-block d-none has-error" id="stxtAttendanceRegularization">Please Enter Valid Rating (1 to 10)</span>
                                 </div>
                             </div>
 
-                         
+
                             <div class="col-md-3" id="dtxtTotal">
                                 <div class="form-group">
                                     <label class="form-label"><span class="has-error required">* </span>Total</label>
@@ -536,7 +542,7 @@
                             <div class="col-sm-3" id="dtxtQualityOfWork">
                                 <div class="form-group">
                                     <label class="form-label"><span class="has-error required">* </span>Quality of Work and Task Completion</label>
-                                    <input id="txtQualityOfWork" type="text" name="QualityOfWork"class="form-control onlyNumeric" placeholder="Please Enter your Quality" value="@Model.appraisalRating.QualityOfWork" isrequired="1" divcontainer="dtxtQualityOfWork" errorspan="stxtQualityOfWork" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
+                                    <input id="txtQualityOfWork" type="text" name="QualityOfWork" class="form-control onlyNumeric" placeholder="Please Enter your Quality" value="@Model.appraisalRating.QualityOfWork" isrequired="1" divcontainer="dtxtQualityOfWork" errorspan="stxtQualityOfWork" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
                                     <span class="help-block d-none has-error" id="stxtQualityOfWork">Please Enter Valid Rating (1 to 10)</span>
                                 </div>
                             </div>
@@ -544,7 +550,7 @@
                             <div class="col-sm-3" id="dtxtGoalsNachievement">
                                 <div class="form-group">
                                     <label class="form-label"><span class="has-error required">* </span>Goals And Target Achievement</label>
-                                    <input id="txtGoalsNachievement" type="text" name="GoalsNachievement"class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.appraisalRating.GoalNtarget" isrequired="1" divcontainer="dtxtGoalsNachievement" errorspan="stxtGoalsNachievement" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
+                                    <input id="txtGoalsNachievement" type="text" name="GoalsNachievement" class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.appraisalRating.GoalNtarget" isrequired="1" divcontainer="dtxtGoalsNachievement" errorspan="stxtGoalsNachievement" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
                                     <span class="help-block d-none has-error" id="stxtGoalsNachievement">Please Enter Valid Rating (1 to 10)</span>
                                 </div>
                             </div>
@@ -552,7 +558,7 @@
                             <div class="col-sm-3" id="dtxtWrittenNVerbalSkill">
                                 <div class="form-group">
                                     <label class="form-label"><span class="has-error required">* </span>Written and Verbal Skill</label>
-                                    <input id="txtWrittenNVerbalSkill" type="text" name="WrittenNVerbalSkill"class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.appraisalRating.WrittenVerbalSkill" isrequired="1" divcontainer="dtxtWrittenNVerbalSkill" errorspan="stxtWrittenNVerbalSkill" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
+                                    <input id="txtWrittenNVerbalSkill" type="text" name="WrittenNVerbalSkill" class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.appraisalRating.WrittenVerbalSkill" isrequired="1" divcontainer="dtxtWrittenNVerbalSkill" errorspan="stxtWrittenNVerbalSkill" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
                                     <span class="help-block d-none has-error" id="stxtWrittenNVerbalSkill">Please Enter Valid Rating (1 to 10)</span>
                                 </div>
                             </div>
@@ -568,7 +574,7 @@
                             <div class="col-sm-3" id="dtxtTeamWorkNLeaderShip">
                                 <div class="form-group">
                                     <label class="form-label"><span class="has-error required">* </span>TeamWork And Leadership Skills</label>
-                                    <input id="txtTeamWorkNLeaderShip" type="text" name="TeamWorkNLeadership"class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.appraisalRating.TeamWork" isrequired="1" divcontainer="dtxtTeamWorkNLeaderShip" errorspan="stxtTeamWorkNLeaderShip" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
+                                    <input id="txtTeamWorkNLeaderShip" type="text" name="TeamWorkNLeadership" class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.appraisalRating.TeamWork" isrequired="1" divcontainer="dtxtTeamWorkNLeaderShip" errorspan="stxtTeamWorkNLeaderShip" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
                                     <span class="help-block d-none has-error" id="stxtTeamWorkNLeaderShip">Please Enter Valid Rating (1 to 10)</span>
                                 </div>
                             </div>
@@ -578,7 +584,7 @@
                             <div class="col-sm-3" id="dtxtProblemsolveAbility">
                                 <div class="form-group">
                                     <label class="form-label"><span class="has-error required">* </span>Ability To Problem Solve</label>
-                                    <input id="txtProblemsolveAbility" type="text" name="ProblemsolveAbility"class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.appraisalRating.ProblemSolvingAbillity" isrequired="1" divcontainer="dtxtProblemsolveAbility" errorspan="stxtProblemsolveAbility" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
+                                    <input id="txtProblemsolveAbility" type="text" name="ProblemsolveAbility" class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.appraisalRating.ProblemSolvingAbillity" isrequired="1" divcontainer="dtxtProblemsolveAbility" errorspan="stxtProblemsolveAbility" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
                                     <span class="help-block d-none has-error" id="stxtProblemsolveAbility">Please Enter Valid Rating (1 to 10)</span>
                                 </div>
                             </div>
@@ -588,7 +594,7 @@
                             <div class="col-sm-3" id="dtxtAttendanceRegularization">
                                 <div class="form-group">
                                     <label class="form-label"><span class="has-error required">* </span>Attendance & Regularization</label>
-                                    <input id="txtAttendanceRegularization" type="text" name="AttendanceRegularization"class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.appraisalRating.Attendance" isrequired="1" divcontainer="dtxtAttendanceRegularization" errorspan="stxtAttendanceRegularization" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
+                                    <input id="txtAttendanceRegularization" type="text" name="AttendanceRegularization" class="form-control onlyNumeric" placeholder="Please Enter your Rating" value="@Model.appraisalRating.Attendance" isrequired="1" divcontainer="dtxtAttendanceRegularization" errorspan="stxtAttendanceRegularization" defaultvalue="" autocomplete="off" minlength="1" maxlength="2" onblur="textChange(this.id); TotalCountChange()">
                                     <span class="help-block d-none has-error" id="stxtAttendanceRegularization">Please Enter Valid Rating (1 to 10)</span>
                                 </div>
                             </div>

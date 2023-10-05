@@ -1,5 +1,6 @@
 ﻿@using ArcheOne.Models.Res;
-@model AppraisalResModel
+@* @model AppraisalResModel *@
+@model bool
 @{
     ViewBag.boostrapdataload = "true";
     Layout = "_MasterLayout";
@@ -23,7 +24,7 @@
 <section class="content">
     <div class="card">
         <div class="card-header">
-            @if (Model.IsUserHR == true)
+            @if (Model)
             {
                 <div class="col-md-3 float-left">
                     <label>Appraisal Status</label>
