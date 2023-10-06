@@ -27,6 +27,7 @@ $(document).ready(function () {
 
 });
 function SaveUpdateLeave() {
+
     let saveLeavesData = {
         "Id": parseInt($("#txtLeaveId").val()),
         "LeaveTypeId": parseInt($("#ddlLeaveTypeId").val()),
@@ -40,6 +41,7 @@ function SaveUpdateLeave() {
 
     }
     if (validateRequiredFields()) {
+        loader_on();
         ajaxCall("Post", false, '/Leaves/SaveUpdateLeave', JSON.stringify(saveLeavesData), function (result) {
 
             if (result.status == true) {

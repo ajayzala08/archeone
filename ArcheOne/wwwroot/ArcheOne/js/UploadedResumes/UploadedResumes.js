@@ -30,7 +30,7 @@ var tbScheduleInterviews = null;
 
 function GetUploadedResumes(ResumeFileUploadId) {
 
-    $.blockUI({ message: "<h2>Please wait</p>" });
+    loader_on();
     ajaxCall("Post", false, '/UploadedResume/GetUploadedResumeList?ResumeFileUploadId=' + ResumeFileUploadId, null, function (result) {
         if (result.status == true) {
 
@@ -104,9 +104,7 @@ function GetUploadedResumes(ResumeFileUploadId) {
             }).buttons().container().appendTo('#tbUploadedResumes_wrapper .col-md-6:eq(0)');
         }
         else {
-            $.blockUI({
-                message: "<h2>" + result.message + "</p>"
-            });
+            loader_on();
         }
         $.unblockUI();
     });
@@ -114,7 +112,7 @@ function GetUploadedResumes(ResumeFileUploadId) {
 
 function GetInterviewRoundTypeList() {
 
-    $.blockUI({ message: "<h2>Please wait</p>" });
+    loader_on();
 
     $("#ddlInterviewVia").empty();
     $("#ddlInterviewVia").append($("<option selected value='0'>Select Interview Via</option>"));
@@ -125,9 +123,7 @@ function GetInterviewRoundTypeList() {
                 $("#ddlInterviewVia").append($("<option></option>").val(value.id).html(value.interviewRoundTypeName));
             })
         } else {
-            $.blockUI({
-                message: "<h2>" + result.message + "</p>"
-            });
+            loader_on();
         }
         $.unblockUI();
     });
@@ -165,7 +161,7 @@ function ScheduleInterview() {
     if (validateRequiredFieldsByGroup('modalScheduleInterview')) {
         $("#btnScheduleInterview").attr("disabled", true);
 
-        $.blockUI({ message: "<h2>Please wait</p>" });
+        loader_on();
 
 
         var requestModel = {
@@ -196,7 +192,7 @@ function ScheduleInterview() {
 }
 
 function GetScheduleInterviews(CandidateId, DisableInterviewStatusChange) {
-    $.blockUI({ message: "<h2>Please wait</p>" });
+    loader_on();
     ajaxCall("Post", false, '/UploadedResume/GetScheduledInterviewListByResumeId?ResumeId=' + CandidateId, null, function (result) {
         if (result.status == true) {
 
@@ -265,9 +261,7 @@ function GetScheduleInterviews(CandidateId, DisableInterviewStatusChange) {
                 $("#dScheduledInterviewList").hide();
             }
 
-            $.blockUI({
-                message: "<h2>" + result.message + "</p>"
-            });
+            loader_on();
         }
         $.unblockUI();
     });
@@ -387,8 +381,8 @@ function ShowOfferGivenModel(uploadedResumeId, isToBeJoin) {
 
     $("#txtToBeJoin").val(isToBeJoin);
     if (isToBeJoin) {
-        {
-            $.blockUI({ message: "<h2>Please wait</p>" });
+        
+        loader_on();
             ajaxCall("Post", false, '/UploadedResume/GetOfferedDetails?ResumeId=' + uploadedResumeId, null, function (result) {
                 if (result.status == true) {
 
@@ -400,9 +394,7 @@ function ShowOfferGivenModel(uploadedResumeId, isToBeJoin) {
                     $("#btnSaveOfferDetails").removeClass("btn-success").addClass("btn-warning");
                 }
                 else {
-                    $.blockUI({
-                        message: "<h2>" + result.message + "</p>"
-                    });
+                    loader_on();
                 }
                 $.unblockUI();
             });
@@ -431,7 +423,7 @@ function CancelOffer() {
 
 function UploadNewResume() {
     if (validateRequiredFieldsByGroup('modalNewResumeUpload')) {
-        $.blockUI({ message: "<h2>Please wait</p>" });
+        loader_on();
 
         var file = $("#txtResumeUpload").get(0).files[0];
         var formData = new FormData();
@@ -489,8 +481,9 @@ function UpdateResumeStatus(resumeStatus, uploadedResumeId) {
         "ResumeStatus": resumeStatus,
         "UploadedResumeId": uploadedResumeId
     }
-
+    loader_on();
     ajaxCall("Post", false, '/UploadedResume/UpdateResumeStatus', JSON.stringify(requestModel), function (result) {
+       
         if (result.status == true) {
             Toast.fire({ icon: 'success', title: result.message });
             setInterval(function () {

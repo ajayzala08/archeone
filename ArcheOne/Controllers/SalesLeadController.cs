@@ -781,19 +781,41 @@ namespace ArcheOne.Controllers
                         {
                             // Read the the Table
                             System.Data.DataTable salesDataTable = ds.Tables[0];
-                            SalesLeadMst salesLeadMst = new SalesLeadMst();
-                            List<SalesLeadMst> salesLeadslist = new List<SalesLeadMst>();
-                            List<SalesContactPersonMst> SalesContactPerson = new List<SalesContactPersonMst>();
-                            for (int i = 1; i < salesDataTable.Rows.Count; i++)
+
+
+                            string OrganizationName = !string.IsNullOrEmpty(salesDataTable.Rows[1][0].ToString()) ? salesDataTable.Rows[1][0].ToString() : "";
+                            string Country = !string.IsNullOrEmpty(salesDataTable.Rows[1][1].ToString()) ? salesDataTable.Rows[1][1].ToString() : "";
+                            string State = !string.IsNullOrEmpty(salesDataTable.Rows[1][2].ToString()) ? salesDataTable.Rows[1][2].ToString() : "";
+                            string City = !string.IsNullOrEmpty(salesDataTable.Rows[1][3].ToString()) ? salesDataTable.Rows[1][3].ToString() : "";
+                            string SalesLeadAddress = !string.IsNullOrEmpty(salesDataTable.Rows[1][4].ToString()) ? salesDataTable.Rows[1][4].ToString() : "";
+                            string Phone1 = !string.IsNullOrEmpty(salesDataTable.Rows[1][5].ToString()) ? salesDataTable.Rows[1][5].ToString() : "";
+                            string Phone2 = !string.IsNullOrEmpty(salesDataTable.Rows[1][6].ToString()) ? salesDataTable.Rows[1][6].ToString() : "";
+                            string Email1 = !string.IsNullOrEmpty(salesDataTable.Rows[1][7].ToString()) ? salesDataTable.Rows[1][7].ToString() : "";
+                            string Email2 = !string.IsNullOrEmpty(salesDataTable.Rows[1][8].ToString()) ? salesDataTable.Rows[1][8].ToString() : "";
+                            string Website = !string.IsNullOrEmpty(salesDataTable.Rows[1][9].ToString()) ? salesDataTable.Rows[1][9].ToString() : "";
+
+                            string FirstName = !string.IsNullOrEmpty(salesDataTable.Rows[1][10].ToString()) ? salesDataTable.Rows[1][10].ToString() : "";
+                            string LastName = !string.IsNullOrEmpty(salesDataTable.Rows[1][11].ToString()) ? salesDataTable.Rows[1][11].ToString() : "";
+                            string Email = !string.IsNullOrEmpty(salesDataTable.Rows[1][12].ToString()) ? salesDataTable.Rows[1][12].ToString() : "";
+                            string Designation = !string.IsNullOrEmpty(salesDataTable.Rows[1][13].ToString()) ? salesDataTable.Rows[1][13].ToString() : "";
+                            string Mobile1 = !string.IsNullOrEmpty(salesDataTable.Rows[1][14].ToString()) ? salesDataTable.Rows[1][14].ToString() : "";
+                            string Linkedinurl = !string.IsNullOrEmpty(salesDataTable.Rows[1][15].ToString()) ? salesDataTable.Rows[1][15].ToString() : "";
+
+
+
+                            if (OrganizationName.ToLower() == "organizationname" && Country.ToLower() == "country" && State.ToLower() == "state" && City.ToLower() == "city" && SalesLeadAddress.ToLower() == "salesleadaddress" && Phone1.ToLower() == "phone1" && Phone2.ToLower() == "phone2" && Email1.ToLower() == "email1" && Email2.ToLower() == "email2" && Website.ToLower() == "website" && FirstName.ToLower() == "firstname" && LastName.ToLower() == "lastname" && Email.ToLower() == "email" && Designation.ToLower() == "designation" && Mobile1.ToLower() == "mobile1" && Linkedinurl.ToLower() == "linkedinurl")
                             {
-                                string organizationname = !string.IsNullOrEmpty(salesDataTable.Rows[i][0].ToString()) ? salesDataTable.Rows[i][0].ToString() : "";
-                                string email = !string.IsNullOrEmpty(salesDataTable.Rows[i][7].ToString()) ? salesDataTable.Rows[i][7].ToString() : "";
-                                string Phone1 = !string.IsNullOrEmpty(salesDataTable.Rows[i][5].ToString()) ? salesDataTable.Rows[i][5].ToString() : "";
-                                if (organizationname == "OrganizationName".ToLower() || email == "Email".ToLower() || Phone1 == "Phone1".ToLower())
+                                SalesLeadMst salesLeadMst = new SalesLeadMst();
+                                List<SalesLeadMst> salesLeadslist = new List<SalesLeadMst>();
+                                List<SalesContactPersonMst> SalesContactPerson = new List<SalesContactPersonMst>();
+                                for (int i = 2; i < salesDataTable.Rows.Count; i++)
                                 {
-                                    if (organizationname != null && organizationname != "" || email != null && email != "" || Phone1 != null && Phone1 != "")
+                                    OrganizationName = !string.IsNullOrEmpty(salesDataTable.Rows[i][0].ToString()) ? salesDataTable.Rows[i][0].ToString() : "";
+                                    Email = !string.IsNullOrEmpty(salesDataTable.Rows[i][7].ToString()) ? salesDataTable.Rows[i][7].ToString() : "";
+                                    Phone1 = !string.IsNullOrEmpty(salesDataTable.Rows[i][5].ToString()) ? salesDataTable.Rows[i][5].ToString() : "";
+                                    if (OrganizationName != null && OrganizationName != "" || Email != null && Email != "" || Phone1 != null && Phone1 != "")
                                     {
-                                        var duplicateCheck = await _dbRepo.SalesLeadList().Where(x => x.OrgName == organizationname || x.Email1 == email || x.Phone1 == Phone1).ToListAsync();
+                                        var duplicateCheck = await _dbRepo.SalesLeadList().Where(x => x.OrgName == OrganizationName || x.Email1 == Email || x.Phone1 == Phone1).ToListAsync();
                                         if (duplicateCheck.Count == 0)
                                         {
 
@@ -869,21 +891,22 @@ namespace ArcheOne.Controllers
                                     {
                                         response.Message = "No records found";
                                     }
+
                                 }
-                                else
+                                if (SalesContactPerson.Count > 0)
                                 {
-                                    response.Message = "Please Enter Valid Excel";
+                                    await _dbContext.SalesContactPersonMsts.AddRangeAsync(SalesContactPerson);
+                                    await _dbContext.SaveChangesAsync();
+                                    scope.Complete();
+                                    response.Status = true;
+                                    response.StatusCode = HttpStatusCode.OK;
+                                    response.Data = SalesContactPerson.Select(x => x.SalesLeadId).ToList();
+                                    response.Message = "Sales sheet uploaded successfully";
                                 }
                             }
-                            if (SalesContactPerson.Count > 0)
+                            else
                             {
-                                await _dbContext.SalesContactPersonMsts.AddRangeAsync(SalesContactPerson);
-                                await _dbContext.SaveChangesAsync();
-                                scope.Complete();
-                                response.Status = true;
-                                response.StatusCode = HttpStatusCode.OK;
-                                response.Data = SalesContactPerson.Select(x => x.SalesLeadId).ToList();
-                                response.Message = "Sales sheet uploaded successfully";
+                                response.Message = "Please Enter Valid Excel";
                             }
                         }
                     }

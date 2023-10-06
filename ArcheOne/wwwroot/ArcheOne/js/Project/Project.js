@@ -7,7 +7,7 @@
 var tblProjects = null;
 
 function GetProjectList() {
-    $.blockUI({ message: "<h2>Please wait</p>" });
+    loader_on();
     ajaxCall("Post", false, '/Project/GetProjectList', null, function (result) {
         if (result.status == true) {
 
@@ -76,7 +76,7 @@ function OpenProjectModel() {
 
 function GetResources() {
     return new Promise((resolve, reject) => {
-        $.blockUI({ message: "<h2>Please wait</p>" });
+        loader_on();
 
         $("#ddlResources").empty();
 
@@ -98,7 +98,7 @@ function GetResources() {
 
 function GetProjectStatus() {
     return new Promise((resolve, reject) => {
-        $.blockUI({ message: "<h2>Please wait</p>" });
+        loader_on();
 
         $("#ddlProjectStatus").empty();
         $("#ddlProjectStatus").append($("<option selected value='0'>Select Status</option>"));
@@ -122,8 +122,7 @@ function GetProjectStatus() {
 function AddUpdateProject() {
     if (validateRequiredFieldsByGroup('modalAddUpdateProject')) {
         $("#btnAddUpdateProject").attr("disabled", true);
-
-        $.blockUI({ message: "<h2>Please wait</p>" });
+        loader_on();
 
 
         var requestModel = {
@@ -154,7 +153,7 @@ function GetProjectDetails(projectId) {
     $("#btnAddUpdateProject").removeClass("btn-success").addClass("btn-warning");
 
     OpenProjectModel().then(() => {
-        $.blockUI({ message: "<h2>Please wait</p>" });
+        loader_on();
 
         ajaxCall("Post", false, '/Project/GetProjectById?ProjectId=' + projectId, null, function (result) {
             if (result.status == true) {
@@ -173,7 +172,7 @@ function GetProjectDetails(projectId) {
         });
     }).catch(error => {
         console.error(error);
-    });    
+    });
 }
 
 function CancelProject() {
@@ -197,7 +196,7 @@ function ShowDeleteProjectAlert(projectId) {
         cancelButtonText: 'Cancel',
     })
         .then((result) => {
-           
+
             if (result.isDismissed === false) {
                 if (result.isConfirmed) {
                     DeleteProject(projectId);
@@ -210,7 +209,7 @@ function ShowDeleteProjectAlert(projectId) {
 
 function DeleteProject(projectId) {
 
-    $.blockUI({ message: "<h2>Please wait</p>" });
+    loader_on();
 
     ajaxCall("Post", false, '/Project/DeleteProjectById?ProjectId=' + projectId, null, function (result) {
         if (result.status == true) {

@@ -10,9 +10,9 @@ $(document).ready(function () {
         $("#modalExcelUpload").hide();
     });
   
-    $("#fileUserSheet").change(function (event) {
-        UserloadFile(event);
-    });
+    //$("#fileUserSheet").change(function (event) {
+    //    UserloadFile(event);
+    //});
     $("#btnUploadUserSheet").click(function () {
         if (validateRequiredFieldsByGroup("modelUpload")) {
 
@@ -32,8 +32,9 @@ $(document).ready(function () {
                         });
                         $("#UploadUserclose").click();
                         GetUserList(null);
-                        $('#lblUserSheet').html('')
-                        $('#lblUserSheet').html('Choose file')
+                        setTimeout(function () { window.location.reload()},3000);
+                        //$('#lblUserSheet').html('')
+                        //$('#lblUserSheet').html('Choose file')
                     }
                     else {
                        
@@ -45,10 +46,11 @@ $(document).ready(function () {
                             timer: 2000,
                             toast: true
                         });
-                        GetUserList(null);
                         $("#UploadUserclose").click();
-                        $('#lblUserSheet').html('')
-                        $('#lblUserSheet').html('Choose file')
+                        GetUserList(null);
+                        setTimeout(function () { window.location.reload()},3000);
+                        //$('#lblUserSheet').html('')
+                        //$('#lblUserSheet').html('Choose file')
 
                     }
                 });

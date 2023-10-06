@@ -19,7 +19,7 @@ function SaveUpdatePolicy() {
         savePolicyData.append("PolicyName", ($("#txtPolicyName").val()));
         savePolicyData.append("PolicyDocumentName", file);
         if (validateRequiredFieldsByGroup('divUploadFile')) {
-            $.blockUI();
+            loader_on();
             ajaxCallWithoutDataType("Post", false, '/Policy/SaveUpdatePolicy', savePolicyData, function (result) {
                 if (result.status == true) {
                     Toast.fire({ icon: 'success', title: result.message });

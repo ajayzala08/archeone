@@ -25,7 +25,7 @@ $(document).ready(function () {
         if (validateRequiredFields()) {
             var jobDescription = myEditor.getData();
             if (jobDescription.trim() != '') {
-                $.blockUI();
+                loader_on();
                 var reqData = {
                     "RequirementId": $("#txtRequirementId").val(),
                     "RequirementForId": $("#ddlRequirementFor").val(),

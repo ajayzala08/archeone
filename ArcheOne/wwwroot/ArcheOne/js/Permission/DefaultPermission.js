@@ -4,7 +4,7 @@ $(document).ready(function () {
 
 
 function GetRoleList() {
-    $.blockUI({ message: "<h2>Please wait</p>" });
+    loader_on();
     ajaxCall("Post", false, '/Role/RoleList', null, function (result) {
         if (result.status == true) {
             $.each(result.data, function (data, value) {
@@ -118,7 +118,7 @@ function UpdateDefaultPermission(UpdateRoleWithUsers) {
         "PermissionIds": Data
     }
 
-    $.blockUI({ message: "<h2>Please wait</p>" });
+    loader_on();
     ajaxCall("Post", false, '/Permission/UpdateDefaultPermission', JSON.stringify(requestModel), function (result) {
         if (result.status == true) {
             Toast.fire({ icon: 'success', title: result.message });
@@ -131,7 +131,7 @@ function UpdateDefaultPermission(UpdateRoleWithUsers) {
 }
 
 function GetPermissionDetails(permissionId) {
-    $.blockUI({ message: "<h2>Please wait</p>" });
+    loader_on();
     ajaxCall("Post", false, '/Permission/GetPermissionDetailsById?PermissionId=' + permissionId, null, function (result) {
         if (result.status == true) {
             $("#permissionId").val(result.data.id);

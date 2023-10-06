@@ -6,7 +6,9 @@ $(document).ready(function () {
         AddEditSalesLead(0);
 
     });
-
+    $("#Uploadsalesclose").click(function () {
+        $("#modalSalesExcelUpload").hide();
+    });
     $("#btnUploadSalesSheet").click(function () {
         if (validateRequiredFieldsByGroup("modelUpload")) {
 
@@ -24,10 +26,10 @@ $(document).ready(function () {
                             timer: 3000,
                             toast: true,
 
-                        })
-                        ClearUpload();
+                        });
+                        $("#Uploadsalesclose").click();
                         GetFilteredSalesLeadList();
-                      
+                        setTimeout(function () { window.location.reload() }, 3000);
                     }
                     else {
                         Swal.fire({
@@ -37,9 +39,10 @@ $(document).ready(function () {
                             showConfirmButton: false,
                             timer: 3000,
                             toast: true
-                        })
-                        ClearUpload();
+                        });
+                        $("#Uploadsalesclose").click();
                         GetFilteredSalesLeadList();
+                        setTimeout(function () { window.location.reload() }, 3000);
                     }
                 });
 

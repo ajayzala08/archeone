@@ -42,7 +42,7 @@ function SaveUpdateAppraisalRating() {
 
         if (validateRequiredFields()) {
 
-            $.blockUI();
+            loader_on();
             ajaxCall("Post", false, '/AppraisalRating/SaveUpdateAppraisalRating', JSON.stringify(saveAppraisalRatingData), function (result) {
                 if (result.status == true) {
                     Toast.fire({ icon: 'success', title: result.message });

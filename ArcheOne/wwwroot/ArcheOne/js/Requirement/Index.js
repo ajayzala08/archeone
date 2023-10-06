@@ -52,7 +52,7 @@ function GetFilteredRequirementList() {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.blockUI();
+                    loader_on();
                     var requirementId = parseInt($(this).attr('RequirementId'));
                     ajaxCall("Post", false, '/Requirement/DeleteRequirement?RequirementId=' + requirementId, null, function (result) {
                         if (result.status == true) {
@@ -82,7 +82,7 @@ function GetFilteredRequirementList() {
                 confirmButtonText: 'Yes, change it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.blockUI();
+                    loader_on();
                     var requirementId = parseInt($(this).attr('requirementId'));
                     var requirementStatusId = parseInt($(this).val());
                     ajaxCall("Post", false, '/Requirement/ChangeStatus?RequirementId=' + requirementId + "&RequirementStatusId=" + requirementStatusId, null, function (result) {

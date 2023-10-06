@@ -25,7 +25,7 @@ function SaveUser() {
     saveData.append("IsActive", false);
   
     if (validateRequiredFields()) {
-        $.blockUI();
+        loader_on();
         ajaxCallWithoutDataType("Post", false, '/User/SaveUpdateUser', saveData, function (result) {
             if (result.status == true) {
                 Toast.fire({ icon: 'success', title: result.message });
@@ -66,7 +66,7 @@ function GetDesignationByRoleAndDepartment() {
     var roleId = $("#ddlRole").val() ?? 0;
     var departmentId = $("#ddlDepartment").val() ?? 0;
 
-    $.blockUI();
+    loader_on();
 
 
     $("#ddlDesignation").empty();

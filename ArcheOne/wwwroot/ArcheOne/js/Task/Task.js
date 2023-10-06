@@ -134,7 +134,7 @@ function GetTaskList() {
 function GetProjectList() {
 
     return new Promise((resolve, reject) => {
-        $.blockUI({ message: "<h2>Please wait</p>" });
+      loader_on();
 
         $("#ddlProject").empty();
         $("#ddlProject").append($("<option selected value='0'>Select Projects</option>"));
@@ -161,7 +161,7 @@ function GetProjectList() {
 
 function GetResources() {
     return new Promise((resolve, reject) => {
-        $.blockUI({ message: "<h2>Please wait</p>" });
+        loader_on();
 
         $("#ddlResources").empty();
         $("#ddlResources").append($("<option selected value='0'>Select Resources</option>"));
@@ -184,7 +184,7 @@ function GetResources() {
 
 function GetProjectStatus() {
     return new Promise((resolve, reject) => {
-        $.blockUI({ message: "<h2>Please wait</p>" });
+        loader_on();
 
         $("#ddlDailyTaskStatus").empty();
         $("#ddlDailyTaskStatus").append($("<option selected value='0'>Select Status</option>"));
@@ -233,7 +233,7 @@ function AddUpdateDailyTask() {
 
             $("#btnAddUpdateDailyTask").attr("disabled", true);
 
-            $.blockUI({ message: "<h2>Please wait</p>" });
+            loader_on();
             var requestModel = {
                 "Id": parseInt($("#taskId").val()),
                 "ProjectId": $("#ddlProjectTask").val(),
@@ -273,7 +273,7 @@ function GetTaskDetails(taskId) {
     $("#btnAddUpdateDailyTask").removeClass("btn-success").addClass("btn-warning");
 
     OpenTaskModel().then(() => {
-        $.blockUI({ message: "<h2>Please wait</p>" });
+        loader_on();
 
         ajaxCall("Post", false, '/Task/GetTaskById?TaskId=' + taskId, null, function (result) {
             if (result.status == true) {
@@ -352,8 +352,7 @@ function ShowDeleteTaskAlert(taskId) {
 
 function DeleteTask(taskId) {
 
-    $.blockUI({ message: "<h2>Please wait</p>" });
-
+    loader_on();
     ajaxCall("Post", false, '/Task/DeleteTaskById?TaskId=' + taskId, null, function (result) {
         if (result.status == true) {
             Toast.fire({ icon: 'success', title: result.message });

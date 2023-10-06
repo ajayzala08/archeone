@@ -432,15 +432,39 @@ namespace ArcheOne.Controllers
                     {
                         // Read the the Table
                         System.Data.DataTable userDataTable = ds.Tables[0];
+                        string role = !string.IsNullOrEmpty(userDataTable.Rows[0][0].ToString()) ? userDataTable.Rows[0][0].ToString() : "";
+                        string department = !string.IsNullOrEmpty(userDataTable.Rows[0][1].ToString()) ? userDataTable.Rows[0][1].ToString() : "";
+                        string designation = !string.IsNullOrEmpty(userDataTable.Rows[0][2].ToString()) ? userDataTable.Rows[0][2].ToString() : "";
+                        string firstName = !string.IsNullOrEmpty(userDataTable.Rows[0][3].ToString()) ? userDataTable.Rows[0][3].ToString() : "";
+                        string middleName = !string.IsNullOrEmpty(userDataTable.Rows[0][4].ToString()) ? userDataTable.Rows[0][4].ToString() : "";
+                        string lastName = !string.IsNullOrEmpty(userDataTable.Rows[0][5].ToString()) ? userDataTable.Rows[0][5].ToString() : "";
+                        string username = !string.IsNullOrEmpty(userDataTable.Rows[0][6].ToString()) ? userDataTable.Rows[0][6].ToString() : "";
+                        string password = !string.IsNullOrEmpty(userDataTable.Rows[0][7].ToString()) ? userDataTable.Rows[0][7].ToString() : "";
+                        string address = !string.IsNullOrEmpty(userDataTable.Rows[0][8].ToString()) ? userDataTable.Rows[0][8].ToString() : "";
+                        string pincode = !string.IsNullOrEmpty(userDataTable.Rows[0][9].ToString()) ? userDataTable.Rows[0][9].ToString() : "";
+                        string mobile1 = !string.IsNullOrEmpty(userDataTable.Rows[0][10].ToString()) ? userDataTable.Rows[0][10].ToString() : "";
+                        string mobile2 = !string.IsNullOrEmpty(userDataTable.Rows[0][11].ToString()) ? userDataTable.Rows[0][11].ToString() : "";
+                        string email = !string.IsNullOrEmpty(userDataTable.Rows[0][12].ToString()) ? userDataTable.Rows[0][12].ToString() : "";
 
-                        List<UserMst> users = new List<UserMst>();
-                        for (int i = 1; i < userDataTable.Rows.Count; i++)
+                        if (role.ToLower() == "role" && department.ToLower() == "department" && designation.ToLower() == "designation" && firstName.ToLower() == "firstname" && middleName.ToLower() == "middlename" && lastName.ToLower() == "lastname" && username.ToLower() == "username" && password.ToLower() == "password" && address.ToLower() == "address" && pincode.ToLower() == "pincode" && mobile1.ToLower() == "mobile1" && mobile2.ToLower() == "mobile2" && email.ToLower() == "email")
                         {
-                            string username = !string.IsNullOrEmpty(userDataTable.Rows[i][6].ToString()) ? userDataTable.Rows[i][6].ToString() : "";
-                            string email = !string.IsNullOrEmpty(userDataTable.Rows[i][12].ToString()) ? userDataTable.Rows[i][12].ToString() : "";
-                            string mobile1 = !string.IsNullOrEmpty(userDataTable.Rows[i][10].ToString()) ? userDataTable.Rows[i][10].ToString() : "";
-                            if (username == "UserName".ToLower() || email == "Email".ToLower() || mobile1 == "Mobile1".ToLower())
+                            List<UserMst> users = new List<UserMst>();
+                            for (int i = 1; i < userDataTable.Rows.Count; i++)
                             {
+                                role = !string.IsNullOrEmpty(userDataTable.Rows[i][0].ToString()) ? userDataTable.Rows[i][0].ToString() : "";
+                                department = !string.IsNullOrEmpty(userDataTable.Rows[i][1].ToString()) ? userDataTable.Rows[i][1].ToString() : "";
+                                designation = !string.IsNullOrEmpty(userDataTable.Rows[i][2].ToString()) ? userDataTable.Rows[i][2].ToString() : "";
+                                firstName = !string.IsNullOrEmpty(userDataTable.Rows[i][3].ToString()) ? userDataTable.Rows[i][3].ToString() : "";
+                                middleName = !string.IsNullOrEmpty(userDataTable.Rows[i][4].ToString()) ? userDataTable.Rows[i][4].ToString() : "";
+                                lastName = !string.IsNullOrEmpty(userDataTable.Rows[i][5].ToString()) ? userDataTable.Rows[i][5].ToString() : "";
+                                username = !string.IsNullOrEmpty(userDataTable.Rows[i][6].ToString()) ? userDataTable.Rows[i][6].ToString() : "";
+                                password = !string.IsNullOrEmpty(userDataTable.Rows[i][7].ToString()) ? userDataTable.Rows[i][7].ToString() : "";
+                                address = !string.IsNullOrEmpty(userDataTable.Rows[i][8].ToString()) ? userDataTable.Rows[i][8].ToString() : "";
+                                pincode = !string.IsNullOrEmpty(userDataTable.Rows[i][9].ToString()) ? userDataTable.Rows[i][9].ToString() : "";
+                                mobile1 = !string.IsNullOrEmpty(userDataTable.Rows[i][10].ToString()) ? userDataTable.Rows[i][10].ToString() : "";
+                                mobile2 = !string.IsNullOrEmpty(userDataTable.Rows[i][11].ToString()) ? userDataTable.Rows[i][11].ToString() : "";
+                                email = !string.IsNullOrEmpty(userDataTable.Rows[i][12].ToString()) ? userDataTable.Rows[i][12].ToString() : "";
+
                                 if (username != null && username != "" || email != null && email != "" || mobile1 != null && mobile1 != "")
                                 {
                                     var duplicateCheck = await _dbRepo.AllUserMstList().Where(x => x.UserName == username || x.Email == email || x.Mobile1 == mobile1).ToListAsync();
@@ -451,53 +475,67 @@ namespace ArcheOne.Controllers
                                         string departmentName = !string.IsNullOrEmpty(userDataTable.Rows[i][1].ToString()) ? userDataTable.Rows[i][1].ToString() : "";
                                         string designationName = !string.IsNullOrEmpty(userDataTable.Rows[i][2].ToString()) ? userDataTable.Rows[i][2].ToString() : "";
 
-                                        int companyId = _dbRepo.CompanyMstList().FirstOrDefault(x => x.CompanyName == companyName).Id;
-                                        int roleId = _dbRepo.RoleMstList().FirstOrDefault(x => x.RoleName == roleName).Id;
-                                        int departmentId = _dbRepo.DepartmentList().FirstOrDefault(x => x.DepartmentName == departmentName).Id;
-                                        int designationId = _dbRepo.DesignationList().FirstOrDefault(x => x.Designation == designationName).Id;
-
-                                        var isValiddesignation = _dbRepo.DesignationList().FirstOrDefault(x => x.Id == designationId && x.RoleId == roleId);
-                                        if (isValiddesignation != null)
+                                        if (roleName != null && roleName != "" || departmentName != null && departmentName != "" || designationName != null && designationName != "")
                                         {
-                                            var encryptedPassword = _commonHelper.EncryptString(Convert.ToString(userDataTable.Rows[i][7]));
+                                            int companyId = _dbRepo.CompanyMstList().FirstOrDefault(x => x.CompanyName == companyName).Id;
+                                            int roleId = _dbRepo.RoleMstList().FirstOrDefault(x => x.RoleName == roleName).Id == null ? 0 : _dbRepo.RoleMstList().FirstOrDefault(x => x.RoleName == roleName).Id;
+                                            int departmentId = _dbRepo.DepartmentList().FirstOrDefault(x => x.DepartmentName == departmentName).Id == null ? 0 : _dbRepo.DepartmentList().FirstOrDefault(x => x.DepartmentName == departmentName).Id;
+                                            int designationId = _dbRepo.DesignationList().FirstOrDefault(x => x.Designation == designationName).Id == null ? 0 : _dbRepo.DesignationList().FirstOrDefault(x => x.Designation == designationName).Id;
 
-                                            if (!string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][6])) && Convert.ToString(userDataTable.Rows[i][6]).All(char.IsDigit) || !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][12])) && Convert.ToString(userDataTable.Rows[i][12]).All(char.IsDigit) || !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][10])) && Convert.ToString(userDataTable.Rows[i][10]).All(char.IsDigit))
+                                            if (roleId > 0 && departmentId > 0 && designationId > 0)
                                             {
-                                                users.Add(new UserMst
+                                                var isValiddesignation = _dbRepo.DesignationList().FirstOrDefault(x => x.Id == designationId && x.RoleId == roleId);
+                                                if (isValiddesignation != null)
                                                 {
-                                                    RoleId = roleId > 0 ? roleId : 0,
-                                                    DepartmentId = departmentId > 0 ? departmentId : 0,
-                                                    DesignationId = designationId > 0 ? designationId : 0,
-                                                    FirstName = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][3])) ? Convert.ToString(userDataTable.Rows[i][3]) : "",
-                                                    MiddleName = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][4])) ? Convert.ToString(userDataTable.Rows[i][4]) : "",
-                                                    LastName = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][5])) ? Convert.ToString(userDataTable.Rows[i][5]) : "",
-                                                    UserName = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][6])) ? Convert.ToString(userDataTable.Rows[i][6]) : "",
-                                                    Password = !string.IsNullOrEmpty(encryptedPassword) ? Convert.ToString(encryptedPassword) : "",
-                                                    Address = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][8])) ? Convert.ToString(userDataTable.Rows[i][8]) : "",
-                                                    Pincode = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][9])) ? Convert.ToString(userDataTable.Rows[i][9]) : "",
-                                                    Mobile1 = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][10])) ? Convert.ToString(userDataTable.Rows[i][10]) : "",
-                                                    Mobile2 = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][11])) ? Convert.ToString(userDataTable.Rows[i][11]) : "",
-                                                    Email = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][12])) ? Convert.ToString(userDataTable.Rows[i][12]) : "",
-                                                    PhotoUrl = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][13])) ? Convert.ToString(userDataTable.Rows[i][13]) : "",
-                                                    CompanyId = companyId > 0 ? companyId : 0,
+                                                    var encryptedPassword = _commonHelper.EncryptString(Convert.ToString(userDataTable.Rows[i][7]));
 
-                                                    IsActive = true,
-                                                    IsDelete = false,
-                                                    CreatedBy = _commonHelper.GetLoggedInUserId(),
-                                                    CreatedDate = _commonHelper.GetCurrentDateTime(),
-                                                    UpdatedBy = _commonHelper.GetLoggedInUserId(),
-                                                    UpdatedDate = _commonHelper.GetCurrentDateTime(),
-                                                });
+                                                    if (!string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][6])) && Convert.ToString(userDataTable.Rows[i][6]).All(char.IsDigit) || !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][12])) && Convert.ToString(userDataTable.Rows[i][12]).All(char.IsDigit) || !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][10])) && Convert.ToString(userDataTable.Rows[i][10]).All(char.IsDigit))
+                                                    {
+                                                        users.Add(new UserMst
+                                                        {
+                                                            RoleId = roleId > 0 ? roleId : 0,
+                                                            DepartmentId = departmentId > 0 ? departmentId : 0,
+                                                            DesignationId = designationId > 0 ? designationId : 0,
+                                                            FirstName = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][3])) ? Convert.ToString(userDataTable.Rows[i][3]) : "",
+                                                            MiddleName = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][4])) ? Convert.ToString(userDataTable.Rows[i][4]) : "",
+                                                            LastName = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][5])) ? Convert.ToString(userDataTable.Rows[i][5]) : "",
+                                                            UserName = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][6])) ? Convert.ToString(userDataTable.Rows[i][6]) : "",
+                                                            Password = !string.IsNullOrEmpty(encryptedPassword) ? Convert.ToString(encryptedPassword) : "",
+                                                            Address = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][8])) ? Convert.ToString(userDataTable.Rows[i][8]) : "",
+                                                            Pincode = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][9])) ? Convert.ToString(userDataTable.Rows[i][9]) : "",
+                                                            Mobile1 = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][10])) ? Convert.ToString(userDataTable.Rows[i][10]) : "",
+                                                            Mobile2 = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][11])) ? Convert.ToString(userDataTable.Rows[i][11]) : "",
+                                                            Email = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][12])) ? Convert.ToString(userDataTable.Rows[i][12]) : "",
+                                                            PhotoUrl = !string.IsNullOrEmpty(Convert.ToString(userDataTable.Rows[i][13])) ? Convert.ToString(userDataTable.Rows[i][13]) : "",
+                                                            CompanyId = companyId > 0 ? companyId : 0,
 
+                                                            IsActive = true,
+                                                            IsDelete = false,
+                                                            CreatedBy = _commonHelper.GetLoggedInUserId(),
+                                                            CreatedDate = _commonHelper.GetCurrentDateTime(),
+                                                            UpdatedBy = _commonHelper.GetLoggedInUserId(),
+                                                            UpdatedDate = _commonHelper.GetCurrentDateTime(),
+                                                        });
+
+                                                    }
+                                                    else
+                                                    {
+                                                        response.Message = "UserName, Email OR Contact Already Exist";
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    response.Message = "Please enter valid role,department,designation";
+                                                }
                                             }
                                             else
                                             {
-                                                response.Message = "UserName, Email OR Contact Already Exist";
+                                                response.Message = "please valid excel upload";
                                             }
                                         }
                                         else
                                         {
-                                            response.Message = "Please enter valid role,department,designation";
+                                            response.Message = "please valid excel upload";
                                         }
                                     }
                                     else
@@ -510,20 +548,25 @@ namespace ArcheOne.Controllers
                                 {
                                     response.Message = "No record found";
                                 }
+
+
                             }
-                            else
+
+
+                            if (users.Count > 0)
                             {
-                                response.Message = "please valid excel upload";
+                                await _dbContext.UserMsts.AddRangeAsync(users);
+                                await _dbContext.SaveChangesAsync();
+                                response.Status = true;
+                                response.StatusCode = HttpStatusCode.OK;
+                                response.Data = users;
+                                response.Message = "User sheet uploaded successfully";
                             }
+
                         }
-                        if (users.Count > 0)
+                        else
                         {
-                            await _dbContext.UserMsts.AddRangeAsync(users);
-                            await _dbContext.SaveChangesAsync();
-                            response.Status = true;
-                            response.StatusCode = HttpStatusCode.OK;
-                            response.Data = users;
-                            response.Message = "User sheet uploaded successfully";
+                            response.Message = "please valid excel upload";
                         }
                     }
                     else

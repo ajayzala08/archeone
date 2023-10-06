@@ -1,22 +1,6 @@
 $(document).ready(function () {
     $("#btnLogin").click(function () {
-        $.blockUI({
-            css: {
-                position: 'fixed',
-                margin: 'auto',
-                border: 'none',
-                backgroundColor: 'none',
-                color: '#fff',
-                fontSize: '20px',
-                'text-align': 'center',
-                padding: '0px',
-                width: '223px',
-                top: '41%',
-                left: '41%',
-                height: '109px',
-                fontsize: '20px'
-            }, message: 'Please Wait...'
-        });
+        loader_on();
         var dataModel = {
             "UserName": $('#txtUserName').val(),
             "Password": $('#txtPassword').val(),
@@ -40,7 +24,7 @@ $(document).ready(function () {
     });
 
     $("#btnForgotPassword").click(function () {
-        $.blockUI();
+        loader_on();
         var dataModel = {
             "Email": $('#txtEmail').val()
         }
@@ -65,7 +49,7 @@ $(document).ready(function () {
     });
 
     $("#btnResetPassword").click(function () {
-        $.blockUI();
+        loader_on();
         var dataModel = {
             "UserId": $('#txtUserId').val(),
             "NewPassword": $('#txtNewPassword').val()
@@ -89,7 +73,7 @@ $(document).ready(function () {
     });
 
     $("#btnChangePassword").click(function () {
-        $.blockUI();
+        loader_on();
         var dataModel = {
             "UserId": $('#txtUserId').val(),
             "OldPassword": $('#txtOldPassword').val(),

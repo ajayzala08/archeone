@@ -13,8 +13,7 @@
 });
 
 function SaveUpdateHoliday() {
-
-    
+    loader_on();
     var saveHolidayData = {
         "Id": parseInt($("#txtHolidayId").val()),
         "HolidayName": $("#txtHolidayName").val(),

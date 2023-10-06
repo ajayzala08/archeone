@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    $.blockUI();
+    loader_on();
     LoadCompanies();
     LoadYears();
     LoadMonths();
@@ -67,11 +67,11 @@ $("#btnUploadSalarySheet").click(function () {
                 ajaxCallWithoutDataType("Post", false, '/Salary/UploadSalarySheet', saveData, function (result) {
                     if (result.status == true) {
                         Toast.fire({ icon: 'success', title: result.message });
-                        window.location.reload(); //window.location.href = window.location.href;
+                        setTimeout(function () { window.location.reload() }, 3000); //window.location.href = window.location.href;
                     }
                     else {
                         Toast.fire({ icon: 'error', title: result.message });
-                        
+                        setTimeout(function () { window.location.reload() }, 3000);
                     }
                 });
             
@@ -118,7 +118,7 @@ function DownloadSalarySlip(salaryId) {
 
 function SalaryDataFill() {
     if (validateRequiredFieldsByGroup("modal")) {
-        $.blockUI();
+        loader_on();
         let salaryReqModel = {
             "CompanyId": parseInt($("#ddlCompany").val()),
             "SalaryYear": parseInt($("#ddlyear option:selected").text()),

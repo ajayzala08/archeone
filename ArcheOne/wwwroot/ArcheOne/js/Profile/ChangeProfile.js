@@ -2,7 +2,7 @@
     applyRequiredValidation();
     $("#btnChangeProfileImage").click(function () {
         if (validateRequiredFieldsByGroup("modal")) {
-            $.blockUI();
+            loader_on();
             ChangeProfileImage();
         }
     });

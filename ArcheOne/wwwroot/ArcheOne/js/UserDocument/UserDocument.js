@@ -15,7 +15,7 @@ var tblUserDocument = null;
 
 
 function UserDocumentList() {
-    $.blockUI({ message: "<h2>Please wait</p>" });
+    loader_on();
 
     ajaxCall("post", false, '/UserDocument/UserDocumentList', null, function (result) {
         if (result.status == true) {
@@ -61,9 +61,7 @@ function UserDocumentList() {
             }).buttons().container().appendTo('#tblUserDocument_wrapper .col-md-6:eq(0)');
         }
         else {
-            $.blockUI({
-                message: "<h2>" + result.message + "</p>"
-            });
+            loader_on();
         }
         $.unblockUI();
     });
@@ -88,7 +86,7 @@ function AddUpdateUserDocument() {
 
     
         if (validateRequiredFieldsByGroup('divUploadFile')) {
-            $.blockUI();
+            loader_on();
             ajaxCallWithoutDataType("Post", false, '/UserDocument/SaveUpdateUserDocument', saveUserDocumentData, function (result) {
                
                 if (result.status == true) {
@@ -122,7 +120,7 @@ function GetUserDocsDetails(Id) {
             $("#txtDocument").val(result.data.document);
         }
         else {
-            message: "<h2>" + result.message + "</p>"
+            loader_on();
         }
     });
 }

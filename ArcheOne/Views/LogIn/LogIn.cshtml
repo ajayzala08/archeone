@@ -8,45 +8,75 @@
     string password = User.FindFirstValue("Password");
 
 }
-
+<link href="~/theme/dist/css/login.css" rel="stylesheet" />
 <section class="vh-100">
-    <div class="container py-5 h-100">
-        <div class="row d-flex  align-items-center  justify-content-center h-100">
-            <div class="col-md-6 col-lg-6 col-xl-5">
-                @* <div class="col-md-8 col-lg-7 col-xl-6">*@
-                @*  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
-                class="img-fluid" alt="Phone image">*@
-                <img src="~/theme/logo/reyanbluelogo.png" class="img-fluid" />
-            </div>
-            <div class="col-md-8 col-lg-5 col-xl-5 offset-xl-1">
-                @*<div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">*@
-                <form id="RegisterForm">
-                    <!-- Email input -->
-                    <div class="form-outline mb-4" id="dtxtUserName">
-                        <label class="form-label"><span class="has-error required">*</span> UserName </label>
-                        <input id="txtUserName" name="txtUserName" type="text" class="form-control text-length" placeholder="UserName" value=@username isRequired="1" divcontainer="dtxtUserName" errorspan="stxtUserName" defaultvalue="" autocomplete="off" minlength="1" maxlength="25" />
-                        <span class="help-block d-none has-error" id="stxtUserName">Please Enter Valid UserName</span>
-                    </div>
-
-                    <!-- Password input -->
-                    <div class="form-outline mb-4" id="dtxtPassword">
-                        <label class="form-label"><span class="has-error required">*</span> Password</label>
-                        <input id="txtPassword" name="Password" type="password" class="form-control text-length" placeholder="Password" value=@password isRequired="1" divcontainer="dtxtPassword" errorspan="stxtPassword" defaultvalue="" autocomplete="off" minlength="3" maxlength="10" onkeypress="return runScript(event)">
-                        <span class="help-block d-none has-error" id="stxtPassword">Please Enter Valid Password</span>
-                    </div>
-                    <div class="d-flex justify-content-around align-items-center mb-3">
-                        <!-- Checkbox -->
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="rememberMeCheckbox"  checked/>
-                            <label class="form-check-label" for="form1Example3"> Remember me </label>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-7 col-lg-7 col-md-12 py-3">
+                <div class="login_bg">
+                    <div class="login_bg_text_block">
+                        <div class="login_bg_text">
+                            <h3>Your Online HR</h3>
+                            <p>
+                                Automate your workflow with ATS to streamline your company’s HR and payroll processes. ATS helps to create a single source of truth for employee data and automates all tasks of employee lifecycle.
+                            </p>
                         </div>
-                        <a href="~/LogIn/ForgotPassword">Forgot password?</a>
                     </div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="login_block">
+                            <div class="login_box">
+                                <div class="text-center">
+                                    <img src="~/theme/logo/loginlogo.png" alt="" class="login_logo">
+                                </div>
+                                <div class="pt-3">
+                                    <div class="text-center mb-3">
+                                        <p class="login_heading">Sign in to Your Account</p>
+                                    </div>
+                                    <form id="RegisterForm">
+                                        <!-- Email input -->
+                                        <div class="form-outline mb-4" id="dtxtUserName">
+                                            <label class="form-label"><span class="has-error required">*</span> Email </label>
+                                            <input id="txtUserName" name="txtUserName" type="text" class="form-control text-length" placeholder="UserName" value=@username isRequired="1" divcontainer="dtxtUserName" errorspan="stxtUserName" defaultvalue="" autocomplete="off" minlength="1" maxlength="25" />
+                                            <span class="help-block d-none has-error" id="stxtUserName">Please Enter Valid UserName</span>
+                                        </div>
 
-                    <!-- Submit button -->
-                    <button type="button" id="btnLogin" name="btnLogin" class="btn btn-primary btn-lg btn-block">Sign In</button>
+                                        <!-- Password input -->
+                                        <div class="form-outline mb-4" id="dtxtPassword">
+                                            <label class="form-label"><span class="has-error required">*</span> Password</label>
+                                            <input id="txtPassword" name="Password" type="password" class="form-control text-length" placeholder="Password" value=@password isRequired="1" divcontainer="dtxtPassword" errorspan="stxtPassword" defaultvalue="" autocomplete="off" minlength="3" maxlength="10" onkeypress="return runScript(event)">
+                                            <span class="help-block d-none has-error" id="stxtPassword">Please Enter Valid Password</span>
+                                        </div>
+                                        <div class="d-flex justify-content-around align-items-center mb-3">
+                                            <!-- Checkbox -->
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="rememberMeCheckbox" checked />
+                                                <label class="form-check-label" for="form1Example3"> Remember me </label>
+                                            </div>
+                                        </div>
 
-                </form>
+                                        <!-- Submit button -->
+                                        <button type="button" id="btnLogin" name="btnLogin" class="sign-in-btn">Sign In</button>
+                                        <div class="text-center pt-3">
+                                            <div class="py-3">
+                                                <a href="~/LogIn/ForgotPassword" class="width_auto">
+                                                    <small class="forgot_pass">
+                                                        Forgot
+                                                        password?
+                                                    </small>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>

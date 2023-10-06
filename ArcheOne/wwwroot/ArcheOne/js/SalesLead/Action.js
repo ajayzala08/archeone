@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    $.blockUI();
+    loader_on();
     $("#btnSubmitAction").show();
     $("#btnUpdateAction").hide();
     $(".modal-title").text("Add Action");
@@ -53,7 +53,7 @@ function LoadLeadNContactPersonDetails() {
 }
 function FolloupActions() {
     if (validateRequiredFieldsByGroup("modal")) {
-        $.blockUI();
+        loader_on();
         const urlParams = new URLSearchParams(window.location.search);
         const id = parseInt(urlParams.get('id'));
         ajaxCall("GET", false, '/SalesLead/SalesLeadFollowUpList?id='+id, null, function (result) {

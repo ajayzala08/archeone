@@ -396,3 +396,22 @@ function onlyletter(event) {
         }
     }
 }
+function loader_on() {
+    $.blockUI({
+        css: {
+            position: 'fixed',
+            margin: 'auto',
+            border: 'none',
+            backgroundColor: 'none',
+            color: '#fff',
+            fontSize: '20px',
+            'text-align': 'center',
+            padding: '0px',
+            width: '223px',
+            top: '41%',
+            left: '41%',
+            height: '109px',
+            fontsize: '20px'
+        }, message: 'Please Wait...'
+    });
+}

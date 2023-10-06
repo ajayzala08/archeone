@@ -22,7 +22,7 @@ function SaveUpdateAppraisal() {
         }
      
         if (validateRequiredFields()) {
-            $.blockUI();
+            loader_on();
             ajaxCall("Post", false, '/Appraisal/SaveUpdateAppraisal', JSON.stringify(saveAppraisalData), function (result) {
                 if (result.status == true) {
                     Toast.fire({ icon: 'success', title: result.message });

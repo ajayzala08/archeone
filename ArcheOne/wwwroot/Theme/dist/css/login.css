@@ -1,0 +1,146 @@
+@font-face {
+    font-family: AlumniSans_Light;
+    src: url(../fonts/AlumniSans-Light.ttf);
+}
+
+@font-face {
+    font-family: AlumniSans_Medium;
+    src: url(../fonts//AlumniSans-Medium.ttf);
+}
+
+.width_auto {
+    width: fit-content !important;
+}
+
+.login_bg {
+    background-image: url('../../Logo/login-leftside.png');
+    background-color: #cccccc;
+    height: 100%;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.login_bg_text_block {
+    display: flex;
+    align-content: center;
+    justify-content: left;
+    align-items: center;
+    height: 100%;
+    padding: 0 20px 0 85px;
+}
+
+.login_bg_text {
+    text-align: left;
+    color: #fff;
+    max-width: 30vw;
+    width: auto;
+}
+
+    .login_bg_text h3 {
+        font-family: 'AlumniSans_Light', 'arial', sans-serif;
+        font-size: 60px;
+        font-weight: 600;
+        line-height: 3.5vw;
+    }
+
+    .login_bg_text p {
+        font-family: 'AlumniSans_Medium', 'arial', sans-serif;
+        font-size: 30px;
+        line-height: 2.35vw;
+        padding-top: 1vw;
+    }
+
+@media (max-width:991px) {
+    .login_bg_text {
+        max-width: 360px;
+        padding: 50px 0 30px;
+    }
+
+        .login_bg_text h3 {
+            font-size: 45px;
+            line-height: 40px;
+        }
+
+        .login_bg_text p {
+            font-size: 23px;
+            line-height: 24px;
+            padding-top: 5px;
+        }
+
+    .login_block {
+        height: auto !important;
+    }
+}
+
+.login_block {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    min-height: 600px;
+}
+
+.login_box {
+    width: 430px;
+}
+
+.login_logo {
+    width: 130px;
+}
+
+.login_heading {
+    font-size: 30px;
+    font-weight: 900;
+    color: #2B2B2B;
+    margin: 0;
+    text-transform: capitalize;
+    font-family: AlumniSans_Medium,arial,sans-serif;
+}
+
+.login_lbl {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0 5px;
+}
+
+.login_textbox {
+    border: 1px solid #B9B7BC !important;
+    padding: 24px 12px;
+    font-size: 16px;
+}
+
+.sign-in-btn {
+    background-color: #00B3E5;
+    background-image: linear-gradient(to bottom right,#9133FF,transparent);
+    width: 100%;
+    border-radius: 60px;
+    color: #fff;
+    font-size: 20px;
+    border: 0;
+    padding: 10px 0;
+    transition: all 2s;
+    font-family: sans-serif;
+}
+
+    .sign-in-btn:hover {
+        background-color: #9133FF;
+        background-image: linear-gradient(to bottom right,#00B3E5,transparent);
+    }
+.text-center.pt-3 {
+    padding-top: 0.5rem !important;
+}
+.forgot_pass {
+    color: #7A4AEC;
+    font-weight: 600;
+    font-size: 20px;
+    transition: 1s;
+    font-family: sans-serif;
+}
+
+    .forgot_pass:hover {
+        color: #3e86ee;
+        font-weight: 600;
+    }
