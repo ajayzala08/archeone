@@ -164,7 +164,7 @@ function GetFilteredSalesLeadList() {
 
                         render: function (data, type, row) {
                             if (data) {
-                                return '<i class="fa fa-pen pen" value="' + data.id + '" onclick="AddEditSalesLead(' + row.id + ')"></i> | <i class="fa fa-trash trash btn-delete" value="' + data.id + '" onclick="DeleteSalesLead(' + row.id + ')"></i>';
+                                return '<i class="fa fa-pen pen" style="cursor: pointer;" value="' + data.id + '" onclick="AddEditSalesLead(' + row.id + ')"></i> | <i class="fa fa-trash trash btn-delete" style="cursor: pointer;" value="' + data.id + '" onclick="DeleteSalesLead(' + row.id + ')"></i>';
                             }
                         }
                     },

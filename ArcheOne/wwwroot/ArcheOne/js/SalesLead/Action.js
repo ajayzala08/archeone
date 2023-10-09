@@ -77,7 +77,7 @@ function FolloupActions() {
                             data: null,
                             title: 'Action',
                             render: function (data, type, row) {
-                                return '<i class="fa fa-pen pen" data-toggle="modal" data-target="#modalActionUpload" value="' + data.id + '" onclick="EditFollowUpAction(' + data.id + ')"></i> | <i class="fa fa-trash trash" value="' + data.id + '" onclick="DeleteFollowUpAction(' + data.id + ')"></i>';
+                                return '<i class="fa fa-pen pen" style="cursor: pointer;" data-toggle="modal" data-target="#modalActionUpload" value="' + data.id + '" onclick="EditFollowUpAction(' + data.id + ')"></i> | <i class="fa fa-trash trash" style="cursor: pointer;" value="' + data.id + '" onclick="DeleteFollowUpAction(' + data.id + ')"></i>';
                             }
                         },
                         { data: "organization", title: "Organization" },

@@ -62,7 +62,7 @@
                             @if (item.EditDisable)
                             {
                                 <td>
-                                    <i class="fa fa-pen pen " style="cursor: pointer;"></i> | <i class="fa fa-info-circle circle" value="your leave is approve so don't Editable" title="your leave is approve, so don't editable"></i>
+                                    <i class="fa fa-pen pen" style="cursor: pointer;"></i> | <i class="fa fa-info-circle circle" value="your leave is approve so don't Editable" title="your leave is approve, so don't editable"></i>
 
 
                                     @* <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"></i>*@
@@ -74,7 +74,7 @@
                                 @if (item.HREditDisable)
                                 {
                                     <td>
-                                        <i class="fa fa-pen pen " style="cursor: pointer;"></i> | <i class="fa fa-info-circle circle" value="" title=" Approval required from reporting manager for editing access"></i>
+                                        <i class="fa fa-pen pen" style="cursor: pointer;"></i> | <i class="fa fa-info-circle circle" value="" title=" Approval required from reporting manager for editing access"></i>
 
 
                                         @* <i class="fa fa-trash trash btn-delete" Id="@item.Id" style="cursor: pointer;"></i>*@
@@ -93,14 +93,14 @@
                             @if (item.CancelbtnDisable)
                             {
                                 <td>
-                                    <i class="fa fa-info-circle circle" value="" title="don't Cancel"></i>
+                                    <i class="fa fa-info-circle circle" style="cursor: pointer;"  value="" title="don't Cancel"></i>
                                 </td>
                             }
                             else
                             {
                                 <td>
 
-                                    <i class="fa fa-times" data-toggle="modal" data-value="@item.Id"></i>
+                                    <i class="fa fa-times" style="cursor: pointer;"  data-toggle="modal" data-value="@item.Id"></i>
 
                                 </td>
                             }

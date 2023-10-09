@@ -60,15 +60,15 @@
 
                                         <i class="fa fa-trash trash btn-delete" Id="@item.Id"> | </i>*@
 
-                                        <i class="fa fa-info-circle circle" Id="@item.Id"></i>
+                                        <i class="fa fa-info-circle circle" style="cursor: pointer;" Id="@item.Id"></i>
                                     }
                                     else
                                     {
-                                        <i class="fa fa-pen pen btn-edit" Id="@item.Id"> | </i>
+                                        <i class="fa fa-pen pen btn-edit" style="cursor: pointer;" Id="@item.Id"> | </i>
 
-                                        <i class="fa fa-trash trash btn-delete" Id="@item.Id"> | </i>
+                                        <i class="fa fa-trash trash btn-delete" style="cursor: pointer;" Id="@item.Id"> | </i>
 
-                                        <i class="fa fa-info-circle circle" Id="@item.Id"></i>
+                                        <i class="fa fa-info-circle circle" style="cursor: pointer;" Id="@item.Id"></i>
                                     }
 
                                 }
@@ -76,18 +76,18 @@
                                 {
                                     @if (item.IsManagerEditable)
                                     {
-                                        <i class="fa fa-info-circle circle" Id="@item.Id"></i>
+                                        <i class="fa fa-info-circle circle" style="cursor: pointer;" Id="@item.Id"></i>
                                     }
                                     else
                                     {
-                                        <i class="fa fa-info-circle" disabled="disabled" value="" title="After completing the first employee appraisal, you will add the appraisal for the employee."></i>
+                                        <i class="fa fa-info-circle" disabled="disabled" style="cursor: pointer;" value="" title="After completing the first employee appraisal, you will add the appraisal for the employee."></i>
                                     }
 
                                 }
                             }
                             else
                             {
-                                <i class="fa fa-info-circle" value="" title="Your appraisal is completed"></i>
+                                <i class="fa fa-info-circle" style="cursor: pointer;" value="" title="Your appraisal is completed"></i>
                             }
                         </td>
                         <td>

@@ -177,7 +177,7 @@ function GetUserList(RoleId) {
                         render: function (data, type, row) {
                             if (data) {
                                 var fullName = ' + data.fullName + '
-                                return '<i class="fa fa-pen pen" value="' + data.id + '" onclick="AddEditUser(' + row.id + ')"></i> | <i class="fa fa-trash trash" value="' + data.id + '" onclick="DeleteUser(' + row.id + ')"></i> | <i class="fa fa-info-circle circle" value="' + data.id + '" onclick="manageUserDetails(' + row.id + ')"></i>';
+                                return '<i class="fa fa-pen pen" style="cursor: pointer;" value="' + data.id + '" onclick="AddEditUser(' + row.id + ')"></i> | <i class="fa fa-trash trash" style="cursor: pointer;" value="' + data.id + '" onclick="DeleteUser(' + row.id + ')"></i> | <i class="fa fa-info-circle circle" style="cursor: pointer;" value="' + data.id + '" onclick="manageUserDetails(' + row.id + ')"></i>';
                             } else {
                                 //return '<i class="fa fa-trash trash" value="' + data.id + '" onclick="DeleteUser(@item.Id)"></i>';
                             }

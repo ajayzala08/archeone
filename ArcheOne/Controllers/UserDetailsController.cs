@@ -43,7 +43,7 @@ namespace ArcheOne.Controllers
                 }
                 else
                 {
-                    userDetailsAddEditResModel.ReportingManagerList = await _dbRepo.UserMstList().Where(x => x.Id != userId).Select(x => new UserMst() { Id = x.Id, FirstName = x.FirstName, MiddleName = x.MiddleName, LastName = x.LastName }).ToListAsync();
+                    userDetailsAddEditResModel.ReportingManagerList = await _dbRepo.UserMstList().Where(x => x.Id != userId && x.RoleId == 3).Select(x => new UserMst() { Id = x.Id, FirstName = x.FirstName, MiddleName = x.MiddleName, LastName = x.LastName }).ToListAsync();
                 }
 
 

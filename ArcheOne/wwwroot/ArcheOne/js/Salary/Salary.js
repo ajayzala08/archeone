@@ -149,9 +149,9 @@ function SalaryDataFill() {
                             render: function (data, type, row) {
                                 var icons = '';
                                 if (IsDeletable) {
-                                    icons = '<i class="fa fa-trash trash" value="' + data.salaryId + '" onclick="DeleteSalary(' + row.salaryId + ')"></i> | ';
+                                    icons = '<i class="fa fa-trash trash" style="cursor: pointer;" value="' + data.salaryId + '" onclick="DeleteSalary(' + row.salaryId + ')"></i> | ';
                                 }
-                                icons += '<i class="fa fa-download btn-download" value="' + data.salaryId + '" onclick="DownloadSalarySlip(' + row.salaryId + ')"></i>';
+                                icons += '<i class="fa fa-download btn-download" style="cursor: pointer;" value="' + data.salaryId + '" onclick="DownloadSalarySlip(' + row.salaryId + ')"></i>';
                                 return icons;
 
                             }

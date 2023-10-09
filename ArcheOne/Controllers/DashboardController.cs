@@ -375,7 +375,7 @@ namespace ArcheOne.Controllers
             try
             {
                 GetAllEventResModel getAllEventResModel = new GetAllEventResModel();
-                var list = _dbRepo.EventList().FirstOrDefault(x => x.Subject == name);
+                var list = _dbRepo.EventList().FirstOrDefault(x => x.Subject == name && x.CreatedBy == _commonHelper.GetLoggedInUserId());
                 if (list != null)
                 {
                     getAllEventResModel.title = list.Subject;
