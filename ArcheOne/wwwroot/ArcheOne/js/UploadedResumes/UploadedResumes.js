@@ -398,7 +398,7 @@ function ShowOfferGivenModel(uploadedResumeId, isToBeJoin) {
                 }
                 $.unblockUI();
             });
-        }
+        
     }
 }
 

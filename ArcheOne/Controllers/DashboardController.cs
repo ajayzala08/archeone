@@ -150,7 +150,7 @@ namespace ArcheOne.Controllers
                     dashboardDetailsResModel.ProjectCompletedCount = projectList.Where(x => x.ProjectStatus.ToLower() == "completed").Count();
                     dashboardDetailsResModel.ProjectInProgressCount = projectList.Where(x => x.ProjectStatus.ToLower() == "inprogress").Count();
                     dashboardDetailsResModel.ProjectToDoCount = projectList.Where(x => x.ProjectStatus.ToLower() == "todo").Count();
-                    dashboardDetailsResModel.UncheckedLeave = _dbRepo.LeaveLists().Where(x => x.ApprovedByReportingStatus == null || x.ApprovedByReportingStatus == 0).Count();
+                    dashboardDetailsResModel.UncheckedLeave = _dbRepo.LeaveLists().Where(x => x.ApprovedByReportingStatus == null || x.ApprovedByReportingStatus == 0 || x.Hrstatus == null || x.Hrstatus == 0).Count();
                     dashboardDetailsResModel.PendingResumeApprovalCount = _dbRepo.ResumeFileUploadDetailList().Where(x => x.ResumeStatus == 1).Count();
 
                 }
@@ -158,7 +158,7 @@ namespace ArcheOne.Controllers
                 {
                     foreach (var item in userListByReportingManagerId)
                     {
-                        dashboardDetailsResModel.UncheckedLeave = _dbRepo.LeaveLists().Where(x => (x.ApprovedByReportingStatus == null || x.ApprovedByReportingStatus == 0) && (x.AppliedByUserId == userId) || x.AppliedByUserId == item.UserId).Count();
+                        dashboardDetailsResModel.UncheckedLeave = _dbRepo.LeaveLists().Where(x => (x.ApprovedByReportingStatus == null || x.ApprovedByReportingStatus == 0 || x.Hrstatus == null || x.Hrstatus == 0) && (x.AppliedByUserId == userId) || x.AppliedByUserId == item.UserId).Count();
                     }
                 }
                 else

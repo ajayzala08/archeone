@@ -14,6 +14,7 @@ namespace ArcheOne.Models.Res
     public class ReportingManagetDetail
     {
         public int ReportingManagerId { get; set; } = 0;
+        public string ReportingManagerName { get; set; }
         public EmployeeDetail EmployeeDetail { get; set; }
     }
     public class EmployeeDetail

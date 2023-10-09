@@ -246,6 +246,7 @@ namespace ArcheOne.Controllers
                     if (appraisal != null)
                     {
                         addEditAppraisalResModel.reportingManagetDetail.ReportingManagerId = appraisal.ReportingManagerId;
+                        addEditAppraisalResModel.reportingManagetDetail.ReportingManagerName = userList.Where(x => x.Id == appraisal.ReportingManagerId).Select(x => $"{x.FirstName} {x.LastName}").FirstOrDefault() ?? "N/A";
                         addEditAppraisalResModel.reportingManagetDetail.EmployeeDetail.EmployeeId = appraisal.EmployeeId;
                         addEditAppraisalResModel.Id = appraisal.Id;
                         addEditAppraisalResModel.Year = appraisal.Year;

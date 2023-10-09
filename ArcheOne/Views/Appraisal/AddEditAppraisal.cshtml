@@ -59,8 +59,8 @@
                         <div class="col-sm-4" id="dtxtReportingManager">
                             <div class="form-group">
                                 <label for="form_name"><span class="has-error required">* </span>ReportingManager </label>
-                                <input id="txtReportingManager" type="text" name="ReportingManager" class="form-control text-length" placeholder="Please select your ReportingManager" readonly isrequired="1" divcontainer="dtxtReportingManager" errorspan="stxtReportingManager" defaultvalue="" autocomplete="off" minlength="2" maxlength="50">
-                                <input type="hidden" id="txtReportingManagerId"/>
+                                <input id="txtReportingManager" type="text" name="ReportingManager" class="form-control text-length" placeholder="Please select your ReportingManager" readonly isrequired="1" divcontainer="dtxtReportingManager" errorspan="stxtReportingManager" value="@Model.reportingManagetDetail.ReportingManagerName" defaultvalue="" autocomplete="off" minlength="2" maxlength="50">
+                                <input type="hidden" id="txtReportingManagerId" value="@Model.reportingManagetDetail.ReportingManagerId" />
                                 <span class="help-block d-none has-error" id="stxtReportingManager">Please Select Reporting Manager</span>
                             </div>
                         </div>
