@@ -29,7 +29,14 @@ namespace ArcheOne.Controllers
         }
         public IActionResult LogIn()
         {
-            return View();
+            if (_commonHelper.GetLoggedInUserId() > 0)
+            {
+                return Redirect("Dashboard/Index");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         [HttpPost]
@@ -155,21 +162,21 @@ namespace ArcheOne.Controllers
 
                             var IsLinkSave = AddResetPasswordLink(userList.Id, baseURL);
 
-                        commonResponse.Status = true;
+                            commonResponse.Status = true;
                             commonResponse.Message = "Password reset link has been sent to your email!";
                             commonResponse.Data = userList.Id;
+                        }
+                        else
+                        {
+                            commonResponse.Status = false;
+                            commonResponse.Message = "Password reset link has been not sent to your email";
+                        }
                     }
                     else
                     {
-                            commonResponse.Status = false;
-                            commonResponse.Message = "Password reset link has been not sent to your email";
+                        commonResponse.Message = "Email not found!";
                     }
                 }
-                else
-                {
-                        commonResponse.Message = "Email not found!";
-                }
-            }
                 else
                 {
                     commonResponse.Message = "Please enter valid email";
@@ -186,17 +193,17 @@ namespace ArcheOne.Controllers
         {
             try
             {
-            LinkMst linkMst = new LinkMst();
-            linkMst.UserId = Id;
-            linkMst.IsClicked = false;
-            linkMst.ResetPasswordLink = BaseUrl;
-            linkMst.CreatedDate = _commonHelper.GetCurrentDateTime();
-            linkMst.ExpiredDate = _commonHelper.GetCurrentDateTime().AddDays(1);
-            _dbContext.LinkMsts.Add(linkMst);
-            _dbContext.SaveChanges();
+                LinkMst linkMst = new LinkMst();
+                linkMst.UserId = Id;
+                linkMst.IsClicked = false;
+                linkMst.ResetPasswordLink = BaseUrl;
+                linkMst.CreatedDate = _commonHelper.GetCurrentDateTime();
+                linkMst.ExpiredDate = _commonHelper.GetCurrentDateTime().AddDays(1);
+                _dbContext.LinkMsts.Add(linkMst);
+                _dbContext.SaveChanges();
 
-            return true;
-        }
+                return true;
+            }
             catch (Exception e)
             {
                 return false;

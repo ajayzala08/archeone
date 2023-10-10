@@ -190,7 +190,7 @@ namespace ArcheOne.Controllers
                         }
                         if (item.AppliedByUserId == userId)
                         {
-                            if (CancelLeaveStatus.LeaveStatus.ToLower() == "cancel")
+                            if (CancelLeaveStatus != null && CancelLeaveStatus.LeaveStatus.ToLower() == "cancel")
                             {
                                 if (_commonHelper.GetCurrentDateTime().Date <= item.EndDate)
                                 {

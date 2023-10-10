@@ -195,9 +195,38 @@ function showCalenderPopup(name) {
 
     ajaxCall("GET", false, '/Dashboard/CalenderPopupData?name=' + name, null, function (result) {
         if (result.status == true) {
-
             $("#EventTitle").text(result.data.title);
             $("#EventDescription").text(result.data.description);
+            if (result.data.allDay) {
+                $("#EventStartTime").text(result.data.start.split('T')[0] + ' ' + '(FullDayEvent)' );
+                $("#lableend:contains('EndDate')").hide();
+
+
+            } else {
+
+                var isoDate = new Date(result.data.start); // your ISO date
+
+                var year = isoDate.getFullYear();
+                var month = ("0" + (isoDate.getMonth() + 1)).slice(-2); // Months are zero based
+                var date = ("0" + isoDate.getDate()).slice(-2);
+                var hours = ("0" + isoDate.getHours()).slice(-2);
+                var minutes = ("0" + isoDate.getMinutes()).slice(-2);
+
+                var formattedDatestartDate = year + "-" + month + "-" + date + " " + hours + ":" + minutes;
+                $("#lableend:contains('EndDate')").show();
+                $("#EventStartTime").text(formattedDatestartDate);
+
+                var isoDate1 = new Date(result.data.end);
+                var year1 = isoDate1.getFullYear();
+                var month1 = ("0" + (isoDate1.getMonth() + 1)).slice(-2); // Months are zero based
+                var date1 = ("0" + isoDate1.getDate()).slice(-2);
+                var hours1 = ("0" + isoDate1.getHours()).slice(-2);
+                var minutes1 = ("0" + isoDate1.getMinutes()).slice(-2);
+
+                var formattedDateEndDate = year1 + "-" + month1 + "-" + date1 + " " + hours1 + ":" + minutes1;
+                $("#EventEndTime").text(formattedDateEndDate);
+
+            }
         }
         else {
             $("#CalenderPopup").hide();

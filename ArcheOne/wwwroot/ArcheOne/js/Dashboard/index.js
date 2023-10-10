@@ -254,7 +254,7 @@ function showCalenderPopup(name) {
             $("#EventTitle").text(result.data.title);
             $("#EventDescription").text(result.data.description);
             if (result.data.allDay) {
-                $("#EventStartTime").text(result.data.start.split('T')[0]);
+                $("#EventStartTime").text(result.data.start.split('T')[0] + ' ' + '(FullDayEvent)');
                 $("#lableend:contains('EndDate')").hide();
               
 
