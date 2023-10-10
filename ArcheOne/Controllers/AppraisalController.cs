@@ -90,7 +90,7 @@ namespace ArcheOne.Controllers
                                                       join b in _dbRepo.UserMstList() on a.EmployeeId equals b.Id
                                                       join c in _dbRepo.UserMstList() on a.ReportingManagerId equals c.Id into cGroup
                                                       from cItem in cGroup.DefaultIfEmpty()
-                                                      join d in _dbRepo.AppraisalRatingList() on a.EmployeeId equals d.RatingFromUserId into dGroup
+                                                      join d in _dbRepo.AppraisalRatingList() on a.Id equals d.AppraisalId into dGroup
                                                       select new GetAppraisalListResModel
                                                       {
                                                           Id = a.Id,
@@ -106,7 +106,7 @@ namespace ArcheOne.Controllers
                 }
                 else
                 {
-                    getAppraisalListResModel = await (from a in _dbRepo.AppraisalList().Where(x => x.EmployeeId == userId || x.ReportingManagerId == userId)
+                    getAppraisalListResModel = await (from a in _dbRepo.AppraisalList().Where(x => (x.EmployeeId == userId || x.ReportingManagerId == userId) && (AppraisalStatusId != null ? AppraisalStatusId == 1 ? x.IsApprove == false : x.IsApprove == true : true))
                                                       join b in _dbRepo.UserMstList() on a.EmployeeId equals b.Id
                                                       join c in _dbRepo.UserMstList() on a.ReportingManagerId equals c.Id into cGroup
                                                       from cItem in cGroup.DefaultIfEmpty()
@@ -272,94 +272,95 @@ namespace ArcheOne.Controllers
             }
             return View(response.Data);
         }
+
         [HttpPost]
         public async Task<IActionResult> SaveUpdateAppraisal([FromBody] AppraisalSaveUpdateReqModel appraisalSaveUpdateReqModel)
         {
             CommonResponse response = new CommonResponse();
             try
             {
-                int currentYear = DateTime.Now.Year;
-                int perviousYear = DateTime.Now.AddYears(1).Year;
+                //int currentYear = DateTime.Now.Year;
+                //int perviousYear = DateTime.Now.AddYears(1).Year;
                 Regex validateDateRegex1 = new Regex("^[2]{1}[0]{1}[0-8]{1}[0-9]{1}-[2]{1}[0]{1}[0-8]{1}[0-9]{1}");
                 if (validateDateRegex1.IsMatch(appraisalSaveUpdateReqModel.Year))
                 {
                     string firstYear = appraisalSaveUpdateReqModel.Year.Substring(0, appraisalSaveUpdateReqModel.Year.IndexOf("-")).Trim();
                     int nextyear = int.Parse(firstYear) + 1;
                     string finalYear = firstYear + "-" + nextyear;
-                    if (firstYear == Convert.ToString(currentYear))
+                    /*if (firstYear == Convert.ToString(currentYear))
+                    {*/
+                    /*if (appraisalSaveUpdateReqModel.Year == finalYear)
+                    {*/
+                    AppraisalMst appraisalMst = new AppraisalMst();
+                    var appraisalDetail = await _dbRepo.AppraisalList().FirstOrDefaultAsync(x => x.Id == appraisalSaveUpdateReqModel.Id);
+                    var duplicateCheck = await _dbRepo.AppraisalList().Where(x => x.EmployeeId == appraisalSaveUpdateReqModel.EmployeeId && x.Year == appraisalSaveUpdateReqModel.Year).ToListAsync();
+                    if (appraisalDetail != null)
                     {
-                        if (appraisalSaveUpdateReqModel.Year == finalYear)
+                        if (duplicateCheck.Count == 0)
                         {
-                            AppraisalMst appraisalMst = new AppraisalMst();
-                            var appraisalDetail = await _dbRepo.AppraisalList().FirstOrDefaultAsync(x => x.Id == appraisalSaveUpdateReqModel.Id);
-                            var duplicateCheck = await _dbRepo.AppraisalList().Where(x => x.EmployeeId == appraisalSaveUpdateReqModel.EmployeeId && x.Year == appraisalSaveUpdateReqModel.Year).ToListAsync();
-                            if (appraisalDetail != null)
-                            {
-                                if (duplicateCheck.Count == 0)
-                                {
 
-                                    //Edit Mode
-                                    appraisalDetail.EmployeeId = appraisalSaveUpdateReqModel.EmployeeId;
-                                    appraisalDetail.ReportingManagerId = appraisalSaveUpdateReqModel.ReportingManagerId;
-                                    appraisalDetail.Year = appraisalSaveUpdateReqModel.Year;
-                                    appraisalDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                                    appraisalDetail.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                            //Edit Mode
+                            appraisalDetail.EmployeeId = appraisalSaveUpdateReqModel.EmployeeId;
+                            appraisalDetail.ReportingManagerId = appraisalSaveUpdateReqModel.ReportingManagerId;
+                            appraisalDetail.Year = appraisalSaveUpdateReqModel.Year;
+                            appraisalDetail.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                            appraisalDetail.UpdatedBy = _commonHelper.GetLoggedInUserId();
 
 
-                                    _dbContext.Entry(appraisalDetail).State = EntityState.Modified;
-                                    _dbContext.SaveChanges();
+                            _dbContext.Entry(appraisalDetail).State = EntityState.Modified;
+                            _dbContext.SaveChanges();
 
-                                    response.Status = true;
-                                    response.StatusCode = HttpStatusCode.OK;
-                                    response.Message = "Appraisal Updated Successfully!";
-                                }
-                                else
-                                {
-                                    response.Message = "Appraisal Is Already Exist";
-                                }
-                            }
-                            else
-                            {
-                                //Add Mode
-                                duplicateCheck = await _dbRepo.AppraisalList().Where(x => x.EmployeeId == appraisalSaveUpdateReqModel.EmployeeId && x.Year == appraisalSaveUpdateReqModel.Year).ToListAsync();
-                                if (duplicateCheck.Count == 0)
-                                {
-                                    appraisalMst.EmployeeId = appraisalSaveUpdateReqModel.EmployeeId;
-                                    appraisalMst.ReportingManagerId = appraisalSaveUpdateReqModel.ReportingManagerId;
-                                    appraisalMst.Year = appraisalSaveUpdateReqModel.Year;
-                                    appraisalMst.IsApprove = false;
-                                    appraisalMst.CreatedDate = _commonHelper.GetCurrentDateTime();
-                                    appraisalMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
-                                    appraisalMst.CreatedBy = _commonHelper.GetLoggedInUserId();
-                                    appraisalMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
-                                    appraisalMst.IsActive = true;
-                                    appraisalMst.IsDelete = false;
-
-
-                                    _dbContext.Add(appraisalMst);
-                                    _dbContext.SaveChanges();
-
-                                    response.Status = true;
-                                    response.StatusCode = HttpStatusCode.OK;
-                                    response.Message = "Appraisal Added Successfully!";
-                                }
-                                else
-                                {
-                                    response.Message = "Appraisal Is Already Exist";
-                                }
-                            }
-                            response.Data = appraisalMst;
+                            response.Status = true;
+                            response.StatusCode = HttpStatusCode.OK;
+                            response.Message = "Appraisal Updated Successfully!";
                         }
                         else
                         {
-                            response.Message = "Please enter valid year " + finalYear!;
-
+                            response.Message = "Appraisal Is Already Exist";
                         }
                     }
                     else
                     {
-                        response.Message = "Please enter current year " + currentYear!;
+                        //Add Mode
+                        duplicateCheck = await _dbRepo.AppraisalList().Where(x => x.EmployeeId == appraisalSaveUpdateReqModel.EmployeeId && x.Year == appraisalSaveUpdateReqModel.Year).ToListAsync();
+                        if (duplicateCheck.Count == 0)
+                        {
+                            appraisalMst.EmployeeId = appraisalSaveUpdateReqModel.EmployeeId;
+                            appraisalMst.ReportingManagerId = appraisalSaveUpdateReqModel.ReportingManagerId;
+                            appraisalMst.Year = appraisalSaveUpdateReqModel.Year;
+                            appraisalMst.IsApprove = false;
+                            appraisalMst.CreatedDate = _commonHelper.GetCurrentDateTime();
+                            appraisalMst.UpdatedDate = _commonHelper.GetCurrentDateTime();
+                            appraisalMst.CreatedBy = _commonHelper.GetLoggedInUserId();
+                            appraisalMst.UpdatedBy = _commonHelper.GetLoggedInUserId();
+                            appraisalMst.IsActive = true;
+                            appraisalMst.IsDelete = false;
+
+
+                            _dbContext.Add(appraisalMst);
+                            _dbContext.SaveChanges();
+
+                            response.Status = true;
+                            response.StatusCode = HttpStatusCode.OK;
+                            response.Message = "Appraisal Added Successfully!";
+                        }
+                        else
+                        {
+                            response.Message = "Appraisal Is Already Exist";
+                        }
                     }
+                    response.Data = appraisalMst;
+                    /* }
+                     else
+                     {
+                         response.Message = "Please enter valid year " + finalYear!;
+
+                     }
+                 }
+                 else
+                 {
+                     response.Message = "Please enter current year " + currentYear!;
+                 }*/
                 }
                 else
                 {
@@ -373,6 +374,7 @@ namespace ArcheOne.Controllers
 
             return Json(response);
         }
+
         [HttpPost]
         public async Task<IActionResult> DeleteAppraisal(int Id)
         {
