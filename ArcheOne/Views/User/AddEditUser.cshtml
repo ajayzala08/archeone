@@ -1,4 +1,5 @@
-﻿@using ArcheOne.Models.Req;
+﻿@using ArcheOne.Database.Entities;
+@using ArcheOne.Models.Req;
 @model UserAddEditReqViewModel;
 @{
 	Layout = "_MasterLayout";
@@ -115,26 +116,28 @@
 									<span class="help-block d-none has-error" id="sddlDepartment">Please select any department</span>
 								</div>
 							</div>
-							<div class="col-sm-4" id="dddlDesignation">
-								<div class="form-group">
-									<label><span class="has-error required">* </span>Designation</label>
-									<select id="ddlDesignation" name="ddlDesignation" class="form-control" isrequired="1" divcontainer="dddlDesignation" errorspan="sddlDesignation" defaultvalue="0" style="width: 100%;">
-										<option value="0">Select Designation</option>
-										@foreach (var item in Model.DesignationList ?? new List<DesignationDetails>())
-										{
-											if (item.Id == DesignationId)
+								<div class="col-sm-4" id="dddlDesignation">
+									<div class="form-group">
+										<label><span class="has-error required">* </span>Designation</label>
+										<select id="ddlDesignation" name="ddlDesignation" class="form-control" isrequired="1" divcontainer="dddlDesignation" errorspan="sddlDesignation" defaultvalue="0" style="width: 100%;">
+											<option value="0">Select Designation</option>
+											@foreach (var item in Model.DesignationList ?? new List<DesignationDetails>())
 											{
-												<option value="@item.Id" selected>@item.Designation</option>
+												if (item.Id == DesignationId)
+												{
+													<option value="@item.Id" selected>@item.Designation</option>
+												}
+												else
+												{
+													<option value="@item.Id">@item.Designation</option>
+												}
 											}
-											else
-											{
-												<option value="@item.Id">@item.Designation</option>
-											}
-										}
-									</select>
-									<span class="help-block d-none has-error" id="sddlDesignation">Please select any designation</span>
+										</select>
+										<span class="help-block d-none has-error" id="sddlDesignation">Please select any designation</span>
+									</div>
 								</div>
-							</div>
+							
+							
 							<div class="col-sm-4" id="dtxtFirstName">
 								<div class="form-group">
 									<label for="form_name"><span class="has-error required">* </span>FirstName </label>
@@ -142,10 +145,10 @@
 									<span class="help-block d-none has-error" id="stxtFirstName">Please Enter Valid FirstName</span>
 								</div>
 							</div>
-							<div class="col-sm-4" id="dtxtMiddleName">
+							<div class="col-sm-4">
 								<div class="form-group">
-									<label for="form_name"> <span class="has-error required">* </span>MiddleName</label>
-									<input id="txtMiddleName" type="text" name="MiddleName" class="form-control text-length" placeholder="Please enter your MiddleName" value="@Model.UserDetails.MiddleName" isrequired="1" divcontainer="dtxtMiddleName" errorspan="stxtMiddleName" defaultvalue="" autocomplete="off" minlength="2" maxlength="25">
+									<label for="form_name">MiddleName</label>
+									<input id="txtMiddleName" type="text" name="MiddleName" class="form-control" placeholder="Please enter your MiddleName" value="@Model.UserDetails.MiddleName" isrequired="0"   defaultvalue="" autocomplete="off" minlength="2" maxlength="25">
 									<span class="help-block d-none has-error" id="stxtMiddleName">Please Enter Valid MiddleName</span>
 								</div>
 							</div>

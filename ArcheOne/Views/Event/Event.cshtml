@@ -75,7 +75,7 @@
                             <div class="col-sm-6" id="dtxtStartDate">
                                 <div class="form-group">
                                     <label class="form-label"><span class="has-error required">* </span>Start Date</label>
-                                    <input id="txtStartDate" type="datetime-local" name="StartDate" class="form-control text-length " placeholder="Please enter your Start Date" isrequired="1" divcontainer="dtxtStartDate" errorspan="stxtStartDate" defaultvalue="" autocomplete="off" minlength="2">
+                                    <input id="txtStartDate" type="datetime-local" name="StartDate" class="form-control text-length " placeholder="Please enter your Start Date" isrequired="1" divcontainer="dtxtStartDate" errorspan="stxtStartDate" defaultvalue="" autocomplete="off" minlength="2" onblur="SetMinDate()">
                                     <span class="help-block d-none has-error" id="stxtStartDate">Please Enter Valid Start Date</span>
                                     <div class="help-block with-errors"></div>
                                 </div>

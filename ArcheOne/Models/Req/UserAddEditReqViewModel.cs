@@ -4,6 +4,7 @@ namespace ArcheOne.Models.Req
 {
     public class UserAddEditReqViewModel
     {
+        public List<DesignationMst> DesignationaddList { get; set; }
         public List<RoleMst> RoleList { get; set; }
         public List<DepartmentMst> DepartmentList { get; set; }
         public List<DesignationDetails> DesignationList { get; set; }

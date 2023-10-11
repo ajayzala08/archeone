@@ -4,7 +4,7 @@ $.ajax({
     url: '/Event/EventData',
     cache: false,
     success: function (response) {
-        
+
         if (response.status == true) {
             showCalender(response.data);
         }
@@ -13,7 +13,7 @@ $.ajax({
         }
 
     },
-    
+
 });
 
 $(".close").click(function () {
@@ -24,9 +24,33 @@ $(".close").click(function () {
 $("#Closemodel").click(function () {
     $("#CalenderPopup").hide();
 });
+$(document).ready(function () {
+    $('#txtStartDate').change(function () {
 
+        SetMinDate();
+
+        
+
+    });
+
+
+
+
+
+});
+function SetMinDate() {
+    var now = new Date();
+
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+    var today = now.getFullYear() + "-" + (month) + "-" + (day);
+
+    $('#txtStartDate').val(today);
+    $('#txtStartDate').attr('min', today);
+}
 $("#addNewEvent").click(function () {
-   
+
     var subject = $("#txtSubject").val();
     var description = $("#txtDescription").val();
     var start = $("#txtStartDate").val();
@@ -51,9 +75,9 @@ $("#addNewEvent").click(function () {
             data: JSON.stringify(addEvent),
             cache: false,
             success: function (response) {
-                
+
                 if (response.status == true) {
-                
+
                     Toast.fire({ icon: 'success', title: response.message });
                     location.reload();
                     showCalender(response.Data);
@@ -77,12 +101,12 @@ $("#btnCancel").click(function () {
     window.location.href = '/Event/Event';
 });
 function showCalender(data) {
-  
+
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         themeSystem: 'bootstrap',
-      
+
         headerToolbar: {
             left: 'prev,next,today',
             center: 'title',
@@ -93,19 +117,19 @@ function showCalender(data) {
             center: '',
             end: 'prev,next'
         },
-     
+
         events: data,
 
         dateClick: function (info) {
-            
+
         },
         eventClick: function (info) {
 
             // change the border color just for fun
             // info.el.style.borderColor = 'red';
-            
-                showCalenderPopup(info.event._def.title);
-                $("#CalenderPopup").show();
+
+            showCalenderPopup(info.event._def.title);
+            $("#CalenderPopup").show();
         },
         editable: true,
         dayMaxEvents: true,
@@ -113,7 +137,7 @@ function showCalender(data) {
         selectable: true,
         nowIndicator: true,
         now: new Date(),
-       /* now: '2023-06-02T02:45:00',*/
+        /* now: '2023-06-02T02:45:00',*/
 
         click: function () {
 
@@ -134,7 +158,7 @@ function showCalender(data) {
 $(document).ready(function () {
     GetEventList();
     //$('#AddEvent').click(function () {
-       
+
     //    window.location.href = '/Event/Event';
     //});
 
@@ -198,7 +222,7 @@ function showCalenderPopup(name) {
             $("#EventTitle").text(result.data.title);
             $("#EventDescription").text(result.data.description);
             if (result.data.allDay) {
-                $("#EventStartTime").text(result.data.start.split('T')[0] + ' ' + '(FullDayEvent)' );
+                $("#EventStartTime").text(result.data.start.split('T')[0] + ' ' + '(FullDayEvent)');
                 $("#lableend:contains('EndDate')").hide();
 
 
