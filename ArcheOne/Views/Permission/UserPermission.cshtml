@@ -2,6 +2,8 @@
 @{
     Layout = "_MasterLayout";
     ViewBag.datatable = "true";
+    ViewBag.select2 = "true";
+
 }
 @model List<PermissionMst>
 
@@ -32,7 +34,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label>Role</label>
-                        <select class="form-control" id="slRoles" onchange="GetUserList($(this).val())">
+                        <select class="form-control select2" id="slRoles" onchange="GetUserList($(this).val())">
                             <option selected disabled value="0">Select Role</option>
                         </select>
                     </div>
@@ -40,7 +42,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label>User</label>
-                        <select class="form-control" id="slUsers" onchange="GetUserPermissions($(this).val())">
+                        <select class="form-control select2" id="slUsers" onchange="GetUserPermissions($(this).val())">
                             <option selected disabled value="0">Select User</option>
                         </select>
                     </div>

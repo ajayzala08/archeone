@@ -4,6 +4,7 @@
 @{
     ViewBag.boostrapdataload = "true";
     Layout = "_MasterLayout";
+    ViewBag.select2 = "true";
 }
 <section class="content-header">
     <div class="container-fluid">
@@ -28,7 +29,7 @@
             {
                 <div class="col-md-3 float-left">
                     <label>Appraisal Status</label>
-                    <select id="ddlAppraisalStatus" name="ddlAppraisalStatus" class="form-control data-filter select2 ">
+                    <select id="ddlAppraisalStatus" name="ddlAppraisalStatus" class="form-control data-filter select2">
                         <option value="1">InProgress</option>
                         <option value="2">Completed</option>
                     </select>
@@ -47,6 +48,9 @@
 
 @section Scripts{
     <script src="~/archeone/js/appraisal/appraisal.js?_@DateTime.Now.Ticks"></script>
+    <script src="~/theme/plugins/jquery/jquery.min.js"></script>
+    <script src="~/theme/plugins/bootstrap/js/bootstrap.min.js"></script>
 }
-
+<link href='https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.css' rel='stylesheet'>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
 

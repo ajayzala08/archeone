@@ -9,6 +9,7 @@
     var Gender = Model.UserDetail.Gender;
     int Employee = Model.UserDetail.EmploymentType;
     var ReportingManager = Model.UserDetail.ReportingManager;
+    ViewBag.select2 = "true";
 }
 <style>
     .preview img {
@@ -65,7 +66,7 @@
                             <div class="col-sm-4" id="dddlGender">
                                 <div class="form-group">
                                     <label><span class="has-error required">*</span>Gender</label>
-                                    <select id="ddlGender" name="ddlGender" class="form-control" isrequired="1" divcontainer="dddlGender" errorspan="sddlGender" defaultvalue="0" style="width: 100%;" value="@Model.UserDetail.Gender">
+                                    <select id="ddlGender" name="ddlGender" class="form-control select2" isrequired="1" divcontainer="dddlGender" errorspan="sddlGender" defaultvalue="0" style="width: 100%;" value="@Model.UserDetail.Gender">
                                         @if (Gender == "male")
                                         {
                                             <option value="male" selected>Male</option>
@@ -112,7 +113,7 @@
                             <div class="col-sm-4" id="dddlEmploymentType">
                                 <div class="form-group">
                                     <label><span class="has-error required"></span>Employment Type</label>
-                                    <select id="ddlEmploymentType" name="ddlEmploymentType" class="form-control" isrequired="1" divcontainer="dddlEmploymentType" errorspan="sddlGender" defaultvalue="0" style="width: 100%;">
+                                    <select id="ddlEmploymentType" name="ddlEmploymentType" class="form-control select2" isrequired="1" divcontainer="dddlEmploymentType" errorspan="sddlGender" defaultvalue="0" style="width: 100%;">
                                         @foreach (var item in Model.EmploymentTypeList)
                                         {
                                             if (item.Id == Employee)
@@ -217,7 +218,7 @@
                                 <div class="col-sm-4" id="dddlReportingManager">
                                     <div class="form-group">
                                         <label><span class="has-error required"></span>Reporting Manager</label>
-                                        <select id="ddlReportingManager" name="ddlReportingManager" class="form-control" isrequired="1" divcontainer="dddlReportingManager" errorspan="sddlGender" defaultvalue="0" style="width: 100%;">
+                                        <select id="ddlReportingManager" name="ddlReportingManager" class="form-control select2" isrequired="1" divcontainer="dddlReportingManager" errorspan="sddlGender" defaultvalue="0" style="width: 100%;">
                                             @foreach (var item in Model.ReportingManagerList)
                                             {
                                                 if (item.Id == ReportingManager)

@@ -7,6 +7,7 @@
     SalesLeadAddEditResModel salesLeadAddEditResModel = Model.Data;
     var Title = salesLeadAddEditResModel.salesLeadDetail.SalesLeadId > 0 ? "Edit Lead" : "Add Lead";
     int ContactPersonCount = 1;
+    ViewBag.select2 = "true";
 }
 
 <section class="content-header">
@@ -41,7 +42,7 @@
                     </div>
                     <div class="col-md-3" id="dddlCountry">
                         <label><span class="has-error required">* </span>Country</label>
-                        <select id="ddlCountry" name="ddlCountry" class="form-control" isrequired="1" divcontainer="dddlCountry" errorspan="sddlCountry" defaultvalue="0" style="width: 100%;">
+                        <select id="ddlCountry" name="ddlCountry" class="form-control select2" isrequired="1" divcontainer="dddlCountry" errorspan="sddlCountry" defaultvalue="0" style="width: 100%;">
                             <option value="0">Select Country</option>
                            @* @foreach (var item in salesLeadAddEditResModel.CountryList)
                             {
@@ -62,7 +63,7 @@
                     </div>
                     <div class="col-md-3" id="dddlState">
                         <label><span class="has-error required">* </span>State</label>
-                        <select id="ddlState" name="ddlState" class="form-control" isrequired="1" divcontainer="dddlState" errorspan="sddlState" defaultvalue="0">
+                        <select id="ddlState" name="ddlState" class="form-control select2" isrequired="1" divcontainer="dddlState" errorspan="sddlState" defaultvalue="0">
                             <option value="0">Select State</option>
                         </select>
                         <input id="txtSelectedStateId" name="txtSelectedStateId" type="hidden" value="@salesLeadAddEditResModel.salesLeadDetail.StateId" />
@@ -70,7 +71,7 @@
                     </div>
                     <div class="col-md-3" id="dddlCity">
                         <label><span class="has-error required">* </span>City</label>
-                        <select id="ddlCity" name="ddlCity" class="form-control" isrequired="1" divcontainer="dddlCity" errorspan="sddlCity" defaultvalue="0">
+                        <select id="ddlCity" name="ddlCity" class="form-control select2" isrequired="1" divcontainer="dddlCity" errorspan="sddlCity" defaultvalue="0">
                             <option value="0">Select City</option>
                         </select>
                         <input id="txtSelectedCityId" name="txtSelectedCityId" type="hidden" value="@salesLeadAddEditResModel.salesLeadDetail.CityId" />

@@ -10,6 +10,7 @@
 	var RoleId = Model.UserDetails.RoleId;
 	var DepartmentId = Model.UserDetails.DepartmentId;
 	var DesignationId = Model.UserDetails.DesignationId;
+	ViewBag.select2 = "true";
 }
 <style>
 	.preview img {
@@ -81,7 +82,7 @@
 							<div class="col-sm-4" id="dddlRole">
 								<div class="form-group">
 									<label><span class="has-error required">* </span>Role</label>
-									<select id="ddlRole" name="ddlRole" class="form-control" isrequired="1" divcontainer="dddlRole" errorspan="sddlRole" defaultvalue="0" style="width: 100%;">
+									<select id="ddlRole" name="ddlRole" class="form-control select2" isrequired="1" divcontainer="dddlRole" errorspan="sddlRole" defaultvalue="0" style="width: 100%;">
 										@foreach (var item in Model.RoleList)
 										{
 											if (item.Id == RoleId)
@@ -100,7 +101,7 @@
 							<div class="col-sm-4" id="dddlDepartment">
 								<div class="form-group">
 									<label><span class="has-error required">* </span>Department</label>
-									<select id="ddlDepartment" name="ddlDepartment" class="form-control" isrequired="1" divcontainer="dddlDepartment" errorspan="sddlDepartment" defaultvalue="0" style="width: 100%;">
+									<select id="ddlDepartment" name="ddlDepartment" class="form-control select2" isrequired="1" divcontainer="dddlDepartment" errorspan="sddlDepartment" defaultvalue="0" style="width: 100%;">
 										@foreach (var item in Model.DepartmentList)
 										{
 											if (item.Id == DepartmentId)
@@ -119,7 +120,7 @@
 								<div class="col-sm-4" id="dddlDesignation">
 									<div class="form-group">
 										<label><span class="has-error required">* </span>Designation</label>
-										<select id="ddlDesignation" name="ddlDesignation" class="form-control" isrequired="1" divcontainer="dddlDesignation" errorspan="sddlDesignation" defaultvalue="0" style="width: 100%;">
+									<select id="ddlDesignation" name="ddlDesignation" class="form-control select2" isrequired="1" divcontainer="dddlDesignation" errorspan="sddlDesignation" defaultvalue="0" style="width: 100%;">
 											<option value="0">Select Designation</option>
 											@foreach (var item in Model.DesignationList ?? new List<DesignationDetails>())
 											{

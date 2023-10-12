@@ -1,6 +1,7 @@
 ﻿@{
     Layout = "_MasterLayout";
     ViewBag.datatable = "true";
+    ViewBag.select2 = "true";
 
 }
 <section class="content-header">
@@ -123,14 +124,14 @@
                         <div class="row form-group">
                             <div class="col-md-6" id="dddlActionPerformed">
                                 <label class="form-label"><span class="has-error required">* </span>Action Performed</label>
-                                <select id="ddlActionPerformed" name="ddlActionPerformed" class="form-control" isrequired="1" divcontainer="dddlActionPerformed" errorspan="sddlActionPerformed" defaultvalue="0" style="width: 100%;">
+                                <select id="ddlActionPerformed" name="ddlActionPerformed" class="form-control select2" isrequired="1" divcontainer="dddlActionPerformed" errorspan="sddlActionPerformed" defaultvalue="0" style="width: 100%;">
                                     <option value="0">Select Action Performed</option>
                                 </select>
                                 <span class="help-block d-none has-error" id="sddlActionPerformed">Please Select Action Performed</span>
                             </div>
                             <div class="col-md-6" id="dddlNextFollowupActionPerformed">
                                 <label class="form-label"><span class="has-error required">* </span>Next Followup Action Performed</label>
-                                <select id="ddlActionPerformedNextFollowupActionPerformed" name="ddlNextFollowupActionPerformed" class="form-control" isrequired="1" divcontainer="dddlNextFollowupActionPerformed" errorspan="sddlNextFollowupActionPerformed" defaultvalue="0" style="width: 100%;">
+                                <select id="ddlActionPerformedNextFollowupActionPerformed" name="ddlNextFollowupActionPerformed" class="form-control select2" isrequired="1" divcontainer="dddlNextFollowupActionPerformed" errorspan="sddlNextFollowupActionPerformed" defaultvalue="0" style="width: 100%;">
                                     <option value="0">Select Followup Action Performed</option>
                                 </select>
                                 <span class="help-block d-none has-error" id="sddlNextFollowupActionPerformed">Please Select Next Followup Action Performed</span>
@@ -151,7 +152,7 @@
                         <div class="row form-group">
                             <div class="col-md-6" id="dddlOrganizationStatus">
                                 <label class="form-label"><span class="has-error required">* </span>Lead Status</label>
-                                <select id="ddlOrganizationStatus" name="ddlOrganizationStatus" class="form-control" isrequired="1" divcontainer="dddlOrganizationStatus" errorspan="sddlOrganizationStatus" defaultvalue="0" style="width: 100%;">
+                                <select id="ddlOrganizationStatus" name="ddlOrganizationStatus" class="form-control select2" isrequired="1" divcontainer="dddlOrganizationStatus" errorspan="sddlOrganizationStatus" defaultvalue="0" style="width: 100%;">
                                     <option value="0">Select LeadStatus</option>
                                 </select>
                                 <span class="help-block d-none has-error" id="sddlOrganizationStatus">Please Select Lead Status</span>

@@ -5,6 +5,7 @@
 @{
     Layout = "_MasterLayout";
     string Title = Model.Id > 0 ? "Edit Appraisal" : "Create Appraisal";
+    ViewBag.select2 = "true";
 }
 
 
@@ -38,7 +39,7 @@
                         <div class="col-sm-4" id="dddlEmployeeId">
                             <div class="form-group">
                                 <label><span class="has-error required">* </span>Employee Name</label>
-                                <select id="ddlEmployeeId" name="ddlEmployeeId" class="form-control" isrequired="1" divcontainer="dddlEmployeeId" errorspan="sddlEmployeeId" defaultvalue="0" style="width: 100%;" onchange="GetReportingManagerByUserId();">
+                                <select id="ddlEmployeeId" name="ddlEmployeeId" class="form-control select2" isrequired="1" divcontainer="dddlEmployeeId" errorspan="sddlEmployeeId" defaultvalue="0" style="width: 100%;" onchange="GetReportingManagerByUserId();">
                                     <option value="0">Select Employee</option>
                                     @foreach (var item in Model.EmployeeId)
                                     {

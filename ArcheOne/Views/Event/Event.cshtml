@@ -1,7 +1,10 @@
 ﻿@{
     Layout = "_MasterLayout";
-    ViewBag.dataTable = "true";
+    ViewBag.select2 = "true";
+
+    // ViewBag.dataTable = "true";
     string Title = " ";
+
 }
 
 
@@ -27,8 +30,8 @@
         <div class="card-header">
             <h3 class="card-title">Calendar</h3>
             <div class="ml-auto mr-2 align-self-end mb-3">
-                <button type="button"  data-toggle="modal" data-target="#myModal" class="btn btn-primary float-right">Add Event</button>
-               @* <button type="button" id="addNewEvent" data-toggle="modal" data-target="#myModal" class="btn btn-primary float-right">Add Event</button>*@
+                <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary float-right">Add Event</button>
+                @* <button type="button" id="addNewEvent" data-toggle="modal" data-target="#myModal" class="btn btn-primary float-right">Add Event</button>*@
             </div>
         </div>
 
@@ -42,7 +45,7 @@
 </section>
 
 <div class="modal fade" id="myModal" data-keyboard="false" data-backdrop="static">
-@*<div class="modal fade" id="myModal" role="dialog">*@
+    @*<div class="modal fade" id="myModal" role="dialog">*@
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
@@ -75,7 +78,7 @@
                             <div class="col-sm-6" id="dtxtStartDate">
                                 <div class="form-group">
                                     <label class="form-label"><span class="has-error required">* </span>Start Date</label>
-                                    <input id="txtStartDate" type="datetime-local" name="StartDate" class="form-control text-length " placeholder="Please enter your Start Date" isrequired="1" divcontainer="dtxtStartDate" errorspan="stxtStartDate" defaultvalue="" autocomplete="off" minlength="2" onblur="SetMinDate()">
+                                    <input id="txtStartDate" type="datetime-local" name="StartDate" class="form-control text-length " placeholder="Please enter your Start Date" isrequired="1" divcontainer="dtxtStartDate" errorspan="stxtStartDate" defaultvalue="" autocomplete="off" minlength="2" min="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")">
                                     <span class="help-block d-none has-error" id="stxtStartDate">Please Enter Valid Start Date</span>
                                     <div class="help-block with-errors"></div>
                                 </div>
@@ -85,7 +88,7 @@
                             <div class="col-sm-6" id="dtxtEndDate">
                                 <div class="form-group">
                                     <label class="form-label"><span class="has-error required">* </span>End Date</label>
-                                    <input id="txtEndDate" type="datetime-local" name="EndDate" class="form-control text-length " placeholder="Please enter your End Date" isrequired="1" divcontainer="dtxtEndDate" errorspan="stxtEndDate" defaultvalue="" autocomplete="off" minlength="2">
+                                    <input id="txtEndDate" type="datetime-local" name="EndDate" class="form-control text-length " placeholder="Please enter your End Date" isrequired="1" divcontainer="dtxtEndDate" errorspan="stxtEndDate" defaultvalue="" autocomplete="off" minlength="2" min="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")">
                                     <span class="help-block d-none has-error" id="stxtEndDate">Please Enter Valid End Date</span>
                                     <div class="help-block with-errors"></div>
                                 </div>
@@ -93,9 +96,9 @@
 
                             <div class="col-sm-6" id="dddlcolorId">
                                 <div class="form-group">
-                                    <label ><span class="has-error required">* </span>Color </label>
-                                        <select id="ddlcolorId" name="ddlcolorId" class="form-control" isrequired="1" divcontainer="dddlcolorId" errorspan="sddlcolorId" defaultvalue="0" style="width: 100%;">
-                                            <option value="0">Select Color</option>
+                                    <label><span class="has-error required">* </span>Color </label>
+                                    <select id="ddlcolorId" name="ddlcolorId" class="form-control select2" isrequired="1" divcontainer="dddlcolorId" errorspan="sddlcolorId" defaultvalue="0" style="width: 100%;">
+                                        <option value="0">Select Color</option>
                                         <option name="colorId" value="Red">Red</option>
                                         <option name="colorId" value="Green">Green</option>
                                         <option name="colorId" value="Blue">Blue</option>
@@ -125,7 +128,7 @@
                     <button type="button" id="btnCancel" data-dismiss="modal" class="btn btn-danger float-right">Cancel</button>
                 </div>
             </div>
-      
+
         </div>
 
     </div>

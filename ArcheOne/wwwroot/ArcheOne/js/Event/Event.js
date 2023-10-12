@@ -24,31 +24,7 @@ $(".close").click(function () {
 $("#Closemodel").click(function () {
     $("#CalenderPopup").hide();
 });
-$(document).ready(function () {
-    $('#txtStartDate').change(function () {
 
-        SetMinDate();
-
-        
-
-    });
-
-
-
-
-
-});
-function SetMinDate() {
-    var now = new Date();
-
-    var day = ("0" + now.getDate()).slice(-2);
-    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-
-    var today = now.getFullYear() + "-" + (month) + "-" + (day);
-
-    $('#txtStartDate').val(today);
-    $('#txtStartDate').attr('min', today);
-}
 $("#addNewEvent").click(function () {
 
     var subject = $("#txtSubject").val();
@@ -121,7 +97,8 @@ function showCalender(data) {
         events: data,
 
         dateClick: function (info) {
-
+            //alert("date click event called");
+            $("#myModal").modal("show");
         },
         eventClick: function (info) {
 
@@ -130,6 +107,7 @@ function showCalender(data) {
 
             showCalenderPopup(info.event._def.title);
             $("#CalenderPopup").show();
+
         },
         editable: true,
         dayMaxEvents: true,
@@ -156,7 +134,8 @@ function showCalender(data) {
 };
 
 $(document).ready(function () {
-    GetEventList();
+    //GetEventList();
+    $('.select2').select2()
     //$('#AddEvent').click(function () {
 
     //    window.location.href = '/Event/Event';

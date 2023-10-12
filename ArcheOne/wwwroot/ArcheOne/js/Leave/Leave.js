@@ -1,5 +1,6 @@
 var EditMode = 1;
 $(document).ready(function () {
+    //$('.select2').select2()
     GetFilteredLeaveList();
 
     $("#btnAddLeave").click(function () {

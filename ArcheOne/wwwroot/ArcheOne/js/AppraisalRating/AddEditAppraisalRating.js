@@ -1,6 +1,6 @@
 ﻿var confirmAssignee = false;
 $(document).ready(function () {
-
+    $('.select2').select2()
     $("#btnSaveAdd").click(function () {
         SaveUpdateAppraisalRating();
     });

@@ -1,4 +1,10 @@
 ﻿$(document).ready(function () {
+    //$('#ddlRequirementFor').select2();
+    //$('#ddlClients').select2();
+    //$('#ddlPositionType').select2();
+    //$('#ddlRequirementType').select2();
+    //$('#ddlEmploymentType').select2();
+    //$('#ddlRequirementStatus').select2();
     LoadRequirementForDDL();
     LoadClientDDL();
     LoadPositionTypeDDL();
@@ -69,7 +75,7 @@ function GetFilteredRequirementList() {
 
         });
 
-       // $(".ddl-status").select2();
+        // $(".ddl-status").select2();
 
         $(".ddl-status").change(function () {
             Swal.fire({
@@ -114,7 +120,7 @@ function LoadRequirementForDDL() {
                 $("#ddlRequirementFor").append('<option  value="' + value.id + '">' + value.requirementForName + '</option>');
             });
         }
-       // $('#ddlRequirementFor').select2();
+        // $('#ddlRequirementFor').select2();
     });
 }
 
@@ -127,7 +133,7 @@ function LoadClientDDL() {
                 $("#ddlClients").append('<option  value="' + value.id + '">' + value.clientName + '</option>');
             });
         }
-       // $('#ddlClients').select2();
+        // $('#ddlClients').select2();
     });
 }
 
@@ -153,7 +159,7 @@ function LoadRequirementTypeDDL() {
                 $("#ddlRequirementType").append('<option  value="' + value.id + '">' + value.requirementTypeName + '</option>');
             });
         }
-       // $('#ddlRequirementType').select2();
+        // $('#ddlRequirementType').select2();
     });
 }
 
@@ -166,7 +172,7 @@ function LoadEmploymentTypeDDL() {
                 $("#ddlEmploymentType").append('<option  value="' + value.id + '">' + value.employmentTypeName + '</option>');
             });
         }
-       // $('#ddlEmploymentType').select2();
+        // $('#ddlEmploymentType').select2();
     });
 }
 

@@ -1,6 +1,6 @@
 ﻿var myEditor;
 $(document).ready(function () {
-
+    $('.select2').select2()
     $('#ddlRequirementFor').select2();
     $('#ddlClients').select2();
     $('#ddlPositionType').select2();
