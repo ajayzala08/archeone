@@ -1,4 +1,7 @@
-﻿namespace ArcheOne.Database.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace ArcheOne.Database.Entities;
 
 public partial class TeamMst
 {

@@ -1,10 +1,11 @@
 ﻿$(document).ready(function () {
-    //$('#ddlRequirementFor').select2();
-    //$('#ddlClients').select2();
-    //$('#ddlPositionType').select2();
-    //$('#ddlRequirementType').select2();
-    //$('#ddlEmploymentType').select2();
-    //$('#ddlRequirementStatus').select2();
+    $('.select2').select2()
+    $('#ddlRequirementFor').select2();
+    $('#ddlClients').select2();
+    $('#ddlPositionType').select2();
+    $('#ddlRequirementType').select2();
+    $('#ddlEmploymentType').select2();
+    $('#ddlRequirementStatus').select2();
     LoadRequirementForDDL();
     LoadClientDDL();
     LoadPositionTypeDDL();

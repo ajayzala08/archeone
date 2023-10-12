@@ -35,5 +35,7 @@ function SaveUpdateHoliday() {
                 $.unblockUI();
             }
         });
+    } else {
+        $.unblockUI();
     }
 }
