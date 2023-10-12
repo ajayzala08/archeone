@@ -10,6 +10,7 @@
     string Message1 = "Rating < 50 Good Performance";
     string Message2 = "Rating < 30 Poor Performance";
     var sum = 0;
+    ViewBag.select2 = "true";
 }
 <section class="content-header">
     <div class="container-fluid">
@@ -51,7 +52,7 @@
                 <div class="col-sm-4" id="dddlEmployeeId">
                     <div class="form-group">
                         <label><span class="has-error required">* </span>Employee Name</label>
-                        <select disabled id="ddlEmployeeId" name="ddlEmployeeId" class="form-control" isrequired="1" divcontainer="dddlEmployeeId" errorspan="sddlEmployeeId" defaultvalue="0" style="width: 100%;" readonly>
+                        <select disabled id="ddlEmployeeId" name="ddlEmployeeId" class="form-control select2" isrequired="1" divcontainer="dddlEmployeeId" errorspan="sddlEmployeeId" defaultvalue="0" style="width: 100%;" readonly>
                             <option value="0">Select Employee</option>
                             @foreach (var item in Model.EmployeeId)
                             {

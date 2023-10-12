@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+    $('.select2').select2()
     $('#ddlProject').select2();
     $('#ddlProjectTask').select2();
     $('#ddlResources').select2();

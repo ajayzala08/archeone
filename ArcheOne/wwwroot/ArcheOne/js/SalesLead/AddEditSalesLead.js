@@ -1,5 +1,6 @@
 ﻿var isPageLoad = 0;
 $(document).ready(function () {
+    $('.select2').select2()
     /* EditMode = ($('#txtSalesLeadId').val() != undefined && $('#txtSalesLeadId').val() > 0) ? 1 : 0;*/
     LoadCountry();
 

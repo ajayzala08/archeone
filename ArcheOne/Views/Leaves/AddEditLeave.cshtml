@@ -11,6 +11,7 @@
     DateTime dateTime1 = DateTime.Today;
     LeaveAddEditResModel addEditRequirementResModel = Model.Data;
     var Title = addEditRequirementResModel.LeaveDetails.Id > 0 ? "Edit Leave" : "Add Leave";
+    ViewBag.select2 = "true";
 }
 <section class="content-header">
     <div class="container-fluid">

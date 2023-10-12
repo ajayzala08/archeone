@@ -1,9 +1,11 @@
 $(document).ready(function () {
+    $('.select2').select2()
     GetRoleList();
 });
 
 
 function GetRoleList() {
+    $('.select2').select2()
     loader_on();
     ajaxCall("Post", false, '/Role/RoleList', null, function (result) {
         if (result.status == true) {

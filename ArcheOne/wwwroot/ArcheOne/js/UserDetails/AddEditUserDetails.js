@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    $('.select2').select2()
     applyRequiredValidation();
     $("#btnSaveUpdateUserDetails").click(function () {
         SaveUserDetails();

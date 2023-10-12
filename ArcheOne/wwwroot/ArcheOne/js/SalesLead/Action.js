@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    $('.select2').select2()
     loader_on();
     $("#btnSubmitAction").show();
     $("#btnUpdateAction").hide();
