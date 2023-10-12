@@ -92,54 +92,29 @@
     <div class="modal fade" id="modalShowLeave">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Show Leave</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                <div class="modal-header justify-content-center">
+                    <h4 class="modal-title font-weight-bold" style="text-decoration: underline;">Leave Balance Details</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="col-sm-12" id="modelAction">
-                        <div class="card-body">
-                            <div class="row form-group">
-                                
-                                <div class="col-md-6">
-                                    <label class="text-dark">BalanceMonth : </label>
-                                    <label id="lblBalanceMonth" class="text-secondary"></label>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="text-dark">BalanceYear : </label>
-                                    <label id="lblBalanceYear" class="text-secondary"></label>
-                                </div>
-                               
-                            </div>
-
-
-                            <div class="row form-group">
-                                <div class="col-md-6">
-                                    <label class="text-dark">SickLeaveBalance : </label>
-                                    <label id="lblSickLeaveBalance" class="text-secondary"></label>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="text-dark">CasualLeaveBalance : </label>
-                                    <label id="lblCasualLeaveBalance" class="text-secondary"></label>
-                                </div>
-                               
-                            </div>
-                            <div class="row form-group">
-                                <div class="col-md-6">
-                                        <label class="text-dark">EarnedLeaveBalance : </label>
-                                        <label id="lblEarnedLeaveBalance" class="text-secondary"></label>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="text-dark">ClosingLeaveBalance : </label>
-                                    <label id="lblClosingLeaveBalance" class="text-secondary"></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <h5>
+                        <p class="text-center">Balance Leaves as of <label id="lblBalanceMonth" class="text-secondary"></label>'<label id="lblBalanceYear" class="text-secondary"></label> in Days,</p>
+                        <ul class="nav flex-column">
+                            <li class="nav-item m-2">
+                                Sick Leave <span class="float-right badge bg-info" id="lblSickLeaveBalance"></span>
+                            </li>
+                            <li class="nav-item m-2">
+                                Casual Leave <span class="float-right badge bg-info" id="lblCasualLeaveBalance"></span>
+                            </li>
+                            <li class="nav-item m-2">
+                                Earned Leave <span class="float-right badge bg-info" id="lblEarnedLeaveBalance"></span>
+                            </li>
+                            <li class="nav-item m-2">
+                                Closing (Total) Leave <span class="float-right badge bg-warning" id="lblClosingLeaveBalance"></span>
+                            </li>
+                        </ul>
+                    </h5>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer justify-content-center">
                     <input type="button" id="btnClose" name="btnClose" class="btn btn-danger float-right" data-dismiss="modal" value="Close" />
                 </div>
             </div>
