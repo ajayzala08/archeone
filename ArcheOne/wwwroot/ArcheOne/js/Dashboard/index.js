@@ -1,4 +1,7 @@
 ﻿$(document).ready(function () {
+  
+    setTimeout("preventBack()", 0);
+    window.onunload = function () { null };
     LoadBirthdayWorkAniversaryHoliday();
 
     showCalenderData();
@@ -30,7 +33,7 @@
         $("#CalenderPopup").hide();
     });
 });
-
+function preventBack() { window.history.forward(); }
 function LoadBirthdayWorkAniversaryHoliday() {
     ajaxCallWithoutDataType("GET", false, '/Dashboard/GetBirthdayWorkAniversaryHoliday', null, function (result) {
         if (result.status == true) {

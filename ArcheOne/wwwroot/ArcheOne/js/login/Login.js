@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    setTimeout("preventBack()", 0);
+    window.onunload = function () { null };
     $("#btnLogin").click(function () {
         loader_on();
         var dataModel = {
@@ -103,7 +105,7 @@ $(document).ready(function () {
 });
 
 
-
+function preventBack() { window.history.forward(); }
 
 function runScript(e) {
     if (e.keyCode == 13) {
